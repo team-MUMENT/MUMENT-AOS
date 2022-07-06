@@ -32,6 +32,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -58,10 +63,31 @@ dependencies {
     implementation(AndroidXDependencies.cardview)
 
     //coRoutine
-    implementation(AndroidXDependencies.coroutines)
+    implementation(KotlinDependencies.coroutines)
 
-    //retrofit2
+    //retrofit
     implementation(ThirdPartyDependencies.gsonConverter)
     implementation(ThirdPartyDependencies.retrofit)
+
+    //okhttp
+    implementation(ThirdPartyDependencies.okHttp)
+    implementation(ThirdPartyDependencies.okHttpBom)
+    implementation(ThirdPartyDependencies.okHttpLoggingInterceptor)
+
+    //gson
+    implementation(ThirdPartyDependencies.gson)
+    implementation(KotlinDependencies.kotlinxSerialization)
+
+    //Timber
+    implementation(ThirdPartyDependencies.timber)
+
+    //recyclerview
+    implementation(AndroidXDependencies.recyclerView)
+
+    // Jetpack Lifecycle
+    implementation(AndroidXDependencies.coroutines)
+    implementation(AndroidXDependencies.lifeCycleKtx)
+    implementation(AndroidXDependencies.lifecycleJava8)
+
 
 }
