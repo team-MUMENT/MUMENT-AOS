@@ -1,7 +1,14 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("dagger.hilt.android.plugin")
+    kotlin("kapt")
 }
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     compileSdk = 32
@@ -14,6 +21,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "BASE_URL", properties.getProperty("base_url"))
     }
 
     buildTypes {
@@ -89,5 +97,8 @@ dependencies {
     implementation(AndroidXDependencies.lifeCycleKtx)
     implementation(AndroidXDependencies.lifecycleJava8)
 
+    // Hilt
+    implementation(HiltDependencies.hilt)
+    kapt(KaptDependencies.hiltAndroidCompiler)
 
 }
