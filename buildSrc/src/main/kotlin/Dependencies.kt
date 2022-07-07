@@ -11,7 +11,6 @@ object AndroidXDependencies {
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
     const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintLayoutVersion}"
-    const val hilt = "com.google.dagger:hilt-android:${Versions.hiltVersion}"
     const val navigationFragment =
         "androidx.navigation:navigation-fragment-ktx:${Versions.navVersion}"
     const val navigationUI = "androidx.navigation:navigation-ui-ktx:${Versions.navVersion}"
@@ -28,6 +27,10 @@ object AndroidXDependencies {
     const val cardview = "androidx.cardview:cardview:${Versions.cardviewVersion}"
 }
 
+object HiltDependencies {
+    const val hilt = "com.google.dagger:hilt-android:${Versions.hiltVersion}"
+}
+
 object TestDependencies {
     const val jUnit = "junit:junit:${Versions.junitVersion}"
     const val androidTest = "androidx.test.ext:junit:${Versions.androidTestVersion}"
@@ -41,6 +44,7 @@ object MaterialDesignDependencies {
 
 object KaptDependencies {
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glideVersion}"
+    const val hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
 }
 
 object ThirdPartyDependencies {
