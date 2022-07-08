@@ -2,4 +2,9 @@
     <string name="app_name">Mument_Android</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- bottom navi -->
+    <string name="bottom_navi_home">홈</string>
+    <string name="bottom_navi_record">기록하기</string>
+    <string name="bottom_navi_locker">보관함</string>
 </resources>

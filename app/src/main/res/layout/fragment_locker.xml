@@ -4,12 +4,13 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".app.presentation.ui.home.HomeFragment">
+        tools:context=".app.presentation.ui.locker.LockerFragment">
 
+        <!-- TODO: Update blank fragment layout -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/bottom_navi_home" />
+            android:text="@string/bottom_navi_locker" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
