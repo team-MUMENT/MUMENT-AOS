@@ -5,9 +5,11 @@ name: MumentAndroidCI
 # Controls when the workflow will run
 on:
   push:
-    branches: main
+    branches:
+      - main
   pull_request:
-    branches: main
+    branches:
+      - main
 
   workflow_dispatch:
 
@@ -39,6 +41,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --stacktrace
           
       - name: Get current date
         id: date
