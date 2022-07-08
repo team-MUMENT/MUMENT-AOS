@@ -20,7 +20,7 @@ jobs:
       - name: Decode BASE_URL
         env:
           BASE_URL: ${ secrets.BASE_URL }
-          run: echo BASE_URL=\"$base_url\" > ./local.properties
+        run: echo BASE_URL=\"$base_url\" > ./local.properties
           
       - name: Gradle cache
         uses: actions/cache@v2
