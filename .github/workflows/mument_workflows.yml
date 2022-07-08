@@ -42,9 +42,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
-          
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
@@ -52,13 +49,13 @@ jobs:
       - name: Build APK
         run: bash ./gradlew assembleRelease --stacktrace
         
-      - run: './gradlew assembleDebug'
+      - run: './gradlew assembleRelease'
       - uses: MeilCli/slack-upload-file@v1
         with:
           slack_token: ${{ secrets.SLACK_READ_WRITE_TOKEN }}
           channels: ${{ secrets.SLACK_CHANNEL_DEPLOY }}
-          file_path: 'app/build/outputs/apk/debug/app-debug.apk'
-          file_name: 'Mument.apk'
+          file_path: 'app/build/outputs/apk/release/app-release-unsigned.apk'
+          file_name: 'app-release-unsigned.apk'
           file_type: 'apk'
           initial_comment: '${{ github.ref }} Success Deploy Mument App'
           
@@ -66,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-debug.apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/release/app-release-unsigned.apk
           
       - name: action-slack
         uses: 8398a7/action-slack@v3
