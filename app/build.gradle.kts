@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
+    id("kotlin-kapt")
 }
 
 val properties = Properties()
@@ -21,7 +22,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "BASE_URL", properties.getProperty("base_url"))
+        //buildConfigField("String", "BASE_URL", properties.getProperty("base_url"))
     }
 
     buildTypes {
