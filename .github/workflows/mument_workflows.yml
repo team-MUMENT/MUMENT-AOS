@@ -60,7 +60,7 @@ jobs:
           initial_comment: '${{ github.ref }} Success Deploy Mument App'
           
       - name: Mument apk artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: app-release-unsigned.apk
           path: app/build/outputs/apk/release/app-release-unsigned.apk
