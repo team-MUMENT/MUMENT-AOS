@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mument_android">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".app.application.MumentApplication"
