@@ -12,6 +12,6 @@ data class MumentCard(
     val likeCount: Int?,
     val isPrivate: Boolean?,
     val isFirst: Boolean?,
-    val impression: List<Int?>,
-    val feeling: List<Int?>
+    val impression: List<Int>?,
+    val feeling: List<Int>?
 )

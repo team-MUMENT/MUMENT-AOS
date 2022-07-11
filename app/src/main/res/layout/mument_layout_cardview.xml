@@ -16,17 +16,21 @@
         android:id="@+id/cl_mument"
         android:layout_width="335dp"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="13dp">
+        android:background="@drawable/shape_border_default_redius_11dp"
+        android:paddingHorizontal="13dp"
+        android:paddingTop="11dp"
+        android:paddingBottom="16dp">
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="47dp"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                load_profile="@{mument.user.image}"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 tools:src="@drawable/ic_heart_off" />
@@ -45,34 +49,47 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_marginEnd="5dp"
-                android:visibility="@{mument.likeCount == null ? View.GONE : View.VISIBLE"
-                tools:src="@drawable/ic_heart_off" />
+                android:src="@drawable/ic_heart_off"
+                android:visibility="@{mument.likeCount == null ? View.GONE : View.VISIBLE}" />
 
             <TextView
                 style="@style/TextView.Mument_C1_R12.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{mument.private == true ? `비밀글`: mument.likeCount"
+                android:text="@{mument.private == true ? `비밀글`: mument.likeCount.toString()}"
                 android:textColor="@color/mument_color_gray1"
                 tools:text="15" />
         </LinearLayout>
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="11dp"
+            android:background="@color/mument_color_gray4"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:layout_editor_absoluteX="13dp" />
+
         <ImageView
             android:id="@+id/imageview"
+            load_album="@{mument.music.image}"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@color/black"
+            android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:src="@color/black" />
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="70dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageview"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            app:layout_constraintTop_toBottomOf="@+id/view">
 
             <TextView
                 style="@style/TextView.Mument_B3_B14.Style"
@@ -82,7 +99,7 @@
                 tools:text="Antifreeze" />
 
             <TextView
-                style="@style/TextView.Mument_B2_B13.Style"
+                style="@style/TextView.Mument_B5_M13.Style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{mument.music.artist}"
@@ -97,7 +114,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@{mument.isFirst()?`다시` : `처음`"
+                    android:text="@{mument.isFirst()?`처음` : `다시`}"
                     tools:text="다시" />
                 <!--TODO(태그 로직 구현)-->
                 <TextView
@@ -113,6 +130,7 @@
                     tools:text="벅참" />
             </LinearLayout>
         </LinearLayout>
+
 
         <TextView
             android:id="@+id/textView"
@@ -134,6 +152,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:text="@{mument.createdAt}"
+            android:textColor="@color/mument_color_gray2"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="1 Sep, 2020" />
     </androidx.constraintlayout.widget.ConstraintLayout>
