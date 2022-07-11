@@ -25,6 +25,7 @@ object AndroidXDependencies {
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
     const val junit = "androidx.test.ext:junit-ktx:${Versions.junit}"
     const val cardview = "androidx.cardview:cardview:${Versions.cardviewVersion}"
+    const val emoji = "androidx.emoji:emoji:${Versions.emoji}"
 }
 
 object HiltDependencies {
