@@ -35,13 +35,13 @@ class LockerFragment : Fragment() {
         lockerTabAdapter = LockerTabAdapter(this)
         lockerTabAdapter.fragment.addAll(fragmentList)
 
-        binding.vpHome.adapter = lockerTabAdapter
+        binding.vpLocker.adapter = lockerTabAdapter
 
     }
 
     private fun initTab(){
-        val tabLabel = listOf("팔로잉", "팔로워")
-        TabLayoutMediator(binding.tlFollow, binding.vpHome) {tab, position ->
+        val tabLabel = listOf("나의 뮤멘트", "좋아요한 뮤멘트")
+        TabLayoutMediator(binding.tlLocker, binding.vpLocker) {tab, position ->
             tab.text = tabLabel[position]
         }.attach()
     }
