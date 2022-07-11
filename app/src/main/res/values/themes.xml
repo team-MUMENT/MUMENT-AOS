@@ -16,62 +16,62 @@
 
     <!-- Typography-->
     <style name="TextView.Mument_H1_B25.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_H1_B25.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_H1_B25.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_H2_B18.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_H2_B18.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_H2_B18.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_H3_B16.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_H3_B16.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_H3_B16.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_H4_M16.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_H4_M16.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_H4_M16.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_B1_B15.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_B1_B15.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_B1_B15.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_B3_B14.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_B3_B14.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_B3_B14.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_B4_M14.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_B4_M14.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_B4_M14.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_B2_B13.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_B2_B13.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_B2_B13.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_B5_M13.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_B5_M13.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_B5_M13.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_B6_B12.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_B6_B12.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_B6_B12.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_B7_M12.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_B7_M12.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_B7_M12.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextView.Mument_C1_R12.Style" parent="">
-        <item name="android:textAppearance">TextView.Mument_C1_R12.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_C1_R12.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
