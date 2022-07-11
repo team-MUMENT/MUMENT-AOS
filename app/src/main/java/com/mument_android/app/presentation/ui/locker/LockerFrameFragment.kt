@@ -5,26 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.mument_android.R
 import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.databinding.FragmentLockerBinding
+import com.mument_android.databinding.FragmentLockerFrameBinding
 
-class LockerFragment : Fragment() {
-   private var binding by AutoClearedValue<FragmentLockerBinding>()
+class LockerFrameFragment : Fragment() {
+    private var binding by AutoClearedValue<FragmentLockerFrameBinding>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentLockerBinding.inflate(inflater, container, false). run {
-        binding = this
-        this.root
+    ): View = FragmentLockerFrameBinding.inflate(inflater, container, false).let {
+        binding = it
+        it.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.root.setOnClickListener {
-            findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
-        }
     }
+
 }
