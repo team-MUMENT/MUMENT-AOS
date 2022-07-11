@@ -17,7 +17,7 @@ object GlobalBindingAdapter {
     @BindingAdapter("load_profile")
     fun loadProfileImage(view: ImageView, url: String) {
         if (url.isNotBlank()) {
-            CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 view.load(url) {
                     crossfade(true)
                     this.transformations(CircleCropTransformation())
@@ -31,7 +31,7 @@ object GlobalBindingAdapter {
     @BindingAdapter("load_album")
     fun loadAlbumImage(view: ImageView, url: String) {
         if (url.isNotBlank()) {
-            CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 view.load(url) {
                     crossfade(true)
                     this.transformations(RoundedCornersTransformation(11.0f))
