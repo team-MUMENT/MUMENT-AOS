@@ -14,7 +14,6 @@ import com.mument_android.databinding.FragmentLockerFrameBinding
 
 class LockerFrameFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentLockerFrameBinding>()
-    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,9 +25,6 @@ class LockerFrameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_fragment_home_frame) as NavHostFragment
-        navController = navHostFragment.navController
-
     }
 
 }
