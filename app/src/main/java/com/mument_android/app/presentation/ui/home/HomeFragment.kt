@@ -26,5 +26,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
+        binding.emojiTvHome.setOnClickListener {
+            viewModel.setRandomTags()
+        }
     }
 }
