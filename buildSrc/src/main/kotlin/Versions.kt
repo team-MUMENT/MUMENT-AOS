@@ -17,6 +17,7 @@ object Versions {
     const val recyclerView = "1.2.1"
     const val junit = "1.1.3"
     const val cardviewVersion = "1.0.0"
+    const val emoji = "1.1.0"
 
     const val lottieVersion = "3.6.0"
     const val glideVersion = "4.13.0"
@@ -31,6 +32,7 @@ object Versions {
     const val kotlinxSerializationJsonVersion = "1.2.2"
     const val gsonVersion = "2.8.9"
     const val gsonConverterVersion = "2.9.0"
+
 
     val javaVersion = JavaVersion.VERSION_11
 }

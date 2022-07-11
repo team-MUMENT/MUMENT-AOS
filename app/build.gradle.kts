@@ -101,4 +101,7 @@ dependencies {
     implementation(HiltDependencies.hilt)
     kapt(KaptDependencies.hiltAndroidCompiler)
 
+    // Emoji
+    implementation(AndroidXDependencies.emoji)
+
 }
