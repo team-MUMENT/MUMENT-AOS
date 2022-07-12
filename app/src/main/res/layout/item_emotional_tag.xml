@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="tagData"
+            type="String" />
+    </data>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.mument_android.app.presentation.ui.customview.EmotionalTagTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{tagData}"
+            tools:text="@string/emotional_full"/>
+
+    </FrameLayout>
+</layout>
