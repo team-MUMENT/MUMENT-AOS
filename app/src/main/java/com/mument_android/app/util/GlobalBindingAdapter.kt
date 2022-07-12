@@ -60,6 +60,7 @@ object GlobalBindingAdapter {
     @InverseBindingAdapter(attribute = "selectedTag", event = "checkedChanged")
     fun EmotionalTagCheckBox.getIsChecked(): Boolean? = isChecked.value
 
+    @JvmStatic
     @BindingAdapter("load_album_top")
     fun loadAlbumTopImage(view: ImageView, url: String) {
         if (url.isNotBlank()) {
