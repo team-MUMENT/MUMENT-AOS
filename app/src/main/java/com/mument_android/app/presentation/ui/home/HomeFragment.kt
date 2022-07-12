@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mument_android.R
+import com.mument_android.app.data.network.home.adapter.BannerListAdapter
 import com.mument_android.app.data.network.home.adapter.HeardMumentListAdapter
 import com.mument_android.app.data.network.home.adapter.ImpressiveEmotionListAdapter
 import com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel
@@ -24,6 +25,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
+    private lateinit var bannerAdapter: BannerListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,18 +39,49 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
+        bindData()
+    }
+
+    private fun bindData() {
+        setAdapter()
+        setRecyclerView()
+        setListData()
+        binding.root.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment)
+        }
+        binding.tvSearch.setOnClickListener {
+        }
+    }
+
+    private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { {} }
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { {} }
+        bannerAdapter = BannerListAdapter()
+    }
+
+    private fun setRecyclerView() {
         binding.rcHeard.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rcImpressive.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rcHeard.adapter = heardAdapter
         binding.rcImpressive.adapter = impressiveAdapter
-        heardAdapter.submitList(viewModel.mument)
-        impressiveAdapter.submitList(viewModel.mument)
-        binding.root.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment)
+        binding.vpBanner.adapter = bannerAdapter
+        binding.vpBanner.offscreenPageLimit = 3
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.bannerNumIncrease.collect {
+                binding.vpBanner.setCurrentItem(
+                    it, true
+                )
+            }
         }
     }
+
+    private fun setListData() {
+        bannerAdapter.submitList(viewModel.bannerData)
+        heardAdapter.submitList(viewModel.mument)
+        impressiveAdapter.submitList(viewModel.mument)
+    }
+
+
 }
