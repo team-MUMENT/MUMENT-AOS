@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mument_android.BR
 import com.mument_android.app.domain.entity.MumentCard
-import com.mument_android.app.util.MumentDiffCallBack
+import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemHeardMumentLayoutBinding
 
 class HeardMumentListAdapter(private val itemClickListener: (MumentCard) -> Unit) :
-    ListAdapter<MumentCard, HeardMumentListAdapter.HeardViewHolder>(MumentDiffCallBack) {
+    ListAdapter<MumentCard, HeardMumentListAdapter.HeardViewHolder>(GlobalDiffCallBack<MumentCard>()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeardViewHolder {
@@ -24,19 +25,15 @@ class HeardMumentListAdapter(private val itemClickListener: (MumentCard) -> Unit
     }
 
     override fun onBindViewHolder(holder: HeardViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+        val mumentData = getItem(position)
+        holder.binding.setVariable(BR.mument, mumentData)
+        holder.binding.clMument.setOnClickListener {
+            itemClickListener(mumentData)
+        }
     }
 
     class HeardViewHolder(
-        private val binding: ItemHeardMumentLayoutBinding,
-        private val itemClickListener: (MumentCard) -> Unit
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: MumentCard) {
-            binding.mument = data
-            binding.clMument.setOnClickListener {
-                itemClickListener(data)
-            }
-        }
-    }
+        val binding: ItemHeardMumentLayoutBinding,
+        val itemClickListener: (MumentCard) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root)
 }

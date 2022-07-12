@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mument_android.BR
 import com.mument_android.app.domain.entity.MumentCard
-import com.mument_android.app.util.MumentDiffCallBack
+import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemImpressiveEmotionMumentLayoutBinding
 
 class ImpressiveEmotionListAdapter(private val itemClickListener: (MumentCard) -> Unit) :
     ListAdapter<MumentCard, ImpressiveEmotionListAdapter.ImpressiveEmotionViewHolder>(
-        MumentDiffCallBack
+        GlobalDiffCallBack<MumentCard>()
     ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImpressiveEmotionViewHolder {
@@ -23,20 +24,17 @@ class ImpressiveEmotionListAdapter(private val itemClickListener: (MumentCard) -
     }
 
     override fun onBindViewHolder(holder: ImpressiveEmotionViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+        val mementData = getItem(position)
+        holder.binding.setVariable(BR.mument, mementData)
+        holder.binding.clMument.setOnClickListener {
+            itemClickListener(mementData)
+        }
     }
 
     class ImpressiveEmotionViewHolder(
-        private val binding: ItemImpressiveEmotionMumentLayoutBinding,
-        private val itemClickListener: (MumentCard) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: MumentCard) {
-            binding.mument = data
-            binding.clMument.setOnClickListener {
-                itemClickListener(data)
-            }
-        }
-    }
+        val binding: ItemImpressiveEmotionMumentLayoutBinding,
+        val itemClickListener: (MumentCard) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root)
 
 
 }
