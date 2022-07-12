@@ -41,7 +41,6 @@
     <string name="emotional_romance">🌅 낭만</string>
     <string name="emotional_stress">🌋 스트레스</string>
 
-
     <string name="locker_year">년</string>
     <string name="locker_month">월</string>
 
@@ -49,6 +48,19 @@
     <string name="like_count_integer_format">%d명이 좋아합니다.</string>
     <string name="go_to_mument_history_integer_format">%d개의 뮤멘트가 있는 히스토리 보러가기</string>
 
-b
+    <!--    record view-->
+    <string name="record_choose_title">곡을 선택해주세요.</string>
+    <string name="record_search_hint">곡, 아티스트 검색</string>
+    <string name="record_first_title">처음 들은 곡인가요?</string>
+    <string name="record_first_listen">처음 들어요</string>
+    <string name="record_second_listen">다시 들었어요</string>
+    <string name="record_impression_title">무엇이 인상적이었나요?</string>
+    <string name="record_choose_impression">감정을 선택해보세요.</string>
+    <string name="record_write_title">이 순간의 여운을 남겨보세요.</string>
+    <string name="record_write_hint">텍스트로 기록을 남기지 않아도 괜찮아요.</string>
+    <string name="record_text_num">0/1000</string>
+    <string name="record_secret">비밀글</string>
+    <string name="record_finish">완료</string>
+
 
 </resources>

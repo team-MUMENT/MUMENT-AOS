@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_gray1_to_purple1.xml" value="0.1" />
         <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_ic_locker.xml" value="0.163" />
         <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_ic_record.xml" value="0.163" />
@@ -37,13 +38,20 @@
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_date.xml" value="0.1" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_image.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/mument_layout_cardview.xml" value="0.18303571428571427" />
+=======
+        <entry key="app/src/main/res/drawable/retangle_fill_gray5.xml" value="0.151" />
+        <entry key="app/src/main/res/drawable/selector_ic_home.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable/selector_ic_locker.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable/selector_ic_record.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable/shape_border_default_redius_11dp.xml" value="0.152" />
+>>>>>>> 2c4799c ([FEAT] #20-기록하기 UI 구현)
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_home_frame.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_locker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.2128623188405797" />
-        <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_record.xml" value="0.22657318115234373" />
         <entry key="app/src/main/res/menu/menu_bottom_navi.xml" value="0.29583333333333334" />
       </map>
     </option>
