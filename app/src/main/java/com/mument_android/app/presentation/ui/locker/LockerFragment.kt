@@ -5,8 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+<<<<<<< HEAD
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.tabs.TabLayoutMediator
+=======
+import androidx.navigation.fragment.findNavController
+>>>>>>> 241dde8136689360cc5627d795dd882bd9ea939c
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.util.AutoClearedValue
@@ -26,6 +30,7 @@ class LockerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+<<<<<<< HEAD
         initAdapter()
         initTab()
     }
@@ -44,5 +49,10 @@ class LockerFragment : Fragment() {
         TabLayoutMediator(binding.tlLocker, binding.vpLocker) {tab, position ->
             tab.text = tabLabel[position]
         }.attach()
+=======
+        binding.root.setOnClickListener {
+            findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
+        }
+>>>>>>> 241dde8136689360cc5627d795dd882bd9ea939c
     }
 }

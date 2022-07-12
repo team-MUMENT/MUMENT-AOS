@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_locker"
+    app:startDestination="@id/lockerFragment">
+
+    <fragment
+        android:id="@+id/lockerFragment"
+        android:name="com.mument_android.app.presentation.ui.locker.LockerFragment"
+        android:label="LockerFragment"
+        tools:layout="@layout/fragment_locker">
+        <action
+            android:id="@+id/action_lockerFragment_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mumentDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.detailcontents.MumentDetailFragment"
+        android:label="MumentDetailFragment"
+        tools:layout="@layout/fragment_mument_detail"/>
+
+</navigation>
