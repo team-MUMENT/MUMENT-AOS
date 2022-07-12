@@ -1,16 +1,12 @@
 package com.mument_android.app.presentation.ui.locker
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-<<<<<<< HEAD
-import androidx.fragment.app.FragmentActivity
-import com.google.android.material.tabs.TabLayoutMediator
-=======
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
->>>>>>> 241dde8136689360cc5627d795dd882bd9ea939c
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.util.AutoClearedValue
@@ -30,9 +26,11 @@ class LockerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-<<<<<<< HEAD
+        binding.ivLockerList.isSelected = true
         initAdapter()
         initTab()
+        listBtnClickListener()
+        gridBtnClickListener()
     }
 
     private fun initAdapter() {
@@ -49,10 +47,26 @@ class LockerFragment : Fragment() {
         TabLayoutMediator(binding.tlLocker, binding.vpLocker) {tab, position ->
             tab.text = tabLabel[position]
         }.attach()
-=======
+
         binding.root.setOnClickListener {
             findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
         }
->>>>>>> 241dde8136689360cc5627d795dd882bd9ea939c
+
     }
+
+
+    private fun listBtnClickListener() {
+        binding.ivLockerList.setOnClickListener {
+            binding.ivLockerList.isSelected = true
+            binding.ivLockerGrid.isSelected = false
+        }
+    }
+
+    private fun gridBtnClickListener() {
+        binding.ivLockerGrid.setOnClickListener {
+            binding.ivLockerList.isSelected = false
+            binding.ivLockerGrid.isSelected = true
+        }
+    }
+
 }

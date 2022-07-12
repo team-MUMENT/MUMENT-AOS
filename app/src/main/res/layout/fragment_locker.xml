@@ -19,6 +19,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!--TODO: 프로필 이미지 Bind-->
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_locker_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_locker_title"
+            tools:src="@drawable/ic_logo" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tl_locker"
             android:layout_width="match_parent"
@@ -27,15 +37,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_locker_title"
-            app:tabIndicatorColor="@color/mument_color_purple1" />
+            app:tabIndicatorColor="@color/mument_color_purple1"
+            app:tabTextAppearance="@style/tab_text" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/mument_color_gray4"
+            app:layout_constraintTop_toBottomOf="@+id/tl_locker"
+            tools:layout_editor_absoluteX="0dp" />
 
         <ImageView
             android:id="@+id/iv_locker_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_filter"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
+            android:src="@drawable/ic_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_locker" />
 
