@@ -37,8 +37,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
-        heardAdapter = HeardMumentListAdapter(requireContext()) { Unit }
-        impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { Unit }
+        heardAdapter = HeardMumentListAdapter(requireContext()) { {} }
+        impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { {} }
         binding.rcHeard.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rcImpressive.layoutManager =
