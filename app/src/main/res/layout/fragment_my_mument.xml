@@ -13,6 +13,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         android:layout_marginTop="15dp"
-        tools:listitem="@layout/mument_layout_cardview"/>
+        tools:listitem="@layout/item_locker_date"/>
 
 </FrameLayout>

@@ -77,6 +77,16 @@
             app:layout_constraintEnd_toStartOf="@+id/iv_locker_list"
             app:layout_constraintTop_toTopOf="@+id/iv_locker_list" />
 
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_locker_filter" />
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_locker"
             android:layout_width="match_parent"
@@ -85,7 +95,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_locker_filter" />
+            app:layout_constraintTop_toBottomOf="@+id/chip_group" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

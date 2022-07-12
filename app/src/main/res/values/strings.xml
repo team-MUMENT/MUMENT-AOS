@@ -24,4 +24,7 @@
     <string name="emotional_romance">🌅 낭만</string>
     <string name="emotional_stress">🌋 스트레스</string>
 
+    <string name="locker_year">년</string>
+    <string name="locker_month">월</string>
+
 </resources>
