@@ -7,7 +7,7 @@
     <data>
         <variable
             name="MumentDate"
-            type="com.mument_android.app.domain.entity.MumentCard" />
+            type="com.mument_android.app.domain.entity.TestLockerMumentCard" />
 
     </data>
 
@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:text="@{MumentDate.year + @string/locker_year + MumentDate.month + @string/locker_month}"
             style="@style/TextView.Mument_H3_B16.Style"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
