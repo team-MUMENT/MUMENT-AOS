@@ -8,12 +8,6 @@
     <string name="bottom_navi_record">기록하기</string>
     <string name="bottom_navi_locker">보관함</string>
 
-    <!--locker text-->
-    <string-array name="locker_tap_list">
-        <item>나의 뮤멘트</item>
-        <item>좋아요한 뮤멘트</item>
-    </string-array>
-
     <string name="emotional_full">🎡 벅참</string>
     <string name="emotional_excited">😄 신남</string>
     <string name="emotional_flutter">💐 설렘</string>
