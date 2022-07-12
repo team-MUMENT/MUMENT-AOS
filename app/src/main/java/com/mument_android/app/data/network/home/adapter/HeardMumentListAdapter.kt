@@ -39,12 +39,12 @@ class HeardMumentListAdapter(
         val mumentData = getItem(position)
         if (position == 0) {
             val params = holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams
-            params.marginStart = 20.dpToPx(context)
+            params.marginStart = 16.dpToPx(context)
             params.marginEnd = 5.dpToPx(context)
             holder.binding.clMument.layoutParams = params
         }else if(position == currentList.size - 1){
             val params = holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams
-            params.marginEnd = 20.dpToPx(context)
+            params.marginEnd = 16.dpToPx(context)
             params.marginStart = 5.dpToPx(context)
             holder.binding.clMument.layoutParams = params
         }
