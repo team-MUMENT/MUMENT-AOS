@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_border_default_redius_11dp"
         android:paddingHorizontal="13dp"
+        android:layout_marginVertical="5dp"
         android:layout_marginHorizontal="20dp"
         android:paddingTop="11dp"
         android:elevation="3dp"
@@ -69,8 +70,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="11dp"
             android:background="@color/mument_color_gray4"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            tools:layout_editor_absoluteX="13dp" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <ImageView
             android:id="@+id/imageview"
