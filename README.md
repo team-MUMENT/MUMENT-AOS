@@ -1,1 +1,125 @@
-# MUMENT-AOS
+# MUMENT
+```
+✅ EASY: 음악을 듣고 난 후의 여운을, 손쉽게 기록할 수 있도록
+✅ PERSONAL: 나만의 추억을 꺼내볼 수 있도록
+✅ DIVERSE: 다양한 감상을 발견할 수 있도록
+```
+
+
+<img src = "https://user-images.githubusercontent.com/69586104/178380257-b0255f93-0fa3-4b7b-a4f0-42c6af170b1b.png" width = 50%, height=30%/>
+
+
+# Mument-Android- Developer
+
+<table align="center" style = "table-layout: auto; width: 100%; table-layout: fixed;">
+  <colgroup>
+    <col style="width:25%"/>
+    <col style="width:25%"/>
+    <col style="width:25%"/>
+    <col style="width:25%"/>
+  </colgroup>
+  <tr>
+    <td>
+      <img src= "https://user-images.githubusercontent.com/69586104/178381004-2a2b34f8-67ab-425a-a179-a020d87d8215.jpg"/> 
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/69586104/178381077-429f4291-1dbb-499c-a4de-7c763e8348bb.jpg"/> 
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/69586104/178381113-66def19e-9507-4a17-a271-a325acc34ec4.jpg"/> 
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/69586104/178381184-ea7619d8-3e23-444b-b978-22abe7de30d5.jpg"/> 
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+     <a href="https://github.com/lhb8106">heaven00</a>
+    </td>
+    <td align="center">
+     <a href="https://github.com/KkamSonLee">MinHo</a>
+    </td>
+    <td align="center">
+     <a href="https://github.com/jinsilWoo">jinsilWoo</a>
+    </td>
+    <td align="center">
+     <a href="https://github.com/SONPYEONGHWA">SONPYEONGHWA</a>
+    </td>
+  </tr>
+</table>
+
+
+# Project Structure
+```
+  🎵 Structure 🎵
+  - MVVM
+
+  🎵 Library 🎵
+  - jetpack 
+  - navigation 
+  - Lifecycle 
+  - DaggerHilt 
+  - Coroutine 
+  - Retrofit 
+  - Lottie 
+  - Coil
+```
+
+
+# Foldering
+```
+Mument
+ ┣ 📂application
+ ┣ 📂data
+   ┣ 📂datasource
+   ┣ 📂enumtype
+   ┣ 📂mapper
+   ┗ 📂network
+ ┣ 📂di
+ ┣ 📂domain
+   ┣ 📂entity
+   ┣ 📂repository
+   ┗ 📂usecase
+ ┣ 📂presentation
+   ┣ 📂base
+   ┗ 📂ui
+ ┗📂utils
+ ```
+
+# Role
+
+🎼 혜빈
+ ```
+ 보관함
+ ```
+
+🎼 민호
+ ```
+ 홈, 검색, 곡 상세보기 페이지
+ ```
+
+🎼 진실
+ ```
+기록하기
+ ```
+
+🎼 평화
+ ```
+ 뮤멘트 상세보기, 공유하기
+ ```
+
+# Git Branch 전략
+ <a href="https://techblog.woowahan.com/2553/"> Git Flow</a>
+
+ <br>
+
+# Coding Convention
+ <a href="https://www.notion.so/Coding-Convention-a5657ac2f823408da02a0235ada8ede1"> coding Convention</a>
+
+ <br>
+
+# Git Convention
+ <a href="https://www.notion.so/Git-Convention-dc817b278de84a03adc385722e2b9175"> git Convention</a>
+   
+  
+    
