@@ -36,6 +36,8 @@ object TestDependencies {
     const val jUnit = "junit:junit:${Versions.junitVersion}"
     const val androidTest = "androidx.test.ext:junit:${Versions.androidTestVersion}"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoVersion}"
+    const val mockito = "org.mockito:mockito-core:${Versions.mockitoCoreVersion}"
+    const val mockitoAndroidTest = "org.mockito:mockito-android:${Versions.mockitoAndroidVersion}"
 }
 
 object MaterialDesignDependencies {

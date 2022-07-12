@@ -7,6 +7,9 @@
     <string name="bottom_navi_home">홈</string>
     <string name="bottom_navi_record">기록하기</string>
     <string name="bottom_navi_locker">보관함</string>
+    <string name="mument">뮤멘트</string>
+
+    // Emotional Tag
     <string name="emotional_full">🎡 벅참</string>
     <string name="emotional_excited">😄 신남</string>
     <string name="emotional_flutter">💐 설렘</string>
@@ -22,4 +25,5 @@
     <string name="emotional_relaxed">🍀 여유로움</string>
     <string name="emotional_romance">🌅 낭만</string>
     <string name="emotional_stress">🌋 스트레스</string>
+
 </resources>

@@ -31,14 +31,6 @@ class MumentDetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mumentDetailViewModel= viewModel
 
-        binding.emojiTvHome.setOnClickListener {
-            viewModel.setRandomTags()
-        }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.isTagSelected.collect {
-                Timber.e("isChecked: $it")
-            }
-        }
     }
 }

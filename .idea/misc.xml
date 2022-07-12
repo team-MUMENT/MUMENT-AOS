@@ -5,13 +5,15 @@
       <map>
         <entry key="app/src/main/res/drawable/rectangle_fill_blue1_20dp.xml" value="0.15" />
         <entry key="app/src/main/res/drawable/rectangle_fill_gray5_20dp.xml" value="0.15" />
+        <entry key="app/src/main/res/drawable/shape_border_default_redius_11dp.xml" value="0.15" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.29455311314950233" />
         <entry key="app/src/main/res/layout/fragment_home_frame.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_locker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.2128623188405797" />
+        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.34316353887399464" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/mument_layout_cardview.xml" value="0.5779959858327672" />
         <entry key="app/src/main/res/menu/menu_bottom_navi.xml" value="0.29583333333333334" />
       </map>
     </option>
