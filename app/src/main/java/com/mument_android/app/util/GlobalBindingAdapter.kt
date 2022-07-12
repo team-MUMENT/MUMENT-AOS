@@ -22,10 +22,10 @@ object GlobalBindingAdapter {
     @BindingAdapter("load_profile")
     fun loadProfileImage(view: ImageView, url: String) {
         if (url.isNotBlank()) {
-                view.load(url) {
-                    crossfade(true)
-                    this.transformations(CircleCropTransformation())
-                }
+            view.load(url) {
+                crossfade(true)
+                this.transformations(CircleCropTransformation())
+            }
         } else {
             TODO("placeholder")
         }
@@ -35,9 +35,9 @@ object GlobalBindingAdapter {
     @BindingAdapter("load_album")
     fun loadAlbumImage(view: ImageView, url: String) {
         if (url.isNotBlank()) {
-                view.load(url) {
-                    crossfade(true)
-                    this.transformations(RoundedCornersTransformation(11.0f))
+            view.load(url) {
+                crossfade(true)
+                this.transformations(RoundedCornersTransformation(11.0f))
             }
         } else {
             TODO("placeholder")
@@ -58,14 +58,14 @@ object GlobalBindingAdapter {
 
     @JvmStatic
     @InverseBindingAdapter(attribute = "selectedTag", event = "checkedChanged")
-    fun EmotionalTagCheckBox.getIsChecked():Boolean? = isChecked.value
+    fun EmotionalTagCheckBox.getIsChecked(): Boolean? = isChecked.value
 
     @BindingAdapter("load_album_top")
     fun loadAlbumTopImage(view: ImageView, url: String) {
         if (url.isNotBlank()) {
-                view.load(url) {
-                    crossfade(true)
-                    this.transformations(RoundedCornersTransformation(11.0f, 11.0f))
+            view.load(url) {
+                crossfade(true)
+                this.transformations(RoundedCornersTransformation(11.0f, 11.0f))
             }
         } else {
             TODO("placeholder")
