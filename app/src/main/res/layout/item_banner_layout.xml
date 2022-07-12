@@ -2,34 +2,38 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="banner"
             type="com.mument_android.app.domain.entity.TempBannerData" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_banner"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="5dp"
-        android:layout_height="257dp"
-        android:background="@drawable/shape_border_default_redius_11dp">
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_border_default_redius_11dp"
+        android:paddingHorizontal="5dp">
 
         <ImageView
             android:id="@+id/iv_banner_background"
-            load_album="https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize"
+            load_album="@{banner.backgroundImage}"
             android:layout_width="match_parent"
             android:layout_height="257dp"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/rectangle_fill_purple2_20dp" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/tv_index"
             style="@style/TextView.Mument_C1_R12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/rectangle_fill_black1_transperant_27"
+            android:bufferType="spannable"
             android:paddingHorizontal="12dp"
             android:paddingVertical="4dp"
             android:text="1 / 3"
@@ -41,14 +45,15 @@
             android:layout_width="172dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="그리움이 느껴지는 곡"
+            android:text="@{banner.content}"
             android:textColor="@color/mument_color_white"
-            app:layout_constraintStart_toStartOf="@+id/textView6"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            app:layout_constraintStart_toStartOf="@+id/tv_index"
+            app:layout_constraintTop_toBottomOf="@+id/tv_index"
+            tools:text="그리움이 느껴지는 곡" />
 
         <ImageView
             android:id="@+id/iv_album"
-            load_album="https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize"
+            load_album="@{banner.image}"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="13dp"
@@ -65,19 +70,21 @@
             android:layout_marginStart="9dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="민수는 혼란스럽다"
+            android:text="@{banner.title}"
             android:textColor="@color/mument_color_white"
             app:layout_constraintStart_toEndOf="@id/iv_album"
-            app:layout_constraintTop_toTopOf="@id/iv_album" />
+            app:layout_constraintTop_toTopOf="@id/iv_album"
+            tools:text="민수는 혼란스럽다" />
 
         <TextView
             style="@style/TextView.Mument_B7_M12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="민수"
+            android:text="@{banner.artist}"
             android:textColor="@color/purple_200"
             app:layout_constraintStart_toStartOf="@id/tv_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            tools:text="민수" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
