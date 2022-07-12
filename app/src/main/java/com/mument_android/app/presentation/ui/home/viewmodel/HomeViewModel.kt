@@ -7,9 +7,12 @@ import com.mument_android.app.data.enumtype.EmotionalTag.Companion.findEmotional
 import com.mument_android.app.domain.entity.MumentCard
 import com.mument_android.app.domain.entity.MumentCardData.Music
 import com.mument_android.app.domain.entity.MumentCardData.User
+import com.mument_android.app.domain.entity.TempBannerData
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
 
 class HomeViewModel : ViewModel() {
     val mument = listOf<MumentCard>(
@@ -63,4 +66,36 @@ class HomeViewModel : ViewModel() {
             12, null, null, null, null
         )
     )
+    val bannerData = listOf<TempBannerData>(
+        TempBannerData(
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "그리움이 느껴지는 곡",
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "민수는 혼란스럽다",
+            "민수"
+        ),
+        TempBannerData(
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "그리움이 느껴지는 곡",
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "민수는 혼란스럽다",
+            "민수"
+        ),
+        TempBannerData(
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "그리움이 느껴지는 곡",
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "민수는 혼란스럽다",
+            "민수"
+        )
+    )
+    var _bannerNum = 0
+    val bannerNumIncrease = flow<Int>{
+        while(true){
+            _bannerNum = (_bannerNum+1)%bannerData.size
+            emit(_bannerNum)
+            delay(3000)
+        }
+    }
+
 }
