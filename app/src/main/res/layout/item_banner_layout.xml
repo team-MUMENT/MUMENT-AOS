@@ -2,7 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <data>
+        <variable
+            name="banner"
+            type="com.mument_android.app.domain.entity.TempBannerData" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_banner"
         android:layout_width="match_parent"
