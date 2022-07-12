@@ -2,6 +2,12 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <data>
+        <variable
+            name="recordViewModel"
+            type="com.mument_android.app.presentation.ui.record.viewmodel.RecodeViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         tools:context=".app.presentation.ui.record.RecordFragment"
@@ -12,6 +18,7 @@
             android:id="@+id/sv_record"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +34,7 @@
                     style="@style/TextView.Mument_H1_B25.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="55dp"
+                    android:layout_marginTop="27dp"
                     android:text="@string/bottom_navi_record"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +43,7 @@
                     android:id="@+id/btn_record_reset"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginTop="59dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/ic_reset"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -118,8 +125,33 @@
                     app:layout_constraintTop_toBottomOf="@+id/btn_record_first" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fillViewport="true"
+                        android:scrollbars="none"
+                        app:layout_constraintTop_toBottomOf="@id/tv_record_impression_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_record_impression_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        >
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_emotional_tags"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                android:orientation="vertical"
+                                app:spanCount="5"
+                                tools:listitem="@layout/item_emotional_tag"/>
+
+                        </FrameLayout>
+                    </HorizontalScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
 

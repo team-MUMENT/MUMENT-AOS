@@ -3,18 +3,18 @@
     <data>
         <variable
             name="tagData"
-            type="String" />
+            type="Integer" />
     </data>
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <com.mument_android.app.presentation.ui.customview.EmotionalTagTextView
-            android:id="@+id/tv_tag"
+        <com.mument_android.app.presentation.ui.customview.EmotionalTagCheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="@string/emotional_full"/>
+            android:text="@{tagData}"
+            tools:text="@string/emotional_confidence"/>
 
     </FrameLayout>
 </layout>

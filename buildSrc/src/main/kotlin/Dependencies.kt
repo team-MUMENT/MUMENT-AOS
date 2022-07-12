@@ -26,6 +26,7 @@ object AndroidXDependencies {
     const val junit = "androidx.test.ext:junit-ktx:${Versions.junit}"
     const val cardview = "androidx.cardview:cardview:${Versions.cardviewVersion}"
     const val emoji = "androidx.emoji:emoji:${Versions.emoji}"
+
 }
 
 object HiltDependencies {
@@ -63,6 +64,8 @@ object ThirdPartyDependencies {
     const val timber = "com.jakewharton.timber:timber:${Versions.timberVersion}"
     const val gson = "com.google.code.gson:gson:${Versions.gsonVersion}"
     const val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.gsonConverterVersion}"
+    const val flexBox = "com.google.android.flexbox:flexbox:${Versions.flexBoxVersion}"
+
 }
 
 
