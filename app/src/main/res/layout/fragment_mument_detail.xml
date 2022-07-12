@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="mumentDetailViewModel"
+            type="com.mument_android.app.presentation.ui.detailcontents.MumentDetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".app.presentation.ui.detailcontents.MumentDetailFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <com.mument_android.app.presentation.ui.customview.EmotionalTagTextView
+            android:id="@+id/emoji_tv_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="뮤멘트 상세보기" />
+            android:text="@{mumentDetailViewModel.emotionalTag}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cb_emotional_tag"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/emotional_excited" />
 
-    </FrameLayout>
+        <com.mument_android.app.presentation.ui.customview.EmotionalTagCheckBox
+            android:id="@+id/cb_emotional_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/emotional_flutter"
+            selectedTag="@={mumentDetailViewModel.isTagSelected}"
+            app:layout_constraintBottom_toBottomOf="@+id/emoji_tv_home"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/emoji_tv_home"
+            app:layout_constraintTop_toTopOf="@+id/emoji_tv_home" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
