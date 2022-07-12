@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
-import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemEmotionalTagBinding
+
 
 class RecordTagAdapter: ListAdapter<Int, RecordTagAdapter.RecordTagViewHolder>(
     GlobalDiffCallBack<Int>()
@@ -21,5 +21,7 @@ class RecordTagAdapter: ListAdapter<Int, RecordTagAdapter.RecordTagViewHolder>(
         holder.binding.setVariable(BR.tagData, getItem(position))
     }
 
-    class RecordTagViewHolder(val binding: ItemEmotionalTagBinding):RecyclerView.ViewHolder(binding.root)
+    class RecordTagViewHolder(val binding: ItemEmotionalTagBinding):RecyclerView.ViewHolder(binding.root){
+
+    }
 }

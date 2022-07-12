@@ -21,8 +21,10 @@
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -65,7 +67,7 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/retangle_fill_gray5"
+                    android:background="@drawable/retangle_fill_gray5_11dp"
                     android:drawableLeft="@drawable/ic_search"
                     android:drawablePadding="14dp"
                     android:hint="@string/record_search_hint"
@@ -86,29 +88,29 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_record_first"
-                    style="@style/TextView.Mument_B4_M14.Style"
-                    android:textColor="@color/mument_color_gray1"
+                    style="@style/TextView.Mument_B4_M14.TextAppearance"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/retangle_fill_gray5"
-                    android:text="@string/record_first_listen"
                     android:layout_marginTop="16dp"
+                    android:background="@drawable/retangle_fill_gray5_11dp"
+                    android:text="@string/record_first_listen"
+                    android:textColor="@color/mument_color_gray1"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_record_second"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_record_second"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_record_first_title" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_record_second"
                     style="@style/TextView.Mument_B4_M14.Style"
-                    android:textColor="@color/mument_color_gray1"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/retangle_fill_gray5"
-                    android:text="@string/record_second_listen"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
+                    android:background="@drawable/retangle_fill_gray5_11dp"
+                    android:text="@string/record_second_listen"
+                    android:textColor="@color/mument_color_gray1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/btn_record_first"
@@ -119,41 +121,140 @@
                     style="@style/TextView.Mument_B1_B15.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/record_impression_title"
                     android:layout_marginTop="50dp"
+                    android:text="@string/record_impression_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/btn_record_first" />
 
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_record_emotional_tags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_record_impression_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_record_impression_title"
+                    tools:listitem="@layout/item_emotional_tag" />
 
-                    <HorizontalScrollView
+                <TextView
+                    android:id="@+id/tv_record_choose_impression"
+                    style="@style/TextView.Mument_B1_B15.Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="46dp"
+                    android:text="@string/record_choose_impression"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_record_emotional_tags" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_record_emotional_tags2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_record_impression_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_impression"
+                    tools:listitem="@layout/item_emotional_tag" />
+
+                <TextView
+                    android:id="@+id/tv_record_write_title"
+                    style="@style/TextView.Mument_B1_B15.Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="44dp"
+                    android:text="@string/record_write_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_record_emotional_tags2" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_record_write"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_record_write_title" >
+
+                    <EditText
+                        android:id="@+id/et_record_write"
+                        style="@style/TextView.Mument_B5_M13.Style"
+                        android:layout_width="match_parent"
+                        android:layout_height="252dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/retangle_fill_gray5_11dp"
+                        android:gravity="top"
+                        android:textColor="@color/mument_color_black2"
+                        android:textColorHint="@color/mument_color_gray1"
+                        android:hint="@string/record_write_hint"
+                        android:scrollbars="vertical"
+                        android:paddingHorizontal="13dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="50dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_record_text_num"
+                        style="@style/TextView.Mument_B5_M13.Style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fillViewport="true"
-                        android:scrollbars="none"
-                        app:layout_constraintTop_toBottomOf="@id/tv_record_impression_title"
-                        app:layout_constraintStart_toStartOf="@id/tv_record_impression_title"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        >
+                        android:text="@string/record_text_num"
+                        android:textColor="@color/mument_color_gray2"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginEnd="13dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/et_record_write" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_emotional_tags"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                                android:orientation="vertical"
-                                app:spanCount="5"
-                                tools:listitem="@layout/item_emotional_tag"/>
 
-                        </FrameLayout>
-                    </HorizontalScrollView>
+                <TextView
+                    android:id="@+id/tv_record_secret"
+                    style="@style/TextView.Mument_B4_M14.TextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/record_secret"
+                    app:layout_constraintEnd_toStartOf="@+id/switch_record_secret"
+                    app:layout_constraintTop_toTopOf="@+id/switch_record_secret" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_record_secret"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:gravity="center"
+                    app:switchMinWidth="49dp"
+                    android:thumb="@drawable/oval_fill_white"
+                    app:track="@drawable/selector_switch"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_record_write"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_record_finish"
+                    style="@style/TextView.Mument_H2_B18.TextAppearance"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:text="@string/record_finish"
+                    android:textColor="@color/mument_color_white"
+                    android:background="@drawable/rectangle_fill_purple_11dp"
+                    android:layout_marginTop="113dp"
+                    android:layout_marginBottom="45dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_record_write" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
