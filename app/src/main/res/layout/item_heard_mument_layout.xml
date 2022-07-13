@@ -14,7 +14,7 @@
         android:id="@+id/cl_mument"
         android:layout_width="160dp"
         android:layout_height="275dp"
-        android:layout_margin="5dp"
+        android:layout_marginHorizontal="5dp"
         android:background="@drawable/shape_border_default_redius_11dp"
         android:elevation="3dp">
 

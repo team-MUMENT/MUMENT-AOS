@@ -11,6 +11,7 @@
     <!--mument color-->
     <color name="mument_color_purple1">#872CFE</color>
     <color name="mument_color_black1">#222222</color>
+    <color name="mument_color_black1_transparent_27">#45222222</color>
     <color name="mument_color_white">#FFFFFFFF</color>
     <color name="mument_color_deeppurple">#6200E1</color>
     <color name="mument_color_purple2">#EAE3FF</color>
