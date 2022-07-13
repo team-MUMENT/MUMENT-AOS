@@ -15,6 +15,7 @@ import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentLockerBinding
 import com.mument_android.databinding.FragmentMyMumentBinding
+import timber.log.Timber
 
 class MyMumentFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyMumentBinding>()

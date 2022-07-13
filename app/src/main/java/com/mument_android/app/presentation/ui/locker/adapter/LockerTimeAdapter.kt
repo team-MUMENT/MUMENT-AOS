@@ -30,12 +30,15 @@ class LockerTimeAdapter() : RecyclerView.Adapter<LockerTimeAdapter.LockerTimeVie
         val binding: ItemLockerDateBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         private val lockerMumentAdapter = LockerMumentAdapter()
+        private val lockerMumentGridAdapter = LockerMumentGridAdapter()
         fun onBind(data: MumentCard) {
             binding.apply {
                 rvMumentLinear.adapter = lockerMumentAdapter
+                rvMumentGrid.adapter = lockerMumentGridAdapter
                 mumentDate = data
                 Timber.d("TestAdapter : ${listOf(data)}")
                 lockerMumentAdapter.setMument(listOf(data))
+                lockerMumentGridAdapter.setMument(listOf(data))
                 executePendingBindings()
             }
         }

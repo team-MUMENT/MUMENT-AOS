@@ -33,7 +33,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="15dp"
-            android:visibility="invisible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/tv_locker_date"
             tools:listitem="@layout/mument_layout_cardview" />
@@ -46,6 +45,7 @@
             android:orientation="vertical"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
