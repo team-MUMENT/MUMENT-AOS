@@ -49,7 +49,10 @@
         <entry key="app/src/main/res/drawable/selector_ic_home.xml" value="0.152" />
         <entry key="app/src/main/res/drawable/selector_ic_locker.xml" value="0.152" />
         <entry key="app/src/main/res/drawable/selector_ic_record.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable/selector_record_font_gray1_to_purple1.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/selector_record_switch.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/selector_retangle_gray5_to_purple2.xml" value="0.1985" />
+        <entry key="app/src/main/res/drawable/selector_style_gray2_purple1.xml" value="0.1415" />
         <entry key="app/src/main/res/drawable/selector_switch.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/selector_swith.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/shape_border_default_redius_11dp.xml" value="0.152" />
@@ -60,6 +63,7 @@
         <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_banner_layout.xml" value="0.2821557971014493" />
         <entry key="app/src/main/res/layout/item_emotional_tag.xml" value="0.2667572463768116" />
         <entry key="app/src/main/res/layout/item_heard_mument_layout.xml" value="0.14463019250253292" />
         <entry key="app/src/main/res/layout/item_impressive_emotion_mument_layout.xml" value="0.1" />
