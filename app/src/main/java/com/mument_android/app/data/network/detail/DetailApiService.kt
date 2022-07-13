@@ -6,6 +6,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface DetailApiService {
-    @GET("/mument/{mumentId}")
-    suspend fun fetchMumentDetail(@Path ("mumentId") mumentId: Int): ResponseMumentDetailDto
+    @GET("/mument/{mumentId}/{userId}")
+    suspend fun fetchMumentDetail(
+        @Path ("mumentId") mumentId: Int,
+        @Path ("userId") userId: Int
+    ): ResponseMumentDetailDto
 }

@@ -8,10 +8,12 @@ import com.mument_android.app.domain.entity.user.UserEntity
 data class MumentDetailEntity(
     val writerInfo: UserEntity,
     val albumInfo: AlbumEntity,
+    val isFirst: Boolean,
     val impressionTags: List<ImpressiveTag>?,
     val emotionalTags: List<EmotionalTag>?,
-    val content: String,
+    val content: String?,
     val createdDate: String,
     val isLiked: Boolean,
+    val mumentHistoryCount: Int,
     val likeCount: Int
 )

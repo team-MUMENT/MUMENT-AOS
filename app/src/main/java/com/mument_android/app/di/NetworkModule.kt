@@ -1,6 +1,8 @@
 package com.mument_android.app.di
 
 import com.mument_android.BuildConfig
+import com.mument_android.app.data.network.detail.DetailApiService
+import com.mument_android.app.data.network.main.MainApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,5 +39,13 @@ object NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+    @Provides
+    @Singleton
+    fun provideDetailApiService(retrofit: Retrofit): DetailApiService = retrofit.create(DetailApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMainApiService(retrofit: Retrofit): MainApiService = retrofit.create(MainApiService::class.java)
 
 }

@@ -17,11 +17,13 @@ class MumentDetailMapper @Inject constructor(
         return MumentDetailEntity(
             userMapper.map(from.user),
             albumMapper.map(from.music),
+            from.isFirst,
             from.impressionTag?.map { findImpressiveTagEnum(it) },
             from.feelingTag?.map { findEmotionalTagEnum(it) },
             from.content,
             from.createdAt,
             from.isLiked,
+            from.count,
             from.likeCount
         )
     }
