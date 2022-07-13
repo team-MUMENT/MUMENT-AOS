@@ -1,14 +1,21 @@
 package com.mument_android.app.presentation.ui.locker.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mument_android.app.domain.entity.MumentCard
 import com.mument_android.app.domain.entity.TestLockerMumentCard
 import com.mument_android.databinding.ItemLockerDateBinding
+import timber.log.Timber
 
 //부모 어뎁터
-class LockerTimeAdapter : RecyclerView.Adapter<LockerTimeAdapter.LockerTimeViewHolder>() {
-    var data = mutableListOf<TestLockerMumentCard>()
+//TODO : 월별 리스트 모아보기
+class LockerTimeAdapter() : RecyclerView.Adapter<LockerTimeAdapter.LockerTimeViewHolder>() {
+    var data = listOf<MumentCard>()
+    //var mument = listOf<MumentCard>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LockerTimeViewHolder {
         val binding = ItemLockerDateBinding.inflate(
@@ -26,18 +33,19 @@ class LockerTimeAdapter : RecyclerView.Adapter<LockerTimeAdapter.LockerTimeViewH
     inner class LockerTimeViewHolder(
         val binding: ItemLockerDateBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data : TestLockerMumentCard) {
-            val lockerMumentAdapter = LockerMumentAdapter()
+        private val lockerMumentAdapter = LockerMumentAdapter()
+        fun onBind(data: MumentCard) {
             binding.apply {
-                mumentDate = data
                 rvMumentLinear.adapter = lockerMumentAdapter
-                //lockerMumentAdapter.setMument(MutableList<TestLockerMumentCard>())
+                mumentDate = data
+                Timber.d("TestAdapter : ${listOf(data)}")
+                lockerMumentAdapter.setMument(listOf(data))
                 executePendingBindings()
             }
         }
     }
 
-    fun setTime(data : MutableList<TestLockerMumentCard>) {
+    fun setTime(data: MutableList<MumentCard>) {
         this.data = data
         notifyDataSetChanged()
     }

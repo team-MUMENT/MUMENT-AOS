@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentHomeFrameBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFrameFragment: Fragment() {
     private var binding by AutoClearedValue<FragmentHomeFrameBinding>()
 

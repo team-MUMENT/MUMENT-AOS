@@ -19,9 +19,11 @@ import com.mument_android.app.data.network.home.adapter.ImpressiveEmotionListAda
 import com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentHomeBinding>()
     private val viewModel: HomeViewModel by viewModels()

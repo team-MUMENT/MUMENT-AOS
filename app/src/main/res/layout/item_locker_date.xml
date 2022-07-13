@@ -7,7 +7,7 @@
     <data>
         <variable
             name="MumentDate"
-            type="com.mument_android.app.domain.entity.TestLockerMumentCard" />
+            type="com.mument_android.app.domain.entity.MumentCard" />
 
     </data>
 

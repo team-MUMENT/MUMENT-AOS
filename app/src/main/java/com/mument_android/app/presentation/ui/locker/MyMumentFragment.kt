@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.mument_android.R
+import com.mument_android.app.domain.entity.MumentCard
+import com.mument_android.app.domain.entity.TestLockerMumentCard
 import com.mument_android.app.presentation.ui.locker.adapter.LockerMumentAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTimeAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
@@ -42,6 +44,8 @@ class MyMumentFragment : Fragment() {
     }
 
     private fun setListData() {
-
+        lockerTimeAdapter = LockerTimeAdapter()
+        binding.rvMumentLinear.adapter = lockerTimeAdapter
+        lockerTimeAdapter.setTime((viewModel.mument)as MutableList<MumentCard>)
     }
 }

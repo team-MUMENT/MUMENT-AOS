@@ -1,18 +1,21 @@
 package com.mument_android.app.presentation.ui.locker.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.mument_android.app.domain.entity.MumentCard
 import com.mument_android.app.domain.entity.TestLockerMumentCard
 import com.mument_android.databinding.ItemLockerDateBinding
+import com.mument_android.databinding.MumentLayoutCardviewBinding
 
 //자식어뎁터
-class LockerMumentAdapter : RecyclerView.Adapter<LockerMumentAdapter.MumentViewHolder>() {
+class LockerMumentAdapter() : RecyclerView.Adapter<LockerMumentAdapter.MumentViewHolder>() {
 
-    var mumentData = mutableListOf<TestLockerMumentCard>()
+    var mumentData = listOf<MumentCard>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MumentViewHolder {
-        val binding = ItemLockerDateBinding.inflate(
+        val binding = MumentLayoutCardviewBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -29,20 +32,17 @@ class LockerMumentAdapter : RecyclerView.Adapter<LockerMumentAdapter.MumentViewH
     override fun getItemCount(): Int = mumentData.size
 
     inner class MumentViewHolder(
-        val binding: ItemLockerDateBinding
+        val binding: MumentLayoutCardviewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data : TestLockerMumentCard) {
-
+        fun onBind(data : MumentCard) {
             binding.apply {
-                this.mumentDate = data
-
-                //lockerTimeAdapter.setTime()
+                this.mument = data
                 executePendingBindings()
             }
         }
     }
 
-    fun setMument(data: MutableList<TestLockerMumentCard>) {
+    fun setMument(data: List<MumentCard>) {
         this.mumentData = data
         notifyDataSetChanged()
     }
