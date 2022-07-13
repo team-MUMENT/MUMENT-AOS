@@ -1,13 +1,9 @@
 package com.mument_android.app.presentation.ui.locker.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.app.domain.entity.MumentCard
-import com.mument_android.app.domain.entity.TestLockerMumentCard
 import com.mument_android.databinding.ItemLockerDateBinding
 import timber.log.Timber
 

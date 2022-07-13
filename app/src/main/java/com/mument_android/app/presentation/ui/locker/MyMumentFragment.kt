@@ -35,7 +35,7 @@ class MyMumentFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         setAdapter()
-        setListData()
+        setData()
     }
 
     private fun setAdapter() {
@@ -43,7 +43,7 @@ class MyMumentFragment : Fragment() {
         lockerMumentAdapter = LockerMumentAdapter()
     }
 
-    private fun setListData() {
+    private fun setData() {
         lockerTimeAdapter = LockerTimeAdapter()
         binding.rvMumentLinear.adapter = lockerTimeAdapter
         lockerTimeAdapter.setTime((viewModel.mument)as MutableList<MumentCard>)
