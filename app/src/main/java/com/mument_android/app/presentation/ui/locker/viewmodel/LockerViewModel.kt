@@ -1,10 +1,11 @@
 package com.mument_android.app.presentation.ui.locker.viewmodel
 
+import androidx.lifecycle.ViewModel
 import com.mument_android.app.domain.entity.MumentCardData.Music
 import com.mument_android.app.domain.entity.MumentCardData.User
 import com.mument_android.app.domain.entity.TestLockerMumentCard
 
-class LockerViewModel {
+class LockerViewModel : ViewModel() {
     //TEST CODE
     val mument = listOf<TestLockerMumentCard>(
         TestLockerMumentCard(
