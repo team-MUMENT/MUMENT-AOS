@@ -92,7 +92,7 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/retangle_fill_gray5_11dp"
+                    android:background="@drawable/selector_retangle_gray5_to_purple2"
                     android:text="@string/record_first_listen"
                     android:textColor="@color/mument_color_gray1"
                     app:layout_constraintEnd_toStartOf="@+id/btn_record_second"
@@ -108,7 +108,7 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/retangle_fill_gray5_11dp"
+                    android:background="@drawable/selector_retangle_gray5_to_purple2"
                     android:text="@string/record_second_listen"
                     android:textColor="@color/mument_color_gray1"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -133,6 +133,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal"
+                    android:maxLength="3"
+                    app:showDivider="beginning|middle"
+                    app:dividerDrawable="@drawable/retangle_fill_purple2_11dp"
                     app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_record_impression_title"
@@ -149,17 +152,28 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rv_record_emotional_tags" />
 
+                <HorizontalScrollView
+                    android:id="@+id/hs_record_emotional"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@id/tv_record_impression_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_impression"
+                    >
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_record_emotional_tags2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal"
+
                     app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_record_impression_title"
                     app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_impression"
                     tools:listitem="@layout/item_emotional_tag" />
+                </HorizontalScrollView>
 
                 <TextView
                     android:id="@+id/tv_record_write_title"
@@ -169,7 +183,7 @@
                     android:layout_marginTop="44dp"
                     android:text="@string/record_write_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_record_emotional_tags2" />
+                    app:layout_constraintTop_toBottomOf="@+id/hs_record_emotional" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_record_write"
@@ -211,28 +225,27 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
                 <TextView
                     android:id="@+id/tv_record_secret"
                     style="@style/TextView.Mument_B4_M14.TextAppearance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="9dp"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/record_secret"
                     app:layout_constraintEnd_toStartOf="@+id/switch_record_secret"
-                    app:layout_constraintTop_toTopOf="@+id/switch_record_secret" />
+                    app:layout_constraintTop_toBottomOf="@+id/cl_record_write" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switch_record_secret"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="49dp"
+                    android:layout_height="28dp"
                     android:checked="true"
                     android:gravity="center"
                     app:switchMinWidth="49dp"
                     android:thumb="@drawable/oval_fill_white"
-                    app:track="@drawable/selector_switch"
-                    android:layout_marginTop="12dp"
+                    app:track="@drawable/selector_record_switch"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cl_record_write"

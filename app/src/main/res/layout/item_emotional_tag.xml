@@ -10,9 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+<!--        margin 값 그냥 넣어놓은거에요..일단 수정필요-->
         <com.mument_android.app.presentation.ui.customview.EmotionalTagCheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
             android:text="@{tagData}"
             tools:text="@string/emotional_confidence"/>
 
