@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detailcontents
+package com.mument_android.app.presentation.ui.detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -30,7 +30,12 @@ class MumentDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mumentDetailViewModel= viewModel
+        setEmotionalTagList()
+    }
 
-
+    private fun setEmotionalTagList() {
+        with(binding.rvEmotionalTags) {
+            adapter = EmotionalTagListAdapter()
+        }
     }
 }

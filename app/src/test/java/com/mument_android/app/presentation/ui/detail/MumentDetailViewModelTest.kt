@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detailcontents
+package com.mument_android.app.presentation.ui.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mument_android.app.data.enumtype.EmotionalTag

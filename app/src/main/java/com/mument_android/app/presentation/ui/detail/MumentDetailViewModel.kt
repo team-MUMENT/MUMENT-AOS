@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detailcontents
+package com.mument_android.app.presentation.ui.detail
 
 import androidx.lifecycle.ViewModel
 import com.mument_android.R
@@ -13,7 +13,7 @@ class MumentDetailViewModel: ViewModel() {
     val isTagSelected = MutableStateFlow<Boolean>(false)
 
     init {
-        _emotionalTag.value = EmotionalTag.findEmotionalTag(1)
+        _emotionalTag.value = EmotionalTag.findEmotionalStringTag(1)
     }
 
     fun setRandomTags() {

@@ -33,9 +33,15 @@ enum class EmotionalTag(val tagIndex: Int, @StringRes val tag: Int) {
          * values() 함수를 통해서 Enum Class에 정의된 모든 인스턴스들을 가져올 수 있습니다!
          * 함수에 파라미터로 tagIndex를 가져와서 같은 tagIndex를 가진 Enum의 tag를 return 하도록 했습니다.
          */
-        fun findEmotionalTag(tagIndex: Int): Int {
+        fun findEmotionalStringTag(tagIndex: Int): Int {
             return values().find { it.tagIndex == tagIndex }?.tag
                 ?: throw IllegalArgumentException("Cannot find Emotional Tag...")
         }
+
+        fun findEmotionalTagEnum(tagIndex: Int): EmotionalTag {
+            return values().find { it.tagIndex == tagIndex }
+                ?: throw IllegalArgumentException("Cannot find Emotional Tag Enum...")
+        }
+
     }
 }

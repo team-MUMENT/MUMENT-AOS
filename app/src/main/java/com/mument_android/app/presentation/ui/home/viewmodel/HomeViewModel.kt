@@ -1,17 +1,11 @@
 package com.mument_android.app.presentation.ui.home.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.mument_android.R
-import com.mument_android.app.data.enumtype.EmotionalTag
-import com.mument_android.app.data.enumtype.EmotionalTag.Companion.findEmotionalTag
 import com.mument_android.app.domain.entity.MumentCard
 import com.mument_android.app.domain.entity.MumentCardData.Music
 import com.mument_android.app.domain.entity.MumentCardData.User
 import com.mument_android.app.domain.entity.TempBannerData
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 
 class HomeViewModel : ViewModel() {
