@@ -6,8 +6,10 @@ import androidx.navigation.ui.NavigationUI
 import com.mument_android.R
 import com.mument_android.app.presentation.base.BaseActivity
 import com.mument_android.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

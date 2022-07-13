@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/mumentDetailFragment"
-        android:name="com.mument_android.app.presentation.ui.detailcontents.MumentDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.detail.MumentDetailFragment"
         android:label="MumentDetailFragment"
         tools:layout="@layout/fragment_mument_detail"/>
 

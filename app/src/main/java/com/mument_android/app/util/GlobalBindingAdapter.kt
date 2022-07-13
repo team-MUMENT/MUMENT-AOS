@@ -20,27 +20,25 @@ object GlobalBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("load_profile")
-    fun loadProfileImage(view: ImageView, url: String) {
-        if (url.isNotBlank()) {
+    fun loadProfileImage(view: ImageView, url: String?) {
+        if (!url.isNullOrEmpty()) {
             view.load(url) {
                 crossfade(true)
                 this.transformations(CircleCropTransformation())
             }
         } else {
-            TODO("placeholder")
         }
     }
 
     @JvmStatic
     @BindingAdapter("load_album")
-    fun loadAlbumImage(view: ImageView, url: String) {
-        if (url.isNotBlank()) {
+    fun loadAlbumImage(view: ImageView, url: String?) {
+        if (!url.isNullOrEmpty()) {
             view.load(url) {
                 crossfade(true)
                 this.transformations(RoundedCornersTransformation(11.0f))
             }
         } else {
-            TODO("placeholder")
         }
     }
 

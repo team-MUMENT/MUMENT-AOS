@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.mument_android.R
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentLockerFrameBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LockerFrameFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentLockerFrameBinding>()
 

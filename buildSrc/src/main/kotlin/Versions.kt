@@ -35,4 +35,7 @@ object Versions {
 
 
     val javaVersion = JavaVersion.VERSION_11
+
+    const val mockitoCoreVersion = "2.28.2"
+    const val mockitoAndroidVersion = "2.24.5"
 }

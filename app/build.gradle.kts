@@ -103,5 +103,11 @@ dependencies {
 
     // Emoji
     implementation(AndroidXDependencies.emoji)
+    implementation(TestDependencies.mockito)
+    androidTestImplementation(TestDependencies.mockitoAndroidTest)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
+    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+
 
 }
