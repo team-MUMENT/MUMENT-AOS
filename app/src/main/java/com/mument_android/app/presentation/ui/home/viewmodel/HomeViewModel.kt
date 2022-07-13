@@ -4,10 +4,101 @@ import androidx.lifecycle.ViewModel
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.EmotionalTag.Companion.findEmotionalTag
+import com.mument_android.app.domain.entity.MumentCard
+import com.mument_android.app.domain.entity.MumentCardData.Music
+import com.mument_android.app.domain.entity.MumentCardData.User
+import com.mument_android.app.domain.entity.TempBannerData
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
 
-class HomeViewModel: ViewModel() {
+class HomeViewModel : ViewModel() {
+    val mument = listOf<MumentCard>(
+        MumentCard(
+            "213",
+            "음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게",
+            "1 Sep, 2020",
+            Music(
+                "213",
+                "백예린",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                "Antifreeze"
+            ),
+            User(
+                "123",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                "이수지"
+            ),
+            null, null, null, null, null
+        ), MumentCard(
+            "213",
+            "음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게",
+            "1 Sep, 2020",
+            Music(
+                "213",
+                "백예린",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                "Antifreeze"
+            ),
+            User(
+                "123",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                "이수지"
+            ),
+            12, null, null, null, null
+        ), MumentCard(
+            "213",
+            "음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게",
+            "1 Sep, 2020",
+            Music(
+                "213",
+                "백예린",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                "Antifreeze"
+            ),
+            User(
+                "123",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                "이수지"
+            ),
+            12, null, null, null, null
+        )
+    )
+    val bannerData = listOf<TempBannerData>(
+        TempBannerData(
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "그리움이 느껴지는 곡",
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "민수는 혼란스럽다",
+            "민수"
+        ),
+        TempBannerData(
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "그리움이 느껴지는 곡",
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "민수는 혼란스럽다",
+            "민수"
+        ),
+        TempBannerData(
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "그리움이 느껴지는 곡",
+            "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+            "민수는 혼란스럽다",
+            "민수"
+        )
+    )
+    private var bannerNum = 0
+    val bannerNumIncrease = flow<Int>{
+        while(true){
+            bannerNum = (bannerNum+1)%bannerData.size
+            emit(bannerNum)
+            delay(3000)
+        }
+    }
+    fun bannerIndexChange(position:Int){
+        bannerNum = position
+    }
 
 }
