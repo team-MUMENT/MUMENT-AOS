@@ -89,13 +89,16 @@ class HomeViewModel : ViewModel() {
             "민수"
         )
     )
-    var _bannerNum = 0
+    private var bannerNum = 0
     val bannerNumIncrease = flow<Int>{
         while(true){
-            _bannerNum = (_bannerNum+1)%bannerData.size
-            emit(_bannerNum)
+            bannerNum = (bannerNum+1)%bannerData.size
+            emit(bannerNum)
             delay(3000)
         }
+    }
+    fun bannerIndexChange(position:Int){
+        bannerNum = position
     }
 
 }

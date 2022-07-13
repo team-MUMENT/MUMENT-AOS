@@ -27,16 +27,10 @@ class ImpressiveEmotionListAdapter(private val context: Context, private val ite
 
     override fun onBindViewHolder(holder: ImpressiveEmotionViewHolder, position: Int) {
         val mementData = getItem(position)
-        if (position == 0) {
-            val params = holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams
-            params.marginStart = 16.dpToPx(context)
-            params.marginEnd = 5.dpToPx(context)
-            holder.binding.clMument.layoutParams = params
-        }else if(position == currentList.size - 1){
-            val params = holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams
-            params.marginEnd = 16.dpToPx(context)
-            params.marginStart = 5.dpToPx(context)
-            holder.binding.clMument.layoutParams = params
+        with(holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams){
+            marginStart = if (position == 0) 16.dpToPx(context) else 5.dpToPx(context)
+            marginEnd = if (position == 0) 5.dpToPx(context) else 16.dpToPx(context)
+            holder.binding.clMument.layoutParams = this
         }
         holder.binding.setVariable(BR.mument, mementData)
         holder.binding.clMument.setOnClickListener {

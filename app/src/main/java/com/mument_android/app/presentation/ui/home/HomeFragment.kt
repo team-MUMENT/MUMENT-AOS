@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.BannerListAdapter
 import com.mument_android.app.data.network.home.adapter.HeardMumentListAdapter
@@ -60,18 +62,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun setRecyclerView() {
-        binding.rcHeard.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rcImpressive.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rcHeard.adapter = heardAdapter
         binding.rcImpressive.adapter = impressiveAdapter
         binding.vpBanner.adapter = bannerAdapter
-        binding.vpBanner.offscreenPageLimit = 3
+        binding.vpBanner.offscreenPageLimit = 1
+        binding.vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                viewModel.bannerIndexChange(position)
+            }
+        })
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.bannerNumIncrease.collect {
+            viewModel.bannerNumIncrease.collect { index ->
                 binding.vpBanner.setCurrentItem(
-                    it, true
+                    index, true
                 )
             }
         }
@@ -82,6 +86,4 @@ class HomeFragment : Fragment() {
         heardAdapter.submitList(viewModel.mument)
         impressiveAdapter.submitList(viewModel.mument)
     }
-
-
 }
