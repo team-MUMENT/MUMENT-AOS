@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.app.domain.entity.TestLockerMumentCard
 import com.mument_android.databinding.ItemLockerDateBinding
 
-
+//자식어뎁터
 class LockerMumentAdapter : RecyclerView.Adapter<LockerMumentAdapter.MumentViewHolder>() {
 
     var mumentData = mutableListOf<TestLockerMumentCard>()
@@ -32,18 +32,18 @@ class LockerMumentAdapter : RecyclerView.Adapter<LockerMumentAdapter.MumentViewH
         val binding: ItemLockerDateBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data : TestLockerMumentCard) {
-            val lockerTimeAdapter = LockerTimeAdapter()
+
             binding.apply {
                 this.mumentDate = data
-                rvMumentLinear.adapter = lockerTimeAdapter
+
                 //lockerTimeAdapter.setTime()
                 executePendingBindings()
             }
         }
     }
 
-    fun setMument(data: TestLockerMumentCard) {
-        //this.mumentData = data
+    fun setMument(data: MutableList<TestLockerMumentCard>) {
+        this.mumentData = data
         notifyDataSetChanged()
     }
 
