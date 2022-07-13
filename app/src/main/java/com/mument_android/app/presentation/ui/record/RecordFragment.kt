@@ -83,9 +83,12 @@ class RecordFragment : Fragment() {
 
     private fun clickEvent(){
         binding.btnRecordFirst.isSelected =true
+        binding.btnRecordFirst.setTextColor(R.style.TextView_Mument_B2_B13_Style)
+
         binding.btnRecordFirst.setOnClickListener {
             binding.btnRecordFirst.isSelected =true
             binding.btnRecordSecond.isSelected =false
+
 
         }
          binding.btnRecordSecond.setOnClickListener{
