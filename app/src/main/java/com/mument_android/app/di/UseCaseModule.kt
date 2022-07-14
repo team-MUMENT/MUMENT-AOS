@@ -3,8 +3,11 @@ package com.mument_android.app.di
 import com.mument_android.app.data.controller.LikeMumentController
 import com.mument_android.app.data.controller.LikeMumentControllerImpl
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
+import com.mument_android.app.domain.repository.locker.LockerRepository
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCaseImpl
+import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
+import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCaseImpl
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCaseImpl
 import dagger.Module
@@ -23,5 +26,11 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideLikeMumentUseCase(likeMumentController: LikeMumentController): LikeMumentUseCase = LikeMumentUseCaseImpl(likeMumentController)
+    fun provideLikeMumentUseCase(likeMumentController: LikeMumentController): LikeMumentUseCase =
+        LikeMumentUseCaseImpl(likeMumentController)
+
+    @Provides
+    @Singleton
+    fun provideFetchMyMumentListUseCase(lockerRepository: LockerRepository): FetchMyMumentListUseCase =
+        FetchMyMumentListUseCaseImpl(lockerRepository)
 }

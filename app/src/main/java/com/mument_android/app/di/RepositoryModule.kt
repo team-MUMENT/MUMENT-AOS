@@ -1,9 +1,13 @@
 package com.mument_android.app.di
 
 import com.mument_android.app.data.datasource.detail.MumentDetailDataSource
+import com.mument_android.app.data.datasource.locker.LockerDataSource
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
+import com.mument_android.app.data.mapper.locker.LockerMapper
+import com.mument_android.app.data.repository.LockerRepositoryImpl
 import com.mument_android.app.data.repository.MumentDetailRepositoryImpl
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
+import com.mument_android.app.domain.repository.locker.LockerRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +25,11 @@ object RepositoryModule {
         mumentDetailMapper: MumentDetailMapper
     ): MumentDetailRepository =
         MumentDetailRepositoryImpl(mumentDetailDataSource, mumentDetailMapper)
+
+   @Provides
+   @Singleton
+   fun provideLockerRepository(
+       lockerMapper:LockerMapper,
+       lockerDataSource: LockerDataSource
+   ): LockerRepository = LockerRepositoryImpl(lockerMapper, lockerDataSource)
 }
