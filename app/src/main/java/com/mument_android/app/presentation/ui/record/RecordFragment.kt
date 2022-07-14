@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -88,21 +89,20 @@ class RecordFragment : Fragment() {
     }
 
     private fun clickEvent(){
-
-        binding.btnRecordFirst.typeface=ResourcesCompat.getFont(context!!, R.font.notosans_bold )
-        binding.btnRecordFirst.isSelected =true
-
-        binding.btnRecordFirst.setOnClickListener {
-            binding.btnRecordFirst.isSelected =true
-            binding.btnRecordSecond.isSelected =false
-            changeFont()
+        binding.btnRecordFirst.changeButtonFont(true)
+        with(binding){
+            btnRecordFirst.setOnClickListener {
+                btnRecordFirst.changeButtonFont(true)
+                btnRecordSecond.changeButtonFont(false)
+            }
         }
 
+         with(binding){
+             btnRecordSecond.setOnClickListener {
+                 btnRecordFirst.changeButtonFont(false)
+                 btnRecordSecond.changeButtonFont(true)
 
-         binding.btnRecordSecond.setOnClickListener{
-             binding.btnRecordFirst.isSelected =false
-             binding.btnRecordSecond.isSelected =true
-             changeFont()
+             }
          }
 
         binding.switchRecordSecret.setOnClickListener {
@@ -115,12 +115,12 @@ class RecordFragment : Fragment() {
 
     }
 
+    private fun Button.changeButtonFont(selected: Boolean){
+        isSelected = selected
+        typeface = ResourcesCompat.getFont(context,if(isSelected) R.font.notosans_bold else R.font.notosans_medium)
 
-
-    private fun changeFont(){
-        binding.btnRecordFirst.typeface=ResourcesCompat.getFont(context!!, if(binding.btnRecordFirst.isSelected) R.font.notosans_bold else R.font.notosans_medium)
-        binding.btnRecordSecond.typeface=ResourcesCompat.getFont(context!!, if(binding.btnRecordSecond.isSelected) R.font.notosans_bold else R.font.notosans_medium)
     }
+
 
 
     private fun countText() {
@@ -139,7 +139,6 @@ class RecordFragment : Fragment() {
                 var userinput = binding.etRecordWrite.text.toString()
                 binding.tvRecordTextNum.text = userinput.length.toString() + "/1000"
             }
-
         })
     }
 
