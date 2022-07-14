@@ -16,8 +16,7 @@
             android:button="@null"
             setTagType="@{tagEntity.tagType}"
             android:text="@{tagEntity.tagString}"
-            android:layout_gravity="center"
-            tools:text="@string/emotional_full"/>
+            tools:text="@string/emotional_confidence"/>
 
     </FrameLayout>
 </layout>
