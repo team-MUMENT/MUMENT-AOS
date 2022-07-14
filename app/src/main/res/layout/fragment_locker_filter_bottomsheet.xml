@@ -60,15 +60,27 @@
             app:layout_constraintTop_toBottomOf="@+id/view_filter" />
 
         <TextView
+            android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
             android:textColor="@color/mument_color_blue1"
             android:textSize="14sp"
-            android:layout_marginEnd="3dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_locker_max_num"
             app:layout_constraintEnd_toStartOf="@+id/tv_locker_max_num"
             app:layout_constraintTop_toTopOf="@+id/tv_locker_max_num"
             tools:text="1" />
+
+        <TextView
+            style="@style/TextView.Mument_B1_B15.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/locker_impress_selection"
+            android:textColor="@color/mument_color_black2"
+            app:layout_constraintStart_toStartOf="@+id/view_filter"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 
 
