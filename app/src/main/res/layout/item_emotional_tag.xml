@@ -2,18 +2,20 @@
 <layout xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="tagData"
-            type="String" />
+            name="tagEntity"
+            type="com.mument_android.app.domain.entity.TagEntity" />
     </data>
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+<!--        margin 값 그냥 넣어놓은거에요..일단 수정필요-->
         <com.mument_android.app.presentation.ui.customview.EmotionalTagTextView
-            android:id="@+id/tv_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{tagEntity.tagString}"
+            android:layout_gravity="center"
             tools:text="@string/emotional_full"/>
 
     </FrameLayout>

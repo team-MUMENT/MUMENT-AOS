@@ -110,4 +110,8 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.1.0")
 
 
+    //flexBox
+    implementation(ThirdPartyDependencies.flexBox)
+
+
 }
