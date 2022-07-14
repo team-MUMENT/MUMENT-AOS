@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.flexbox.*
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
+import com.mument_android.app.domain.entity.TagEntity
+import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentRecordBinding
 
@@ -48,7 +50,7 @@ class RecordFragment : Fragment() {
                 binding.rvRecordEmotionalTags.adapter = recordTagAdapter
             }
 
-            (adapter as RecordTagAdapter).submitList(EmotionalTag.values().map { it.tag })
+            (adapter as RecordTagAdapter).submitList(EmotionalTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex ) })
 
 //            EmotionalTag.values().map { requireContext().getString(it.tag) }.forEach {
 //                Timber.e("tag: $it")
@@ -78,7 +80,7 @@ class RecordFragment : Fragment() {
             if (binding.rvRecordEmotionalTags2.itemDecorationCount == 0) {
                 binding.rvRecordEmotionalTags2.addItemDecoration(itemDecoration)
             }
-            (adapter as RecordTagAdapter).submitList(EmotionalTag.values().map { it.tag })
+            (adapter as RecordTagAdapter).submitList(EmotionalTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex ) })
 
 //            EmotionalTag.values().map { requireContext().getString(it.tag) }.forEach {
 //                Timber.e("tag: $it")
@@ -89,7 +91,7 @@ class RecordFragment : Fragment() {
 
     private fun clickEvent(){
 
-        binding.btnRecordFirst.typeface=ResourcesCompat.getFont(context!!, R.font.notosans_bold )
+        binding.btnRecordFirst.typeface=ResourcesCompat.getFont(requireContext(), R.font.notosans_bold )
         binding.btnRecordFirst.isSelected =true
 
         binding.btnRecordFirst.setOnClickListener {
@@ -118,8 +120,8 @@ class RecordFragment : Fragment() {
 
 
     private fun changeFont(){
-        binding.btnRecordFirst.typeface=ResourcesCompat.getFont(context!!, if(binding.btnRecordFirst.isSelected) R.font.notosans_bold else R.font.notosans_medium)
-        binding.btnRecordSecond.typeface=ResourcesCompat.getFont(context!!, if(binding.btnRecordSecond.isSelected) R.font.notosans_bold else R.font.notosans_medium)
+        binding.btnRecordFirst.typeface=ResourcesCompat.getFont(requireContext(), if(binding.btnRecordFirst.isSelected) R.font.notosans_bold else R.font.notosans_medium)
+        binding.btnRecordSecond.typeface=ResourcesCompat.getFont(requireContext(), if(binding.btnRecordSecond.isSelected) R.font.notosans_bold else R.font.notosans_medium)
     }
 
 
