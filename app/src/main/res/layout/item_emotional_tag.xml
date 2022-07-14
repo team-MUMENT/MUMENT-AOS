@@ -2,8 +2,13 @@
 <layout xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
+<<<<<<< HEAD
             name="tagData"
             type="Integer" />
+=======
+            name="tagEntity"
+            type="com.mument_android.app.domain.entity.TagEntity" />
+>>>>>>> bba4938 ([FEAT] #37 - Mument Detail UI)
     </data>
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,10 +19,16 @@
         <com.mument_android.app.presentation.ui.customview.EmotionalTagCheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
             android:text="@{tagData}"
             tools:text="@string/emotional_confidence"/>
+=======
+            android:text="@{tagEntity.tagString}"
+            android:layout_gravity="center"
+            tools:text="@string/emotional_full"/>
+>>>>>>> bba4938 ([FEAT] #37 - Mument Detail UI)
 
     </FrameLayout>
 </layout>
