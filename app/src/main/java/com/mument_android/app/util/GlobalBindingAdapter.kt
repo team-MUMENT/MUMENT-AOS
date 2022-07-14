@@ -1,5 +1,6 @@
 package com.mument_android.app.util
 
+import android.widget.Button
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -70,4 +71,11 @@ object GlobalBindingAdapter {
             TODO("placeholder")
         }
     }
+
+//    데이터 바인딩을 써보고 싶은 진실의 발악,,담에 배우고 수정할게요,,
+//    @JvmStatic
+//    @BindingAdapter("buttonClick")
+//    fun buttonClick(button: Button, click: Boolean) {
+//        button.isSelected = click
+//    }
 }

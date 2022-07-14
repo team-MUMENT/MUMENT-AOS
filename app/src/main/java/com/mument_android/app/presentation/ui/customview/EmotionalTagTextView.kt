@@ -10,8 +10,8 @@ import com.mument_android.R
 import com.mument_android.app.util.ViewUtils.dpToPx
 
 class EmotionalTagTextView @JvmOverloads constructor(
-    context: Context, attributeSet: AttributeSet
-): EmojiTextView(context, attributeSet) {
+    context: Context, attributeSet: AttributeSet? = null, defStyle: Int =-1
+): EmojiTextView(context, attributeSet, defStyle) {
     init {
         background = ContextCompat.getDrawable(context, R.drawable.rectangle_fill_gray5_20dp)
         setTextColor(ContextCompat.getColor(context, R.color.mument_color_gray1))

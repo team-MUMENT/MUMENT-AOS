@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.util.AutoClearedValue
+import com.mument_android.app.util.RecyclerviewItemDivider
+import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMumentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,9 +36,18 @@ class MumentDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.mumentDetailViewModel= viewModel
-        binding.rvEmotionalTags.adapter = EmotionalTagListAdapter()
+        with(binding) {
+            lifecycleOwner = viewLifecycleOwner
+            mumentDetailViewModel= viewModel
+
+            rvMumentTags.adapter = EmotionalTagListAdapter()
+            rvMumentTags.layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexWrap = FlexWrap.WRAP
+                flexDirection = FlexDirection.ROW
+            }
+            rvMumentTags.addItemDecoration(RecyclerviewItemDivider(7.dpToPx(requireContext()), 5.dpToPx(requireContext())))
+        }
+
         setMumentTagList()
     }
 
@@ -42,9 +57,7 @@ class MumentDetailFragment : Fragment() {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    // Fixme: orientation을 Horizontal로만 바뀌면 RecyclerView가 보이지 않는 현상
-                    (binding.rvEmotionalTags.adapter as EmotionalTagListAdapter)
-                        .submitList( result.data?.emotionalTags?.map { requireContext().getString(it.tag) })
+                    (binding.rvMumentTags.adapter as EmotionalTagListAdapter).submitList(result.data?.combineTags())
                 }
             }
         }
