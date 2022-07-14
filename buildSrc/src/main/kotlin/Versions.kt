@@ -18,6 +18,7 @@ object Versions {
     const val junit = "1.1.3"
     const val cardviewVersion = "1.0.0"
     const val emoji = "1.1.0"
+    const val flexBoxVersion = "3.0.0"
 
     const val lottieVersion = "3.6.0"
     const val glideVersion = "4.13.0"

@@ -144,6 +144,8 @@
         <item name="android:textColor">@color/mument_color_black2</item>
     </style>
 
+
+
     <!-- Typography-->
 
     <style name="tab_text" parent="TextAppearance.Design.Tab">
