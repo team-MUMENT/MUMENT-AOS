@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 
 
 class RecodeViewModel :ViewModel(){
+
+
 //    private val _clickEvent = MutableLiveData<Boolean>()
 //    val clickEvent= _clickEvent
 //

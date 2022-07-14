@@ -142,6 +142,11 @@ class RecordFragment : Fragment() {
         })
     }
 
+    private fun isCheckedEmotionTag(){
+
+    }
+
+
 
 
 
