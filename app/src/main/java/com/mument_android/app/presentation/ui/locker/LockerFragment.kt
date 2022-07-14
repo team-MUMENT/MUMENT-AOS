@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mument_android.R
-import com.mument_android.app.presentation.ui.locker.adapter.LockerMumentAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
-import com.mument_android.app.presentation.ui.locker.adapter.LockerTimeAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentLockerBinding
@@ -64,6 +63,7 @@ class LockerFragment : Fragment() {
 
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
+            viewModel.changeIsGridLayout(false)
             binding.ivLockerList.isSelected = true
             binding.ivLockerGrid.isSelected = false
 
@@ -72,6 +72,7 @@ class LockerFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
+            viewModel.changeIsGridLayout(true)
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
         }

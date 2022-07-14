@@ -2,6 +2,7 @@ package com.mument_android.app.di
 
 import com.mument_android.app.data.mapper.album.AlbumMapper
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
+import com.mument_android.app.data.mapper.locker.LockerMapper
 import com.mument_android.app.data.mapper.user.UserMapper
 import dagger.Module
 import dagger.Provides
@@ -27,4 +28,8 @@ object MapperModule {
         userMapper: UserMapper,
         albumMapper: AlbumMapper
     ): MumentDetailMapper = MumentDetailMapper(userMapper, albumMapper)
+
+    @Provides
+    @Singleton
+    fun provideLockerMumentListMapper(): LockerMapper = LockerMapper()
 }

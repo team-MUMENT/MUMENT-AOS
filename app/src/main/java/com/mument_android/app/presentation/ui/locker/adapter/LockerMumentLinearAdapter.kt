@@ -2,22 +2,19 @@ package com.mument_android.app.presentation.ui.locker.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.app.data.dto.MumentCard
+import com.mument_android.BR
 import com.mument_android.app.domain.entity.LockerMumentEntity
 import com.mument_android.app.util.GlobalDiffCallBack
-import com.mument_android.databinding.ItemMumentImageBinding
+import com.mument_android.databinding.ItemLockerCardBinding
 
 //자식어뎁터
-class LockerMumentGridAdapter() :
-    ListAdapter<LockerMumentEntity.MumentLockerCard, LockerMumentGridAdapter.MumentViewHolder>(
-        GlobalDiffCallBack<LockerMumentEntity.MumentLockerCard>()
-    ) {
-
+class LockerMumentLinearAdapter() : ListAdapter<LockerMumentEntity.MumentLockerCard, LockerMumentLinearAdapter.MumentViewHolder>(
+    GlobalDiffCallBack<LockerMumentEntity.MumentLockerCard>()
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MumentViewHolder {
-        val binding = ItemMumentImageBinding.inflate(
+        val binding = ItemLockerCardBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -30,6 +27,5 @@ class LockerMumentGridAdapter() :
         //TODO: 클릭 리스너로 상세 뮤멘트 연결
     }
 
-    class MumentViewHolder(val binding: ItemMumentImageBinding) : RecyclerView.ViewHolder(binding.root)
-
+    class MumentViewHolder(val binding: ItemLockerCardBinding) : RecyclerView.ViewHolder(binding.root)
 }

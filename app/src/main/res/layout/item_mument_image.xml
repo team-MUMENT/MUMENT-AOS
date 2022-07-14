@@ -6,7 +6,7 @@
     <data>
         <variable
             name="mument"
-            type="com.mument_android.app.domain.entity.MumentCard" />
+            type="com.mument_android.app.domain.entity.LockerMumentEntity.MumentLockerCard" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,8 +20,7 @@
             load_album="@{mument.music.image}"
             android:layout_width="76dp"
             android:layout_height="76dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

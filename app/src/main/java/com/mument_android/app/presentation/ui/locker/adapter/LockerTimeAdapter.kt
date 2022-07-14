@@ -2,17 +2,19 @@ package com.mument_android.app.presentation.ui.locker.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.app.domain.entity.MumentCard
+import com.mument_android.BR
+import com.mument_android.app.domain.entity.LockerMumentEntity
+import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemLockerDateBinding
-import timber.log.Timber
 
 //부모 어뎁터
-//TODO : 월별 리스트 모아보기
-class LockerTimeAdapter() : RecyclerView.Adapter<LockerTimeAdapter.LockerTimeViewHolder>() {
-    var data = listOf<MumentCard>()
-    //var mument = listOf<MumentCard>()
-
+class LockerTimeAdapter(private val isGridLayout: Boolean): ListAdapter<LockerMumentEntity,LockerTimeAdapter.LockerTimeViewHolder>(
+    GlobalDiffCallBack<LockerMumentEntity>()
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LockerTimeViewHolder {
         val binding = ItemLockerDateBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -21,32 +23,24 @@ class LockerTimeAdapter() : RecyclerView.Adapter<LockerTimeAdapter.LockerTimeVie
     }
 
     override fun onBindViewHolder(holder: LockerTimeViewHolder, position: Int) {
-        holder.onBind(data[position])
+        holder.binding.setVariable(BR.lockerMumentEntity, getItem(position))
+        setMumentList(holder)
     }
 
-    override fun getItemCount(): Int = data.size
-
-    inner class LockerTimeViewHolder(
-        val binding: ItemLockerDateBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-        private val lockerMumentAdapter = LockerMumentAdapter()
-        private val lockerMumentGridAdapter = LockerMumentGridAdapter()
-        fun onBind(data: MumentCard) {
-            binding.apply {
-                rvMumentLinear.adapter = lockerMumentAdapter
-                rvMumentGrid.adapter = lockerMumentGridAdapter
-                mumentDate = data
-                Timber.d("TestAdapter : ${listOf(data)}")
-                lockerMumentAdapter.setMument(listOf(data))
-                lockerMumentGridAdapter.setMument(listOf(data))
-                executePendingBindings()
+    private fun setMumentList(holder: LockerTimeViewHolder) {
+        val mumentList = getItem(holder.absoluteAdapterPosition)
+        holder.binding.rvMumentLinear.run {
+            if(isGridLayout) {
+                adapter = LockerMumentGridAdapter()
+                (adapter as LockerMumentGridAdapter).submitList(mumentList.mumentCard)
+                val gridLayoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
+                holder.binding.rvMumentLinear.layoutManager = gridLayoutManager
+            } else {
+                adapter = LockerMumentLinearAdapter()
+                (adapter as LockerMumentLinearAdapter).submitList(mumentList.mumentCard)
             }
         }
     }
 
-    fun setTime(data: MutableList<MumentCard>) {
-        this.data = data
-        notifyDataSetChanged()
-    }
-
+    class LockerTimeViewHolder(val binding: ItemLockerDateBinding) : RecyclerView.ViewHolder(binding.root)
 }
