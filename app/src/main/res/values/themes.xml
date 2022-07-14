@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Mument_Android" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
+        <item name="android:windowBackground">@color/mument_color_bgwhite</item>
         <item name="colorPrimary">@color/mument_color_purple1</item>
         <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -144,4 +145,9 @@
     </style>
 
     <!-- Typography-->
+
+    <style name="tab_text" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/notosans_medium</item>
+    </style>
 </resources>

@@ -2,9 +2,8 @@ package com.mument_android.app.domain.entity
 
 import com.mument_android.app.domain.entity.MumentCardData.Music
 import com.mument_android.app.domain.entity.MumentCardData.User
-import java.time.Year
 
-data class MumentCard(
+data class TestLockerMumentCard(
     val _id: String,
     val content: String,
     val createdAt: String,
@@ -15,6 +14,7 @@ data class MumentCard(
     val isFirst: Boolean?,
     val impression: List<Int>?,
     val feeling: List<Int>?,
-    val year: String?,
-    val month : String?
+    val isLiked : Boolean,
+    val year: String,
+    val month: String
 )

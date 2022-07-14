@@ -3,28 +3,52 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/rectangle_fill_blue1_20dp.xml" value="0.15" />
-        <entry key="app/src/main/res/drawable/rectangle_fill_gray4_11dp.xml" value="0.15" />
-        <entry key="app/src/main/res/drawable/rectangle_fill_gray5_20dp.xml" value="0.15" />
-        <entry key="app/src/main/res/drawable/selector_heart_on_off.xml" value="0.15" />
-        <entry key="app/src/main/res/drawable/shape_border_default_redius_11dp.xml" value="0.15" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_gray1_to_purple1.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_ic_locker.xml" value="0.163" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_ic_record.xml" value="0.163" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1215" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_ic_home.xml" value="0.163" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_ic_lock.xml" value="0.163" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_ic_locker.xml" value="0.1215" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_ic_recor.xml" value="0.163" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_ic_record.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_text_gray1_to_purple1.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/fragment_locker.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/fragment_record.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/menu/menu_bottom_navi.xml" value="0.176" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/drawable-mdpi/selector_ic_grid.xml" value="0.1" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/drawable-mdpi/selector_ic_list.xml" value="0.194" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/activity_main.xml" value="0.1890625" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_home.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_home_frame.xml" value="0.20208333333333334" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker.xml" value="0.176" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker_frame.xml" value="0.13425925925925927" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_mument_detail.xml" value="0.1734375" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_my_like.xml" value="0.264" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_my_mument.xml" value="0.2" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_record.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_banner_layout.xml" value="0.22239583333333332" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_emotional_tag.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_heard_mument_layout.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_impressive_emotion_mument_layout.xml" value="0.2" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_date.xml" value="0.1" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_image.xml" value="0.18229166666666666" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/mument_layout_cardview.xml" value="0.18303571428571427" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2128623188405797" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.29455311314950233" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_home_frame.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_locker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.2647754137115839" />
+        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_emotional_tag.xml" value="0.2128623188405797" />
-        <entry key="app/src/main/res/layout/item_heard_mument_layout.xml" value="0.2128623188405797" />
-        <entry key="app/src/main/res/layout/item_impressive_emotion_mument_layout.xml" value="0.2128623188405797" />
-        <entry key="app/src/main/res/layout/mument_layout_cardview.xml" value="0.5779959858327672" />
         <entry key="app/src/main/res/menu/menu_bottom_navi.xml" value="0.29583333333333334" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
