@@ -10,11 +10,16 @@
         <variable
             name="option"
             type="Boolean" />
+
+        <variable
+            name="viewmodel"
+            type="com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         tools:context=".app.presentation.ui.home.BottomSheetSearchFragment">
 
         <ImageView
@@ -60,10 +65,10 @@
         <ImageView
             android:id="@+id/iv_delete"
             android:layout_width="20dp"
-            android:visibility="gone"
             android:layout_height="20dp"
             android:layout_marginEnd="14dp"
             android:src="@drawable/ic_delete_circle"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/et_search"
             app:layout_constraintEnd_toEndOf="@id/et_search"
             app:layout_constraintTop_toTopOf="@id/et_search" />
@@ -77,16 +82,19 @@
             android:layout_marginTop="40dp"
             android:text="최근 검색한 곡"
             android:textColor="@color/mument_color_black1"
+            android:visibility="@{viewmodel.searchList.size()==0||viewmodel.searchResultList.size()!=0? View.GONE:View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_search" />
 
         <TextView
+            android:id="@+id/et_all_delete"
             style="@style/TextView.Mument_B7_M12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="14dp"
             android:text="모두 삭제"
             android:textColor="@color/mument_color_gray2"
+            android:visibility="@{viewmodel.searchList.size()==0||option==false||viewmodel.searchResultList.size()!=0? View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/tv_recent_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_recent_search" />
@@ -96,10 +104,48 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="30dp"
+            android:visibility="@{viewmodel.searchList.size() == 0 ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_recent_search"
             tools:listitem="@layout/item_search_list" />
+
+        <ImageView
+            android:id="@+id/iv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:src="@drawable/empty_music"
+            android:visibility="@{viewmodel.searchList.size()==0? View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_search" />
+
+        <TextView
+            android:id="@+id/tv_empty_title"
+            style="@style/TextView.Mument_H3_B16.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="좋아하는 곡에 대한\n다양한 감상을 찾아보세요."
+            android:textColor="@color/mument_color_gray1"
+            android:visibility="@{viewmodel.searchList.size()==0? View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
+
+        <TextView
+            android:id="@+id/tv_empty_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="아티스트, 곡을 검색해보세요."
+            android:textColor="@color/mument_color_gray2"
+            android:visibility="@{viewmodel.searchList.size()==0? View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_empty_title" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
