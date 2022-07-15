@@ -34,6 +34,7 @@ object Versions {
     const val kotlinxSerializationJsonVersion = "1.2.2"
     const val gsonVersion = "2.8.9"
     const val gsonConverterVersion = "2.9.0"
+    const val dataStore = "1.0.0"
 
 
     val javaVersion = JavaVersion.VERSION_11

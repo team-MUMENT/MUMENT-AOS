@@ -27,6 +27,7 @@ object AndroidXDependencies {
     const val junit = "androidx.test.ext:junit-ktx:${Versions.junit}"
     const val cardview = "androidx.cardview:cardview:${Versions.cardviewVersion}"
     const val emoji = "androidx.emoji:emoji:${Versions.emoji}"
+    const val dataStore = "androidx.datastore:datastore:${Versions.dataStore}"
 
 }
 

@@ -110,6 +110,8 @@ dependencies {
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
 
+    // DataStore
+    implementation(AndroidXDependencies.dataStore)
 
     //flexBox
     implementation(ThirdPartyDependencies.flexBox)
