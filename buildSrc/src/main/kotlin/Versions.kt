@@ -35,7 +35,7 @@ object Versions {
     const val gsonVersion = "2.8.9"
     const val gsonConverterVersion = "2.9.0"
     const val dataStore = "1.0.0"
-    const val protoBuf = "3.19.4"
+    const val protoBuf = "3.18.0"
 
 
     val javaVersion = JavaVersion.VERSION_11

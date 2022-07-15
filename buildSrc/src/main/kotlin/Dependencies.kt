@@ -27,8 +27,8 @@ object AndroidXDependencies {
     const val junit = "androidx.test.ext:junit-ktx:${Versions.junit}"
     const val cardview = "androidx.cardview:cardview:${Versions.cardviewVersion}"
     const val emoji = "androidx.emoji:emoji:${Versions.emoji}"
-    const val dataStore = "androidx.datastore:datastore:${Versions.dataStore}"
-    const val protoBuf = "com.google.protobuf:protobuf-javalite${Versions.protoBuf}"
+    const val dataStore = "androidx.datastore:datastore-core:${Versions.dataStore}"
+    const val protoBuf = "com.google.protobuf:protobuf-javalite:${Versions.protoBuf}"
 }
 
 object HiltDependencies {
