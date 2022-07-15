@@ -88,7 +88,7 @@ object GlobalBindingAdapter {
     @JvmStatic
     @BindingAdapter("setMovementMethod")
     fun TextView.setMovementMethod(scroll: Boolean) {
-        movementMethod = ScrollingMovementMethod()
+        if(scroll) movementMethod = ScrollingMovementMethod()
     }
 
     @JvmStatic

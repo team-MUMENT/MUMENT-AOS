@@ -9,6 +9,6 @@ import javax.inject.Inject
 class FetchMumentDetailContentUseCaseImpl @Inject constructor(
     private val mumentDetailRepository: MumentDetailRepository
 ): FetchMumentDetailContentUseCase {
-    override suspend operator fun invoke(mumentId: Int, userId: Int): Flow<ApiResult<MumentDetailEntity>> =
+    override suspend operator fun invoke(mumentId: String, userId: String): Flow<MumentDetailEntity> =
         mumentDetailRepository.fetchMumentDetail(mumentId, userId)
 }

@@ -1,7 +1,7 @@
 package com.mument_android.app.data.datasource.detail
 
 import com.mument_android.app.data.dto.MusicDto
-import com.mument_android.app.data.dto.ResponseMumentDetailDto
+import com.mument_android.app.data.dto.detail.MumentDetailDto
 import com.mument_android.app.data.dto.UserDto
 import com.mument_android.app.data.network.detail.DetailApiService
 import javax.inject.Inject
@@ -13,8 +13,8 @@ import javax.inject.Inject
 class MumentDetailDataSourceImpl @Inject constructor(
     private val mumentDetailApiService: DetailApiService
 ): MumentDetailDataSource {
-    override suspend fun fetchMumentDetail(mumentId: Int, userId: Int): ResponseMumentDetailDto {
-        return ResponseMumentDetailDto(
+    override suspend fun fetchMumentDetail(mumentId: String, userId: String): MumentDetailDto {
+        return MumentDetailDto(
             content = "음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요.",
             count = 3,
             createdAt = "26 Sep, 2022",

@@ -48,6 +48,7 @@ class MumentDetailFragment : Fragment() {
         }
 
         setMumentTagList()
+        likeMument()
     }
 
     private fun setMumentTagList() {
@@ -59,6 +60,12 @@ class MumentDetailFragment : Fragment() {
                     (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(result.data?.combineTags())
                 }
             }
+        }
+    }
+
+    private fun likeMument() {
+        binding.cbHeart.setOnClickListener {
+            if(binding.cbHeart.isChecked) viewModel.likeMument() else viewModel.cancelLikeMument()
         }
     }
 }
