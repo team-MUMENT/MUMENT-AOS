@@ -10,11 +10,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-<!--        margin 값 그냥 넣어놓은거에요..일단 수정필요-->
-        <com.mument_android.app.presentation.ui.customview.EmotionalTagTextView
+        <com.mument_android.app.presentation.ui.customview.MumentTagCheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{tagEntity.tagString}"
+            android:button="@null"
+            android:text="@{context.getString(tagEntity.tagString)}"
             android:layout_gravity="center"
             tools:text="@string/emotional_full"/>
 

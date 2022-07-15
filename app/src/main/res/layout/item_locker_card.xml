@@ -127,7 +127,7 @@
                     android:textColor="@color/mument_color_purple1"
                     tools:text="다시" />
                 <!--TODO(태그 로직 구현)-->
-                <com.mument_android.app.presentation.ui.customview.EmotionalTagTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextView.Mument_B7_M12.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -135,7 +135,7 @@
                     android:text="@{context.getString(R.string.emotional_blue)}"
                     android:textColor="@color/mument_color_gray1" />
 
-                <com.mument_android.app.presentation.ui.customview.EmotionalTagTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextView.Mument_B7_M12.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
