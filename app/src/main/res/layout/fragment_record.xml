@@ -156,12 +156,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_record_impression_title"
                     app:layout_constraintTop_toBottomOf="@id/tv_record_impression_title"
-<<<<<<< HEAD
-                    tools:listitem="@layout/item_mument_string_tag" />
-=======
                     app:showDivider="beginning|middle"
-                    tools:listitem="@layout/item_emotional_tag" />
->>>>>>> 8cc04b2 ([FEAT] #40 임시커밋)
+                    tools:listitem="@layout/item_mument_string_tag" />
 
                 <TextView
                     android:id="@+id/tv_record_choose_impression"
@@ -181,13 +177,7 @@
                     android:nestedScrollingEnabled="false"
                     android:scrollbars="none"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_impression"
-<<<<<<< HEAD
-                    tools:listitem="@layout/item_mument_string_tag" />
-                </HorizontalScrollView>
-=======
-                    tools:listitem="@layout/item_emotional_tag" />
->>>>>>> 8cc04b2 ([FEAT] #40 임시커밋)
+                    app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_impression"/>
 
                 <TextView
                     android:id="@+id/tv_record_write_title"

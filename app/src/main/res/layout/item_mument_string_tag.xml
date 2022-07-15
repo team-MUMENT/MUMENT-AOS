@@ -15,7 +15,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_height="wrap_content"
-            selectedTag="@{false}"
+            setTagType="@{tagEntity.tagType}"
             android:text="@{tagEntity.tagString}"
             tools:text="@string/emotional_confidence"/>
 
