@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="option"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".app.presentation.ui.home.BottomSheetSearchFragment">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:paddingEnd="4dp"
+            android:src="@drawable/ic_back"
+            android:visibility="@{option==true? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/et_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_search" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangle_fill_gray5_11dp"
+            android:hint="곡 아티스트"
+            android:paddingStart="38dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="9dp"
+            android:textAppearance="@style/TextView.Mument_B4_M14.TextAppearance"
+            android:textColor="@color/mument_color_black2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_back"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toBottomOf="@id/et_search"
+            app:layout_constraintStart_toStartOf="@id/et_search"
+            app:layout_constraintTop_toTopOf="@id/et_search" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="20dp"
+            android:visibility="gone"
+            android:layout_height="20dp"
+            android:layout_marginEnd="14dp"
+            android:src="@drawable/ic_delete_circle"
+            app:layout_constraintBottom_toBottomOf="@id/et_search"
+            app:layout_constraintEnd_toEndOf="@id/et_search"
+            app:layout_constraintTop_toTopOf="@id/et_search" />
+
+        <TextView
+            android:id="@+id/tv_recent_search"
+            style="@style/TextView.Mument_H2_B18.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
+            android:text="최근 검색한 곡"
+            android:textColor="@color/mument_color_black1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_search" />
+
+        <TextView
+            style="@style/TextView.Mument_B7_M12.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:text="모두 삭제"
+            android:textColor="@color/mument_color_gray2"
+            app:layout_constraintBottom_toBottomOf="@id/tv_recent_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_recent_search" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_search"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_recent_search"
+            tools:listitem="@layout/item_search_list" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

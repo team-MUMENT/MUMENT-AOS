@@ -19,7 +19,7 @@ class EmotionalTagListAdapter: ListAdapter<String, EmotionalTagListAdapter.Emoti
 
     override fun onBindViewHolder(holder: EmotionalTagViewHolder, position: Int) {
 //        holder.binding.setVariable(BR.tagData, getItem(position))
-        holder.binding.tvTag.text = getItem(position)
+        ///holder.binding.tvTag.text = getItem(position)
     }
 
     class EmotionalTagViewHolder(val binding: ItemEmotionalTagBinding): RecyclerView.ViewHolder(binding.root)

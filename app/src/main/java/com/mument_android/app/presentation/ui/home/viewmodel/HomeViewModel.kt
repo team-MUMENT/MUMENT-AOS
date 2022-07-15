@@ -86,7 +86,7 @@ class HomeViewModel : ViewModel() {
     private var bannerNum = 0
     val bannerNumIncrease = flow<Int>{
         while(true){
-            bannerNum = (bannerNum+1)%bannerData.size
+            bannerNum = bannerNum++
             emit(bannerNum)
             delay(3000)
         }

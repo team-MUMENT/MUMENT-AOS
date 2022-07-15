@@ -1,7 +1,6 @@
 package com.mument_android.app.presentation.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.BannerListAdapter
 import com.mument_android.app.data.network.home.adapter.HeardMumentListAdapter
@@ -54,6 +51,8 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment)
         }
         binding.tvSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+            /*BottomSheetSearchFragment.newInstance().show(childFragmentManager, "Search")*/
         }
     }
 
