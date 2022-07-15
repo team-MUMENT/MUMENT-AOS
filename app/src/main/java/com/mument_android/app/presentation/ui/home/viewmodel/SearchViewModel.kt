@@ -1,25 +1,255 @@
 package com.mument_android.app.presentation.ui.home.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mument_android.app.domain.entity.SearchResultData
+import kotlinx.coroutines.flow.MutableStateFlow
 
-class SearchViewModel:ViewModel() {
-    val searchList = listOf<SearchResultData>(
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
-        SearchResultData("213", "덩", "새소년", "https://cdnimg.melon.co.kr/cm2/album/images/104/28/213/10428213_20200508180416_500.jpg/melon/resize/104/quality/80/optimize", false),
+class SearchViewModel : ViewModel() {
+    val searchList = MutableLiveData<List<SearchResultData>>(
+        mutableListOf(
+            SearchResultData(
+                "1",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "2",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "3",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "4",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "5",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "6",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "7",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "8",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "9",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "10",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "11",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "12",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "13",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "14",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "15",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            ),
+            SearchResultData(
+                "16",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                true
+            )
+        )
     )
+
+    val searchContent = MutableStateFlow<SearchResultData?>(null)
+    val searchResultList = MutableStateFlow<List<SearchResultData?>>(listOf())
+    fun selectContent(data: SearchResultData) {
+        searchContent.value = data
+        searchResultList.value = listOf(
+            SearchResultData(
+                "1",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "2",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "3",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "4",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "5",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "6",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "7",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "8",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "9",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "10",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "11",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "12",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "13",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "14",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "15",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            ),
+            SearchResultData(
+                "16",
+                "덩",
+                "새소년",
+                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
+                false
+            )
+        )
+    }
+
+    fun deleteRecentList(data: SearchResultData) {
+        val current = searchList.value?.toMutableList()
+        current?.remove(data)
+        searchList.value = current
+    }
+
+    fun allListDelete() {
+        searchList.value = listOf()
+    }
 }
