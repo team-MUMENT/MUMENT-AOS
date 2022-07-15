@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { {} }
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { {} }
-        bannerAdapter = BannerListAdapter()
+        bannerAdapter = BannerListAdapter(viewModel.bannerData)
     }
 
     private fun setRecyclerView() {
@@ -84,7 +84,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setListData() {
-        bannerAdapter.submitList(viewModel.bannerData)
+        //bannerAdapter.()
         heardAdapter.submitList(viewModel.mument)
         impressiveAdapter.submitList(viewModel.mument)
     }
