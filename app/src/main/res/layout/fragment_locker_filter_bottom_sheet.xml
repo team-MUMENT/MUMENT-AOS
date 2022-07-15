@@ -15,13 +15,13 @@
 
         <TextView
             android:id="@+id/tv_filter_title"
-            style="@style/TextView.Mument_H2_B18.Style"
+            style="@style/TextView.Mument_H2_B18.TextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/locker_filter"
             android:textColor="@color/mument_color_black2"
             android:textSize="18sp"
-            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,9 +30,9 @@
             android:id="@+id/iv_filter_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_delete_light"
-            android:layout_marginTop="23dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="23dp"
+            android:src="@drawable/ic_delete_light"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,8 +52,8 @@
             android:id="@+id/tv_locker_max_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="/ 3"
             android:layout_marginTop="12dp"
+            android:text="/ 3"
             android:textColor="@color/mument_color_gray2"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/view_filter"
@@ -73,7 +73,7 @@
 
         <TextView
             android:id="@+id/tv_filter_total"
-            style="@style/TextView.Mument_B1_B15.Style"
+            style="@style/TextView.Mument_B1_B15.TextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
@@ -87,12 +87,78 @@
             android:id="@+id/rv_impressive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:orientation="horizontal"
             app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_filter_total"
             app:layout_constraintTop_toBottomOf="@+id/tv_filter_total"
-            tools:listitem="@layout/item_emotional_tag" />
+            tools:listitem="@layout/item_mument_string_tag" />
+
+        <TextView
+            android:id="@+id/tv_filter_impress"
+            style="@style/TextView.Mument_B1_B15.TextAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="33dp"
+            android:text="@string/locker_emotion"
+            android:textColor="@color/mument_color_black2"
+            app:layout_constraintStart_toStartOf="@+id/tv_filter_total"
+            app:layout_constraintTop_toBottomOf="@+id/rv_impressive" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_impress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_filter_impress"
+            app:layout_constraintTop_toBottomOf="@+id/tv_filter_impress"
+            tools:listitem="@layout/item_mument_string_tag" />
+
+        <TextView
+            android:id="@+id/textView6"
+            style="@style/TextView.Mument_B4_M14.TextAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="46dp"
+            android:text="@string/locker_delete"
+            android:textColor="@color/mument_color_gray2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/rv_impress"
+            app:layout_constraintTop_toBottomOf="@+id/rv_impress" />
+
+        <TextView
+            android:id="@+id/textView7"
+            style="@style/TextView.Mument_B2_B13.TextAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangle_fill_purple_11dp"
+            android:includeFontPadding="false"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            android:text="@string/locker_apply_tag"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/textView6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView6" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:background="@color/mument_color_gray3"
+            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            tools:layout_editor_absoluteX="0dp"></androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

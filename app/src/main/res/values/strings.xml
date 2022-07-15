@@ -52,7 +52,7 @@
     <string name="locker_filter">필터</string>
     <string name="locker_impress_selection">인상적인 부분</string>
     <string name="locker_emotion">감정</string>
-    <string name="locker_delete">전체 해제</string>
+    <string name="locker_delete"><u>전체 해제</u></string>
     <string name="locker_apply_tag">태그 적용하기</string>
     <string name="locker_toast">태그는 최대 3개까지 선택할 수 있어요.</string>
 

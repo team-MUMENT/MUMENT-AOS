@@ -32,6 +32,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setEmotionalList()
+        setImpressList()
     }
 
     private fun setEmotionalList() {
@@ -45,6 +46,24 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             }.let {
                 binding.rvImpressive.layoutManager =it
                 binding.rvImpressive.adapter = recordTagAdapter
+            }
+
+            (adapter as RecordTagAdapter).submitList(EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex ) })
+
+        }
+    }
+
+    private fun setImpressList() {
+        with(binding.rvImpress) {
+            adapter = RecordTagAdapter()
+            FlexboxLayoutManager(context).apply{
+                flexWrap = FlexWrap.WRAP
+                flexDirection = FlexDirection.ROW
+
+
+            }.let {
+                binding.rvImpress.layoutManager =it
+                binding.rvImpress.adapter = recordTagAdapter
             }
 
             (adapter as RecordTagAdapter).submitList(EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex ) })
