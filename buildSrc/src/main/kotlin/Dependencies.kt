@@ -7,6 +7,7 @@ object KotlinDependencies {
 }
 
 object AndroidXDependencies {
+    const val window  = "androidx.window:window:${Versions.window}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
     const val constraintLayout =
