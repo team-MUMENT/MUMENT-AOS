@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../layout/custom_preview.xml" value="0.12949640287769784" />
         <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_gray1_to_purple1.xml" value="0.1" />
         <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_ic_locker.xml" value="0.163" />
         <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_ic_record.xml" value="0.163" />
@@ -26,14 +27,15 @@
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_home.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_home_frame.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker.xml" value="0.176" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker_filter_bottom_sheet.xml" value="0.1" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker_filter_bottomsheet.xml" value="0.2" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker_frame.xml" value="0.13425925925925927" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_mument_detail.xml" value="0.1734375" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_my_like.xml" value="0.264" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_my_mument.xml" value="0.2" />
-        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_record.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_record.xml" value="0.1" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_banner_layout.xml" value="0.22239583333333332" />
-        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_emotional_tag.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_emotional_tag.xml" value="0.264" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_heard_mument_layout.xml" value="0.14270833333333333" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_impressive_emotion_mument_layout.xml" value="0.2" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_car.xml" value="0.234375" />
@@ -41,7 +43,6 @@
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_date.xml" value="0.2" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_image.xml" value="0.264" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/mument_layout_cardview.xml" value="0.18303571428571427" />
-        <entry key="../../../../../../layout/custom_preview.xml" value="0.12949640287769784" />
         <entry key="app/src/main/res/drawable/oval_fill_white.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/rectangle_fill_blue1_14dp.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/rectangle_fill_blue3_20dp.xml" value="0.166" />
@@ -65,12 +66,6 @@
         <entry key="app/src/main/res/layout/fragment_home_frame.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_locker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.2128623188405797" />
-        <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_banner_layout.xml" value="0.2821557971014493" />
-        <entry key="app/src/main/res/layout/item_emotional_tag.xml" value="0.2667572463768116" />
-        <entry key="app/src/main/res/layout/item_heard_mument_layout.xml" value="0.14463019250253292" />
-        <entry key="app/src/main/res/layout/item_impressive_emotion_mument_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.35287780761718757" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_banner_layout.xml" value="0.2164855072463768" />
