@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="recordViewModel"
             type="com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel" />
@@ -145,19 +144,16 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_record_emotional_tags"
+                    android:id="@+id/rv_record_impressive_tags"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:maxLength="3"
                     android:orientation="horizontal"
-                    app:dividerDrawable="@drawable/retangle_fill_purple2_11dp"
                     app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/tv_record_impression_title"
+                    app:layout_constraintStart_toStartOf="@+id/gl_left"
                     app:layout_constraintTop_toBottomOf="@id/tv_record_impression_title"
-                    app:showDivider="beginning|middle"
-                    tools:listitem="@layout/item_mument_string_tag" />
+                    tools:listitem="@layout/item_tag_checkbox" />
 
                 <TextView
                     android:id="@+id/tv_record_choose_impression"
@@ -167,17 +163,20 @@
                     android:layout_marginTop="46dp"
                     android:text="@string/record_choose_impression"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_record_emotional_tags" />
+                    app:layout_constraintTop_toBottomOf="@+id/rv_record_impressive_tags" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_record_emotional_tags2"
-                    android:layout_width="380dp"
+                    android:id="@+id/rv_record_emotional_tags"
+                    android:layout_width="475dp"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
+                    app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
                     android:scrollbars="none"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_impression"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_impression"
+                    tools:listitem="@layout/item_tag_checkbox" />
 
                 <TextView
                     android:id="@+id/tv_record_write_title"
@@ -187,7 +186,7 @@
                     android:layout_marginTop="44dp"
                     android:text="@string/record_write_title"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_record_emotional_tags2" />
+                    app:layout_constraintTop_toBottomOf="@+id/rv_record_emotional_tags" />
 
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/ns_record_write"
@@ -217,10 +216,7 @@
                         android:text="@={recordViewModel.text}"
                         android:textColor="@color/mument_color_black2"
                         android:textColorHint="@color/mument_color_gray1" />
-
-
                 </androidx.core.widget.NestedScrollView>
-
 
                 <TextView
                     android:id="@+id/tv_record_text_num"
@@ -233,7 +229,6 @@
                     android:textColor="@color/mument_color_gray2"
                     app:layout_constraintBottom_toBottomOf="@+id/ns_record_write"
                     app:layout_constraintEnd_toEndOf="@+id/ns_record_write" />
-
 
                 <TextView
                     android:id="@+id/tv_record_secret"

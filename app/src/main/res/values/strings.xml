@@ -34,12 +34,13 @@
     <string name="emotional_blue">😔 우울</string>
     <string name="emotional_miss">🕰 그리움</string>
     <string name="emotional_loneliness">🛌 외로움</string>
-    <string name="emotional_dim">⌛ 아련</string>
+    <string name="emotional_dim">⌛ 아련함</string>
     <string name="emotional_calm">☕ ️차분</string>
     <string name="emotional_remembrance">💭 회상</string>
     <string name="emotional_relaxed">🍀 여유로움</string>
     <string name="emotional_romance">🌅 낭만</string>
     <string name="emotional_stress">🌋 스트레스</string>
+    <string name="emotional_centimeter">🍁 센치함</string>
 
     <string name="locker_year">년</string>
     <string name="locker_month">월</string>

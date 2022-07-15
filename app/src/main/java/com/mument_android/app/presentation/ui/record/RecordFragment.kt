@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Switch
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,6 +15,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.flexbox.*
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
+import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
@@ -31,6 +30,7 @@ class RecordFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentRecordBinding>()
     private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var recordTagAdapter: RecordTagAdapter
+    private lateinit var recordTagAdapter2: RecordTagAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,40 +51,38 @@ class RecordFragment : Fragment() {
 
     private fun setEmotionalList() {
         binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
-        with(binding.rvRecordEmotionalTags) {
-            recordTagAdapter = RecordTagAdapter(::selectTag)
-            FlexboxLayoutManager(context).apply {
-                flexWrap = FlexWrap.WRAP
-                flexDirection = FlexDirection.ROW
+        recordTagAdapter = RecordTagAdapter()
+        recordTagAdapter2 = RecordTagAdapter()
 
-
-            }.let {
-                binding.rvRecordEmotionalTags.layoutManager = it
-                binding.rvRecordEmotionalTags.adapter = recordTagAdapter
-            }
-
-            (adapter as RecordTagAdapter).submitList(
-                EmotionalTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) })
-
-//            EmotionalTag.values().map { requireContext().getString(it.tag) }.forEach {
-//                Timber.e("tag: $it")
-//            }
-        }
-
-        with(binding.rvRecordEmotionalTags2) {
-            //addItemDecoration(RecyclerviewItemDivider(4.dpToPx(requireContext()), 3.dpToPx(requireContext())))
-
+        with(binding.rvRecordImpressiveTags) {
+            addItemDecoration( RecyclerviewItemDivider( 10.dpToPx(requireContext()), 10.dpToPx(requireContext())))
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
             }.let {
-                binding.rvRecordEmotionalTags2.layoutManager =
-                    StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
-                binding.rvRecordEmotionalTags2.adapter = recordTagAdapter
+                layoutManager = it
+                adapter = recordTagAdapter
             }
             recordTagAdapter.submitList(
-                EmotionalTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) })
+                ImpressiveTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) })
+        }
 
+        with(binding.rvRecordEmotionalTags) {
+            addItemDecoration(
+                RecyclerviewItemDivider(
+                    10.dpToPx(requireContext()),
+                    8.dpToPx(requireContext())
+                )
+            )
+            FlexboxLayoutManager(context).apply {
+                flexWrap = FlexWrap.WRAP
+                flexDirection = FlexDirection.ROW
+            }.let {
+                layoutManager = it
+                adapter = recordTagAdapter2
+            }
+            recordTagAdapter2.submitList(
+                EmotionalTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) })
         }
 
     }
