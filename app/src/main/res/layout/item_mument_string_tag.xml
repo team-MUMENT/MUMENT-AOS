@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="tagEntity"
+            type="com.mument_android.app.domain.entity.TagEntity" />
+    </data>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            setTagType="@{tagEntity.tagType}"
+            android:text="@{tagEntity.tagString}"
+            android:layout_gravity="center"
+            tools:text="@string/emotional_full"/>
+
+    </FrameLayout>
+</layout>

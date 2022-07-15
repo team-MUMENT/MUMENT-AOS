@@ -152,4 +152,5 @@
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/notosans_medium</item>
     </style>
+
 </resources>
