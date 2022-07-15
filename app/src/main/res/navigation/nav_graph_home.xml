@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_mumentDetailFragment"
             app:destination="@id/mumentDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
 
     <fragment
@@ -20,5 +23,22 @@
         android:name="com.mument_android.app.presentation.ui.detail.MumentDetailFragment"
         android:label="MumentDetailFragment"
         tools:layout="@layout/fragment_mument_detail"/>
-
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.mument_android.app.presentation.ui.home.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_musicDetailFragment"
+            app:destination="@id/musicDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/musicDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.home.MusicDetailFragment"
+        android:label="MusicDetailFragment"
+        tools:layout="@layout/fragment_music_detail">
+        <action
+            android:id="@+id/action_musicDetailFragment_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
+    </fragment>
 </navigation>
