@@ -204,7 +204,7 @@
                 android:id="@+id/tv_like_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/like_count_integer_format(mumentDetailViewModel.mumentDetailContent.data.likeCount)}"
+                android:text="@{@string/like_count_integer_format(mumentDetailViewModel.likeCount)}"
                 android:layout_marginStart="5dp"
                 style="@style/TextView.Mument_C1_R12.Style"
                 android:textColor="@color/mument_color_gray1"

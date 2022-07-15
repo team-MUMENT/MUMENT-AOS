@@ -28,12 +28,23 @@ class MumentDetailViewModel @Inject constructor(
     private val _mumentDetailContent = MutableStateFlow<ApiResult<MumentDetailEntity>?>(null)
     val mumentDetailContent = _mumentDetailContent.asStateFlow()
 
+    private val _likeCount = MutableStateFlow(0)
+    val likeCount = _likeCount.asStateFlow()
+
     init {
         fetchMumentDetailContent()
     }
 
     fun changeMumentId(id: String) {
         _mumentId.value = id
+    }
+
+    private fun increaseLikeCount() {
+        _likeCount.value = likeCount.value + 1
+    }
+
+    private fun decreaseLikeCount() {
+        _likeCount.value = likeCount.value - 1
     }
 
     private fun fetchMumentDetailContent() {
@@ -44,25 +55,30 @@ class MumentDetailViewModel @Inject constructor(
                 _mumentDetailContent.value = ApiResult.Loading(null)
             }.collect {
                 _mumentDetailContent.value = ApiResult.Success(it)
+                _likeCount.value = it.likeCount
             }
         }
     }
 
     fun likeMument() {
         viewModelScope.launch {
+            increaseLikeCount()
             likeMumentUseCase(
                 mumentId.value,
                 mumentDetailContent.value?.data?.writerInfo?.userId ?: ""
-            )
+            ).collect {
+
+            }
         }
     }
 
     fun cancelLikeMument() {
         viewModelScope.launch {
+            decreaseLikeCount()
             cancelLikeMumentUseCase(
                 mumentId.value,
                 mumentDetailContent.value?.data?.writerInfo?.userId ?: ""
-            )
+            ).collect {}
         }
     }
 }
