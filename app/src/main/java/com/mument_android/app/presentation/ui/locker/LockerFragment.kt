@@ -21,6 +21,7 @@ class LockerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentLockerBinding>()
     private lateinit var lockerTabAdapter : LockerTabAdapter
     private val viewModel : LockerViewModel by viewModels()
+    private var lockerFilterBottomSheetfragment = LockerFilterBottomSheetFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +38,7 @@ class LockerFragment : Fragment() {
         initTab()
         listBtnClickListener()
         gridBtnClickListener()
+        filterBtnClickListener()
     }
 
     private fun initAdapter() {
@@ -77,4 +79,11 @@ class LockerFragment : Fragment() {
             binding.ivLockerGrid.isSelected = true
         }
     }
+
+    private fun filterBtnClickListener() {
+        binding.ivLockerFilter.setOnClickListener {
+            lockerFilterBottomSheetfragment.show(parentFragmentManager, lockerFilterBottomSheetfragment.tag)
+        }
+    }
+
 }
