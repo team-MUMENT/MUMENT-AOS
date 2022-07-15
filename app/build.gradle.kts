@@ -112,7 +112,7 @@ dependencies {
 
     // DataStore
     implementation(AndroidXDependencies.dataStore)
-
+    implementation(AndroidXDependencies.protoBuf)
     //flexBox
     implementation(ThirdPartyDependencies.flexBox)
 
