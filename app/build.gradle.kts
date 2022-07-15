@@ -53,6 +53,7 @@ dependencies {
     implementation(AndroidXDependencies.appCompat)
     implementation(MaterialDesignDependencies.materialDesign)
     implementation(AndroidXDependencies.constraintLayout)
+    implementation(AndroidXDependencies.window)
     testImplementation(TestDependencies.jUnit)
     androidTestImplementation(TestDependencies.androidTest)
     androidTestImplementation(TestDependencies.espresso)
