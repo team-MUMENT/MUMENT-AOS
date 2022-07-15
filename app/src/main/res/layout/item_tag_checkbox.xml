@@ -12,7 +12,7 @@
 
         <com.mument_android.app.presentation.ui.customview.MumentTagCheckBox
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="37dp"
             android:button="@null"
             android:text="@{context.getString(tagEntity.tagString)}"
             android:layout_gravity="center"

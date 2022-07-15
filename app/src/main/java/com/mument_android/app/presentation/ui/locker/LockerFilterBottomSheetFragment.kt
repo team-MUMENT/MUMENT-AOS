@@ -13,6 +13,8 @@ import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.presentation.ui.record.RecordTagAdapter
 import com.mument_android.app.util.AutoClearedValue
+import com.mument_android.app.util.RecyclerviewItemDivider
+import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.FragmentLockerFilterBottomSheetBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,7 +51,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             }
 
             (adapter as RecordTagAdapter).submitList(EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex ) })
-
+            binding.rvImpressive.addItemDecoration(RecyclerviewItemDivider(7.dpToPx(requireContext()), 5.dpToPx(requireContext())))
         }
     }
 
@@ -67,7 +69,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             }
 
             (adapter as RecordTagAdapter).submitList(EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex ) })
-
+            binding.rvImpress.addItemDecoration(RecyclerviewItemDivider(7.dpToPx(requireContext()), 5.dpToPx(requireContext())))
         }
     }
 }
