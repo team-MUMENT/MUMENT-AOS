@@ -41,17 +41,13 @@ object MapperModule {
     @Singleton
     fun provideMumentDetailMapper(
         userMapper: UserMapper,
-        albumMapper: AlbumMapper
-    ): MumentDetailMapper = MumentDetailMapper(userMapper, albumMapper)
-
-    @Provides
-    @Singleton
-    fun provideLockerMumentListMapper(): LockerMapper = LockerMapper()
         albumMapper: AlbumMapper,
         impressiveTagMapper: ImpressiveTagMapper,
         emotionalTagMapper: EmotionalTagMapper,
         isFirstTagMapper: IsFirstTagMapper
     ): MumentDetailMapper = MumentDetailMapper(userMapper, albumMapper, impressiveTagMapper, emotionalTagMapper, isFirstTagMapper)
 
-
+    @Provides
+    @Singleton
+    fun provideLockerMumentListMapper(): LockerMapper = LockerMapper()
 }
