@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="MumentDate"
-            type="com.mument_android.app.domain.entity.MumentCard" />
+            name="lockerMumentEntity"
+            type="com.mument_android.app.domain.entity.LockerMumentEntity" />
 
     </data>
 
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@{MumentDate.year + @string/locker_year + MumentDate.month + @string/locker_month}"
+            android:text="@{lockerMumentEntity.date}"
             style="@style/TextView.Mument_H3_B16.Style"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,17 +35,15 @@
             android:layout_marginTop="15dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/tv_locker_date"
-            tools:listitem="@layout/mument_layout_cardview" />
+            tools:listitem="@layout/item_locker_card" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_mument_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
-            android:orientation="vertical"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

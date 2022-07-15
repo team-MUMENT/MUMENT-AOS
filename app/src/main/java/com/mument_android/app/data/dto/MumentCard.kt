@@ -1,4 +1,4 @@
-package com.mument_android.app.domain.entity
+package com.mument_android.app.data.dto
 
 import com.mument_android.app.domain.entity.MumentCardData.Music
 import com.mument_android.app.domain.entity.MumentCardData.User

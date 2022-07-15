@@ -1,28 +1,25 @@
 package com.mument_android.app.presentation.ui.locker
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.mument_android.R
-import com.mument_android.app.domain.entity.MumentCard
-import com.mument_android.app.domain.entity.TestLockerMumentCard
-import com.mument_android.app.presentation.ui.locker.adapter.LockerMumentAdapter
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTimeAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.databinding.FragmentLockerBinding
+import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMyMumentBinding
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MyMumentFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyMumentBinding>()
-    private val viewModel: LockerViewModel by viewModels()
-    private lateinit var lockerMumentAdapter: LockerMumentAdapter
-    private lateinit var lockerTimeAdapter: LockerTimeAdapter
-
+    private val viewModel: LockerViewModel by viewModels( ownerProducer = { requireParentFragment() } )
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,18 +32,19 @@ class MyMumentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        setAdapter()
-        setData()
+        setMyMumentListAdapter()
+
     }
 
-    private fun setAdapter() {
-        lockerTimeAdapter = LockerTimeAdapter()
-        lockerMumentAdapter = LockerMumentAdapter()
-    }
-
-    private fun setData() {
-        lockerTimeAdapter = LockerTimeAdapter()
-        binding.rvMumentLinear.adapter = lockerTimeAdapter
-        lockerTimeAdapter.setTime((viewModel.mument)as MutableList<MumentCard>)
+    private fun setMyMumentListAdapter() {
+        binding.rvMumentLinear.run {
+            viewModel.myMuments.observe(viewLifecycleOwner) {
+                (adapter as LockerTimeAdapter).submitList(it)
+            }
+            viewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
+                adapter = LockerTimeAdapter(isGridLayout)
+                (adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
+            }
+        }
     }
 }

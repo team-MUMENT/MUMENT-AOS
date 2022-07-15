@@ -3,11 +3,10 @@ package com.mument_android.app.data.network.home.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
-import com.mument_android.app.domain.entity.MumentCard
+import com.mument_android.app.data.dto.MumentCard
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.ItemImpressiveEmotionMumentLayoutBinding

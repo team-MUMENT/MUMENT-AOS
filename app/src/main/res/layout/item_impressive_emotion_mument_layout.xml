@@ -7,7 +7,7 @@
 
         <variable
             name="mument"
-            type="com.mument_android.app.domain.entity.MumentCard" />
+            type="com.mument_android.app.data.dto.MumentCard" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

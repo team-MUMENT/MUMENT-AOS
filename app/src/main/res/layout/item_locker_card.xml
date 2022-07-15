@@ -11,7 +11,7 @@
 
         <variable
             name="mument"
-            type="com.mument_android.app.data.dto.MumentCard" />
+            type="com.mument_android.app.domain.entity.LockerMumentEntity.MumentLockerCard" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -144,45 +144,19 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_album_name"
                 tools:text="혁오" />
 
-            <TextView
-                android:id="@+id/tv_heard_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{mumentDetailViewModel.mumentDetailContent.data.first ? @string/tag_is_first : @string/tag_has_heard}"
-                style="@style/TextView.Mument_B7_M12.Style"
-                android:textColor="@color/mument_color_purple1"
-                android:layout_marginTop="22dp"
-                app:layout_constraintTop_toBottomOf="@id/iv_album"
-                app:layout_constraintStart_toStartOf="@id/iv_album"
-                tools:text="다시"/>
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_emotional_tags"
+                android:id="@+id/rv_mument_tags"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="horizontal"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@id/tv_heard_tag"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_heard_tag"
-                app:layout_constraintBottom_toBottomOf="@id/tv_heard_tag"
-                tools:listitem="@layout/item_emotional_tag"/>
-
-            <TextView
-                android:id="@+id/tv_contents"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                style="@style/TextView.Mument_B4_M14.Style"
-                android:textColor="@color/mument_color_gray1"
                 android:layout_marginTop="22dp"
-                android:scrollbars="vertical"
-                android:text="@{mumentDetailViewModel.mumentDetailContent.data.content}"
-                app:layout_constraintHeight_percent="0.4"
-                app:layout_constraintTop_toBottomOf="@id/tv_heard_tag"
-                app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/item_mument_string_tag"
+                app:layout_constraintStart_toStartOf="@id/iv_album"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="@string/mument_detail_dummy_strings"/>
+                app:layout_constraintTop_toBottomOf="@id/iv_album"
+                tools:itemCount="2"/>
+
+
+
 
             <TextView
                 android:id="@+id/tv_date"
@@ -191,9 +165,29 @@
                 android:text="@{mumentDetailViewModel.mumentDetailContent.data.createdDate}"
                 style="@style/TextView.Mument_C1_R12.Style"
                 android:textColor="@color/mument_color_gray2"
-                app:layout_constraintTop_toBottomOf="@id/tv_contents"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toTopOf="@id/cb_heart"
                 app:layout_constraintStart_toStartOf="@id/tv_contents"
                 tools:text="1 Sep, 2020"/>
+
+            <TextView
+                android:id="@+id/tv_contents"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="150dp"
+                style="@style/TextView.Mument_B4_M14.Style"
+                android:textColor="@color/mument_color_gray1"
+                android:layout_marginTop="22dp"
+                android:scrollbars="vertical"
+                setMovementMethod="@{true}"
+                android:text="@{mumentDetailViewModel.mumentDetailContent.data.content}"
+                app:layout_constraintHeight_percent="0.4"
+                app:layout_constraintTop_toBottomOf="@id/rv_mument_tags"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@string/mument_detail_dummy_strings"/>
 
             <CheckBox
                 android:id="@+id/cb_heart"

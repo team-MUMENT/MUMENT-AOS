@@ -1,7 +1,7 @@
 package com.mument_android.app.presentation.ui.home.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.mument_android.app.domain.entity.MumentCard
+import com.mument_android.app.data.dto.MumentCard
 import com.mument_android.app.domain.entity.MumentCardData.Music
 import com.mument_android.app.domain.entity.MumentCardData.User
 import com.mument_android.app.domain.entity.TempBannerData
