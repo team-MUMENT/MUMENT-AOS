@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 
 
 class RecordViewModel :ViewModel(){
-    private val _checkedTagList = MutableLiveData<List<Int>>()
+    private val _checkedTagList = MutableLiveData<List<Int>>(listOf(1,2))
     val checkedTagList: LiveData<List<Int>> = _checkedTagList
 
     private val _countText = MutableLiveData<String>()
@@ -21,6 +21,7 @@ class RecordViewModel :ViewModel(){
     fun addCheckedList(checkedId: Int) {
         val tempList = checkedTagList.value?.toMutableList()
         tempList?.add(checkedId)
+        _checkedTagList.value = tempList
     }
 
     fun checkIsFirst(isFirst: Boolean) {
