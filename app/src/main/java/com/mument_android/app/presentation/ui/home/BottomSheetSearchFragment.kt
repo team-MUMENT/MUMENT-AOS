@@ -22,8 +22,8 @@ import timber.log.Timber
 
 class BottomSheetSearchFragment : BottomSheetDialogFragment() {
     /*private var option: Boolean? = null
-    private lateinit var callBack: () -> Unit
-    private val viewmodel: SearchViewModel by viewModels()*/
+    private lateinit var callBack: () -> Unit*/
+    private val viewmodel: SearchViewModel by viewModels()
     private lateinit var adapter: SearchListAdapter
     private var binding by AutoClearedValue<FragmentSearchBinding>()
 
@@ -85,13 +85,11 @@ class BottomSheetSearchFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = SearchListAdapter({}, {})
-        /*adapter.submitList(viewmodel.searchList)
-        binding.option = option*/
+        adapter.submitList(viewmodel.searchList.value)
         binding.option = false
         binding.rcSearch.adapter = adapter
-        /*binding.etSearch.setOnClickListener {
-            callBack()
-        }*/
+        binding.etSearch.setOnClickListener {
+        }
 
     }
 
