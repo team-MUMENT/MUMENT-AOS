@@ -22,7 +22,7 @@ class SearchListAdapter(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), contentClickListener, itemClickListener
+            )
         )
     }
 
@@ -39,8 +39,6 @@ class SearchListAdapter(
 
     class SearchViewHolder(
         val binding: ItemSearchListBinding,
-        val contentClickListener: (SearchResultData) -> Unit,
-        val itemClickListener: (SearchResultData) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root)
 }
