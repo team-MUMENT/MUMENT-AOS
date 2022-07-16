@@ -50,8 +50,26 @@ class RecordFragment : Fragment() {
 
     private fun setEmotionalList() {
         binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
-        recordTagAdapter = RecordTagAdapter(requireContext(),false)
-        recordTagAdapter2 = RecordTagAdapter(requireContext(), true)
+        recordTagAdapter = RecordTagAdapter(requireContext(),false,
+            checkListener = {
+                recordViewModel.addCheckedList(it)
+            },
+            unCheckListener = {
+                recordViewModel.removeCheckedList(it)
+            }
+        )
+
+        recordTagAdapter2 = RecordTagAdapter(requireContext(), true,
+            checkListener = {
+                recordViewModel.addCheckedList(it)
+            },
+            unCheckListener = {
+                recordViewModel.removeCheckedList(it)
+            })
+
+        recordViewModel.checkedTagList.observe(viewLifecycleOwner) {
+            Timber.e("$it")
+        }
 
         with(binding.rvRecordImpressiveTags) {
             addItemDecoration( RecyclerviewItemDivider( 10.dpToPx(requireContext()), 10.dpToPx(requireContext())))
@@ -86,9 +104,6 @@ class RecordFragment : Fragment() {
 
     }
 
-    fun selectTag(entity: TagEntity) {
-        recordViewModel.addCheckedList(entity.tagIdx)
-    }
 
     private fun clickEvent() {
         binding.btnRecordFirst.isChangeButtonFont(true)
@@ -147,6 +162,7 @@ class RecordFragment : Fragment() {
             }
         }
         recordViewModel.checkedTagList.observe(viewLifecycleOwner) {
+
             Timber.d(it.toString())
         }
     }

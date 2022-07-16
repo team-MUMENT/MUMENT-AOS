@@ -250,7 +250,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="9dp"
-                    android:text="@string/record_secret"
+                    android:text="@string/record_open"
                     app:layout_constraintEnd_toStartOf="@+id/switch_record_secret"
                     app:layout_constraintTop_toBottomOf="@+id/cl_record_write" />
 
@@ -260,7 +260,7 @@
                     android:layout_height="28dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="16dp"
-                    android:checked="true"
+                    android:checked="false"
                     android:gravity="center"
                     android:thumb="@drawable/oval_fill_white"
                     app:layout_constraintEnd_toEndOf="parent"
