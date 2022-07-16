@@ -6,13 +6,15 @@
             type="com.mument_android.app.domain.entity.TagEntity" />
     </data>
     <FrameLayout
+        android:id="@+id/fl_item"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <com.mument_android.app.presentation.ui.customview.MumentTagCheckBox
+            android:id="@+id/cb_tag"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="37dp"
             android:button="@null"
             android:text="@{context.getString(tagEntity.tagString)}"
             android:layout_gravity="center"

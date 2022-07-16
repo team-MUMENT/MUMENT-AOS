@@ -3,6 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../layout/custom_preview.xml" value="0.12949640287769784" />
+        <entry key="app/src/main/res/drawable/oval_fill_white.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_blue1_14dp.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_blue3_20dp.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_gray5_20dp.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_purple_11dp.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/retangle_fill_gray3_14dp.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/retangle_fill_gray5.xml" value="0.151" />
+        <entry key="app/src/main/res/drawable/retangle_fill_purple2_11dp.xml" value="0.1985" />
+        <entry key="app/src/main/res/drawable/selector_ic_home.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable/selector_ic_locker.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable/selector_ic_record.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable/selector_record_font_gray1_to_purple1.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/selector_record_switch.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/selector_retangle_gray5_to_purple2.xml" value="0.1985" />
+        <entry key="app/src/main/res/drawable/selector_style_gray2_purple1.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/selector_switch.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/selector_swith.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/shape_border_default_redius_11dp.xml" value="0.152" />
         <entry key="app/src/main/res/drawable-hdpi/rectangle_fill_white_top_11dp.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/rectangle_fill_blue1_20dp.xml" value="0.15" />
         <entry key="app/src/main/res/drawable/rectangle_fill_gray4_11dp.xml" value="0.15" />
@@ -13,10 +32,20 @@
         <entry key="app/src/main/res/drawable/shape_border_default_redius_11dp.xml" value="0.15" />
         <entry key="app/src/main/res/font/selector_tag_font.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2128623188405797" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.29455311314950233" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_home_frame.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_locker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.2128623188405797" />
+        <entry key="app/src/main/res/layout/fragment_record.xml" value="0.3524246215820312" />
+        <entry key="app/src/main/res/layout/fragment_record_search.xml" value="0.22554347826086957" />
+        <entry key="app/src/main/res/layout/item_banner_layout.xml" value="0.2821557971014493" />
+        <entry key="app/src/main/res/layout/item_emotional_tag.xml" value="0.2667572463768116" />
+        <entry key="app/src/main/res/layout/item_heard_mument_layout.xml" value="0.14463019250253292" />
+        <entry key="app/src/main/res/layout/item_impressive_emotion_mument_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_mument_image.xml" value="0.2518518518518518" />
+        <entry key="app/src/main/res/layout/item_mument_string_tag.xml" value="0.247912089029948" />
+        <entry key="app/src/main/res/layout/item_tag_checkbox.xml" value="0.7323455810546875" />
         <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.30484330484330485" />
         <entry key="app/src/main/res/layout/fragment_mument_dialog.xml" value="0.20878623188405798" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />

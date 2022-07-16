@@ -12,12 +12,12 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_height="wrap_content"
-            android:button="@null"
             setTagType="@{tagEntity.tagType}"
             android:text="@{tagEntity.tagString}"
-            android:layout_gravity="center"
-            tools:text="@string/emotional_full"/>
+            tools:text="@string/emotional_confidence"/>
 
     </FrameLayout>
 </layout>
