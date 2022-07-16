@@ -56,4 +56,10 @@ class LockerViewModel @Inject constructor(
         tempList?.remove(tag)
         _checkedTagList.value = tempList
     }
+
+    fun resetCheckedList() {
+        val tempList = checkedTagList.value?.toMutableList()
+        tempList?.clear()
+        _checkedTagList.value = tempList
+    }
 }

@@ -13,6 +13,7 @@ import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
+import com.mument_android.app.presentation.ui.customview.MumentTagCheckBox
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
@@ -43,6 +44,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setEmotionalList()
+        resetClickListener()
     }
 
     private fun setEmotionalList() {
@@ -57,7 +59,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
-
 
             }.let {
                 layoutManager = it
@@ -115,6 +116,20 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 ImpressiveTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) }
             val emotions = emotionalTags.toMutableList().addAll(impressionTags)
 
+        }
+    }
+
+    private fun resetClickListener() {
+        binding.tvClearAll.setOnClickListener {
+            lockerViewModel.resetCheckedList()
+            lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
+                Timber.e("$it")
+            }
+        }
+    }
+
+    private fun closeBtnListener() {
+        binding.ivFilterDelete.setOnClickListener {
 
         }
     }

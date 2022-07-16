@@ -32,11 +32,13 @@ class FilterBottomSheetAdapter(
         holder.binding.cbTag.setOnCheckedChangeListener{button, isChecked ->
             if(isChecked) checkListener(getItem(position)) else unCheckListener(getItem(position))
         }
+
         holder.binding.setVariable(BR.tagEntity, getItem(position))
     }
 
     class BottomSheetFilterHolder(val binding: ItemTagCheckboxBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
+
 
 }
