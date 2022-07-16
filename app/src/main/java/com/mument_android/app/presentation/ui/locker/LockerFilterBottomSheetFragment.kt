@@ -1,13 +1,10 @@
 package com.mument_android.app.presentation.ui.locker
 
-import android.nfc.Tag
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -17,7 +14,8 @@ import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
-import com.mument_android.app.presentation.ui.record.RecordTagAdapter
+import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
+import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.ViewUtils.dpToPx
@@ -28,8 +26,9 @@ import timber.log.Timber
 @AndroidEntryPoint
 class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     private var binding by AutoClearedValue<FragmentLockerFilterBottomSheetBinding>()
-    private var recordTagAdapter = FilterBottomSheetAdapter()
-    private var emotionTagAdapter = FilterBottomSheetAdapter()
+    private val lockerViewModel: LockerViewModel by viewModels()
+    private lateinit var filterBottomSheetAdapterImpress: FilterBottomSheetAdapter
+    private lateinit var filterBottomSheetAdpaterEmotion: FilterBottomSheetAdapter
 
 
     override fun onCreateView(
@@ -42,13 +41,19 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setEmotionalList()
-        setImpressList()
     }
 
     private fun setEmotionalList() {
         with(binding.rvImpressive) {
-            adapter = FilterBottomSheetAdapter()
+            filterBottomSheetAdapterImpress = FilterBottomSheetAdapter(requireContext(),
+                checkListener = {
+                    lockerViewModel.addCheckedList(it)
+                },
+                unCheckListener = {
+                    lockerViewModel.removeCheckedList(it)
+                })
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
@@ -56,7 +61,11 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
             }.let {
                 layoutManager = it
-                adapter = emotionTagAdapter
+                adapter = filterBottomSheetAdapterImpress
+            }
+
+            lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
+                Timber.e("$it")
             }
 
             (adapter as FilterBottomSheetAdapter).submitList(
@@ -67,12 +76,16 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                     5.dpToPx(requireContext())
                 )
             )
-        }
-    }
 
-    private fun setImpressList() {
+        }
         with(binding.rvImpress) {
-            adapter = FilterBottomSheetAdapter()
+            filterBottomSheetAdpaterEmotion = FilterBottomSheetAdapter(requireContext(),
+                checkListener = {
+                    lockerViewModel.addCheckedList(it)
+                },
+                unCheckListener = {
+                    lockerViewModel.removeCheckedList(it)
+                })
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
@@ -80,7 +93,11 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
             }.let {
                 binding.rvImpress.layoutManager = it
-                binding.rvImpress.adapter = recordTagAdapter
+                binding.rvImpress.adapter = filterBottomSheetAdpaterEmotion
+            }
+
+            lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
+                Timber.e("$it")
             }
 
             (adapter as FilterBottomSheetAdapter).submitList(
@@ -101,4 +118,5 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
         }
     }
+
 }
