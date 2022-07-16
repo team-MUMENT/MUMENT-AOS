@@ -1,9 +1,13 @@
-package com.mument_android.app.data.local
+package com.mument_android.app.data.local.todaymument
 
-import com.mument_android.app.data.local.todaymumentdata.Music
-import com.mument_android.app.data.local.todaymumentdata.User
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.mument_android.app.data.local.todaymument.todaymumentdata.Music
+import com.mument_android.app.data.local.todaymument.todaymumentdata.User
 
+@Entity(tableName = "today_mument_table")
 data class TodayMumentEntity(
+    @PrimaryKey
     val _id: String,
     val content: String,
     val createdAt: String,
