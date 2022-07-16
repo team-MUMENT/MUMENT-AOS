@@ -3,7 +3,6 @@ package com.mument_android.app.domain.entity.detail
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.album.AlbumEntity
 import com.mument_android.app.domain.entity.user.UserEntity
-import java.util.*
 
 data class MumentDetailEntity(
     val writerInfo: UserEntity,

@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-hdpi/rectangle_fill_white_top_11dp.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/rectangle_fill_blue1_20dp.xml" value="0.15" />
         <entry key="app/src/main/res/drawable/rectangle_fill_gray4_11dp.xml" value="0.15" />
         <entry key="app/src/main/res/drawable/rectangle_fill_gray5_20dp.xml" value="0.15" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_white_11dp.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/selector_heart_on_off.xml" value="0.15" />
         <entry key="app/src/main/res/drawable/selector_tag_background_fill_20dp.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/shape_border_default_redius_11dp.xml" value="0.15" />
@@ -15,7 +17,8 @@
         <entry key="app/src/main/res/layout/fragment_home_frame.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_locker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.35287780761718757" />
+        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.30484330484330485" />
+        <entry key="app/src/main/res/layout/fragment_mument_dialog.xml" value="0.20878623188405798" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_banner_layout.xml" value="0.2164855072463768" />
         <entry key="app/src/main/res/layout/item_emotional_tag.xml" value="0.560355299797611" />

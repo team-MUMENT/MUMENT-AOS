@@ -1,6 +1,9 @@
-package com.mument_android.app.data.dto
+package com.mument_android.app.data.dto.detail
 
-data class ResponseMumentDetailDto(
+import com.mument_android.app.data.dto.MusicDto
+import com.mument_android.app.data.dto.UserDto
+
+data class MumentDetailDto(
     val content: String?,
     val count: Int,
     val createdAt: String,
