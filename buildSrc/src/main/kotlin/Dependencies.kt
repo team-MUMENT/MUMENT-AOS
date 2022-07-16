@@ -7,6 +7,7 @@ object KotlinDependencies {
 }
 
 object AndroidXDependencies {
+    const val window  = "androidx.window:window:${Versions.window}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
     const val constraintLayout =
@@ -26,7 +27,8 @@ object AndroidXDependencies {
     const val junit = "androidx.test.ext:junit-ktx:${Versions.junit}"
     const val cardview = "androidx.cardview:cardview:${Versions.cardviewVersion}"
     const val emoji = "androidx.emoji:emoji:${Versions.emoji}"
-
+    const val dataStore = "androidx.datastore:datastore-core:${Versions.dataStore}"
+    const val protoBuf = "com.google.protobuf:protobuf-javalite:${Versions.protoBuf}"
 }
 
 object HiltDependencies {

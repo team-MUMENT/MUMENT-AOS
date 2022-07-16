@@ -11,14 +11,15 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.app.data.network.util.ApiResult
+import com.mument_android.app.presentation.ui.customview.MumentDialog
+import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMumentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
-
-// Todo: 좋아요 버튼 클릭시, 뮤멘트 히스토리 보러가기 눌렀을 때, Kebab Button 클릭 액션 처리
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MumentDetailFragment : Fragment() {
@@ -35,6 +36,14 @@ class MumentDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setMumentTags()
+        updateMumentTagList()
+        changeLikeStatus()
+        goToMumentHistory()
+        showEditBottomSheet()
+    }
+
+    private fun setMumentTags() {
         with(binding) {
             lifecycleOwner = viewLifecycleOwner
             mumentDetailViewModel= viewModel
@@ -46,11 +55,9 @@ class MumentDetailFragment : Fragment() {
             }
             rvMumentTags.addItemDecoration(RecyclerviewItemDivider(7.dpToPx(requireContext()), 5.dpToPx(requireContext())))
         }
-
-        setMumentTagList()
     }
 
-    private fun setMumentTagList() {
+    private fun updateMumentTagList() {
         viewModel.mumentDetailContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
             when(result) {
                 is ApiResult.Loading -> {}
@@ -58,7 +65,33 @@ class MumentDetailFragment : Fragment() {
                 is ApiResult.Success -> {
                     (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(result.data?.combineTags())
                 }
+                else -> {}
             }
+        }
+    }
+
+    private fun changeLikeStatus() {
+        binding.cbHeart.setOnClickListener {
+            if(binding.cbHeart.isChecked) viewModel.likeMument() else viewModel.cancelLikeMument()
+        }
+    }
+
+    private fun goToMumentHistory() {
+        binding.tvGoToHistory.setOnClickListener {
+            // Todo: 뮤멘트 히스토리로 이동
+        }
+    }
+
+    // Todo: 수정하기, 삭제하기 BottomSheet 노출
+    private fun showEditBottomSheet() {
+        binding.ivKebab.setOnClickListener {
+            MumentDialogBuilder()
+                .setHeader("수정을 취소하시겠어요?")
+                .setBody("확인 선택 시 변경사항이 저장되지 않습니다.")
+                .setAllowListener { Timber.e("allow") }
+                .setCancelListener { Timber.e("cancel") }
+                .build()
+                .show(childFragmentManager, this.tag)
         }
     }
 }

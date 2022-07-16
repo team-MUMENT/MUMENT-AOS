@@ -16,8 +16,8 @@ import com.mument_android.app.domain.entity.TempBannerData
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemBannerLayoutBinding
 
-class BannerListAdapter :
-    ListAdapter<TempBannerData, BannerListAdapter.BannerViewHolder>(GlobalDiffCallBack<TempBannerData>()) {
+class BannerListAdapter(val data: List<TempBannerData>) :
+    RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>(){
 
 
     class BannerViewHolder(val binding: ItemBannerLayoutBinding) :
@@ -34,10 +34,14 @@ class BannerListAdapter :
     }
 
     override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
-        val builder = SpannableStringBuilder((position+1).toString()+" / "+itemCount)
+        val builder = SpannableStringBuilder((position%data.size+1).toString()+" / "+data.size)
         val span = ForegroundColorSpan(Color.WHITE)
         builder.setSpan(span, 0,1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
-        holder.binding.setVariable(BR.banner, getItem(position))
+        holder.binding.setVariable(BR.banner, data[position%data.size])
         holder.binding.tvIndex.text = builder
+    }
+
+    override fun getItemCount(): Int {
+        return Int.MAX_VALUE
     }
 }

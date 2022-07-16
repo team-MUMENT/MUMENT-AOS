@@ -1,5 +1,7 @@
 package com.mument_android.app.util
 
+import android.app.Activity
+import android.util.DisplayMetrics
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.flow.StateFlow
@@ -16,4 +18,6 @@ fun <T>StateFlow<T>.launchWhenStarted(lifecycleScope: LifecycleCoroutineScope, c
 fun <T>StateFlow<T>.launchWhenResumed(lifecycleScope: LifecycleCoroutineScope, callback: (T) -> Unit) {
     lifecycleScope.launchWhenResumed { collect { callback(it) } }
 }
+
+
 

@@ -16,6 +16,7 @@ import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
+import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.record.RecordTagAdapter
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
@@ -27,8 +28,8 @@ import timber.log.Timber
 @AndroidEntryPoint
 class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     private var binding by AutoClearedValue<FragmentLockerFilterBottomSheetBinding>()
-    private var recordTagAdapter = RecordTagAdapter()
-    private var emotionTagAdapter = RecordTagAdapter()
+    private var recordTagAdapter = FilterBottomSheetAdapter()
+    private var emotionTagAdapter = FilterBottomSheetAdapter()
 
 
     override fun onCreateView(
@@ -47,7 +48,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun setEmotionalList() {
         with(binding.rvImpressive) {
-            adapter = RecordTagAdapter()
+            adapter = FilterBottomSheetAdapter()
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
@@ -58,7 +59,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 adapter = emotionTagAdapter
             }
 
-            (adapter as RecordTagAdapter).submitList(
+            (adapter as FilterBottomSheetAdapter).submitList(
                 ImpressiveTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) })
             binding.rvImpressive.addItemDecoration(
                 RecyclerviewItemDivider(
@@ -71,7 +72,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun setImpressList() {
         with(binding.rvImpress) {
-            adapter = RecordTagAdapter()
+            adapter = FilterBottomSheetAdapter()
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
@@ -82,7 +83,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 binding.rvImpress.adapter = recordTagAdapter
             }
 
-            (adapter as RecordTagAdapter).submitList(
+            (adapter as FilterBottomSheetAdapter).submitList(
                 EmotionalTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) })
             binding.rvImpress.addItemDecoration(
                 RecyclerviewItemDivider(

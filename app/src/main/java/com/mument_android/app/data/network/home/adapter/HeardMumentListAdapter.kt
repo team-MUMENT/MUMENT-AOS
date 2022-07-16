@@ -24,7 +24,7 @@ class HeardMumentListAdapter(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), itemClickListener
+            )
         )
     }
 
@@ -43,6 +43,5 @@ class HeardMumentListAdapter(
 
     class HeardViewHolder(
         val binding: ItemHeardMumentLayoutBinding,
-        val itemClickListener: (MumentCard) -> Unit
     ) : RecyclerView.ViewHolder(binding.root)
 }
