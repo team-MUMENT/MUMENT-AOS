@@ -67,8 +67,8 @@ object GlobalBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("load_album_top")
-    fun loadAlbumTopImage(view: ImageView, url: String) {
-        if (url.isNotBlank()) {
+    fun loadAlbumTopImage(view: ImageView, url: String?) {
+        if (!url.isNullOrEmpty()) {
             view.load(url) {
                 crossfade(true)
                 this.transformations(RoundedCornersTransformation(11.0f, 11.0f))
@@ -77,6 +77,19 @@ object GlobalBindingAdapter {
             TODO("placeholder")
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("load_search_album")
+    fun loadSearchImage(view: ImageView, url: String?) {
+        if (!url.isNullOrEmpty()) {
+            view.load(url) {
+                crossfade(true)
+            }
+        } else {
+            TODO("placeholder")
+        }
+    }
+
 
 //    데이터 바인딩을 써보고 싶은 진실의 발악,,담에 배우고 수정할게요,,
 //    @JvmStatic
@@ -88,7 +101,7 @@ object GlobalBindingAdapter {
     @JvmStatic
     @BindingAdapter("setMovementMethod")
     fun TextView.setMovementMethod(scroll: Boolean) {
-        movementMethod = ScrollingMovementMethod()
+        if(scroll) movementMethod = ScrollingMovementMethod()
     }
 
     @JvmStatic

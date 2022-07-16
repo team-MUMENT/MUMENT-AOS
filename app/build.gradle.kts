@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
+    /*id("com.google.protobuf")*/
 }
 
 val properties = Properties()
@@ -53,6 +54,7 @@ dependencies {
     implementation(AndroidXDependencies.appCompat)
     implementation(MaterialDesignDependencies.materialDesign)
     implementation(AndroidXDependencies.constraintLayout)
+    implementation(AndroidXDependencies.window)
     testImplementation(TestDependencies.jUnit)
     androidTestImplementation(TestDependencies.androidTest)
     androidTestImplementation(TestDependencies.espresso)
@@ -109,7 +111,9 @@ dependencies {
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
 
-
+    // DataStore
+    /*implementation(AndroidXDependencies.dataStore)
+    implementation(AndroidXDependencies.protoBuf)*/
     //flexBox
     implementation(ThirdPartyDependencies.flexBox)
 
