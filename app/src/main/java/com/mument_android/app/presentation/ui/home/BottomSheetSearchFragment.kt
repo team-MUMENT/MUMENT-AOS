@@ -84,7 +84,7 @@ class BottomSheetSearchFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = SearchListAdapter({}, {})
+        adapter = SearchListAdapter(requireContext(),{}, {})
         adapter.submitList(viewmodel.searchList.value)
         binding.option = false
         binding.rcSearch.adapter = adapter
