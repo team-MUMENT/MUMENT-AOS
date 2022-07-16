@@ -12,6 +12,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.flexbox.*
+import com.google.android.material.snackbar.Snackbar
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
@@ -21,9 +22,7 @@ import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.ViewUtils.dpToPx
-import com.mument_android.app.util.ViewUtils.showToast
 import com.mument_android.databinding.FragmentRecordBinding
-
 import timber.log.Timber
 
 
@@ -68,8 +67,8 @@ class RecordFragment : Fragment() {
             },
             unCheckListener = {
                 recordViewModel.removeCheckedList(it)
-            })
-
+            }
+        )
 
 
         with(binding.rvRecordImpressiveTags) {
@@ -128,7 +127,9 @@ class RecordFragment : Fragment() {
                 recordViewModel!!.checkIsFirst(false)
             }
         }
+        binding.btnRecordReset.setOnClickListener {
 
+        }
         binding.switchRecordSecret.setOnClickListener {
             if (binding.switchRecordSecret.isChecked) {
                 binding.tvRecordSecret.setText(R.string.record_secret)
@@ -170,7 +171,6 @@ class RecordFragment : Fragment() {
         recordViewModel.checkedTagList.observe(viewLifecycleOwner) {
             Timber.d("${it}")
             if (it.size == 5) {
-                requireContext().showToast(getString(R.string.record_tag_info))
                 recordTagAdapter2.enabled = false
                 recordTagAdapter.enabled = false
             } else {
@@ -179,4 +179,5 @@ class RecordFragment : Fragment() {
             }
         }
     }
+
 }
