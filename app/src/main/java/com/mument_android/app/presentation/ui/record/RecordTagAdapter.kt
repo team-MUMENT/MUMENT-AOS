@@ -1,13 +1,16 @@
 package com.mument_android.app.presentation.ui.record
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemTagCheckboxBinding
+import timber.log.Timber
 
 
 class RecordTagAdapter: ListAdapter<TagEntity, RecordTagAdapter.RecordTagViewHolder>(
@@ -23,4 +26,5 @@ class RecordTagAdapter: ListAdapter<TagEntity, RecordTagAdapter.RecordTagViewHol
     }
 
     class RecordTagViewHolder(val binding: ItemTagCheckboxBinding):RecyclerView.ViewHolder(binding.root)
+
 }

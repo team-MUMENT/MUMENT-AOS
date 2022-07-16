@@ -66,10 +66,11 @@
             android:layout_marginEnd="3dp"
             android:textColor="@color/mument_color_blue1"
             android:textSize="14sp"
+            android:text="0"
             app:layout_constraintBottom_toBottomOf="@+id/tv_locker_max_num"
             app:layout_constraintEnd_toStartOf="@+id/tv_locker_max_num"
             app:layout_constraintTop_toTopOf="@+id/tv_locker_max_num"
-            tools:text="1" />
+            tools:text="0" />
 
         <TextView
             android:id="@+id/tv_filter_total"
@@ -120,20 +121,20 @@
             tools:listitem="@layout/item_mument_string_tag" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/tv_clear_all"
             style="@style/TextView.Mument_B4_M14.TextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="46dp"
             android:text="@string/locker_delete"
-            android:layout_marginStart="14dp"
             android:textColor="@color/mument_color_gray2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_impress" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/tv_approve"
             style="@style/TextView.Mument_B2_B13.TextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -146,9 +147,9 @@
             android:paddingBottom="10dp"
             android:text="@string/locker_apply_tag"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/textView6"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_clear_all"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView6" />
+            app:layout_constraintTop_toTopOf="@+id/tv_clear_all" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
