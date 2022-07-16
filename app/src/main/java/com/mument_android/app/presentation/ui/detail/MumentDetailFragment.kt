@@ -65,6 +65,7 @@ class MumentDetailFragment : Fragment() {
                 is ApiResult.Success -> {
                     (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(result.data?.combineTags())
                 }
+                else -> {}
             }
         }
     }
