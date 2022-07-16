@@ -11,7 +11,10 @@ import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.ItemImpressiveEmotionMumentLayoutBinding
 
-class ImpressiveEmotionListAdapter(private val context: Context, private val itemClickListener: (MumentCard) -> Unit) :
+class ImpressiveEmotionListAdapter(
+    private val context: Context,
+    private val itemClickListener: (MumentCard) -> Unit
+) :
     ListAdapter<MumentCard, ImpressiveEmotionListAdapter.ImpressiveEmotionViewHolder>(
         GlobalDiffCallBack<MumentCard>()
     ) {
@@ -20,13 +23,13 @@ class ImpressiveEmotionListAdapter(private val context: Context, private val ite
         return ImpressiveEmotionViewHolder(
             ItemImpressiveEmotionMumentLayoutBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
-            ), itemClickListener
+            )
         )
     }
 
     override fun onBindViewHolder(holder: ImpressiveEmotionViewHolder, position: Int) {
         val mementData = getItem(position)
-        with(holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams){
+        with(holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams) {
             marginStart = if (position == 0) 16.dpToPx(context) else 5.dpToPx(context)
             marginEnd = if (position == 0) 5.dpToPx(context) else 16.dpToPx(context)
             holder.binding.clMument.layoutParams = this
@@ -39,7 +42,6 @@ class ImpressiveEmotionListAdapter(private val context: Context, private val ite
 
     class ImpressiveEmotionViewHolder(
         val binding: ItemImpressiveEmotionMumentLayoutBinding,
-        val itemClickListener: (MumentCard) -> Unit
     ) : RecyclerView.ViewHolder(binding.root)
 
 
