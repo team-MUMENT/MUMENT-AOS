@@ -21,7 +21,7 @@
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
@@ -148,10 +148,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:maxLength="3"
+                    android:layout_marginStart="16dp"
                     android:orientation="horizontal"
                     app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
-                    app:layout_constraintStart_toStartOf="@+id/gl_left"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_record_impression_title"
                     tools:listitem="@layout/item_tag_checkbox" />
 
@@ -171,9 +171,11 @@
                     android:layout_width="475dp"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
-                    app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
-                    android:scrollbars="none"
                     android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:scrollbars="none"
+                    android:overScrollMode="never"
+                    app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_impression"
                     tools:listitem="@layout/item_tag_checkbox" />
@@ -188,35 +190,43 @@
                     app:layout_constraintStart_toStartOf="@id/gl_left"
                     app:layout_constraintTop_toBottomOf="@+id/rv_record_emotional_tags" />
 
-                <androidx.core.widget.NestedScrollView
-                    android:id="@+id/ns_record_write"
-                    android:layout_width="match_parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_record_write"
+                    android:layout_width="0dp"
                     android:layout_height="252dp"
                     android:layout_marginTop="16dp"
+                    android:background="@color/mument_color_gray5"
                     app:layout_constraintEnd_toEndOf="@id/gl_right"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
                     app:layout_constraintTop_toBottomOf="@+id/tv_record_write_title">
 
-                    <EditText
-                        android:id="@+id/et_record_write"
-                        style="@style/TextView.Mument_B5_M13.Style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/retangle_fill_gray5_11dp"
-                        android:gravity="top"
-                        android:hint="@string/record_write_hint"
-                        android:maxLength="1000"
-                        android:paddingHorizontal="13dp"
-                        android:paddingTop="15dp"
-                        android:paddingBottom="50dp"
-                        android:scrollbars="vertical"
-                        android:overScrollMode="always"
-                        android:minHeight="252dp"
-                        android:scrollbarStyle="insideInset"
-                        android:text="@={recordViewModel.text}"
-                        android:textColor="@color/mument_color_black2"
-                        android:textColorHint="@color/mument_color_gray1" />
-                </androidx.core.widget.NestedScrollView>
+                    <androidx.core.widget.NestedScrollView
+                        android:id="@+id/ns_record_write"
+                        android:layout_width="0dp"
+                        android:layout_height="193dp"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <EditText
+                            android:id="@+id/et_record_write"
+                            style="@style/TextView.Mument_B5_M13.Style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/retangle_fill_gray5_11dp"
+                            android:gravity="top"
+                            android:hint="@string/record_write_hint"
+                            android:maxLength="1000"
+                            android:minHeight="193dp"
+                            android:overScrollMode="always"
+                            android:paddingHorizontal="13dp"
+                            android:scrollbarStyle="insideInset"
+                            android:scrollbars="vertical"
+                            android:text="@={recordViewModel.text}"
+                            android:textColor="@color/mument_color_black2"
+                            android:textColorHint="@color/mument_color_gray1" />
+                    </androidx.core.widget.NestedScrollView>
 
                 <TextView
                     android:id="@+id/tv_record_text_num"
@@ -227,8 +237,11 @@
                     android:layout_marginBottom="15dp"
                     android:text="@{@string/record_text_num(recordViewModel.text.length())}"
                     android:textColor="@color/mument_color_gray2"
-                    app:layout_constraintBottom_toBottomOf="@+id/ns_record_write"
-                    app:layout_constraintEnd_toEndOf="@+id/ns_record_write" />
+                    app:layout_constraintBottom_toBottomOf="@+id/cl_record_write"
+                    app:layout_constraintEnd_toEndOf="@+id/ns_record_write"
+                    tools:text="100/1000"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/tv_record_secret"
@@ -239,7 +252,7 @@
                     android:layout_marginEnd="9dp"
                     android:text="@string/record_secret"
                     app:layout_constraintEnd_toStartOf="@+id/switch_record_secret"
-                    app:layout_constraintTop_toBottomOf="@+id/ns_record_write" />
+                    app:layout_constraintTop_toBottomOf="@+id/cl_record_write" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switch_record_secret"
@@ -251,7 +264,7 @@
                     android:gravity="center"
                     android:thumb="@drawable/oval_fill_white"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ns_record_write"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_record_write"
                     app:switchMinWidth="49dp"
                     app:track="@drawable/selector_record_switch" />
 
@@ -268,7 +281,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/gl_right"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
-                    app:layout_constraintTop_toBottomOf="@+id/ns_record_write" />
+                    app:layout_constraintTop_toBottomOf="@+id/cl_record_write" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

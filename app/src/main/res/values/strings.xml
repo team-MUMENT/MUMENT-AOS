@@ -65,8 +65,8 @@
     <string name="record_second_listen">다시 들었어요</string>
     <string name="record_impression_title">무엇이 인상적이었나요?</string>
     <string name="record_choose_impression">감정을 선택해보세요.</string>
-    <string name="record_write_title">이 순간의 여운을 남겨보세요.</string>
-    <string name="record_write_hint">텍스트로 기록을 남기지 않아도 괜찮아요.</string>
+    <string name="record_write_title">이 순간의 여운을 글로 남겨보세요.</string>
+        <string name="record_write_hint">글을 쓰지 않아도 뮤멘트를 저장할 수 있어요.</string>
     <string name="record_text_num">%d/1000</string>
     <string name="record_open">공개글</string>
     <string name="record_secret">비밀글</string>

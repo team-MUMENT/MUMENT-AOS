@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.flexbox.*
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
@@ -51,8 +50,8 @@ class RecordFragment : Fragment() {
 
     private fun setEmotionalList() {
         binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
-        recordTagAdapter = RecordTagAdapter()
-        recordTagAdapter2 = RecordTagAdapter()
+        recordTagAdapter = RecordTagAdapter(requireContext(),false)
+        recordTagAdapter2 = RecordTagAdapter(requireContext(), true)
 
         with(binding.rvRecordImpressiveTags) {
             addItemDecoration( RecyclerviewItemDivider( 10.dpToPx(requireContext()), 10.dpToPx(requireContext())))
@@ -71,7 +70,7 @@ class RecordFragment : Fragment() {
             addItemDecoration(
                 RecyclerviewItemDivider(
                     10.dpToPx(requireContext()),
-                    8.dpToPx(requireContext())
+                    10.dpToPx(requireContext())
                 )
             )
             FlexboxLayoutManager(context).apply {
