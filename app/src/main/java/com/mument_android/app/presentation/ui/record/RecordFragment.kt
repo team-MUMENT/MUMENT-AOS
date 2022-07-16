@@ -21,7 +21,9 @@ import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.ViewUtils.dpToPx
+import com.mument_android.app.util.ViewUtils.showToast
 import com.mument_android.databinding.FragmentRecordBinding
+
 import timber.log.Timber
 
 
@@ -50,7 +52,8 @@ class RecordFragment : Fragment() {
 
     private fun setEmotionalList() {
         binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
-        recordTagAdapter = RecordTagAdapter(requireContext(),false,
+
+        recordTagAdapter = RecordTagAdapter(requireContext(), false,
             checkListener = {
                 recordViewModel.addCheckedList(it)
             },
@@ -67,12 +70,15 @@ class RecordFragment : Fragment() {
                 recordViewModel.removeCheckedList(it)
             })
 
-        recordViewModel.checkedTagList.observe(viewLifecycleOwner) {
-            Timber.e("$it")
-        }
+
 
         with(binding.rvRecordImpressiveTags) {
-            addItemDecoration( RecyclerviewItemDivider( 10.dpToPx(requireContext()), 10.dpToPx(requireContext())))
+            addItemDecoration(
+                RecyclerviewItemDivider(
+                    10.dpToPx(requireContext()),
+                    10.dpToPx(requireContext())
+                )
+            )
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
@@ -162,8 +168,15 @@ class RecordFragment : Fragment() {
             }
         }
         recordViewModel.checkedTagList.observe(viewLifecycleOwner) {
-
-            Timber.d(it.toString())
+            Timber.d("${it}")
+            if (it.size == 5) {
+                requireContext().showToast(getString(R.string.record_tag_info))
+                recordTagAdapter2.enabled = false
+                recordTagAdapter.enabled = false
+            } else {
+                recordTagAdapter2.enabled = true
+                recordTagAdapter.enabled = true
+            }
         }
     }
 }

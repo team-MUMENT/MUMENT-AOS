@@ -3,10 +3,11 @@ package com.mument_android.app.presentation.ui.record
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CompoundButton
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
+import com.mument_android.R
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.app.util.ViewUtils.dpToPx
@@ -17,10 +18,11 @@ class RecordTagAdapter(
     val option: Boolean,
     val checkListener: (TagEntity) -> Unit,
     val unCheckListener: (TagEntity) -> Unit
-    ) :
+) :
     ListAdapter<TagEntity, RecordTagAdapter.RecordTagViewHolder>(
         GlobalDiffCallBack<TagEntity>()
     ) {
+    var enabled: Boolean = true
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordTagViewHolder {
         val binding =
             ItemTagCheckboxBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -39,17 +41,24 @@ class RecordTagAdapter(
             holder.binding.flItem.layoutParams = this
 
             holder.binding.cbTag.setOnCheckedChangeListener { button, isChecked ->
-                if (isChecked) checkListener(getItem(position)) else unCheckListener(getItem(position))
+                if (enabled) {
+                    if (isChecked) {
+                        checkListener(getItem(position))
+                    } else {
+                        unCheckListener(getItem(position))
+                    }
+                } else {
+                    if (!isChecked) {
+                        unCheckListener(getItem(position))
+                    }
+                    holder.binding.cbTag.isChecked = false
+                }
             }
         }
-
         holder.binding.setVariable(BR.tagEntity, getItem(position))
-
-
-
     }
 
-
-    class RecordTagViewHolder(val binding: ItemTagCheckboxBinding) : RecyclerView.ViewHolder(binding.root)
+    class RecordTagViewHolder(val binding: ItemTagCheckboxBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
 }
