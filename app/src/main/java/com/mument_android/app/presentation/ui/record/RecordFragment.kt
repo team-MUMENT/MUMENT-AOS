@@ -22,6 +22,8 @@ import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
+import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
+import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_HORIZONTAL
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
@@ -73,7 +75,10 @@ class RecordFragment : Fragment() {
                 }
 
                 override fun alertMaxCount() {
-                    requireContext().snackBar(binding.cslRoot, requireContext().getString(R.string.record_snackbar_tag_info))
+                    requireContext().snackBar(
+                        binding.cslRoot,
+                        requireContext().getString(R.string.record_snackbar_tag_info)
+                    )
                 }
             }
 
@@ -94,7 +99,10 @@ class RecordFragment : Fragment() {
                 }
 
                 override fun alertMaxCount() {
-                    requireContext().snackBar(binding.cslRoot, requireContext().getString(R.string.record_snackbar_tag_info))
+                    requireContext().snackBar(
+                        binding.cslRoot,
+                        requireContext().getString(R.string.record_snackbar_tag_info)
+                    )
                 }
             }
         )
@@ -111,18 +119,18 @@ class RecordFragment : Fragment() {
         }
     }
 
-    private fun setItemDecoration(recyclerView: RecyclerView){
-       recyclerView.addItemDecoration(
-           RecyclerviewItemDivider(
-               10.dpToPx(requireContext()),
-               10.dpToPx(requireContext())
-           )
-       )
-
+    private fun setItemDecoration(recyclerView: RecyclerView) {
+        recyclerView.addItemDecoration(
+            RecyclerviewItemDivider(
+                10.dpToPx(requireContext()),
+                10.dpToPx(requireContext()),
+                IS_GRIDLAYOUT
+            )
+        )
     }
 
-    private fun setImpressiveRvFlexBoxLayout(){
-        with(binding.rvRecordImpressiveTags){
+    private fun setImpressiveRvFlexBoxLayout() {
+        with(binding.rvRecordImpressiveTags) {
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
@@ -136,8 +144,8 @@ class RecordFragment : Fragment() {
         }
     }
 
-     private fun setEmotionalRvFlexBoxLayout(){
-        with(binding.rvRecordEmotionalTags){
+    private fun setEmotionalRvFlexBoxLayout() {
+        with(binding.rvRecordEmotionalTags) {
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
@@ -169,7 +177,7 @@ class RecordFragment : Fragment() {
         }
     }
 
-    private fun firstListenClickEvent(){
+    private fun firstListenClickEvent() {
         binding.btnRecordFirst.isChangeButtonFont(true)
         with(binding) {
             btnRecordFirst.setOnClickListener {
@@ -180,7 +188,7 @@ class RecordFragment : Fragment() {
         }
     }
 
-    private fun secondListenClickEvent(){
+    private fun secondListenClickEvent() {
         with(binding) {
             binding.btnRecordSecond.setOnClickListener {
                 btnRecordFirst.isChangeButtonFont(false)
@@ -230,8 +238,9 @@ class RecordFragment : Fragment() {
         }
     }
 
-    private fun scrollEditTextView(){binding.etRecordWrite.movementMethod = ScrollingMovementMethod()}
-
+    private fun scrollEditTextView() {
+        binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
+    }
 
 
 }
