@@ -110,7 +110,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_impress"
+            android:id="@+id/rv_emotion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -131,7 +131,7 @@
             android:text="@string/locker_delete"
             android:textColor="@color/mument_color_gray2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_impress" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_emotion" />
 
         <TextView
             android:id="@+id/tv_approve"
@@ -159,8 +159,9 @@
             android:paddingTop="22dp"
             android:paddingEnd="22dp"
             android:paddingStart="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
             android:background="@color/mument_color_gray3"
-            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_clear_all"
             app:layout_constraintTop_toBottomOf="@+id/tv_approve"

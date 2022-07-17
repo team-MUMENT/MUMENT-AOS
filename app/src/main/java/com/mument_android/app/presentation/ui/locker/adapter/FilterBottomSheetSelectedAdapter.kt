@@ -10,7 +10,7 @@ import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemMumentFilterStringTagBinding
 
 class FilterBottomSheetSelectedAdapter(
-    private val removeSelectedTagListener: (TagEntity) -> Unit
+    private val removeSelectedTagListener: (TagEntity, Int) -> Unit
 ) : ListAdapter<TagEntity, FilterBottomSheetSelectedAdapter.BottomSheetFilterTagHolder>(
     GlobalDiffCallBack<TagEntity>()
 ) {
@@ -21,9 +21,9 @@ class FilterBottomSheetSelectedAdapter(
 
     override fun onBindViewHolder(holder: BottomSheetFilterTagHolder, position: Int) {
         holder.binding.setVariable(BR.tagEntity, getItem(position))
-
+        val tag = getItem(position)
         holder.binding.tvSelectedTag.setOnClickListener {
-            removeSelectedTagListener(getItem(position))
+            removeSelectedTagListener(tag, currentList.indexOf(tag))
         }
     }
 

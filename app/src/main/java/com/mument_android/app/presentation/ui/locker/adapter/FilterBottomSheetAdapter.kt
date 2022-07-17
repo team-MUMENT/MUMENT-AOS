@@ -9,6 +9,7 @@ import com.mument_android.BR
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemTagCheckboxBinding
+import timber.log.Timber
 
 
 class FilterBottomSheetAdapter(
@@ -36,15 +37,5 @@ class FilterBottomSheetAdapter(
         holder.binding.setVariable(BR.tagEntity, getItem(position))
     }
 
-    class BottomSheetFilterHolder(val binding: ItemTagCheckboxBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
-
-    fun addItem(data:TagEntity){
-        val list= currentList.toMutableList()
-        list.add(data)
-        submitList(list)
-    }
-
-
+    class BottomSheetFilterHolder(val binding: ItemTagCheckboxBinding) : RecyclerView.ViewHolder(binding.root)
 }
