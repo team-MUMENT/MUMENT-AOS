@@ -15,6 +15,7 @@ import com.mument_android.app.presentation.ui.customview.MumentDialog
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
+import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMumentDetailBinding
@@ -53,7 +54,7 @@ class MumentDetailFragment : Fragment() {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
             }
-            rvMumentTags.addItemDecoration(RecyclerviewItemDivider(7.dpToPx(requireContext()), 5.dpToPx(requireContext())))
+            rvMumentTags.addItemDecoration(RecyclerviewItemDivider(7.dpToPx(requireContext()), 5.dpToPx(requireContext()), IS_GRIDLAYOUT))
         }
     }
 
