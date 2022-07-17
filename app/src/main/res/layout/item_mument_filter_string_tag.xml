@@ -17,11 +17,9 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/mument_color_blue1"
-            android:background="@drawable/rectangle_fill_blue3_20dp"
             android:drawableEnd="@drawable/ic_delete_blue"
             android:drawablePadding="7dp"
-            setTagType="@{tagEntity.tagType}"
+            setSelectTagType="@{tagEntity.tagType}"
             android:text="@{tagEntity.tagString}"
             tools:text="@string/emotional_confidence"/>
 
