@@ -56,9 +56,10 @@ class BottomSheetSearchFragment : BottomSheetDialogFragment() {
                 val behavior = BottomSheetBehavior.from(this)
                 val layoutParams = this.layoutParams
                 behavior.disableShapeAnimations()
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 layoutParams.height = getBottomSheetDialogDefaultHeight()
                 behavior.skipCollapsed = true
+                behavior.isHideable = true
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 this.layoutParams = layoutParams
             }
         }
@@ -87,4 +88,6 @@ class BottomSheetSearchFragment : BottomSheetDialogFragment() {
         val pxHeight = windowMetrics.bounds.height()
         return pxHeight
     }
+
+
 }

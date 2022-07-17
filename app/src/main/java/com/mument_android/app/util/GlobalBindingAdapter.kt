@@ -80,6 +80,18 @@ object GlobalBindingAdapter {
     }
 
     @JvmStatic
+    @BindingAdapter("load_album_five")
+    fun loadAlbumFiveImage(view: ImageView, url: String?) {
+        if (!url.isNullOrEmpty()) {
+            view.load(url) {
+                crossfade(true)
+                this.transformations(RoundedCornersTransformation(5.0f))
+            }
+        } else {
+            TODO("placeholder")
+        }
+    }
+    @JvmStatic
     @BindingAdapter("load_search_album")
     fun loadSearchImage(view: ImageView, url: String?) {
         if (!url.isNullOrEmpty()) {
@@ -91,15 +103,6 @@ object GlobalBindingAdapter {
         }
     }
 
-    @JvmStatic
-    @BindingAdapter("load_option")
-    fun loadOption(view:ImageView, option:Boolean){
-        if(option){
-            view.setImageResource(R.drawable.empty_music)
-        }else{
-            view.setImageResource(R.drawable.empty_mument)
-        }
-    }
 
 //    데이터 바인딩을 써보고 싶은 진실의 발악,,담에 배우고 수정할게요,,
 //    @JvmStatic

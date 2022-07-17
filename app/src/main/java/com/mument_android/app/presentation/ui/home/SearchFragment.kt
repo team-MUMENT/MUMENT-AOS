@@ -34,11 +34,13 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchAdapter = SearchListAdapter({ data ->
-            viewmodel.selectContent(data)
-        }, { data ->
-            viewmodel.deleteRecentList(data)
-        })
+        searchAdapter = SearchListAdapter(
+            { searchData ->
+                viewmodel.selectContent(searchData)
+            },
+            { searchData ->
+                viewmodel.deleteRecentList(searchData)
+            })
         searchResultAdapter = SearchListAdapter({ data ->
             viewmodel.selectContent(data)
         }, {})
@@ -47,8 +49,6 @@ class SearchFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewmodel
         binding.option = true
-        binding.etSearch.setOnClickListener {
-        }
         binding.etSearch.setOnFocusChangeListener { view, b ->
             if (b) {
                 binding.ivDelete.visibility = View.VISIBLE

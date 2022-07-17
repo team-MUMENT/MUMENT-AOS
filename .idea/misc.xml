@@ -86,9 +86,9 @@
         <entry key="app/src/main/res/layout/mument_layout_cardview.xml" value="0.5779959858327672" />
 
         <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.2128623188405797" />
-        <entry key="app/src/main/res/layout/fragment_record.xml" value="0.2808022922636103" />
+        <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_record_search.xml" value="0.22554347826086957" />
-        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.29102630615234376" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.18471337579617833" />
         <entry key="app/src/main/res/layout/item_banner_layout.xml" value="0.2821557971014493" />
         <entry key="app/src/main/res/layout/item_emotional_tag.xml" value="0.2667572463768116" />
         <entry key="app/src/main/res/layout/item_heard_mument_layout.xml" value="0.14463019250253292" />

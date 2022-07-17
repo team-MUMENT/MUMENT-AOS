@@ -17,10 +17,12 @@ import com.google.android.flexbox.*
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
+import com.mument_android.app.data.network.home.adapter.SearchListAdapter
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
+import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
@@ -28,6 +30,7 @@ import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYO
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
+import timber.log.Timber
 
 
 class RecordFragment : Fragment() {
@@ -35,6 +38,8 @@ class RecordFragment : Fragment() {
     private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
+    private val searchViewModel : SearchViewModel by viewModels()
+    private  lateinit var searchListAdapter: SearchListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +54,6 @@ class RecordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.recordViewModel = recordViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
         setTagRecyclerView()
         countText()
         resetRvImpressionTags()
@@ -58,8 +62,8 @@ class RecordFragment : Fragment() {
         switchClickEvent()
         scrollEditTextView()
         initBottomSheet()
+        getAllData()
     }
-
 
     private fun setTagRecyclerView() {
 
@@ -266,7 +270,25 @@ class RecordFragment : Fragment() {
     private fun initBottomSheet() {
         binding.btnRecordSearch.setOnClickListener {
             BottomSheetSearchFragment.newInstance().show(parentFragmentManager, "Hi")
+            recordViewModel.checkSelectedMusic(true)
+
         }
+    }
+
+    private fun getAllData() {
+        binding.btnRecordFinish.setOnClickListener {
+            Timber.e(
+                "버튼 : ${recordViewModel.isFirst.value}\n 태그 : ${rvImpressionTagsAdapter.selectedTags.map { 
+                    it.tagIdx
+                }}\n 감상기록 : ${recordViewModel.text.value}\n 공개글 : ${binding.switchRecordSecret.isChecked}"
+            )
+        }
+    }
+
+    private fun isSelectedMusic(){
+
+        searchListAdapter.contentClickListener
+
     }
 
 }
