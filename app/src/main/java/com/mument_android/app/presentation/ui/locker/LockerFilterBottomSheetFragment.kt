@@ -64,7 +64,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
 
-
     private fun setEmotionalList() {
         with(binding.rvImpressive) {
             filterBottomSheetAdapterImpress = FilterBottomSheetAdapter(requireContext(),
@@ -88,7 +87,8 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             binding.rvImpressive.addItemDecoration(
                 RecyclerviewItemDivider(
                     7.dpToPx(requireContext()),
-                    5.dpToPx(requireContext())
+                    5.dpToPx(requireContext()),
+                    RecyclerviewItemDivider.IS_GRIDLAYOUT
                 )
             )
 
@@ -117,7 +117,8 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             binding.rvEmotion.addItemDecoration(
                 RecyclerviewItemDivider(
                     7.dpToPx(requireContext()),
-                    5.dpToPx(requireContext())
+                    5.dpToPx(requireContext()),
+                    RecyclerviewItemDivider.IS_GRIDLAYOUT
                 )
             )
         }
@@ -142,6 +143,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 //impressTags.indexOf(tag).let { syncSelectedTags(it) }
                 lockerViewModel.removeCheckedList(tag)
                 syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag))
+                //syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
             }
 
             lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {

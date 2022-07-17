@@ -4,7 +4,11 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerviewItemDivider(private val horizontalDiv: Int, private val verticalDiv: Int): RecyclerView.ItemDecoration() {
+class RecyclerviewItemDivider(
+    private val horizontalDiv: Int,
+    private val verticalDiv: Int ,
+    private val layoutType: String
+    ): RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -12,10 +16,26 @@ class RecyclerviewItemDivider(private val horizontalDiv: Int, private val vertic
         state: RecyclerView.State
     ) {
         with(outRect) {
-            if (parent.getChildAdapterPosition(view) != parent.adapter?.itemCount?.minus(1)) {
-                right = horizontalDiv
-                bottom = verticalDiv
+            val isLastItem = parent.getChildAdapterPosition(view) == parent.adapter?.itemCount?.minus(1)
+            when(layoutType) {
+                IS_GRIDLAYOUT -> {
+                    bottom = verticalDiv
+                    if (!isLastItem) right = horizontalDiv
+                }
+                IS_VERTICAL -> {
+                    if (!isLastItem) bottom = verticalDiv
+                }
+                IS_HORIZONTAL -> {
+                    if (!isLastItem) right = horizontalDiv
+                }
+                else -> {}
             }
         }
+    }
+
+    companion object {
+        const val IS_GRIDLAYOUT = "IS_GRIDLAYOUT"
+        const val IS_HORIZONTAL = "IS_HORIZONTAL"
+        const val IS_VERTICAL = "IS_VERTICAL"
     }
 }
