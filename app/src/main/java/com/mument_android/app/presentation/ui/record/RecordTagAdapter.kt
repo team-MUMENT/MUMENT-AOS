@@ -19,11 +19,18 @@ import com.mument_android.databinding.ItemTagCheckboxBinding
 class RecordTagAdapter(
     val context: Context,
     val option: Boolean,
-    val checkListener: (TagEntity) -> Unit,
-    val unCheckListener: (TagEntity) -> Unit
+    val checkTagListener: RecordTagCheckListener
 ) : ListAdapter<TagEntity, RecordTagAdapter.RecordTagViewHolder>(
     GlobalDiffCallBack<TagEntity>()
 ) {
+
+    interface RecordTagCheckListener {
+        fun addCheckedTag(tag: TagEntity): Unit
+        fun removeCheckedTag(tag: TagEntity): Unit
+        fun alertMaxCount()
+    }
+
+    val selectedTags = mutableListOf<TagEntity>()
     var enabled: Boolean = true
     var reset: Boolean = false
 
@@ -44,26 +51,24 @@ class RecordTagAdapter(
                 }
             holder.binding.flItem.layoutParams = this
 
-            holder.binding.cbTag.setOnCheckedChangeListener { button, isChecked ->
-                if (enabled) {
-                    if (isChecked) {
-                        checkListener(getItem(position))
+
+            holder.binding.cbTag.let { checkBox ->
+                checkBox.setOnClickListener {
+                    if (checkBox.isChecked) {
+                        if (selectedTags.count() >= 5 && !selectedTags.contains(getItem(position))) {
+                            checkBox.isChecked = false
+                            checkTagListener.alertMaxCount()
+                        } else {
+                            selectedTags.add(getItem(position))
+                            checkTagListener.addCheckedTag(getItem(position))
+                        }
                     } else {
-                        unCheckListener(getItem(position))
+                        selectedTags.remove(getItem(position))
+                        checkTagListener.removeCheckedTag(getItem(position))
                     }
-                } else {
-                    if (!isChecked) {
-                        unCheckListener(getItem(position))
-                    }
-
-
-                    holder.binding.cbTag.isChecked = false
-                    context.snackBar(
-                        holder.binding.root as ViewGroup,
-                        context.getString(R.string.record_tag_info)
-                    )
                 }
             }
+
             if (reset) {
                 holder.binding.cbTag.isChecked = false
                 reset = false

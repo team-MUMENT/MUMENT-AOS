@@ -17,9 +17,12 @@ class RecordViewModel : ViewModel() {
     val text = MutableLiveData<String>()
 
     fun addCheckedList(tag: TagEntity) {
-        val tempList = checkedTagList.value?.toMutableList()
-        tempList?.add(tag)
-        _checkedTagList.value = tempList
+        val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
+        if (tempList.size >= 5) {
+            tempList.add(tag)
+            _checkedTagList.value = tempList
+        }
+
     }
 
     fun removeCheckedList(tag: TagEntity) {

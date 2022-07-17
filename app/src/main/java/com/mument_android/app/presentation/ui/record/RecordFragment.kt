@@ -23,8 +23,8 @@ import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.ViewUtils.dpToPx
+import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
-import timber.log.Timber
 
 
 class RecordFragment : Fragment() {
@@ -38,6 +38,7 @@ class RecordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = FragmentRecordBinding.inflate(inflater, container, false).run {
         binding = this
+
         this.root
     }
 
@@ -45,36 +46,83 @@ class RecordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.recordViewModel = recordViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
         setTagRecyclerView()
-        clickEvent()
         countText()
         resetRvImpressionTags()
+        firstListenClickEvent()
+        secondListenClickEvent()
+        switchClickEvent()
+        scrollEditTextView()
     }
 
     private fun setTagRecyclerView() {
-        binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
 
-        rvImpressionTagsAdapter = RecordTagAdapter(requireContext(), false,
-            checkListener = {
-                recordViewModel.addCheckedList(it)
-            },
-            unCheckListener = {
-                recordViewModel.removeCheckedList(it)
+        rvImpressionTagsAdapter = RecordTagAdapter(
+            requireContext(),
+            false,
+            object : RecordTagAdapter.RecordTagCheckListener {
+                override fun addCheckedTag(tag: TagEntity) {
+                    recordViewModel.addCheckedList(tag)
+                    rvEmotionalTagsAdapter.selectedTags.add(tag)
+                }
+
+                override fun removeCheckedTag(tag: TagEntity) {
+                    recordViewModel.removeCheckedList(tag)
+                    rvEmotionalTagsAdapter.selectedTags.remove(tag)
+                }
+
+                override fun alertMaxCount() {
+                    requireContext().snackBar(binding.cslRoot, requireContext().getString(R.string.record_snackbar_tag_info))
+                }
             }
+
         )
 
-        rvEmotionalTagsAdapter = RecordTagAdapter(requireContext(), true,
-            checkListener = {
-                recordViewModel.addCheckedList(it)
-            },
-            unCheckListener = {
-                recordViewModel.removeCheckedList(it)
+        rvEmotionalTagsAdapter = RecordTagAdapter(
+            requireContext(),
+            false,
+            object : RecordTagAdapter.RecordTagCheckListener {
+                override fun addCheckedTag(tag: TagEntity) {
+                    rvImpressionTagsAdapter.selectedTags.add(tag)
+                    recordViewModel.addCheckedList(tag)
+                }
+
+                override fun removeCheckedTag(tag: TagEntity) {
+                    rvImpressionTagsAdapter.selectedTags.remove(tag)
+                    recordViewModel.removeCheckedList(tag)
+                }
+
+                override fun alertMaxCount() {
+                    requireContext().snackBar(binding.cslRoot, requireContext().getString(R.string.record_snackbar_tag_info))
+                }
             }
         )
-
 
         with(binding.rvRecordImpressiveTags) {
-            addItemDecoration(RecyclerviewItemDivider(10.dpToPx(requireContext()), 10.dpToPx(requireContext())))
+            setItemDecoration(this)
+            setImpressiveRvFlexBoxLayout()
+        }
+
+        with(binding.rvRecordEmotionalTags) {
+            setItemDecoration(this)
+            setEmotionalRvFlexBoxLayout()
+
+        }
+    }
+
+    private fun setItemDecoration(recyclerView: RecyclerView){
+       recyclerView.addItemDecoration(
+           RecyclerviewItemDivider(
+               10.dpToPx(requireContext()),
+               10.dpToPx(requireContext())
+           )
+       )
+
+    }
+
+    private fun setImpressiveRvFlexBoxLayout(){
+        with(binding.rvRecordImpressiveTags){
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
@@ -83,16 +131,13 @@ class RecordFragment : Fragment() {
                 adapter = rvImpressionTagsAdapter
             }
             rvImpressionTagsAdapter.submitList(
-                ImpressiveTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) })
-        }
-
-        with(binding.rvRecordEmotionalTags) {
-            addItemDecoration(
-                RecyclerviewItemDivider(
-                    10.dpToPx(requireContext()),
-                    10.dpToPx(requireContext())
-                )
+                ImpressiveTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) }
             )
+        }
+    }
+
+     private fun setEmotionalRvFlexBoxLayout(){
+        with(binding.rvRecordEmotionalTags){
             FlexboxLayoutManager(context).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
@@ -104,16 +149,14 @@ class RecordFragment : Fragment() {
                 EmotionalTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) }
             )
         }
-
     }
 
     private fun resetRvImpressionTags() {
-        recordViewModel.checkedTagList.observe(viewLifecycleOwner) {
-            Timber.e("$it")
-        }
         binding.btnRecordReset.setOnClickListener {
             binding.rvRecordImpressiveTags.resetCheckedTags(rvImpressionTagsAdapter)
             binding.rvRecordEmotionalTags.resetCheckedTags(rvEmotionalTagsAdapter)
+            rvEmotionalTagsAdapter.selectedTags.clear()
+            rvImpressionTagsAdapter.selectedTags.clear()
             recordViewModel.resetCheckedList()
         }
     }
@@ -126,7 +169,7 @@ class RecordFragment : Fragment() {
         }
     }
 
-    private fun clickEvent() {
+    private fun firstListenClickEvent(){
         binding.btnRecordFirst.isChangeButtonFont(true)
         with(binding) {
             btnRecordFirst.setOnClickListener {
@@ -135,7 +178,9 @@ class RecordFragment : Fragment() {
                 recordViewModel!!.checkIsFirst(true)
             }
         }
+    }
 
+    private fun secondListenClickEvent(){
         with(binding) {
             binding.btnRecordSecond.setOnClickListener {
                 btnRecordFirst.isChangeButtonFont(false)
@@ -143,6 +188,9 @@ class RecordFragment : Fragment() {
                 recordViewModel!!.checkIsFirst(false)
             }
         }
+    }
+
+    private fun switchClickEvent() {
 
         binding.switchRecordSecret.setOnClickListener {
             if (binding.switchRecordSecret.isChecked) {
@@ -180,15 +228,10 @@ class RecordFragment : Fragment() {
                 binding.tvRecordTextNum.isChangeBlack()
             }
         }
-
-        recordViewModel.checkedTagList.observe(viewLifecycleOwner) {
-            if (it.size == 5) {
-                rvEmotionalTagsAdapter.enabled = false
-                rvImpressionTagsAdapter.enabled = false
-            } else {
-                rvEmotionalTagsAdapter.enabled = true
-                rvImpressionTagsAdapter.enabled = true
-            }
-        }
     }
+
+    private fun scrollEditTextView(){binding.etRecordWrite.movementMethod = ScrollingMovementMethod()}
+
+
+
 }

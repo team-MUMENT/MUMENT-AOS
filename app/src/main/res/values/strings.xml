@@ -71,7 +71,9 @@
     <string name="record_open">공개글</string>
     <string name="record_secret">비밀글</string>
     <string name="record_finish">완료</string>
-    <string name="record_tag_info">감상 태그는 최대 5개까지 선택할 수 있어요. </string>
+    <string name="record_snackbar_tag_info">감상 태그는 최대 5개까지 선택할 수 있어요. </string>
+    <string name="record_snackbar_first_info">감상 태그는 최대 5개까지 선택할 수 있어요. </string>
+
 
 
 </resources>
