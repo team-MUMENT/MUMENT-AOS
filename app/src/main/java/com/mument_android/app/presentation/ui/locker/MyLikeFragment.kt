@@ -35,12 +35,22 @@ class MyLikeFragment : Fragment() {
     private fun setMyMumentListAdapter() {
         binding.rvLikeLinear.run {
             viewModel.myMuments.observe(viewLifecycleOwner) {
+                initReviewEmpty(it.size)
                 (adapter as LockerTimeAdapter).submitList(it)
             }
             viewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
                 adapter = LockerTimeAdapter(isGridLayout)
                 (adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
             }
+        }
+    }
+
+    //1:1질문 엠티뷰
+    private fun initReviewEmpty(size : Int){
+        if(size == 0){
+            binding.clEmptyView.visibility = View.VISIBLE
+        }else{
+            binding.clEmptyView.visibility = View.GONE
         }
     }
 }

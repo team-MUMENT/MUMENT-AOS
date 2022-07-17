@@ -11,7 +11,9 @@ import javax.inject.Inject
 class LockerDataSourceImpl @Inject constructor(
     private val lockerNetwork: LockerNetwork
 ): LockerDataSource {
-    override suspend fun fetchLockerMumumentList(): ResponseMyMumentListDto {
+    override suspend fun fetchLockerMumumentList(): ResponseMyMumentListDto
+
+    {
         return ResponseMyMumentListDto(
             UserDto("id", "https://img3.yna.co.kr/etc/inner/KR/2022/03/20/AKR20220320029100005_01_i_P4.jpg", "이수지"),
             listOf(
@@ -81,6 +83,7 @@ class LockerDataSourceImpl @Inject constructor(
                 )
 
             )
+
         )
     }
 //       = lockerNetwork.fetchLockerMumentList()
