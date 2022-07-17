@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
+import com.mument_android.app.util.ViewUtils.showToast
+import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentLockerBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +23,6 @@ class LockerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentLockerBinding>()
     private lateinit var lockerTabAdapter : LockerTabAdapter
     private val viewModel : LockerViewModel by viewModels()
-    private var lockerFilterBottomSheetfragment = LockerFilterBottomSheetFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,7 +83,7 @@ class LockerFragment : Fragment() {
 
     private fun filterBtnClickListener() {
         binding.ivLockerFilter.setOnClickListener {
-            lockerFilterBottomSheetfragment.show(parentFragmentManager, lockerFilterBottomSheetfragment.tag)
+            LockerFilterBottomSheetFragment.newInstance().show(parentFragmentManager, "Hi")
         }
     }
 

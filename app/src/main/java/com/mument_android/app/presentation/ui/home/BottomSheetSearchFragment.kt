@@ -35,8 +35,6 @@ class BottomSheetSearchFragment : BottomSheetDialogFragment() {
         fun newInstance(): BottomSheetSearchFragment {
             return INSTANCE ?: BottomSheetSearchFragment().apply {
                 INSTANCE = this
-                //this.option = option
-                //this.callBack = callBack
             }
         }
     }

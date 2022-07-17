@@ -39,8 +39,9 @@ object ViewUtils {
         toast.show()
     }
 
-    fun Context.snackBar(view: ViewGroup, msg: String) {
+    fun Context.snackBar(view: View, msg: String) {
         val snack = Snackbar.make(view, msg, 2000)
+
         val snackBarView = snack.view
         val snackBarText =
             snackBarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)

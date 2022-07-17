@@ -43,7 +43,8 @@ class FilterBottomSheetAdapter(
             holder.binding.cbTag.let { checkBox ->
                 checkBox.setOnClickListener {
                     if (checkBox.isChecked) {
-                        if (selectedTags.count() >= 3 && !selectedTags.contains(getItem(position))) {
+                        Timber.d("${selectedTags.count()}")
+                        if (selectedTags.count() > 4 && !selectedTags.contains(getItem(position))) {
                             checkBox.isChecked = false
                             checkTagListener.alertMaxCount()
                         } else {
