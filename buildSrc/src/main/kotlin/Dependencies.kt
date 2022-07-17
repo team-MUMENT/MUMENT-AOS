@@ -7,7 +7,7 @@ object KotlinDependencies {
 }
 
 object AndroidXDependencies {
-    const val window  = "androidx.window:window:${Versions.window}"
+    const val window = "androidx.window:window:${Versions.window}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
     const val constraintLayout =
@@ -50,7 +50,8 @@ object MaterialDesignDependencies {
 
 object KaptDependencies {
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glideVersion}"
-    const val hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
+    const val hiltAndroidCompiler =
+        "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
 }
 
 object ThirdPartyDependencies {
@@ -65,8 +66,10 @@ object ThirdPartyDependencies {
     const val coil = "io.coil-kt:coil:${Versions.coilVersion}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timberVersion}"
     const val gson = "com.google.code.gson:gson:${Versions.gsonVersion}"
-    const val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.gsonConverterVersion}"
+    const val gsonConverter =
+        "com.squareup.retrofit2:converter-gson:${Versions.gsonConverterVersion}"
     const val flexBox = "com.google.android.flexbox:flexbox:${Versions.flexBoxVersion}"
+    const val sticky = "com.github.amarjain07:StickyScrollView:${Versions.sticky}"
 
 }
 
