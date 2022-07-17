@@ -47,8 +47,10 @@ class LockerViewModel @Inject constructor(
 
     fun addCheckedList(checkedId: TagEntity) {
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
-        tempList.add(checkedId)
-        _checkedTagList.value = tempList
+        if(tempList.size <= 3) {
+            tempList.add(checkedId)
+            _checkedTagList.value = tempList
+        }
     }
 
     fun removeCheckedList(tag: TagEntity) {

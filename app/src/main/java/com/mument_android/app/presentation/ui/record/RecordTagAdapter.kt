@@ -64,6 +64,7 @@ class RecordTagAdapter(
 
             holder.binding.flItem.layoutParams = this
             }
+
             if (reset) {
                 holder.binding.cbTag.isChecked = false
                 reset = false
