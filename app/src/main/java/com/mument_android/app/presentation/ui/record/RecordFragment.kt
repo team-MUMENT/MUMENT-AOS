@@ -19,6 +19,7 @@ import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
+import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
@@ -27,6 +28,7 @@ import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_HORIZONT
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
+import timber.log.Timber
 
 
 class RecordFragment : Fragment() {
@@ -161,6 +163,8 @@ class RecordFragment : Fragment() {
 
     private fun resetRvImpressionTags() {
         binding.btnRecordReset.setOnClickListener {
+            resetButtonClickEvent()
+
             binding.rvRecordImpressiveTags.resetCheckedTags(rvImpressionTagsAdapter)
             binding.rvRecordEmotionalTags.resetCheckedTags(rvEmotionalTagsAdapter)
             rvEmotionalTagsAdapter.selectedTags.clear()
@@ -240,6 +244,16 @@ class RecordFragment : Fragment() {
 
     private fun scrollEditTextView() {
         binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
+    }
+
+    private fun resetButtonClickEvent() {
+        MumentDialogBuilder()
+            .setHeader(getString(R.string.record_reset_header))
+            .setBody(getString(R.string.record_reset_body))
+            .setAllowListener { Timber.e("$this 리셋할거임") }
+            .setCancelListener { Timber.e("$this 취소할거임") }
+            .build()
+            .show(childFragmentManager, this.tag)
     }
 
 
