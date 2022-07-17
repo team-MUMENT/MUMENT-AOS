@@ -28,10 +28,11 @@ class RecordViewModel : ViewModel() {
         _checkedTagList.value = tempList
     }
 
-    fun resetCheckedList(tag: TagEntity) {
-        val tempList = checkedTagList.value?.toMutableList()
-        tempList?.clear()
-        _checkedTagList.value = tempList
+    fun resetCheckedList() {
+        checkedTagList.value?.toMutableList()?.let {
+            it.clear()
+            _checkedTagList.value = it
+        }
     }
 
     fun checkIsFirst(isFirst: Boolean) {
