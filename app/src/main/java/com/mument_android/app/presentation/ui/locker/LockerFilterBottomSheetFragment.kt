@@ -1,14 +1,18 @@
 package com.mument_android.app.presentation.ui.locker
 
+import android.content.res.Resources
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
@@ -45,11 +49,21 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.clFilterBottomSheet.setBackgroundResource(R.drawable.rectangle_fill_white_top_11dp)
+
+
+        binding.clFilterBottomSheet.layoutParams.height =
+            resources.displayMetrics.heightPixels * 93 / 100
+        binding.executePendingBindings()
+
         setEmotionalList()
         resetClickListener()
         setSelectedTag()
         closeBtnListener()
+
     }
+
+
 
     private fun setEmotionalList() {
         with(binding.rvImpressive) {
@@ -139,8 +153,11 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
                 (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
             }
+
+
         }
     }
 
+    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
 }
