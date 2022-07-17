@@ -115,8 +115,4 @@ dependencies {
     implementation(AndroidXDependencies.protoBuf)*/
     //flexBox
     implementation(ThirdPartyDependencies.flexBox)
-    //sticky
-    implementation(ThirdPartyDependencies.sticky)
-
-
 }

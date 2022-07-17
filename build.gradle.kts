@@ -1,12 +1,9 @@
+import org.jetbrains.kotlin.gradle.plugin.statistics.ReportStatisticsToElasticSearch.url
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltVersion}")
-    }
-    repositories {
-        maven(url = "https://jitpack.io")
-
     }
 }
 
