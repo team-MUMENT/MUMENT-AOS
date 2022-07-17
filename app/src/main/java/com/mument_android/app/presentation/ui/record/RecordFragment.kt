@@ -78,7 +78,7 @@ class RecordFragment : Fragment() {
 
                 override fun alertMaxCount() {
                     requireContext().snackBar(
-                        binding.cslRoot,
+                        binding.clRecordRoot,
                         requireContext().getString(R.string.record_snackbar_tag_info)
                     )
                 }
@@ -102,7 +102,7 @@ class RecordFragment : Fragment() {
 
                 override fun alertMaxCount() {
                     requireContext().snackBar(
-                        binding.cslRoot,
+                        binding.clRecordRoot,
                         requireContext().getString(R.string.record_snackbar_tag_info)
                     )
                 }
@@ -164,12 +164,6 @@ class RecordFragment : Fragment() {
     private fun resetRvImpressionTags() {
         binding.btnRecordReset.setOnClickListener {
             resetButtonClickEvent()
-
-            binding.rvRecordImpressiveTags.resetCheckedTags(rvImpressionTagsAdapter)
-            binding.rvRecordEmotionalTags.resetCheckedTags(rvEmotionalTagsAdapter)
-            rvEmotionalTagsAdapter.selectedTags.clear()
-            rvImpressionTagsAdapter.selectedTags.clear()
-            recordViewModel.resetCheckedList()
         }
     }
 
@@ -247,13 +241,24 @@ class RecordFragment : Fragment() {
     }
 
     private fun resetButtonClickEvent() {
+
         MumentDialogBuilder()
             .setHeader(getString(R.string.record_reset_header))
             .setBody(getString(R.string.record_reset_body))
-            .setAllowListener { Timber.e("$this 리셋할거임") }
-            .setCancelListener { Timber.e("$this 취소할거임") }
+            .setAllowListener {
+                resetRecordTags()
+            }
+            .setCancelListener {}
             .build()
             .show(childFragmentManager, this.tag)
+    }
+
+    private fun resetRecordTags(){
+        binding.rvRecordImpressiveTags.resetCheckedTags(rvImpressionTagsAdapter)
+        binding.rvRecordEmotionalTags.resetCheckedTags(rvEmotionalTagsAdapter)
+        rvEmotionalTagsAdapter.selectedTags.clear()
+        rvImpressionTagsAdapter.selectedTags.clear()
+        recordViewModel.resetCheckedList()
     }
 
 
