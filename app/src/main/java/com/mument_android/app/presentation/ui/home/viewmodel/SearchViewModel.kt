@@ -13,112 +13,112 @@ class SearchViewModel : ViewModel() {
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "2",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "3",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "4",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "5",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "6",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "7",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "8",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "9",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "10",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "11",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "12",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "13",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "14",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "15",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             ),
             SearchResultData(
                 "16",
                 "덩",
                 "새소년",
                 "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                true
+                false
             )
         )
     )

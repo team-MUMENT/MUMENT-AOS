@@ -1,5 +1,6 @@
 package com.mument_android.app.util
 
+import android.media.Image
 import android.text.method.ScrollingMovementMethod
 import android.util.TypedValue
 import android.widget.ImageView
@@ -90,6 +91,15 @@ object GlobalBindingAdapter {
         }
     }
 
+    @JvmStatic
+    @BindingAdapter("load_option")
+    fun loadOption(view:ImageView, option:Boolean){
+        if(option){
+            view.setImageResource(R.drawable.empty_music)
+        }else{
+            view.setImageResource(R.drawable.empty_mument)
+        }
+    }
 
 //    데이터 바인딩을 써보고 싶은 진실의 발악,,담에 배우고 수정할게요,,
 //    @JvmStatic

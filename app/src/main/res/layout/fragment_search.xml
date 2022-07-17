@@ -94,7 +94,7 @@
             android:layout_marginEnd="14dp"
             android:text="모두 삭제"
             android:textColor="@color/mument_color_gray2"
-            android:visibility="@{viewmodel.searchList.size()==0||option==false||viewmodel.searchResultList.size()!=0? View.GONE:View.VISIBLE}"
+            android:visibility="@{(viewmodel.searchList.size()==0 || option==false || viewmodel.searchResultList.size()!=0) ? View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/tv_recent_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_recent_search" />
@@ -116,6 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
             android:src="@drawable/empty_music"
+            load_option = "@{option}"
             android:visibility="@{viewmodel.searchList.size()==0? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

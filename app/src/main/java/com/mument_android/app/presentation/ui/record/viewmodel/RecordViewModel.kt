@@ -4,6 +4,7 @@ package com.mument_android.app.presentation.ui.record.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mument_android.app.domain.entity.SearchResultData
 import com.mument_android.app.domain.entity.TagEntity
 
 
