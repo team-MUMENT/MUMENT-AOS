@@ -36,15 +36,6 @@ class RecordTagAdapter(
 
     override fun onBindViewHolder(holder: RecordTagViewHolder, position: Int) {
         with(holder.binding.flItem.layoutParams as ViewGroup.MarginLayoutParams) {
-//            marginStart =
-//                when (option) {
-//                    true -> if (position == 0 || position == 6 || position == 11) 16.dpToPx(context) else 0.dpToPx(
-//                        context
-//                    )
-//                    false -> 0
-//                }
-//            holder.binding.flItem.layoutParams = this
-
 
             holder.binding.cbTag.let { checkBox ->
                 checkBox.setOnClickListener {
