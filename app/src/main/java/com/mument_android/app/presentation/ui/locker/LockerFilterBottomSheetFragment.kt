@@ -15,6 +15,7 @@ import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.customview.MumentTagCheckBox
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
+import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
@@ -29,6 +30,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     private var binding by AutoClearedValue<FragmentLockerFilterBottomSheetBinding>()
     private val lockerViewModel: LockerViewModel by viewModels()
     private lateinit var filterBottomSheetAdapterImpress: FilterBottomSheetAdapter
+    private lateinit var filterBottomSheetSelectedAdapter: FilterBottomSheetAdapter
     private lateinit var filterBottomSheetAdpaterEmotion: FilterBottomSheetAdapter
 
 
@@ -45,6 +47,8 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
         setEmotionalList()
         resetClickListener()
+        setSelectedTag()
+        closeBtnListener()
     }
 
     private fun setEmotionalList() {
@@ -109,13 +113,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                     5.dpToPx(requireContext())
                 )
             )
-
-            val emotionalTags =
-                EmotionalTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) }
-            val impressionTags =
-                ImpressiveTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) }
-            val emotions = emotionalTags.toMutableList().addAll(impressionTags)
-
         }
     }
 
@@ -130,8 +127,20 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun closeBtnListener() {
         binding.ivFilterDelete.setOnClickListener {
-
+            dismiss()
         }
     }
+
+    private fun setSelectedTag() {
+        binding.rvSelectedTags.run {
+            adapter = FilterBottomSheetSelectedAdapter {
+                lockerViewModel.removeCheckedList(it)
+            }
+            lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
+                (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
+            }
+        }
+    }
+
 
 }

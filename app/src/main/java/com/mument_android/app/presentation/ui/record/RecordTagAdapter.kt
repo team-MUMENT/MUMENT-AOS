@@ -47,6 +47,7 @@ class RecordTagAdapter(
         holder.binding.setVariable(BR.tagEntity, getItem(position))
     }
 
+
     class RecordTagViewHolder(val binding: ItemTagCheckboxBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

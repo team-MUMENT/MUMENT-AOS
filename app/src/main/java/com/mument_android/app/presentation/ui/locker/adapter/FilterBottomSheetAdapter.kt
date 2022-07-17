@@ -40,5 +40,11 @@ class FilterBottomSheetAdapter(
 
     }
 
+    fun addItem(data:TagEntity){
+        val list= currentList.toMutableList()
+        list.add(data)
+        submitList(list)
+    }
+
 
 }

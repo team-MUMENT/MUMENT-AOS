@@ -46,19 +46,19 @@ class LockerViewModel @Inject constructor(
     }
 
     fun addCheckedList(checkedId: TagEntity) {
-        val tempList = checkedTagList.value?.toMutableList()
-        tempList?.add(checkedId)
+        val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
+        tempList.add(checkedId)
         _checkedTagList.value = tempList
     }
 
     fun removeCheckedList(tag: TagEntity) {
-        val tempList = checkedTagList.value?.toMutableList()
-        tempList?.remove(tag)
+        val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
+        tempList.remove(tag)
         _checkedTagList.value = tempList
     }
 
     fun resetCheckedList() {
-        val tempList = checkedTagList.value?.toMutableList()
+        val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
         tempList?.clear()
         _checkedTagList.value = tempList
     }
