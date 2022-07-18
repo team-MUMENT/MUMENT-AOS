@@ -7,7 +7,7 @@
 
         <variable
             name="mument"
-            type="com.mument_android.app.data.dto.MumentCard" />
+            type="com.mument_android.app.domain.entity.MumentCard" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
 
         <ImageView
             android:id="@+id/imageView"
-            load_album_top="@{mument.music.image}"
+            load_album_top="@{mument.musicImage}"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,7 +35,7 @@
             android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{mument.music.name+ ` ` +mument.music.artist}"
+            android:text="@{mument.musicName+ ` ` +mument.musicArtist}"
             android:textColor="@color/mument_color_black2"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             tools:text="9와 4분의 3 승강장에 feasadsad" />
@@ -57,7 +57,7 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            load_profile="@{mument.user.image}"
+            load_profile="@{mument.userImage}"
             android:layout_width="19dp"
             android:layout_height="19dp"
             android:layout_marginBottom="11dp"
@@ -70,7 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:text="@{mument.user.name}"
+            android:text="@{mument.userName}"
             app:layout_constraintBottom_toBottomOf="@id/imageView2"
             app:layout_constraintStart_toEndOf="@id/imageView2"
             app:layout_constraintTop_toTopOf="@id/imageView2"
