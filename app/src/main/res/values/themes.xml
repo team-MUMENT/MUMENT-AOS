@@ -72,6 +72,11 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="TextView.Mument_B6_B13.Style" parent="">
+        <item name="android:textAppearance">@style/TextView.Mument_B6_B13.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <style name="TextView.Mument_B7_M12.Style" parent="">
         <item name="android:textAppearance">@style/TextView.Mument_B7_M12.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
@@ -137,6 +142,11 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="TextView.Mument_B6_B13.TextAppearance" parent="">
+        <item name="android:fontFamily">@font/notosans_bold</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <style name="TextView.Mument_B7_M12.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_medium</item>
         <item name="android:textSize">12sp</item>
@@ -157,6 +167,17 @@
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/notosans_medium</item>
     </style>
+
+    <!-- CoordinatorLayout -->
+    <style name="CollapsedTitleStyle" parent="TextView.Mument_H2_B18.Style">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ExpandedTitleStyle" parent="TextView.Mument_H2_B18.Style">
+        <item name="android:textColor">@color/transparent</item>
+        <item name="android:textSize">0.1sp</item>
+    </style>
+
 
     <!-- case : to use Bottom Sheet -->
     <style name="BottomSheetDialog_Rounded" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">

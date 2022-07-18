@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detail
+package com.mument_android.app.presentation.ui.detail.mument
 
 import android.os.Bundle
 import android.view.LayoutInflater

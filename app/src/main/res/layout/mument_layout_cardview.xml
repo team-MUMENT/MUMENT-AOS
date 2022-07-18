@@ -12,13 +12,13 @@
         <variable
             name="mument"
             type="com.mument_android.app.domain.entity.MumentCard" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_mument"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="5dp"
         android:background="@drawable/shape_border_default_redius_11dp"
         android:elevation="3dp"
@@ -85,7 +85,7 @@
             tools:src="@color/black" />
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/linearlayout_album_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -110,6 +110,7 @@
                 tools:text="백예린" />
 
             <LinearLayout
+                android:id="@+id/linearlayout_tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -157,7 +158,7 @@
             android:maxLines="3"
             android:text="@{mument.content}"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/imageview"
+            app:layout_constraintTop_toBottomOf="@+id/linearlayout_album_info"
             tools:text="음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게" />
 
         <TextView

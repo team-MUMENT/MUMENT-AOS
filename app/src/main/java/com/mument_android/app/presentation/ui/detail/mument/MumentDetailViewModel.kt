@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detail
+package com.mument_android.app.presentation.ui.detail.mument
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -66,9 +66,7 @@ class MumentDetailViewModel @Inject constructor(
             likeMumentUseCase(
                 mumentId.value,
                 mumentDetailContent.value?.data?.writerInfo?.userId ?: ""
-            ).collect {
-
-            }
+            ).collect {}
         }
     }
 
