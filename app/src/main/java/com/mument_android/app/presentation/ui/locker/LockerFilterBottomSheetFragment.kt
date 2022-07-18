@@ -54,7 +54,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View = FragmentLockerFilterBottomSheetBinding.inflate(inflater, container, false).run {
         binding = this
-
         this.root
 
     }
@@ -104,7 +103,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 }
 
                 override fun alertMaxCount() {
-                    requireContext().snackBar(binding.root.rootView, "태그는 최대 3개까지 선택 할 수 있습니다.")
+                    requireContext().snackBar(binding.root.rootView, "태그는 최대 3개까지 선택 할 수 있어요.")
                 }
 
             }
@@ -125,7 +124,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 override fun alertMaxCount() {
                     requireContext().snackBar(
                         binding.root.rootView,
-                        "태그는 최대 3개까지 선택 할 수 있습니다."
+                        "태그는 최대 3개까지 선택 할 수 있어요."
                     )
                 }
 
@@ -160,7 +159,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
                 lockerViewModel.removeCheckedList(tag)
-                syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag))
+                //syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag))
                 syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
             }
 
@@ -171,14 +170,14 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun syncSelectedTags(position: Int) {
-        binding.rvEmotion.let { recyclerview ->
-            val view = recyclerview[position]
-            val viewHolder = recyclerview.getChildViewHolder(view)
-            Timber.e("data position ${position}")
-            Timber.e("view position ${viewHolder.absoluteAdapterPosition}")
-            (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
-                false
-        }
+//        binding.rvEmotion.let { recyclerview ->
+//            val view = recyclerview[position]
+//            val viewHolder = recyclerview.getChildViewHolder(view)
+//            Timber.e("data position ${position}")
+//            Timber.e("view position ${viewHolder.absoluteAdapterPosition}")
+//            (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
+//                false
+//        }
 
         binding.rvImpressive.let { recyclerView ->
             val view = recyclerView[position]
@@ -189,7 +188,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    //add code
     private fun setItemDecoration(recyclerView: RecyclerView) {
         recyclerView.addItemDecoration(
             RecyclerviewItemDivider(
