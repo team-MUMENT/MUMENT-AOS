@@ -7,7 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
+import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -18,7 +21,10 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(private val cruRecentSearchListUseCase: CRURecentSearchListUseCase) :
+class SearchViewModel @Inject constructor(
+    private val cruRecentSearchListUseCase: CRURecentSearchListUseCase,
+    private val deleteRecentSearchListUseCase: DeleteRecentSearchListUseCase
+) :
     ViewModel() {
     val searchList = MutableStateFlow<ApiResult<List<RecentSearchData>>?>(null)
 
@@ -29,20 +35,17 @@ class SearchViewModel @Inject constructor(private val cruRecentSearchListUseCase
     }
 
     init {
-        setRecentData()
+        setRecentData(viewModelScope)
     }
 
-    fun setRecentData() {
-
-        viewModelScope.launch {
+    fun setRecentData(scope: CoroutineScope) {
+        scope.launch {
             cruRecentSearchListUseCase.getAllRecentSearchList().onStart {
                 searchList.value = ApiResult.Loading(null)
             }.catch {
                 searchList.value = ApiResult.Failure(null)
             }.collect {
-                if (it.isNotEmpty()) {
-                    searchList.value = ApiResult.Success(it)
-                }
+                searchList.value = ApiResult.Success(it)
             }
         }
     }
@@ -61,7 +64,7 @@ class SearchViewModel @Inject constructor(private val cruRecentSearchListUseCase
                     Date(System.currentTimeMillis())
                 )
             ).let {
-                setRecentData()
+                setRecentData(this)
             }
         }
         /*searchResultList.value = listOf(
@@ -181,16 +184,20 @@ class SearchViewModel @Inject constructor(private val cruRecentSearchListUseCase
     }
 
     fun insertOrUpdateRecentItem(data: RecentSearchData) {
-
+        viewModelScope.launch(Dispatchers.IO) {
+            cruRecentSearchListUseCase.insertOrUpdateRecentSearchItem(data)
+        }
     }
 
     fun deleteRecentList(data: RecentSearchData) {
-        /*val current = searchList.value?.toMutableList()
-        current?.remove(data)
-        searchList.value = current*/
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteRecentSearchListUseCase.deleteRecentSearchItem(data).let { setRecentData(this) }
+        }
     }
 
     fun allListDelete() {
-        /*searchList.value = listOf()*/
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteRecentSearchListUseCase.deleteAllRecentSearchList()
+        }
     }
 }

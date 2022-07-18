@@ -71,19 +71,24 @@ class SearchFragment : Fragment() {
             }
         }
 
+        binding.ivDelete.setOnClickListener {
+            binding.etSearch.text = null
+        }
+
         binding.etAllDelete.setOnClickListener {
+            searchAdapter.submitList(listOf())
             viewmodel.allListDelete()
         }
     }
 
     private fun collectingList() {
-        viewmodel.searchResultList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+        /*viewmodel.searchResultList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
             if (result?.size != 0) {
                 binding.rcSearch.adapter = searchResultAdapter
                 searchResultAdapter.submitList(result)
                 //searchAdapter.submitList(it)
             }
-        }
+        }*/
         viewmodel.searchContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
             //Timber.d("collect!! $it")
         }

@@ -5,9 +5,8 @@ import androidx.room.*
 @Dao
 interface TodayMumentDAO {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertToDayMument(data: TodayMumentEntity)
-
 
     @Delete
     suspend fun deleteTodayMument(data: TodayMumentEntity)

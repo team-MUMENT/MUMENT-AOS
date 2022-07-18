@@ -14,5 +14,5 @@ data class RecentSearchData(
     val name: String,
     val createAt: Date,
 ){
-    @Ignore val optional: Boolean = false
+    @Ignore val optional: Boolean = true
 }
