@@ -141,7 +141,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/muments_recorded_by_me"
-                        style="@style/TextView.Mument_B1_B15.Style"
                         android:textColor="@color/mument_color_black2"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -151,7 +150,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/show_my_history"
-                        style="@style/TextView.Mument_C1_R12.Style"
                         android:textColor="@color/mument_color_purple1"
                         app:layout_constraintTop_toTopOf="@id/tv_my_muments"
                         app:layout_constraintBottom_toBottomOf="@id/tv_my_muments"
@@ -168,14 +166,12 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:mument="@{songDetailViewModel.dummyMyMuments}"/>
 
-
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_every_muments"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/every_mument"
                         android:layout_marginTop="50dp"
-                        style="@style/TextView.Mument_B1_B15.Style"
                         android:textColor="@color/mument_color_black2"
                         app:layout_constraintTop_toBottomOf="@id/layout_my_mument"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -196,14 +192,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/sort_like_count"
-                        style="@style/TextView.Mument_C1_R12.Style"
                         android:paddingHorizontal="4dp"
                         android:paddingVertical="5dp"
                         android:textColor="@color/selector_state_selected_gray1_purple1"
                         app:layout_constraintTop_toTopOf="@id/tv_sort_latest"
                         app:layout_constraintBottom_toBottomOf="@id/tv_sort_latest"
                         app:layout_constraintEnd_toStartOf="@id/tv_sort_latest"/>
-
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_every_muments"
@@ -220,11 +214,7 @@
                         tools:listitem="@layout/mument_layout_cardview"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </FrameLayout>
-
-
         </androidx.core.widget.NestedScrollView>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

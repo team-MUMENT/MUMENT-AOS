@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
+import com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity
 
 
 class RecordViewModel : ViewModel() {

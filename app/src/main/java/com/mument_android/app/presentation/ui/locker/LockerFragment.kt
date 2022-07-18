@@ -68,8 +68,8 @@ class LockerFragment : Fragment() {
         }.attach()
 
         binding.root.setOnClickListener {
-            //findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
-            findNavController().navigate(R.id.action_lockerFragment_to_songDetailFragment)
+            findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
+//            findNavController().navigate(R.id.action_lockerFragment_to_songDetailFragment)
         }
 
     }
