@@ -55,6 +55,7 @@
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/mument_layout_cardview.xml" value="0.18303571428571427" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_btn_record_icon.xml" value="0.109" />
+        <entry key="app/src/main/res/drawable/ic_btn_record_icon.xml" value="0.109" />
         <entry key="app/src/main/res/drawable/oval_fill_white.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/rectangle_fill_blue1_14dp.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/rectangle_fill_blue3_20dp.xml" value="0.166" />
@@ -96,6 +97,7 @@
         <entry key="app/src/main/res/layout/fragment_record_search.xml" value="0.22554347826086957" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_song_detail.xml" value="0.2857492494446724" />
+        <entry key="app/src/main/res/layout/fragment_song_detail.xml" value="0.2051172707889126" />
         <entry key="app/src/main/res/layout/item_banner_layout.xml" value="0.2821557971014493" />
         <entry key="app/src/main/res/layout/item_emotional_tag.xml" value="0.2667572463768116" />
         <entry key="app/src/main/res/layout/item_heard_mument_layout.xml" value="0.14463019250253292" />

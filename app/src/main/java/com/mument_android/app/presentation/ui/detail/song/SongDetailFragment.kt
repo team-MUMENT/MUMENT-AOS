@@ -23,7 +23,11 @@ class SongDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+<<<<<<< HEAD
     ): View? = FragmentSongDetailBinding.inflate(inflater, container, false)?.let {
+=======
+    ): View = FragmentSongDetailBinding.inflate(inflater, container, false).let {
+>>>>>>> ee996df ([FEAT] #54 - 곡 상세보기 UI 작업)
         binding = it
         it.root
     }
@@ -39,7 +43,10 @@ class SongDetailFragment : Fragment() {
         changeMumentSort()
         updateEveryMuments()
         songDetailViewModel.changeSelectedSort(binding.tvSortLikeCount.text.toString())
+<<<<<<< HEAD
         songDetailViewModel.fetchDummyEveryMuments()
+=======
+>>>>>>> ee996df ([FEAT] #54 - 곡 상세보기 UI 작업)
     }
 
     private fun changeMumentSort() {
