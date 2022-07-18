@@ -23,7 +23,7 @@ class SongDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentSongDetailBinding.inflate(inflater, container, false).let {
+    ): View? = FragmentSongDetailBinding.inflate(inflater, container, false)?.let {
         binding = it
         it.root
     }
@@ -39,6 +39,7 @@ class SongDetailFragment : Fragment() {
         changeMumentSort()
         updateEveryMuments()
         songDetailViewModel.changeSelectedSort(binding.tvSortLikeCount.text.toString())
+        songDetailViewModel.fetchDummyEveryMuments()
     }
 
     private fun changeMumentSort() {

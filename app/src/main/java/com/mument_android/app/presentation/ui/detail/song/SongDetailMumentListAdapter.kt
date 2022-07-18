@@ -5,27 +5,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
-import com.mument_android.app.data.dto.MumentCard
+import com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity
 import com.mument_android.app.util.GlobalDiffCallBack
-import com.mument_android.databinding.MumentLayoutCardviewBinding
+import com.mument_android.databinding.ItemSongDetailMumentBinding
 
-class SongDetailMumentListAdapter: ListAdapter<MumentCard, SongDetailMumentListAdapter.SongDetailMumentListViewHolder>(
-    GlobalDiffCallBack<MumentCard>()
+class SongDetailMumentListAdapter: ListAdapter<MusicDetailEntity, SongDetailMumentListAdapter.SongDetailMumentListViewHolder>(
+    GlobalDiffCallBack<MusicDetailEntity>()
 ) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): SongDetailMumentListViewHolder {
-        val binding = MumentLayoutCardviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemSongDetailMumentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SongDetailMumentListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SongDetailMumentListViewHolder, position: Int) {
         holder.binding.apply {
             setVariable(BR.mument, getItem(position))
-            setVariable(BR.isSongDetail, true)
         }
     }
 
-    class SongDetailMumentListViewHolder(val binding: MumentLayoutCardviewBinding): RecyclerView.ViewHolder(binding.root)
+    class SongDetailMumentListViewHolder(val binding: ItemSongDetailMumentBinding): RecyclerView.ViewHolder(binding.root)
 }

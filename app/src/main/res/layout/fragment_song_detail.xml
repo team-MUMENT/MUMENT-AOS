@@ -9,138 +9,126 @@
     </data>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mument_color_bgwhite"
         tools:context=".app.presentation.ui.detail.song.SongDetailFragment">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/mument_color_bgwhite"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBarLayout"
-                android:background="@color/mument_color_bgwhite"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:collapsedTitleGravity="center"
+                app:collapsedTitleTextAppearance="@style/CollapsedTitleStyle"
+                app:contentScrim="@color/white"
+                app:expandedTitleGravity="center"
+                app:expandedTitleTextAppearance="@style/ExpandedTitleStyle"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:scrimAnimationDuration="150"
+                app:title="@{`하늘나라`}"
+                app:toolbarId="@id/toolbar">
 
-                <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:id="@+id/collapsing_toolbar"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:collapsedTitleGravity="center"
-                    app:collapsedTitleTextAppearance="@style/CollapsedTitleStyle"
-                    app:contentScrim="@color/white"
-                    app:expandedTitleGravity="center"
-                    app:expandedTitleTextAppearance="@style/ExpandedTitleStyle"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    app:scrimAnimationDuration="150"
-                    app:title="@{`하늘나라`}"
-                    app:toolbarId="@id/toolbar">
+                    android:background="@color/mument_color_bgwhite"
+                    app:layout_collapseMode="pin">
 
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_collapseMode="pin">
-
-                        <ImageView
-                            android:id="@+id/iv_album_profile"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:scaleType="centerCrop"
-                            app:layout_constraintWidth_percent="0.316"
-                            app:layout_constraintDimensionRatio="1:1"
-                            android:layout_marginStart="16dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:layout_marginTop="98dp"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:load_album="@{songDetailViewModel.testImage}"
-                            tools:background="@color/mument_color_blue1"/>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_album_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextView.Mument_H2_B18.Style"
-                            android:text="하늘나라"
-                            android:layout_marginStart="10dp"
-                            app:layout_constraintTop_toTopOf="@id/iv_album_profile"
-                            app:layout_constraintStart_toEndOf="@id/iv_album_profile"/>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_artist_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            style="@style/TextView.Mument_B4_M14.Style"
-                            android:textColor="@color/mument_color_gray1"
-                            android:text="혁오"
-                            app:layout_constraintTop_toBottomOf="@id/tv_album_name"
-                            app:layout_constraintStart_toStartOf="@id/tv_album_name"/>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_record_mument"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            style="@style/TextView.Mument_B7_M12.Style"
-                            android:textColor="@color/white"
-                            android:background="@drawable/rectangle_fill_purple_11dp"
-                            android:gravity="center"
-                            android:paddingVertical="12dp"
-                            stringRes="@{@string/record_mument}"
-                            drawableIcon="@{@drawable/ic_btn_record_icon}"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginTop="20dp"
-                            app:layout_constraintTop_toBottomOf="@id/iv_album_profile"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"/>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="98dp"
-                        app:contentInsetStart="0dp"
+                    <ImageView
+                        android:id="@+id/iv_album_profile"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintWidth_percent="0.316"
+                        app:layout_constraintDimensionRatio="1:1"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="98dp"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:load_album="@{songDetailViewModel.testImage}"
+                        tools:background="@color/mument_color_blue1"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_album_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextView.Mument_H2_B18.Style"
+                        android:text="하늘나라"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintTop_toTopOf="@id/iv_album_profile"
+                        app:layout_constraintStart_toEndOf="@id/iv_album_profile"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_artist_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        style="@style/TextView.Mument_B4_M14.Style"
+                        android:textColor="@color/mument_color_gray1"
+                        android:text="혁오"
+                        app:layout_constraintTop_toBottomOf="@id/tv_album_name"
+                        app:layout_constraintStart_toStartOf="@id/tv_album_name"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_record_mument"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/TextView.Mument_B7_M12.Style"
+                        android:textColor="@color/white"
+                        android:background="@drawable/rectangle_fill_purple_11dp"
+                        android:gravity="center"
+                        android:paddingVertical="12dp"
+                        stringRes="@{@string/record_mument}"
+                        drawableIcon="@{@drawable/ic_btn_record_icon}"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintTop_toBottomOf="@id/iv_album_profile"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_back"
-                        android:layout_width="58dp"
-                        android:layout_height="58dp"
-                        android:layout_marginVertical="15dp"
-                        android:src="@drawable/ic_back"
-                        android:scaleType="centerInside"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_collapseMode="pin"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="98dp"
+                    app:contentInsetStart="0dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:layout_marginVertical="15dp"
+                    android:src="@drawable/ic_back"
+                    android:scaleType="centerInside"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_collapseMode="pin"/>
 
 
-                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
-            </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.core.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@color/mument_color_bgwhite"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                android:background="@color/mument_color_bgwhite"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
-
+                android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -154,7 +142,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/muments_recorded_by_me"
-                        style="@style/TextView.Mument_B1_B15.Style"
                         android:textColor="@color/mument_color_black2"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -164,53 +151,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/show_my_history"
-                        style="@style/TextView.Mument_C1_R12.Style"
                         android:textColor="@color/mument_color_purple1"
                         app:layout_constraintTop_toTopOf="@id/tv_my_muments"
                         app:layout_constraintBottom_toBottomOf="@id/tv_my_muments"
                         app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <LinearLayout
-                        android:id="@+id/ll_empty_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"
-                        android:orientation="vertical"
-                        app:layout_constraintTop_toBottomOf="@id/tv_my_muments"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:gravity="center">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/doesnt_exist_recorded_mument"
-                            style="@style/TextView.Mument_H3_B16.Style"
-                            android:textColor="@color/mument_color_gray1"/>
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/write_first_mument"
-                            style="@style/TextView.Mument_B6_B13.Style"
-                            android:textColor="@color/mument_color_gray2"/>
-
-
-                    </LinearLayout>
-
                     <include
                         android:id="@+id/layout_my_mument"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         layout="@layout/mument_layout_cardview"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_marginTop="15dp"
                         app:layout_constraintTop_toBottomOf="@id/tv_my_muments"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:isSongDetail="@{true}"
                         app:mument="@{songDetailViewModel.dummyMyMuments}"/>
-
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_every_muments"
@@ -218,7 +173,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/every_mument"
                         android:layout_marginTop="50dp"
-                        style="@style/TextView.Mument_B1_B15.Style"
                         android:textColor="@color/mument_color_black2"
                         app:layout_constraintTop_toBottomOf="@id/layout_my_mument"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -228,12 +182,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/sort_latest"
-                        android:layout_marginTop="50dp"
                         android:paddingHorizontal="4dp"
                         android:paddingVertical="5dp"
-                        style="@style/TextView.Mument_C1_R12.Style"
                         android:textColor="@color/selector_state_selected_gray1_purple1"
-                        app:layout_constraintTop_toBottomOf="@id/layout_my_mument"
+                        app:layout_constraintTop_toTopOf="@id/tv_every_muments"
                         app:layout_constraintEnd_toEndOf="parent"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -241,7 +193,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/sort_like_count"
-                        style="@style/TextView.Mument_C1_R12.Style"
                         android:paddingHorizontal="4dp"
                         android:paddingVertical="5dp"
                         android:textColor="@color/selector_state_selected_gray1_purple1"
@@ -252,24 +203,25 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_every_muments"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:overScrollMode="never"
-                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/tv_every_muments"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         tools:listitem="@layout/mument_layout_cardview"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.core.widget.NestedScrollView>
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </FrameLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
