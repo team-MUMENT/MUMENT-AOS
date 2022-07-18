@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.app.data.dto.MumentCard
+import com.mument_android.app.data.enumtype.EmotionalTag
+import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.LockerMumentEntity
 import com.mument_android.app.domain.entity.MumentCardData.Music
 import com.mument_android.app.domain.entity.MumentCardData.User
@@ -20,6 +22,9 @@ import javax.inject.Inject
 class LockerViewModel @Inject constructor(
     private val fetchMyMumentListUseCase: FetchMyMumentListUseCase
 ): ViewModel() {
+    val emotionalTags = EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }
+    val impressionTags = ImpressiveTag.values().map { TagEntity(TagEntity.TAG_IMPRESSIVE, it.tag, it.tagIndex) }
+
     private val _myMuments = MutableLiveData<List<LockerMumentEntity>>()
     val myMuments = _myMuments
 
@@ -60,8 +65,9 @@ class LockerViewModel @Inject constructor(
     }
 
     fun resetCheckedList() {
-        val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
-        tempList?.clear()
-        _checkedTagList.value = tempList
+        checkedTagList.value?.toMutableList()?.let {
+            it.clear()
+            _checkedTagList.value = it
+        }
     }
 }

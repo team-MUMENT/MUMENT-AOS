@@ -42,6 +42,7 @@
             app:tabTextAppearance="@style/tab_text" />
 
         <View
+            android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/mument_color_gray4"
@@ -78,25 +79,32 @@
             app:layout_constraintEnd_toStartOf="@+id/iv_locker_list"
             app:layout_constraintTop_toTopOf="@+id/iv_locker_list" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_locker_filter" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_locker"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chip_group" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_selected_tags" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_selected_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mument_color_gray3"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="7dp"
+            android:layout_marginTop="18dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_locker_filter"
+            tools:listitem="@layout/item_mument_filter_string_tag" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

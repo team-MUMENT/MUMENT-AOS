@@ -8,6 +8,7 @@ import com.mument_android.BR
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemMumentFilterStringTagBinding
+import timber.log.Timber
 
 class FilterBottomSheetSelectedAdapter(
     private val removeSelectedTagListener: (TagEntity, Int) -> Unit
@@ -23,6 +24,7 @@ class FilterBottomSheetSelectedAdapter(
         holder.binding.setVariable(BR.tagEntity, getItem(position))
         val tag = getItem(position)
         holder.binding.tvSelectedTag.setOnClickListener {
+            Timber.d("Adapter Test Code : $tag")
             removeSelectedTagListener(tag, currentList.indexOf(tag))
         }
     }

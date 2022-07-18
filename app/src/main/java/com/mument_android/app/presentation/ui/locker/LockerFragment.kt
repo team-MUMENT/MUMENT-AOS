@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mument_android.R
+import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
@@ -17,12 +19,15 @@ import com.mument_android.app.util.ViewUtils.showToast
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentLockerBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class LockerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentLockerBinding>()
     private lateinit var lockerTabAdapter : LockerTabAdapter
-    private val viewModel : LockerViewModel by viewModels()
+    private lateinit var adapter: FilterBottomSheetSelectedAdapter
+
+    private val viewModel : LockerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,14 +45,15 @@ class LockerFragment : Fragment() {
         listBtnClickListener()
         gridBtnClickListener()
         filterBtnClickListener()
+        settingRecyclerView()
     }
 
     private fun initAdapter() {
         val fragmentList = listOf(MyMumentFragment(), MyLikeFragment())
         lockerTabAdapter = LockerTabAdapter(this)
         lockerTabAdapter.fragment.addAll(fragmentList)
-
         binding.vpLocker.adapter = lockerTabAdapter
+
 
     }
 
@@ -83,8 +89,23 @@ class LockerFragment : Fragment() {
 
     private fun filterBtnClickListener() {
         binding.ivLockerFilter.setOnClickListener {
-            LockerFilterBottomSheetFragment.newInstance().show(parentFragmentManager, "Hi")
+            LockerFilterBottomSheetFragment.newInstance().show(parentFragmentManager, "LockerFilterBottomSheetFragment")
         }
+    }
+
+
+
+    private fun settingRecyclerView() {
+        viewModel.checkedTagList.observe(viewLifecycleOwner) {
+            Timber.d("lockerFragment Test : $it")
+
+            if(it.isEmpty()) {
+                binding.rvSelectedTags.visibility = View.GONE
+            } else {
+                binding.rvSelectedTags.visibility = View.VISIBLE
+            }
+        }
+
     }
 
 }

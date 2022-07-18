@@ -7,17 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
-import com.mument_android.app.data.enumtype.EmotionalTag
-import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
-import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
@@ -32,7 +29,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     private var binding by AutoClearedValue<FragmentLockerFilterBottomSheetBinding>()
-    private val lockerViewModel: LockerViewModel by viewModels()
+    private val lockerViewModel: LockerViewModel by activityViewModels()
     private lateinit var filterBottomSheetAdapterImpress: FilterBottomSheetAdapter
     private lateinit var filterBottomSheetAdpaterEmotion: FilterBottomSheetAdapter
 
@@ -65,10 +62,8 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             ((dialogInterface as BottomSheetDialog).findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View).apply {
                 val behavior = BottomSheetBehavior.from(this)
                 val layoutParams = this.layoutParams
-
                 behavior.disableShapeAnimations()
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
-
                 this.layoutParams = layoutParams
             }
         }
@@ -79,14 +74,12 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setEmotionalList()
-        resetClickListener()
         setSelectedTag()
         closeBtnListener()
         resetTags()
         selectLayout()
         applyBtnListener()
     }
-
     private fun setEmotionalList() {
         filterBottomSheetAdapterImpress = FilterBottomSheetAdapter(
             requireContext(),
@@ -94,6 +87,9 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 override fun addCheckedTag(tag: TagEntity) {
                     lockerViewModel.addCheckedList(tag)
                     filterBottomSheetAdpaterEmotion.selectedTags.add(tag)
+                    lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
+                        Timber.d("add Code : ${it}")
+                    }
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
@@ -113,6 +109,9 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 override fun addCheckedTag(tag: TagEntity) {
                     filterBottomSheetAdapterImpress.selectedTags.add(tag)
                     lockerViewModel.addCheckedList(tag)
+                    lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
+                        Timber.d("add Code : ${it}")
+                    }
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
@@ -139,55 +138,54 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             setItemDecoration(this)
             setImpressiveRvFlexBoxLayout()
         }
-
-    }
-
-    private fun resetClickListener() {
-        binding.tvClearAll.setOnClickListener {
-            lockerViewModel.resetCheckedList()
-        }
     }
 
     private fun closeBtnListener() {
         binding.ivFilterDelete.setOnClickListener {
+            resetTags()
+
             dismiss()
         }
     }
 
+    //선택된 태그들 리사이클러뷰
     private fun setSelectedTag() {
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
-                lockerViewModel.removeCheckedList(tag)
+                if(lockerViewModel.emotionalTags.contains(tag)) {
+                    filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
+                    binding.rvEmotion.syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag))
+                } else {
+                    filterBottomSheetAdapterImpress.selectedTags.remove(tag)
+                    binding.rvImpressive.syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
+                }
 
-                //syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag))
-                syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag))
+                lockerViewModel.removeCheckedList(tag)
+                //syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
             }
 
             lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
                 (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
             }
-        }
-    }
-
-    private fun syncSelectedTags(position: Int) {
-//        binding.rvEmotion.let { recyclerview ->
-//            val view = recyclerview[position]
-//            val viewHolder = recyclerview.getChildViewHolder(view)
-//            Timber.e("data position ${position}")
-//            Timber.e("view position ${viewHolder.absoluteAdapterPosition}")
-//            (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
-//                false
-//        }
-
-        binding.rvEmotion.let { recyclerView ->
-            val view = recyclerView[position]
-            val viewHolder = recyclerView.getChildViewHolder(view)
-            (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked = false
 
 
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        //binding.rvEmotion.syncCheckTags()
+        //binding.rvImpressive.syncCheckTags()
+    }
+
+    private fun RecyclerView.syncSelectedTags(position: Int) {
+        val view = if (id == binding.rvEmotion.id) binding.rvEmotion[position] else binding.rvImpressive[position]
+        val viewHolder = getChildViewHolder(view)
+        (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked = false
+    }
+
+
+    //recyclerview item decoration
     private fun setItemDecoration(recyclerView: RecyclerView) {
         recyclerView.addItemDecoration(
             RecyclerviewItemDivider(
@@ -207,9 +205,9 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 layoutManager = it
                 adapter = filterBottomSheetAdapterImpress
             }
-            filterBottomSheetAdapterImpress.submitList(
-                ImpressiveTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) }
-            )
+            filterBottomSheetAdapterImpress.submitList(lockerViewModel.impressionTags)
+            filterBottomSheetAdapterImpress.selectedTags = lockerViewModel.checkedTagList.value!!.toMutableList()
+
         }
     }
 
@@ -222,9 +220,8 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 layoutManager = it
                 adapter = filterBottomSheetAdpaterEmotion
             }
-            filterBottomSheetAdpaterEmotion.submitList(
-                EmotionalTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) }
-            )
+            filterBottomSheetAdpaterEmotion.submitList(lockerViewModel.emotionalTags)
+            filterBottomSheetAdpaterEmotion.selectedTags = lockerViewModel.checkedTagList.value!!.toMutableList()
         }
     }
 
@@ -247,7 +244,16 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             }
         }
     }
+    private fun RecyclerView.syncCheckTags() {
+        lockerViewModel.checkedTagList.value?.forEach {
+            getChildViewHolder(get(it.tagIdx-1)).run {
+                (this as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
+                    true
+            }
+        }
+    }
 
+    //bottomsheet background 설정
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
     private fun selectLayout() {
@@ -268,7 +274,10 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     //완료버튼 클릭 리스너
     private fun applyBtnListener() {
         binding.tvApprove.setOnClickListener {
-
+            dismiss()
+            lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
+                Timber.d("!!!!!!!!$it")
+            }
         }
     }
 
