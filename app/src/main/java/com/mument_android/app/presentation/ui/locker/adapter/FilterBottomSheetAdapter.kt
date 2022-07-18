@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.record
+package com.mument_android.app.presentation.ui.locker.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,38 +9,42 @@ import com.mument_android.BR
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemTagCheckboxBinding
+import timber.log.Timber
 
-class RecordTagAdapter(
+
+class FilterBottomSheetAdapter(
     val context: Context,
-    val option: Boolean,
-    val checkTagListener: RecordTagCheckListener
-) : ListAdapter<TagEntity, RecordTagAdapter.RecordTagViewHolder>(
+    val checkTagListener: FilterTagCheckListener
+//    val checkListener: (TagEntity) -> Unit,
+//    val unCheckListener: (TagEntity) -> Unit
+) : ListAdapter<TagEntity, FilterBottomSheetAdapter.BottomSheetFilterHolder>(
     GlobalDiffCallBack<TagEntity>()
 ) {
 
-    interface RecordTagCheckListener {
+    interface FilterTagCheckListener {
         fun addCheckedTag(tag: TagEntity): Unit
         fun removeCheckedTag(tag: TagEntity): Unit
         fun alertMaxCount()
     }
 
     val selectedTags = mutableListOf<TagEntity>()
-    var enabled: Boolean = true
     var reset: Boolean = false
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordTagViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomSheetFilterHolder {
         val binding =
             ItemTagCheckboxBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecordTagViewHolder(binding)
+        return BottomSheetFilterHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecordTagViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BottomSheetFilterHolder, position: Int) {
         with(holder.binding.flItem.layoutParams as ViewGroup.MarginLayoutParams) {
 
+            //add code
             holder.binding.cbTag.let { checkBox ->
                 checkBox.setOnClickListener {
                     if (checkBox.isChecked) {
-                        if (selectedTags.count() >= 5 && !selectedTags.contains(getItem(position))) {
+                        Timber.d("${selectedTags.count()}")
+                        if (selectedTags.count() > 4 && !selectedTags.contains(getItem(position))) {
                             checkBox.isChecked = false
                             checkTagListener.alertMaxCount()
                         } else {
@@ -52,20 +56,26 @@ class RecordTagAdapter(
                         checkTagListener.removeCheckedTag(getItem(position))
                     }
                 }
-
-            holder.binding.flItem.layoutParams = this
+                holder.binding.flItem.layoutParams = this
             }
 
-            if (reset) {
+            if(reset) {
                 holder.binding.cbTag.isChecked = false
                 reset = false
             }
+           // holder.binding.flItem.layoutParams = this
 
         }
+        holder.binding.cbTag.setOnCheckedChangeListener { button, isChecked ->
+//            //if(isChecked) checkListener(getItem(position)) else unCheckListener(getItem(position))
+//            if (isChecked) checkTagListener.addCheckedTag(getItem(position)) else checkTagListener.removeCheckedTag(
+//                getItem(position)
+//            )
+        }
+
         holder.binding.setVariable(BR.tagEntity, getItem(position))
     }
 
-    class RecordTagViewHolder(val binding: ItemTagCheckboxBinding) :
+    class BottomSheetFilterHolder(val binding: ItemTagCheckboxBinding) :
         RecyclerView.ViewHolder(binding.root)
-
 }
