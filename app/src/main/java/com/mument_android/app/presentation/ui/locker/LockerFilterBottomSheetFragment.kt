@@ -84,8 +84,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
         closeBtnListener()
         resetTags()
         selectLayout()
-
-
+        applyBtnListener()
     }
 
     private fun setEmotionalList() {
@@ -159,8 +158,9 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
                 lockerViewModel.removeCheckedList(tag)
+
                 //syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag))
-                syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
+                syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag))
             }
 
             lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
@@ -179,11 +179,11 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 //                false
 //        }
 
-        binding.rvImpressive.let { recyclerView ->
+        binding.rvEmotion.let { recyclerView ->
             val view = recyclerView[position]
             val viewHolder = recyclerView.getChildViewHolder(view)
-            (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
-                false
+            (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked = false
+
 
         }
     }
@@ -262,6 +262,13 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
             val value = it.count().toString()
             binding.tvFilterNum.setText(value)
+        }
+    }
+
+    //완료버튼 클릭 리스너
+    private fun applyBtnListener() {
+        binding.tvApprove.setOnClickListener {
+
         }
     }
 
