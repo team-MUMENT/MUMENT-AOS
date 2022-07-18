@@ -88,7 +88,6 @@ object GlobalBindingAdapter {
                 this.transformations(RoundedCornersTransformation(5.0f))
             }
         } else {
-            TODO("placeholder")
         }
     }
     @JvmStatic

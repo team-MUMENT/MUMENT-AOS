@@ -19,7 +19,15 @@ class RecordViewModel : ViewModel() {
     private val _isSelectedMusic = MutableLiveData<Boolean>()
     val isSelectedMusic get(): LiveData<Boolean> = _isSelectedMusic
 
-    val data = SearchResultData("25", "불꽃카리스마", "이민호","https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",true)
+    private val _selectedMusic = MutableLiveData<SearchResultData>()
+    val selectedMusic = _selectedMusic
+
+//    val data = SearchResultData("25", "불꽃카리스마", "이민호","https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",true)
+
+    fun changeSelectedMusic(music: SearchResultData) {
+        _selectedMusic.value = music
+    }
+
 
     fun addCheckedList(tag: TagEntity) {
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()

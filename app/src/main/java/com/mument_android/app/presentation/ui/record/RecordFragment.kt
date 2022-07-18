@@ -18,6 +18,7 @@ import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.data.network.home.adapter.SearchListAdapter
+import com.mument_android.app.domain.entity.SearchResultData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
@@ -31,6 +32,7 @@ import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
 import timber.log.Timber
+import java.lang.reflect.Array.get
 
 
 class RecordFragment : Fragment() {
@@ -269,9 +271,16 @@ class RecordFragment : Fragment() {
 
     private fun initBottomSheet() {
         binding.btnRecordSearch.setOnClickListener {
-            BottomSheetSearchFragment.newInstance().show(parentFragmentManager, "Hi")
+            BottomSheetSearchFragment.newInstance {
+                recordViewModel.changeSelectedMusic(it)
+            }.show(parentFragmentManager, "Hi")
             recordViewModel.checkSelectedMusic(true)
 
+        }
+
+        recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
+            Timber.e("$it")
+            recordViewModel.checkSelectedMusic(true)
         }
     }
 
@@ -287,8 +296,8 @@ class RecordFragment : Fragment() {
 
     private fun isSelectedMusic(){
 
-        searchListAdapter.contentClickListener
-
     }
 
 }
+
+
