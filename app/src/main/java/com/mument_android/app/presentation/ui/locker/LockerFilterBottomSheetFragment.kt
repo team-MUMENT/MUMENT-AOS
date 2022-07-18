@@ -1,5 +1,6 @@
 package com.mument_android.app.presentation.ui.locker
 
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +10,8 @@ import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
@@ -56,13 +59,25 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+
+        dialog.setOnShowListener { dialogInterface ->
+            ((dialogInterface as BottomSheetDialog).findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View).apply {
+                val behavior = BottomSheetBehavior.from(this)
+                val layoutParams = this.layoutParams
+
+                behavior.disableShapeAnimations()
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+                this.layoutParams = layoutParams
+            }
+        }
+        return dialog
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.clFilterBottomSheet.layoutParams.height =
-            resources.displayMetrics.heightPixels * 687 / 700
-        binding.executePendingBindings()
-
 
         setEmotionalList()
         resetClickListener()
@@ -80,11 +95,11 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             object : FilterBottomSheetAdapter.FilterTagCheckListener {
                 override fun addCheckedTag(tag: TagEntity) {
                     lockerViewModel.addCheckedList(tag)
-                    filterBottomSheetAdapterImpress.selectedTags.add(tag)
+                    filterBottomSheetAdpaterEmotion.selectedTags.add(tag)
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
-                    filterBottomSheetAdapterImpress.selectedTags.remove(tag)
+                    filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
                     lockerViewModel.removeCheckedList(tag)
                 }
 
@@ -98,24 +113,20 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
         filterBottomSheetAdpaterEmotion = FilterBottomSheetAdapter(requireContext(),
             object : FilterBottomSheetAdapter.FilterTagCheckListener {
                 override fun addCheckedTag(tag: TagEntity) {
-                    filterBottomSheetAdpaterEmotion.selectedTags.add(tag)
+                    filterBottomSheetAdapterImpress.selectedTags.add(tag)
                     lockerViewModel.addCheckedList(tag)
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
-                    filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
+                    filterBottomSheetAdapterImpress.selectedTags.remove(tag)
                     lockerViewModel.removeCheckedList(tag)
                 }
 
                 override fun alertMaxCount() {
-                    lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
-                        if (it.count() > 3) {
-                            requireContext().snackBar(
-                                binding.root.rootView,
-                                "태그는 최대 3개까지 선택 할 수 있습니다."
-                            )
-                        }
-                    }
+                    requireContext().snackBar(
+                        binding.root.rootView,
+                        "태그는 최대 3개까지 선택 할 수 있습니다."
+                    )
                 }
 
             }
@@ -244,7 +255,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     private fun selectLayout() {
         lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
-                binding.rvSelectedTags.visibility = View.GONE
+                binding.rvSelectedTags.visibility = View.INVISIBLE
                 binding.tvFilterNum.setTextColor(Color.parseColor("#B6B6B6"))
             } else {
                 binding.rvSelectedTags.visibility = View.VISIBLE

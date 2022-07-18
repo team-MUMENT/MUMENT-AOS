@@ -35,7 +35,7 @@ class MyLikeFragment : Fragment() {
     private fun setMyMumentListAdapter() {
         binding.rvLikeLinear.run {
             viewModel.myMuments.observe(viewLifecycleOwner) {
-                initReviewEmpty(it.size)
+                initLikeEmpty(it.size)
                 (adapter as LockerTimeAdapter).submitList(it)
             }
             viewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
@@ -45,8 +45,8 @@ class MyLikeFragment : Fragment() {
         }
     }
 
-    //1:1질문 엠티뷰
-    private fun initReviewEmpty(size : Int){
+    //좋아요 한 뮤멘트 엠티뷰
+    private fun initLikeEmpty(size : Int){
         if(size == 0){
             binding.clEmptyView.visibility = View.VISIBLE
         }else{

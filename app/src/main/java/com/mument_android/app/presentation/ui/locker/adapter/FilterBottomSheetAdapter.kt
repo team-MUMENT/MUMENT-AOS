@@ -44,7 +44,7 @@ class FilterBottomSheetAdapter(
                 checkBox.setOnClickListener {
                     if (checkBox.isChecked) {
                         Timber.d("${selectedTags.count()}")
-                        if (selectedTags.count() > 4 && !selectedTags.contains(getItem(position))) {
+                        if (selectedTags.count() >= 3 && !selectedTags.contains(getItem(position))) {
                             checkBox.isChecked = false
                             checkTagListener.alertMaxCount()
                         } else {
