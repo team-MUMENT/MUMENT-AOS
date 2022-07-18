@@ -1,12 +1,14 @@
 package com.mument_android.app.presentation.ui.record
 
 import android.graphics.Color
+import android.icu.lang.UProperty
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
@@ -40,15 +42,14 @@ class RecordFragment : Fragment() {
     private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
-    private val searchViewModel : SearchViewModel by viewModels()
-    private  lateinit var searchListAdapter: SearchListAdapter
+    private val searchViewModel: SearchViewModel by viewModels()
+    private lateinit var searchListAdapter: SearchListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = FragmentRecordBinding.inflate(inflater, container, false).run {
         binding = this
-
         this.root
     }
 
@@ -126,7 +127,6 @@ class RecordFragment : Fragment() {
         with(binding.rvRecordEmotionalTags) {
             setItemDecoration(this)
             setEmotionalRvFlexBoxLayout()
-
         }
     }
 
@@ -256,12 +256,34 @@ class RecordFragment : Fragment() {
             .setHeader(getString(R.string.record_reset_header))
             .setBody(getString(R.string.record_reset_body))
             .setAllowListener {
+                resetRecord()
                 resetRecordTags()
             }
             .setCancelListener {}
             .build()
             .show(childFragmentManager, this.tag)
     }
+
+    private fun resetRecord() {
+
+        recordViewModel.checkSelectedMusic(false)
+
+        binding.btnRecordFirst.isChangeButtonFont(true)
+        binding.btnRecordSecond.isChangeButtonFont(false)
+        recordViewModel!!.checkIsFirst(true)
+        binding.btnRecordFirst.isChangeButtonFont(true)
+        binding.btnRecordSecond.isChangeButtonFont(false)
+        recordViewModel!!.checkIsFirst(true)
+        binding.clRecordRoot.scrollTo(0, 0)
+        binding.etRecordWrite.text.clear()
+
+        binding.tvRecordSecret.setText(R.string.record_open)
+        binding.switchRecordSecret.isChecked = false
+
+        recordViewModel.removeSelectedMusic()
+
+    }
+
 
     private fun resetRecordTags() {
         binding.rvRecordImpressiveTags.resetCheckedTags(rvImpressionTagsAdapter)
@@ -276,8 +298,8 @@ class RecordFragment : Fragment() {
             BottomSheetSearchFragment.newInstance {
                 recordViewModel.changeSelectedMusic(it)
             }.show(parentFragmentManager, "Hi")
-            recordViewModel.checkSelectedMusic(true)
-
+//            recordViewModel.checkSelectedMusic(true)
+            Timber.d(recordViewModel.selectedMusic.value.toString())
         }
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
             Timber.e("$it")
@@ -286,22 +308,26 @@ class RecordFragment : Fragment() {
     }
 
 
-
     private fun getAllData() {
         binding.btnRecordFinish.setOnClickListener {
             Timber.e(
-                "버튼 : ${recordViewModel.isFirst.value}\n 태그 : ${rvImpressionTagsAdapter.selectedTags.map { 
-                    it.tagIdx
-                }}\n 감상기록 : ${recordViewModel.text.value}\n 공개글 : ${binding.switchRecordSecret.isChecked}"
+                "버튼 : ${recordViewModel.isFirst.value}\n 태그 : ${
+                    rvImpressionTagsAdapter.selectedTags.map {
+                        it.tagIdx
+                    }
+                }\n 감상기록 : ${recordViewModel.text.value}\n 공개글 : ${binding.switchRecordSecret.isChecked}"
             )
         }
     }
 
-    private fun isClickDelete(){
-        binding.ivDelete.setOnClickListener{
+    private fun isClickDelete() {
+        binding.ivDelete.setOnClickListener {
             recordViewModel.checkSelectedMusic(false)
+            recordViewModel.removeSelectedMusic()
         }
     }
+
+
 }
 
 

@@ -58,5 +58,9 @@ class RecordViewModel : ViewModel() {
     fun checkSelectedMusic(isSelected : Boolean) {
         _isSelectedMusic.value = isSelected
     }
+    fun removeSelectedMusic(){
+        selectedMusic.value = null
+        _isSelectedMusic.value = false
+    }
 
 }
