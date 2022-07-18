@@ -18,8 +18,9 @@ object ViewUtils {
         }
     }
 
-    fun Context.showToast(msg:String){
-        Toast.makeText(this,msg, Toast.LENGTH_SHORT).show()
+    fun Context.showToast(msg:String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
     fun Activity.getDeviceSize(): List<Int> {
         var deviceWidth = 0
         var deviceHeight = 0
