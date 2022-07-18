@@ -33,18 +33,34 @@ class MyMumentFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         setMyMumentListAdapter()
+        emptyBtnClick()
 
     }
 
     private fun setMyMumentListAdapter() {
         binding.rvMumentLinear.run {
             viewModel.myMuments.observe(viewLifecycleOwner) {
+                initMumentEmpty(it.size)
                 (adapter as LockerTimeAdapter).submitList(it)
             }
             viewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
                 adapter = LockerTimeAdapter(isGridLayout)
                 (adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
             }
+        }
+    }
+
+    private fun initMumentEmpty(size : Int) {
+        if(size == 0) {
+            binding.clEmptyView.visibility = View.VISIBLE
+        } else {
+            binding.clEmptyView.visibility = View.GONE
+        }
+    }
+
+    private fun emptyBtnClick() {
+        binding.clEmptyRecord.setOnClickListener {
+            //기록하기 뷰로 이동
         }
     }
 }
