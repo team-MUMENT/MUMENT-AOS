@@ -7,12 +7,12 @@ import com.google.gson.Gson
 @ProvidedTypeConverter
 class IntListTypeConverter(private val gson: Gson) {
     @TypeConverter
-    fun listToJson(value: List<String>): String? {
+    fun listToJson(value: List<Int>): String? {
         return gson.toJson(value)
     }
 
     @TypeConverter
-    fun jsonToList(value: String): List<String> {
-        return gson.fromJson(value, Array<String>::class.java).toList()
+    fun jsonToList(value: String): List<Int> {
+        return gson.fromJson(value, Array<Int>::class.java).toList()
     }
 }
