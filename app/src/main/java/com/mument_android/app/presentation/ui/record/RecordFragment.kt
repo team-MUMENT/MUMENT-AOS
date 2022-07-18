@@ -65,6 +65,8 @@ class RecordFragment : Fragment() {
         scrollEditTextView()
         initBottomSheet()
         getAllData()
+        isClickDelete()
+
     }
 
     private fun setTagRecyclerView() {
@@ -277,12 +279,13 @@ class RecordFragment : Fragment() {
             recordViewModel.checkSelectedMusic(true)
 
         }
-
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
             Timber.e("$it")
             recordViewModel.checkSelectedMusic(true)
         }
     }
+
+
 
     private fun getAllData() {
         binding.btnRecordFinish.setOnClickListener {
@@ -294,10 +297,11 @@ class RecordFragment : Fragment() {
         }
     }
 
-    private fun isSelectedMusic(){
-
+    private fun isClickDelete(){
+        binding.ivDelete.setOnClickListener{
+            recordViewModel.checkSelectedMusic(false)
+        }
     }
-
 }
 
 
