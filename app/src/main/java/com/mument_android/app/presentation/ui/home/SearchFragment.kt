@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -47,7 +48,17 @@ class SearchFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewmodel
         binding.option = true
-        binding.etSearch.setOnClickListener {
+        binding.rcSearch.adapter = searchAdapter
+    }
+
+    private fun addClickListener() {
+
+        binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                viewmodel.searchMusic(binding.etSearch.text.toString())
+            }
+            Timber.d("done!! $actionId")
+            false
         }
         binding.etSearch.setOnFocusChangeListener { view, b ->
             if (b) {
