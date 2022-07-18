@@ -7,18 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.mument_android.app.data.network.home.adapter.SearchListAdapter
-import com.mument_android.app.domain.entity.SearchResultData
+import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.util.AutoClearedValue
+import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private var binding by AutoClearedValue<FragmentSearchBinding>()
@@ -35,6 +34,12 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        settingAdapterAndDatabinding()
+        collectingList()
+        addClickListener()
+    }
+
+    private fun settingAdapterAndDatabinding() {
         searchAdapter = SearchListAdapter({ data ->
             viewmodel.selectContent(data)
         }, { data ->
@@ -43,8 +48,6 @@ class SearchFragment : Fragment() {
         searchResultAdapter = SearchListAdapter({ data ->
             viewmodel.selectContent(data)
         }, {})
-        binding.rcSearch.adapter = searchAdapter
-        searchAdapter.submitList(viewmodel.searchList.value)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewmodel
         binding.option = true
@@ -71,25 +74,27 @@ class SearchFragment : Fragment() {
         binding.etAllDelete.setOnClickListener {
             viewmodel.allListDelete()
         }
-        lifecycleScope.launch {
-            viewmodel.searchResultList.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect {
-                    if (it.size != 0) {
-                        Timber.d("COLLECT!!!!!")
-                        binding.rcSearch.adapter = searchResultAdapter
-                        searchResultAdapter.submitList(it)
-                        //searchAdapter.submitList(it)
-                    } else {
-                        Timber.d("Not COLLECT!!!!!")
-                    }
-                }
-            viewmodel.searchContent.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect {
-                //Timber.d("collect!! $it")
+    }
+
+    private fun collectingList() {
+        viewmodel.searchResultList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+            if (result?.size != 0) {
+                binding.rcSearch.adapter = searchResultAdapter
+                searchResultAdapter.submitList(result)
+                //searchAdapter.submitList(it)
             }
         }
-
-        viewmodel.searchList.observe(viewLifecycleOwner) {
-            searchAdapter.submitList(it)
+        viewmodel.searchContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+            //Timber.d("collect!! $it")
+        }
+        viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+            when (result) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    searchAdapter.submitList(result.data)
+                }
+            }
         }
     }
 
