@@ -18,7 +18,7 @@ class MumentTagCheckBox @JvmOverloads constructor(
     init {
         buttonDrawable = null
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14f)
-        setPadding(7.dpToPx(context), 5.dpToPx(context), 7.dpToPx(context), 5.dpToPx(context))
+        setPadding(7.dpToPx(context), 1.dpToPx(context), 7.dpToPx(context), 1.dpToPx(context))
         setTextColor(context.getColorStateList(R.color.selector_color_gray1_to_blue1))
         setBackgroundResource(R.drawable.selector_tag_background_fill_20dp)
         setOnCheckedChangeListener { button, isChecked ->

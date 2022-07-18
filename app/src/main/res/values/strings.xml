@@ -53,7 +53,7 @@
     <string name="locker_filter">필터</string>
     <string name="locker_impress_selection">인상적인 부분</string>
     <string name="locker_emotion">감정</string>
-    <string name="locker_delete">전체 해제</string>
+    <string name="locker_delete"><u>전체 해제</u></string>
     <string name="locker_apply_tag">태그 적용하기</string>
     <string name="locker_toast">태그는 최대 3개까지 선택할 수 있어요.</string>
 
@@ -66,11 +66,16 @@
     <string name="record_impression_title">무엇이 인상적이었나요?</string>
     <string name="record_choose_impression">감정을 선택해보세요.</string>
     <string name="record_write_title">이 순간의 여운을 글로 남겨보세요.</string>
-        <string name="record_write_hint">글을 쓰지 않아도 뮤멘트를 저장할 수 있어요.</string>
+    <string name="record_write_hint">글을 쓰지 않아도 뮤멘트를 저장할 수 있어요.</string>
     <string name="record_text_num">%d/1000</string>
     <string name="record_open">공개글</string>
     <string name="record_secret">비밀글</string>
     <string name="record_finish">완료</string>
+    <string name="record_snackbar_tag_info">감상 태그는 최대 5개까지 선택할 수 있어요. </string>
+    <string name="record_snackbar_first_info">감상 태그는 최대 5개까지 선택할 수 있어요. </string>
+    <string name="record_reset_header">뮤멘트 기록을 초기화하시겠어요?</string>
+    <string name="record_reset_body">확인 선택 시, 작성 중인 내용이 삭제됩니다.</string>
+
 
 
 </resources>

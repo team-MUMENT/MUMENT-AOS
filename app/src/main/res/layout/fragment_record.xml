@@ -10,6 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_record_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".app.presentation.ui.record.RecordFragment">
@@ -28,7 +29,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true">
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_left"
@@ -146,7 +148,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_record_impressive_tags"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="94dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
                     android:orientation="horizontal"
@@ -168,13 +170,15 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_record_emotional_tags"
-                    android:layout_width="475dp"
+                    android:layout_width="485dp"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:orientation="horizontal"
                     android:layout_marginTop="16dp"
                     android:scrollbars="none"
                     android:overScrollMode="never"
+                    android:paddingStart="16dp"
+                    android:clipToPadding="false"
                     app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_impression"
@@ -205,6 +209,7 @@
                         android:layout_width="0dp"
                         android:layout_height="193dp"
                         android:layout_marginTop="15dp"
+                        android:overScrollMode="never"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -219,7 +224,6 @@
                             android:hint="@string/record_write_hint"
                             android:maxLength="1000"
                             android:minHeight="193dp"
-                            android:overScrollMode="always"
                             android:paddingHorizontal="13dp"
                             android:scrollbarStyle="insideInset"
                             android:scrollbars="vertical"
