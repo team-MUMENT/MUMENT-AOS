@@ -3,9 +3,14 @@ package com.mument_android.app.di
 import com.mument_android.app.data.controller.LikeMumentController
 import com.mument_android.app.data.controller.LikeMumentControllerImpl
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
+import com.mument_android.app.domain.repository.home.HomeRepository
 import com.mument_android.app.domain.repository.locker.LockerRepository
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCaseImpl
+import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
+import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCaseImpl
+import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCase
+import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCaseImpl
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCaseImpl
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
@@ -41,4 +46,16 @@ object UseCaseModule {
     @Singleton
     fun provideCancelLikeMumentUseCase(likeMumentController: LikeMumentController): CancelLikeMumentUseCase =
         CancelLikeMumentUseCaseImpl(likeMumentController)
+
+
+    @Provides
+    @Singleton
+    fun provideCRURecentSearchListUseCase(homeRepository: HomeRepository): CRURecentSearchListUseCase =
+        CRURecentSearchListUseCaseImpl(homeRepository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteRecentSearchListUseCase(homeRepository: HomeRepository): DeleteRecentSearchListUseCase =
+        DeleteRecentSearchListUseCaseImpl(homeRepository)
+
 }
