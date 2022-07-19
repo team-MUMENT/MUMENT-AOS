@@ -47,6 +47,7 @@ class MyLikeFragment : Fragment() {
     }
 
     //좋아요 한 뮤멘트 엠티뷰
+    //TODO: 필터 및 아이콘들 비활성화
     private fun initLikeEmpty(size : Int){
         if(size == 0){
             binding.clEmptyView.visibility = View.VISIBLE

@@ -118,8 +118,10 @@ class LockerFragment : Fragment() {
                 (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
                 if (it.isEmpty()) {
                     binding.rvSelectedTags.visibility = View.GONE
+                    binding.ivLockerFilter.isSelected = false
                 } else {
                     binding.rvSelectedTags.visibility = View.VISIBLE
+                    binding.ivLockerFilter.isSelected = true
                 }
             }
         }

@@ -50,6 +50,7 @@ class MyMumentFragment : Fragment() {
         }
     }
 
+    //TODO: 필터 및 아이콘들 비활성화
     private fun initMumentEmpty(size : Int) {
         if(size == 0) {
             binding.clEmptyView.visibility = View.VISIBLE
