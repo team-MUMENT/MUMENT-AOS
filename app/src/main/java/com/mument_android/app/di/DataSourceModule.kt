@@ -72,11 +72,11 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideRecentSearchListDataSource(dao: RecentSearchDAO): RecentSearchListDataSource =
-        RecentSearchListDataSourceImpl(dao)
+    fun provideRecentSearchListDataSource(dao: RecentSearchDAO): LocalRecentSearchListDataSource =
+        LocalRecentSearchListDataSourceImpl(dao)
 
     @Provides
     @Singleton
-    fun provideTodayMumentDataSource(dao: TodayMumentDAO): TodayMumentDataSource =
-        TodayMumentDataSourceImpl(dao)
+    fun provideTodayMumentDataSource(dao: TodayMumentDAO): LocalTodayMumentDataSource =
+        LocalTodayMumentDataSourceImpl(dao)
 }

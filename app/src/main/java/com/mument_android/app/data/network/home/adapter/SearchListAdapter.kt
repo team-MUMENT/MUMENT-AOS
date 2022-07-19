@@ -13,8 +13,8 @@ import com.mument_android.databinding.ItemSearchListBinding
 
 class SearchListAdapter(
     private val context: Context,
-    private val contentClickListener: (SearchResultData) -> Unit,
-    private val itemClickListener: (SearchResultData) -> Unit
+    private val contentClickListener: (RecentSearchData) -> Unit,
+    private val itemClickListener: (RecentSearchData) -> Unit
 ) :
     ListAdapter<RecentSearchData, SearchListAdapter.SearchViewHolder>(GlobalDiffCallBack<RecentSearchData>()) {
 

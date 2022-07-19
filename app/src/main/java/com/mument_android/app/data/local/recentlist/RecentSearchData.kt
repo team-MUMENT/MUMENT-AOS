@@ -12,7 +12,7 @@ data class RecentSearchData(
     val artist: String,
     val image: String,
     val name: String,
-    val createAt: Date,
+    val createAt: Date?,
 ){
     @Ignore val optional: Boolean = true
 }

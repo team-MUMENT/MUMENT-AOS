@@ -1,7 +1,7 @@
 package com.mument_android.app.data.repository
 
-import com.mument_android.app.data.datasource.home.RecentSearchListDataSource
-import com.mument_android.app.data.datasource.home.TodayMumentDataSource
+import com.mument_android.app.data.datasource.home.LocalRecentSearchListDataSource
+import com.mument_android.app.data.datasource.home.LocalTodayMumentDataSource
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.local.todaymument.TodayMumentEntity
 import com.mument_android.app.domain.repository.home.HomeRepository
@@ -14,8 +14,8 @@ import java.util.*
 import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(
-    private val todayMumentDataSource: TodayMumentDataSource,
-    private val recentSaerchListDataSource: RecentSearchListDataSource
+    private val todayMumentDataSource: LocalTodayMumentDataSource,
+    private val recentSaerchListDataSource: LocalRecentSearchListDataSource
 ) : HomeRepository {
     override suspend fun getTodayMument(): List<TodayMumentEntity> =
         todayMumentDataSource.getTodayMument()
