@@ -31,9 +31,10 @@ import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYO
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-
+@AndroidEntryPoint
 class RecordFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentRecordBinding>()
     private val recordViewModel: RecordViewModel by viewModels()
@@ -63,7 +64,7 @@ class RecordFragment : Fragment() {
         initBottomSheet()
         getAllData()
         isClickDelete()
-
+        observingListen()
     }
 
     private fun setTagRecyclerView() {
@@ -180,6 +181,13 @@ class RecordFragment : Fragment() {
         }
     }
 
+    private fun observingListen() {
+        recordViewModel.isFirst.observe(viewLifecycleOwner) {
+            binding.btnRecordFirst.isChangeButtonFont(it)
+            binding.btnRecordSecond.isChangeButtonFont(!it)
+        }
+    }
+
     private fun firstListenClickEvent() {
         binding.btnRecordFirst.isChangeButtonFont(true)
         with(binding) {
@@ -290,9 +298,9 @@ class RecordFragment : Fragment() {
     private fun initBottomSheet() {
         binding.btnRecordSearch.setOnClickListener {
             BottomSheetSearchFragment.newInstance {
-//                recordViewModel.changeSelectedMusic(it)
+                recordViewModel.changeSelectedMusic(it)
             }.show(parentFragmentManager, "bottom sheet")
-//            recordViewModel.checkSelectedMusic(true)
+            recordViewModel.checkSelectedMusic(true)
             Timber.d(recordViewModel.selectedMusic.value.toString())
         }
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {

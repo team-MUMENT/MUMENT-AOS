@@ -113,9 +113,7 @@ class SearchFragment : Fragment() {
                         }
                     }
                 }
-                else -> {
 
-                }
             }
         }
         /*

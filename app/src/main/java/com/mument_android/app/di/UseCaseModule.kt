@@ -5,6 +5,7 @@ import com.mument_android.app.data.controller.LikeMumentControllerImpl
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
 import com.mument_android.app.domain.repository.home.HomeRepository
 import com.mument_android.app.domain.repository.locker.LockerRepository
+import com.mument_android.app.domain.repository.record.RecordRepository
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCaseImpl
 import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
@@ -17,6 +18,8 @@ import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCaseImpl
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCaseImpl
+import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCase
+import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,6 +33,11 @@ object UseCaseModule {
     @Singleton
     fun provideFetchMumentDetailContentUseCase(mumentDetailRepository: MumentDetailRepository): FetchMumentDetailContentUseCase =
         FetchMumentDetailContentUseCaseImpl(mumentDetailRepository)
+
+    @Provides
+    @Singleton
+    fun provideIsFirstRecordMumentUseCase(recordRepository: RecordRepository): IsFirstRecordMumentUseCase =
+        IsFirstRecordMumentUseCaseImpl(recordRepository)
 
     @Provides
     @Singleton
