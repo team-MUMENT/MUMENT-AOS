@@ -1,5 +1,6 @@
 package com.mument_android.app.util
 
+import android.media.Image
 import android.text.method.ScrollingMovementMethod
 import android.util.TypedValue
 import android.widget.ImageView
@@ -78,6 +79,17 @@ object GlobalBindingAdapter {
         }
     }
 
+    @JvmStatic
+    @BindingAdapter("load_album_five")
+    fun loadAlbumFiveImage(view: ImageView, url: String?) {
+        if (!url.isNullOrEmpty()) {
+            view.load(url) {
+                crossfade(true)
+                this.transformations(RoundedCornersTransformation(5.0f))
+            }
+        } else {
+        }
+    }
     @JvmStatic
     @BindingAdapter("load_search_album")
     fun loadSearchImage(view: ImageView, url: String?) {

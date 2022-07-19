@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.app.data.dto.MumentCard
 import com.mument_android.app.domain.entity.LockerMumentEntity
-import com.mument_android.app.domain.entity.MumentCardData.Music
-import com.mument_android.app.domain.entity.MumentCardData.User
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

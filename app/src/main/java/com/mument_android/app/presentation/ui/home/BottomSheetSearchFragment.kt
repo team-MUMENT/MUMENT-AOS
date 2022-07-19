@@ -2,7 +2,6 @@ package com.mument_android.app.presentation.ui.home
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +13,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.SearchListAdapter
+import com.mument_android.app.domain.entity.SearchResultData
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentSearchBinding
-import timber.log.Timber
 
-class BottomSheetSearchFragment : BottomSheetDialogFragment() {
-    /*private var option: Boolean? = null
-    private lateinit var callBack: () -> Unit*/
+class BottomSheetSearchFragment(private val contentClick: (SearchResultData) -> Unit) : BottomSheetDialogFragment() {
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var adapter: SearchListAdapter
     private var binding by AutoClearedValue<FragmentSearchBinding>()
@@ -32,8 +29,8 @@ class BottomSheetSearchFragment : BottomSheetDialogFragment() {
         private var INSTANCE: BottomSheetSearchFragment? = null
 
         @JvmStatic
-        fun newInstance(): BottomSheetSearchFragment {
-            return INSTANCE ?: BottomSheetSearchFragment().apply {
+        fun newInstance(contentClick: (SearchResultData) -> Unit): BottomSheetSearchFragment {
+            return INSTANCE ?: BottomSheetSearchFragment(contentClick = { contentClick(it) }).apply {
                 INSTANCE = this
             }
         }
@@ -59,21 +56,12 @@ class BottomSheetSearchFragment : BottomSheetDialogFragment() {
             ((dialogInterface as BottomSheetDialog).findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View).apply {
                 val behavior = BottomSheetBehavior.from(this)
                 val layoutParams = this.layoutParams
-                //when (option) {
-                /*true -> {
-                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                    layoutParams.height = getBottomSheetDialogDefaultHeight()
-                    behavior.isDraggable = false
-                }
-                false -> {*/
                 behavior.disableShapeAnimations()
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 layoutParams.height = getBottomSheetDialogDefaultHeight()
                 behavior.skipCollapsed = true
-                /*}
-            }*/
+                behavior.isHideable = true
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 this.layoutParams = layoutParams
-
             }
         }
         return dialog
@@ -82,12 +70,17 @@ class BottomSheetSearchFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = SearchListAdapter({}, {})
-        adapter.submitList(viewmodel.searchList.value)
-        binding.option = false
+        adapter = SearchListAdapter({
+            contentClick(it)
+            dismiss()
+        }, {
+
+        })
         binding.rcSearch.adapter = adapter
-        binding.etSearch.setOnClickListener {
-        }
+        binding.viewmodel = viewmodel
+        //adapter.submitList(viewmodel.searchList.value)
+
+        binding.option = false
 
     }
 
@@ -102,4 +95,6 @@ class BottomSheetSearchFragment : BottomSheetDialogFragment() {
         val pxHeight = windowMetrics.bounds.height()
         return pxHeight
     }
+
+
 }
