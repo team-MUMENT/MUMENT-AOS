@@ -15,6 +15,9 @@ class FilterBottomSheetSelectedAdapter(
 ) : ListAdapter<TagEntity, FilterBottomSheetSelectedAdapter.BottomSheetFilterTagHolder>(
     GlobalDiffCallBack<TagEntity>()
 ) {
+
+    var selectedTags = mutableListOf<TagEntity>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomSheetFilterTagHolder {
         val binding = ItemMumentFilterStringTagBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BottomSheetFilterTagHolder(binding)

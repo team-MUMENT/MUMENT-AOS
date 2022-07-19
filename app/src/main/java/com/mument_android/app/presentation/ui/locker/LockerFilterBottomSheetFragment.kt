@@ -87,9 +87,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 override fun addCheckedTag(tag: TagEntity) {
                     lockerViewModel.addCheckedList(tag)
                     filterBottomSheetAdpaterEmotion.selectedTags.add(tag)
-                    lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
-                        Timber.d("add Code : ${it}")
-                    }
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
@@ -109,9 +106,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 override fun addCheckedTag(tag: TagEntity) {
                     filterBottomSheetAdapterImpress.selectedTags.add(tag)
                     lockerViewModel.addCheckedList(tag)
-                    lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
-                        Timber.d("add Code : ${it}")
-                    }
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
@@ -143,7 +137,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     private fun closeBtnListener() {
         binding.ivFilterDelete.setOnClickListener {
             resetTags()
-
+            lockerViewModel.resetCheckedList()
             dismiss()
         }
     }
@@ -170,12 +164,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
 
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //binding.rvEmotion.syncCheckTags()
-        //binding.rvImpressive.syncCheckTags()
     }
 
     private fun RecyclerView.syncSelectedTags(position: Int) {
@@ -241,14 +229,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
             getChildViewHolder(get(it)).run {
                 (this as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
                     false
-            }
-        }
-    }
-    private fun RecyclerView.syncCheckTags() {
-        lockerViewModel.checkedTagList.value?.forEach {
-            getChildViewHolder(get(it.tagIdx-1)).run {
-                (this as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
-                    true
             }
         }
     }

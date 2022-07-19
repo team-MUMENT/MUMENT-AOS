@@ -4,19 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mument_android.R
+import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.ViewUtils.showToast
-import com.mument_android.app.util.ViewUtils.snackBar
+import com.mument_android.app.util.RecyclerviewItemDivider
+import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.FragmentLockerBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -24,10 +23,10 @@ import timber.log.Timber
 @AndroidEntryPoint
 class LockerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentLockerBinding>()
-    private lateinit var lockerTabAdapter : LockerTabAdapter
-    private lateinit var adapter: FilterBottomSheetSelectedAdapter
+    private lateinit var lockerTabAdapter: LockerTabAdapter
+    private lateinit var selectedAdapter: FilterBottomSheetSelectedAdapter
 
-    private val viewModel : LockerViewModel by activityViewModels()
+    private val viewModel: LockerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +45,8 @@ class LockerFragment : Fragment() {
         gridBtnClickListener()
         filterBtnClickListener()
         settingRecyclerView()
+        setSelectedTag()
+        //setSelectedData()
     }
 
     private fun initAdapter() {
@@ -57,9 +58,9 @@ class LockerFragment : Fragment() {
 
     }
 
-    private fun initTab(){
+    private fun initTab() {
         val tabLabel = listOf("나의 뮤멘트", "좋아요한 뮤멘트")
-        TabLayoutMediator(binding.tlLocker, binding.vpLocker) {tab, position ->
+        TabLayoutMediator(binding.tlLocker, binding.vpLocker) { tab, position ->
             tab.text = tabLabel[position]
         }.attach()
 
@@ -89,23 +90,65 @@ class LockerFragment : Fragment() {
 
     private fun filterBtnClickListener() {
         binding.ivLockerFilter.setOnClickListener {
-            LockerFilterBottomSheetFragment.newInstance().show(parentFragmentManager, "LockerFilterBottomSheetFragment")
+            LockerFilterBottomSheetFragment.newInstance()
+                .show(parentFragmentManager, "LockerFilterBottomSheetFragment")
         }
     }
-
 
 
     private fun settingRecyclerView() {
         viewModel.checkedTagList.observe(viewLifecycleOwner) {
             Timber.d("lockerFragment Test : $it")
 
-            if(it.isEmpty()) {
+            if (it.isEmpty()) {
                 binding.rvSelectedTags.visibility = View.GONE
             } else {
                 binding.rvSelectedTags.visibility = View.VISIBLE
+                setSelectedTag()
             }
         }
 
     }
+
+
+    private fun setSelectedTag() {
+        binding.rvSelectedTags.run {
+            adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
+                viewModel.removeCheckedList(tag)
+                //syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
+            }
+            viewModel.checkedTagList.observe(viewLifecycleOwner) {
+                (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
+            }
+        }
+    }
+
+/*
+    //recyclerview item decoration
+    private fun setItemDecoration(recyclerView: RecyclerView) {
+        recyclerView.addItemDecoration(
+            RecyclerviewItemDivider(
+                7.dpToPx(requireContext()),
+                5.dpToPx(requireContext()),
+                RecyclerviewItemDivider.IS_GRIDLAYOUT
+            )
+        )
+    }
+
+    private fun setEmotionalRvFlexBoxLayout() {
+        with(binding.rvSelectedTags) {
+            selectedAdapter.submitList(viewModel.emotionalTags)
+            selectedAdapter.selectedTags = viewModel.checkedTagList.value!!.toMutableList()
+        }
+    }
+
+    private fun setSelectedData() {
+        with(binding.rvSelectedTags) {
+            setItemDecoration(this)
+            setEmotionalRvFlexBoxLayout()
+        }
+    }
+
+ */
 
 }
