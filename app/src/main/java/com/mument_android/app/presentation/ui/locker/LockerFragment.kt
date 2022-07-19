@@ -105,7 +105,7 @@ class LockerFragment : Fragment() {
 
     private fun settingRecyclerView() {
         setSelectedTag()
-        viewModel.testTagList.observe(viewLifecycleOwner) {
+        viewModel.realTagList.observe(viewLifecycleOwner) {
             Timber.d("setSelectedTag1 : $it")
             if (it.isEmpty()) {
                 binding.rvSelectedTags.visibility = View.GONE
@@ -121,13 +121,15 @@ class LockerFragment : Fragment() {
 
         selectedAdapter = FilterBottomSheetSelectedAdapter { tag, idx ->
             viewModel.removeCheckedList(tag)
+            viewModel.realTagList.observe(viewLifecycleOwner) {
+                Timber.d("jebal : $it")
+            }
         }
         binding.rvSelectedTags.adapter = selectedAdapter
-        viewModel.testTagList.observe(viewLifecycleOwner) {
-            Timber.d("onFragment : $it")
-        }
-        selectedAdapter.selectedTags = viewModel.testTagList?.value!!.toMutableList()
-        selectedAdapter.submitList(viewModel.testTagList.value)
+
+        selectedAdapter.selectedTags = viewModel.realTagList?.value!!.toMutableList()
+        selectedAdapter.submitList(viewModel.realTagList.value)
+
 
     }
 }

@@ -137,6 +137,8 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun closeBtnListener() {
         binding.ivFilterDelete.setOnClickListener {
+            lockerViewModel.checkedTagList.value = lockerViewModel.realTagList.value
+
             dismiss()
         }
     }
@@ -252,7 +254,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     //완료버튼 클릭 리스너
     private fun applyBtnListener() {
         binding.tvApprove.setOnClickListener {
-            lockerViewModel.testTagList.value = lockerViewModel.checkedTagList.value
+            lockerViewModel.realTagList.value = lockerViewModel.checkedTagList.value
             dismiss()
         }
     }

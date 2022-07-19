@@ -29,11 +29,11 @@ class LockerViewModel @Inject constructor(
     val myMuments = _myMuments
 
     //실질적으로 적용되는 tagList
-    var testTagList = MutableLiveData<List<TagEntity>>(emptyList())
+    var realTagList = MutableLiveData<List<TagEntity>>(emptyList())
 
     //바텀시트에서 적용되는 tagList
-    private val _checkedTagList = MutableLiveData<List<TagEntity>>(listOf())
-    var checkedTagList: LiveData<List<TagEntity>> = _checkedTagList
+    val checkedTagList = MutableLiveData<List<TagEntity>>(emptyList())
+    //var checkedTagList: LiveData<List<TagEntity>> = _checkedTagList
 
     private val _isGridLayout = MutableStateFlow(false)
     val isGridLayout = _isGridLayout.asStateFlow()
@@ -58,20 +58,20 @@ class LockerViewModel @Inject constructor(
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
         if(tempList.size <= 3) {
             tempList.add(checkedId)
-            _checkedTagList.value = tempList
+            checkedTagList.value = tempList
         }
     }
 
     fun removeCheckedList(tag: TagEntity) {
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
         tempList.remove(tag)
-        _checkedTagList.value = tempList
+        checkedTagList.value = tempList
     }
 
     fun resetCheckedList() {
         checkedTagList.value?.toMutableList()?.let {
             it.clear()
-            _checkedTagList.value = it
+            checkedTagList.value = it
         }
     }
 }
