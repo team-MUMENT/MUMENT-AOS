@@ -177,7 +177,6 @@
 
     <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/rectangle_fill_white_top_11dp</item>
-        <item name="behavior_draggable">false</item>
     </style>
 
     <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">

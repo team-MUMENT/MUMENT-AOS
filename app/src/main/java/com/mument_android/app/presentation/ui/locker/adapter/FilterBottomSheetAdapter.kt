@@ -39,12 +39,10 @@ class FilterBottomSheetAdapter(
     override fun onBindViewHolder(holder: BottomSheetFilterHolder, position: Int) {
         with(holder.binding.flItem.layoutParams as ViewGroup.MarginLayoutParams) {
 
-            //add code
             holder.binding.cbTag.let { checkBox ->
                 checkBox.setOnClickListener {
                     if (checkBox.isChecked) {
-                        Timber.d("${selectedTags.count()}")
-                        if (selectedTags.count() > 4 && !selectedTags.contains(getItem(position))) {
+                        if (selectedTags.count() >= 3 && !selectedTags.contains(getItem(position))) {
                             checkBox.isChecked = false
                             checkTagListener.alertMaxCount()
                         } else {

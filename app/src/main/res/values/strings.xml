@@ -76,10 +76,14 @@
     <string name="record_reset_header">뮤멘트 기록을 초기화하시겠어요?</string>
     <string name="record_reset_body">확인 선택 시, 작성 중인 내용이 삭제됩니다.</string>
 
-<!--    search view-->
+    <string name="locker_like_empty_title">아직 좋아요한 뮤멘트가 없어요.</string>
+    <string name="locker_like_empty_sub_title">좋아요를 눌러 마음에 든 뮤멘트를 언제든 꺼내보세요</string>
+    <string name="locker_mument_empty_title">아직 기록한 뮤멘트가 없어요.</string>
+    <string name="locker_mument_empty_sub_title">뮤멘트를 남겨 나만의 감상을 언제든 꺼내보세요.</string>
+    <string name="locker_mument_empty_btn">뮤멘트 기록하기</string>
+
     <string name="search_record_empty_header">감상을 남기고 싶은 곡을 찾아보세요.</string>
     <string name="search_record_empty_body">아티스트,곡을 검색해보세요.</string>
-
 
 
 </resources>
