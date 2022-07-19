@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment)
         }
         binding.tvSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_mumentHistoryFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
             /*BottomSheetSearchFragment.newInstance().show(childFragmentManager, "Search")*/
         }
     }

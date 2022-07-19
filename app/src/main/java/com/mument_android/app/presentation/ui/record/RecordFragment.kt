@@ -267,7 +267,7 @@ class RecordFragment : Fragment() {
 
         binding.btnRecordFirst.isChangeButtonFont(true)
         binding.btnRecordSecond.isChangeButtonFont(false)
-        recordViewModel!!.checkIsFirst(true)
+        recordViewModel.checkIsFirst(true)
 
         binding.clRecordRoot.scrollTo(0, 0)
         binding.etRecordWrite.text.clear()
