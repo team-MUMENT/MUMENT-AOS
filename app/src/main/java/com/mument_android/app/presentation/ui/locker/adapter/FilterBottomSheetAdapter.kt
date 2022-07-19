@@ -67,7 +67,6 @@ class FilterBottomSheetAdapter(
                 }
             }
 
-            // holder.binding.flItem.layoutParams = this
 
         }
         holder.binding.cbTag.setOnCheckedChangeListener { button, isChecked ->

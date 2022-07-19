@@ -27,7 +27,6 @@ class FilterBottomSheetSelectedAdapter(
         holder.binding.setVariable(BR.tagEntity, getItem(position))
         val tag = getItem(position)
         holder.binding.tvSelectedTag.setOnClickListener {
-            Timber.d("Adapter Test Code : $tag")
             removeSelectedTagListener(tag, currentList.indexOf(tag))
         }
     }

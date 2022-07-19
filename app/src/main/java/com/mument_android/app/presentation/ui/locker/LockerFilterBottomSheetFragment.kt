@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -25,7 +24,6 @@ import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentLockerFilterBottomSheetBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {

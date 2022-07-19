@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentLockerBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class LockerFragment : Fragment() {
@@ -41,13 +39,11 @@ class LockerFragment : Fragment() {
         gridBtnClickListener()
         filterBtnClickListener()
         settingRecyclerView()
-        //setSelectedTag()
 
     }
 
     override fun onResume() {
         super.onResume()
-        //setSelectedTag()
         removeTag()
 
     }
@@ -101,41 +97,13 @@ class LockerFragment : Fragment() {
 
     private fun settingRecyclerView() {
         removeTag()
-        //setSelectedTag()
         viewModel.realTagList.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 binding.rvSelectedTags.visibility = View.GONE
             } else {
                 binding.rvSelectedTags.visibility = View.VISIBLE
-                //selectedAdapter.submitList(it)
             }
         }
-    }
-
-    //선택된 태그들 리사이클러뷰
-    private fun setSelectedTag() {
-
-        binding.rvSelectedTags.run {
-            selectedAdapter = FilterBottomSheetSelectedAdapter { tag, idx ->
-                viewModel.removeCheckedList(tag)
-                Timber.d("Test : $tag")
-                viewModel.realTagList.observe(viewLifecycleOwner) {
-                    Timber.d("jebal : $it")
-                    (selectedAdapter as FilterBottomSheetSelectedAdapter).submitList(it)
-                }
-            }
-            binding.rvSelectedTags.adapter = selectedAdapter
-
-            selectedAdapter.selectedTags = viewModel.realTagList?.value!!.toMutableList()
-            selectedAdapter.submitList(viewModel.realTagList.value)
-        }
-
-        /*
-        binding.rvSelectedTags.adapter = selectedAdapter
-
-        selectedAdapter.selectedTags = viewModel.realTagList?.value!!.toMutableList()
-        selectedAdapter.submitList(viewModel.realTagList.value)
-         */
     }
 
     private fun removeTag() {
@@ -150,7 +118,6 @@ class LockerFragment : Fragment() {
                     binding.rvSelectedTags.visibility = View.GONE
                 } else {
                     binding.rvSelectedTags.visibility = View.VISIBLE
-                    //selectedAdapter.submitList(it)
                 }
             }
         }
