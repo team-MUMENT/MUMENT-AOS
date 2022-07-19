@@ -28,8 +28,12 @@ class LockerViewModel @Inject constructor(
     private val _myMuments = MutableLiveData<List<LockerMumentEntity>>()
     val myMuments = _myMuments
 
+    //실질적으로 적용되는 tagList
+    var testTagList = MutableLiveData<List<TagEntity>>(emptyList())
+
+    //바텀시트에서 적용되는 tagList
     private val _checkedTagList = MutableLiveData<List<TagEntity>>(listOf())
-    val checkedTagList: LiveData<List<TagEntity>> = _checkedTagList
+    var checkedTagList: LiveData<List<TagEntity>> = _checkedTagList
 
     private val _isGridLayout = MutableStateFlow(false)
     val isGridLayout = _isGridLayout.asStateFlow()

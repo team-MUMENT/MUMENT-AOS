@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -136,8 +137,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun closeBtnListener() {
         binding.ivFilterDelete.setOnClickListener {
-            resetTags()
-            lockerViewModel.resetCheckedList()
             dismiss()
         }
     }
@@ -155,7 +154,6 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 }
 
                 lockerViewModel.removeCheckedList(tag)
-                //syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
             }
 
             lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
@@ -254,10 +252,8 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     //완료버튼 클릭 리스너
     private fun applyBtnListener() {
         binding.tvApprove.setOnClickListener {
+            lockerViewModel.testTagList.value = lockerViewModel.checkedTagList.value
             dismiss()
-            lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
-                Timber.d("!!!!!!!!$it")
-            }
         }
     }
 
