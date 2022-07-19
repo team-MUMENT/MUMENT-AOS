@@ -43,7 +43,6 @@ class RecordFragment : Fragment() {
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
     private val searchViewModel: SearchViewModel by viewModels()
-    private lateinit var searchListAdapter: SearchListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -271,9 +270,7 @@ class RecordFragment : Fragment() {
         binding.btnRecordFirst.isChangeButtonFont(true)
         binding.btnRecordSecond.isChangeButtonFont(false)
         recordViewModel!!.checkIsFirst(true)
-        binding.btnRecordFirst.isChangeButtonFont(true)
-        binding.btnRecordSecond.isChangeButtonFont(false)
-        recordViewModel!!.checkIsFirst(true)
+
         binding.clRecordRoot.scrollTo(0, 0)
         binding.etRecordWrite.text.clear()
 
@@ -281,7 +278,6 @@ class RecordFragment : Fragment() {
         binding.switchRecordSecret.isChecked = false
 
         recordViewModel.removeSelectedMusic()
-
     }
 
 
@@ -297,7 +293,7 @@ class RecordFragment : Fragment() {
         binding.btnRecordSearch.setOnClickListener {
             BottomSheetSearchFragment.newInstance {
                 recordViewModel.changeSelectedMusic(it)
-            }.show(parentFragmentManager, "Hi")
+            }.show(parentFragmentManager, "bottom sheet")
 //            recordViewModel.checkSelectedMusic(true)
             Timber.d(recordViewModel.selectedMusic.value.toString())
         }
@@ -329,5 +325,3 @@ class RecordFragment : Fragment() {
 
 
 }
-
-

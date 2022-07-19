@@ -76,6 +76,10 @@
     <string name="record_reset_header">뮤멘트 기록을 초기화하시겠어요?</string>
     <string name="record_reset_body">확인 선택 시, 작성 중인 내용이 삭제됩니다.</string>
 
+<!--    search view-->
+    <string name="search_record_empty_header">감상을 남기고 싶은 곡을 찾아보세요.</string>
+    <string name="search_record_empty_body">아티스트,곡을 검색해보세요.</string>
+
 
 
 </resources>
