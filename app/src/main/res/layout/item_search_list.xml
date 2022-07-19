@@ -17,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="10dp">
+        android:layout_marginVertical="10dp"
+        android:animateLayoutChanges="true">
 
         <ImageView
             android:id="@+id/iv_album"
@@ -54,11 +55,11 @@
             android:id="@+id/iv_delete"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:src="@drawable/ic_delete_light"
             android:visibility="@{searchdata.optional==true?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_delete_light" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

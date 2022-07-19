@@ -34,12 +34,12 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchAdapter = SearchListAdapter({ data ->
+        searchAdapter = SearchListAdapter(requireContext(),{ data ->
             viewmodel.selectContent(data)
         }, { data ->
             viewmodel.deleteRecentList(data)
         })
-        searchResultAdapter = SearchListAdapter({ data ->
+        searchResultAdapter = SearchListAdapter(requireContext(),{ data ->
             viewmodel.selectContent(data)
         }, {})
         binding.rcSearch.adapter = searchAdapter

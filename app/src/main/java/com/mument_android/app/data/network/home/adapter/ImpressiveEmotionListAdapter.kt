@@ -31,7 +31,7 @@ class ImpressiveEmotionListAdapter(
         val mementData = getItem(position)
         with(holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams) {
             marginStart = if (position == 0) 16.dpToPx(context) else 5.dpToPx(context)
-            marginEnd = if (position == 0) 5.dpToPx(context) else 16.dpToPx(context)
+            marginEnd = if (position == (itemCount - 1)) 16.dpToPx(context) else 5.dpToPx(context)
             holder.binding.clMument.layoutParams = this
         }
         holder.binding.setVariable(BR.mument, mementData)
