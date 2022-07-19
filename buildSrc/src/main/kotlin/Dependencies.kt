@@ -30,6 +30,7 @@ object AndroidXDependencies {
     const val dataStore = "androidx.datastore:datastore-core:${Versions.dataStore}"
     const val protoBuf = "com.google.protobuf:protobuf-javalite:${Versions.protoBuf}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
+    const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
     const val room = "androidx.room:room-ktx:${Versions.roomVersion}"
 }
 
