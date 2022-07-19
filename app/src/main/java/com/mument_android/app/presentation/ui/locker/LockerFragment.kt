@@ -33,7 +33,6 @@ class LockerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("TestViewCode1")
         binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         initAdapter()
@@ -42,18 +41,15 @@ class LockerFragment : Fragment() {
         gridBtnClickListener()
         filterBtnClickListener()
         settingRecyclerView()
-        setSelectedTag()
-        Timber.d("TestViewCode2")
+        //setSelectedTag()
 
     }
 
     override fun onResume() {
         super.onResume()
-        Timber.d("TestViewCode3")
-        setSelectedTag()
-        viewModel.checkedTagList.observe(viewLifecycleOwner) {
-            Timber.d("setSelectedTag2 : $it")
-        }
+        //setSelectedTag()
+        removeTag()
+
     }
 
     private fun initAdapter() {
@@ -104,14 +100,14 @@ class LockerFragment : Fragment() {
 
 
     private fun settingRecyclerView() {
-        setSelectedTag()
+        removeTag()
+        //setSelectedTag()
         viewModel.realTagList.observe(viewLifecycleOwner) {
-            Timber.d("setSelectedTag1 : $it")
             if (it.isEmpty()) {
                 binding.rvSelectedTags.visibility = View.GONE
             } else {
                 binding.rvSelectedTags.visibility = View.VISIBLE
-                selectedAdapter.submitList(it)
+                //selectedAdapter.submitList(it)
             }
         }
     }
@@ -119,17 +115,45 @@ class LockerFragment : Fragment() {
     //선택된 태그들 리사이클러뷰
     private fun setSelectedTag() {
 
-        selectedAdapter = FilterBottomSheetSelectedAdapter { tag, idx ->
-            viewModel.removeCheckedList(tag)
-            viewModel.realTagList.observe(viewLifecycleOwner) {
-                Timber.d("jebal : $it")
+        binding.rvSelectedTags.run {
+            selectedAdapter = FilterBottomSheetSelectedAdapter { tag, idx ->
+                viewModel.removeCheckedList(tag)
+                Timber.d("Test : $tag")
+                viewModel.realTagList.observe(viewLifecycleOwner) {
+                    Timber.d("jebal : $it")
+                    (selectedAdapter as FilterBottomSheetSelectedAdapter).submitList(it)
+                }
             }
+            binding.rvSelectedTags.adapter = selectedAdapter
+
+            selectedAdapter.selectedTags = viewModel.realTagList?.value!!.toMutableList()
+            selectedAdapter.submitList(viewModel.realTagList.value)
         }
+
+        /*
         binding.rvSelectedTags.adapter = selectedAdapter
 
         selectedAdapter.selectedTags = viewModel.realTagList?.value!!.toMutableList()
         selectedAdapter.submitList(viewModel.realTagList.value)
+         */
+    }
 
+    private fun removeTag() {
+        binding.rvSelectedTags.run {
+            adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
+                viewModel.removeCheckedList(tag)
+            }
+
+            viewModel.checkedTagList.observe(viewLifecycleOwner) {
+                (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
+                if (it.isEmpty()) {
+                    binding.rvSelectedTags.visibility = View.GONE
+                } else {
+                    binding.rvSelectedTags.visibility = View.VISIBLE
+                    //selectedAdapter.submitList(it)
+                }
+            }
+        }
 
     }
 }

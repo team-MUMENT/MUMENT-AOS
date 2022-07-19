@@ -213,6 +213,7 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
+    //초기화 버튼
     private fun resetTags() {
         binding.tvClearAll.setOnClickListener {
             binding.rvEmotion.resetCheckTags(filterBottomSheetAdpaterEmotion)
