@@ -4,21 +4,34 @@ package com.mument_android.app.presentation.ui.record.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mument_android.app.domain.entity.SearchResultData
 import com.mument_android.app.domain.entity.TagEntity
 
 
 class RecordViewModel : ViewModel() {
     private val _checkedTagList = MutableLiveData<List<TagEntity>>(listOf())
-    val checkedTagList: LiveData<List<TagEntity>> = _checkedTagList
+    val checkedTagList get():LiveData<List<TagEntity>> = _checkedTagList
 
     private val _isFirst = MutableLiveData<Boolean>()
-    val isFirst = _isFirst
-
+    val isFirst get() :LiveData<Boolean> = _isFirst
     val text = MutableLiveData<String>()
+
+    private val _isSelectedMusic = MutableLiveData<Boolean>()
+    val isSelectedMusic get(): LiveData<Boolean> = _isSelectedMusic
+
+    private val _selectedMusic = MutableLiveData<SearchResultData>()
+    val selectedMusic = _selectedMusic
+
+//    val data = SearchResultData("25", "불꽃카리스마", "이민호","https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",true)
+
+    fun changeSelectedMusic(music: SearchResultData) {
+        _selectedMusic.value = music
+    }
+
 
     fun addCheckedList(tag: TagEntity) {
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
-        if (tempList.size >= 5) {
+        if (tempList.size <= 5) {
             tempList.add(tag)
             _checkedTagList.value = tempList
         }
@@ -41,4 +54,13 @@ class RecordViewModel : ViewModel() {
     fun checkIsFirst(isFirst: Boolean) {
         _isFirst.value = isFirst
     }
+
+    fun checkSelectedMusic(isSelected : Boolean) {
+        _isSelectedMusic.value = isSelected
+    }
+    fun removeSelectedMusic(){
+        selectedMusic.value = null
+        _isSelectedMusic.value = false
+    }
+
 }

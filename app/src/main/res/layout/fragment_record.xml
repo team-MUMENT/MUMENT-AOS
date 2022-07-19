@@ -4,9 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="recordViewModel"
             type="com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,15 +26,14 @@
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true">
+                android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_left"
@@ -66,6 +69,64 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_search"
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="50dp"
+                    android:background="@drawable/rectangle_fill_white_11dp"
+                    android:elevation="2dp"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="8dp"
+                    android:visibility="@{recordViewModel.isSelectedMusic() ? View.VISIBLE:View.GONE}"
+                    app:layout_constraintEnd_toStartOf="@+id/gl_right"
+                    app:layout_constraintStart_toStartOf="@+id/gl_left"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_record_title">
+
+                    <ImageView
+                        android:id="@+id/iv_album"
+                        load_album_five="@{recordViewModel.selectedMusic.image}"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_kebab" />
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        style="@style/TextView.Mument_B4_M14.Style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@{recordViewModel.selectedMusic.name}"
+                        android:textColor="@color/mument_color_black1"
+                        app:layout_constraintStart_toEndOf="@id/iv_album"
+                        app:layout_constraintTop_toTopOf="@id/iv_album"
+                        tools:text="덩" />
+
+                    <TextView
+                        style="@style/TextView.Mument_B7_M12.Style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@{recordViewModel.selectedMusic.artist}"
+                        app:layout_constraintStart_toStartOf="@id/tv_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_title"
+                        tools:text="새소년" />
+
+                    <ImageView
+                        android:id="@+id/iv_delete"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_delete_circle"
+                        android:visibility="@{recordViewModel.selectedMusic.optional==true?View.VISIBLE:View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <TextView
                     android:id="@+id/tv_record_choose_title"
                     style="@style/TextView.Mument_B1_B15.Style"
@@ -73,6 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
                     android:text="@string/record_choose_title"
+                    android:visibility="@{recordViewModel.isSelectedMusic() ? View.GONE:View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
                     app:layout_constraintTop_toBottomOf="@+id/tv_record_title" />
 
@@ -88,6 +150,7 @@
                     android:paddingStart="10dp"
                     android:stateListAnimator="@null"
                     android:textAlignment="viewStart"
+                    android:visibility="@{recordViewModel.isSelectedMusic() ? View.GONE:View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="@id/gl_right"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
                     app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_title" />
@@ -97,10 +160,10 @@
                     style="@style/TextView.Mument_B1_B15.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="172dp"
                     android:text="@string/record_first_title"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
-                    app:layout_constraintTop_toBottomOf="@id/btn_record_search" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_record_title" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_record_first"
@@ -149,8 +212,8 @@
                     android:id="@+id/rv_record_impressive_tags"
                     android:layout_width="wrap_content"
                     android:layout_height="94dp"
-                    android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal"
                     app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
@@ -172,13 +235,13 @@
                     android:id="@+id/rv_record_emotional_tags"
                     android:layout_width="485dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:clipToPadding="false"
                     android:nestedScrollingEnabled="false"
                     android:orientation="horizontal"
-                    android:layout_marginTop="16dp"
-                    android:scrollbars="none"
                     android:overScrollMode="never"
                     android:paddingStart="16dp"
-                    android:clipToPadding="false"
+                    android:scrollbars="none"
                     app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_record_choose_impression"
@@ -232,18 +295,18 @@
                             android:textColorHint="@color/mument_color_gray1" />
                     </androidx.core.widget.NestedScrollView>
 
-                <TextView
-                    android:id="@+id/tv_record_text_num"
-                    style="@style/TextView.Mument_B5_M13.Style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="13dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="@{@string/record_text_num(recordViewModel.text.length())}"
-                    android:textColor="@color/mument_color_gray2"
-                    app:layout_constraintBottom_toBottomOf="@+id/cl_record_write"
-                    app:layout_constraintEnd_toEndOf="@+id/ns_record_write"
-                    tools:text="100/1000"/>
+                    <TextView
+                        android:id="@+id/tv_record_text_num"
+                        style="@style/TextView.Mument_B5_M13.Style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="13dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="@{@string/record_text_num(recordViewModel.text.length())}"
+                        android:textColor="@color/mument_color_gray2"
+                        app:layout_constraintBottom_toBottomOf="@+id/cl_record_write"
+                        app:layout_constraintEnd_toEndOf="@+id/ns_record_write"
+                        tools:text="100/1000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -264,9 +327,11 @@
                     android:layout_height="28dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="160dp"
                     android:checked="false"
                     android:gravity="center"
                     android:thumb="@drawable/oval_fill_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cl_record_write"
                     app:switchMinWidth="49dp"
@@ -282,6 +347,7 @@
                     android:background="@drawable/rectangle_fill_purple_11dp"
                     android:text="@string/record_finish"
                     android:textColor="@color/mument_color_white"
+                    android:visibility="@{recordViewModel.isSelectedMusic() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/gl_right"
                     app:layout_constraintStart_toStartOf="@id/gl_left"

@@ -1,12 +1,14 @@
 package com.mument_android.app.presentation.ui.record
 
 import android.graphics.Color
+import android.icu.lang.UProperty
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
@@ -17,18 +19,22 @@ import com.google.android.flexbox.*
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
+import com.mument_android.app.data.network.home.adapter.SearchListAdapter
+import com.mument_android.app.domain.entity.SearchResultData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
+import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
+import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
-import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_HORIZONTAL
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
 import timber.log.Timber
+import java.lang.reflect.Array.get
 
 
 class RecordFragment : Fragment() {
@@ -36,13 +42,13 @@ class RecordFragment : Fragment() {
     private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
+    private val searchViewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = FragmentRecordBinding.inflate(inflater, container, false).run {
         binding = this
-
         this.root
     }
 
@@ -50,7 +56,6 @@ class RecordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.recordViewModel = recordViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
         setTagRecyclerView()
         countText()
         resetRvImpressionTags()
@@ -58,6 +63,10 @@ class RecordFragment : Fragment() {
         secondListenClickEvent()
         switchClickEvent()
         scrollEditTextView()
+        initBottomSheet()
+        getAllData()
+        isClickDelete()
+
     }
 
     private fun setTagRecyclerView() {
@@ -117,7 +126,6 @@ class RecordFragment : Fragment() {
         with(binding.rvRecordEmotionalTags) {
             setItemDecoration(this)
             setEmotionalRvFlexBoxLayout()
-
         }
     }
 
@@ -201,6 +209,7 @@ class RecordFragment : Fragment() {
         binding.switchRecordSecret.setOnClickListener {
             if (binding.switchRecordSecret.isChecked) {
                 binding.tvRecordSecret.setText(R.string.record_secret)
+
             } else {
                 binding.tvRecordSecret.setText(R.string.record_open)
             }
@@ -246,6 +255,7 @@ class RecordFragment : Fragment() {
             .setHeader(getString(R.string.record_reset_header))
             .setBody(getString(R.string.record_reset_body))
             .setAllowListener {
+                resetRecord()
                 resetRecordTags()
             }
             .setCancelListener {}
@@ -253,12 +263,64 @@ class RecordFragment : Fragment() {
             .show(childFragmentManager, this.tag)
     }
 
-    private fun resetRecordTags(){
+    private fun resetRecord() {
+
+        recordViewModel.checkSelectedMusic(false)
+
+        binding.btnRecordFirst.isChangeButtonFont(true)
+        binding.btnRecordSecond.isChangeButtonFont(false)
+        recordViewModel!!.checkIsFirst(true)
+
+        binding.clRecordRoot.scrollTo(0, 0)
+        binding.etRecordWrite.text.clear()
+
+        binding.tvRecordSecret.setText(R.string.record_open)
+        binding.switchRecordSecret.isChecked = false
+
+        recordViewModel.removeSelectedMusic()
+    }
+
+
+    private fun resetRecordTags() {
         binding.rvRecordImpressiveTags.resetCheckedTags(rvImpressionTagsAdapter)
         binding.rvRecordEmotionalTags.resetCheckedTags(rvEmotionalTagsAdapter)
         rvEmotionalTagsAdapter.selectedTags.clear()
         rvImpressionTagsAdapter.selectedTags.clear()
         recordViewModel.resetCheckedList()
+    }
+
+    private fun initBottomSheet() {
+        binding.btnRecordSearch.setOnClickListener {
+            BottomSheetSearchFragment.newInstance {
+                recordViewModel.changeSelectedMusic(it)
+            }.show(parentFragmentManager, "bottom sheet")
+//            recordViewModel.checkSelectedMusic(true)
+            Timber.d(recordViewModel.selectedMusic.value.toString())
+        }
+        recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
+            Timber.e("$it")
+            recordViewModel.checkSelectedMusic(true)
+        }
+    }
+
+
+    private fun getAllData() {
+        binding.btnRecordFinish.setOnClickListener {
+            Timber.e(
+                "버튼 : ${recordViewModel.isFirst.value}\n 태그 : ${
+                    rvImpressionTagsAdapter.selectedTags.map {
+                        it.tagIdx
+                    }
+                }\n 감상기록 : ${recordViewModel.text.value}\n 공개글 : ${binding.switchRecordSecret.isChecked}"
+            )
+        }
+    }
+
+    private fun isClickDelete() {
+        binding.ivDelete.setOnClickListener {
+            recordViewModel.checkSelectedMusic(false)
+            recordViewModel.removeSelectedMusic()
+        }
     }
 
 
