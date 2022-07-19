@@ -4,7 +4,7 @@ import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.local.todaymument.TodayMumentEntity
 import kotlinx.coroutines.flow.Flow
 
-interface RecentSearchListDataSource {
+interface LocalRecentSearchListDataSource {
 
     suspend fun getAllRecentSearchList(): List<RecentSearchData>
     suspend fun updateRecentSearchList(data: RecentSearchData)
