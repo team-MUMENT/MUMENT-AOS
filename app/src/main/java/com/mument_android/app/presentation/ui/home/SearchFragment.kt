@@ -40,12 +40,12 @@ class SearchFragment : Fragment() {
     }
 
     private fun settingAdapterAndDatabinding() {
-        searchAdapter = SearchListAdapter({ data ->
+        searchAdapter = SearchListAdapter(requireContext(),{ data ->
             viewmodel.selectContent(data)
         }, { data ->
             viewmodel.deleteRecentList(data)
         })
-        searchResultAdapter = SearchListAdapter({ data ->
+        searchResultAdapter = SearchListAdapter(requireContext(),{ data ->
             viewmodel.selectContent(data)
         }, {})
         binding.lifecycleOwner = viewLifecycleOwner
