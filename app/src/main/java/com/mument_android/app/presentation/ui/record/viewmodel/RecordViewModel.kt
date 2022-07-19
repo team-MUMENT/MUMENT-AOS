@@ -15,12 +15,12 @@ class RecordViewModel @Inject constructor(val useCase: IsFirstRecordMumentUseCas
     private val _checkedTagList = MutableLiveData<List<TagEntity>>(listOf())
     val checkedTagList get():LiveData<List<TagEntity>> = _checkedTagList
 
-    private val _isFirst = MutableLiveData<Boolean>(true)
+    private val _isFirst = MutableLiveData<Boolean>()
     val isFirst get() :LiveData<Boolean> = _isFirst
     val text = MutableLiveData<String>()
 
 
-    private val _isSelectedMusic = MutableLiveData<Boolean>()
+    private val _isSelectedMusic = MutableLiveData<Boolean>(false)
     val isSelectedMusic get(): LiveData<Boolean> = _isSelectedMusic
 
     private val _selectedMusic = MutableLiveData<RecentSearchData>()
@@ -31,7 +31,6 @@ class RecordViewModel @Inject constructor(val useCase: IsFirstRecordMumentUseCas
     fun findIsFirst() {
         viewModelScope.launch {
             useCase.invoke( "62cd5d4383956edb45d7d0ef","62cd4416177f6e81ee8fa398").onStart {
-
             }.collect {
                 Timber.d("Collect!!! $it")
                 _isFirst.value = it.isFirst
@@ -50,7 +49,6 @@ class RecordViewModel @Inject constructor(val useCase: IsFirstRecordMumentUseCas
             tempList.add(tag)
             _checkedTagList.value = tempList
         }
-
     }
 
     fun removeCheckedList(tag: TagEntity) {
@@ -72,7 +70,6 @@ class RecordViewModel @Inject constructor(val useCase: IsFirstRecordMumentUseCas
 
     fun checkSelectedMusic(isSelected: Boolean) {
         _isSelectedMusic.value = isSelected
-        findIsFirst()
     }
 
     fun removeSelectedMusic() {

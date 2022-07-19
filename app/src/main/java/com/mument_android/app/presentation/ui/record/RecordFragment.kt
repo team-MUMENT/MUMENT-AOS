@@ -183,18 +183,24 @@ class RecordFragment : Fragment() {
 
     private fun observingListen() {
         recordViewModel.isFirst.observe(viewLifecycleOwner) {
-            binding.btnRecordFirst.isChangeButtonFont(it)
-            binding.btnRecordSecond.isChangeButtonFont(!it)
+            Timber.d("collect!@!@ $it")
+            if (!it) {
+                binding.btnRecordFirst.isChangeButtonFont(it)
+                binding.btnRecordSecond.isChangeButtonFont(!it)
+                binding.btnRecordFirst.isEnabled = false
+            }
+            else{
+                binding.btnRecordFirst.isChangeButtonFont(!it)
+                binding.btnRecordSecond.isChangeButtonFont(it)
+            }
         }
     }
 
     private fun firstListenClickEvent() {
-        binding.btnRecordFirst.isChangeButtonFont(true)
         with(binding) {
             btnRecordFirst.setOnClickListener {
                 btnRecordFirst.isChangeButtonFont(true)
                 btnRecordSecond.isChangeButtonFont(false)
-                recordViewModel!!.checkIsFirst(true)
             }
         }
     }
@@ -204,7 +210,7 @@ class RecordFragment : Fragment() {
             binding.btnRecordSecond.setOnClickListener {
                 btnRecordFirst.isChangeButtonFont(false)
                 btnRecordSecond.isChangeButtonFont(true)
-                recordViewModel!!.checkIsFirst(false)
+
             }
         }
     }
@@ -273,8 +279,9 @@ class RecordFragment : Fragment() {
 
         recordViewModel.checkSelectedMusic(false)
 
-        binding.btnRecordFirst.isChangeButtonFont(true)
+        binding.btnRecordFirst.isChangeButtonFont(false)
         binding.btnRecordSecond.isChangeButtonFont(false)
+        binding.btnRecordFirst.isEnabled = true
         recordViewModel.checkIsFirst(true)
 
         binding.clRecordRoot.scrollTo(0, 0)
@@ -299,6 +306,7 @@ class RecordFragment : Fragment() {
         binding.btnRecordSearch.setOnClickListener {
             BottomSheetSearchFragment.newInstance {
                 recordViewModel.changeSelectedMusic(it)
+                recordViewModel.findIsFirst()
             }.show(parentFragmentManager, "bottom sheet")
             recordViewModel.checkSelectedMusic(true)
             Timber.d(recordViewModel.selectedMusic.value.toString())
@@ -306,14 +314,16 @@ class RecordFragment : Fragment() {
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
             Timber.e("$it")
             recordViewModel.checkSelectedMusic(true)
+
         }
     }
 
 
     private fun getAllData() {
         binding.btnRecordFinish.setOnClickListener {
+
             Timber.e(
-                "버튼 : ${recordViewModel.isFirst.value}\n 태그 : ${
+                "버튼 : ${binding.btnRecordFirst.isSelected}\n 태그 : ${
                     rvImpressionTagsAdapter.selectedTags.map {
                         it.tagIdx
                     }
@@ -326,8 +336,14 @@ class RecordFragment : Fragment() {
         binding.ivDelete.setOnClickListener {
             recordViewModel.checkSelectedMusic(false)
             recordViewModel.removeSelectedMusic()
+            binding.btnRecordFirst.isEnabled =true
+            binding.btnRecordFirst.isChangeButtonFont(false)
+            binding.btnRecordSecond.isChangeButtonFont(false)
+
         }
     }
+
+
 
 
 }
