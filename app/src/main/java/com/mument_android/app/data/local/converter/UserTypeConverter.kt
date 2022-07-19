@@ -1,4 +1,4 @@
-package com.mument_android.app.data.datasource.home
+package com.mument_android.app.data.local.converter
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter

@@ -8,6 +8,10 @@ import com.mument_android.app.data.datasource.detail.MumentDetailDataSourceImpl
 import com.mument_android.app.data.datasource.home.*
 import com.mument_android.app.data.datasource.locker.LockerDataSource
 import com.mument_android.app.data.datasource.locker.LockerDataSourceImpl
+import com.mument_android.app.data.local.converter.DateTypeConverter
+import com.mument_android.app.data.local.converter.IntListTypeConverter
+import com.mument_android.app.data.local.converter.MusicTypeConverter
+import com.mument_android.app.data.local.converter.UserTypeConverter
 import com.mument_android.app.data.local.recentlist.RecentSearchDAO
 import com.mument_android.app.data.local.todaymument.MumentDatabase
 import com.mument_android.app.data.local.todaymument.TodayMumentDAO
