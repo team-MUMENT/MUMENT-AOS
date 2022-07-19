@@ -7,7 +7,7 @@ import com.mument_android.app.domain.entity.LockerMumentEntity
 class LockerMapper: BaseMapper<ResponseMyMumentListDto, List<LockerMumentEntity>> {
     override fun map(from: ResponseMyMumentListDto): List<LockerMumentEntity> {
         val myMumentList = mutableListOf<LockerMumentEntity>()
-        from.muments.groupBy { it.year + it.month }.onEach {
+        /*from.muments.groupBy { it.year + it.month }.onEach {
             myMumentList.add(
                 LockerMumentEntity(
                     it.key,
@@ -27,7 +27,7 @@ class LockerMapper: BaseMapper<ResponseMyMumentListDto, List<LockerMumentEntity>
                     }
                 )
             )
-        }
+        }*/
         return myMumentList
     }
 }

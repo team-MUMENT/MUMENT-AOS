@@ -42,6 +42,8 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/rectangle_fill_gray5_11dp"
             android:hint="곡 아티스트"
+            android:imeOptions="actionDone"
+            android:inputType="text"
             android:paddingStart="38dp"
             android:paddingTop="10dp"
             android:paddingBottom="9dp"
@@ -79,7 +81,6 @@
             android:paddingTop="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_search">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,7 +141,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
             android:src="@drawable/empty_music"
-            android:visibility="@{viewmodel.searchList.size()==0? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewmodel.searchList.data.size()==0? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_search" />
@@ -154,7 +155,7 @@
             android:gravity="center"
             android:text="좋아하는 곡에 대한\n다양한 감상을 찾아보세요."
             android:textColor="@color/mument_color_gray1"
-            android:visibility="@{viewmodel.searchList.size()==0? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewmodel.searchList.data.size()==0? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
@@ -166,7 +167,7 @@
             android:layout_marginTop="8dp"
             android:text="아티스트, 곡을 검색해보세요."
             android:textColor="@color/mument_color_gray2"
-            android:visibility="@{viewmodel.searchList.size()==0? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewmodel.searchList.data.size()==0? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_empty_title" />
