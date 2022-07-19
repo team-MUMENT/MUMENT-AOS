@@ -130,8 +130,14 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_search"
                     android:layout_width="match_parent"
+<<<<<<< HEAD
                     android:layout_height="0dp"
                     android:layout_weight="1"
+=======
+                    android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+>>>>>>> 778d4b0 (Mument Dialog 수정)
                     android:visibility="@{viewmodel.searchList.data.size() == 0 ? View.GONE : View.VISIBLE}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"

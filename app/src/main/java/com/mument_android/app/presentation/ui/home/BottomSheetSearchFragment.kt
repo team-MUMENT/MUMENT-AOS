@@ -18,7 +18,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.network.home.adapter.SearchListAdapter
+<<<<<<< HEAD
 import com.mument_android.app.data.network.util.ApiResult
+=======
+>>>>>>> 778d4b0 (Mument Dialog 수정)
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.app.util.AutoClearedValue
@@ -27,9 +30,14 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+<<<<<<< HEAD
 class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> Unit) :
     BottomSheetDialogFragment() {
     private val viewmodel: SearchViewModel by activityViewModels()
+=======
+class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> Unit) : BottomSheetDialogFragment() {
+    private val viewmodel: SearchViewModel by viewModels()
+>>>>>>> 778d4b0 (Mument Dialog 수정)
     private lateinit var adapter: SearchListAdapter
     private var binding by AutoClearedValue<FragmentSearchBinding>()
     private lateinit var behavior: BottomSheetBehavior<View>
@@ -40,10 +48,16 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
 
         @JvmStatic
         fun newInstance(contentClick: (RecentSearchData) -> Unit): BottomSheetSearchFragment {
+<<<<<<< HEAD
             return INSTANCE
                 ?: BottomSheetSearchFragment(contentClick = { contentClick(it) }).apply {
                     INSTANCE = this
                 }
+=======
+            return INSTANCE ?: BottomSheetSearchFragment(contentClick = { contentClick(it) }).apply {
+                INSTANCE = this
+            }
+>>>>>>> 778d4b0 (Mument Dialog 수정)
         }
     }
 
@@ -82,10 +96,18 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+<<<<<<< HEAD
         adapter = SearchListAdapter(requireContext(), { data ->
             viewmodel.selectContent(data)
         }, { data ->
             viewmodel.deleteRecentList(data)
+=======
+        adapter = SearchListAdapter(requireContext(),{
+            contentClick(it)
+            dismiss()
+        }, {
+
+>>>>>>> 778d4b0 (Mument Dialog 수정)
         })
         /*searchResultAdapter = SearchListAdapter(requireContext(),{ data ->
             viewmodel.selectContent(data)

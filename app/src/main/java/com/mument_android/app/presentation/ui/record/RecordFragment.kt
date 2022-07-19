@@ -251,6 +251,7 @@ class RecordFragment : Fragment() {
         MumentDialogBuilder()
             .setHeader(getString(R.string.record_reset_header))
             .setBody(getString(R.string.record_reset_body))
+            .setOption(false)
             .setAllowListener {
                 resetRecord()
                 resetRecordTags()
