@@ -16,13 +16,17 @@
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_mumentHistoryFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/mumentDetailFragment"
         android:name="com.mument_android.app.presentation.ui.detail.MumentDetailFragment"
         android:label="MumentDetailFragment"
-        tools:layout="@layout/fragment_mument_detail"/>
+        tools:layout="@layout/fragment_mument_detail" />
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.mument_android.app.presentation.ui.home.SearchFragment"
@@ -40,5 +44,19 @@
         <action
             android:id="@+id/action_musicDetailFragment_to_mumentDetailFragment"
             app:destination="@id/mumentDetailFragment" />
+        <action
+            android:id="@+id/action_musicDetailFragment_to_mumentHistoryFragment"
+            app:destination="@id/historyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.mument_android.app.presentation.ui.home.HistoryFragment"
+        android:label="HistoryFragment"
+        tools:layout="@layout/fragment_history">
+
+        <action
+            android:id="@+id/action_musicHistory_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
+
     </fragment>
 </navigation>

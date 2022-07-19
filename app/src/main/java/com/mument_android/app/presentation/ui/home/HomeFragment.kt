@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -51,7 +53,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment)
         }
         binding.tvSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_mumentHistoryFragment)
             /*BottomSheetSearchFragment.newInstance().show(childFragmentManager, "Search")*/
         }
     }
@@ -73,12 +75,13 @@ class HomeFragment : Fragment() {
                 viewModel.bannerIndexChange(position)
             }
         })
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.bannerNumIncrease.collect { index ->
-                binding.vpBanner.setCurrentItem(
-                    index, true
-                )
-            }
+        lifecycleScope.launchWhenCreated {
+            viewModel.bannerNumIncrease.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { index ->
+                    binding.vpBanner.setCurrentItem(
+                        index, true
+                    )
+                }
         }
     }
 

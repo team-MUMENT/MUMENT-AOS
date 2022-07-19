@@ -78,7 +78,8 @@ class BottomSheetSearchFragment(private val contentClick: (SearchResultData) -> 
         })
         binding.rcSearch.adapter = adapter
         binding.viewmodel = viewmodel
-        adapter.submitList(viewmodel.searchList.value)
+        //adapter.submitList(viewmodel.searchList.value)
+
         binding.option = false
 
     }

@@ -1,22 +1,24 @@
 package com.mument_android.app.domain.entity
-
-import com.mument_android.app.domain.entity.MumentCardData.Music
-import com.mument_android.app.domain.entity.MumentCardData.User
-
 data class LockerMumentEntity(
     val date: String,
     val mumentCard: List<MumentLockerCard>
 ) {
     data class MumentLockerCard(
-        val id: String,
+        val _id: String,
         val content: String,
-        val music: Music,
-        val user: User,
+        val createdAt: String,
+        val music_Id: String,
+        val musicImage: String,
+        val musicName: String,
+        val musicArtist: String,
+        val user_Id: String,
+        val userImage: String,
+        val userName: String,
         val likeCount: Int?,
+        val isLiked: Boolean?,
         val isPrivate: Boolean?,
         val isFirst: Boolean?,
-        val impression: List<Int>?,
-        val feeling: List<Int>?,
-        val createdAt: String
+        val tag1: String,
+        val tag2: String,
     )
 }

@@ -83,7 +83,8 @@ class LockerFragment : Fragment() {
 
     private fun filterBtnClickListener() {
         binding.ivLockerFilter.setOnClickListener {
-            LockerFilterBottomSheetFragment.newInstance().show(parentFragmentManager, "Hi")
+
+            //LockerFilterBottomSheetFragment.newInstance().show(parentFragmentManager, "Hi")
         }
     }
 

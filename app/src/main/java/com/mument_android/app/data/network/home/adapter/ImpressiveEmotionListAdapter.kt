@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
-import com.mument_android.app.data.dto.MumentCard
+import com.mument_android.app.domain.entity.MumentCard
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.ItemImpressiveEmotionMumentLayoutBinding
@@ -31,7 +31,7 @@ class ImpressiveEmotionListAdapter(
         val mementData = getItem(position)
         with(holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams) {
             marginStart = if (position == 0) 16.dpToPx(context) else 5.dpToPx(context)
-            marginEnd = if (position == 0) 5.dpToPx(context) else 16.dpToPx(context)
+            marginEnd = if (position == (itemCount - 1)) 16.dpToPx(context) else 5.dpToPx(context)
             holder.binding.clMument.layoutParams = this
         }
         holder.binding.setVariable(BR.mument, mementData)

@@ -11,7 +11,7 @@
 
         <variable
             name="mument"
-            type="com.mument_android.app.data.dto.MumentCard" />
+            type="com.mument_android.app.domain.entity.MumentCard" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                load_profile="@{mument.user.image}"
+                load_profile="@{mument.userImage}"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 tools:src="@drawable/ic_heart_off" />
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:layout_weight="1"
-                android:text="@{mument.user.name}"
+                android:text="@{mument.userName}"
                 tools:text="이수지" />
 
             <ImageView
@@ -76,7 +76,7 @@
 
         <ImageView
             android:id="@+id/imageview"
-            load_album="@{mument.music.image}"
+            load_album="@{mument.musicImage}"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginTop="15dp"
@@ -99,14 +99,14 @@
                 style="@style/TextView.Mument_B3_B14.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{mument.music.name}"
+                android:text="@{mument.musicName}"
                 tools:text="Antifreeze" />
 
             <TextView
                 style="@style/TextView.Mument_B5_M13.Style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{mument.music.artist}"
+                android:text="@{mument.musicArtist}"
                 tools:text="백예린" />
 
             <LinearLayout
