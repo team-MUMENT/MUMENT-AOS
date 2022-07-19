@@ -60,7 +60,7 @@ class MyMumentFragment : Fragment() {
 
     private fun emptyBtnClick() {
         binding.clEmptyRecord.setOnClickListener {
-            //기록하기 뷰로 이동
+            //TODO: 기록하기 뷰로 이동
         }
     }
 }
