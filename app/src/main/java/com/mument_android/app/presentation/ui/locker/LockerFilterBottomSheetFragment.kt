@@ -239,10 +239,10 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     private fun selectLayout() {
         lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
-                binding.rvSelectedTags.visibility = View.INVISIBLE
+                binding.clSelectedTag.visibility = View.GONE
                 binding.tvFilterNum.setTextColor(Color.parseColor("#B6B6B6"))
             } else {
-                binding.rvSelectedTags.visibility = View.VISIBLE
+                binding.clSelectedTag.visibility = View.VISIBLE
                 binding.tvFilterNum.setTextColor(Color.parseColor("#2AC9fB"))
             }
 

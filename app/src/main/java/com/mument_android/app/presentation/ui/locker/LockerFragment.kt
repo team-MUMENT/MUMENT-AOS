@@ -107,7 +107,6 @@ class LockerFragment : Fragment() {
             } else {
                 binding.rvSelectedTags.visibility = View.VISIBLE
                 selectedAdapter.submitList(it)
-                Timber.d("TestTestTest : $it")
             }
         }
     }
