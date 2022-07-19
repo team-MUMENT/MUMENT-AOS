@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
@@ -13,12 +14,13 @@ import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentLockerBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class LockerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentLockerBinding>()
     private lateinit var lockerTabAdapter: LockerTabAdapter
-    private lateinit var selectedAdapter: FilterBottomSheetSelectedAdapter
+    private val lockerViewModel : LockerViewModel by viewModels()
     private val viewModel: LockerViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -72,7 +74,7 @@ class LockerFragment : Fragment() {
 
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
-            viewModel.changeIsGridLayout(false)
+            lockerViewModel.changeIsGridLayout(false)
             binding.ivLockerList.isSelected = true
             binding.ivLockerGrid.isSelected = false
 
@@ -81,7 +83,7 @@ class LockerFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
-            viewModel.changeIsGridLayout(true)
+            lockerViewModel.changeIsGridLayout(true)
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
         }

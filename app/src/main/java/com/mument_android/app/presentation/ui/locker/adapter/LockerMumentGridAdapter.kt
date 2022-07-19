@@ -9,6 +9,7 @@ import com.mument_android.app.data.dto.MumentCard
 import com.mument_android.app.domain.entity.LockerMumentEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemMumentImageBinding
+import timber.log.Timber
 
 //자식어뎁터
 class LockerMumentGridAdapter() :
@@ -22,6 +23,7 @@ class LockerMumentGridAdapter() :
             parent,
             false
         )
+        Timber.d("GridTest")
         return MumentViewHolder(binding)
     }
 
