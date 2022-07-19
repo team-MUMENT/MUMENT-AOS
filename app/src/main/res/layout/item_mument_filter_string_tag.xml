@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="tagEntity"
             type="com.mument_android.app.domain.entity.TagEntity" />
     </data>
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_selected_tag"
+            setSelectTagType="@{tagEntity.tagType}"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_delete_blue"
             android:drawablePadding="7dp"
-            setSelectTagType="@{tagEntity.tagType}"
             android:text="@{tagEntity.tagString}"
-            tools:text="@string/emotional_confidence"/>
+            tools:text="@string/emotional_confidence" />
 
 
     </FrameLayout>

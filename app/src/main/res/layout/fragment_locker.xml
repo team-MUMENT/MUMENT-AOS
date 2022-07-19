@@ -88,17 +88,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_selected_tags" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_selected_tags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
             android:background="@color/mument_color_gray3"
             android:orientation="horizontal"
             android:paddingStart="16dp"
             android:paddingTop="7dp"
             android:paddingEnd="7dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="50dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

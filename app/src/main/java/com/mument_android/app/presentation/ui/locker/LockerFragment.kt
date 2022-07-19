@@ -6,16 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mument_android.app.domain.entity.TagEntity
+import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.RecyclerviewItemDivider
-import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.FragmentLockerBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -25,6 +21,9 @@ class LockerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentLockerBinding>()
     private lateinit var lockerTabAdapter: LockerTabAdapter
     private lateinit var selectedAdapter: FilterBottomSheetSelectedAdapter
+    private lateinit var filterBottomSheetAdapterImpress: FilterBottomSheetAdapter
+    private lateinit var filterBottomSheetAdpaterEmotion: FilterBottomSheetAdapter
+
 
     private val viewModel: LockerViewModel by activityViewModels()
 
@@ -39,14 +38,18 @@ class LockerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivLockerList.isSelected = true
+        binding.lifecycleOwner = viewLifecycleOwner
         initAdapter()
         initTab()
         listBtnClickListener()
         gridBtnClickListener()
         filterBtnClickListener()
         settingRecyclerView()
+    }
+
+    override fun onResume() {
+        super.onResume()
         setSelectedTag()
-        //setSelectedData()
     }
 
     private fun initAdapter() {
@@ -97,58 +100,45 @@ class LockerFragment : Fragment() {
 
 
     private fun settingRecyclerView() {
+        setSelectedTag()
         viewModel.checkedTagList.observe(viewLifecycleOwner) {
-            Timber.d("lockerFragment Test : $it")
-
             if (it.isEmpty()) {
                 binding.rvSelectedTags.visibility = View.GONE
             } else {
                 binding.rvSelectedTags.visibility = View.VISIBLE
-                setSelectedTag()
+                selectedAdapter.submitList(it)
+                Timber.d("TestTestTest : $it")
             }
         }
-
     }
 
 
+    /*
     private fun setSelectedTag() {
         binding.rvSelectedTags.run {
-            adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
-                viewModel.removeCheckedList(tag)
-                //syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
-            }
             viewModel.checkedTagList.observe(viewLifecycleOwner) {
+                Timber.d("tesettsetste: $it")
                 (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
             }
+                adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
+                viewModel.removeCheckedList(tag)
+            }
         }
     }
 
-/*
-    //recyclerview item decoration
-    private fun setItemDecoration(recyclerView: RecyclerView) {
-        recyclerView.addItemDecoration(
-            RecyclerviewItemDivider(
-                7.dpToPx(requireContext()),
-                5.dpToPx(requireContext()),
-                RecyclerviewItemDivider.IS_GRIDLAYOUT
-            )
-        )
-    }
+     */
 
-    private fun setEmotionalRvFlexBoxLayout() {
-        with(binding.rvSelectedTags) {
-            selectedAdapter.submitList(viewModel.emotionalTags)
-            selectedAdapter.selectedTags = viewModel.checkedTagList.value!!.toMutableList()
+    //선택된 태그들 리사이클러뷰
+    private fun setSelectedTag() {
+
+        selectedAdapter = FilterBottomSheetSelectedAdapter { tag, idx ->
+            viewModel.removeCheckedList(tag)
         }
+        binding.rvSelectedTags.adapter = selectedAdapter
+        selectedAdapter.selectedTags = viewModel.checkedTagList?.value!!.toMutableList()
+        selectedAdapter.submitList(viewModel.checkedTagList.value)
+
     }
 
-    private fun setSelectedData() {
-        with(binding.rvSelectedTags) {
-            setItemDecoration(this)
-            setEmotionalRvFlexBoxLayout()
-        }
-    }
-
- */
 
 }
