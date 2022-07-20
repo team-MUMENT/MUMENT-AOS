@@ -36,22 +36,11 @@ class LockerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vpLocker.isUserInputEnabled = false
-        //binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         initAdapter()
         initTab()
-        //listBtnClickListener()
-        //gridBtnClickListener()
-        //filterBtnClickListener()
-        //settingRecyclerView()
-
     }
 
-    override fun onResume() {
-        super.onResume()
-        //removeTag()
-
-    }
 
     private fun initAdapter() {
         val fragmentList = listOf(MyMumentFragment(), MyLikeFragment())
@@ -72,63 +61,5 @@ class LockerFragment : Fragment() {
             findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
         }
     }
-
-/*
-    private fun listBtnClickListener() {
-        binding.ivLockerList.setOnClickListener {
-            lockerViewModel.changeIsGridLayout(false)
-            binding.ivLockerList.isSelected = true
-            binding.ivLockerGrid.isSelected = false
-
-        }
-    }
-
-    private fun gridBtnClickListener() {
-        binding.ivLockerGrid.setOnClickListener {
-            lockerViewModel.changeIsGridLayout(true)
-            binding.ivLockerList.isSelected = false
-            binding.ivLockerGrid.isSelected = true
-        }
-    }
-
-    private fun filterBtnClickListener() {
-        binding.ivLockerFilter.setOnClickListener {
-            LockerFilterBottomSheetFragment.newInstance()
-                .show(parentFragmentManager, "LockerFilterBottomSheetFragment")
-        }
-    }
-
-
-    private fun settingRecyclerView() {
-        removeTag()
-        viewModel.realTagList.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                binding.rvSelectedTags.visibility = View.GONE
-            } else {
-                binding.rvSelectedTags.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun removeTag() {
-        binding.rvSelectedTags.run {
-            adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
-                viewModel.removeCheckedList(tag)
-            }
-
-            viewModel.checkedTagList.observe(viewLifecycleOwner) {
-                (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
-                if (it.isEmpty()) {
-                    binding.rvSelectedTags.visibility = View.GONE
-                    binding.ivLockerFilter.isSelected = false
-                } else {
-                    binding.rvSelectedTags.visibility = View.VISIBLE
-                    binding.ivLockerFilter.isSelected = true
-                }
-            }
-        }
-
-    }
- */
 
 }

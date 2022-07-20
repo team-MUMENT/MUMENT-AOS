@@ -106,11 +106,6 @@ class LockerLikeFilterBottomSheetFragment : BottomSheetDialogFragment() {
                 override fun addCheckedTag(tag: TagEntity) {
                     filterBottomSheetAdapterImpress.selectedTags.add(tag)
                     lockerViewModel.addLikeCheckedList(tag)
-                    Timber.d("TestTest : $tag")
-                    lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
-                        Timber.d("TEsTEsf  : $it")
-                    }
-
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
@@ -142,7 +137,6 @@ class LockerLikeFilterBottomSheetFragment : BottomSheetDialogFragment() {
     private fun closeBtnListener() {
         binding.ivFilterDelete.setOnClickListener {
             lockerViewModel.checkedLikeTagList.value = lockerViewModel.likeRealTagList.value
-
             dismiss()
         }
     }
