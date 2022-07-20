@@ -265,7 +265,7 @@ class RecordFragment : Fragment() {
         MumentDialogBuilder()
             .setHeader(getString(R.string.record_reset_header))
             .setBody(getString(R.string.record_reset_body))
-            .setOption(false)
+            .setOption(true)
             .setAllowListener {
                 resetRecord()
                 resetRecordTags()
@@ -282,8 +282,6 @@ class RecordFragment : Fragment() {
         binding.btnRecordFirst.isChangeButtonFont(false)
         binding.btnRecordSecond.isChangeButtonFont(false)
         binding.btnRecordFirst.isEnabled = true
-        recordViewModel.checkIsFirst(true)
-
         binding.clRecordRoot.scrollTo(0, 0)
         binding.etRecordWrite.text.clear()
 
@@ -308,7 +306,6 @@ class RecordFragment : Fragment() {
                 recordViewModel.changeSelectedMusic(it)
                 recordViewModel.findIsFirst()
             }.show(parentFragmentManager, "bottom sheet")
-            recordViewModel.checkSelectedMusic(true)
             Timber.d(recordViewModel.selectedMusic.value.toString())
         }
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
