@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -68,6 +69,7 @@ class RecordFragment : Fragment() {
         getAllData()
         isClickDelete()
         observingListen()
+
     }
 
     //태그들 추가, 삭제 -> 5개 판별
@@ -173,7 +175,7 @@ class RecordFragment : Fragment() {
         }
     }
 
-    //첫번째(처음 들었어요) 버튼 클릭 리스너
+
     @SuppressLint("ClickableViewAccessibility")
     private fun firstListenClickEvent() {
         with(binding) {
@@ -190,8 +192,9 @@ class RecordFragment : Fragment() {
                 }
                 false
             }
-        }
-    }
+            }
+            }
+  
 
     //바텀시트 올라오면서 처리
     private fun initBottomSheet() {
@@ -282,6 +285,7 @@ class RecordFragment : Fragment() {
     }
 
     //리셋버튼 클릭 및 알럿
+
     private fun resetButtonClickEvent() {
         MumentDialogBuilder()
             .setHeader(getString(R.string.record_reset_header))

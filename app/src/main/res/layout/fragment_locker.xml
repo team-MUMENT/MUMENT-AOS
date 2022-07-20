@@ -48,37 +48,6 @@
             android:background="@color/mument_color_gray4"
             app:layout_constraintTop_toBottomOf="@+id/tl_locker" />
 
-        <ImageView
-            android:id="@+id/iv_locker_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:src="@drawable/selector_ic_filter"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl_locker" />
-
-        <ImageView
-            android:id="@+id/iv_locker_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/selector_ic_list"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_locker_filter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_locker_filter" />
-
-        <ImageView
-            android:id="@+id/iv_locker_grid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/selector_ic_grid"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_locker_list"
-            app:layout_constraintEnd_toStartOf="@+id/iv_locker_list"
-            app:layout_constraintTop_toTopOf="@+id/iv_locker_list" />
-
-
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_locker"
             android:layout_width="match_parent"
@@ -86,23 +55,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_selected_tags" />
+            app:layout_constraintTop_toBottomOf="@+id/tl_locker" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_selected_tags"
-            android:layout_width="0dp"
-            android:layout_height="49dp"
-            android:background="@color/mument_color_gray5"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingTop="7dp"
-            android:paddingEnd="7dp"
-            android:layout_marginTop="18dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_locker_filter"
-            tools:listitem="@layout/item_mument_filter_string_tag" />
+
 
 
 

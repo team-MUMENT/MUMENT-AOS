@@ -51,9 +51,11 @@ class SearchFragment : Fragment() {
         }, { data ->
             viewmodel.deleteRecentList(data)
         })
+        searchAdapter.option = true
         searchResultAdapter = SearchListAdapter(requireContext(), { data ->
             viewmodel.selectContent(data)
         }, {})
+        searchResultAdapter.option = false
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewmodel
         binding.option = true
@@ -65,9 +67,9 @@ class SearchFragment : Fragment() {
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewmodel.searchMusic(binding.etSearch.text.toString())
-                binding.etSearch.text = null
+                binding.rcSearch.adapter = searchResultAdapter
+                binding.searchOption = true
             }
-            Timber.d("done!! $actionId")
             false
         }
         binding.etSearch.setOnFocusChangeListener { view, b ->
@@ -80,50 +82,50 @@ class SearchFragment : Fragment() {
 
         binding.ivDelete.setOnClickListener {
             binding.etSearch.text = null
+            lifecycleScope.launch {
+                viewmodel.setRecentData(this)
+                binding.searchOption = false
+                binding.rcSearch.adapter = searchAdapter
+            }
         }
 
         binding.etAllDelete.setOnClickListener {
             MumentDialogBuilder().setAllowListener {
                 viewmodel.allListDelete()
-            }.setCancelListener { }.setBody("").setHeader("최근 검색한 내역을\n모두 삭제하시겠어요?").build().show(childFragmentManager, this.tag)
+            }.setCancelListener { }.setBody("").setHeader("최근 검색한 내역을\n모두 삭제하시겠어요?").build()
+                .show(childFragmentManager, this.tag)
         }
     }
 
     private fun collectingList() {
-        /*viewmodel.searchResultList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
-            if (result?.size != 0) {
-                binding.rcSearch.adapter = searchResultAdapter
-                searchResultAdapter.submitList(result)
-                //searchAdapter.submitList(it)
+        viewmodel.searchResultList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+            when (result) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    if (result.data!!.isNotEmpty()) {
+                        searchResultAdapter.submitList(result.data)
+                    }
+                }
             }
-        }*/
+        }
         viewmodel.searchContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
             //Timber.d("collect!! $it")
         }
-
-        lifecycleScope.launch {
-            viewmodel.searchList.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect { result ->
-                    when (result) {
-                        is ApiResult.Loading -> {}
-                        is ApiResult.Failure -> {}
-                        is ApiResult.Success -> {
-                            Timber.d("Search Collect ${result.data}")
-                            searchAdapter.submitList(result.data)
-                        }
-                    }
+        viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+            when (result) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    searchAdapter.submitList(result.data)
+                    binding.rcSearch.adapter = searchAdapter
                 }
-
             }
         }
-        /*
-            viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
-                when (result) {
-                    is ApiResult.Loading -> {}
-                    is ApiResult.Failure -> {}
-                    is ApiResult.Success -> {
-                        searchAdapter.submitList(result.data)
-                    }
-                }
-            }*/
     }
+
+    override fun onStop() {
+        super.onStop()
+        viewmodel.searchResultList.value?.data?.toMutableList()?.clear()
+    }
+}

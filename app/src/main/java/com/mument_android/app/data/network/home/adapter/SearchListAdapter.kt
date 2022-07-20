@@ -2,6 +2,7 @@ package com.mument_android.app.data.network.home.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,7 @@ class SearchListAdapter(
     private val itemClickListener: (RecentSearchData) -> Unit
 ) :
     ListAdapter<RecentSearchData, SearchListAdapter.SearchViewHolder>(GlobalDiffCallBack<RecentSearchData>()) {
-
+    var option = true
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
             ItemSearchListBinding.inflate(
@@ -37,9 +38,10 @@ class SearchListAdapter(
         holder.binding.ivDelete.setOnClickListener {
             itemClickListener(searchData)
         }
-        with(holder.binding.clSearch.layoutParams as ViewGroup.MarginLayoutParams) {
-            topMargin = if (position == 0) 30.dpToPx(context) else 0.dpToPx(context)
-            holder.binding.clSearch.layoutParams = this
+        if(option){
+            holder.binding.ivDelete.visibility = View.VISIBLE
+        }else{
+            holder.binding.ivDelete.visibility = View.GONE
         }
     }
 

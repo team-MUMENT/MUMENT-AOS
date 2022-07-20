@@ -18,7 +18,8 @@ import com.mument_android.app.data.local.recentlist.RecentSearchDAO
 import com.mument_android.app.data.local.todaymument.MumentDatabase
 import com.mument_android.app.data.local.todaymument.TodayMumentDAO
 import com.mument_android.app.data.network.detail.DetailApiService
-import com.mument_android.app.data.network.locker.LockerNetwork
+import com.mument_android.app.data.network.home.HomeService
+import com.mument_android.app.data.network.locker.LockerApiService
 import com.mument_android.app.data.network.record.RecordApiService
 import dagger.Module
 import dagger.Provides
@@ -50,7 +51,7 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideLockerDataSource(lockerNetwork: LockerNetwork): LockerDataSource =
+    fun provideLockerDataSource(lockerNetwork: LockerApiService): LockerDataSource =
         LockerDataSourceImpl(lockerNetwork)
 
     @Singleton
@@ -80,11 +81,21 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideRecentSearchListDataSource(dao: RecentSearchDAO): RecentSearchListDataSource =
-        RecentSearchListDataSourceImpl(dao)
+    fun provideRecentSearchListDataSource(dao: RecentSearchDAO): LocalRecentSearchListDataSource =
+        LocalRecentSearchListDataSourceImpl(dao)
 
     @Provides
     @Singleton
-    fun provideTodayMumentDataSource(dao: TodayMumentDAO): TodayMumentDataSource =
-        TodayMumentDataSourceImpl(dao)
+    fun provideTodayMumentDataSource(dao: TodayMumentDAO): LocalTodayMumentDataSource =
+        LocalTodayMumentDataSourceImpl(dao)
+
+    @Provides
+    @Singleton
+    fun provideSearchListDataSource(service: HomeService): RemoteSearchListDataSource =
+        RemoteSearchListDataSourceImpl(service)
+
+    @Provides
+    @Singleton
+    fun provideMumentHistoryDataSource(service: HomeService): RemoteMumentHistoryDataSource =
+        RemoteMumentHistoryDataSourceImpl(service)
 }
