@@ -9,10 +9,7 @@ import com.mument_android.app.domain.repository.locker.LockerRepository
 import com.mument_android.app.domain.repository.record.RecordRepository
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCaseImpl
-import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
-import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCaseImpl
-import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCase
-import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCaseImpl
+import com.mument_android.app.domain.usecase.home.*
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCaseImpl
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
@@ -68,6 +65,16 @@ object UseCaseModule {
     @Singleton
     fun provideDeleteRecentSearchListUseCase(homeRepository: HomeRepository): DeleteRecentSearchListUseCase =
         DeleteRecentSearchListUseCaseImpl(homeRepository)
+
+    @Provides
+    @Singleton
+    fun provideSearchMusicUseCase(homeRepository: HomeRepository): SearchMusicUseCase =
+        SearchMusicUseCaseImpl(homeRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetMumentHistoryUseCase(homeRepository: HomeRepository): GetMumentHistoryUseCase =
+        GetMumentHistoryUseCaseImpl(homeRepository)
 
     @Provides
     @Singleton

@@ -87,10 +87,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
         adapter = SearchListAdapter(requireContext(), {
             contentClick(it)
             dismiss()
-        }, {
-
-
-        })
+        }, {})
         /*searchResultAdapter = SearchListAdapter(requireContext(),{ data ->
             viewmodel.selectContent(data)
         }, {})*/

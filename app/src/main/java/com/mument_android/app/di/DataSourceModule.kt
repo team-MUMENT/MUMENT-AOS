@@ -5,10 +5,7 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.mument_android.app.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.app.data.datasource.detail.MumentDetailDataSourceImpl
-import com.mument_android.app.data.datasource.home.RecentSearchListDataSource
-import com.mument_android.app.data.datasource.home.RecentSearchListDataSourceImpl
-import com.mument_android.app.data.datasource.home.TodayMumentDataSource
-import com.mument_android.app.data.datasource.home.TodayMumentDataSourceImpl
+import com.mument_android.app.data.datasource.home.*
 import com.mument_android.app.data.datasource.locker.LockerDataSource
 import com.mument_android.app.data.datasource.locker.LockerDataSourceImpl
 import com.mument_android.app.data.datasource.record.RecordDataSource
@@ -21,6 +18,7 @@ import com.mument_android.app.data.local.recentlist.RecentSearchDAO
 import com.mument_android.app.data.local.todaymument.MumentDatabase
 import com.mument_android.app.data.local.todaymument.TodayMumentDAO
 import com.mument_android.app.data.network.detail.DetailApiService
+import com.mument_android.app.data.network.home.HomeService
 import com.mument_android.app.data.network.locker.LockerApiService
 import com.mument_android.app.data.network.record.RecordApiService
 import dagger.Module
@@ -83,11 +81,21 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideRecentSearchListDataSource(dao: RecentSearchDAO): RecentSearchListDataSource =
-        RecentSearchListDataSourceImpl(dao)
+    fun provideRecentSearchListDataSource(dao: RecentSearchDAO): LocalRecentSearchListDataSource =
+        LocalRecentSearchListDataSourceImpl(dao)
 
     @Provides
     @Singleton
-    fun provideTodayMumentDataSource(dao: TodayMumentDAO): TodayMumentDataSource =
-        TodayMumentDataSourceImpl(dao)
+    fun provideTodayMumentDataSource(dao: TodayMumentDAO): LocalTodayMumentDataSource =
+        LocalTodayMumentDataSourceImpl(dao)
+
+    @Provides
+    @Singleton
+    fun provideSearchListDataSource(service: HomeService): RemoteSearchListDataSource =
+        RemoteSearchListDataSourceImpl(service)
+
+    @Provides
+    @Singleton
+    fun provideMumentHistoryDataSource(service: HomeService): RemoteMumentHistoryDataSource =
+        RemoteMumentHistoryDataSourceImpl(service)
 }
