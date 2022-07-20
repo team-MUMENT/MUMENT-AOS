@@ -1,26 +1,24 @@
 package com.mument_android.app.presentation.ui.record
 
 import android.graphics.Color
-import android.icu.lang.UProperty
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.flexbox.*
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
-import com.mument_android.app.data.network.home.adapter.SearchListAdapter
-import com.mument_android.app.domain.entity.SearchResultData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
@@ -34,7 +32,6 @@ import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
 import timber.log.Timber
-import java.lang.reflect.Array.get
 
 
 class RecordFragment : Fragment() {

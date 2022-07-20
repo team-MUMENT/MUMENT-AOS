@@ -5,12 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
-import com.mument_android.app.domain.entity.SearchResultData
 import com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity
 import com.mument_android.app.util.GlobalDiffCallBack
-import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.ItemMumentLayoutBinding
-import com.mument_android.databinding.ItemSearchListBinding
 
 class HistoryListAdapter :
     ListAdapter<MusicDetailEntity, HistoryListAdapter.HistoryViewHolder>(GlobalDiffCallBack<MusicDetailEntity>()) {

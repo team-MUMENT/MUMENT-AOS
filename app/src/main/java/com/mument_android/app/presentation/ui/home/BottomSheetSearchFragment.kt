@@ -12,14 +12,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
+import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.network.home.adapter.SearchListAdapter
-import com.mument_android.app.domain.entity.SearchResultData
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentSearchBinding
 
-class BottomSheetSearchFragment(private val contentClick: (SearchResultData) -> Unit) : BottomSheetDialogFragment() {
+class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> Unit) : BottomSheetDialogFragment() {
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var adapter: SearchListAdapter
     private var binding by AutoClearedValue<FragmentSearchBinding>()
@@ -29,7 +29,7 @@ class BottomSheetSearchFragment(private val contentClick: (SearchResultData) -> 
         private var INSTANCE: BottomSheetSearchFragment? = null
 
         @JvmStatic
-        fun newInstance(contentClick: (SearchResultData) -> Unit): BottomSheetSearchFragment {
+        fun newInstance(contentClick: (RecentSearchData) -> Unit): BottomSheetSearchFragment {
             return INSTANCE ?: BottomSheetSearchFragment(contentClick = { contentClick(it) }).apply {
                 INSTANCE = this
             }
@@ -70,7 +70,7 @@ class BottomSheetSearchFragment(private val contentClick: (SearchResultData) -> 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = SearchListAdapter({
+        adapter = SearchListAdapter(requireContext(),{
             contentClick(it)
             dismiss()
         }, {

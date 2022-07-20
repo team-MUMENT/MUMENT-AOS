@@ -8,6 +8,7 @@ import com.mument_android.BR
 import com.mument_android.app.domain.entity.LockerMumentEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemLockerCardBinding
+import timber.log.Timber
 
 //자식어뎁터
 class LockerMumentLinearAdapter() : ListAdapter<LockerMumentEntity.MumentLockerCard, LockerMumentLinearAdapter.MumentViewHolder>(

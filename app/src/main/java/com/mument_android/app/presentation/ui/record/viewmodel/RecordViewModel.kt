@@ -4,7 +4,7 @@ package com.mument_android.app.presentation.ui.record.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mument_android.app.domain.entity.SearchResultData
+import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
 
 
@@ -19,12 +19,12 @@ class RecordViewModel : ViewModel() {
     private val _isSelectedMusic = MutableLiveData<Boolean>()
     val isSelectedMusic get(): LiveData<Boolean> = _isSelectedMusic
 
-    private val _selectedMusic = MutableLiveData<SearchResultData>()
+    private val _selectedMusic = MutableLiveData<RecentSearchData>()
     val selectedMusic = _selectedMusic
 
 //    val data = SearchResultData("25", "불꽃카리스마", "이민호","https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",true)
 
-    fun changeSelectedMusic(music: SearchResultData) {
+    fun changeSelectedMusic(music: RecentSearchData) {
         _selectedMusic.value = music
     }
 
@@ -39,8 +39,8 @@ class RecordViewModel : ViewModel() {
     }
 
     fun removeCheckedList(tag: TagEntity) {
-        val tempList = checkedTagList.value?.toMutableList()
-        tempList?.remove(tag)
+        val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
+        tempList.remove(tag)
         _checkedTagList.value = tempList
     }
 
