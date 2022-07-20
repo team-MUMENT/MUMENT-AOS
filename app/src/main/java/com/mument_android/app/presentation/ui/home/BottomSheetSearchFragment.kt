@@ -84,7 +84,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = SearchListAdapter(requireContext(),{
+        adapter = SearchListAdapter(requireContext(), {
             contentClick(it)
             dismiss()
         }, {
@@ -151,36 +151,23 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
                         }
                     }
                 }
-            lifecycleScope.launch {
-
-                viewmodel.searchList.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect {
-                    when (it) {
-                        is ApiResult.Loading -> {}
-                        is ApiResult.Failure -> {}
-                        is ApiResult.Success -> {
-                            adapter.submitList(it.data)
-                        }
-                        else -> {
-
-                        }
-                    }
-                }
-
-            }
         }
 
-        private fun getBottomSheetDialogDefaultHeight(): Int {
-            return getWindowHeight() * 80 / 100
-        }
 
-        private fun getWindowHeight(): Int {
-            // Calculate window height for fullscreen use
-            val windowMetrics: WindowMetrics = WindowMetricsCalculator.getOrCreate()
-                .computeCurrentWindowMetrics((activity as MainActivity))
-            val pxHeight = windowMetrics.bounds.height()
-            return pxHeight
-        }
 
     }
+
+    private fun getBottomSheetDialogDefaultHeight(): Int {
+        return getWindowHeight() * 80 / 100
+    }
+
+    private fun getWindowHeight(): Int {
+        // Calculate window height for fullscreen use
+        val windowMetrics: WindowMetrics = WindowMetricsCalculator.getOrCreate()
+            .computeCurrentWindowMetrics((activity as MainActivity))
+        val pxHeight = windowMetrics.bounds.height()
+        return pxHeight
+    }
+}
 
 
