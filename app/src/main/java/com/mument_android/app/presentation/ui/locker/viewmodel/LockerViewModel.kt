@@ -25,11 +25,21 @@ class LockerViewModel @Inject constructor(
     val myMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
 
     var realTagList = MutableLiveData<List<TagEntity>>(emptyList())
-
     val checkedTagList = MutableLiveData<List<TagEntity>>(emptyList())
+
+
+    //좋아요한 뮤멘트 완료 버튼 누른 뒤 나오는 리스트
+    var likeRealTagList = MutableLiveData<List<TagEntity>>(emptyList())
+
+    //좋아요한 뮤멘트 실시간 처리하는 리스트
+    var checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
 
     private val _isGridLayout = MutableStateFlow(false)
     val isGridLayout = _isGridLayout.asStateFlow()
+
+    //좋아요 GridLayout
+    private val _isLikeGridLayout = MutableStateFlow(false)
+    val isLikeGridLayout = _isLikeGridLayout.asStateFlow()
 
     init {
         fetchMyMumentList()
@@ -55,6 +65,11 @@ class LockerViewModel @Inject constructor(
 
     fun changeIsGridLayout(isGrid: Boolean) {
         _isGridLayout.value = isGrid
+    }
+
+    //좋아요 그리드 변경
+    fun changeLikeIsGridLayout(isGrid: Boolean) {
+        _isLikeGridLayout.value = isGrid
     }
 
     fun addCheckedList(checkedId: TagEntity) {

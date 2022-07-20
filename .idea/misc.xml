@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.12949640287769784" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/drawable-mdpi/selector_ic_grid.xml" value="0.1" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/drawable-mdpi/selector_ic_list.xml" value="0.1" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/drawable-xxxhdpi/selector_ic_filter.xml" value="0.1" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker_filter_bottom_sheet.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_my_like.xml" value="0.264" />
@@ -11,6 +14,7 @@
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_record.xml" value="0.152" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_card.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_date.xml" value="0.23802083333333332" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_filter_string_tag.xml" value="0.12222222222222222" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_image.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/drawable/ic_btn_record_icon.xml" value="0.109" />
         <entry key="app/src/main/res/drawable/oval_fill_white.xml" value="0.166" />

@@ -37,6 +37,7 @@ class MyMumentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
         setMyMumentListAdapter()
@@ -64,6 +65,7 @@ class MyMumentFragment : Fragment() {
                 is ApiResult.Success -> {
                     binding.rvMumentLinear.adapter = LockerTimeAdapter(false)
                     initMumentEmpty(it.data?.size ?: 0)
+                    //initMumentEmpty(0)
                     (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
                     Timber.d("Test : ${lockerViewModel.myMuments.value?.data}")
                 }
@@ -75,10 +77,12 @@ class MyMumentFragment : Fragment() {
 
     /*initMumentEmpty(it.size)
     (adapter as LockerTimeAdapter).submitList(it)*/
+
     //TODO: 필터 및 아이콘들 비활성화
     private fun initMumentEmpty(size : Int) {
         if(size == 0) {
             binding.clEmptyView.visibility = View.VISIBLE
+
         } else {
             binding.clEmptyView.visibility = View.GONE
         }
@@ -93,6 +97,7 @@ class MyMumentFragment : Fragment() {
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
             lockerViewModel.changeIsGridLayout(false)
+            setMyMumentListAdapter()
             binding.ivLockerList.isSelected = true
             binding.ivLockerGrid.isSelected = false
 
@@ -101,6 +106,7 @@ class MyMumentFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
+            setMyMumentListAdapter()
             lockerViewModel.changeIsGridLayout(true)
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
