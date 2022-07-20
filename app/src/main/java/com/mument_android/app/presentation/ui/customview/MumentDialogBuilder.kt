@@ -5,9 +5,10 @@ class MumentDialogBuilder {
     private var body: String? = null
     private var allowListener: (() -> Unit)? = null
     private var cancelListener: (() -> Unit)? = null
+    private var option: Boolean = false
 
     fun build(): MumentDialog {
-        return MumentDialog(header, body, allowListener, cancelListener)
+        return MumentDialog(header, body, allowListener, cancelListener, option)
     }
 
     fun setHeader(header: String): MumentDialogBuilder {
@@ -29,4 +30,11 @@ class MumentDialogBuilder {
         cancelListener = listener
         return this
     }
+
+
+    fun setOption(option: Boolean): MumentDialogBuilder {
+        this.option = option
+        return this
+    }
+
 }

@@ -7,6 +7,7 @@ import com.mument_android.app.data.mapper.locker.MumentLockerCardMapper
 import com.mument_android.app.data.mapper.main.EmotionalTagMapper
 import com.mument_android.app.data.mapper.main.ImpressiveTagMapper
 import com.mument_android.app.data.mapper.main.IsFirstTagMapper
+import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.mapper.user.UserMapper
 import dagger.Module
 import dagger.Provides
@@ -37,6 +38,10 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideIsFirstTagMapper(): IsFirstTagMapper = IsFirstTagMapper()
+
+    @Provides
+    @Singleton
+    fun provideRecordMapper(): RecordMapper = RecordMapper()
 
     @Provides
     @Singleton
