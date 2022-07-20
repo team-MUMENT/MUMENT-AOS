@@ -18,13 +18,13 @@ import timber.log.Timber
 
 class MyLikeFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyLikeBinding>()
-    private val lockerViewModel: LockerViewModel by viewModels( ownerProducer = { requireParentFragment() } )
+    private val lockerViewModel: LockerViewModel by viewModels(ownerProducer = { requireParentFragment() })
     private val viewModel: LockerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentMyLikeBinding.inflate(inflater, container, false). run {
+    ): View = FragmentMyLikeBinding.inflate(inflater, container, false).run {
         binding = this
         this.root
     }
@@ -33,12 +33,39 @@ class MyLikeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
+        setMyMumentListAdapter()
         settingRecyclerView()
         listBtnClickListener()
         gridBtnClickListener()
         filterBtnClickListener()
+    }
 
-       // setMyMumentListAdapter()
+    private fun setMyMumentListAdapter() {
+        binding.rvLikeLinear.run {
+            lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
+                adapter = LockerTimeAdapter(isGridLayout)
+                //(adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
+            }
+        }
+        lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
+            /*
+            when (it) {
+                is ApiResult.Loading -> {
+
+                }
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    binding.rvLikeLinear.adapter = LockerTimeAdapter(false)
+                    initLikeEmpty(it.data?.size ?: 0)
+                    //initMumentEmpty(0)
+                    (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
+                    Timber.d("Test : ${lockerViewModel.myMuments.value?.data}")
+                }
+            }
+            */
+
+        }
+
     }
 
     /*
@@ -59,10 +86,10 @@ class MyLikeFragment : Fragment() {
 
     //좋아요 한 뮤멘트 엠티뷰
     //TODO: 필터 및 아이콘들 비활성화
-    private fun initLikeEmpty(size : Int){
-        if(size == 0){
+    private fun initLikeEmpty(size: Int) {
+        if (size == 0) {
             binding.clEmptyView.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.clEmptyView.visibility = View.GONE
         }
     }
@@ -86,8 +113,8 @@ class MyLikeFragment : Fragment() {
 
     private fun filterBtnClickListener() {
         binding.ivLockerFilter.setOnClickListener {
-            LockerFilterBottomSheetFragment.newInstance()
-                .show(parentFragmentManager, "LockerFilterBottomSheetFragment")
+            LockerLikeFilterBottomSheetFragment.newInstance()
+                .show(parentFragmentManager, "LockerLikeFilterBottomSheetFragment")
         }
     }
 
@@ -123,8 +150,6 @@ class MyLikeFragment : Fragment() {
         }
 
     }
-
-
 
 
 }
