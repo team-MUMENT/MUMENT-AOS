@@ -69,7 +69,6 @@ class SearchFragment : Fragment() {
                 viewmodel.searchMusic(binding.etSearch.text.toString())
                 binding.rcSearch.adapter = searchResultAdapter
                 binding.searchOption = true
-                binding.etSearch.text = null
             }
             false
         }
@@ -123,16 +122,6 @@ class SearchFragment : Fragment() {
                 }
             }
         }
-        /*
-            viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
-                when (result) {
-                    is ApiResult.Loading -> {}
-                    is ApiResult.Failure -> {}
-                    is ApiResult.Success -> {
-                        searchAdapter.submitList(result.data)
-                    }
-                }
-            }*/
     }
 
     override fun onStop() {

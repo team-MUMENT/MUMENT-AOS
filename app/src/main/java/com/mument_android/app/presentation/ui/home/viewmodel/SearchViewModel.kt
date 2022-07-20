@@ -1,5 +1,6 @@
 package com.mument_android.app.presentation.ui.home.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.app.data.local.recentlist.RecentSearchData
@@ -28,7 +29,7 @@ class SearchViewModel @Inject constructor(
 ) :
     ViewModel() {
     val searchList = MutableStateFlow<ApiResult<List<RecentSearchData>>?>(null)
-
+    val searchText = MutableLiveData<String>("")
     val searchContent = MutableStateFlow<RecentSearchData?>(null)
     val searchResultList = MutableStateFlow<ApiResult<List<RecentSearchData>>?>(null)
     fun selectContent(data: RecentSearchData) {
