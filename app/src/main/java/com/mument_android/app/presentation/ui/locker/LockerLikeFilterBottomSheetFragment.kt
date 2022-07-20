@@ -152,7 +152,7 @@ class LockerLikeFilterBottomSheetFragment : BottomSheetDialogFragment() {
                     binding.rvImpressive.syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
                 }
 
-                lockerViewModel.removeCheckedList(tag)
+                lockerViewModel.removeLikeCheckedList(tag)
             }
 
             lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
