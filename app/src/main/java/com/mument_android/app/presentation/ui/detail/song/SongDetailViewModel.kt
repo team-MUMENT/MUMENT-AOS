@@ -22,9 +22,6 @@ class SongDetailViewModel: ViewModel() {
     private val _selectedSort = MutableStateFlow("")
     val selectedSort = _selectedSort.asStateFlow()
 
-    init {
-        fetchDummyMument()
-    }
 
     fun changeSelectedSort(sort: String) {
         _selectedSort.value = sort

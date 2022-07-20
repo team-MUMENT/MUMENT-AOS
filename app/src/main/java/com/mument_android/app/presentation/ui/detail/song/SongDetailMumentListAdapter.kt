@@ -9,6 +9,7 @@ import com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemSongDetailMumentBinding
 
+
 class SongDetailMumentListAdapter: ListAdapter<MusicDetailEntity, SongDetailMumentListAdapter.SongDetailMumentListViewHolder>(
     GlobalDiffCallBack<MusicDetailEntity>()
 ) {
@@ -25,6 +26,5 @@ class SongDetailMumentListAdapter: ListAdapter<MusicDetailEntity, SongDetailMume
             setVariable(BR.mument, getItem(position))
         }
     }
-
     class SongDetailMumentListViewHolder(val binding: ItemSongDetailMumentBinding): RecyclerView.ViewHolder(binding.root)
 }

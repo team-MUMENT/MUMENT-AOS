@@ -8,7 +8,6 @@
             type="com.mument_android.app.presentation.ui.detail.song.SongDetailViewModel" />
     </data>
 
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -200,7 +199,6 @@
                         app:layout_constraintBottom_toBottomOf="@id/tv_sort_latest"
                         app:layout_constraintEnd_toStartOf="@id/tv_sort_latest"/>
 
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_every_muments"
                         android:layout_width="0dp"
@@ -216,12 +214,7 @@
                         tools:listitem="@layout/mument_layout_cardview"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
             </FrameLayout>
-
-
         </androidx.core.widget.NestedScrollView>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
