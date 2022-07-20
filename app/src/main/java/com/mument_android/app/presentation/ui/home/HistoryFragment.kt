@@ -44,7 +44,7 @@ class HistoryFragment : Fragment() {
         }
         adapter = HistoryListAdapter()
         binding.rcHistory.adapter = adapter
-        adapter.submitList(historyViewModel.musicDetailData.value)
+        //adapter.submitList(historyViewModel.musicDetailData.value)
         collectType()
     }
 
