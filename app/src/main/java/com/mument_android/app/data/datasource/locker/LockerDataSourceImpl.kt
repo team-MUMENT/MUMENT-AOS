@@ -9,7 +9,7 @@ import javax.inject.Inject
 class LockerDataSourceImpl @Inject constructor(
     private val lockerApiService: LockerApiService
 ) : LockerDataSource {
-    override suspend fun fetchLockerMumumentList(userId: String, tag1 : Int, tag2: Int, tag3: Int): BaseResponse<LockerMyMumentDto> {
+    override suspend fun fetchLockerMumumentList(userId: String, tag1 : Int?, tag2: Int?, tag3: Int?): BaseResponse<LockerMyMumentDto> {
         return lockerApiService.lockerMumentList(userId, tag1, tag2, tag3)
 
 /*

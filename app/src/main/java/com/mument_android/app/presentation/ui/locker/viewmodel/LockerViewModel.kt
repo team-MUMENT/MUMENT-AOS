@@ -25,11 +25,21 @@ class LockerViewModel @Inject constructor(
     val myMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
 
     var realTagList = MutableLiveData<List<TagEntity>>(emptyList())
-
     val checkedTagList = MutableLiveData<List<TagEntity>>(emptyList())
+
+
+    //좋아요한 뮤멘트 완료 버튼 누른 뒤 나오는 리스트
+    var likeRealTagList = MutableLiveData<List<TagEntity>>(emptyList())
+
+    //좋아요한 뮤멘트 실시간 처리하는 리스트
+    var checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
 
     private val _isGridLayout = MutableStateFlow(false)
     val isGridLayout = _isGridLayout.asStateFlow()
+
+    //좋아요 GridLayout
+    private val _isLikeGridLayout = MutableStateFlow(false)
+    val isLikeGridLayout = _isLikeGridLayout.asStateFlow()
 
     init {
         fetchMyMumentList()
@@ -37,16 +47,13 @@ class LockerViewModel @Inject constructor(
 
     fun fetchMyMumentList() {
         viewModelScope.launch {
-            fetchMyMumentListUseCase(userId = "62cd5d4383956edb45d7d0ef", tag1 = 100, tag2 = 101, tag3 = 103).runCatching {
+            fetchMyMumentListUseCase(userId = "62cd5d4383956edb45d7d0ef", tag1 = null, tag2 = null, tag3 = null).runCatching {
                 this.onStart {
-                    Timber.d("Test Start")
                     myMuments.value = ApiResult.Loading(null)
                 }.catch {
-                    Timber.d("Test Catch")
                     it.printStackTrace()
                     myMuments.value = ApiResult.Failure(null)
                 }.collect {
-                    Timber.d("Test Collect")
                     myMuments.value = ApiResult.Success(it)
                 }
             }
@@ -55,6 +62,11 @@ class LockerViewModel @Inject constructor(
 
     fun changeIsGridLayout(isGrid: Boolean) {
         _isGridLayout.value = isGrid
+    }
+
+    //좋아요 그리드 변경
+    fun changeLikeIsGridLayout(isGrid: Boolean) {
+        _isLikeGridLayout.value = isGrid
     }
 
     fun addCheckedList(checkedId: TagEntity) {
@@ -75,6 +87,27 @@ class LockerViewModel @Inject constructor(
         checkedTagList.value?.toMutableList()?.let {
             it.clear()
             checkedTagList.value = it
+        }
+    }
+
+    fun addLikeCheckedList(checkedId: TagEntity) {
+        val tempList = checkedLikeTagList.value?.toMutableList() ?: mutableListOf()
+        if(tempList.size <= 3) {
+            tempList.add(checkedId)
+            checkedLikeTagList.value = tempList
+        }
+    }
+
+    fun removeLikeCheckedList(tag: TagEntity) {
+        val tempList = checkedLikeTagList.value?.toMutableList() ?: mutableListOf()
+        tempList.remove(tag)
+        checkedLikeTagList.value = tempList
+    }
+
+    fun resetLikeCheckedList() {
+        checkedLikeTagList.value?.toMutableList()?.let {
+            it.clear()
+            checkedLikeTagList.value = it
         }
     }
 }

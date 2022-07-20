@@ -15,6 +15,53 @@
         android:layout_height="match_parent"
         tools:context=".app.presentation.ui.locker.MyMumentFragment">
 
+        <ImageView
+            android:id="@+id/iv_locker_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/selector_ic_filter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_locker_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/selector_ic_list"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_locker_filter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_locker_filter" />
+
+        <ImageView
+            android:id="@+id/iv_locker_grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/selector_ic_grid"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_locker_list"
+            app:layout_constraintEnd_toStartOf="@+id/iv_locker_list"
+            app:layout_constraintTop_toTopOf="@+id/iv_locker_list" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_selected_tags"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="18dp"
+            android:background="@color/mument_color_gray5"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="7dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_locker_filter"
+            tools:listitem="@layout/item_mument_filter_string_tag" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_mument_linear"
@@ -24,7 +71,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_selected_tags"
             tools:listitem="@layout/item_locker_date" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

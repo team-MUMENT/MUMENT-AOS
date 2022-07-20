@@ -11,8 +11,8 @@ interface LockerApiService {
     @GET("/user/my/{userId}/list")
     suspend fun lockerMumentList(
         @Path("userId") userId : String,
-        @Query("tag1") tag1: Int,
-        @Query("tag2") tag2: Int,
-        @Query("tag3") tag3: Int
+        @Query("tag1") tag1: Int?,
+        @Query("tag2") tag2: Int?,
+        @Query("tag3") tag3: Int?
     ): BaseResponse<LockerMyMumentDto>
 }

@@ -22,7 +22,6 @@ class LockerMumentGridAdapter() :
             parent,
             false
         )
-        Timber.d("GridTest")
         return MumentViewHolder(binding)
     }
 
