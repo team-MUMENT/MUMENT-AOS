@@ -5,11 +5,12 @@ import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.network.base.BaseResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface HomeService {
-    @GET("/music/search?keyword={keyword}")
+    @GET("/music/search")
     suspend fun searchMusicList(
-        @Path("keyword") keyword: String
+        @Query("keyword") keyword: String
     ): BaseResponse<List<RecentSearchData>>
 
     @GET("/{userId}/{musicId}/history?default=Y")

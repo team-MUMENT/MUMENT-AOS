@@ -3,6 +3,8 @@ package com.mument_android.app.di
 import com.mument_android.app.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.app.data.datasource.home.LocalRecentSearchListDataSource
 import com.mument_android.app.data.datasource.home.LocalTodayMumentDataSource
+import com.mument_android.app.data.datasource.home.RemoteMumentHistoryDataSource
+import com.mument_android.app.data.datasource.home.RemoteSearchListDataSource
 import com.mument_android.app.data.datasource.locker.LockerDataSource
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
 import com.mument_android.app.data.mapper.locker.LockerMapper
@@ -42,7 +44,14 @@ object RepositoryModule {
     @Singleton
     fun provideHomeRepository(
         todayMumentDataSource: LocalTodayMumentDataSource,
-        recentSaerchListDataSource: LocalRecentSearchListDataSource
-    ): HomeRepository = HomeRepositoryImpl(todayMumentDataSource, recentSaerchListDataSource)
+        recentSearchListDataSource: LocalRecentSearchListDataSource,
+        mumentHistoryDataSource: RemoteMumentHistoryDataSource,
+        searchListDataSource: RemoteSearchListDataSource,
+    ): HomeRepository = HomeRepositoryImpl(
+        todayMumentDataSource,
+        recentSearchListDataSource,
+        mumentHistoryDataSource,
+        searchListDataSource
+    )
 
 }

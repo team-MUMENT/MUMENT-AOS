@@ -2,6 +2,7 @@ package com.mument_android.app.di
 
 import com.mument_android.BuildConfig
 import com.mument_android.app.data.network.detail.DetailApiService
+import com.mument_android.app.data.network.home.HomeService
 import com.mument_android.app.data.network.locker.LockerNetwork
 import com.mument_android.app.data.network.main.MainApiService
 import dagger.Module
@@ -36,7 +37,7 @@ object NetworkModule {
     @Singleton
     fun provideUnAuthRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl("http://15.164.129.17:8000")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -52,5 +53,9 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideLockerNetwork(retrofit: Retrofit): LockerNetwork = retrofit.create(LockerNetwork::class.java)
+
+    @Provides
+    @Singleton
+    fun providehomeNetwork(retrofit: Retrofit): HomeService = retrofit.create(HomeService::class.java)
 
 }
