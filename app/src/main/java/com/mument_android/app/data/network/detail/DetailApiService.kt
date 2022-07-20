@@ -5,6 +5,7 @@ import com.mument_android.app.data.dto.MumentSummaryDto
 import com.mument_android.app.data.dto.detail.MumentDetailDto
 import com.mument_android.app.data.dto.detail.MusicDetailDto
 import com.mument_android.app.data.network.base.BaseResponse
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -28,4 +29,9 @@ interface DetailApiService {
         @Path("userId") userId: String,
         @Query("default") default: String
     ): BaseResponse<MumentListDto>
+
+    @DELETE("/mument/{mumentId}")
+    suspend fun deleteMument(
+        @Path("mumentId") mumentId: String
+    )
 }
