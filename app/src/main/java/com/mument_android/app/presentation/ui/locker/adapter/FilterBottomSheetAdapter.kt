@@ -27,7 +27,7 @@ class FilterBottomSheetAdapter(
         fun alertMaxCount()
     }
 
-    val selectedTags = mutableListOf<TagEntity>()
+    var selectedTags = mutableListOf<TagEntity>()
     var reset: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomSheetFilterHolder {
@@ -54,14 +54,19 @@ class FilterBottomSheetAdapter(
                         checkTagListener.removeCheckedTag(getItem(position))
                     }
                 }
+                if (selectedTags.map {
+                        it.tagString
+                    }.contains(getItem(position).tagString)){
+                    checkBox.isChecked = true
+                }
+
                 holder.binding.flItem.layoutParams = this
+                if (reset) {
+                    checkBox.isChecked = false
+                    reset = false
+                }
             }
 
-            if(reset) {
-                holder.binding.cbTag.isChecked = false
-                reset = false
-            }
-           // holder.binding.flItem.layoutParams = this
 
         }
         holder.binding.cbTag.setOnCheckedChangeListener { button, isChecked ->

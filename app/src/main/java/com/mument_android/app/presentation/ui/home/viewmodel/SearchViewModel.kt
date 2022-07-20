@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -54,13 +55,13 @@ class SearchViewModel @Inject constructor(
             }.catch {
                 searchList.value = ApiResult.Failure(null)
             }.collect {
+                Timber.d("Emit $it")
                 searchList.value = ApiResult.Success(it)
             }
         }
     }
 
     fun searchMusic(keyword: String) {
-
         viewModelScope.launch {
             searchMusicUseCase.searchMusic(keyword).onStart {
                 searchResultList.value = ApiResult.Loading(null)
@@ -85,7 +86,9 @@ class SearchViewModel @Inject constructor(
 
     fun deleteRecentList(data: RecentSearchData) {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteRecentSearchListUseCase.deleteRecentSearchItem(data).let { setRecentData(this) }
+            deleteRecentSearchListUseCase.deleteRecentSearchItem(data).let {
+                setRecentData(this)
+            }
         }
     }
 
@@ -94,5 +97,6 @@ class SearchViewModel @Inject constructor(
             deleteRecentSearchListUseCase.deleteAllRecentSearchList()
             setRecentData(this)
         }
+        searchList.value = ApiResult.Success(listOf())
     }
 }

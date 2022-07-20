@@ -12,6 +12,7 @@ import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMyLikeBinding
+import timber.log.Timber
 
 class MyLikeFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyLikeBinding>()
@@ -46,6 +47,7 @@ class MyLikeFragment : Fragment() {
     }
 
     //좋아요 한 뮤멘트 엠티뷰
+    //TODO: 필터 및 아이콘들 비활성화
     private fun initLikeEmpty(size : Int){
         if(size == 0){
             binding.clEmptyView.visibility = View.VISIBLE

@@ -8,12 +8,16 @@ import com.mument_android.BR
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemMumentFilterStringTagBinding
+import timber.log.Timber
 
 class FilterBottomSheetSelectedAdapter(
     private val removeSelectedTagListener: (TagEntity, Int) -> Unit
 ) : ListAdapter<TagEntity, FilterBottomSheetSelectedAdapter.BottomSheetFilterTagHolder>(
     GlobalDiffCallBack<TagEntity>()
 ) {
+
+    var selectedTags = mutableListOf<TagEntity>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomSheetFilterTagHolder {
         val binding = ItemMumentFilterStringTagBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BottomSheetFilterTagHolder(binding)

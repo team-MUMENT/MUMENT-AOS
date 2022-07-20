@@ -10,6 +10,7 @@ import com.mument_android.BR
 import com.mument_android.app.domain.entity.LockerMumentEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemLockerDateBinding
+import timber.log.Timber
 
 //부모 어뎁터
 class LockerTimeAdapter(private val isGridLayout: Boolean): ListAdapter<LockerMumentEntity,LockerTimeAdapter.LockerTimeViewHolder>(

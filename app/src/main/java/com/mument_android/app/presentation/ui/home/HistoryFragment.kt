@@ -42,7 +42,7 @@ class HistoryFragment : Fragment() {
         binding.tvDesc.setOnClickListener {
             historyViewModel.changeSortType(false)
         }
-        adapter = HistoryListAdapter()
+        adapter = HistoryListAdapter(requireContext())
         binding.rcHistory.adapter = adapter
         //adapter.submitList(historyViewModel.musicDetailData.value)
         collectType()

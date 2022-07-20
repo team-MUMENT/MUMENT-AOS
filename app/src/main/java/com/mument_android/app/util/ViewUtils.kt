@@ -10,10 +10,15 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import android.util.DisplayMetrics
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.AnimationSet
+import android.view.animation.TranslateAnimation
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.snackbar.Snackbar
 import com.mument_android.R
 import timber.log.Timber
+import java.lang.IllegalArgumentException
 
 
 object ViewUtils {
@@ -74,5 +79,37 @@ object ViewUtils {
             deviceWidth = outMetrics.widthPixels
         }
         return listOf(deviceWidth, deviceHeight)
+    }
+
+    fun View.applyVisibilityAnimation(isUpward: Boolean, reveal: Boolean, durationTime: Long, delay: Long? = null) {
+        val animationSet = AnimationSet(true)
+        val alphaAnimation = if (reveal) AlphaAnimation(0f, 1f) else AlphaAnimation(1f, 0f)
+        val translateAnimation = when {
+            isUpward && reveal -> TranslateAnimation(0f, 0f, 70f, 0f)
+            isUpward && !reveal -> TranslateAnimation(0f, 0f, 0f, -height.toFloat())
+            !isUpward && reveal -> TranslateAnimation(0f, 0f,  -height.toFloat(),0f)
+            !isUpward && !reveal -> TranslateAnimation(0f, 0f,  0f, height.toFloat())
+            else -> throw IllegalArgumentException("Visibility Animation Argument Error")
+        }
+
+        alphaAnimation.duration = durationTime
+        translateAnimation.duration = durationTime
+        delay?.let {
+            alphaAnimation.startOffset = it
+            translateAnimation.startOffset = it
+        }
+        animationSet.addAnimation(alphaAnimation)
+        animationSet.addAnimation(translateAnimation)
+
+        animationSet.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(p0: Animation?) {
+                if (reveal) {visibility = View.VISIBLE}
+            }
+            override fun onAnimationEnd(p0: Animation?) {
+                visibility = if(reveal) View.VISIBLE else View.GONE
+            }
+            override fun onAnimationRepeat(p0: Animation?) {}
+        })
+        startAnimation(animationSet)
     }
 }

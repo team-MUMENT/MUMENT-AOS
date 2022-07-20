@@ -6,15 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.mument_android.app.data.network.home.adapter.SearchListAdapter
 import com.mument_android.app.data.network.util.ApiResult
+import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -22,7 +27,7 @@ import timber.log.Timber
 class SearchFragment : Fragment() {
 
     private var binding by AutoClearedValue<FragmentSearchBinding>()
-    private val viewmodel: SearchViewModel by viewModels()
+    private val viewmodel: SearchViewModel by activityViewModels()
     private lateinit var searchAdapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
     override fun onCreateView(
@@ -64,6 +69,7 @@ class SearchFragment : Fragment() {
                 viewmodel.searchMusic(binding.etSearch.text.toString())
                 binding.rcSearch.adapter = searchResultAdapter
                 binding.searchOption = true
+                binding.etSearch.text = null
             }
             false
         }
@@ -85,8 +91,10 @@ class SearchFragment : Fragment() {
         }
 
         binding.etAllDelete.setOnClickListener {
-            searchAdapter.submitList(listOf())
-            viewmodel.allListDelete()
+            MumentDialogBuilder().setAllowListener {
+                viewmodel.allListDelete()
+            }.setCancelListener { }.setBody("").setHeader("최근 검색한 내역을\n모두 삭제하시겠어요?").build()
+                .show(childFragmentManager, this.tag)
         }
     }
 
@@ -115,6 +123,16 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+        /*
+            viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+                when (result) {
+                    is ApiResult.Loading -> {}
+                    is ApiResult.Failure -> {}
+                    is ApiResult.Success -> {
+                        searchAdapter.submitList(result.data)
+                    }
+                }
+            }*/
     }
 
     override fun onStop() {

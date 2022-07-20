@@ -13,7 +13,9 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.flexbox.*
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
@@ -287,7 +289,7 @@ class RecordFragment : Fragment() {
     private fun initBottomSheet() {
         binding.btnRecordSearch.setOnClickListener {
             BottomSheetSearchFragment.newInstance {
-                recordViewModel.changeSelectedMusic(it)
+//                recordViewModel.changeSelectedMusic(it)
             }.show(parentFragmentManager, "bottom sheet")
 //            recordViewModel.checkSelectedMusic(true)
             Timber.d(recordViewModel.selectedMusic.value.toString())

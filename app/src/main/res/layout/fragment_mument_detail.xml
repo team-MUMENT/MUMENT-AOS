@@ -8,13 +8,13 @@
     <data>
         <variable
             name="mumentDetailViewModel"
-            type="com.mument_android.app.presentation.ui.detail.MumentDetailViewModel" />
+            type="com.mument_android.app.presentation.ui.detail.mument.MumentDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".app.presentation.ui.detail.MumentDetailFragment">
+        tools:context=".app.presentation.ui.detail.mument.MumentDetailFragment">
 
         <ImageView
             android:id="@+id/iv_back_button"
@@ -111,12 +111,17 @@
                 android:id="@+id/tv_album_name"
                 style="@style/TextView.Mument_B3_B14.Style"
                 android:layout_width="wrap_content"
+                android:maxWidth="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintHorizontal_bias="0.0"
                 android:text="@{mumentDetailViewModel.mumentDetailContent.data.albumInfo.albumName}"
                 android:textColor="@color/mument_color_black2"
                 app:layout_constraintBottom_toTopOf="@id/textview_singer"
                 app:layout_constraintStart_toEndOf="@id/iv_album"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/iv_album"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="하늘나라" />
@@ -191,7 +196,7 @@
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:button="@null"
-                android:checked="@{mumentDetailViewModel.mumentDetailContent.data.liked}"
+                android:checked="@={mumentDetailViewModel.isLiked}"
                 android:layout_marginBottom="18dp"
                 android:background="@drawable/selector_heart_on_off"
                 app:layout_constraintBottom_toBottomOf="parent"

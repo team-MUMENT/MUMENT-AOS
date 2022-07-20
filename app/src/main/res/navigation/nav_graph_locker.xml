@@ -13,12 +13,20 @@
         <action
             android:id="@+id/action_lockerFragment_to_mumentDetailFragment"
             app:destination="@id/mumentDetailFragment" />
+        <action
+            android:id="@+id/action_lockerFragment_to_songDetailFragment"
+            app:destination="@id/songDetailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/mumentDetailFragment"
-        android:name="com.mument_android.app.presentation.ui.detail.MumentDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment"
         android:label="MumentDetailFragment"
         tools:layout="@layout/fragment_mument_detail"/>
+    <fragment
+        android:id="@+id/songDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.detail.song.SongDetailFragment"
+        android:label="SongDetailFragment"
+        tools:layout="@layout/fragment_song_detail"/>
 
 </navigation>

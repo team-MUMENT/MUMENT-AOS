@@ -22,6 +22,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/mument_color_bgwhite"
+        android:clipChildren="true"
         tools:context=".app.presentation.ui.home.BottomSheetSearchFragment">
 
         <ImageView
@@ -45,9 +48,9 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/rectangle_fill_gray5_11dp"
             android:hint="곡 아티스트"
-            android:maxLines="1"
             android:imeOptions="actionDone"
             android:inputType="text"
+            android:maxLines="1"
             android:paddingStart="38dp"
             android:paddingTop="10dp"
             android:paddingEnd="48dp"
@@ -80,15 +83,17 @@
             app:layout_constraintTop_toTopOf="@id/et_search" />
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:overScrollMode="never"
+            android:animateLayoutChanges="true"
             android:paddingTop="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_search">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
