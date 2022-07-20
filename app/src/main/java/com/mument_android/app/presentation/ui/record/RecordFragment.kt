@@ -185,20 +185,27 @@ class RecordFragment : Fragment() {
             if (!it) {
                 binding.btnRecordFirst.isChangeButtonFont(it)
                 binding.btnRecordSecond.isChangeButtonFont(!it)
-                binding.btnRecordFirst.isEnabled = false
-            }
-            else{
+                binding.btnRecordFirst.isClickable = false
+            } else {
                 binding.btnRecordFirst.isChangeButtonFont(!it)
                 binding.btnRecordSecond.isChangeButtonFont(it)
             }
+
         }
     }
 
     private fun firstListenClickEvent() {
         with(binding) {
             btnRecordFirst.setOnClickListener {
-                btnRecordFirst.isChangeButtonFont(true)
-                btnRecordSecond.isChangeButtonFont(false)
+                    btnRecordFirst.isChangeButtonFont(true)
+                    btnRecordSecond.isChangeButtonFont(false)
+            }
+            btnRecordFirst.setOnTouchListener { view, motionEvent ->
+
+                if (!binding.btnRecordFirst.isClickable) {
+                    requireContext().snackBar(binding.clRecordRoot, "Hi")
+                }
+                false
             }
         }
     }
@@ -278,7 +285,7 @@ class RecordFragment : Fragment() {
 
         binding.btnRecordFirst.isChangeButtonFont(false)
         binding.btnRecordSecond.isChangeButtonFont(false)
-        binding.btnRecordFirst.isEnabled = true
+        binding.btnRecordFirst.isClickable = true
         binding.clRecordRoot.scrollTo(0, 0)
         binding.etRecordWrite.text.clear()
 
@@ -323,7 +330,7 @@ class RecordFragment : Fragment() {
         binding.ivDelete.setOnClickListener {
             recordViewModel.checkSelectedMusic(false)
             recordViewModel.removeSelectedMusic()
-            binding.btnRecordFirst.isEnabled =true
+            binding.btnRecordFirst.isClickable = true
             binding.btnRecordFirst.isChangeButtonFont(false)
             binding.btnRecordSecond.isChangeButtonFont(false)
         }
