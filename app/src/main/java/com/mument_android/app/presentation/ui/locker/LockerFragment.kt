@@ -36,20 +36,20 @@ class LockerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vpLocker.isUserInputEnabled = false
-        binding.ivLockerList.isSelected = true
+        //binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         initAdapter()
         initTab()
-        listBtnClickListener()
-        gridBtnClickListener()
-        filterBtnClickListener()
-        settingRecyclerView()
+        //listBtnClickListener()
+        //gridBtnClickListener()
+        //filterBtnClickListener()
+        //settingRecyclerView()
 
     }
 
     override fun onResume() {
         super.onResume()
-        removeTag()
+        //removeTag()
 
     }
 
@@ -73,7 +73,7 @@ class LockerFragment : Fragment() {
         }
     }
 
-
+/*
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
             lockerViewModel.changeIsGridLayout(false)
@@ -129,4 +129,6 @@ class LockerFragment : Fragment() {
         }
 
     }
+
+ */
 }
