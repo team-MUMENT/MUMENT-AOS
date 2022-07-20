@@ -24,7 +24,6 @@ import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentLockerLikeFilterBottomSheetBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class LockerLikeFilterBottomSheetFragment : BottomSheetDialogFragment() {
