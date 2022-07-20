@@ -1,11 +1,14 @@
 package com.mument_android.app.presentation.ui.record
 
+import android.accessibilityservice.AccessibilityService
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
@@ -23,7 +26,6 @@ import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
-import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
@@ -197,8 +199,8 @@ class RecordFragment : Fragment() {
     private fun firstListenClickEvent() {
         with(binding) {
             btnRecordFirst.setOnClickListener {
-                    btnRecordFirst.isChangeButtonFont(true)
-                    btnRecordSecond.isChangeButtonFont(false)
+                btnRecordFirst.isChangeButtonFont(true)
+                btnRecordSecond.isChangeButtonFont(false)
             }
             btnRecordFirst.setOnTouchListener { view, motionEvent ->
 
@@ -224,7 +226,6 @@ class RecordFragment : Fragment() {
         binding.switchRecordSecret.setOnClickListener {
             if (binding.switchRecordSecret.isChecked) {
                 binding.tvRecordSecret.setText(R.string.record_secret)
-
             } else {
                 binding.tvRecordSecret.setText(R.string.record_open)
             }
@@ -261,7 +262,15 @@ class RecordFragment : Fragment() {
     }
 
     private fun scrollEditTextView() {
+
         binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
+        binding.etRecordWrite.setOnClickListener {
+            binding.svRecord.scrollTo(0, binding.tvRecordWriteTitle.top)
+        }
+
+        binding.etRecordWrite.setOnFocusChangeListener { view, b ->
+            binding.svRecord.scrollTo(0, binding.tvRecordWriteTitle.top)
+        }
     }
 
     private fun resetButtonClickEvent() {
@@ -323,6 +332,7 @@ class RecordFragment : Fragment() {
     private fun getAllData() {
         binding.btnRecordFinish.setOnClickListener {
             recordViewModel.postMument()
+
         }
     }
 
