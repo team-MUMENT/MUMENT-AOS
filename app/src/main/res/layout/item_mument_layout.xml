@@ -11,10 +11,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/shape_border_default_redius_11dp"
         android:elevation="2dp"
         android:paddingHorizontal="13dp"

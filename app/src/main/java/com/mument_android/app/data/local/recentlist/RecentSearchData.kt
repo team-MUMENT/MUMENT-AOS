@@ -1,5 +1,6 @@
 package com.mument_android.app.data.local.recentlist
 
+
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -14,5 +15,6 @@ data class RecentSearchData(
     val name: String,
     val createAt: Date,
 ){
-    @Ignore val optional: Boolean = true
+    @Ignore
+    val optional: Boolean = true
 }

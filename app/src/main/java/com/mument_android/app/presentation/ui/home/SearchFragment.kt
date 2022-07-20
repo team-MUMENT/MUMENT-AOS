@@ -6,22 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.mument_android.app.data.network.home.adapter.SearchListAdapter
 import com.mument_android.app.data.network.util.ApiResult
+import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private var binding by AutoClearedValue<FragmentSearchBinding>()
-    private val viewmodel: SearchViewModel by viewModels()
+    private val viewmodel: SearchViewModel by activityViewModels()
     private lateinit var searchAdapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
     override fun onCreateView(
@@ -40,12 +46,12 @@ class SearchFragment : Fragment() {
     }
 
     private fun settingAdapterAndDatabinding() {
-        searchAdapter = SearchListAdapter(requireContext(),{ data ->
+        searchAdapter = SearchListAdapter(requireContext(), { data ->
             viewmodel.selectContent(data)
         }, { data ->
             viewmodel.deleteRecentList(data)
         })
-        searchResultAdapter = SearchListAdapter(requireContext(),{ data ->
+        searchResultAdapter = SearchListAdapter(requireContext(), { data ->
             viewmodel.selectContent(data)
         }, {})
         binding.lifecycleOwner = viewLifecycleOwner
@@ -59,6 +65,7 @@ class SearchFragment : Fragment() {
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewmodel.searchMusic(binding.etSearch.text.toString())
+                binding.etSearch.text = null
             }
             Timber.d("done!! $actionId")
             false
@@ -76,8 +83,9 @@ class SearchFragment : Fragment() {
         }
 
         binding.etAllDelete.setOnClickListener {
-            searchAdapter.submitList(listOf())
-            viewmodel.allListDelete()
+            MumentDialogBuilder().setAllowListener {
+                viewmodel.allListDelete()
+            }.setCancelListener { }.setBody("").setHeader("최근 검색한 내역을\n모두 삭제하시겠어요?").build().show(childFragmentManager, this.tag)
         }
     }
 
@@ -92,15 +100,30 @@ class SearchFragment : Fragment() {
         viewmodel.searchContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
             //Timber.d("collect!! $it")
         }
-        viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
-            when (result) {
-                is ApiResult.Loading -> {}
-                is ApiResult.Failure -> {}
-                is ApiResult.Success -> {
-                    searchAdapter.submitList(result.data)
+
+        lifecycleScope.launch {
+            viewmodel.searchList.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { result ->
+                    when (result) {
+                        is ApiResult.Loading -> {}
+                        is ApiResult.Failure -> {}
+                        is ApiResult.Success -> {
+                            Timber.d("Search Collect ${result.data}")
+                            searchAdapter.submitList(result.data)
+                        }
+                    }
                 }
-            }
         }
+        /*
+            viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+                when (result) {
+                    is ApiResult.Loading -> {}
+                    is ApiResult.Failure -> {}
+                    is ApiResult.Success -> {
+                        searchAdapter.submitList(result.data)
+                    }
+                }
+            }*/
     }
 
     override fun onStop() {
