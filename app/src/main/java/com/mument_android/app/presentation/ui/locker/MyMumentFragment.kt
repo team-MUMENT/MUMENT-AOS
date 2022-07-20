@@ -59,6 +59,11 @@ class MyMumentFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setMyMumentListAdapter()
+    }
+
     private fun setMyMumentListAdapter() {
         setGridServerConnection()
         lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope){
@@ -72,7 +77,6 @@ class MyMumentFragment : Fragment() {
                     initMumentEmpty(it.data?.size ?: 0)
                     //initMumentEmpty(0)
                     (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
-                    Timber.d("Test : ${lockerViewModel.myMuments.value?.data}")
                 }
             }
 

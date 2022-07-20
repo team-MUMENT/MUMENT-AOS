@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -24,6 +25,7 @@ import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentLockerFilterBottomSheetBinding
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.internal.filterList
 
 @AndroidEntryPoint
 class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
@@ -254,6 +256,10 @@ class LockerFilterBottomSheetFragment : BottomSheetDialogFragment() {
     private fun applyBtnListener() {
         binding.tvApprove.setOnClickListener {
             lockerViewModel.realTagList.value = lockerViewModel.checkedTagList.value
+
+            //서버통신
+            lockerViewModel.fetchMyMumentList()
+
             dismiss()
         }
     }

@@ -18,9 +18,11 @@ import javax.inject.Inject
 @HiltViewModel
 class LockerViewModel @Inject constructor(
     private val fetchMyMumentListUseCase: FetchMyMumentListUseCase
-): ViewModel() {
-    val emotionalTags = EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }
-    val impressionTags = ImpressiveTag.values().map { TagEntity(TagEntity.TAG_IMPRESSIVE, it.tag, it.tagIndex) }
+) : ViewModel() {
+    val emotionalTags =
+        EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }
+    val impressionTags =
+        ImpressiveTag.values().map { TagEntity(TagEntity.TAG_IMPRESSIVE, it.tag, it.tagIndex) }
 
     val myMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
 
@@ -41,21 +43,80 @@ class LockerViewModel @Inject constructor(
     private val _isLikeGridLayout = MutableStateFlow(false)
     val isLikeGridLayout = _isLikeGridLayout.asStateFlow()
 
+    var firstTag : Int? = 0
+    var secondTag : Int? = 0
+    var thirdTag : Int? = 0
+
     init {
         fetchMyMumentList()
     }
 
+    //filter
+    fun getFilter() {
+        viewModelScope.launch {
+            checkedTagList.value?.let { tags ->
+
+                val firstTag = tags.get(0).tagIdx ?: null
+                Timber.d("teesttestse: $firstTag")
+
+                val secondTag = tags.get(1).tagIdx ?: null
+                Timber.d("teesttestse: $secondTag")
+
+                val thirdTag = tags.get(2).tagIdx ?: null
+                Timber.d("teesttestse: $thirdTag")
+
+            }
+        }
+    }
+
     fun fetchMyMumentList() {
         viewModelScope.launch {
-            fetchMyMumentListUseCase(userId = "62cd5d4383956edb45d7d0ef", tag1 = null, tag2 = null, tag3 = null).runCatching {
-                this.onStart {
-                    myMuments.value = ApiResult.Loading(null)
-                }.catch {
-                    it.printStackTrace()
-                    myMuments.value = ApiResult.Failure(null)
-                }.collect {
-                    myMuments.value = ApiResult.Success(it)
+            viewModelScope.launch {
+                checkedTagList.value?.let { tags ->
+                    if (tags.size == 0) {
+                        firstTag = null
+                        secondTag = null
+                        thirdTag = null
+                    } else if (tags.size == 1) {
+                        firstTag = tags.get(0).tagIdx
+                        secondTag = null
+                        thirdTag = null
+                    } else if (tags.size == 2) {
+                        firstTag = tags.get(0).tagIdx
+                        secondTag = tags.get(1).tagIdx
+                        thirdTag = null
+                    } else if (tags.size == 3){
+                        firstTag = tags.get(0).tagIdx
+                        secondTag = tags.get(1).tagIdx
+                        thirdTag = tags.get(2).tagIdx
+                    } else {
+                        firstTag = null
+                        secondTag = null
+                        thirdTag = null
+                    }
+
                 }
+
+                fetchMyMumentListUseCase(
+                    userId = "62cd5d4383956edb45d7d0ef",
+                    tag1 = firstTag,
+                    tag2 = secondTag,
+                    tag3 = thirdTag
+
+                ).runCatching {
+                    this.onStart {
+                        myMuments.value = ApiResult.Loading(null)
+                    }.catch {
+                        it.printStackTrace()
+                        myMuments.value = ApiResult.Failure(null)
+                    }.collect {
+                        myMuments.value = ApiResult.Success(it)
+                    }
+                }
+
+                Timber.d("firstTag: $firstTag")
+                Timber.d("secondTag: $secondTag")
+                Timber.d("thirdTag: $thirdTag")
             }
         }
     }
@@ -71,7 +132,7 @@ class LockerViewModel @Inject constructor(
 
     fun addCheckedList(checkedId: TagEntity) {
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
-        if(tempList.size <= 3) {
+        if (tempList.size <= 3) {
             tempList.add(checkedId)
             checkedTagList.value = tempList
         }
@@ -92,7 +153,7 @@ class LockerViewModel @Inject constructor(
 
     fun addLikeCheckedList(checkedId: TagEntity) {
         val tempList = checkedLikeTagList.value?.toMutableList() ?: mutableListOf()
-        if(tempList.size <= 3) {
+        if (tempList.size <= 3) {
             tempList.add(checkedId)
             checkedLikeTagList.value = tempList
         }
