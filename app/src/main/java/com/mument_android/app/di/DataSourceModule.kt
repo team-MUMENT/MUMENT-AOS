@@ -8,6 +8,8 @@ import com.mument_android.app.data.datasource.detail.MumentDetailDataSourceImpl
 import com.mument_android.app.data.datasource.home.*
 import com.mument_android.app.data.datasource.locker.LockerDataSource
 import com.mument_android.app.data.datasource.locker.LockerDataSourceImpl
+import com.mument_android.app.data.datasource.record.RecordDataSource
+import com.mument_android.app.data.datasource.record.RecordDataSourceImpl
 import com.mument_android.app.data.local.converter.DateTypeConverter
 import com.mument_android.app.data.local.converter.IntListTypeConverter
 import com.mument_android.app.data.local.converter.MusicTypeConverter
@@ -17,7 +19,8 @@ import com.mument_android.app.data.local.todaymument.MumentDatabase
 import com.mument_android.app.data.local.todaymument.TodayMumentDAO
 import com.mument_android.app.data.network.detail.DetailApiService
 import com.mument_android.app.data.network.home.HomeService
-import com.mument_android.app.data.network.locker.LockerNetwork
+import com.mument_android.app.data.network.locker.LockerApiService
+import com.mument_android.app.data.network.record.RecordApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,12 +41,17 @@ object DataSourceModule {
 
     @Provides
     @Singleton
+    fun provideIsFirstDataSource(recordApiService: RecordApiService): RecordDataSource =
+        RecordDataSourceImpl(recordApiService)
+
+    @Provides
+    @Singleton
     fun provideMumentDetailDataSource(detailApiService: DetailApiService): MumentDetailDataSource =
         MumentDetailDataSourceImpl(detailApiService)
 
     @Provides
     @Singleton
-    fun provideLockerDataSource(lockerNetwork: LockerNetwork): LockerDataSource =
+    fun provideLockerDataSource(lockerNetwork: LockerApiService): LockerDataSource =
         LockerDataSourceImpl(lockerNetwork)
 
     @Singleton

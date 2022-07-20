@@ -7,7 +7,7 @@
     <data>
         <variable
             name="lockerMumentEntity"
-            type="com.mument_android.app.domain.entity.LockerMumentEntity" />
+            type="com.mument_android.app.domain.entity.locker.LockerMumentEntity" />
 
     </data>
 

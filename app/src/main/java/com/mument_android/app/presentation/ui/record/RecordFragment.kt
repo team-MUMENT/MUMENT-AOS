@@ -1,11 +1,15 @@
 package com.mument_android.app.presentation.ui.record
 
+import android.accessibilityservice.AccessibilityService
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
@@ -23,7 +27,6 @@ import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
-import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
@@ -31,15 +34,15 @@ import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYO
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-
+@AndroidEntryPoint
 class RecordFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentRecordBinding>()
     private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
-    private val searchViewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +66,7 @@ class RecordFragment : Fragment() {
         initBottomSheet()
         getAllData()
         isClickDelete()
+        observingListen()
 
     }
 
@@ -167,6 +171,7 @@ class RecordFragment : Fragment() {
     }
 
     private fun resetRvImpressionTags() {
+
         binding.btnRecordReset.setOnClickListener {
             resetButtonClickEvent()
         }
@@ -180,13 +185,32 @@ class RecordFragment : Fragment() {
         }
     }
 
+    private fun observingListen() {
+        recordViewModel.isFirst.observe(viewLifecycleOwner) {
+            if (!it) {
+                binding.btnRecordFirst.isChangeButtonFont(it)
+                binding.btnRecordSecond.isChangeButtonFont(!it)
+                binding.btnRecordFirst.isClickable = false
+            } else {
+                binding.btnRecordFirst.isChangeButtonFont(!it)
+                binding.btnRecordSecond.isChangeButtonFont(it)
+            }
+
+        }
+    }
+
     private fun firstListenClickEvent() {
-        binding.btnRecordFirst.isChangeButtonFont(true)
         with(binding) {
             btnRecordFirst.setOnClickListener {
                 btnRecordFirst.isChangeButtonFont(true)
                 btnRecordSecond.isChangeButtonFont(false)
-                recordViewModel!!.checkIsFirst(true)
+            }
+            btnRecordFirst.setOnTouchListener { view, motionEvent ->
+
+                if (!binding.btnRecordFirst.isClickable) {
+                    requireContext().snackBar(binding.clRecordRoot, "Hi")
+                }
+                false
             }
         }
     }
@@ -196,7 +220,6 @@ class RecordFragment : Fragment() {
             binding.btnRecordSecond.setOnClickListener {
                 btnRecordFirst.isChangeButtonFont(false)
                 btnRecordSecond.isChangeButtonFont(true)
-                recordViewModel!!.checkIsFirst(false)
             }
         }
     }
@@ -206,7 +229,6 @@ class RecordFragment : Fragment() {
         binding.switchRecordSecret.setOnClickListener {
             if (binding.switchRecordSecret.isChecked) {
                 binding.tvRecordSecret.setText(R.string.record_secret)
-
             } else {
                 binding.tvRecordSecret.setText(R.string.record_open)
             }
@@ -233,7 +255,7 @@ class RecordFragment : Fragment() {
     }
 
     private fun countText() {
-        recordViewModel.text.observe(viewLifecycleOwner) {
+        recordViewModel.mumentContent.observe(viewLifecycleOwner) {
             if (it.length >= 1000) {
                 binding.tvRecordTextNum.isChangeRedLine()
             } else if (it.length == 999) {
@@ -243,14 +265,24 @@ class RecordFragment : Fragment() {
     }
 
     private fun scrollEditTextView() {
+
         binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
+        binding.etRecordWrite.setOnClickListener {
+            binding.svRecord.scrollTo(0, binding.tvRecordWriteTitle.top)
+        }
+
+        binding.etRecordWrite.setOnFocusChangeListener { view, b ->
+            binding.svRecord.scrollTo(0, binding.tvRecordWriteTitle.top)
+        }
     }
+
 
     private fun resetButtonClickEvent() {
 
         MumentDialogBuilder()
             .setHeader(getString(R.string.record_reset_header))
             .setBody(getString(R.string.record_reset_body))
+            .setOption(true)
             .setAllowListener {
                 resetRecord()
                 resetRecordTags()
@@ -264,10 +296,9 @@ class RecordFragment : Fragment() {
 
         recordViewModel.checkSelectedMusic(false)
 
-        binding.btnRecordFirst.isChangeButtonFont(true)
+        binding.btnRecordFirst.isChangeButtonFont(false)
         binding.btnRecordSecond.isChangeButtonFont(false)
-        recordViewModel!!.checkIsFirst(true)
-
+        binding.btnRecordFirst.isClickable = true
         binding.clRecordRoot.scrollTo(0, 0)
         binding.etRecordWrite.text.clear()
 
@@ -289,27 +320,23 @@ class RecordFragment : Fragment() {
     private fun initBottomSheet() {
         binding.btnRecordSearch.setOnClickListener {
             BottomSheetSearchFragment.newInstance {
-//                recordViewModel.changeSelectedMusic(it)
+                recordViewModel.changeSelectedMusic(it)
+                recordViewModel.findIsFirst()
             }.show(parentFragmentManager, "bottom sheet")
-//            recordViewModel.checkSelectedMusic(true)
             Timber.d(recordViewModel.selectedMusic.value.toString())
         }
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
             Timber.e("$it")
             recordViewModel.checkSelectedMusic(true)
+
         }
     }
 
 
     private fun getAllData() {
         binding.btnRecordFinish.setOnClickListener {
-            Timber.e(
-                "버튼 : ${recordViewModel.isFirst.value}\n 태그 : ${
-                    rvImpressionTagsAdapter.selectedTags.map {
-                        it.tagIdx
-                    }
-                }\n 감상기록 : ${recordViewModel.text.value}\n 공개글 : ${binding.switchRecordSecret.isChecked}"
-            )
+            recordViewModel.postMument()
+
         }
     }
 
@@ -317,8 +344,9 @@ class RecordFragment : Fragment() {
         binding.ivDelete.setOnClickListener {
             recordViewModel.checkSelectedMusic(false)
             recordViewModel.removeSelectedMusic()
+            binding.btnRecordFirst.isClickable = true
+            binding.btnRecordFirst.isChangeButtonFont(false)
+            binding.btnRecordSecond.isChangeButtonFont(false)
         }
     }
-
-
 }

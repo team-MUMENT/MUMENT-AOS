@@ -44,6 +44,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
                 ?: BottomSheetSearchFragment(contentClick = { contentClick(it) }).apply {
                     INSTANCE = this
                 }
+
         }
     }
 
@@ -82,7 +83,8 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = SearchListAdapter(requireContext(),{
+
+        adapter = SearchListAdapter(requireContext(), {
             contentClick(it)
             dismiss()
         }, {})
@@ -93,6 +95,21 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
         binding.viewmodel = viewmodel
         binding.option = false
         binding.rcSearch.adapter = adapter
+        adapter = SearchListAdapter(requireContext(), {
+            contentClick(it)
+            dismiss()
+        }, {
+            viewmodel.deleteRecentList(it)
+        })
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewmodel = viewmodel
+        binding.rcSearch.adapter = adapter
+
+        binding.option = false
+        setListener()
+    }
+
+    private fun setListener() {
 
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -132,6 +149,9 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
                     }
                 }
         }
+
+
+
     }
 
     private fun getBottomSheetDialogDefaultHeight(): Int {
@@ -145,6 +165,6 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
         val pxHeight = windowMetrics.bounds.height()
         return pxHeight
     }
-
-
 }
+
+

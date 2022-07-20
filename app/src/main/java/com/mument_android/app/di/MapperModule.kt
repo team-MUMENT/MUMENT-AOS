@@ -3,9 +3,11 @@ package com.mument_android.app.di
 import com.mument_android.app.data.mapper.album.AlbumMapper
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
 import com.mument_android.app.data.mapper.locker.LockerMapper
+import com.mument_android.app.data.mapper.locker.MumentLockerCardMapper
 import com.mument_android.app.data.mapper.main.EmotionalTagMapper
 import com.mument_android.app.data.mapper.main.ImpressiveTagMapper
 import com.mument_android.app.data.mapper.main.IsFirstTagMapper
+import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.mapper.user.UserMapper
 import dagger.Module
 import dagger.Provides
@@ -39,6 +41,10 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideRecordMapper(): RecordMapper = RecordMapper()
+
+    @Provides
+    @Singleton
     fun provideMumentDetailMapper(
         userMapper: UserMapper,
         albumMapper: AlbumMapper,
@@ -49,5 +55,10 @@ object MapperModule {
 
     @Provides
     @Singleton
-    fun provideLockerMumentListMapper(): LockerMapper = LockerMapper()
+    fun provideMumentLockerCardMapper(): MumentLockerCardMapper = MumentLockerCardMapper()
+
+    @Provides
+    @Singleton
+    fun provideLockerMumentListMapper(mumentLockerCardMapper: MumentLockerCardMapper): LockerMapper =
+        LockerMapper(mumentLockerCardMapper)
 }

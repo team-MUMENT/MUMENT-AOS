@@ -35,6 +35,7 @@ class LockerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.vpLocker.isUserInputEnabled = false
         binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         initAdapter()

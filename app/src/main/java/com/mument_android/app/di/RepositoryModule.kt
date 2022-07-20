@@ -6,14 +6,18 @@ import com.mument_android.app.data.datasource.home.LocalTodayMumentDataSource
 import com.mument_android.app.data.datasource.home.RemoteMumentHistoryDataSource
 import com.mument_android.app.data.datasource.home.RemoteSearchListDataSource
 import com.mument_android.app.data.datasource.locker.LockerDataSource
+import com.mument_android.app.data.datasource.record.RecordDataSource
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
 import com.mument_android.app.data.mapper.locker.LockerMapper
+import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.repository.HomeRepositoryImpl
 import com.mument_android.app.data.repository.LockerRepositoryImpl
 import com.mument_android.app.data.repository.MumentDetailRepositoryImpl
+import com.mument_android.app.data.repository.RecordRepositoryImpl
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
 import com.mument_android.app.domain.repository.home.HomeRepository
 import com.mument_android.app.domain.repository.locker.LockerRepository
+import com.mument_android.app.domain.repository.record.RecordRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,6 +42,14 @@ object RepositoryModule {
         lockerMapper: LockerMapper,
         lockerDataSource: LockerDataSource
     ): LockerRepository = LockerRepositoryImpl(lockerMapper, lockerDataSource)
+
+    @Provides
+    @Singleton
+    fun provideRecordRepository(
+        recordMapper: RecordMapper,
+        recordDataSource: RecordDataSource
+    ): RecordRepository = RecordRepositoryImpl(recordDataSource, recordMapper)
+
 
 
     @Provides
