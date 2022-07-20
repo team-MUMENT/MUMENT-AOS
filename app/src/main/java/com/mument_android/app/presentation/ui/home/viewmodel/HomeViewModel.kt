@@ -3,11 +3,16 @@ package com.mument_android.app.presentation.ui.home.viewmodel
 import androidx.lifecycle.ViewModel
 import com.mument_android.app.domain.entity.MumentCard
 import com.mument_android.app.domain.entity.TempBannerData
+import com.mument_android.app.domain.usecase.home.WhenHomeEnterUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(useCase:WhenHomeEnterUseCase) : ViewModel() {
     val mument = listOf<MumentCard>(
         MumentCard(
             "213",
