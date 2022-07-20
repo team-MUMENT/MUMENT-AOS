@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,8 +23,8 @@ class RecordViewModel @Inject constructor(
     private val _checkedTagList = MutableLiveData<List<TagEntity>>(listOf())
     val checkedTagList get():LiveData<List<TagEntity>> = _checkedTagList
 
-    private val _isFirst = MutableLiveData<Boolean>()
-    val isFirst get() :LiveData<Boolean> = _isFirst
+    private val _isFirst = MutableLiveData<Boolean?>()
+    val isFirst: LiveData<Boolean?> get() :LiveData<Boolean?> = _isFirst
 
     val mumentContent = MutableLiveData<String>()
 
@@ -49,6 +50,11 @@ class RecordViewModel @Inject constructor(
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        Timber.d("On Cleared")
+    }
+
     fun postMument() {
         viewModelScope.launch {
             checkedTagList.value?.let { tags ->
@@ -67,7 +73,15 @@ class RecordViewModel @Inject constructor(
     fun changeSelectedMusic(music: RecentSearchData) {
         _selectedMusic.value = music
     }
+    fun checkSelectedMusic(isSelected: Boolean) {
+        _isSelectedMusic.value = isSelected
+    }
 
+    fun removeSelectedMusic() {
+        selectedMusic.value = null
+        _isSelectedMusic.value = false
+        _isFirst.value = null
+    }
 
     fun addCheckedList(tag: TagEntity) {
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
@@ -89,18 +103,4 @@ class RecordViewModel @Inject constructor(
             _checkedTagList.value = it
         }
     }
-
-    fun checkIsFirst(isFirst: Boolean) {
-        _isFirst.value = isFirst
-    }
-
-    fun checkSelectedMusic(isSelected: Boolean) {
-        _isSelectedMusic.value = isSelected
-    }
-
-    fun removeSelectedMusic() {
-        selectedMusic.value = null
-        _isSelectedMusic.value = false
-    }
-
 }

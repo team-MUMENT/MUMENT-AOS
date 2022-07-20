@@ -68,13 +68,12 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
             ((dialogInterface as BottomSheetDialog).findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View).apply {
                 behavior = BottomSheetBehavior.from(this)
                 val layoutParams = this.layoutParams
-                behavior.disableShapeAnimations()
                 layoutParams.height = getBottomSheetDialogDefaultHeight()
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.disableShapeAnimations()
                 behavior.skipCollapsed = true
                 behavior.isHideable = true
                 this.layoutParams = layoutParams
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
-
             }
         }
         return dialog
