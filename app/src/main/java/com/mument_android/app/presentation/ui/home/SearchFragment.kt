@@ -113,6 +113,8 @@ class SearchFragment : Fragment() {
                         }
                     }
                 }
+
+            }
         }
         /*
             viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
@@ -125,9 +127,3 @@ class SearchFragment : Fragment() {
                 }
             }*/
     }
-
-    override fun onStop() {
-        super.onStop()
-        viewmodel.searchResultList.value = listOf()
-    }
-}

@@ -4,6 +4,7 @@ import com.mument_android.BuildConfig
 import com.mument_android.app.data.network.detail.DetailApiService
 import com.mument_android.app.data.network.locker.LockerNetwork
 import com.mument_android.app.data.network.main.MainApiService
+import com.mument_android.app.data.network.record.RecordApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,6 +45,10 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideDetailApiService(retrofit: Retrofit): DetailApiService = retrofit.create(DetailApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRecordApiService(retrofit: Retrofit): RecordApiService = retrofit.create(RecordApiService::class.java)
 
     @Provides
     @Singleton
