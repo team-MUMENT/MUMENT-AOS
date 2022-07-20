@@ -218,7 +218,7 @@ class LockerLikeFilterBottomSheetFragment : BottomSheetDialogFragment() {
             binding.rvImpressive.resetCheckTags(filterBottomSheetAdapterImpress)
             filterBottomSheetAdapterImpress.selectedTags.clear()
             filterBottomSheetAdpaterEmotion.selectedTags.clear()
-            lockerViewModel.resetCheckedList()
+            lockerViewModel.resetLikeCheckedList()
         }
     }
 
