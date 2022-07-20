@@ -40,7 +40,6 @@ class RecordFragment : Fragment() {
     private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
-    private val searchViewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -183,7 +182,6 @@ class RecordFragment : Fragment() {
 
     private fun observingListen() {
         recordViewModel.isFirst.observe(viewLifecycleOwner) {
-            Timber.d("collect!@!@ $it")
             if (!it) {
                 binding.btnRecordFirst.isChangeButtonFont(it)
                 binding.btnRecordSecond.isChangeButtonFont(!it)
@@ -210,7 +208,6 @@ class RecordFragment : Fragment() {
             binding.btnRecordSecond.setOnClickListener {
                 btnRecordFirst.isChangeButtonFont(false)
                 btnRecordSecond.isChangeButtonFont(true)
-
             }
         }
     }
@@ -247,7 +244,7 @@ class RecordFragment : Fragment() {
     }
 
     private fun countText() {
-        recordViewModel.text.observe(viewLifecycleOwner) {
+        recordViewModel.mumentContent.observe(viewLifecycleOwner) {
             if (it.length >= 1000) {
                 binding.tvRecordTextNum.isChangeRedLine()
             } else if (it.length == 999) {
@@ -318,14 +315,7 @@ class RecordFragment : Fragment() {
 
     private fun getAllData() {
         binding.btnRecordFinish.setOnClickListener {
-
-            Timber.e(
-                "버튼 : ${binding.btnRecordFirst.isSelected}\n 태그 : ${
-                    rvImpressionTagsAdapter.selectedTags.map {
-                        it.tagIdx
-                    }
-                }\n 감상기록 : ${recordViewModel.text.value}\n 공개글 : ${binding.switchRecordSecret.isChecked}"
-            )
+            recordViewModel.postMument()
         }
     }
 
@@ -336,11 +326,6 @@ class RecordFragment : Fragment() {
             binding.btnRecordFirst.isEnabled =true
             binding.btnRecordFirst.isChangeButtonFont(false)
             binding.btnRecordSecond.isChangeButtonFont(false)
-
         }
     }
-
-
-
-
 }

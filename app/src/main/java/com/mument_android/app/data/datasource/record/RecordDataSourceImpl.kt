@@ -5,7 +5,7 @@ import com.mument_android.app.data.network.record.RecordApiService
 import javax.inject.Inject
 
 class RecordDataSourceImpl @Inject constructor(private val recordApiservice: RecordApiService) : RecordDataSource {
-    override suspend fun fetchMumentRecord(userId: String, mumentId: String): MumentIsFirstDto {
-        return recordApiservice.fetchMumentIsFirst(userId,mumentId).data
+    override suspend fun fetchMumentRecord(userId: String, musicId: String): MumentIsFirstDto {
+        return recordApiservice.fetchMumentIsFirst(userId,musicId).data
     }
 }

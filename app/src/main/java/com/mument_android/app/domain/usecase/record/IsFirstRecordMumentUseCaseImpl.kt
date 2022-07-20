@@ -10,8 +10,8 @@ class IsFirstRecordMumentUseCaseImpl @Inject constructor(
 ) : IsFirstRecordMumentUseCase {
     override suspend operator fun invoke(
         userId: String,
-        mumentId: String
+        musicId: String
     ): Flow<RecordIsFirstEntity> =
-        recordRepository.fetchMumentRecord(userId, mumentId)
+        recordRepository.fetchMumentRecord(userId, musicId)
 }
 

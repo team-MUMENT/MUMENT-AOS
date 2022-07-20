@@ -290,7 +290,7 @@
                             android:paddingHorizontal="13dp"
                             android:scrollbarStyle="insideInset"
                             android:scrollbars="vertical"
-                            android:text="@={recordViewModel.text}"
+                            android:text="@={recordViewModel.mumentContent}"
                             android:textColor="@color/mument_color_black2"
                             android:textColorHint="@color/mument_color_gray1" />
                     </androidx.core.widget.NestedScrollView>
@@ -302,7 +302,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="13dp"
                         android:layout_marginBottom="15dp"
-                        android:text="@{@string/record_text_num(recordViewModel.text.length())}"
+                        android:text="@{@string/record_text_num(recordViewModel.mumentContent.length())}"
                         android:textColor="@color/mument_color_gray2"
                         app:layout_constraintBottom_toBottomOf="@+id/cl_record_write"
                         app:layout_constraintEnd_toEndOf="@+id/ns_record_write"
@@ -328,7 +328,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="160dp"
-                    android:checked="false"
+                    android:checked="@={recordViewModel.isPrivate()}"
                     android:gravity="center"
                     android:thumb="@drawable/oval_fill_white"
                     app:layout_constraintBottom_toBottomOf="parent"

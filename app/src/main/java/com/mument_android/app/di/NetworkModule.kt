@@ -37,7 +37,7 @@ object NetworkModule {
     @Singleton
     fun provideUnAuthRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl("http://15.164.129.17:8000")
+            .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

@@ -2,6 +2,7 @@ package com.mument_android.app.di
 
 import com.mument_android.app.data.controller.LikeMumentController
 import com.mument_android.app.data.controller.LikeMumentControllerImpl
+import com.mument_android.app.data.controller.RecordController
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
 import com.mument_android.app.domain.repository.home.HomeRepository
 import com.mument_android.app.domain.repository.locker.LockerRepository
@@ -20,6 +21,8 @@ import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCaseImpl
 import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCase
 import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCaseImpl
+import com.mument_android.app.domain.usecase.record.RecordMumentUseCase
+import com.mument_android.app.domain.usecase.record.RecordMumentUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -65,5 +68,12 @@ object UseCaseModule {
     @Singleton
     fun provideDeleteRecentSearchListUseCase(homeRepository: HomeRepository): DeleteRecentSearchListUseCase =
         DeleteRecentSearchListUseCaseImpl(homeRepository)
+
+    @Provides
+    @Singleton
+    fun provideRecordMumentUseCase(
+        recordController: RecordController
+    ): RecordMumentUseCase = RecordMumentUseCaseImpl(recordController)
+
 
 }

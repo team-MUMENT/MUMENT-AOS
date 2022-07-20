@@ -4,5 +4,5 @@ import com.mument_android.app.domain.entity.record.RecordIsFirstEntity
 import kotlinx.coroutines.flow.Flow
 
 interface IsFirstRecordMumentUseCase {
-    suspend operator fun invoke(userId: String, mumentId: String): Flow<RecordIsFirstEntity>
+    suspend operator fun invoke(userId: String, musicId: String): Flow<RecordIsFirstEntity>
 }

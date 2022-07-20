@@ -16,8 +16,8 @@ class RecordRepositoryImpl @Inject constructor(
 ) : RecordRepository {
     override suspend fun fetchMumentRecord(
         userId: String,
-        mumentId: String
+        musicId: String
     ): Flow<RecordIsFirstEntity> = flow {
-        emit(recordMapper.map(recordDataSource.fetchMumentRecord(userId, mumentId)))
+        emit(recordMapper.map(recordDataSource.fetchMumentRecord(userId, musicId)))
     }.flowOn(Dispatchers.IO)
 }
