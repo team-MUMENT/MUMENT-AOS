@@ -53,11 +53,10 @@ object NetworkModule {
     fun provideMainApiService(retrofit: Retrofit): MainApiService =
         retrofit.create(MainApiService::class.java)
 
-    fun provideRecordApiService(retrofit: Retrofit): RecordApiService = retrofit.create(RecordApiService::class.java)
-
     @Provides
     @Singleton
-    fun provideMainApiService(retrofit: Retrofit): MainApiService = retrofit.create(MainApiService::class.java)
+    fun provideRecordApiService(retrofit: Retrofit): RecordApiService = retrofit.create(RecordApiService::class.java)
+
 
     @Provides
     @Singleton

@@ -22,7 +22,6 @@ import com.mument_android.app.data.local.todaymument.MumentDatabase
 import com.mument_android.app.data.local.todaymument.TodayMumentDAO
 import com.mument_android.app.data.network.detail.DetailApiService
 import com.mument_android.app.data.network.locker.LockerApiService
-import com.mument_android.app.data.network.locker.LockerNetwork
 import com.mument_android.app.data.network.record.RecordApiService
 import dagger.Module
 import dagger.Provides
