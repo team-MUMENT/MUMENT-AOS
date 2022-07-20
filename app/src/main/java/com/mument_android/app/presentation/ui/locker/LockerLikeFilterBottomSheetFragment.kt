@@ -159,7 +159,7 @@ class LockerLikeFilterBottomSheetFragment : BottomSheetDialogFragment() {
                     binding.rvImpressive.syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
                 }
 
-                lockerViewModel.removeCheckedList(tag)
+                lockerViewModel.removeLikeCheckedList(tag)
             }
 
             lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
@@ -224,7 +224,7 @@ class LockerLikeFilterBottomSheetFragment : BottomSheetDialogFragment() {
             binding.rvImpressive.resetCheckTags(filterBottomSheetAdapterImpress)
             filterBottomSheetAdapterImpress.selectedTags.clear()
             filterBottomSheetAdpaterEmotion.selectedTags.clear()
-            lockerViewModel.resetCheckedList()
+            lockerViewModel.resetLikeCheckedList()
         }
     }
 
