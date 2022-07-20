@@ -205,6 +205,7 @@ class RecordFragment : Fragment() {
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
             Timber.e("Test Selected Music : $it")
             recordViewModel.checkSelectedMusic(it != null)
+            binding.btnRecordFinish.isEnabled =true
             binding.btnRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
         }
     }
@@ -305,6 +306,8 @@ class RecordFragment : Fragment() {
         binding.etRecordWrite.text.clear()
         binding.tvRecordSecret.setText(R.string.record_open)
         binding.switchRecordSecret.isChecked = false
+        binding.btnRecordFinish.isEnabled =false
+
     }
 
     //tag 라셋
@@ -328,6 +331,8 @@ class RecordFragment : Fragment() {
         binding.ivDelete.setOnClickListener {
             recordViewModel.removeSelectedMusic()
             binding.btnRecordFirst.isClickable = true
+            binding.btnRecordFinish.isEnabled =false
+
             binding.btnRecordFirst.isChangeButtonFont(false)
             binding.btnRecordSecond.isChangeButtonFont(false)
         }

@@ -350,6 +350,7 @@
                     android:layout_marginBottom="45dp"
                     android:background="@drawable/selector_rectagle_gray2_purple1_11dp"
                     android:text="@string/record_finish"
+                    android:enabled="false"
                     android:textColor="@color/mument_color_white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/gl_right"
