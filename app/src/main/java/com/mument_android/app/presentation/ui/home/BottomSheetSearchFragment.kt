@@ -1,13 +1,10 @@
 package com.mument_android.app.presentation.ui.home
 
 import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -25,7 +22,6 @@ import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

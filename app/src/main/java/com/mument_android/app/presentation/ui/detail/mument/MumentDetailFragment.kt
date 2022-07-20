@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detail
+package com.mument_android.app.presentation.ui.detail.mument
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +11,11 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.app.data.network.util.ApiResult
-import com.mument_android.app.presentation.ui.customview.MumentDialog
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
+import com.mument_android.app.util.ViewUtils.applyVisibilityAnimation
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMumentDetailBinding
@@ -37,6 +37,7 @@ class MumentDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tvGoToHistory.applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
         setMumentTags()
         updateMumentTagList()
         changeLikeStatus()

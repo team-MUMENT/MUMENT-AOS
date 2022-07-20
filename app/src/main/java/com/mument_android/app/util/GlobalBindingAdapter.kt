@@ -1,7 +1,10 @@
 package com.mument_android.app.util
 
-import android.media.Image
+import android.graphics.drawable.Drawable
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.method.ScrollingMovementMethod
+import android.text.style.ImageSpan
 import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
@@ -136,7 +139,22 @@ object GlobalBindingAdapter {
         background = ContextCompat.getDrawable(context, backgroundDrawable)
         setTextColor(ContextCompat.getColor(context, textColor))
         typeface = ResourcesCompat.getFont(context, R.font.notosans_medium)
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP,12f)
+        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
         setPadding(7.dpToPx(context), 5.dpToPx(context), 7.dpToPx(context), 5.dpToPx(context))
+    }
+
+
+    @JvmStatic
+    @BindingAdapter(value = ["stringRes","drawableIcon"])
+    fun AppCompatTextView.setDrawableLeftGravityCenter(stringRes: String, drawableIcon: Drawable) {
+        text = SpannableString("   $stringRes").apply {
+            drawableIcon.setBounds(0,0,drawableIcon.intrinsicWidth, drawableIcon.intrinsicHeight)
+            setSpan(
+                ImageSpan(drawableIcon),
+                0,
+                1,
+                Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+            )
+        }
     }
 }
