@@ -15,6 +15,7 @@ import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -40,14 +41,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun settingAdapterAndDatabinding() {
-        searchAdapter = SearchListAdapter(requireContext(),{ data ->
+        searchAdapter = SearchListAdapter(requireContext(), { data ->
             viewmodel.selectContent(data)
         }, { data ->
             viewmodel.deleteRecentList(data)
         })
-        searchResultAdapter = SearchListAdapter(requireContext(),{ data ->
+        searchAdapter.option = true
+        searchResultAdapter = SearchListAdapter(requireContext(), { data ->
             viewmodel.selectContent(data)
         }, {})
+        searchResultAdapter.option = false
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewmodel
         binding.option = true
@@ -59,8 +62,9 @@ class SearchFragment : Fragment() {
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewmodel.searchMusic(binding.etSearch.text.toString())
+                binding.rcSearch.adapter = searchResultAdapter
+                binding.searchOption = true
             }
-            Timber.d("done!! $actionId")
             false
         }
         binding.etSearch.setOnFocusChangeListener { view, b ->
@@ -73,6 +77,11 @@ class SearchFragment : Fragment() {
 
         binding.ivDelete.setOnClickListener {
             binding.etSearch.text = null
+            lifecycleScope.launch {
+                viewmodel.setRecentData(this)
+                binding.searchOption = false
+                binding.rcSearch.adapter = searchAdapter
+            }
         }
 
         binding.etAllDelete.setOnClickListener {
@@ -82,13 +91,17 @@ class SearchFragment : Fragment() {
     }
 
     private fun collectingList() {
-        /*viewmodel.searchResultList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
-            if (result?.size != 0) {
-                binding.rcSearch.adapter = searchResultAdapter
-                searchResultAdapter.submitList(result)
-                //searchAdapter.submitList(it)
+        viewmodel.searchResultList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+            when (result) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    if (result.data!!.isNotEmpty()) {
+                        searchResultAdapter.submitList(result.data)
+                    }
+                }
             }
-        }*/
+        }
         viewmodel.searchContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
             //Timber.d("collect!! $it")
         }
@@ -98,6 +111,7 @@ class SearchFragment : Fragment() {
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
                     searchAdapter.submitList(result.data)
+                    binding.rcSearch.adapter = searchAdapter
                 }
             }
         }
@@ -105,6 +119,6 @@ class SearchFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        viewmodel.searchResultList.value = listOf()
+        viewmodel.searchResultList.value?.data?.toMutableList()?.clear()
     }
 }
