@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -66,6 +67,7 @@ class RecordFragment : Fragment() {
         getAllData()
         isClickDelete()
         observingListen()
+
     }
 
     private fun setTagRecyclerView() {
@@ -169,6 +171,7 @@ class RecordFragment : Fragment() {
     }
 
     private fun resetRvImpressionTags() {
+
         binding.btnRecordReset.setOnClickListener {
             resetButtonClickEvent()
         }
@@ -272,6 +275,7 @@ class RecordFragment : Fragment() {
             binding.svRecord.scrollTo(0, binding.tvRecordWriteTitle.top)
         }
     }
+
 
     private fun resetButtonClickEvent() {
 

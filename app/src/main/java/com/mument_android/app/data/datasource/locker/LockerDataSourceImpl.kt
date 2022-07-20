@@ -1,16 +1,18 @@
 package com.mument_android.app.data.datasource.locker
 
-import com.mument_android.app.domain.entity.MumentCard
-import com.mument_android.app.data.dto.ResponseMyMumentListDto
-import com.mument_android.app.data.dto.UserDto
-import com.mument_android.app.data.network.locker.LockerNetwork
+import com.mument_android.app.data.dto.MyMumentListDto
+import com.mument_android.app.data.dto.locker.LockerMyMumentDto
+import com.mument_android.app.data.network.base.BaseResponse
+import com.mument_android.app.data.network.locker.LockerApiService
 import javax.inject.Inject
 
 class LockerDataSourceImpl @Inject constructor(
-    private val lockerNetwork: LockerNetwork
+    private val lockerApiService: LockerApiService
 ) : LockerDataSource {
-    override suspend fun fetchLockerMumumentList(): ResponseMyMumentListDto {
+    override suspend fun fetchLockerMumumentList(userId: String, tag1 : Int, tag2: Int, tag3: Int): BaseResponse<LockerMyMumentDto> {
+        return lockerApiService.lockerMumentList(userId, tag1, tag2, tag3)
 
+/*
         return ResponseMyMumentListDto(
             UserDto(
                 "id",
@@ -95,6 +97,7 @@ class LockerDataSourceImpl @Inject constructor(
             )
 
         )
+*/
     }
 //       = lockerNetwork.fetchLockerMumentList()
 }

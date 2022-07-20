@@ -30,21 +30,21 @@ class MyLikeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        setMyMumentListAdapter()
+       // setMyMumentListAdapter()
     }
-
-    private fun setMyMumentListAdapter() {
-        binding.rvLikeLinear.run {
-            viewModel.myMuments.observe(viewLifecycleOwner) {
-                initLikeEmpty(it.size)
-                (adapter as LockerTimeAdapter).submitList(it)
-            }
-            viewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
-                adapter = LockerTimeAdapter(isGridLayout)
-                (adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
-            }
-        }
-    }
+//
+//    private fun setMyMumentListAdapter() {
+//        binding.rvLikeLinear.run {
+//            viewModel.myMuments.observe(viewLifecycleOwner) {
+//                initLikeEmpty(it.size)
+//                (adapter as LockerTimeAdapter).submitList(it)
+//            }
+//            viewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
+//                adapter = LockerTimeAdapter(isGridLayout)
+//                (adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
+//            }
+//        }
+//    }
 
     //좋아요 한 뮤멘트 엠티뷰
     //TODO: 필터 및 아이콘들 비활성화

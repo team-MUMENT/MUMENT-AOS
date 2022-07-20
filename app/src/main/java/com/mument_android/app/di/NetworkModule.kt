@@ -2,7 +2,7 @@ package com.mument_android.app.di
 
 import com.mument_android.BuildConfig
 import com.mument_android.app.data.network.detail.DetailApiService
-import com.mument_android.app.data.network.locker.LockerNetwork
+import com.mument_android.app.data.network.locker.LockerApiService
 import com.mument_android.app.data.network.main.MainApiService
 import com.mument_android.app.data.network.record.RecordApiService
 import dagger.Module
@@ -19,9 +19,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private val loggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).apply {
-        this.level = HttpLoggingInterceptor.Level.BODY
-    }
+    private val loggingInterceptor =
+        HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).apply {
+            this.level = HttpLoggingInterceptor.Level.BODY
+        }
 
     @Provides
     @Singleton
@@ -44,10 +45,14 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideDetailApiService(retrofit: Retrofit): DetailApiService = retrofit.create(DetailApiService::class.java)
+    fun provideDetailApiService(retrofit: Retrofit): DetailApiService =
+        retrofit.create(DetailApiService::class.java)
 
     @Provides
     @Singleton
+    fun provideMainApiService(retrofit: Retrofit): MainApiService =
+        retrofit.create(MainApiService::class.java)
+
     fun provideRecordApiService(retrofit: Retrofit): RecordApiService = retrofit.create(RecordApiService::class.java)
 
     @Provides
@@ -56,6 +61,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLockerNetwork(retrofit: Retrofit): LockerNetwork = retrofit.create(LockerNetwork::class.java)
+    fun provideLockerNetwork(retrofit: Retrofit): LockerApiService =
+        retrofit.create(LockerApiService::class.java)
 
 }
