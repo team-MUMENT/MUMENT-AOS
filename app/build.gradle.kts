@@ -23,6 +23,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+        buildConfigField("String", "USER_ID", properties.getProperty("USER_ID"))
     }
 
     buildTypes {
@@ -103,8 +104,6 @@ dependencies {
     implementation(HiltDependencies.hilt)
     kapt(KaptDependencies.hiltAndroidCompiler)
 
-    // Emoji
-//    implementation(AndroidXDependencies.emoji)
     implementation(TestDependencies.mockito)
     androidTestImplementation(TestDependencies.mockitoAndroidTest)
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
@@ -113,6 +112,7 @@ dependencies {
     // Room
     kapt(AndroidXDependencies.roomCompiler)
     implementation(AndroidXDependencies.room)
+    implementation(AndroidXDependencies.roomRuntime)
     // DataStore
     /*implementation(AndroidXDependencies.dataStore)
     implementation(AndroidXDependencies.protoBuf)*/

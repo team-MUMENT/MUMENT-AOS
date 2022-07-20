@@ -289,7 +289,7 @@ class RecordFragment : Fragment() {
     private fun initBottomSheet() {
         binding.btnRecordSearch.setOnClickListener {
             BottomSheetSearchFragment.newInstance {
-                recordViewModel.changeSelectedMusic(it)
+//                recordViewModel.changeSelectedMusic(it)
             }.show(parentFragmentManager, "bottom sheet")
 //            recordViewModel.checkSelectedMusic(true)
             Timber.d(recordViewModel.selectedMusic.value.toString())

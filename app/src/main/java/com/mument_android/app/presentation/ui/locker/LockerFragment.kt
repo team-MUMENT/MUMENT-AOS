@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
+import com.mument_android.R
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
@@ -66,9 +68,8 @@ class LockerFragment : Fragment() {
         }.attach()
 
         binding.root.setOnClickListener {
-            //findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
+            findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
         }
-
     }
 
 

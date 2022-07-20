@@ -12,22 +12,22 @@ import java.lang.IllegalArgumentException
  */
 
 enum class EmotionalTag(val tagIndex: Int, @StringRes val tag: Int) {
-    Full(1,R.string.emotional_full),
-    Excited(2, R.string.emotional_excited),
-    Flutter(3, R.string.emotional_flutter),
-    Happy(4, R.string.emotional_happy),
-    Confidence(5, R.string.emotional_confidence),
-    Relaxed(6, R.string.emotional_relaxed),
-    Centimeter(7, R.string.emotional_centimeter),
-    Blue(8, R.string.emotional_blue),
-    Miss(9, R.string.emotional_miss),
-    Loneliness(10, R.string.emotional_loneliness),
-    Stress(11, R.string.emotional_stress),
-    Dim(12, R.string.emotional_dim),
-    Remembrance(13, R.string.emotional_remembrance),
-    Consolation(14, R.string.emotional_consolation),
-    Romance(15, R.string.emotional_romance),
-    Calm(16, R.string.emotional_calm);
+    Full(200,R.string.emotional_full),
+    Excited(201, R.string.emotional_excited),
+    Flutter(202, R.string.emotional_flutter),
+    Happy(203, R.string.emotional_happy),
+    Confidence(204, R.string.emotional_confidence),
+    Relaxed(205, R.string.emotional_relaxed),
+    Centimeter(206, R.string.emotional_centimeter),
+    Blue(207, R.string.emotional_blue),
+    Miss(208, R.string.emotional_miss),
+    Loneliness(209, R.string.emotional_loneliness),
+    Stress(210, R.string.emotional_stress),
+    Dim(211, R.string.emotional_dim),
+    Remembrance(212, R.string.emotional_remembrance),
+    Consolation(213, R.string.emotional_consolation),
+    Romance(214, R.string.emotional_romance),
+    Calm(215, R.string.emotional_calm);
 
 
 

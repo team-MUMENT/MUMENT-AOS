@@ -1,8 +1,6 @@
 package com.mument_android.app.presentation.ui.home.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewModelScope
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.network.util.ApiResult
@@ -45,13 +43,13 @@ class SearchViewModel @Inject constructor(
             }.catch {
                 searchList.value = ApiResult.Failure(null)
             }.collect {
+                Timber.d("Emit $it")
                 searchList.value = ApiResult.Success(it)
             }
         }
     }
 
     fun searchMusic(keyword: String) {
-
         viewModelScope.launch {
             cruRecentSearchListUseCase.insertOrUpdateRecentSearchItem(
                 RecentSearchData(
@@ -67,120 +65,6 @@ class SearchViewModel @Inject constructor(
                 setRecentData(this)
             }
         }
-        /*searchResultList.value = listOf(
-            RecentSearchData(
-                "1",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "2",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "3",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "4",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "5",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "6",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "7",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "8",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "9",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "10",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "11",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "12",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "13",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "14",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "15",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            ),
-            RecentSearchData(
-                "16",
-                "덩",
-                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize",
-                "새소년",
-                Date(System.currentTimeMillis())
-            )
-        )*/
     }
 
     fun insertOrUpdateRecentItem(data: RecentSearchData) {
@@ -191,7 +75,9 @@ class SearchViewModel @Inject constructor(
 
     fun deleteRecentList(data: RecentSearchData) {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteRecentSearchListUseCase.deleteRecentSearchItem(data).let { setRecentData(this) }
+            deleteRecentSearchListUseCase.deleteRecentSearchItem(data).let {
+                setRecentData(this)
+            }
         }
     }
 
@@ -199,5 +85,6 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             deleteRecentSearchListUseCase.deleteAllRecentSearchList()
         }
+        searchList.value = ApiResult.Success(listOf())
     }
 }
