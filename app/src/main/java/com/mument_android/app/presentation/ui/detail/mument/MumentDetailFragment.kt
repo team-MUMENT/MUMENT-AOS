@@ -37,6 +37,8 @@ class MumentDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.mumentDetailViewModel= viewModel
         binding.tvGoToHistory.applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
         setMumentTags()
         updateMumentTagList()
@@ -47,15 +49,12 @@ class MumentDetailFragment : Fragment() {
 
     private fun setMumentTags() {
         with(binding) {
-            lifecycleOwner = viewLifecycleOwner
-            mumentDetailViewModel= viewModel
-
             rvMumentTags.adapter = MumentTagListAdapter()
             rvMumentTags.layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
             }
-            rvMumentTags.addItemDecoration(RecyclerviewItemDivider(7.dpToPx(requireContext()), 5.dpToPx(requireContext()), IS_GRIDLAYOUT))
+            rvMumentTags.addItemDecoration(RecyclerviewItemDivider(7, 5, IS_GRIDLAYOUT))
         }
     }
 
