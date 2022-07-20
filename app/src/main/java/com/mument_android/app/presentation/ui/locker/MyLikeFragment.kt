@@ -31,6 +31,7 @@ class MyLikeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
         setMyMumentListAdapter()
@@ -44,7 +45,7 @@ class MyLikeFragment : Fragment() {
         binding.rvLikeLinear.run {
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
                 adapter = LockerTimeAdapter(isGridLayout)
-                //(adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
+                (adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
             }
         }
         lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
@@ -133,7 +134,7 @@ class MyLikeFragment : Fragment() {
     private fun removeTag() {
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
-                viewModel.removeCheckedList(tag)
+                viewModel.removeLikeCheckedList(tag)
             }
 
             viewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
