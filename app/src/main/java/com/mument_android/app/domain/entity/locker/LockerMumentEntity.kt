@@ -1,12 +1,15 @@
-package com.mument_android.app.domain.entity
+package com.mument_android.app.domain.entity.locker
 data class LockerMumentEntity(
     val date: String,
     val mumentCard: List<MumentLockerCard>
 ) {
     data class MumentLockerCard(
         val _id: String,
+        val cardTag: List<Int>,
         val content: String,
         val createdAt: String,
+        val feelingTag : List<Int>,
+        val impressionTag : List<Int>,
         val music_Id: String,
         val musicImage: String,
         val musicName: String,
@@ -18,7 +21,7 @@ data class LockerMumentEntity(
         val isLiked: Boolean?,
         val isPrivate: Boolean?,
         val isFirst: Boolean?,
-        val tag1: String,
-        val tag2: String,
+        val month : Int,
+        val year : Int
     )
 }

@@ -2,6 +2,7 @@ package com.mument_android.app.presentation.ui.record
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -63,7 +64,6 @@ class RecordFragment : Fragment() {
         initBottomSheet()
         getAllData()
         isClickDelete()
-
     }
 
     private fun setTagRecyclerView() {
@@ -167,6 +167,7 @@ class RecordFragment : Fragment() {
     }
 
     private fun resetRvImpressionTags() {
+
         binding.btnRecordReset.setOnClickListener {
             resetButtonClickEvent()
         }
@@ -244,7 +245,11 @@ class RecordFragment : Fragment() {
 
     private fun scrollEditTextView() {
         binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
+        binding.etRecordWrite.setOnClickListener {
+            binding.svRecord.scrollTo(0, binding.clRecordWrite.bottom)
+        }
     }
+
 
     private fun resetButtonClickEvent() {
 

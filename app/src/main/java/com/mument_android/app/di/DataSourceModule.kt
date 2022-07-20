@@ -5,7 +5,10 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.mument_android.app.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.app.data.datasource.detail.MumentDetailDataSourceImpl
-import com.mument_android.app.data.datasource.home.*
+import com.mument_android.app.data.datasource.home.RecentSearchListDataSource
+import com.mument_android.app.data.datasource.home.RecentSearchListDataSourceImpl
+import com.mument_android.app.data.datasource.home.TodayMumentDataSource
+import com.mument_android.app.data.datasource.home.TodayMumentDataSourceImpl
 import com.mument_android.app.data.datasource.locker.LockerDataSource
 import com.mument_android.app.data.datasource.locker.LockerDataSourceImpl
 import com.mument_android.app.data.local.converter.DateTypeConverter
@@ -16,7 +19,7 @@ import com.mument_android.app.data.local.recentlist.RecentSearchDAO
 import com.mument_android.app.data.local.todaymument.MumentDatabase
 import com.mument_android.app.data.local.todaymument.TodayMumentDAO
 import com.mument_android.app.data.network.detail.DetailApiService
-import com.mument_android.app.data.network.locker.LockerNetwork
+import com.mument_android.app.data.network.locker.LockerApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,7 +45,7 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideLockerDataSource(lockerNetwork: LockerNetwork): LockerDataSource =
+    fun provideLockerDataSource(lockerNetwork: LockerApiService): LockerDataSource =
         LockerDataSourceImpl(lockerNetwork)
 
     @Singleton

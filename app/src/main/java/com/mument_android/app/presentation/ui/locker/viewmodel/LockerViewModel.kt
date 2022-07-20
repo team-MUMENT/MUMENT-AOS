@@ -5,13 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
-import com.mument_android.app.domain.entity.LockerMumentEntity
+import com.mument_android.app.data.network.util.ApiResult
+import com.mument_android.app.domain.entity.locker.LockerMumentEntity
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,8 +22,7 @@ class LockerViewModel @Inject constructor(
     val emotionalTags = EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }
     val impressionTags = ImpressiveTag.values().map { TagEntity(TagEntity.TAG_IMPRESSIVE, it.tag, it.tagIndex) }
 
-    private val _myMuments = MutableLiveData<List<LockerMumentEntity>>()
-    val myMuments = _myMuments
+    val myMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
 
     var realTagList = MutableLiveData<List<TagEntity>>(emptyList())
 
@@ -37,8 +37,18 @@ class LockerViewModel @Inject constructor(
 
     fun fetchMyMumentList() {
         viewModelScope.launch {
-            fetchMyMumentListUseCase().runCatching {
-                _myMuments.value = this
+            fetchMyMumentListUseCase(userId = "62cd5d4383956edb45d7d0ef", tag1 = 100, tag2 = 101, tag3 = 103).runCatching {
+                this.onStart {
+                    Timber.d("Test Start")
+                    myMuments.value = ApiResult.Loading(null)
+                }.catch {
+                    Timber.d("Test Catch")
+                    it.printStackTrace()
+                    myMuments.value = ApiResult.Failure(null)
+                }.collect {
+                    Timber.d("Test Collect")
+                    myMuments.value = ApiResult.Success(it)
+                }
             }
         }
     }
