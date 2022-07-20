@@ -12,7 +12,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(useCase:WhenHomeEnterUseCase) : ViewModel() {
+class HomeViewModel @Inject constructor(val useCase:WhenHomeEnterUseCase) : ViewModel() {
     val mument = listOf<MumentCard>(
         MumentCard(
             "213",

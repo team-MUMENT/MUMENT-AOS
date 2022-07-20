@@ -21,7 +21,7 @@ interface HomeService {
     suspend fun getMumentHistory(
         @Path("userId") userId: String,
         @Path("musicId") musicId: String,
-    ): BaseResponse<List<MumentHistoryDto>>
+    ): BaseResponse<MumentHistoryDto>
 
     @GET("/home/recommendation")
     suspend fun getBannerMument(): BaseResponse<List<BannerMumentDto>>
