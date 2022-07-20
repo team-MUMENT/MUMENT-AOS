@@ -1,51 +1,49 @@
-package com.mument_android.app.presentation.ui.detail.song
+package com.mument_android.app.presentation.ui.detail.music
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.mument_android.R
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.launchWhenCreated
-import com.mument_android.databinding.FragmentSongDetailBinding
+import com.mument_android.databinding.FragmentMusicDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class SongDetailFragment : Fragment() {
-    private var binding by AutoClearedValue<FragmentSongDetailBinding>()
-    private val songDetailViewModel: SongDetailViewModel by viewModels()
+@AndroidEntryPoint
+class MusicDetailFragment : Fragment() {
+    private var binding by AutoClearedValue<FragmentMusicDetailBinding>()
+    private val musicDetailViewModel: MusicDetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentSongDetailBinding.inflate(inflater, container, false).let {
+    ): View = FragmentMusicDetailBinding.inflate(inflater, container, false).let {
         binding = it
         it.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.songDetailViewModel = songDetailViewModel
+        binding.musicDetailViewModel = musicDetailViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        songDetailViewModel.testImage.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
-
-        }
         setEveryMumentListAdapter()
         changeMumentSort()
         updateEveryMuments()
-        songDetailViewModel.changeSelectedSort(binding.tvSortLikeCount.text.toString())
+        musicDetailViewModel.changeSelectedSort(binding.tvSortLikeCount.text.toString())
     }
 
     private fun changeMumentSort() {
         binding.run {
-            tvSortLikeCount.setOnClickListener { songDetailViewModel?.changeSelectedSort(tvSortLikeCount.text.toString()) }
-            tvSortLatest.setOnClickListener { songDetailViewModel?.changeSelectedSort(tvSortLatest.text.toString()) }
-            songDetailViewModel?.selectedSort?.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
+            tvSortLikeCount.setOnClickListener { musicDetailViewModel?.changeSelectedSort(tvSortLikeCount.text.toString()) }
+            tvSortLatest.setOnClickListener { musicDetailViewModel?.changeSelectedSort(tvSortLatest.text.toString()) }
+            musicDetailViewModel?.selectedSort?.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
                 tvSortLatest.changeSelectedSortTheme(it)
                 tvSortLikeCount.changeSelectedSortTheme(it)
             }
@@ -54,14 +52,14 @@ class SongDetailFragment : Fragment() {
 
     private fun setEveryMumentListAdapter() {
         binding.rvEveryMuments.run {
-            adapter = SongDetailMumentListAdapter()
+            adapter = MusicDetailMumentListAdapter()
             addItemDecoration(RecyclerviewItemDivider(0, 15.dpToPx(requireContext()), IS_VERTICAL))
         }
     }
 
     private fun updateEveryMuments() {
-        songDetailViewModel.everyMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
-            (binding.rvEveryMuments.adapter as SongDetailMumentListAdapter).submitList(it)
+        musicDetailViewModel.mumentList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
+            (binding.rvEveryMuments.adapter as MusicDetailMumentListAdapter).submitList(it)
         }
     }
 

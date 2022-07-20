@@ -147,8 +147,7 @@
                     android:layout_marginTop="18dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_today"
-                    app:mument="@{homeViewModel.mument.get(0)}" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_today" />
 
                 <TextView
                     android:id="@+id/tv_heard"

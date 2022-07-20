@@ -1,17 +1,20 @@
 package com.mument_android.app.di
 
 import com.mument_android.app.data.datasource.detail.MumentDetailDataSource
+import com.mument_android.app.data.datasource.detail.MumentListDataSource
+import com.mument_android.app.data.datasource.detail.MusicDetailDataSource
 import com.mument_android.app.data.datasource.home.*
 import com.mument_android.app.data.datasource.locker.LockerDataSource
 import com.mument_android.app.data.datasource.record.RecordDataSource
+import com.mument_android.app.data.mapper.detail.MumentCardMapper
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
+import com.mument_android.app.data.mapper.detail.MumentSummaryDtoMapper
 import com.mument_android.app.data.mapper.locker.LockerMapper
 import com.mument_android.app.data.mapper.record.RecordMapper
-import com.mument_android.app.data.repository.HomeRepositoryImpl
-import com.mument_android.app.data.repository.LockerRepositoryImpl
-import com.mument_android.app.data.repository.MumentDetailRepositoryImpl
-import com.mument_android.app.data.repository.RecordRepositoryImpl
+import com.mument_android.app.data.repository.*
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
+import com.mument_android.app.domain.repository.detail.MumentListRepository
+import com.mument_android.app.domain.repository.detail.MusicDetailRepository
 import com.mument_android.app.domain.repository.home.HomeRepository
 import com.mument_android.app.domain.repository.locker.LockerRepository
 import com.mument_android.app.domain.repository.record.RecordRepository
@@ -62,5 +65,19 @@ object RepositoryModule {
         mumentHistoryDataSource,
         searchListDataSource, homeDataSource
     )
+
+    @Provides
+    @Singleton
+    fun provideMusicDetailRepository(
+        mumentCardMapper: MumentCardMapper,
+        musicDetailDataSource: MusicDetailDataSource
+    ): MusicDetailRepository = MusicDetailRepositoryImpl(mumentCardMapper, musicDetailDataSource)
+
+    @Provides
+    @Singleton
+    fun provideMumentListRepository(
+        mumentSummaryDtoMapper: MumentSummaryDtoMapper,
+        mumentListDataSource: MumentListDataSource
+    ): MumentListRepository = MumentListRepositoryImpl(mumentSummaryDtoMapper, mumentListDataSource)
 
 }

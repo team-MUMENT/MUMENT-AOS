@@ -1,7 +1,9 @@
 package com.mument_android.app.di
 
 import com.mument_android.app.data.mapper.album.AlbumMapper
+import com.mument_android.app.data.mapper.detail.MumentCardMapper
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
+import com.mument_android.app.data.mapper.detail.MumentSummaryDtoMapper
 import com.mument_android.app.data.mapper.locker.LockerMapper
 import com.mument_android.app.data.mapper.locker.MumentLockerCardMapper
 import com.mument_android.app.data.mapper.main.EmotionalTagMapper
@@ -9,6 +11,7 @@ import com.mument_android.app.data.mapper.main.ImpressiveTagMapper
 import com.mument_android.app.data.mapper.main.IsFirstTagMapper
 import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.mapper.user.UserMapper
+import com.mument_android.app.domain.entity.MumentCard
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,4 +64,19 @@ object MapperModule {
     @Singleton
     fun provideLockerMumentListMapper(mumentLockerCardMapper: MumentLockerCardMapper): LockerMapper =
         LockerMapper(mumentLockerCardMapper)
+
+
+    @Provides
+    @Singleton
+    fun provideMumentCardMapper(): MumentCardMapper = MumentCardMapper()
+
+    @Provides
+    @Singleton
+    fun provideMumentSummaryDtoMapper(
+        userMapper: UserMapper,
+        albumMapper: AlbumMapper,
+        isFirstTagMapper: IsFirstTagMapper,
+        impressiveTagMapper: ImpressiveTagMapper,
+        emotionalTagMapper: EmotionalTagMapper
+    ): MumentSummaryDtoMapper = MumentSummaryDtoMapper(userMapper, albumMapper, isFirstTagMapper, impressiveTagMapper, emotionalTagMapper)
 }

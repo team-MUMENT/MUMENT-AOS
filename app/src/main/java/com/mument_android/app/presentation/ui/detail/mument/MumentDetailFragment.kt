@@ -83,16 +83,17 @@ class MumentDetailFragment : Fragment() {
         }
     }
 
-    // Todo: 수정하기, 삭제하기 BottomSheet 노출
     private fun showEditBottomSheet() {
         binding.ivKebab.setOnClickListener {
-            MumentDialogBuilder()
-                .setHeader("수정을 취소하시겠어요?")
-                .setBody("확인 선택 시 변경사항이 저장되지 않습니다.")
-                .setAllowListener { Timber.e("allow") }
-                .setCancelListener { Timber.e("cancel") }
-                .build()
-                .show(childFragmentManager, this.tag)
+            EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
+                override fun edit() {
+                    // 수정하기로 이동
+                }
+
+                override fun delete() {
+                    // 삭제하기로 이동
+                }
+            }).show(childFragmentManager, this.tag)
         }
     }
 }

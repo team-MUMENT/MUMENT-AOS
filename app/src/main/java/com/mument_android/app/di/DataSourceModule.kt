@@ -3,8 +3,7 @@ package com.mument_android.app.di
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
-import com.mument_android.app.data.datasource.detail.MumentDetailDataSource
-import com.mument_android.app.data.datasource.detail.MumentDetailDataSourceImpl
+import com.mument_android.app.data.datasource.detail.*
 import com.mument_android.app.data.datasource.home.*
 import com.mument_android.app.data.datasource.locker.LockerDataSource
 import com.mument_android.app.data.datasource.locker.LockerDataSourceImpl
@@ -31,13 +30,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataSourceModule {
-
-
-    @Provides
     @Singleton
-    fun provideGson(): Gson {
-        return Gson()
-    }
+    @Provides
+    fun provideGson(): Gson = Gson()
 
     @Provides
     @Singleton
@@ -104,4 +99,14 @@ object DataSourceModule {
     fun provideHomeDataSource(service: HomeService): HomeDataSource =
         HomeDataSourceImpl(service)
 
+
+    @Provides
+    @Singleton
+    fun provideMusicDetailDataSource(detailApiService: DetailApiService): MusicDetailDataSource =
+        MusicDetailDataSourceImpl(detailApiService)
+
+    @Provides
+    @Singleton
+    fun provideMumentListDataSource(detailApiService: DetailApiService): MumentListDataSource =
+        MumentListDataSourceImpl(detailApiService)
 }
