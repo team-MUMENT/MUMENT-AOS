@@ -45,7 +45,7 @@
         <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.3880416870117187" />
         <entry key="app/src/main/res/layout/fragment_mument_dialog.xml" value="0.15121580547112462" />
-        <entry key="app/src/main/res/layout/fragment_music_detail.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/fragment_music_detail.xml" value="0.12027491408934708" />
         <entry key="app/src/main/res/layout/fragment_my_like.xml" value="0.2418478260869565" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_record_search.xml" value="0.22554347826086957" />
@@ -60,6 +60,7 @@
         <entry key="app/src/main/res/layout/item_mument_image.xml" value="0.2518518518518518" />
         <entry key="app/src/main/res/layout/item_mument_string_tag.xml" value="0.247912089029948" />
         <entry key="app/src/main/res/layout/item_music_detail_list.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/item_music_detail_mument.xml" value="0.2223731884057971" />
         <entry key="app/src/main/res/layout/item_search_list.xml" value="0.14010416666666667" />
         <entry key="app/src/main/res/layout/item_song_detail_mument.xml" value="0.3128007699711261" />
         <entry key="app/src/main/res/layout/item_tag_checkbox.xml" value="0.7323455810546875" />

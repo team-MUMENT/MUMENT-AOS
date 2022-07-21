@@ -11,7 +11,7 @@ class MumentCardMapper: BaseMapper<MusicDetailDto, MumentCard> {
         val tagIdx = if (from.myMument.cardTag.isNotEmpty()) from.myMument.cardTag.first() else 100
         return MumentCard(
             from.myMument.id,
-            from.myMument.content,
+            from.myMument.content ?: "",
             from.myMument.createdAt,
             from.music.id,
             from.music.image,

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="mument"
-            type="com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity" />
+            type="com.mument_android.app.domain.entity.detail.MumentSummaryEntity" />
         <import type="android.view.View"/>
     </data>
 
@@ -22,7 +22,7 @@
 
         <ImageView
             android:id="@+id/iv_profile"
-            load_profile="@{mument.myMument.user.image}"
+            load_profile="@{mument.user.profileImage}"
             android:layout_width="25dp"
             android:layout_height="25dp"
             tools:background="@color/mument_color_gray1"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
             android:layout_weight="1"
-            android:text="@{mument.myMument.user.name}"
+            android:text="@{mument.user.name}"
             app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
             app:layout_constraintStart_toEndOf="@id/iv_profile"
             app:layout_constraintTop_toTopOf="@id/iv_profile"
@@ -48,7 +48,7 @@
             android:layout_height="21dp"
             android:layout_marginEnd="5dp"
             android:src="@drawable/ic_heart_off"
-            android:visibility="@{mument.myMument.likeCount == 0 ? View.GONE : View.VISIBLE}"
+            android:visibility="@{mument.likeCount == 0 ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/tv_secret_likecount"
             app:layout_constraintEnd_toStartOf="@id/tv_secret_likecount"
             app:layout_constraintTop_toTopOf="@id/tv_secret_likecount" />
@@ -58,7 +58,7 @@
             style="@style/TextView.Mument_C1_R12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{mument.myMument.private == true ? `비밀글`: Integer.toString(mument.myMument.likeCount)}"
+            android:text="@{mument.private == true ? `비밀글`: Integer.toString(mument.likeCount)}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,33 +73,14 @@
             android:background="@color/mument_color_gray4"
             app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
 
-        <TextView
-            android:id="@+id/tv_album_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{mument.music.name}"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@id/view"
-            app:layout_constraintStart_toStartOf="@id/view"
-            tools:text="Antifreeze" />
-
-        <TextView
-            android:id="@+id/tv_artist_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{mument.music.artist}"
-            tools:text="백예린"
-            app:layout_constraintTop_toBottomOf="@id/tv_album_name"
-            app:layout_constraintStart_toStartOf="@id/tv_album_name"/>
-
         <LinearLayout
             android:id="@+id/linearlayout_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/tv_artist_name"
-            app:layout_constraintStart_toStartOf="@id/tv_artist_name">
+            app:layout_constraintTop_toBottomOf="@id/view"
+            app:layout_constraintStart_toStartOf="@id/view">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -108,7 +89,7 @@
                 android:gravity="center_vertical"
                 android:paddingHorizontal="7dp"
                 android:paddingVertical="5dp"
-                android:text="@{mument.myMument.isFirst ? `처음` : `다시`}"
+                android:text="@{mument.isFirst ? `처음` : `다시`}"
                 android:textColor="@color/mument_color_purple1"
                 tools:text="다시" />
             <!--TODO(태그 로직 구현)-->
@@ -135,7 +116,7 @@
             android:layout_marginBottom="12dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="@{mument.myMument.content}"
+            android:text="@{mument.content}"
             app:layout_constraintTop_toBottomOf="@+id/linearlayout_tags"
             app:layout_constraintStart_toStartOf="@id/linearlayout_tags"
             tools:text="음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게" />
@@ -144,7 +125,7 @@
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{mument.myMument.date}"
+            android:text="@{mument.createdAt}"
             android:textColor="@color/mument_color_gray2"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"

@@ -29,7 +29,7 @@
                 app:expandedTitleTextAppearance="@style/ExpandedTitleStyle"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:scrimAnimationDuration="150"
-                app:title="@{`하늘나라`}"
+                app:title="@{musicDetailViewModel.musicInfo.name}"
                 app:toolbarId="@id/toolbar">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,9 +47,9 @@
                         app:layout_constraintDimensionRatio="1:1"
                         android:layout_marginStart="16dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginTop="98dp"
+                        android:layout_marginTop="70dp"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:load_album="@{musicDetailViewModel.testImage}"
+                        app:load_album="@{musicDetailViewModel.musicInfo.thumbnail}"
                         tools:background="@color/mument_color_blue1"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -57,10 +57,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/TextView.Mument_H2_B18.Style"
-                        android:text="하늘나라"
+                        android:text="@{musicDetailViewModel.musicInfo.name}"
                         android:layout_marginStart="10dp"
                         app:layout_constraintTop_toTopOf="@id/iv_album_profile"
-                        app:layout_constraintStart_toEndOf="@id/iv_album_profile"/>
+                        app:layout_constraintStart_toEndOf="@id/iv_album_profile"
+                        tools:text="하늘나라"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_artist_name"
@@ -69,9 +70,10 @@
                         android:layout_marginTop="10dp"
                         style="@style/TextView.Mument_B4_M14.Style"
                         android:textColor="@color/mument_color_gray1"
-                        android:text="혁오"
+                        android:text="@{musicDetailViewModel.musicInfo.artist}"
                         app:layout_constraintTop_toBottomOf="@id/tv_album_name"
-                        app:layout_constraintStart_toStartOf="@id/tv_album_name"/>
+                        app:layout_constraintStart_toStartOf="@id/tv_album_name"
+                        tools:text="혁오"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_record_mument"
@@ -95,7 +97,7 @@
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="98dp"
+                    android:layout_height="70dp"
                     app:contentInsetStart="0dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -103,12 +105,12 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_back"
-                    android:layout_width="58dp"
-                    android:layout_height="58dp"
-                    android:layout_marginVertical="15dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:src="@drawable/ic_back"
                     android:scaleType="centerInside"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_collapseMode="pin"/>
 
@@ -157,7 +159,7 @@
 
                     <include
                         android:id="@+id/layout_my_mument"
-                        layout="@layout/mument_layout_cardview"
+                        layout="@layout/item_music_detail_mument"
                         android:layout_height="wrap_content"
                         android:layout_width="0dp"
                         android:layout_marginTop="15dp"
@@ -211,7 +213,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        tools:listitem="@layout/mument_layout_cardview"/>
+                        tools:listitem="@layout/item_music_detail_list"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </FrameLayout>

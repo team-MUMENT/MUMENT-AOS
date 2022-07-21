@@ -1,5 +1,6 @@
 package com.mument_android.app.presentation.ui.detail.music
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
@@ -8,6 +9,9 @@ import com.mument_android.app.data.enumtype.SortTypeEnum
 import com.mument_android.app.data.enumtype.SortTypeEnum.Companion.findSortTypeTag
 import com.mument_android.app.domain.entity.MumentCard
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
+import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
+import com.mument_android.app.domain.entity.detail.MusicWithMyMumentEntity
+import com.mument_android.app.domain.entity.music.MusicInfoEntity
 import com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity
 import com.mument_android.app.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMusicDetailUseCase
@@ -17,6 +21,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,16 +29,13 @@ class MusicDetailViewModel @Inject constructor(
     private val fetchMumentListUseCase: FetchMumentListUseCase,
     private val fetchMusicDetailUseCase: FetchMusicDetailUseCase
 ): ViewModel() {
-    private val _songName = MutableStateFlow("")
-    val songName = _songName.asStateFlow()
+    private val _musicInfo = MutableLiveData<MusicInfoEntity>()
+    val musicInfo = _musicInfo
 
-    private val _testImage = MutableStateFlow("https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize")
-    val testImage = _testImage.asStateFlow()
-
-    private val _myMument = MutableStateFlow<MumentCard?>(null)
+    private val _myMument = MutableStateFlow<MumentSummaryEntity?>(null)
     val myMument = _myMument.asStateFlow()
 
-    private val _mumentList = MutableStateFlow<List<MumentDetailEntity>>(listOf())
+    private val _mumentList = MutableStateFlow<List<MumentSummaryEntity>>(listOf())
     val mumentList = _mumentList.asStateFlow()
 
     private val _selectedSort = MutableStateFlow(SortTypeEnum.SORT_LIKE_COUNT.sort)
@@ -56,7 +58,8 @@ class MusicDetailViewModel @Inject constructor(
             ).catch { e ->
                 e.printStackTrace()
             }.collect {
-                _myMument.value = it
+                _musicInfo.value = it.music
+                _myMument.value = it.myMument
             }
         }
     }
@@ -70,6 +73,7 @@ class MusicDetailViewModel @Inject constructor(
             ).catch { e ->
                 e.printStackTrace()
             }.collect {
+                Timber.e("$it")
                 _mumentList.value = it
             }
         }

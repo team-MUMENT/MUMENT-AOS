@@ -97,7 +97,7 @@
 
             <ImageView
                 android:id="@+id/iv_album"
-                load_album="@{mumentDetailViewModel.mumentDetailContent.data.albumInfo.albumThumbnail}"
+                load_album="@{mumentDetailViewModel.mumentDetailContent.data.musicInfo.thumbnail}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="20dp"
@@ -117,7 +117,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 app:layout_constraintHorizontal_bias="0.0"
-                android:text="@{mumentDetailViewModel.mumentDetailContent.data.albumInfo.albumName}"
+                android:text="@{mumentDetailViewModel.mumentDetailContent.data.musicInfo.name}"
                 android:textColor="@color/mument_color_black2"
                 app:layout_constraintBottom_toTopOf="@id/textview_singer"
                 app:layout_constraintStart_toEndOf="@id/iv_album"
@@ -142,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="@{mumentDetailViewModel.mumentDetailContent.data.albumInfo.artist}"
+                android:text="@{mumentDetailViewModel.mumentDetailContent.data.musicInfo.artist}"
                 android:textColor="@color/mument_color_gray1"
                 app:layout_constraintBottom_toBottomOf="@id/iv_album"
                 app:layout_constraintStart_toStartOf="@+id/tv_album_name"

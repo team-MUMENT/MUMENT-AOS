@@ -17,13 +17,13 @@ interface DetailApiService {
         @Path ("userId") userId: String
     ): BaseResponse<MumentDetailDto>
 
-    @GET("{musicId}/{userId}")
+    @GET("/music/{musicId}/{userId}")
     suspend fun fetchMusicDetailInfo(
         @Path("musicId") musicId: String,
         @Path("userId") userId: String
     ): BaseResponse<MusicDetailDto>
 
-    @GET("/{musicId}/{userId}/order")
+    @GET("/music/{musicId}/{userId}/order")
     suspend fun fetchMumentList(
         @Path("musicId") musicId: String,
         @Path("userId") userId: String,

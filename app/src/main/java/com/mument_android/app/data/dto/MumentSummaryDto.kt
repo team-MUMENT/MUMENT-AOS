@@ -10,7 +10,7 @@ data class MumentSummaryDto(
     val isFirst: Boolean,
     val impressionTag: List<Int>?,
     val feelingTag: List<Int>?,
-    val content: String,
+    val content: String?,
     val isPrivate: Boolean,
     val likeCount: Int,
     val isDeleted: Boolean,

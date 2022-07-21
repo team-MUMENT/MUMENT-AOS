@@ -15,6 +15,7 @@ import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMusicDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MusicDetailFragment : Fragment() {
@@ -59,6 +60,7 @@ class MusicDetailFragment : Fragment() {
 
     private fun updateEveryMuments() {
         musicDetailViewModel.mumentList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
+            Timber.e("${it.map { it.user.name }}")
             (binding.rvEveryMuments.adapter as MusicDetailMumentListAdapter).submitList(it)
         }
     }

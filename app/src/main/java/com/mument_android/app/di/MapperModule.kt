@@ -1,9 +1,11 @@
 package com.mument_android.app.di
 
-import com.mument_android.app.data.mapper.album.AlbumMapper
+import com.mument_android.app.data.mapper.album.MusicInfoMapper
+import com.mument_android.app.data.mapper.album.MusicWithMyMumentMapper
 import com.mument_android.app.data.mapper.detail.MumentCardMapper
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
 import com.mument_android.app.data.mapper.detail.MumentSummaryDtoMapper
+import com.mument_android.app.data.mapper.detail.MumentSummaryMapper
 import com.mument_android.app.data.mapper.locker.LockerMapper
 import com.mument_android.app.data.mapper.locker.MumentLockerCardMapper
 import com.mument_android.app.data.mapper.main.EmotionalTagMapper
@@ -11,7 +13,6 @@ import com.mument_android.app.data.mapper.main.ImpressiveTagMapper
 import com.mument_android.app.data.mapper.main.IsFirstTagMapper
 import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.mapper.user.UserMapper
-import com.mument_android.app.domain.entity.MumentCard
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +29,7 @@ object MapperModule {
 
     @Provides
     @Singleton
-    fun provideAlbumMapper(): AlbumMapper = AlbumMapper()
+    fun provideAlbumMapper(): MusicInfoMapper = MusicInfoMapper()
 
     @Provides
     @Singleton
@@ -50,11 +51,11 @@ object MapperModule {
     @Singleton
     fun provideMumentDetailMapper(
         userMapper: UserMapper,
-        albumMapper: AlbumMapper,
+        musicInfoMapper: MusicInfoMapper,
         impressiveTagMapper: ImpressiveTagMapper,
         emotionalTagMapper: EmotionalTagMapper,
         isFirstTagMapper: IsFirstTagMapper
-    ): MumentDetailMapper = MumentDetailMapper(userMapper, albumMapper, impressiveTagMapper, emotionalTagMapper, isFirstTagMapper)
+    ): MumentDetailMapper = MumentDetailMapper(userMapper, musicInfoMapper, impressiveTagMapper, emotionalTagMapper, isFirstTagMapper)
 
     @Provides
     @Singleton
@@ -74,9 +75,24 @@ object MapperModule {
     @Singleton
     fun provideMumentSummaryDtoMapper(
         userMapper: UserMapper,
-        albumMapper: AlbumMapper,
+        musicInfoMapper: MusicInfoMapper,
         isFirstTagMapper: IsFirstTagMapper,
         impressiveTagMapper: ImpressiveTagMapper,
         emotionalTagMapper: EmotionalTagMapper
-    ): MumentSummaryDtoMapper = MumentSummaryDtoMapper(userMapper, albumMapper, isFirstTagMapper, impressiveTagMapper, emotionalTagMapper)
+    ): MumentSummaryDtoMapper =
+        MumentSummaryDtoMapper(userMapper, musicInfoMapper, isFirstTagMapper, impressiveTagMapper, emotionalTagMapper)
+
+    @Provides
+    @Singleton
+    fun provideMumentSummaryMapper(userMapper: UserMapper): MumentSummaryMapper =
+        MumentSummaryMapper(userMapper)
+
+    @Provides
+    @Singleton
+    fun provideMusicWithMyMumentMapper(
+        musicInfoMapper: MusicInfoMapper,
+        mumentSummaryMapper: MumentSummaryMapper
+    ): MusicWithMyMumentMapper =
+        MusicWithMyMumentMapper(musicInfoMapper, mumentSummaryMapper)
+
 }

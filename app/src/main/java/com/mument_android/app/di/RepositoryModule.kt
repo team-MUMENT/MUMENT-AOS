@@ -6,9 +6,11 @@ import com.mument_android.app.data.datasource.detail.MusicDetailDataSource
 import com.mument_android.app.data.datasource.home.*
 import com.mument_android.app.data.datasource.locker.LockerDataSource
 import com.mument_android.app.data.datasource.record.RecordDataSource
+import com.mument_android.app.data.mapper.album.MusicWithMyMumentMapper
 import com.mument_android.app.data.mapper.detail.MumentCardMapper
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
 import com.mument_android.app.data.mapper.detail.MumentSummaryDtoMapper
+import com.mument_android.app.data.mapper.detail.MumentSummaryMapper
 import com.mument_android.app.data.mapper.locker.LockerMapper
 import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.repository.*
@@ -69,15 +71,14 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideMusicDetailRepository(
-        mumentCardMapper: MumentCardMapper,
+        musicWithMyMumentMapper: MusicWithMyMumentMapper,
         musicDetailDataSource: MusicDetailDataSource
-    ): MusicDetailRepository = MusicDetailRepositoryImpl(mumentCardMapper, musicDetailDataSource)
+    ): MusicDetailRepository = MusicDetailRepositoryImpl(musicWithMyMumentMapper, musicDetailDataSource)
 
     @Provides
     @Singleton
     fun provideMumentListRepository(
-        mumentSummaryDtoMapper: MumentSummaryDtoMapper,
+        mumentSummaryMapper: MumentSummaryMapper,
         mumentListDataSource: MumentListDataSource
-    ): MumentListRepository = MumentListRepositoryImpl(mumentSummaryDtoMapper, mumentListDataSource)
-
+    ): MumentListRepository = MumentListRepositoryImpl(mumentSummaryMapper, mumentListDataSource)
 }
