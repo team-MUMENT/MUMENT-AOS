@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 import javax.inject.Inject
 
 class LockerRepositoryImpl @Inject constructor(
@@ -20,6 +21,8 @@ class LockerRepositoryImpl @Inject constructor(
         tag2: Int?,
         tag3: Int?
     ): Flow<List<LockerMumentEntity>> = flow {
-        emit(lockerMapper.map(lockerDataSource.fetchLockerMumumentList(userId, tag1, tag2,tag3).data))
+        val data = lockerDataSource.fetchLockerMumumentList(userId, tag1, tag2,tag3).data
+        Timber.d(" hi!!!!!!!! $data")
+        emit(lockerMapper.map(data))
     }.flowOn(Dispatchers.IO)
 }
