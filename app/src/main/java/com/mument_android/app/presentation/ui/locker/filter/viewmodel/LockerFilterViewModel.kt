@@ -26,14 +26,6 @@ class LockerFilterViewModel: ViewModel() {
         }
     }
 
-    fun addLikeInitialTags(tags: List<TagEntity>) {
-        likeSelectedTags.value?.toMutableList().let{
-            it?.addAll(tags)
-            _likeSelectedTags.value = it
-        }
-    }
-
-
 
     //보관함 내 뮤멘트
     fun addSelectedTag(tag: TagEntity) {
@@ -55,6 +47,12 @@ class LockerFilterViewModel: ViewModel() {
         _selectedTags.value = emptyList()
     }
 
+    fun addLikeInitialTags(tags: List<TagEntity>) {
+        likeSelectedTags.value?.toMutableList().let{
+            it?.addAll(tags)
+            _likeSelectedTags.value = it
+        }
+    }
 
     //보관함 내가 좋아요 한 뮤멘트
     fun addLikeSelectedTag(tag: TagEntity) {

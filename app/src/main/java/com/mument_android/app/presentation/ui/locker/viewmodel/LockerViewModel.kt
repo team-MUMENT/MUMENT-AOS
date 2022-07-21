@@ -50,10 +50,6 @@ class LockerViewModel @Inject constructor(
     var secondTag: Int? = 0
     var thirdTag: Int? = 0
 
-    init {
-       // fetchMyMumentList()
-       // fetchMyLikeList()
-    }
 
     fun changeCheckedTagList(tags: List<TagEntity>) {
         _checkedTagList.value = tags
@@ -133,7 +129,7 @@ class LockerViewModel @Inject constructor(
             }
 
             fetchMyLikeListUseCase(
-                userId = "62d9460d911d72f2ff0ee59b",
+                userId = "62cd5d4383956edb45d7d0ef",
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag
@@ -159,13 +155,6 @@ class LockerViewModel @Inject constructor(
         _isLikeGridLayout.value = isGrid
     }
 
-    fun addCheckedList(checkedId: TagEntity) {
-        val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
-        if (tempList.size <= 3) {
-            tempList.add(checkedId)
-            checkedTagList.value = tempList
-        }
-    }
 
     fun removeCheckedList(tag: TagEntity) {
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
@@ -173,20 +162,6 @@ class LockerViewModel @Inject constructor(
         checkedTagList.value = tempList
     }
 
-    fun resetCheckedList() {
-        checkedTagList.value?.toMutableList()?.let {
-            it.clear()
-            checkedTagList.value = it
-        }
-    }
-
-    fun addLikeCheckedList(checkedId: TagEntity) {
-        val tempList = checkedLikeTagList.value?.toMutableList() ?: mutableListOf()
-        if (tempList.size <= 3) {
-            tempList.add(checkedId)
-            checkedLikeTagList.value = tempList
-        }
-    }
 
     fun removeLikeCheckedList(tag: TagEntity) {
         val tempList = checkedLikeTagList.value?.toMutableList() ?: mutableListOf()
@@ -194,10 +169,4 @@ class LockerViewModel @Inject constructor(
         checkedLikeTagList.value = tempList
     }
 
-    fun resetLikeCheckedList() {
-        checkedLikeTagList.value?.toMutableList()?.let {
-            it.clear()
-            checkedLikeTagList.value = it
-        }
-    }
 }

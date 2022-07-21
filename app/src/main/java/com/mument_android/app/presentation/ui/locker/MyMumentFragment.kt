@@ -21,7 +21,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MyMumentFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyMumentBinding>()
-    private val lockerViewModel: LockerViewModel by viewModels( ownerProducer = { requireParentFragment() } )
+    private val lockerViewModel: LockerViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,10 +66,8 @@ class MyMumentFragment : Fragment() {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-
                     binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value)
                     initMumentEmpty(it.data?.size ?: 0)
-                    //initMumentEmpty(0)
                     (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
                 }
             }
@@ -118,7 +116,6 @@ class MyMumentFragment : Fragment() {
             LockerFilterBottomSheetFragment.newInstance(
                 lockerViewModel.checkedTagList.value ?: listOf(),
                 completeSelectListener = {
-                    Timber.e("PLEASE .... $it")
                     lockerViewModel.changeCheckedTagList(it)
                 }
             ).show(parentFragmentManager, "LockerFilterBottomSheetFragment")

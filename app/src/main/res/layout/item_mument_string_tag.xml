@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,16 +9,15 @@
             type="com.mument_android.app.domain.entity.TagEntity" />
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
             setTagType="@{tagEntity.tagType}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
             android:text="@{tagEntity.tagString}"
             tools:text="@string/emotional_confidence" />
 

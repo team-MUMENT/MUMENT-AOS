@@ -16,11 +16,12 @@ import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMyLikeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MyLikeFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyLikeBinding>()
-    private val lockerViewModel: LockerViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val lockerViewModel: LockerViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,14 +60,13 @@ class MyLikeFragment : Fragment() {
 
     private fun setMyMumentListAdapter() {
        // setGridServerConnection()
-        lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
+        lockerViewModel.myLikeMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
             when (it) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
                     binding.rvLikeLinear.adapter = LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value)
                     initLikeEmpty(it.data?.size ?: 0)
-                    //initMumentEmpty(0)
                     (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
                 }
             }
@@ -109,7 +109,9 @@ class MyLikeFragment : Fragment() {
             LockerLikeFilterBottomSheetFragment.newInstance(
                 lockerViewModel.checkedLikeTagList.value ?: listOf(),
                 completeSelectListener = {
+
                     lockerViewModel.changeLikeCheckedTagList(it)
+                    Timber.d("$it")
                 }
             ).show(parentFragmentManager, "LockerLikeFilterBottomSheetFragment")
         }
