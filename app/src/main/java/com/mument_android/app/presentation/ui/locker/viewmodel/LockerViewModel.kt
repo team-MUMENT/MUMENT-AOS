@@ -8,6 +8,7 @@ import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.domain.entity.locker.LockerMumentEntity
 import com.mument_android.app.domain.entity.TagEntity
+import com.mument_android.app.domain.usecase.locker.FetchMyLikeListUseCase
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LockerViewModel @Inject constructor(
-    private val fetchMyMumentListUseCase: FetchMyMumentListUseCase
+    private val fetchMyMumentListUseCase: FetchMyMumentListUseCase,
+    private val fetchMyLikeListUseCase: FetchMyLikeListUseCase
 ) : ViewModel() {
     val emotionalTags =
         EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }

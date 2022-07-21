@@ -15,6 +15,8 @@ import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
 import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCaseImpl
 import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCase
 import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCaseImpl
+import com.mument_android.app.domain.usecase.locker.FetchMyLikeListUseCase
+import com.mument_android.app.domain.usecase.locker.FetchMyLikeListUseCaseImpl
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCaseImpl
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
@@ -50,6 +52,11 @@ object UseCaseModule {
     @Singleton
     fun provideFetchMyMumentListUseCase(lockerRepository: LockerRepository): FetchMyMumentListUseCase =
         FetchMyMumentListUseCaseImpl(lockerRepository)
+
+    @Provides
+    @Singleton
+    fun proivdeFetchLockerLikeListUseCase(lockerRepository: LockerRepository) : FetchMyLikeListUseCase =
+        FetchMyLikeListUseCaseImpl(lockerRepository)
 
 
     @Provides
@@ -105,4 +112,6 @@ object UseCaseModule {
     @Singleton
     fun provideFetchMusicDetailUseCase(musicDetailRepository: MusicDetailRepository): FetchMusicDetailUseCase =
         FetchMusicDetailUseCaseImpl(musicDetailRepository)
+
+
 }

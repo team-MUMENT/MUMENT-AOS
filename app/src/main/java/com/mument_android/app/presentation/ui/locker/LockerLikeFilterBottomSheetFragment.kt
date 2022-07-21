@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -26,11 +27,14 @@ import com.mument_android.databinding.FragmentLockerLikeFilterBottomSheetBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LockerLikeFilterBottomSheetFragment : BottomSheetDialogFragment() {
+class LockerLikeFilterBottomSheetFragment(
+   // private val initialTags : List<TagEntity>
+) : BottomSheetDialogFragment() {
     private var binding by AutoClearedValue<FragmentLockerLikeFilterBottomSheetBinding>()
-    private val lockerViewModel: LockerViewModel by activityViewModels()
     private lateinit var filterBottomSheetAdapterImpress: FilterBottomSheetAdapter
     private lateinit var filterBottomSheetAdpaterEmotion: FilterBottomSheetAdapter
+    private lateinit var completeSelectListener: (List<TagEntity>) -> Unit
+    private val lockerViewModel: LockerViewModel by viewModels()
 
 
     companion object {
