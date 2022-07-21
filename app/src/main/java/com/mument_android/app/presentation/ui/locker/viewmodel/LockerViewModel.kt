@@ -38,8 +38,9 @@ class LockerViewModel @Inject constructor(
     private val _checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
     val checkedLikeTagList = _checkedLikeTagList
 
+    //뮤멘트 GridLayout
     private val _isGridLayout = MutableStateFlow(false)
-    val isGridLayout = _isGridLayout.asStateFlow()
+    var isGridLayout = _isGridLayout.asStateFlow()
 
     //좋아요 GridLayout
     private val _isLikeGridLayout = MutableStateFlow(false)
@@ -50,7 +51,8 @@ class LockerViewModel @Inject constructor(
     var thirdTag: Int? = 0
 
     init {
-        fetchMyMumentList()
+       // fetchMyMumentList()
+       // fetchMyLikeList()
     }
 
     fun changeCheckedTagList(tags: List<TagEntity>) {
@@ -141,7 +143,6 @@ class LockerViewModel @Inject constructor(
                 it.printStackTrace()
                 myLikeMuments.value = ApiResult.Failure(null)
             }.collect {
-                Timber.d("TESTLIKELOCKER $it")
                 myLikeMuments.value = ApiResult.Success(it)
             }
         }
@@ -150,10 +151,6 @@ class LockerViewModel @Inject constructor(
 
 
     fun changeIsGridLayout(isGrid: Boolean) {
-        _isGridLayout.value = isGrid
-    }
-
-    fun chagneIsGridLikeLayout(isGrid: Boolean) {
         _isGridLayout.value = isGrid
     }
 

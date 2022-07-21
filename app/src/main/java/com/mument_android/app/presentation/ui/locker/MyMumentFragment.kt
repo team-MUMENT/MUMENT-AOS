@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mument_android.app.data.network.util.ApiResult
@@ -43,6 +42,7 @@ class MyMumentFragment : Fragment() {
         gridBtnClickListener()
         filterBtnClickListener()
         fetchMuments()
+
     }
 
     override fun onResume() {
@@ -60,13 +60,14 @@ class MyMumentFragment : Fragment() {
     }
 
     private fun setMyMumentListAdapter() {
-        setGridServerConnection()
+        //setGridServerConnection()
         lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope){
             when(it){
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    binding.rvMumentLinear.adapter = LockerTimeAdapter(false)
+
+                    binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value)
                     initMumentEmpty(it.data?.size ?: 0)
                     //initMumentEmpty(0)
                     (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)

@@ -1,6 +1,5 @@
-package com.mument_android.app.presentation.ui.locker.filter
+package com.mument_android.app.presentation.ui.locker.filter.viewmodel
 
-import android.nfc.Tag
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mument_android.app.data.enumtype.EmotionalTag
@@ -19,13 +18,6 @@ class LockerFilterViewModel: ViewModel() {
     private val _likeSelectedTags = MutableLiveData<List<TagEntity>>(mutableListOf())
     val likeSelectedTags = _likeSelectedTags
 
-    //보관함 내 뮤멘트
-    fun addSelectedTag(tag: TagEntity) {
-        selectedTags.value?.toMutableList()?.let {
-            it.add(tag)
-            _selectedTags.value = it
-        }
-    }
 
     fun addInitialTags(tags: List<TagEntity>) {
         selectedTags.value?.toMutableList().let {
@@ -40,6 +32,17 @@ class LockerFilterViewModel: ViewModel() {
             _likeSelectedTags.value = it
         }
     }
+
+
+
+    //보관함 내 뮤멘트
+    fun addSelectedTag(tag: TagEntity) {
+        selectedTags.value?.toMutableList()?.let {
+            it.add(tag)
+            _selectedTags.value = it
+        }
+    }
+
 
     fun removeSelectedTag(tag: TagEntity) {
         selectedTags.value?.toMutableList()?.let {
