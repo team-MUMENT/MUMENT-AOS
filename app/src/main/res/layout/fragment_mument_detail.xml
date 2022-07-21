@@ -149,6 +149,16 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_album_name"
                 tools:text="혁오" />
 
+            <View
+                android:id="@+id/view_album_click_area"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/transparent"
+                app:layout_constraintTop_toTopOf="@id/iv_album"
+                app:layout_constraintBottom_toBottomOf="@id/iv_album"
+                app:layout_constraintStart_toStartOf="@id/iv_album"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_mument_tags"
                 android:layout_width="0dp"
