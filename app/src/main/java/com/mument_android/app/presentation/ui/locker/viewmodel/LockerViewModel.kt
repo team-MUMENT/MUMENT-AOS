@@ -28,15 +28,15 @@ class LockerViewModel @Inject constructor(
 
     val myMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
 
+    val myLikeMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
+
     private val _checkedTagList = MutableLiveData<List<TagEntity>>(emptyList())
     val checkedTagList = _checkedTagList
 
 
-    //좋아요한 뮤멘트 완료 버튼 누른 뒤 나오는 리스트
-    var likeRealTagList = MutableLiveData<List<TagEntity>>(emptyList())
-
-    //좋아요한 뮤멘트 실시간 처리하는 리스트
-    var checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
+    //좋아요한 뮤멘트 실시간 태그 리스트
+    var _checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
+    val checkedLikeTagList = _checkedLikeTagList
 
     private val _isGridLayout = MutableStateFlow(false)
     val isGridLayout = _isGridLayout.asStateFlow()
@@ -45,9 +45,9 @@ class LockerViewModel @Inject constructor(
     private val _isLikeGridLayout = MutableStateFlow(false)
     val isLikeGridLayout = _isLikeGridLayout.asStateFlow()
 
-    var firstTag : Int? = 0
-    var secondTag : Int? = 0
-    var thirdTag : Int? = 0
+    var firstTag: Int? = 0
+    var secondTag: Int? = 0
+    var thirdTag: Int? = 0
 
     init {
         fetchMyMumentList()
@@ -55,6 +55,11 @@ class LockerViewModel @Inject constructor(
 
     fun changeCheckedTagList(tags: List<TagEntity>) {
         _checkedTagList.value = tags
+    }
+
+    //좋아요 한 뮤멘트
+    fun changeLikeCheckedTagList(tags: List<TagEntity>) {
+        _checkedLikeTagList.value = tags
     }
 
     //filter
@@ -88,7 +93,7 @@ class LockerViewModel @Inject constructor(
                     firstTag = tags.get(0).tagIdx
                     secondTag = tags.get(1).tagIdx
                     thirdTag = null
-                } else if (tags.size == 3){
+                } else if (tags.size == 3) {
                     firstTag = tags.get(0).tagIdx
                     secondTag = tags.get(1).tagIdx
                     thirdTag = tags.get(2).tagIdx
@@ -114,6 +119,51 @@ class LockerViewModel @Inject constructor(
             }
         }
     }
+
+    fun fetchMyLikeList() {
+        viewModelScope.launch {
+            checkedLikeTagList.value?.let { tags ->
+                if (tags.isEmpty()) {
+                    firstTag = null
+                    secondTag = null
+                    thirdTag = null
+                } else if (tags.size == 1) {
+                    firstTag = tags.get(0).tagIdx
+                    secondTag = null
+                    thirdTag = null
+                } else if (tags.size == 2) {
+                    firstTag = tags.get(0).tagIdx
+                    secondTag = tags.get(1).tagIdx
+                    thirdTag = null
+                } else if (tags.size == 3) {
+                    firstTag = tags.get(0).tagIdx
+                    secondTag = tags.get(1).tagIdx
+                    thirdTag = tags.get(2).tagIdx
+                } else {
+                    firstTag = null
+                    secondTag = null
+                    thirdTag = null
+                }
+            }
+
+            fetchMyLikeListUseCase(
+                userId = "62d9460d911d72f2ff0ee59b",
+                tag1 = firstTag,
+                tag2 = secondTag,
+                tag3 = thirdTag
+            ).onStart {
+                myLikeMuments.value = ApiResult.Loading(null)
+            }.catch {
+                it.printStackTrace()
+                myLikeMuments.value = ApiResult.Failure(null)
+            }.collect {
+                Timber.d("TESTLIKELOCKER $it")
+                myLikeMuments.value = ApiResult.Success(it)
+            }
+        }
+
+    }
+
 
     fun changeIsGridLayout(isGrid: Boolean) {
         _isGridLayout.value = isGrid

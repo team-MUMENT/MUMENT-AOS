@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -18,7 +17,7 @@ import com.mument_android.R
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
-import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
+import com.mument_android.app.presentation.ui.locker.filter.LockerFilterViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.ViewUtils.dpToPx
@@ -28,13 +27,13 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LockerLikeFilterBottomSheetFragment(
-   // private val initialTags : List<TagEntity>
+    private val initialTags: List<TagEntity>
 ) : BottomSheetDialogFragment() {
     private var binding by AutoClearedValue<FragmentLockerLikeFilterBottomSheetBinding>()
     private lateinit var filterBottomSheetAdapterImpress: FilterBottomSheetAdapter
     private lateinit var filterBottomSheetAdpaterEmotion: FilterBottomSheetAdapter
     private lateinit var completeSelectListener: (List<TagEntity>) -> Unit
-    private val lockerViewModel: LockerViewModel by viewModels()
+    private val lockerFilterViewModel: LockerFilterViewModel by viewModels()
 
 
     companion object {
@@ -42,8 +41,12 @@ class LockerLikeFilterBottomSheetFragment(
         private var INSTANCE: LockerLikeFilterBottomSheetFragment? = null
 
         @JvmStatic
-        fun newInstance(): LockerLikeFilterBottomSheetFragment {
-            return INSTANCE ?: LockerLikeFilterBottomSheetFragment().apply {
+        fun newInstance(
+            initialTags: List<TagEntity>,
+            completeSelectListener: (List<TagEntity>) -> Unit
+        ): LockerLikeFilterBottomSheetFragment {
+            return INSTANCE ?: LockerLikeFilterBottomSheetFragment(initialTags).apply {
+                this.completeSelectListener = completeSelectListener
                 INSTANCE = this
             }
         }
@@ -75,26 +78,31 @@ class LockerLikeFilterBottomSheetFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
+        lockerFilterViewModel.changeLikeInitialSelectedTags(initialTags)
 
         setEmotionalList()
+        updateSelectedTags()
         setSelectedTag()
         closeBtnListener()
         resetTags()
-        selectLayout()
         applyBtnListener()
     }
+
+
     private fun setEmotionalList() {
         filterBottomSheetAdapterImpress = FilterBottomSheetAdapter(
             requireContext(),
             object : FilterBottomSheetAdapter.FilterTagCheckListener {
                 override fun addCheckedTag(tag: TagEntity) {
-                    lockerViewModel.addLikeCheckedList(tag)
+                    lockerFilterViewModel.addLikeSelectedTag(tag)
                     filterBottomSheetAdpaterEmotion.selectedTags.add(tag)
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
+                    lockerFilterViewModel.removeLikeSelectedTag(tag)
                     filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
-                    lockerViewModel.removeLikeCheckedList(tag)
+
                 }
 
                 override fun alertMaxCount() {
@@ -107,13 +115,14 @@ class LockerLikeFilterBottomSheetFragment(
         filterBottomSheetAdpaterEmotion = FilterBottomSheetAdapter(requireContext(),
             object : FilterBottomSheetAdapter.FilterTagCheckListener {
                 override fun addCheckedTag(tag: TagEntity) {
+                    lockerFilterViewModel.addLikeSelectedTag(tag)
                     filterBottomSheetAdapterImpress.selectedTags.add(tag)
-                    lockerViewModel.addLikeCheckedList(tag)
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
+                    lockerFilterViewModel.removeLikeSelectedTag(tag)
                     filterBottomSheetAdapterImpress.selectedTags.remove(tag)
-                    lockerViewModel.removeLikeCheckedList(tag)
+
                 }
 
                 override fun alertMaxCount() {
@@ -137,40 +146,48 @@ class LockerLikeFilterBottomSheetFragment(
         }
     }
 
-    private fun closeBtnListener() {
-        binding.ivFilterDelete.setOnClickListener {
-            lockerViewModel.checkedLikeTagList.value = lockerViewModel.likeRealTagList.value
-            dismiss()
+    private fun updateSelectedTags() {
+        lockerFilterViewModel.likeSelectedTags.observe(viewLifecycleOwner) {
+            (binding.rvSelectedTags.adapter as FilterBottomSheetSelectedAdapter).submitList(it)
+            selectLayout(it)
         }
     }
+
+
+
 
     //선택된 태그들 리사이클러뷰
     private fun setSelectedTag() {
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
-                if(lockerViewModel.emotionalTags.contains(tag)) {
-                    filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
-                    binding.rvEmotion.syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag))
+                if (lockerFilterViewModel.emotionalTags.contains(tag)) {
+                    binding.rvEmotion.syncSelectedTags(
+                        filterBottomSheetAdpaterEmotion.currentList.indexOf(
+                            tag
+                        )
+                    )
                 } else {
-                    filterBottomSheetAdapterImpress.selectedTags.remove(tag)
-                    binding.rvImpressive.syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag))
+                    binding.rvImpressive.syncSelectedTags(
+                        filterBottomSheetAdapterImpress.currentList.indexOf(
+                            tag
+                        )
+                    )
                 }
 
-                lockerViewModel.removeLikeCheckedList(tag)
+                filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
+                filterBottomSheetAdapterImpress.selectedTags.remove(tag)
+                lockerFilterViewModel.removeLikeSelectedTag(tag)
             }
-
-            lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
-                (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
-            }
-
-
         }
     }
 
+
     private fun RecyclerView.syncSelectedTags(position: Int) {
-        val view = if (id == binding.rvEmotion.id) binding.rvEmotion[position] else binding.rvImpressive[position]
+        val view =
+            if (id == binding.rvEmotion.id) binding.rvEmotion[position] else binding.rvImpressive[position]
         val viewHolder = getChildViewHolder(view)
-        (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked = false
+        (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
+            false
     }
 
 
@@ -194,8 +211,8 @@ class LockerLikeFilterBottomSheetFragment(
                 layoutManager = it
                 adapter = filterBottomSheetAdapterImpress
             }
-            filterBottomSheetAdapterImpress.submitList(lockerViewModel.impressionTags)
-            filterBottomSheetAdapterImpress.selectedTags = lockerViewModel.checkedLikeTagList.value!!.toMutableList()
+            filterBottomSheetAdapterImpress.selectedTags = initialTags.toMutableList()
+            filterBottomSheetAdapterImpress.submitList(lockerFilterViewModel.impressionTags)
 
         }
     }
@@ -209,8 +226,8 @@ class LockerLikeFilterBottomSheetFragment(
                 layoutManager = it
                 adapter = filterBottomSheetAdpaterEmotion
             }
-            filterBottomSheetAdpaterEmotion.submitList(lockerViewModel.emotionalTags)
-            filterBottomSheetAdpaterEmotion.selectedTags = lockerViewModel.checkedLikeTagList.value!!.toMutableList()
+            filterBottomSheetAdpaterEmotion.selectedTags = initialTags.toMutableList()
+            filterBottomSheetAdpaterEmotion.submitList(lockerFilterViewModel.emotionalTags)
         }
     }
 
@@ -221,7 +238,7 @@ class LockerLikeFilterBottomSheetFragment(
             binding.rvImpressive.resetCheckTags(filterBottomSheetAdapterImpress)
             filterBottomSheetAdapterImpress.selectedTags.clear()
             filterBottomSheetAdpaterEmotion.selectedTags.clear()
-            lockerViewModel.resetLikeCheckedList()
+            lockerFilterViewModel.clearLikeSelectedTags()
         }
     }
 
@@ -235,30 +252,37 @@ class LockerLikeFilterBottomSheetFragment(
         }
     }
 
-    //bottomsheet background 설정
-    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
-    private fun selectLayout() {
-        lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                binding.clSelectedTag.visibility = View.GONE
-                binding.tvFilterNum.setTextColor(Color.parseColor("#B6B6B6"))
-            } else {
-                binding.clSelectedTag.visibility = View.VISIBLE
-                binding.tvFilterNum.setTextColor(Color.parseColor("#2AC9fB"))
-            }
-
-            val value = it.count().toString()
-            binding.tvFilterNum.setText(value)
+    private fun selectLayout(tags: List<TagEntity>) {
+        if (tags.isEmpty()) {
+            binding.clSelectedTag.visibility = View.GONE
+            binding.tvFilterNum.setTextColor(Color.parseColor("#B6B6B6"))
+        } else {
+            binding.clSelectedTag.visibility = View.VISIBLE
+            binding.tvFilterNum.setTextColor(Color.parseColor("#2AC9fB"))
         }
+
+        binding.tvFilterNum.text = tags.size.toString()
+
     }
 
     //완료버튼 클릭 리스너
     private fun applyBtnListener() {
         binding.tvApprove.setOnClickListener {
-            lockerViewModel.likeRealTagList.value = lockerViewModel.checkedLikeTagList.value
+            selectLayout(lockerFilterViewModel.likeSelectedTags.value ?: listOf())
+            completeSelectListener(lockerFilterViewModel.likeSelectedTags.value ?: listOf())
             dismiss()
         }
     }
+
+
+    private fun closeBtnListener() {
+        binding.ivFilterDelete.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    //bottomsheet background 설정
+    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
 }
