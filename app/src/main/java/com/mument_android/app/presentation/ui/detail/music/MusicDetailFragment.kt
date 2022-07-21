@@ -55,6 +55,7 @@ class MusicDetailFragment : Fragment() {
 
     private fun setEveryMumentListAdapter() {
         binding.rvEveryMuments.run {
+            addItemDecoration(RecyclerviewItemDivider(0, 15.dpToPx(requireContext()), IS_VERTICAL))
             adapter = MusicDetailMumentListAdapter(object: MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
 
@@ -68,7 +69,7 @@ class MusicDetailFragment : Fragment() {
                     musicDetailViewModel.cancelLikeMument(mumentId)
                 }
             })
-            addItemDecoration(RecyclerviewItemDivider(0, 15.dpToPx(requireContext()), IS_VERTICAL))
+
         }
     }
 
@@ -81,5 +82,4 @@ class MusicDetailFragment : Fragment() {
     private fun AppCompatTextView.changeSelectedSortTheme(selectedSort: String) {
         isSelected = selectedSort == text.toString()
     }
-
 }
