@@ -57,18 +57,11 @@ class MyMumentFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        setMyMumentListAdapter()
-    }
-
     private fun setMyMumentListAdapter() {
         setGridServerConnection()
         lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope){
             when(it){
-                is ApiResult.Loading -> {
-
-                }
+                is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
                     binding.rvMumentLinear.adapter = LockerTimeAdapter(false)
