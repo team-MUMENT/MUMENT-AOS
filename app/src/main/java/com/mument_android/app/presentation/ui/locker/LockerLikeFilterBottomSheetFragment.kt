@@ -17,6 +17,7 @@ import com.mument_android.R
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
+import com.mument_android.app.presentation.ui.locker.filter.LockerFilterBottomSheetFragment
 import com.mument_android.app.presentation.ui.locker.filter.LockerFilterViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
@@ -82,6 +83,7 @@ class LockerLikeFilterBottomSheetFragment(
         lockerFilterViewModel.changeLikeInitialSelectedTags(initialTags)
 
         setEmotionalList()
+        updateSelelctedTags()
         updateSelectedTags()
         setSelectedTag()
         closeBtnListener()
@@ -154,6 +156,12 @@ class LockerLikeFilterBottomSheetFragment(
     }
 
 
+    private fun updateSelelctedTags() {
+        lockerFilterViewModel.likeSelectedTags.observe(viewLifecycleOwner) {
+            (binding.rvSelectedTags.adapter as FilterBottomSheetSelectedAdapter).submitList(it)
+            selectLayout(it)
+        }
+    }
 
 
     //선택된 태그들 리사이클러뷰
@@ -161,17 +169,8 @@ class LockerLikeFilterBottomSheetFragment(
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
                 if (lockerFilterViewModel.emotionalTags.contains(tag)) {
-                    binding.rvEmotion.syncSelectedTags(
-                        filterBottomSheetAdpaterEmotion.currentList.indexOf(
-                            tag
-                        )
-                    )
-                } else {
-                    binding.rvImpressive.syncSelectedTags(
-                        filterBottomSheetAdapterImpress.currentList.indexOf(
-                            tag
-                        )
-                    )
+                    binding.rvEmotion.syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag), false)
+                } else { binding.rvImpressive.syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag), false)
                 }
 
                 filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
@@ -182,12 +181,11 @@ class LockerLikeFilterBottomSheetFragment(
     }
 
 
-    private fun RecyclerView.syncSelectedTags(position: Int) {
+    private fun RecyclerView.syncSelectedTags(position: Int, check: Boolean) {
         val view =
             if (id == binding.rvEmotion.id) binding.rvEmotion[position] else binding.rvImpressive[position]
         val viewHolder = getChildViewHolder(view)
-        (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
-            false
+        (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked = check
     }
 
 
@@ -280,6 +278,11 @@ class LockerLikeFilterBottomSheetFragment(
         binding.ivFilterDelete.setOnClickListener {
             dismiss()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        INSTANCE = null
     }
 
     //bottomsheet background 설정
