@@ -7,8 +7,8 @@ import com.mument_android.app.data.dto.home.TodayMumentDto
 import com.mument_android.app.data.network.base.BaseResponse
 
 interface HomeDataSource {
-    suspend fun getBannerMument():BaseResponse<List<BannerMumentDto>>
+    suspend fun getBannerMument():BaseResponse<BannerMumentDto>
     suspend fun getTodayMument(userId:String):BaseResponse<TodayMumentDto>
-    suspend fun getKnownMument():BaseResponse<List<KnownMumentDto>>
-    suspend fun getRandomMument():BaseResponse<List<RandomMumentDto>>
+    suspend fun getKnownMument():BaseResponse<KnownMumentDto>
+    suspend fun getRandomMument():BaseResponse<RandomMumentDto>
 }

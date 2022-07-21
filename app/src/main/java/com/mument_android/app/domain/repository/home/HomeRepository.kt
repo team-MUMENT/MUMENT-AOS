@@ -10,7 +10,7 @@ import com.mument_android.app.data.local.todaymument.TodayMumentEntity
 import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
-    suspend fun getLocalTodayMument(): List<TodayMumentEntity>
+    suspend fun getLocalTodayMument(): TodayMumentEntity
 
     suspend fun updateTodayMument(mument: TodayMumentEntity)
 
@@ -32,11 +32,11 @@ interface HomeRepository {
 
     suspend fun getMumentHistory(userId: String, musicId: String): Flow<MumentHistoryDto>
 
-    suspend fun getRemoteTodayMument(userId: String):Flow<TodayMumentDto>
+    suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentDto>
 
-    suspend fun getBannerMument():Flow<List<BannerMumentDto>>
+    suspend fun getBannerMument(): Flow<BannerMumentDto>
 
-    suspend fun getKnownMument():Flow<List<KnownMumentDto>>
+    suspend fun getKnownMument(): Flow<KnownMumentDto>
 
-    suspend fun getRandomMument():Flow<List<RandomMumentDto>>
+    suspend fun getRandomMument(): Flow<RandomMumentDto>
 }

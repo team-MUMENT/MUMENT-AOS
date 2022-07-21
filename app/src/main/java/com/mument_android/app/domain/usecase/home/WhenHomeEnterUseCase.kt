@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface WhenHomeEnterUseCase {
     suspend fun getTodayMument(userId: String): Flow<TodayMumentDto>
-    suspend fun getBannerMument(): Flow<List<BannerMumentDto>>
-    suspend fun getRandomMument(): Flow<List<RandomMumentDto>>
-    suspend fun getKnownMument(): Flow<List<KnownMumentDto>>
+    suspend fun getBannerMument(): Flow<BannerMumentDto>
+    suspend fun getRandomMument(): Flow<RandomMumentDto>
+    suspend fun getKnownMument(): Flow<KnownMumentDto>
 }
