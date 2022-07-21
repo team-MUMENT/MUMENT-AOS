@@ -75,6 +75,7 @@
     <string name="record_snackbar_first_info"> \'처음 들어요\'는 한 곡당 한 번만 설정할 수 있어요. </string>
     <string name="record_reset_header">뮤멘트 기록을 초기화하시겠어요?</string>
     <string name="record_reset_body">확인 선택 시, 작성 중인 내용이 삭제됩니다.</string>
+    <string name="record_finish_record">🎉 뮤멘트가 작성되었어요!</string>
 
     <string name="locker_like_empty_title">아직 좋아요한 뮤멘트가 없어요.</string>
     <string name="locker_like_empty_sub_title">좋아요를 눌러 마음에 든 뮤멘트를 언제든 꺼내보세요</string>

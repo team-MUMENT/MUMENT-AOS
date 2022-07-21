@@ -139,7 +139,7 @@
                     android:layout_weight="1"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
-                    android:visibility="@{viewmodel.searchList.data.size() == 0 &amp;&amp; viewmodel.searchResultList.data.size()==0? View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewmodel.searchList.data.size() == 0 &amp;&amp; viewmodel.searchResultList.data.size() == 0? View.GONE : View.VISIBLE}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="parent"
