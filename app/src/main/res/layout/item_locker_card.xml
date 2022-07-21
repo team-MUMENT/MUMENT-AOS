@@ -99,8 +99,8 @@
                 style="@style/TextView.Mument_B3_B14.Style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@{mument.musicName}"
                 tools:text="Antifreeze" />
 
@@ -111,13 +111,14 @@
                 android:text="@{mument.musicArtist}"
                 tools:text="백예린" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/textView6"
                     style="@style/TextView.Mument_B7_M12.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -127,24 +128,24 @@
                     android:paddingVertical="5dp"
                     android:text="@{mument.isFirst()?`처음` : `다시`}"
                     android:textColor="@color/mument_color_purple1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="다시" />
-                <!--TODO(태그 로직 구현)-->
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/TextView.Mument_B7_M12.Style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:text="@{context.getString(R.string.emotional_blue)}"
-                    android:textColor="@color/mument_color_gray1" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/TextView.Mument_B7_M12.Style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_mument_tag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginStart="8dp"
-                    android:text="@{context.getString(R.string.emotional_blue)}"
-                    android:textColor="@color/mument_color_gray1" />
-            </LinearLayout>
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                    app:layout_constraintStart_toEndOf="@+id/textView6"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_mument_string_tag" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
 

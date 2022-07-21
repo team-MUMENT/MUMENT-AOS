@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,7 +22,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MyMumentFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyMumentBinding>()
-    private val lockerViewModel: LockerViewModel by viewModels( ownerProducer = { requireParentFragment() } )
+    private val lockerViewModel: LockerViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +45,7 @@ class MyMumentFragment : Fragment() {
         gridBtnClickListener()
         filterBtnClickListener()
         fetchMuments()
+
     }
 
     override fun onResume() {
@@ -57,34 +57,32 @@ class MyMumentFragment : Fragment() {
         binding.rvMumentLinear.run {
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
                 adapter = LockerTimeAdapter(isGridLayout) {
-                    showMumentDetail(it)
+                    //showMumentDetail(it)
                 }
                 (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
-                //(adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
             }
         }
     }
 
     private fun setMyMumentListAdapter() {
-        setGridServerConnection()
+        //setGridServerConnection()
         lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope){
             when(it){
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    binding.rvMumentLinear.adapter = LockerTimeAdapter(false) {
+
+                    //binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value)
+                    binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value) {
                         showMumentDetail(it)
                     }
+
                     initMumentEmpty(it.data?.size ?: 0)
-                    //initMumentEmpty(0)
                     (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
                 }
             }
         }
     }
-
-    /*initMumentEmpty(it.size)
-    (adapter as LockerTimeAdapter).submitList(it)*/
 
     //TODO: 필터 및 아이콘들 비활성화
     private fun initMumentEmpty(size : Int) {
@@ -168,8 +166,10 @@ class MyMumentFragment : Fragment() {
         }
     }
 
+
     private fun showMumentDetail(mumentId: String) {
         val action = LockerFragmentDirections.actionLockerFragmentToMumentDetailFragment(mumentId)
         findNavController().navigate(action)
     }
+
 }

@@ -15,9 +15,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
 import com.mument_android.app.domain.entity.TagEntity
-import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
+import com.mument_android.app.presentation.ui.locker.filter.viewmodel.LockerFilterViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.ViewUtils.dpToPx
@@ -30,8 +30,8 @@ class LockerFilterBottomSheetFragment(
     private val initialTags: List<TagEntity>
 ) : BottomSheetDialogFragment() {
     private var binding by AutoClearedValue<FragmentLockerFilterBottomSheetBinding>()
-    private lateinit var impressionFilterTagListAdapter: FilterBottomSheetAdapter
-    private lateinit var emotoionalFilterTagListAdapter: FilterBottomSheetAdapter
+    private lateinit var filterBottomSheetAdapterImpress: FilterBottomSheetAdapter
+    private lateinit var filterBottomSheetAdpaterEmotion: FilterBottomSheetAdapter
     private lateinit var completeSelectListener: (List<TagEntity>) -> Unit
     private val lockerFilterViewModel: LockerFilterViewModel by viewModels()
 
@@ -40,7 +40,8 @@ class LockerFilterBottomSheetFragment(
         private var INSTANCE: LockerFilterBottomSheetFragment? = null
 
         @JvmStatic
-        fun newInstance(initialTags: List<TagEntity>, completeSelectListener: (List<TagEntity>) -> Unit): LockerFilterBottomSheetFragment {
+        fun newInstance(initialTags: List<TagEntity>, completeSelectListener: (List<TagEntity>) -> Unit
+        ): LockerFilterBottomSheetFragment {
             return INSTANCE ?: LockerFilterBottomSheetFragment(initialTags).apply {
                 this.completeSelectListener = completeSelectListener
                 INSTANCE = this
@@ -84,17 +85,17 @@ class LockerFilterBottomSheetFragment(
     }
 
     private fun setEmotionalList() {
-        impressionFilterTagListAdapter = FilterBottomSheetAdapter(
+        filterBottomSheetAdapterImpress = FilterBottomSheetAdapter(
             requireContext(),
             object : FilterBottomSheetAdapter.FilterTagCheckListener {
                 override fun addCheckedTag(tag: TagEntity) {
                     lockerFilterViewModel.addSelectedTag(tag)
-                    emotoionalFilterTagListAdapter.selectedTags.add(tag)
+                    filterBottomSheetAdpaterEmotion.selectedTags.add(tag)
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
                     lockerFilterViewModel.removeSelectedTag(tag)
-                    emotoionalFilterTagListAdapter.selectedTags.remove(tag)
+                    filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
                 }
 
                 override fun alertMaxCount() {
@@ -104,16 +105,16 @@ class LockerFilterBottomSheetFragment(
             }
         )
 
-        emotoionalFilterTagListAdapter = FilterBottomSheetAdapter(requireContext(),
+        filterBottomSheetAdpaterEmotion = FilterBottomSheetAdapter(requireContext(),
             object : FilterBottomSheetAdapter.FilterTagCheckListener {
                 override fun addCheckedTag(tag: TagEntity) {
                     lockerFilterViewModel.addSelectedTag(tag)
-                    impressionFilterTagListAdapter.selectedTags.add(tag)
+                    filterBottomSheetAdapterImpress.selectedTags.add(tag)
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
                     lockerFilterViewModel.removeSelectedTag(tag)
-                    impressionFilterTagListAdapter.selectedTags.remove(tag)
+                    filterBottomSheetAdapterImpress.selectedTags.remove(tag)
                 }
 
                 override fun alertMaxCount() {
@@ -149,12 +150,12 @@ class LockerFilterBottomSheetFragment(
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
                 if(lockerFilterViewModel.emotionalTags.contains(tag)) {
-                    binding.rvEmotion.syncSelectedTags(emotoionalFilterTagListAdapter.currentList.indexOf(tag), false)
+                    binding.rvEmotion.syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag), false)
                 } else {
-                    binding.rvImpressive.syncSelectedTags(impressionFilterTagListAdapter.currentList.indexOf(tag), false)
+                    binding.rvImpressive.syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag), false)
                 }
-                emotoionalFilterTagListAdapter.selectedTags.remove(tag)
-                impressionFilterTagListAdapter.selectedTags.remove(tag)
+                filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
+                filterBottomSheetAdapterImpress.selectedTags.remove(tag)
                 lockerFilterViewModel.removeSelectedTag(tag)
             }
         }
@@ -184,10 +185,10 @@ class LockerFilterBottomSheetFragment(
                 flexDirection = com.google.android.flexbox.FlexDirection.ROW
             }.let {
                 layoutManager = it
-                adapter = impressionFilterTagListAdapter
+                adapter = filterBottomSheetAdapterImpress
             }
-            impressionFilterTagListAdapter.selectedTags.addAll(initialTags)
-            impressionFilterTagListAdapter.submitList(lockerFilterViewModel.impressionTags)
+            filterBottomSheetAdapterImpress.selectedTags.addAll(initialTags)
+            filterBottomSheetAdapterImpress.submitList(lockerFilterViewModel.impressionTags)
 
         }
 
@@ -200,20 +201,20 @@ class LockerFilterBottomSheetFragment(
                 flexDirection = com.google.android.flexbox.FlexDirection.ROW
             }.let {
                 layoutManager = it
-                adapter = emotoionalFilterTagListAdapter
+                adapter = filterBottomSheetAdpaterEmotion
             }
-            emotoionalFilterTagListAdapter.selectedTags.addAll(initialTags)
-            emotoionalFilterTagListAdapter.submitList(lockerFilterViewModel.emotionalTags)
+            filterBottomSheetAdpaterEmotion.selectedTags.addAll(initialTags)
+            filterBottomSheetAdpaterEmotion.submitList(lockerFilterViewModel.emotionalTags)
         }
     }
 
     //초기화 버튼
     private fun resetTags() {
         binding.tvClearAll.setOnClickListener {
-            binding.rvEmotion.resetCheckTags(emotoionalFilterTagListAdapter)
-            binding.rvImpressive.resetCheckTags(impressionFilterTagListAdapter)
-            impressionFilterTagListAdapter.selectedTags.clear()
-            emotoionalFilterTagListAdapter.selectedTags.clear()
+            binding.rvEmotion.resetCheckTags(filterBottomSheetAdpaterEmotion)
+            binding.rvImpressive.resetCheckTags(filterBottomSheetAdpaterEmotion)
+            filterBottomSheetAdpaterEmotion.selectedTags.clear()
+            filterBottomSheetAdpaterEmotion.selectedTags.clear()
             lockerFilterViewModel.clearSelectedTags()
         }
     }

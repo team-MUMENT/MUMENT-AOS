@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTimeAdapter
+import com.mument_android.app.presentation.ui.locker.filter.LockerLikeFilterBottomSheetFragment
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
@@ -21,7 +22,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MyLikeFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyLikeBinding>()
-    private val lockerViewModel: LockerViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val lockerViewModel: LockerViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,27 +52,39 @@ class MyLikeFragment : Fragment() {
 
     private fun setGridServerConnection() {
         binding.rvLikeLinear.run {
+//            lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
+//                adapter = LockerTimeAdapter(isGridLayout)
+//                (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
+
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
                 adapter = LockerTimeAdapter(isGridLayout) {
-                    showMumentDetail(it)
+                   // showMumentDetail(it)
                 }
                 (adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
+
             }
         }
     }
 
     private fun setMyMumentListAdapter() {
-        setGridServerConnection()
-        lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
+        // setGridServerConnection()
+        lockerViewModel.myLikeMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
             when (it) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    binding.rvLikeLinear.adapter = LockerTimeAdapter(false) {
+
+                    /*
+                    binding.rvLikeLinear.adapter =
+                        LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value)
+
+                     */
+
+                    binding.rvLikeLinear.adapter = LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value) {
                         showMumentDetail(it)
                     }
+
                     initLikeEmpty(it.data?.size ?: 0)
-                    //initMumentEmpty(0)
                     (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
                 }
             }
@@ -114,7 +127,9 @@ class MyLikeFragment : Fragment() {
             LockerLikeFilterBottomSheetFragment.newInstance(
                 lockerViewModel.checkedLikeTagList.value ?: listOf(),
                 completeSelectListener = {
+
                     lockerViewModel.changeLikeCheckedTagList(it)
+                    Timber.d("$it")
                 }
             ).show(parentFragmentManager, "LockerLikeFilterBottomSheetFragment")
         }
@@ -139,7 +154,6 @@ class MyLikeFragment : Fragment() {
             }
 
             lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
-                Timber.d("LikeTag: $it")
                 (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
                 if (it.isEmpty()) {
                     binding.rvSelectedTags.visibility = View.GONE
@@ -158,10 +172,13 @@ class MyLikeFragment : Fragment() {
         }
     }
 
+
     private fun showMumentDetail(mumentId: String) {
         val action = LockerFragmentDirections.actionLockerFragmentToMumentDetailFragment(mumentId)
         findNavController().navigate(action)
     }
+
+
 
 
 }

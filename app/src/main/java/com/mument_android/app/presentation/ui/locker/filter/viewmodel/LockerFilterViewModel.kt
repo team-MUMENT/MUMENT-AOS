@@ -1,6 +1,5 @@
-package com.mument_android.app.presentation.ui.locker.filter
+package com.mument_android.app.presentation.ui.locker.filter.viewmodel
 
-import android.nfc.Tag
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mument_android.app.data.enumtype.EmotionalTag
@@ -16,11 +15,17 @@ class LockerFilterViewModel: ViewModel() {
 
 
     // 좋아요 한 뮤멘트
-    private val _initialLikeSelectedTags = MutableLiveData<List<TagEntity>>()
-    val initialLikeSelectedTags = _initialLikeSelectedTags
-
     private val _likeSelectedTags = MutableLiveData<List<TagEntity>>(mutableListOf())
     val likeSelectedTags = _likeSelectedTags
+
+
+    fun addInitialTags(tags: List<TagEntity>) {
+        selectedTags.value?.toMutableList().let {
+            it?.addAll(tags)
+            _selectedTags.value = it
+        }
+    }
+
 
     //보관함 내 뮤멘트
     fun addSelectedTag(tag: TagEntity) {
@@ -30,12 +35,6 @@ class LockerFilterViewModel: ViewModel() {
         }
     }
 
-    fun addInitialTags(tags: List<TagEntity>) {
-        selectedTags.value?.toMutableList().let {
-            it?.addAll(tags)
-            _selectedTags.value = it
-        }
-    }
 
     fun removeSelectedTag(tag: TagEntity) {
         selectedTags.value?.toMutableList()?.let {
@@ -48,6 +47,12 @@ class LockerFilterViewModel: ViewModel() {
         _selectedTags.value = emptyList()
     }
 
+    fun addLikeInitialTags(tags: List<TagEntity>) {
+        likeSelectedTags.value?.toMutableList().let{
+            it?.addAll(tags)
+            _likeSelectedTags.value = it
+        }
+    }
 
     //보관함 내가 좋아요 한 뮤멘트
     fun addLikeSelectedTag(tag: TagEntity) {
@@ -68,7 +73,4 @@ class LockerFilterViewModel: ViewModel() {
         _likeSelectedTags.value = emptyList()
     }
 
-    fun changeLikeInitialSelectedTags(tags: List<TagEntity>) {
-        _initialLikeSelectedTags.value = tags
-    }
 }

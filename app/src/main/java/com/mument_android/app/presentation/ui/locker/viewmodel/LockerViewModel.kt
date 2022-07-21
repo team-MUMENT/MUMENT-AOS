@@ -35,11 +35,12 @@ class LockerViewModel @Inject constructor(
 
 
     //좋아요한 뮤멘트 실시간 태그 리스트
-    var _checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
+    private val _checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
     val checkedLikeTagList = _checkedLikeTagList
 
+    //뮤멘트 GridLayout
     private val _isGridLayout = MutableStateFlow(false)
-    val isGridLayout = _isGridLayout.asStateFlow()
+    var isGridLayout = _isGridLayout.asStateFlow()
 
     //좋아요 GridLayout
     private val _isLikeGridLayout = MutableStateFlow(false)
@@ -49,9 +50,6 @@ class LockerViewModel @Inject constructor(
     var secondTag: Int? = 0
     var thirdTag: Int? = 0
 
-    init {
-        fetchMyMumentList()
-    }
 
     fun changeCheckedTagList(tags: List<TagEntity>) {
         _checkedTagList.value = tags
@@ -60,22 +58,6 @@ class LockerViewModel @Inject constructor(
     //좋아요 한 뮤멘트
     fun changeLikeCheckedTagList(tags: List<TagEntity>) {
         _checkedLikeTagList.value = tags
-    }
-
-    //filter
-    fun getFilter() {
-        viewModelScope.launch {
-            checkedTagList.value?.let { tags ->
-
-                val firstTag = tags.get(0).tagIdx ?: null
-
-                val secondTag = tags.get(1).tagIdx ?: null
-
-                val thirdTag = tags.get(2).tagIdx ?: null
-                Timber.d("teesttestse: $thirdTag")
-
-            }
-        }
     }
 
     fun fetchMyMumentList() {
@@ -147,7 +129,7 @@ class LockerViewModel @Inject constructor(
             }
 
             fetchMyLikeListUseCase(
-                userId = "62d9460d911d72f2ff0ee59b",
+                userId = "62cd5d4383956edb45d7d0ef",
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag
@@ -157,7 +139,6 @@ class LockerViewModel @Inject constructor(
                 it.printStackTrace()
                 myLikeMuments.value = ApiResult.Failure(null)
             }.collect {
-                Timber.d("TESTLIKELOCKER $it")
                 myLikeMuments.value = ApiResult.Success(it)
             }
         }
@@ -169,22 +150,11 @@ class LockerViewModel @Inject constructor(
         _isGridLayout.value = isGrid
     }
 
-    fun chagneIsGridLikeLayout(isGrid: Boolean) {
-        _isGridLayout.value = isGrid
-    }
-
     //좋아요 그리드 변경
     fun changeLikeIsGridLayout(isGrid: Boolean) {
         _isLikeGridLayout.value = isGrid
     }
 
-    fun addCheckedList(checkedId: TagEntity) {
-        val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
-        if (tempList.size <= 3) {
-            tempList.add(checkedId)
-            checkedTagList.value = tempList
-        }
-    }
 
     fun removeCheckedList(tag: TagEntity) {
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
@@ -192,20 +162,6 @@ class LockerViewModel @Inject constructor(
         checkedTagList.value = tempList
     }
 
-    fun resetCheckedList() {
-        checkedTagList.value?.toMutableList()?.let {
-            it.clear()
-            checkedTagList.value = it
-        }
-    }
-
-    fun addLikeCheckedList(checkedId: TagEntity) {
-        val tempList = checkedLikeTagList.value?.toMutableList() ?: mutableListOf()
-        if (tempList.size <= 3) {
-            tempList.add(checkedId)
-            checkedLikeTagList.value = tempList
-        }
-    }
 
     fun removeLikeCheckedList(tag: TagEntity) {
         val tempList = checkedLikeTagList.value?.toMutableList() ?: mutableListOf()
@@ -213,10 +169,4 @@ class LockerViewModel @Inject constructor(
         checkedLikeTagList.value = tempList
     }
 
-    fun resetLikeCheckedList() {
-        checkedLikeTagList.value?.toMutableList()?.let {
-            it.clear()
-            checkedLikeTagList.value = it
-        }
-    }
 }
