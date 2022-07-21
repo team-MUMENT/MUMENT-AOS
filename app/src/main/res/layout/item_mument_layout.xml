@@ -7,7 +7,7 @@
 
         <variable
             name="musicDetail"
-            type="com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity" />
+            type="com.mument_android.app.data.dto.history.MumentHistory" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,7 @@
 
         <ImageView
             android:id="@+id/iv_profile"
-            load_profile="@{musicDetail.myMument.user.image}"
+            load_profile="@{musicDetail.user.image}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="11dp"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
-            android:text="@{musicDetail.myMument.user.name}"
+            android:text="@{musicDetail.user.name}"
             android:textColor="@color/mument_color_black2"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintStart_toEndOf="@id/iv_profile"
@@ -54,7 +54,7 @@
             android:layout_marginEnd="5dp"
             android:background="@drawable/selector_heart_on_off"
             android:button="@null"
-            android:checked="@{musicDetail.myMument.liked}"
+            android:checked="@{musicDetail.liked}"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toStartOf="@id/tv_like_count"
             app:layout_constraintTop_toTopOf="@id/iv_profile" />
@@ -64,7 +64,7 @@
             style="@style/TextView.Mument_C1_R12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(musicDetail.myMument.likeCount)}"
+            android:text="@{String.valueOf(musicDetail.likeCount)}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +91,7 @@
             android:gravity="center_vertical"
             android:paddingHorizontal="7dp"
             android:paddingVertical="5dp"
-            android:text="처음"
+            android:text="@{musicDetail.first?`처음`:`다시`}"
             android:textColor="@color/mument_color_purple1"
             app:layout_constraintStart_toStartOf="@id/iv_profile"
             app:layout_constraintTop_toBottomOf="@id/view_divider"
@@ -104,13 +104,13 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_isfirst"
             app:layout_constraintTop_toBottomOf="@id/view_divider"
             tools:itemCount="2"
             tools:listitem="@layout/item_mument_string_tag" />
+
 
 
         <TextView
@@ -124,7 +124,7 @@
             android:maxHeight="150dp"
             android:maxLines="3"
             android:scrollbars="vertical"
-            android:text="@{musicDetail.myMument.content}"
+            android:text="@{musicDetail.content}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -141,7 +141,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="10dp"
-            android:text="@{musicDetail.myMument.date}"
+            android:text="@{musicDetail.date}"
             android:textColor="@color/mument_color_gray2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_contents"

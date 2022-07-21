@@ -45,6 +45,18 @@ object GlobalBindingAdapter {
         }
     }
 
+    @JvmStatic
+    @BindingAdapter("load_album_back")
+    fun loadAlbumImage(view: ImageView, url: Int?) {
+        if (url != null) {
+            view.load(url) {
+                crossfade(true)
+                this.transformations(RoundedCornersTransformation(11.0f))
+            }
+        } else {
+        }
+    }
+
 //    @JvmStatic
 //    @BindingAdapter("android:text")
 //    fun EmotionalTagCheckBox.setText(text: String) {
@@ -78,7 +90,6 @@ object GlobalBindingAdapter {
                 this.transformations(RoundedCornersTransformation(11.0f, 11.0f))
             }
         } else {
-            TODO("placeholder")
         }
     }
 
@@ -102,7 +113,6 @@ object GlobalBindingAdapter {
                 crossfade(true)
             }
         } else {
-            TODO("placeholder")
         }
     }
 

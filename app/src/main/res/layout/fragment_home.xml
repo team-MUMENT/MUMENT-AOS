@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="homeViewModel"
             type="com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel" />
@@ -142,6 +144,7 @@
                     android:id="@+id/cl_card"
                     layout="@layout/mument_layout_cardview"
                     android:layout_width="match_parent"
+                    app:mument="@{homeViewModel.todayMument.todayMument}"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="18dp"
