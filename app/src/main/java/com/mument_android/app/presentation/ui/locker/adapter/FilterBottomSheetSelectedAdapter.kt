@@ -8,7 +8,6 @@ import com.mument_android.BR
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemMumentFilterStringTagBinding
-import timber.log.Timber
 
 class FilterBottomSheetSelectedAdapter(
     private val removeSelectedTagListener: (TagEntity, Int) -> Unit

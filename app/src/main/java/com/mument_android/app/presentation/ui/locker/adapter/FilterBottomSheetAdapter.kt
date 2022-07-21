@@ -25,58 +25,43 @@ class FilterBottomSheetAdapter(
         fun alertMaxCount()
     }
 
-    var selectedTags = mutableListOf<TagEntity>()
+    val selectedTags = mutableListOf<TagEntity>()
     var reset: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomSheetFilterHolder {
-        val binding =
-            ItemTagCheckboxBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemTagCheckboxBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BottomSheetFilterHolder(binding)
     }
 
     override fun onBindViewHolder(holder: BottomSheetFilterHolder, position: Int) {
-        with(holder.binding.flItem.layoutParams as ViewGroup.MarginLayoutParams) {
+        holder.binding.setVariable(BR.tagEntity, getItem(position))
 
-            holder.binding.cbTag.let { checkBox ->
-                checkBox.setOnClickListener {
-                    if (checkBox.isChecked) {
-                        if (selectedTags.count() >= 3 && !selectedTags.contains(getItem(position))) {
-                            checkBox.isChecked = false
-                            checkTagListener.alertMaxCount()
-                        } else {
-                            selectedTags.add(getItem(position))
-                            checkTagListener.addCheckedTag(getItem(position))
-                        }
+        holder.binding.cbTag.let { checkBox ->
+            checkBox.setOnClickListener {
+                if (checkBox.isChecked) {
+                    if (selectedTags.count() >= 3 && !selectedTags.contains(getItem(position))) {
+                        checkBox.isChecked = false
+                        checkTagListener.alertMaxCount()
                     } else {
-                        selectedTags.remove(getItem(position))
-                        checkTagListener.removeCheckedTag(getItem(position))
+                        selectedTags.add(getItem(position))
+                        checkTagListener.addCheckedTag(getItem(position))
                     }
-                }
-                if (selectedTags.map {
-                        it.tagString
-                    }.contains(getItem(position).tagString)){
-                    checkBox.isChecked = true
-                }
-
-                holder.binding.flItem.layoutParams = this
-                if (reset) {
-                    checkBox.isChecked = false
-                    reset = false
+                } else {
+                    selectedTags.remove(getItem(position))
+                    checkTagListener.removeCheckedTag(getItem(position))
                 }
             }
 
+            if (selectedTags.map { it.tagString }.contains(getItem(position).tagString)){
+                checkBox.isChecked = true
+            }
 
+            if (reset) {
+                checkBox.isChecked = false
+                reset = false
+            }
         }
-        holder.binding.cbTag.setOnCheckedChangeListener { button, isChecked ->
-//            //if(isChecked) checkListener(getItem(position)) else unCheckListener(getItem(position))
-//            if (isChecked) checkTagListener.addCheckedTag(getItem(position)) else checkTagListener.removeCheckedTag(
-//                getItem(position)
-//            )
-        }
-
-        holder.binding.setVariable(BR.tagEntity, getItem(position))
     }
 
-    class BottomSheetFilterHolder(val binding: ItemTagCheckboxBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    class BottomSheetFilterHolder(val binding: ItemTagCheckboxBinding) : RecyclerView.ViewHolder(binding.root)
 }

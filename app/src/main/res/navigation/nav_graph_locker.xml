@@ -13,20 +13,28 @@
         <action
             android:id="@+id/action_lockerFragment_to_mumentDetailFragment"
             app:destination="@id/mumentDetailFragment" />
-        <action
-            android:id="@+id/action_lockerFragment_to_musicDetailFragment"
-            app:destination="@id/musicDetailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/mumentDetailFragment"
         android:name="com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment"
         android:label="MumentDetailFragment"
-        tools:layout="@layout/fragment_mument_detail"/>
+        tools:layout="@layout/fragment_mument_detail">
+        <argument android:name="mumentId"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment"
+            app:destination="@id/musicDetailFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/musicDetailFragment"
         android:name="com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment"
         android:label="MusicDetailFragment"
-        tools:layout="@layout/fragment_music_detail"/>
+        tools:layout="@layout/fragment_music_detail">
+        <argument
+            android:name="musicId"
+            app:argType="string"/>
+    </fragment>
 
 </navigation>

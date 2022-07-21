@@ -10,13 +10,14 @@
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker_filter_bottom_sheet.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker_like_filter_bottom_sheet.xml" value="0.176" />
-        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_my_like.xml" value="0.264" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_my_like.xml" value="0.2" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_my_mument.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_record.xml" value="0.152" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_card.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_date.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_filter_string_tag.xml" value="0.12222222222222222" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_image.xml" value="0.23802083333333332" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_layout.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/drawable/ic_btn_record_icon.xml" value="0.109" />
         <entry key="app/src/main/res/drawable/oval_fill_white.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/rectangle_fill_blue1_14dp.xml" value="0.166" />
@@ -38,14 +39,13 @@
         <entry key="app/src/main/res/drawable/selector_swith.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/shape_border_default_redius_11dp.xml" value="0.152" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2128623188405797" />
-        <entry key="app/src/main/res/layout/fragment_edit_mument_dialog.xml" value="0.2223731884057971" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_home_frame.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_locker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.3880416870117187" />
         <entry key="app/src/main/res/layout/fragment_mument_dialog.xml" value="0.15121580547112462" />
-        <entry key="app/src/main/res/layout/fragment_music_detail.xml" value="0.12027491408934708" />
+        <entry key="app/src/main/res/layout/fragment_music_detail.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_my_like.xml" value="0.2418478260869565" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_record_search.xml" value="0.22554347826086957" />
@@ -59,8 +59,6 @@
         <entry key="app/src/main/res/layout/item_locker_date.xml" value="0.14010416666666667" />
         <entry key="app/src/main/res/layout/item_mument_image.xml" value="0.2518518518518518" />
         <entry key="app/src/main/res/layout/item_mument_string_tag.xml" value="0.247912089029948" />
-        <entry key="app/src/main/res/layout/item_music_detail_list.xml" value="0.2223731884057971" />
-        <entry key="app/src/main/res/layout/item_music_detail_mument.xml" value="0.2223731884057971" />
         <entry key="app/src/main/res/layout/item_search_list.xml" value="0.14010416666666667" />
         <entry key="app/src/main/res/layout/item_song_detail_mument.xml" value="0.3128007699711261" />
         <entry key="app/src/main/res/layout/item_tag_checkbox.xml" value="0.7323455810546875" />

@@ -44,6 +44,8 @@ object TestDependencies {
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoVersion}"
     const val mockito = "org.mockito:mockito-core:${Versions.mockitoCoreVersion}"
     const val mockitoAndroidTest = "org.mockito:mockito-android:${Versions.mockitoAndroidVersion}"
+    const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
+    const val coreTesting = "androidx.arch.core:core-testing:2.1.0"
 }
 
 object MaterialDesignDependencies {

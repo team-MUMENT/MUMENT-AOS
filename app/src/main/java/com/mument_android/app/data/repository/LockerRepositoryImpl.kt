@@ -8,18 +8,33 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 import javax.inject.Inject
 
 class LockerRepositoryImpl @Inject constructor(
     private val lockerMapper: LockerMapper,
     private val lockerDataSource: LockerDataSource
 ): LockerRepository {
+
+
     override suspend fun fetchLockerMumentList(
         userId: String,
         tag1: Int?,
         tag2: Int?,
         tag3: Int?
     ): Flow<List<LockerMumentEntity>> = flow {
-        emit(lockerMapper.map(lockerDataSource.fetchLockerMumumentList(userId, tag1, tag2,tag3).data))
+        val data = lockerDataSource.fetchLockerMumumentList(userId, tag1, tag2,tag3).data
+        emit(lockerMapper.map(data))
+    }.flowOn(Dispatchers.IO)
+
+
+    override suspend fun fetchLockerLikeList(
+        userId: String,
+        tag1: Int?,
+        tag2: Int?,
+        tag3: Int?
+    ): Flow<List<LockerMumentEntity>> = flow {
+        val data = lockerDataSource.fetchLockerLikeList(userId, tag1, tag2, tag3).data
+        emit(lockerMapper.map(data))
     }.flowOn(Dispatchers.IO)
 }
