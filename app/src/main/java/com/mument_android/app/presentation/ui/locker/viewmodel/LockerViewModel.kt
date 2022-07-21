@@ -26,8 +26,8 @@ class LockerViewModel @Inject constructor(
 
     val myMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
 
-    var realTagList = MutableLiveData<List<TagEntity>>(emptyList())
-    val checkedTagList = MutableLiveData<List<TagEntity>>(emptyList())
+    private val _checkedTagList = MutableLiveData<List<TagEntity>>(emptyList())
+    val checkedTagList = _checkedTagList
 
 
     //좋아요한 뮤멘트 완료 버튼 누른 뒤 나오는 리스트
@@ -51,16 +51,18 @@ class LockerViewModel @Inject constructor(
         fetchMyMumentList()
     }
 
+    fun changeCheckedTagList(tags: List<TagEntity>) {
+        _checkedTagList.value = tags
+    }
+
     //filter
     fun getFilter() {
         viewModelScope.launch {
             checkedTagList.value?.let { tags ->
 
                 val firstTag = tags.get(0).tagIdx ?: null
-                Timber.d("teesttestse: $firstTag")
 
                 val secondTag = tags.get(1).tagIdx ?: null
-                Timber.d("teesttestse: $secondTag")
 
                 val thirdTag = tags.get(2).tagIdx ?: null
                 Timber.d("teesttestse: $thirdTag")
@@ -71,52 +73,42 @@ class LockerViewModel @Inject constructor(
 
     fun fetchMyMumentList() {
         viewModelScope.launch {
-            viewModelScope.launch {
-                checkedTagList.value?.let { tags ->
-                    if (tags.size == 0) {
-                        firstTag = null
-                        secondTag = null
-                        thirdTag = null
-                    } else if (tags.size == 1) {
-                        firstTag = tags.get(0).tagIdx
-                        secondTag = null
-                        thirdTag = null
-                    } else if (tags.size == 2) {
-                        firstTag = tags.get(0).tagIdx
-                        secondTag = tags.get(1).tagIdx
-                        thirdTag = null
-                    } else if (tags.size == 3){
-                        firstTag = tags.get(0).tagIdx
-                        secondTag = tags.get(1).tagIdx
-                        thirdTag = tags.get(2).tagIdx
-                    } else {
-                        firstTag = null
-                        secondTag = null
-                        thirdTag = null
-                    }
-
+            checkedTagList.value?.let { tags ->
+                if (tags.isEmpty()) {
+                    firstTag = null
+                    secondTag = null
+                    thirdTag = null
+                } else if (tags.size == 1) {
+                    firstTag = tags.get(0).tagIdx
+                    secondTag = null
+                    thirdTag = null
+                } else if (tags.size == 2) {
+                    firstTag = tags.get(0).tagIdx
+                    secondTag = tags.get(1).tagIdx
+                    thirdTag = null
+                } else if (tags.size == 3){
+                    firstTag = tags.get(0).tagIdx
+                    secondTag = tags.get(1).tagIdx
+                    thirdTag = tags.get(2).tagIdx
+                } else {
+                    firstTag = null
+                    secondTag = null
+                    thirdTag = null
                 }
+            }
 
-                fetchMyMumentListUseCase(
-                    userId = "62cd5d4383956edb45d7d0ef",
-                    tag1 = firstTag,
-                    tag2 = secondTag,
-                    tag3 = thirdTag
-
-                ).runCatching {
-                    this.onStart {
-                        myMuments.value = ApiResult.Loading(null)
-                    }.catch {
-                        it.printStackTrace()
-                        myMuments.value = ApiResult.Failure(null)
-                    }.collect {
-                        myMuments.value = ApiResult.Success(it)
-                    }
-                }
-
-                Timber.d("firstTag: $firstTag")
-                Timber.d("secondTag: $secondTag")
-                Timber.d("thirdTag: $thirdTag")
+            fetchMyMumentListUseCase(
+                userId = "62cd5d4383956edb45d7d0ef",
+                tag1 = firstTag,
+                tag2 = secondTag,
+                tag3 = thirdTag
+            ).onStart {
+                myMuments.value = ApiResult.Loading(null)
+            }.catch {
+                it.printStackTrace()
+                myMuments.value = ApiResult.Failure(null)
+            }.collect {
+                myMuments.value = ApiResult.Success(it)
             }
         }
     }
