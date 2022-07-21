@@ -5,6 +5,7 @@ import com.mument_android.BuildConfig
 import com.mument_android.app.data.dto.record.MumentRecordDto
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
+import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCase
 import com.mument_android.app.domain.usecase.record.RecordModifyMumentUseCase
 import com.mument_android.app.domain.usecase.record.RecordMumentUseCase
@@ -28,6 +29,7 @@ class RecordViewModel @Inject constructor(
     private val _isFirst = MutableLiveData<Boolean?>()
     val isFirst: LiveData<Boolean?> get() :LiveData<Boolean?> = _isFirst
 
+    val mumentId  = MutableLiveData<String>("")
     val mumentContent = MutableLiveData<String>()
 
     private val _isSelectedMusic = MutableLiveData<Boolean>(false)
@@ -38,6 +40,8 @@ class RecordViewModel @Inject constructor(
 
     private val _createdMumentId = MutableLiveData<String>("")
     val createdMumentId = _createdMumentId
+
+    val mumentData = MutableLiveData<MumentDetailEntity>()
 
     var isPrivate = MutableLiveData<Boolean>(false)
 
@@ -80,13 +84,18 @@ class RecordViewModel @Inject constructor(
                 val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
                 val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
                 val recordDto = MumentRecordDto(content = mumentContent.value ?: "", feelingTags, impressionTags, isFirst.value ?: true, isPrivate.value ?: false)
-                recordModifyMumentUseCase(mumentId = "62cd6d136500907694a2a548", recordDto).catch { e ->
+                recordModifyMumentUseCase(mumentId = mumentId.value!!, recordDto).catch { e ->
                     e.printStackTrace()
                 }.collect {
                     _createdMumentId.value = it
                 }
             }
         }
+    }
+    fun setCheckTaglist(tagList:List<TagEntity>){
+        val data = checkedTagList.value?.toMutableList()
+        data?.addAll(tagList)
+        _checkedTagList.value = data
     }
 
     fun changeSelectedMusic(music: RecentSearchData) {

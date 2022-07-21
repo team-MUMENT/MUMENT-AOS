@@ -60,8 +60,8 @@ class RecordTagAdapter(
                 holder.binding.cbTag.isChecked = false
                 reset = false
             }
-
         }
+        holder.binding.cbTag.isChecked = selectedTags.contains(getItem(position))
         holder.binding.setVariable(BR.tagEntity, getItem(position))
     }
 

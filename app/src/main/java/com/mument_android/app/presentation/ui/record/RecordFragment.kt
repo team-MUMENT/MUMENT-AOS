@@ -17,6 +17,7 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -24,12 +25,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.mument_android.BuildConfig
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
+import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
+import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IMPRESSIVE
+import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IS_FIRST
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
+import com.mument_android.app.domain.entity.music.MusicInfoEntity
+import com.mument_android.app.domain.entity.user.UserEntity
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
@@ -45,7 +52,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class RecordFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentRecordBinding>()
-    private val recordViewModel: RecordViewModel by viewModels()
+    private val recordViewModel: RecordViewModel by activityViewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
 
@@ -59,38 +66,76 @@ class RecordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*if (arge != null) {
-            if (arge.mument.isfirts == true) {
-                recordViewModel.changeIsFirst(true)
-            } else {
-                recordViewModel.findIsFirst()
-            }
-        }*/
+        /*if */
         binding.recordViewModel = recordViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+
         arguments?.getString(MUMENT_ID_FOR_EDIT)?.let {
-            Timber.e("$it")
+            recordViewModel.mumentId.value = it
         }
 
         arguments?.getParcelable<MumentDetailEntity>(MUMENT_DETAIL_ENTITY)?.let {
+           Timber.e("$it")
+           recordViewModel.mumentData.value = it
+           if (it.isFirst.tagIdx == 1) {
+               recordViewModel.changeIsFirst(true)
+           } else {
+               recordViewModel.findIsFirst()
+           }
+       }
+
+
+        recordViewModel.mumentId.observe(viewLifecycleOwner) {
             Timber.e("$it")
         }
 
-        setTagRecyclerView()
-        countText()
+        recordViewModel.mumentData.observe(viewLifecycleOwner) {
+            Timber.e("receive: ${it}")
+        }
 
-        resetRvImpressionTags()
-        firstListenClickEvent()
-        secondListenClickEvent()
+//        recordViewModel.mumentData.value = MumentDetailEntity(
+//            writerInfo = UserEntity(
+//                BuildConfig.USER_ID,
+//                "이민호",
+//                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize"
+//            ),
+//            musicInfo = MusicInfoEntity(
+//                "62d2959e177f6e81ee8fa3de",
+//                "구애",
+//                "https://mument.s3.ap-northeast-2.amazonaws.com/music/%EA%B5%AC%EC%95%A0+(%E6%B1%82%E6%84%9B)+-+%EC%84%A0%EC%9A%B0%EC%A0%95%EC%95%84.jpg",
+//                "선우정아",
+//            ),
+//            isFirst = TagEntity(TAG_IS_FIRST, R.string.tag_has_heard, 0),
+//            impressionTags = listOf(
+//                TagEntity(TAG_IMPRESSIVE, ImpressiveTag.values()[0].tag,  ImpressiveTag.values()[0].tagIndex),
+//                TagEntity(TAG_IMPRESSIVE, ImpressiveTag.values()[1].tag,  ImpressiveTag.values()[1].tagIndex),
+//            ),
+//            emotionalTags = listOf(
+//                TagEntity(TAG_EMOTIONAL, EmotionalTag.values()[0].tag, EmotionalTag.values()[0].tagIndex),
+//                TagEntity(TAG_EMOTIONAL, EmotionalTag.values()[1].tag, EmotionalTag.values()[1].tagIndex),
+//            ),
+//            content = "Hi",
+//            createdDate = "2021",
+//            isLiked = false,
+//            mumentHistoryCount = 10,
+//            likeCount = 1
+//        )
 
-        switchClickEvent()
+        setTagRecyclerView ()
+        countText ()
 
-        scrollEditTextView()
-        initBottomSheet()
-        getAllData()
-        isClickDelete()
-        observingListen()
+        resetRvImpressionTags ()
+        firstListenClickEvent ()
+        secondListenClickEvent ()
+
+        switchClickEvent ()
+
+        scrollEditTextView ()
+        initBottomSheet ()
+        getAllData ()
+        isClickDelete ()
+        observingListen ()
     }
 
     //태그들 추가, 삭제 -> 5개 판별
@@ -123,13 +168,13 @@ class RecordFragment : Fragment() {
             false,
             object : RecordTagAdapter.RecordTagCheckListener {
                 override fun addCheckedTag(tag: TagEntity) {
-                    rvImpressionTagsAdapter.selectedTags.add(tag)
                     recordViewModel.addCheckedList(tag)
+                    rvImpressionTagsAdapter.selectedTags.add(tag)
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
-                    rvImpressionTagsAdapter.selectedTags.remove(tag)
                     recordViewModel.removeCheckedList(tag)
+                    rvImpressionTagsAdapter.selectedTags.remove(tag)
                 }
 
                 override fun alertMaxCount() {
@@ -173,7 +218,7 @@ class RecordFragment : Fragment() {
                 adapter = rvImpressionTagsAdapter
             }
             rvImpressionTagsAdapter.submitList(
-                ImpressiveTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) }
+                ImpressiveTag.values().map { TagEntity(TAG_IMPRESSIVE, it.tag, it.tagIndex) }
             )
         }
     }
@@ -224,7 +269,7 @@ class RecordFragment : Fragment() {
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
             Timber.e("Test Selected Music : $it")
             recordViewModel.checkSelectedMusic(it != null)
-            binding.btnRecordFinish.isEnabled = recordViewModel.isSelectedMusic.value ==true
+            binding.btnRecordFinish.isEnabled = recordViewModel.isSelectedMusic.value == true
             binding.btnRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
         }
     }
@@ -239,9 +284,9 @@ class RecordFragment : Fragment() {
     //처음 들었어요 다시들었어요 처리
     private fun observingListen() {
         recordViewModel.isFirst.observe(viewLifecycleOwner) {
-            if (it != null) {/*
-                if (arge != null) {
-                    if (arge.mument.isFirst == false) {
+            if (it != null) {
+                if (recordViewModel.mumentData.value != null) {
+                    if (recordViewModel.mumentData.value!!.isFirst.tagIdx == 0) {
                         if (it) {
                             binding.btnRecordFirst.isChangeButtonFont(it)
                             binding.btnRecordSecond.isChangeButtonFont(!it)
@@ -254,16 +299,16 @@ class RecordFragment : Fragment() {
                         binding.btnRecordFirst.isChangeButtonFont(!it)
                         binding.btnRecordSecond.isChangeButtonFont(it)
                     }
-                } else {*/
-                if (!it) {
-                    binding.btnRecordFirst.isChangeButtonFont(it)
-                    binding.btnRecordSecond.isChangeButtonFont(!it)
-                    binding.btnRecordFirst.isClickable = false
                 } else {
-                    binding.btnRecordFirst.isChangeButtonFont(!it)
-                    binding.btnRecordSecond.isChangeButtonFont(it)
+                    if (!it) {
+                        binding.btnRecordFirst.isChangeButtonFont(it)
+                        binding.btnRecordSecond.isChangeButtonFont(!it)
+                        binding.btnRecordFirst.isClickable = false
+                    } else {
+                        binding.btnRecordFirst.isChangeButtonFont(!it)
+                        binding.btnRecordSecond.isChangeButtonFont(it)
+                    }
                 }
-                //}
             } else {
                 binding.btnRecordFirst.isChangeButtonFont(false)
                 binding.btnRecordSecond.isChangeButtonFont(false)
@@ -283,8 +328,32 @@ class RecordFragment : Fragment() {
                 // 상세보기로 이동하기
             }
         }
-    }
+        recordViewModel.mumentData.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Timber.e("${it.impressionTags}")
+                recordViewModel.selectedMusic.value = RecentSearchData(
+                    it.musicInfo.id,
+                    it.musicInfo.artist,
+                    it.musicInfo.thumbnail,
+                    it.musicInfo.name,
+                    null
+                )
+                recordViewModel.setCheckTaglist(it.impressionTags ?: listOf())
+                recordViewModel.setCheckTaglist(it.emotionalTags ?: listOf())
+                recordViewModel.findIsFirst()
+                recordViewModel.mumentContent.value = it.content
+                binding.switchRecordSecret.isChecked = false
 
+                recordViewModel.checkedTagList.value?.let { data ->
+                    rvImpressionTagsAdapter.selectedTags.addAll(data)
+                    rvEmotionalTagsAdapter.selectedTags.addAll(data)
+                }
+                Timber.d("HI $it")
+            } else {
+
+            }
+        }
+    }
 
     private fun secondListenClickEvent() {
         with(binding) {
@@ -351,11 +420,12 @@ class RecordFragment : Fragment() {
         binding.btnRecordSecond.isChangeButtonFont(false)
         binding.btnRecordFirst.isClickable = true
         recordViewModel.removeSelectedMusic()
-        binding.clRecordRoot.scrollTo(0, 0)
+        binding.svRecord.scrollTo(0, 0)
         binding.etRecordWrite.text.clear()
         binding.tvRecordSecret.setText(R.string.record_open)
         binding.switchRecordSecret.isChecked = false
         binding.btnRecordFinish.isEnabled = false
+        recordViewModel.mumentData.value = null
 
     }
 
