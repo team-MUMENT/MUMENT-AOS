@@ -224,7 +224,7 @@ class RecordFragment : Fragment() {
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
             Timber.e("Test Selected Music : $it")
             recordViewModel.checkSelectedMusic(it != null)
-            binding.btnRecordFinish.isEnabled = true
+            binding.btnRecordFinish.isEnabled = recordViewModel.isSelectedMusic.value ==true
             binding.btnRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
         }
     }
@@ -311,7 +311,7 @@ class RecordFragment : Fragment() {
         recordViewModel.mumentContent.observe(viewLifecycleOwner) {
             if (it.length >= 1000) {
                 binding.tvRecordTextNum.isChangeRedLine()
-            } else if (it.length == 999) {
+            } else if (it.length <= 999) {
                 binding.tvRecordTextNum.isChangeBlack()
             }
         }
