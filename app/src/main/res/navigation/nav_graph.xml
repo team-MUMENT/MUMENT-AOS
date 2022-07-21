@@ -15,7 +15,11 @@
         android:id="@+id/fragment_record"
         android:name="com.mument_android.app.presentation.ui.record.RecordFragment"
         android:label="fragment_second"
-        tools:layout="@layout/fragment_record" />
+        tools:layout="@layout/fragment_record">
+        <argument android:name="mumment_id_for_edit"
+            app:argType="string"
+            app:nullable="true"/>
+    </fragment>
 
     <fragment
         android:id="@+id/fragment_locker_frame"

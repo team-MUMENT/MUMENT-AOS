@@ -26,6 +26,7 @@
     <color name="mument_color_gray5">#F0F0F0</color>
     <color name="mument_color_bgwhite">#FAFAFA</color>
     <color name="transparent">#00000000</color>
+    <color name="dialog_background">#a6000000</color>
 
 
 </resources>

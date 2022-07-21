@@ -32,8 +32,6 @@ class MumentDetailViewModel @Inject constructor(
     private val _mumentDetailContent = MutableStateFlow<ApiResult<MumentDetailEntity>?>(null)
     val mumentDetailContent = _mumentDetailContent.asStateFlow()
 
-
-
     private val _likeCount = MutableStateFlow(0)
     val likeCount = _likeCount.asStateFlow()
 
