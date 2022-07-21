@@ -47,7 +47,6 @@ class RecordFragment : Fragment() {
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
     //private val arge = Navigeargs()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -69,21 +68,22 @@ class RecordFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         setTagRecyclerView()
         countText()
+
         resetRvImpressionTags()
         firstListenClickEvent()
         secondListenClickEvent()
+
         switchClickEvent()
+
         scrollEditTextView()
         initBottomSheet()
         getAllData()
         isClickDelete()
         observingListen()
-
     }
 
     //태그들 추가, 삭제 -> 5개 판별
     private fun setTagRecyclerView() {
-
         rvImpressionTagsAdapter = RecordTagAdapter(
             requireContext(),
             false,
@@ -105,7 +105,6 @@ class RecordFragment : Fragment() {
                     )
                 }
             }
-
         )
 
         rvEmotionalTagsAdapter = RecordTagAdapter(
@@ -130,7 +129,6 @@ class RecordFragment : Fragment() {
                 }
             }
         )
-
         with(binding.rvRecordImpressiveTags) {
             setItemDecoration(this)
             setImpressiveRvFlexBoxLayout()
@@ -184,7 +182,6 @@ class RecordFragment : Fragment() {
         }
     }
 
-
     @SuppressLint("ClickableViewAccessibility")
     private fun firstListenClickEvent() {
         with(binding) {
@@ -203,7 +200,6 @@ class RecordFragment : Fragment() {
             }
         }
     }
-
 
     //바텀시트 올라오면서 처리
     private fun initBottomSheet() {
@@ -248,20 +244,19 @@ class RecordFragment : Fragment() {
                         binding.btnRecordSecond.isChangeButtonFont(it)
                     }
                 } else {*/
-                    if (!it) {
-                        binding.btnRecordFirst.isChangeButtonFont(it)
-                        binding.btnRecordSecond.isChangeButtonFont(!it)
-                        binding.btnRecordFirst.isClickable = false
-                    } else {
-                        binding.btnRecordFirst.isChangeButtonFont(!it)
-                        binding.btnRecordSecond.isChangeButtonFont(it)
-                    }
+                if (!it) {
+                    binding.btnRecordFirst.isChangeButtonFont(it)
+                    binding.btnRecordSecond.isChangeButtonFont(!it)
+                    binding.btnRecordFirst.isClickable = false
+                } else {
+                    binding.btnRecordFirst.isChangeButtonFont(!it)
+                    binding.btnRecordSecond.isChangeButtonFont(it)
+                }
                 //}
             } else {
                 binding.btnRecordFirst.isChangeButtonFont(false)
                 binding.btnRecordSecond.isChangeButtonFont(false)
             }
-            Timber.d("Observe $it")
         }
 
         //뮤멘트 작성 완료 멘트떠야함
@@ -273,8 +268,8 @@ class RecordFragment : Fragment() {
                     binding.clRecordRoot,
                     getString(R.string.record_finish_record)
                 )
+                recordViewModel.createdMumentId.value = ""
                 // 상세보기로 이동하기
-
             }
         }
     }
@@ -323,7 +318,7 @@ class RecordFragment : Fragment() {
         }
     }
 
-    //리셋버튼 클릭 및 알럿
+//리셋버튼 클릭 및 알럿
 
     private fun resetButtonClickEvent() {
         MumentDialogBuilder()
@@ -365,7 +360,7 @@ class RecordFragment : Fragment() {
     //완료버튼 눌렀을 때
     private fun getAllData() {
         binding.btnRecordFinish.setOnClickListener {
-            recordViewModel.putMument()
+            recordViewModel.postMument()
         }
     }
 
@@ -381,7 +376,7 @@ class RecordFragment : Fragment() {
     }
 
     // Extension Function
-    //버튼 폰트 지정
+//버튼 폰트 지정
     private fun Button.isChangeButtonFont(selected: Boolean) {
         isSelected = selected
         typeface = ResourcesCompat.getFont(
@@ -410,6 +405,13 @@ class RecordFragment : Fragment() {
                 (this as RecordTagAdapter.RecordTagViewHolder).binding.cbTag.isChecked = false
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.d("OnDestroy View")
+        resetRecord()
+        resetRecordTags()
     }
 }
 

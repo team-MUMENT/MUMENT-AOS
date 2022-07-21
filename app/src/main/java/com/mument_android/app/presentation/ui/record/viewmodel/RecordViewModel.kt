@@ -21,7 +21,6 @@ class RecordViewModel @Inject constructor(
     private val checkIsFirstRecordUseCase: IsFirstRecordMumentUseCase,
     private val recordMumentUseCase: RecordMumentUseCase,
     private val recordModifyMumentUseCase: RecordModifyMumentUseCase
-
 ) : ViewModel() {
     private val _checkedTagList = MutableLiveData<List<TagEntity>>(listOf())
     val checkedTagList get():LiveData<List<TagEntity>> = _checkedTagList
@@ -41,7 +40,6 @@ class RecordViewModel @Inject constructor(
     val createdMumentId = _createdMumentId
 
     var isPrivate = MutableLiveData<Boolean>(false)
-
 
     fun findIsFirst() {
         viewModelScope.launch {
