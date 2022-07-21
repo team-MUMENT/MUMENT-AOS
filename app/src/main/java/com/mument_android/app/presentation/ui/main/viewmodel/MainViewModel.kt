@@ -12,11 +12,18 @@ class MainViewModel: ViewModel() {
     private val _mumentDetailContents = MutableLiveData<MumentDetailEntity>()
     val mumentDetailContents: LiveData<MumentDetailEntity> = _mumentDetailContents
 
+    fun checkHasBundle() = (!mumentId.value.isNullOrEmpty() && mumentDetailContents.value != null)
+
     fun changeMumentId(id: String) {
         _mumentId.value = id
     }
 
     fun changeMumentContents(contents: MumentDetailEntity) {
         _mumentDetailContents.value = contents
+    }
+
+    fun clearBundle() {
+        _mumentId.value = ""
+        _mumentDetailContents.value = null
     }
 }
