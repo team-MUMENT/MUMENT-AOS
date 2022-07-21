@@ -15,7 +15,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
 import com.mument_android.app.domain.entity.TagEntity
-import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.util.AutoClearedValue
@@ -40,7 +39,8 @@ class LockerFilterBottomSheetFragment(
         private var INSTANCE: LockerFilterBottomSheetFragment? = null
 
         @JvmStatic
-        fun newInstance(initialTags: List<TagEntity>, completeSelectListener: (List<TagEntity>) -> Unit): LockerFilterBottomSheetFragment {
+        fun newInstance(initialTags: List<TagEntity>, completeSelectListener: (List<TagEntity>) -> Unit
+        ): LockerFilterBottomSheetFragment {
             return INSTANCE ?: LockerFilterBottomSheetFragment(initialTags).apply {
                 this.completeSelectListener = completeSelectListener
                 INSTANCE = this

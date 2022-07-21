@@ -16,9 +16,6 @@ class LockerFilterViewModel: ViewModel() {
 
 
     // 좋아요 한 뮤멘트
-    private val _initialLikeSelectedTags = MutableLiveData<List<TagEntity>>()
-    val initialLikeSelectedTags = _initialLikeSelectedTags
-
     private val _likeSelectedTags = MutableLiveData<List<TagEntity>>(mutableListOf())
     val likeSelectedTags = _likeSelectedTags
 
@@ -34,6 +31,13 @@ class LockerFilterViewModel: ViewModel() {
         selectedTags.value?.toMutableList().let {
             it?.addAll(tags)
             _selectedTags.value = it
+        }
+    }
+
+    fun addLikeInitialTags(tags: List<TagEntity>) {
+        likeSelectedTags.value?.toMutableList().let{
+            it?.addAll(tags)
+            _likeSelectedTags.value = it
         }
     }
 
@@ -68,7 +72,4 @@ class LockerFilterViewModel: ViewModel() {
         _likeSelectedTags.value = emptyList()
     }
 
-    fun changeLikeInitialSelectedTags(tags: List<TagEntity>) {
-        _initialLikeSelectedTags.value = tags
-    }
 }

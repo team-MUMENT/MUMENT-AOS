@@ -35,7 +35,7 @@ class LockerViewModel @Inject constructor(
 
 
     //좋아요한 뮤멘트 실시간 태그 리스트
-    var _checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
+    private val _checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
     val checkedLikeTagList = _checkedLikeTagList
 
     private val _isGridLayout = MutableStateFlow(false)
@@ -60,22 +60,6 @@ class LockerViewModel @Inject constructor(
     //좋아요 한 뮤멘트
     fun changeLikeCheckedTagList(tags: List<TagEntity>) {
         _checkedLikeTagList.value = tags
-    }
-
-    //filter
-    fun getFilter() {
-        viewModelScope.launch {
-            checkedTagList.value?.let { tags ->
-
-                val firstTag = tags.get(0).tagIdx ?: null
-
-                val secondTag = tags.get(1).tagIdx ?: null
-
-                val thirdTag = tags.get(2).tagIdx ?: null
-                Timber.d("teesttestse: $thirdTag")
-
-            }
-        }
     }
 
     fun fetchMyMumentList() {

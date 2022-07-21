@@ -55,7 +55,6 @@ class MyMumentFragment : Fragment() {
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
                 adapter = LockerTimeAdapter(isGridLayout)
                 (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
-                //(adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
             }
         }
     }
@@ -77,9 +76,6 @@ class MyMumentFragment : Fragment() {
         }
 
     }
-
-    /*initMumentEmpty(it.size)
-    (adapter as LockerTimeAdapter).submitList(it)*/
 
     //TODO: 필터 및 아이콘들 비활성화
     private fun initMumentEmpty(size : Int) {

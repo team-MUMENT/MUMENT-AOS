@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.locker
+package com.mument_android.app.presentation.ui.locker.filter
 
 import android.app.Dialog
 import android.graphics.Color
@@ -17,8 +17,6 @@ import com.mument_android.R
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
-import com.mument_android.app.presentation.ui.locker.filter.LockerFilterBottomSheetFragment
-import com.mument_android.app.presentation.ui.locker.filter.LockerFilterViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.ViewUtils.dpToPx
@@ -80,10 +78,10 @@ class LockerLikeFilterBottomSheetFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
-        lockerFilterViewModel.changeLikeInitialSelectedTags(initialTags)
+        lockerFilterViewModel.addLikeInitialTags(initialTags)
+        //lockerFilterViewModel.changeLikeInitialSelectedTags(initialTags)
 
         setEmotionalList()
-        updateSelelctedTags()
         updateSelectedTags()
         setSelectedTag()
         closeBtnListener()
@@ -149,14 +147,6 @@ class LockerLikeFilterBottomSheetFragment(
     }
 
     private fun updateSelectedTags() {
-        lockerFilterViewModel.likeSelectedTags.observe(viewLifecycleOwner) {
-            (binding.rvSelectedTags.adapter as FilterBottomSheetSelectedAdapter).submitList(it)
-            selectLayout(it)
-        }
-    }
-
-
-    private fun updateSelelctedTags() {
         lockerFilterViewModel.likeSelectedTags.observe(viewLifecycleOwner) {
             (binding.rvSelectedTags.adapter as FilterBottomSheetSelectedAdapter).submitList(it)
             selectLayout(it)
