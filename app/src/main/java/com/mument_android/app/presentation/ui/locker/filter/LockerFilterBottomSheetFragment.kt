@@ -77,12 +77,13 @@ class LockerFilterBottomSheetFragment(
         binding.lifecycleOwner = viewLifecycleOwner
         lockerFilterViewModel.changeInitialSelectedTags(initialTags)
 
+
+
         setEmotionalList()
         updateSelectedTags()
         setSelectedTag()
         closeBtnListener()
         resetTags()
-//        selectLayout()
         applyBtnListener()
 
     }
@@ -140,6 +141,7 @@ class LockerFilterBottomSheetFragment(
             setImpressiveRvFlexBoxLayout()
         }
     }
+
 
     private fun updateSelectedTags() {
         lockerFilterViewModel.selectedTags.observe(viewLifecycleOwner) {

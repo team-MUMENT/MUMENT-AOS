@@ -34,7 +34,7 @@ class MyLikeFragment : Fragment() {
         binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
-        setMyMumentListAdapter()
+        //setMyMumentListAdapter()
         settingRecyclerView()
         listBtnClickListener()
         gridBtnClickListener()

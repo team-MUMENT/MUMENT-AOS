@@ -52,11 +52,11 @@ class FilterBottomSheetAdapter(
                 }
             }
 
-//            if (selectedTags.map {
-//                    it.tagString
-//                }.contains(getItem(position).tagString)){
-//                checkBox.isChecked = true
-//            }
+            if (selectedTags.map {
+                    it.tagString
+                }.contains(getItem(position).tagString)){
+                checkBox.isChecked = true
+            }
 
             if (reset) {
                 checkBox.isChecked = false
