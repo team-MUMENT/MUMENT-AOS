@@ -7,6 +7,7 @@ import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
+import com.mument_android.app.domain.usecase.detail.DeleteMumentUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
@@ -22,11 +23,12 @@ import javax.inject.Inject
 class MumentDetailViewModel @Inject constructor(
     private val fetchMumentDetailContentUseCase: FetchMumentDetailContentUseCase,
     private val likeMumentUseCase: LikeMumentUseCase,
-    private val cancelLikeMumentUseCase: CancelLikeMumentUseCase
+    private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
+    private val deleteMumentUseCase: DeleteMumentUseCase
 ): ViewModel() {
     val isLiked = MutableStateFlow<Boolean>(false)
 
-    private val _mumentId = MutableStateFlow("62cd6d136500907694a2a548")
+    private val _mumentId = MutableStateFlow("")
     val mumentId = _mumentId.asStateFlow()
 
     private val _mumentDetailContent = MutableStateFlow<ApiResult<MumentDetailEntity>?>(null)
@@ -35,9 +37,8 @@ class MumentDetailViewModel @Inject constructor(
     private val _likeCount = MutableStateFlow(0)
     val likeCount = _likeCount.asStateFlow()
 
-    init {
-        fetchMumentDetailContent()
-    }
+    private val _successDelete = MutableSharedFlow<Unit>()
+    val successDelete = _successDelete.asSharedFlow()
 
     fun changeMumentId(id: String) {
         _mumentId.value = id
@@ -51,9 +52,9 @@ class MumentDetailViewModel @Inject constructor(
         _likeCount.value = likeCount.value - 1
     }
 
-    private fun fetchMumentDetailContent() {
+    fun fetchMumentDetailContent(mumentId: String) {
         viewModelScope.launch {
-            fetchMumentDetailContentUseCase(mumentId.value, BuildConfig.USER_ID).onStart {
+            fetchMumentDetailContentUseCase(mumentId, BuildConfig.USER_ID).onStart {
                 _mumentDetailContent.value = ApiResult.Loading(null)
             }.catch { e ->
                 _mumentDetailContent.value = ApiResult.Failure(e)
@@ -84,6 +85,17 @@ class MumentDetailViewModel @Inject constructor(
                 mumentId.value,
                 mumentDetailContent.value?.data?.writerInfo?.userId ?: ""
             ).collect {}
+        }
+    }
+
+    fun deleteMument() {
+        viewModelScope.launch {
+            deleteMumentUseCase(mumentId.value).catch { e ->
+                _successDelete.emit(Unit)
+                e.printStackTrace()
+            }.collect {
+                _successDelete.emit(Unit)
+            }
         }
     }
 }

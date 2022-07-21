@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.plugin.statistics.ReportStatisticsToElasticSe
 buildscript {
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltVersion}")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navVersion}")
     }
 }
 

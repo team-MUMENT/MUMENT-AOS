@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTimeAdapter
@@ -51,21 +52,38 @@ class MyLikeFragment : Fragment() {
 
     private fun setGridServerConnection() {
         binding.rvLikeLinear.run {
-            lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
-                adapter = LockerTimeAdapter(isGridLayout)
-                (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
+//            lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
+//                adapter = LockerTimeAdapter(isGridLayout)
+//                (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
+
+            lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
+                adapter = LockerTimeAdapter(isGridLayout) {
+                   // showMumentDetail(it)
+                }
+                (adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
+
             }
         }
     }
 
     private fun setMyMumentListAdapter() {
-       // setGridServerConnection()
+        // setGridServerConnection()
         lockerViewModel.myLikeMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
             when (it) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    binding.rvLikeLinear.adapter = LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value)
+
+                    /*
+                    binding.rvLikeLinear.adapter =
+                        LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value)
+
+                     */
+
+                    binding.rvLikeLinear.adapter = LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value) {
+                        showMumentDetail(it)
+                    }
+
                     initLikeEmpty(it.data?.size ?: 0)
                     (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
                 }
@@ -153,6 +171,14 @@ class MyLikeFragment : Fragment() {
             lockerViewModel.fetchMyLikeList()
         }
     }
+
+
+    private fun showMumentDetail(mumentId: String) {
+        val action = LockerFragmentDirections.actionLockerFragmentToMumentDetailFragment(mumentId)
+        findNavController().navigate(action)
+    }
+
+
 
 
 }

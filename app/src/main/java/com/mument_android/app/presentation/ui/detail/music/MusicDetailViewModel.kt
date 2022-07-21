@@ -45,6 +45,8 @@ class MusicDetailViewModel @Inject constructor(
     private val _selectedSort = MutableStateFlow(SortTypeEnum.SORT_LIKE_COUNT.sort)
     val selectedSort = _selectedSort.asStateFlow()
 
+
+
     init {
         fetchMusicDetail()
         fetchMumentList()
