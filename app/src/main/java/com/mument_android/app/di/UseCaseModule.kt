@@ -1,8 +1,6 @@
 package com.mument_android.app.di
 
-import com.mument_android.app.data.controller.LikeMumentController
-import com.mument_android.app.data.controller.LikeMumentControllerImpl
-import com.mument_android.app.data.controller.RecordController
+import com.mument_android.app.data.controller.*
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
 import com.mument_android.app.domain.repository.home.HomeRepository
 import com.mument_android.app.domain.repository.locker.LockerRepository
@@ -16,10 +14,7 @@ import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCaseImpl
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCaseImpl
-import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCase
-import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCaseImpl
-import com.mument_android.app.domain.usecase.record.RecordMumentUseCase
-import com.mument_android.app.domain.usecase.record.RecordMumentUseCaseImpl
+import com.mument_android.app.domain.usecase.record.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -81,6 +76,12 @@ object UseCaseModule {
     fun provideRecordMumentUseCase(
         recordController: RecordController
     ): RecordMumentUseCase = RecordMumentUseCaseImpl(recordController)
+
+    @Provides
+    @Singleton
+    fun provideRecordModifyMumentUseCase(
+        recordModifyController: RecordModifyController
+    ):RecordModifyMumentUseCase = RecordModifyMumentUseCaseImpl(recordModifyController)
 
 
 }

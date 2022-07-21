@@ -1,9 +1,6 @@
 package com.mument_android.app.di
 
-import com.mument_android.app.data.controller.LikeMumentController
-import com.mument_android.app.data.controller.LikeMumentControllerImpl
-import com.mument_android.app.data.controller.RecordController
-import com.mument_android.app.data.controller.RecordControllerImpl
+import com.mument_android.app.data.controller.*
 import com.mument_android.app.data.network.main.MainApiService
 import com.mument_android.app.data.network.record.RecordApiService
 import dagger.Module
@@ -26,5 +23,11 @@ object ControllerModule {
     fun providesRecordController(
         recordApiService: RecordApiService
     ): RecordController = RecordControllerImpl(recordApiService)
+
+    @Provides
+    @Singleton
+    fun provideRecordModifyController(
+        recordApiService: RecordApiService
+    ) : RecordModifyController = RecordModifyControllerImpl(recordApiService)
 
 }
