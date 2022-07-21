@@ -8,6 +8,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.mument_android.app.data.enumtype.SortTypeEnum.Companion.findSortTypeTag
+import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
@@ -53,14 +55,25 @@ class MusicDetailFragment : Fragment() {
 
     private fun setEveryMumentListAdapter() {
         binding.rvEveryMuments.run {
-            adapter = MusicDetailMumentListAdapter()
+            adapter = MusicDetailMumentListAdapter(object: MumentClickListener {
+                override fun showMumentDetail(mumentId: String) {
+
+                }
+
+                override fun likeMument(mumentId: String) {
+                    musicDetailViewModel.likeMument(mumentId)
+                }
+
+                override fun cancelLikeMument(mumentId: String) {
+                    musicDetailViewModel.cancelLikeMument(mumentId)
+                }
+            })
             addItemDecoration(RecyclerviewItemDivider(0, 15.dpToPx(requireContext()), IS_VERTICAL))
         }
     }
 
     private fun updateEveryMuments() {
         musicDetailViewModel.mumentList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
-            Timber.e("${it.map { it.user.name }}")
             (binding.rvEveryMuments.adapter as MusicDetailMumentListAdapter).submitList(it)
         }
     }

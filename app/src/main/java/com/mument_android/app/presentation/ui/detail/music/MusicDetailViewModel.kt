@@ -15,6 +15,8 @@ import com.mument_android.app.domain.entity.music.MusicInfoEntity
 import com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity
 import com.mument_android.app.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMusicDetailUseCase
+import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
+import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +29,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MusicDetailViewModel @Inject constructor(
     private val fetchMumentListUseCase: FetchMumentListUseCase,
-    private val fetchMusicDetailUseCase: FetchMusicDetailUseCase
+    private val fetchMusicDetailUseCase: FetchMusicDetailUseCase,
+    private val likeMumentUseCase: LikeMumentUseCase,
+    private val cancelLikeMumentUseCase: CancelLikeMumentUseCase
 ): ViewModel() {
     private val _musicInfo = MutableLiveData<MusicInfoEntity>()
     val musicInfo = _musicInfo
@@ -48,6 +52,7 @@ class MusicDetailViewModel @Inject constructor(
 
     fun changeSelectedSort(sort: String) {
         _selectedSort.value = sort
+        fetchMumentList()
     }
 
     private fun fetchMusicDetail() {
@@ -73,9 +78,28 @@ class MusicDetailViewModel @Inject constructor(
             ).catch { e ->
                 e.printStackTrace()
             }.collect {
-                Timber.e("$it")
                 _mumentList.value = it
             }
+        }
+    }
+
+    fun likeMument(mumentId: String) {
+        viewModelScope.launch {
+            likeMumentUseCase(mumentId, BuildConfig.USER_ID)
+                .catch { e -> e.printStackTrace() }
+                .collect {
+
+                }
+        }
+    }
+
+    fun cancelLikeMument(mumentId: String) {
+        viewModelScope.launch {
+            cancelLikeMumentUseCase(mumentId, BuildConfig.USER_ID)
+                .catch { e -> e.printStackTrace() }
+                .collect {
+
+                }
         }
     }
 }
