@@ -10,13 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mument_android.R
-import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentLockerBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class LockerFragment : Fragment() {
@@ -36,22 +34,11 @@ class LockerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vpLocker.isUserInputEnabled = false
-        //binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         initAdapter()
         initTab()
-        //listBtnClickListener()
-        //gridBtnClickListener()
-        //filterBtnClickListener()
-        //settingRecyclerView()
-
     }
 
-    override fun onResume() {
-        super.onResume()
-        //removeTag()
-
-    }
 
     private fun initAdapter() {
         val fragmentList = listOf(MyMumentFragment(), MyLikeFragment())
@@ -72,4 +59,5 @@ class LockerFragment : Fragment() {
             findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
         }
     }
+
 }

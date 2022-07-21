@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.window.layout.WindowMetrics
 import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,15 +24,19 @@ import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.app.util.AutoClearedValue
+import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@AndroidEntryPoint
 class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> Unit) :
     BottomSheetDialogFragment() {
-    private val viewmodel: SearchViewModel by activityViewModels()
+    private val viewmodel: SearchViewModel by viewModels()
     private lateinit var adapter: SearchListAdapter
+    private lateinit var searchResultAdapter: SearchListAdapter
     private var binding by AutoClearedValue<FragmentSearchBinding>()
     private lateinit var behavior: BottomSheetBehavior<View>
 
@@ -68,13 +74,12 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
             ((dialogInterface as BottomSheetDialog).findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View).apply {
                 behavior = BottomSheetBehavior.from(this)
                 val layoutParams = this.layoutParams
-                behavior.disableShapeAnimations()
                 layoutParams.height = getBottomSheetDialogDefaultHeight()
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.disableShapeAnimations()
                 behavior.skipCollapsed = true
                 behavior.isHideable = true
                 this.layoutParams = layoutParams
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
-
             }
         }
         return dialog
@@ -83,33 +88,62 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        adapter = SearchListAdapter(requireContext(), {
-            contentClick(it)
-            dismiss()
-        }, {
-
-
-        })
+        viewmodel.searchText.value = ""
         /*searchResultAdapter = SearchListAdapter(requireContext(),{ data ->
             viewmodel.selectContent(data)
         }, {})*/
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewmodel = viewmodel
-        binding.option = false
-        binding.rcSearch.adapter = adapter
-        adapter = SearchListAdapter(requireContext(), {
-            contentClick(it)
-            dismiss()
-        }, {
-            viewmodel.deleteRecentList(it)
-        })
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewmodel = viewmodel
-        binding.rcSearch.adapter = adapter
-
-        binding.option = false
+        settingAdapterAndDatabinding()
         setListener()
+        collectingList()
+    }
+
+    private fun settingAdapterAndDatabinding() {
+        adapter = SearchListAdapter(requireContext(), { data ->
+            contentClick(data)
+            viewmodel.selectContent(data)
+            viewmodel.setRecentData(lifecycleScope)
+            dismiss()
+        }, { data ->
+            viewmodel.deleteRecentList(data)
+        })
+        adapter.option = true
+        searchResultAdapter = SearchListAdapter(requireContext(), { data ->
+            viewmodel.selectContent(data)
+            viewmodel.setRecentData(lifecycleScope)
+            contentClick(data)
+            binding.searchOption = false
+            dismiss()
+        }, {})
+        viewmodel.setRecentData(lifecycleScope)
+        searchResultAdapter.option = false
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewmodel = viewmodel
+        binding.option = false
+        binding.rcSearch.adapter = adapter
+    }
+
+    private fun collectingList() {
+        viewmodel.searchResultList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+            when (result) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    if (result.data!!.isNotEmpty()) {
+                        searchResultAdapter.submitList(result.data)
+                    }
+                }
+            }
+        }
+        viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+            when (result) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    adapter.submitList(result.data)
+                    binding.rcSearch.adapter = adapter
+                }
+            }
+        }
     }
 
     private fun setListener() {
@@ -117,8 +151,9 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewmodel.searchMusic(binding.etSearch.text.toString())
+                binding.rcSearch.adapter = searchResultAdapter
+                binding.searchOption = true
             }
-            Timber.d("done!! $actionId")
             false
         }
         binding.etSearch.setOnFocusChangeListener { view, b ->
@@ -131,12 +166,11 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
 
         binding.ivDelete.setOnClickListener {
             binding.etSearch.text = null
-        }
-
-        binding.etAllDelete.setOnClickListener {
-            adapter.submitList(listOf())
-            viewmodel.allListDelete()
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            lifecycleScope.launch {
+                viewmodel.setRecentData(this)
+                binding.searchOption = false
+                binding.rcSearch.adapter = adapter
+            }
         }
 
         lifecycleScope.launch {
@@ -154,7 +188,6 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
         }
 
 
-
     }
 
     private fun getBottomSheetDialogDefaultHeight(): Int {
@@ -167,6 +200,11 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
             .computeCurrentWindowMetrics((activity as MainActivity))
         val pxHeight = windowMetrics.bounds.height()
         return pxHeight
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewmodel.searchResultList.value?.data?.toMutableList()?.clear()
     }
 }
 

@@ -93,6 +93,7 @@ object GlobalBindingAdapter {
         } else {
         }
     }
+
     @JvmStatic
     @BindingAdapter("load_search_album")
     fun loadSearchImage(view: ImageView, url: String?) {
@@ -105,29 +106,23 @@ object GlobalBindingAdapter {
         }
     }
 
-
-//    데이터 바인딩을 써보고 싶은 진실의 발악,,담에 배우고 수정할게요,,
-//    @JvmStatic
-//    @BindingAdapter("buttonClick")
-//    fun buttonClick(button: Button, click: Boolean) {
-//        button.isSelected = click
-//    }
-
     @JvmStatic
     @BindingAdapter("setMovementMethod")
     fun TextView.setMovementMethod(scroll: Boolean) {
-        if(scroll) movementMethod = ScrollingMovementMethod()
+        if (scroll) movementMethod = ScrollingMovementMethod()
     }
 
     @JvmStatic
     @BindingAdapter("setTagType")
     fun AppCompatTextView.setTagType(tagType: String) {
-        val backgroundDrawable = if (tagType == TAG_IS_FIRST) R.drawable.rectangle_fill_purple2_20dp else R.drawable.rectangle_fill_gray5_20dp
-        val textColor = if (tagType == TAG_IS_FIRST) R.color.mument_color_purple1 else R.color.mument_color_gray1
+        val backgroundDrawable =
+            if (tagType == TAG_IS_FIRST) R.drawable.rectangle_fill_purple2_20dp else R.drawable.rectangle_fill_gray5_20dp
+        val textColor =
+            if (tagType == TAG_IS_FIRST) R.color.mument_color_purple1 else R.color.mument_color_gray1
         background = ContextCompat.getDrawable(context, backgroundDrawable)
         setTextColor(ContextCompat.getColor(context, textColor))
         typeface = ResourcesCompat.getFont(context, R.font.notosans_medium)
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP,12f)
+        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
         setPadding(7.dpToPx(context), 5.dpToPx(context), 7.dpToPx(context), 5.dpToPx(context))
     }
 
@@ -145,16 +140,32 @@ object GlobalBindingAdapter {
 
 
     @JvmStatic
-    @BindingAdapter(value = ["stringRes","drawableIcon"])
+    @BindingAdapter(value = ["stringRes", "drawableIcon"])
     fun AppCompatTextView.setDrawableLeftGravityCenter(stringRes: String, drawableIcon: Drawable) {
         text = SpannableString("   $stringRes").apply {
-            drawableIcon.setBounds(0,0,drawableIcon.intrinsicWidth, drawableIcon.intrinsicHeight)
+            drawableIcon.setBounds(0, 0, drawableIcon.intrinsicWidth, drawableIcon.intrinsicHeight)
             setSpan(
                 ImageSpan(drawableIcon),
                 0,
                 1,
                 Spannable.SPAN_INCLUSIVE_EXCLUSIVE
             )
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("emptyView")
+    fun setEmptyView(view: ImageView, option: Int) {
+        when (option) {
+            1 -> {
+                view.setImageResource(R.drawable.empty_music)
+            }
+            2 -> {
+                view.setImageResource(R.drawable.empty_mument)
+            }
+            3 -> {
+                view.setImageResource(R.drawable.ic_alert)
+            }
         }
     }
 }

@@ -4,8 +4,8 @@ import com.mument_android.app.data.local.todaymument.TodayMumentDAO
 import com.mument_android.app.data.local.todaymument.TodayMumentEntity
 import javax.inject.Inject
 
-class TodayMumentDataSourceImpl @Inject constructor(private val dao: TodayMumentDAO) :
-    TodayMumentDataSource {
+class LocalTodayMumentDataSourceImpl @Inject constructor(private val dao: TodayMumentDAO) :
+    LocalTodayMumentDataSource {
     override suspend fun getTodayMument(): List<TodayMumentEntity> = dao.getTodayMument()
 
 

@@ -4,8 +4,8 @@ import com.mument_android.app.data.local.recentlist.RecentSearchDAO
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import javax.inject.Inject
 
-class RecentSearchListDataSourceImpl @Inject constructor(private val dao: RecentSearchDAO) :
-    RecentSearchListDataSource {
+class LocalRecentSearchListDataSourceImpl @Inject constructor(private val dao: RecentSearchDAO) :
+    LocalRecentSearchListDataSource {
     override suspend fun getAllRecentSearchList(): List<RecentSearchData> = dao.getAllRecentList()
 
 

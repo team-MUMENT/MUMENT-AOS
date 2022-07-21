@@ -12,6 +12,10 @@
             type="Boolean" />
 
         <variable
+            name="searchOption"
+            type="Boolean" />
+
+        <variable
             name="viewmodel"
             type="com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel" />
     </data>
@@ -52,6 +56,7 @@
             android:paddingTop="10dp"
             android:paddingEnd="48dp"
             android:paddingBottom="9dp"
+            android:text="@={viewmodel.searchText}"
             android:textAppearance="@style/TextView.Mument_B4_M14.TextAppearance"
             android:textColor="@color/mument_color_black2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +113,7 @@
                         android:layout_marginTop="35dp"
                         android:text="최근 검색한 곡"
                         android:textColor="@color/mument_color_black1"
-                        android:visibility="@{viewmodel.searchList.data.size()==0||viewmodel.searchResultList.size()!=0? View.GONE:View.VISIBLE}" />
+                        android:visibility="@{viewmodel.searchList.data.size()==0||searchOption? View.GONE:View.VISIBLE}" />
 
                     <View
                         android:layout_width="0dp"
@@ -124,7 +129,7 @@
                         android:layout_marginEnd="14dp"
                         android:text="모두 삭제"
                         android:textColor="@color/mument_color_gray2"
-                        android:visibility="@{viewmodel.searchList.data.size()==0||option==false||viewmodel.searchResultList.size()!=0? View.GONE:View.VISIBLE}" />
+                        android:visibility="@{viewmodel.searchList.data.size()==0||option==false||searchOption? View.GONE:View.VISIBLE}" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -134,7 +139,7 @@
                     android:layout_weight="1"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
-                    android:visibility="@{viewmodel.searchList.data.size() == 0 ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewmodel.searchList.data.size() == 0 &amp;&amp; viewmodel.searchResultList.data.size() == 0? View.GONE : View.VISIBLE}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="parent"
@@ -145,14 +150,15 @@
 
         <ImageView
             android:id="@+id/iv_empty"
+            emptyView="@{searchOption?3:option?1:2}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
-            android:src="@drawable/empty_mument"
-            android:visibility="@{viewmodel.searchList.data.size()==0? View.VISIBLE:View.GONE}"
+            android:visibility="@{((viewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(viewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_search" />
+            app:layout_constraintTop_toBottomOf="@id/et_search"
+            tools:src="@drawable/empty_mument" />
 
         <TextView
             android:id="@+id/tv_empty_title"
@@ -161,9 +167,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="@string/search_record_empty_header"
+            android:text="@{searchOption?@string/search_result_empty_header(viewmodel.searchText):option?@string/search_empty_header:@string/search_record_empty_header}"
             android:textColor="@color/mument_color_gray1"
-            android:visibility="@{viewmodel.searchList.data.size()==0? View.VISIBLE:View.GONE}"
+            android:visibility="@{((viewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(viewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
@@ -173,9 +179,10 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:text="@string/search_record_empty_body"
+            android:text="@{searchOption?@string/search_result_empty_body:@string/search_empty_body}"
             android:textColor="@color/mument_color_gray2"
-            android:visibility="@{viewmodel.searchList.data.size()==0? View.VISIBLE:View.GONE}"
+            android:visibility="@{((viewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(viewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_empty_title" />

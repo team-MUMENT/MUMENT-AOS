@@ -49,21 +49,6 @@ class MyLikeFragment : Fragment() {
             }
         }
         lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
-            /*
-            when (it) {
-                is ApiResult.Loading -> {
-
-                }
-                is ApiResult.Failure -> {}
-                is ApiResult.Success -> {
-                    binding.rvLikeLinear.adapter = LockerTimeAdapter(false)
-                    initLikeEmpty(it.data?.size ?: 0)
-                    //initMumentEmpty(0)
-                    (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
-                    Timber.d("Test : ${lockerViewModel.myMuments.value?.data}")
-                }
-            }
-            */
 
         }
 

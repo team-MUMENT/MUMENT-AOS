@@ -1,28 +1,20 @@
 package com.mument_android.app.di
 
-import com.mument_android.app.data.controller.LikeMumentController
-import com.mument_android.app.data.controller.LikeMumentControllerImpl
-import com.mument_android.app.data.controller.RecordController
+import com.mument_android.app.data.controller.*
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
 import com.mument_android.app.domain.repository.home.HomeRepository
 import com.mument_android.app.domain.repository.locker.LockerRepository
 import com.mument_android.app.domain.repository.record.RecordRepository
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCaseImpl
-import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
-import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCaseImpl
-import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCase
-import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCaseImpl
+import com.mument_android.app.domain.usecase.home.*
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCaseImpl
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCaseImpl
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCaseImpl
-import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCase
-import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCaseImpl
-import com.mument_android.app.domain.usecase.record.RecordMumentUseCase
-import com.mument_android.app.domain.usecase.record.RecordMumentUseCaseImpl
+import com.mument_android.app.domain.usecase.record.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -71,9 +63,29 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideSearchMusicUseCase(homeRepository: HomeRepository): SearchMusicUseCase =
+        SearchMusicUseCaseImpl(homeRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetMumentHistoryUseCase(homeRepository: HomeRepository): GetMumentHistoryUseCase =
+        GetMumentHistoryUseCaseImpl(homeRepository)
+
+    @Provides
+    @Singleton
     fun provideRecordMumentUseCase(
         recordController: RecordController
     ): RecordMumentUseCase = RecordMumentUseCaseImpl(recordController)
 
-
+    @Provides
+    @Singleton
+    fun provideRecordModifyMumentUseCase(
+        recordModifyController: RecordModifyController
+    ):RecordModifyMumentUseCase = RecordModifyMumentUseCaseImpl(recordModifyController)
+    
+    @Provides
+    @Singleton
+    fun provideWhenHomeEnterUseCase(
+        homeRepository: HomeRepository
+    ): WhenHomeEnterUseCase = WhenHomeEnterUseCaseImpl(homeRepository)
 }

@@ -16,10 +16,12 @@ import com.mument_android.app.data.network.home.adapter.HistoryListAdapter
 import com.mument_android.app.presentation.ui.home.viewmodel.HistoryViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentHistoryBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@AndroidEntryPoint
 class HistoryFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentHistoryBinding>()
     private lateinit var adapter: HistoryListAdapter
@@ -44,7 +46,7 @@ class HistoryFragment : Fragment() {
         }
         adapter = HistoryListAdapter(requireContext())
         binding.rcHistory.adapter = adapter
-        adapter.submitList(historyViewModel.musicDetailData.value)
+        //adapter.submitList(historyViewModel.musicDetailData.value)
         collectType()
     }
 

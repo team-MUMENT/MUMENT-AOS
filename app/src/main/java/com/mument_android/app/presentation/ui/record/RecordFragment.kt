@@ -1,7 +1,9 @@
 package com.mument_android.app.presentation.ui.record
 
 import android.accessibilityservice.AccessibilityService
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputFilter
@@ -43,6 +45,7 @@ class RecordFragment : Fragment() {
     private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
+    //private val arge = Navigeargs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,24 +57,33 @@ class RecordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /*if (arge != null) {
+            if (arge.mument.isfirts == true) {
+                recordViewModel.changeIsFirst(true)
+            } else {
+                recordViewModel.findIsFirst()
+            }
+        }*/
         binding.recordViewModel = recordViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         setTagRecyclerView()
         countText()
+
         resetRvImpressionTags()
         firstListenClickEvent()
         secondListenClickEvent()
+
         switchClickEvent()
+
         scrollEditTextView()
         initBottomSheet()
         getAllData()
         isClickDelete()
         observingListen()
-
     }
 
+    //태그들 추가, 삭제 -> 5개 판별
     private fun setTagRecyclerView() {
-
         rvImpressionTagsAdapter = RecordTagAdapter(
             requireContext(),
             false,
@@ -93,7 +105,6 @@ class RecordFragment : Fragment() {
                     )
                 }
             }
-
         )
 
         rvEmotionalTagsAdapter = RecordTagAdapter(
@@ -118,7 +129,6 @@ class RecordFragment : Fragment() {
                 }
             }
         )
-
         with(binding.rvRecordImpressiveTags) {
             setItemDecoration(this)
             setImpressiveRvFlexBoxLayout()
@@ -130,6 +140,7 @@ class RecordFragment : Fragment() {
         }
     }
 
+    // 태그들 마진값
     private fun setItemDecoration(recyclerView: RecyclerView) {
         recyclerView.addItemDecoration(
             RecyclerviewItemDivider(
@@ -140,6 +151,7 @@ class RecordFragment : Fragment() {
         )
     }
 
+    //flexBox 적용
     private fun setImpressiveRvFlexBoxLayout() {
         with(binding.rvRecordImpressiveTags) {
             FlexboxLayoutManager(context).apply {
@@ -170,50 +182,98 @@ class RecordFragment : Fragment() {
         }
     }
 
-    private fun resetRvImpressionTags() {
-
-        binding.btnRecordReset.setOnClickListener {
-            resetButtonClickEvent()
-        }
-    }
-
-    private fun RecyclerView.resetCheckedTags(adapter: RecordTagAdapter) {
-        (0 until adapter.itemCount).forEach {
-            getChildViewHolder(get(it)).run {
-                (this as RecordTagAdapter.RecordTagViewHolder).binding.cbTag.isChecked = false
-            }
-        }
-    }
-
-    private fun observingListen() {
-        recordViewModel.isFirst.observe(viewLifecycleOwner) {
-            if (!it) {
-                binding.btnRecordFirst.isChangeButtonFont(it)
-                binding.btnRecordSecond.isChangeButtonFont(!it)
-                binding.btnRecordFirst.isClickable = false
-            } else {
-                binding.btnRecordFirst.isChangeButtonFont(!it)
-                binding.btnRecordSecond.isChangeButtonFont(it)
-            }
-
-        }
-    }
-
+    @SuppressLint("ClickableViewAccessibility")
     private fun firstListenClickEvent() {
         with(binding) {
             btnRecordFirst.setOnClickListener {
                 btnRecordFirst.isChangeButtonFont(true)
                 btnRecordSecond.isChangeButtonFont(false)
             }
-            btnRecordFirst.setOnTouchListener { view, motionEvent ->
-
+            btnRecordFirst.setOnTouchListener { view, _ ->
                 if (!binding.btnRecordFirst.isClickable) {
-                    requireContext().snackBar(binding.clRecordRoot, "Hi")
+                    requireContext().snackBar(
+                        binding.clRecordRoot,
+                        getString(R.string.record_snackbar_first_info)
+                    )
                 }
                 false
             }
         }
     }
+
+    //바텀시트 올라오면서 처리
+    private fun initBottomSheet() {
+        binding.btnRecordSearch.setOnClickListener {
+            BottomSheetSearchFragment.newInstance {
+                recordViewModel.changeSelectedMusic(it)
+                recordViewModel.findIsFirst()
+            }.show(parentFragmentManager, "bottom sheet")
+            Timber.d(recordViewModel.selectedMusic.value.toString())
+        }
+        recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
+            Timber.e("Test Selected Music : $it")
+            recordViewModel.checkSelectedMusic(it != null)
+            binding.btnRecordFinish.isEnabled = true
+            binding.btnRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
+        }
+    }
+
+    //reset버튼 클릭 리스너
+    private fun resetRvImpressionTags() {
+        binding.btnRecordReset.setOnClickListener {
+            resetButtonClickEvent()
+        }
+    }
+
+    //처음 들었어요 다시들었어요 처리
+    private fun observingListen() {
+        recordViewModel.isFirst.observe(viewLifecycleOwner) {
+            if (it != null) {/*
+                if (arge != null) {
+                    if (arge.mument.isFirst == false) {
+                        if (it) {
+                            binding.btnRecordFirst.isChangeButtonFont(it)
+                            binding.btnRecordSecond.isChangeButtonFont(!it)
+                        } else {
+                            binding.btnRecordFirst.isChangeButtonFont(it)
+                            binding.btnRecordSecond.isChangeButtonFont(!it)
+                            binding.btnRecordFirst.isClickable = false
+                        }
+                    } else {
+                        binding.btnRecordFirst.isChangeButtonFont(!it)
+                        binding.btnRecordSecond.isChangeButtonFont(it)
+                    }
+                } else {*/
+                if (!it) {
+                    binding.btnRecordFirst.isChangeButtonFont(it)
+                    binding.btnRecordSecond.isChangeButtonFont(!it)
+                    binding.btnRecordFirst.isClickable = false
+                } else {
+                    binding.btnRecordFirst.isChangeButtonFont(!it)
+                    binding.btnRecordSecond.isChangeButtonFont(it)
+                }
+                //}
+            } else {
+                binding.btnRecordFirst.isChangeButtonFont(false)
+                binding.btnRecordSecond.isChangeButtonFont(false)
+            }
+        }
+
+        //뮤멘트 작성 완료 멘트떠야함
+        recordViewModel.createdMumentId.observe(viewLifecycleOwner) {
+            if (it == "") {
+                //Timber.d("뮤멘트 작성 실패~")
+            } else {
+                requireContext().snackBar(
+                    binding.clRecordRoot,
+                    getString(R.string.record_finish_record)
+                )
+                recordViewModel.createdMumentId.value = ""
+                // 상세보기로 이동하기
+            }
+        }
+    }
+
 
     private fun secondListenClickEvent() {
         with(binding) {
@@ -224,8 +284,8 @@ class RecordFragment : Fragment() {
         }
     }
 
+    //비밀글 공개글 버튼 리스너
     private fun switchClickEvent() {
-
         binding.switchRecordSecret.setOnClickListener {
             if (binding.switchRecordSecret.isChecked) {
                 binding.tvRecordSecret.setText(R.string.record_secret)
@@ -235,25 +295,7 @@ class RecordFragment : Fragment() {
         }
     }
 
-    private fun Button.isChangeButtonFont(selected: Boolean) {
-        isSelected = selected
-        typeface = ResourcesCompat.getFont(
-            context, if (selected) R.font.notosans_bold else R.font.notosans_medium
-        )
-    }
-
-    private fun TextView.isChangeRedLine() {
-        typeface = ResourcesCompat.getFont(context, R.font.notosans_bold)
-        setTextColor(Color.RED)
-    }
-
-    private fun TextView.isChangeBlack() {
-        typeface = ResourcesCompat.getFont(
-            context, R.font.notosans_medium
-        )
-        setTextColor(Color.GRAY)
-    }
-
+    // length에 대한 조절
     private fun countText() {
         recordViewModel.mumentContent.observe(viewLifecycleOwner) {
             if (it.length >= 1000) {
@@ -264,8 +306,8 @@ class RecordFragment : Fragment() {
         }
     }
 
+    //editTex 스크롤 지정
     private fun scrollEditTextView() {
-
         binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
         binding.etRecordWrite.setOnClickListener {
             binding.svRecord.scrollTo(0, binding.tvRecordWriteTitle.top)
@@ -276,9 +318,9 @@ class RecordFragment : Fragment() {
         }
     }
 
+//리셋버튼 클릭 및 알럿
 
     private fun resetButtonClickEvent() {
-
         MumentDialogBuilder()
             .setHeader(getString(R.string.record_reset_header))
             .setBody(getString(R.string.record_reset_body))
@@ -292,23 +334,21 @@ class RecordFragment : Fragment() {
             .show(childFragmentManager, this.tag)
     }
 
+    //reset 처리
     private fun resetRecord() {
-
-        recordViewModel.checkSelectedMusic(false)
-
         binding.btnRecordFirst.isChangeButtonFont(false)
         binding.btnRecordSecond.isChangeButtonFont(false)
         binding.btnRecordFirst.isClickable = true
+        recordViewModel.removeSelectedMusic()
         binding.clRecordRoot.scrollTo(0, 0)
         binding.etRecordWrite.text.clear()
-
         binding.tvRecordSecret.setText(R.string.record_open)
         binding.switchRecordSecret.isChecked = false
+        binding.btnRecordFinish.isEnabled = false
 
-        recordViewModel.removeSelectedMusic()
     }
 
-
+    //tag 라셋
     private fun resetRecordTags() {
         binding.rvRecordImpressiveTags.resetCheckedTags(rvImpressionTagsAdapter)
         binding.rvRecordEmotionalTags.resetCheckedTags(rvEmotionalTagsAdapter)
@@ -317,36 +357,62 @@ class RecordFragment : Fragment() {
         recordViewModel.resetCheckedList()
     }
 
-    private fun initBottomSheet() {
-        binding.btnRecordSearch.setOnClickListener {
-            BottomSheetSearchFragment.newInstance {
-                recordViewModel.changeSelectedMusic(it)
-                recordViewModel.findIsFirst()
-            }.show(parentFragmentManager, "bottom sheet")
-            Timber.d(recordViewModel.selectedMusic.value.toString())
-        }
-        recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
-            Timber.e("$it")
-            recordViewModel.checkSelectedMusic(true)
-
-        }
-    }
-
-
+    //완료버튼 눌렀을 때
     private fun getAllData() {
         binding.btnRecordFinish.setOnClickListener {
             recordViewModel.postMument()
-
         }
     }
 
+    //곡에서 x버튼 클릭 리스너
     private fun isClickDelete() {
         binding.ivDelete.setOnClickListener {
-            recordViewModel.checkSelectedMusic(false)
             recordViewModel.removeSelectedMusic()
             binding.btnRecordFirst.isClickable = true
+            binding.btnRecordFinish.isEnabled = false
             binding.btnRecordFirst.isChangeButtonFont(false)
             binding.btnRecordSecond.isChangeButtonFont(false)
         }
     }
+
+    // Extension Function
+//버튼 폰트 지정
+    private fun Button.isChangeButtonFont(selected: Boolean) {
+        isSelected = selected
+        typeface = ResourcesCompat.getFont(
+            context, if (selected) R.font.notosans_bold else R.font.notosans_medium
+        )
+    }
+
+    //1000자 넘어가면 색상 변경
+    private fun TextView.isChangeRedLine() {
+        typeface = ResourcesCompat.getFont(context, R.font.notosans_bold)
+        setTextColor(Color.RED)
+    }
+
+    //안 넘어갔을 때 색상
+    private fun TextView.isChangeBlack() {
+        typeface = ResourcesCompat.getFont(
+            context, R.font.notosans_medium
+        )
+        setTextColor(Color.GRAY)
+    }
+
+    //태그들 있는거 for문 돌면서 해지
+    private fun RecyclerView.resetCheckedTags(adapter: RecordTagAdapter) {
+        (0 until adapter.itemCount).forEach {
+            getChildViewHolder(get(it)).run {
+                (this as RecordTagAdapter.RecordTagViewHolder).binding.cbTag.isChecked = false
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.d("OnDestroy View")
+        resetRecord()
+        resetRecordTags()
+    }
 }
+
+

@@ -15,8 +15,6 @@ import timber.log.Timber
 class FilterBottomSheetAdapter(
     val context: Context,
     val checkTagListener: FilterTagCheckListener
-//    val checkListener: (TagEntity) -> Unit,
-//    val unCheckListener: (TagEntity) -> Unit
 ) : ListAdapter<TagEntity, FilterBottomSheetAdapter.BottomSheetFilterHolder>(
     GlobalDiffCallBack<TagEntity>()
 ) {
