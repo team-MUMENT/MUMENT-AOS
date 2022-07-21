@@ -18,6 +18,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -27,6 +29,7 @@ import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
+import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
@@ -45,7 +48,6 @@ class RecordFragment : Fragment() {
     private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
-    //private val arge = Navigeargs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +68,15 @@ class RecordFragment : Fragment() {
         }*/
         binding.recordViewModel = recordViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        arguments?.getString(MUMENT_ID_FOR_EDIT)?.let {
+            Timber.e("$it")
+        }
+
+        arguments?.getParcelable<MumentDetailEntity>(MUMENT_DETAIL_ENTITY)?.let {
+            Timber.e("$it")
+        }
+
         setTagRecyclerView()
         countText()
 
@@ -412,6 +423,12 @@ class RecordFragment : Fragment() {
         Timber.d("OnDestroy View")
         resetRecord()
         resetRecordTags()
+    }
+
+
+    companion object {
+        const val MUMENT_ID_FOR_EDIT = "MUMENT_ID_FOR_EDIT"
+        const val MUMENT_DETAIL_ENTITY = "MUMENT_DETAIL_ENTITY"
     }
 }
 

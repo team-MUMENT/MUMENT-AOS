@@ -3,25 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="musicDetail"
-            type="com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity" />
+            name="mumentSummary"
+            type="com.mument_android.app.domain.entity.detail.MumentSummaryEntity" />
+        <import type="android.view.View"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:paddingHorizontal="13dp"
         android:paddingBottom="16dp"
-        android:layout_marginTop="16dp"
         android:background="@drawable/shape_border_default_redius_11dp"
         android:elevation="2dp">
 
         <ImageView
             android:id="@+id/iv_profile"
-            load_profile="@{musicDetail.myMument.user.image}"
+            load_profile="@{mumentSummary.user.profileImage}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="11dp"
@@ -38,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
-            android:text="@{musicDetail.myMument.user.name}"
+            android:text="@{mumentSummary.user.name}"
             android:textColor="@color/mument_color_black2"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintStart_toEndOf="@id/iv_profile"
@@ -52,7 +51,7 @@
             android:layout_marginEnd="5dp"
             android:background="@drawable/selector_heart_on_off"
             android:button="@null"
-            android:checked="@{musicDetail.myMument.liked}"
+            android:checked="@{mumentSummary.liked}"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toStartOf="@id/tv_like_count"
             app:layout_constraintTop_toTopOf="@id/iv_profile" />
@@ -62,7 +61,7 @@
             style="@style/TextView.Mument_C1_R12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/like_count_integer_format(musicDetail)}"
+            android:text="@{@string/like_count_integer_format(mumentSummary.likeCount)}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,69 +72,23 @@
             android:id="@+id/view_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="11dp"
             android:background="@color/mument_color_gray4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_profile" />
 
-        <ImageView
-            android:id="@+id/iv_album"
-            load_album="@{musicDetail.music.image}"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_divider"
-            app:layout_constraintWidth_percent="0.167"
-            tools:background="@color/mument_color_blue2" />
-
-        <TextView
-            android:id="@+id/tv_album_name"
-            style="@style/TextView.Mument_B3_B14.Style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@{musicDetail.music.name}"
-            android:textColor="@color/mument_color_black2"
-            app:layout_constraintBottom_toTopOf="@id/textview_singer"
-            app:layout_constraintStart_toEndOf="@id/iv_album"
-            app:layout_constraintTop_toTopOf="@id/iv_album"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="하늘나라" />
-
-        <ImageView
-            android:id="@+id/iv_arrow_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:background="@drawable/ic_arrow_right_small"
-            app:layout_constraintBottom_toBottomOf="@id/tv_album_name"
-            app:layout_constraintStart_toEndOf="@id/tv_album_name"
-            app:layout_constraintTop_toTopOf="@id/tv_album_name" />
-
-        <TextView
-            android:id="@+id/textview_singer"
-            style="@style/TextView.Mument_B5_M13.Style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@{musicDetail.music.artist}"
-            android:textColor="@color/mument_color_gray1"
-            app:layout_constraintBottom_toBottomOf="@id/iv_album"
-            app:layout_constraintStart_toStartOf="@+id/tv_album_name"
-            app:layout_constraintTop_toBottomOf="@id/tv_album_name"
-            tools:text="혁오" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_mument_tags"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/iv_album"
-            app:layout_constraintTop_toBottomOf="@id/iv_album"
+            android:visibility="@{mumentSummary.cardTag.empty ? View.GONE : View.VISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/view_divider"
+            app:layout_constraintTop_toBottomOf="@id/view_divider"
             tools:itemCount="2"
             tools:listitem="@layout/item_mument_string_tag" />
 
@@ -146,10 +99,10 @@
             setMovementMethod="@{true}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="10dp"
             android:maxHeight="150dp"
             android:scrollbars="vertical"
-            android:text="@{musicDetail.myMument.content}"
+            android:text="@{mumentSummary.content}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -165,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="@{musicDetail.myMument.date}"
+            android:text="@{mumentSummary.createdAt}"
             android:textColor="@color/mument_color_gray2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_contents"

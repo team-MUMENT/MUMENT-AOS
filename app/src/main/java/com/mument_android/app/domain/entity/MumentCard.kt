@@ -15,6 +15,6 @@ data class MumentCard(
     val isLiked: Boolean?,
     val isPrivate: Boolean?,
     val isFirst: Boolean?,
-    val tag1: String,
-    val tag2: String,
+    val tag1: Int,
+    val tag2: Int,
 )

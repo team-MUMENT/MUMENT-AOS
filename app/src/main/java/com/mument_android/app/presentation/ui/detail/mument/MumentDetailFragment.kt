@@ -7,11 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.mument_android.R
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
+import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
@@ -21,11 +27,13 @@ import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMumentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MumentDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
+    @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +45,13 @@ class MumentDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.mumentDetailViewModel= viewModel
-        binding.tvGoToHistory.applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
+        with(binding) {
+            lifecycleOwner = viewLifecycleOwner
+            mumentDetailViewModel= viewModel
+            tvGoToHistory.applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
+            ivBackButton.setOnClickListener { findNavController().popBackStack() }
+        }
+
         setMumentTags()
         updateMumentTagList()
         changeLikeStatus()
@@ -83,16 +95,19 @@ class MumentDetailFragment : Fragment() {
         }
     }
 
-    // Todo: 수정하기, 삭제하기 BottomSheet 노출
     private fun showEditBottomSheet() {
         binding.ivKebab.setOnClickListener {
-            MumentDialogBuilder()
-                .setHeader("수정을 취소하시겠어요?")
-                .setBody("확인 선택 시 변경사항이 저장되지 않습니다.")
-                .setAllowListener { Timber.e("allow") }
-                .setCancelListener { Timber.e("cancel") }
-                .build()
-                .show(childFragmentManager, this.tag)
+            EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
+                override fun edit() {
+                    viewModel.mumentDetailContent.value?.data?.let {
+                        editMumentNavigatorProvider.editMument(viewModel.mumentId.value, it)
+                    }
+                }
+
+                override fun delete() {
+                    // 삭제하기로 이동
+                }
+            }).show(childFragmentManager, this.tag)
         }
     }
 }

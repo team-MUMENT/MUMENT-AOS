@@ -2,7 +2,7 @@ package com.mument_android.app.data.mapper.detail
 
 import com.mument_android.app.data.dto.detail.MumentDetailDto
 import com.mument_android.app.data.mapper.BaseMapper
-import com.mument_android.app.data.mapper.album.AlbumMapper
+import com.mument_android.app.data.mapper.album.MusicInfoMapper
 import com.mument_android.app.data.mapper.main.EmotionalTagMapper
 import com.mument_android.app.data.mapper.main.ImpressiveTagMapper
 import com.mument_android.app.data.mapper.main.IsFirstTagMapper
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class MumentDetailMapper @Inject constructor(
     private val userMapper: UserMapper,
-    private val albumMapper: AlbumMapper,
+    private val musicInfoMapper: MusicInfoMapper,
     private val impressiveTagMapper: ImpressiveTagMapper,
     private val emotionalTagMapper: EmotionalTagMapper,
     private val isFirstTagMapper: IsFirstTagMapper
@@ -20,7 +20,7 @@ class MumentDetailMapper @Inject constructor(
     override fun map(from: MumentDetailDto): MumentDetailEntity {
         return MumentDetailEntity(
             userMapper.map(from.user),
-            albumMapper.map(from.music),
+            musicInfoMapper.map(from.music),
             isFirstTagMapper.map(from.isFirst),
             from.impressionTag?.map { impressiveTagMapper.map(it) },
             from.feelingTag?.map { emotionalTagMapper.map(it) },

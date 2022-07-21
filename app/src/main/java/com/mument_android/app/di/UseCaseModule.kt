@@ -2,12 +2,19 @@ package com.mument_android.app.di
 
 import com.mument_android.app.data.controller.*
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
+import com.mument_android.app.domain.repository.detail.MumentListRepository
+import com.mument_android.app.domain.repository.detail.MusicDetailRepository
 import com.mument_android.app.domain.repository.home.HomeRepository
 import com.mument_android.app.domain.repository.locker.LockerRepository
 import com.mument_android.app.domain.repository.record.RecordRepository
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCaseImpl
 import com.mument_android.app.domain.usecase.home.*
+import com.mument_android.app.domain.usecase.detail.*
+import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
+import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCaseImpl
+import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCase
+import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCaseImpl
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCaseImpl
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
@@ -88,4 +95,14 @@ object UseCaseModule {
     fun provideWhenHomeEnterUseCase(
         homeRepository: HomeRepository
     ): WhenHomeEnterUseCase = WhenHomeEnterUseCaseImpl(homeRepository)
+
+    @Provides
+    @Singleton
+    fun provideFetchMumentListUseCase(mumentListRepository: MumentListRepository): FetchMumentListUseCase =
+        FetchMumentListUseCaseImpl(mumentListRepository)
+
+    @Provides
+    @Singleton
+    fun provideFetchMusicDetailUseCase(musicDetailRepository: MusicDetailRepository): FetchMusicDetailUseCase =
+        FetchMusicDetailUseCaseImpl(musicDetailRepository)
 }
