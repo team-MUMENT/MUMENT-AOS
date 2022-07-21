@@ -1,31 +1,22 @@
 package com.mument_android.app.presentation.ui.record
 
-import android.accessibilityservice.AccessibilityService
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.text.InputFilter
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.mument_android.BuildConfig
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
@@ -33,10 +24,8 @@ import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IMPRESSIVE
-import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IS_FIRST
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
-import com.mument_android.app.domain.entity.music.MusicInfoEntity
-import com.mument_android.app.domain.entity.user.UserEntity
+import com.mument_android.app.presentation.ui.customview.MumentDialog
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
@@ -66,7 +55,6 @@ class RecordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*if */
         binding.recordViewModel = recordViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -76,66 +64,31 @@ class RecordFragment : Fragment() {
         }
 
         arguments?.getParcelable<MumentDetailEntity>(MUMENT_DETAIL_ENTITY)?.let {
-           Timber.e("$it")
-           recordViewModel.mumentData.value = it
-           if (it.isFirst.tagIdx == 1) {
-               recordViewModel.changeIsFirst(true)
-           } else {
-               recordViewModel.findIsFirst()
-           }
-       }
-
-
-        recordViewModel.mumentId.observe(viewLifecycleOwner) {
             Timber.e("$it")
+            recordViewModel.mumentData.value = it
+            if (it.isFirst.tagIdx == 1) {
+                recordViewModel.changeIsFirst(true)
+            } else {
+                recordViewModel.findIsFirst()
+            }
         }
 
-        recordViewModel.mumentData.observe(viewLifecycleOwner) {
-            Timber.e("receive: ${it}")
-        }
+        setTagRecyclerView()
+        countText()
 
-//        recordViewModel.mumentData.value = MumentDetailEntity(
-//            writerInfo = UserEntity(
-//                BuildConfig.USER_ID,
-//                "이민호",
-//                "https://cdnimg.melon.co.kr/cm2/album/images/107/10/311/10710311_20210909184021_500.jpg?6513495083f58ce168a24189a1edb874/melon/resize/282/quality/80/optimize"
-//            ),
-//            musicInfo = MusicInfoEntity(
-//                "62d2959e177f6e81ee8fa3de",
-//                "구애",
-//                "https://mument.s3.ap-northeast-2.amazonaws.com/music/%EA%B5%AC%EC%95%A0+(%E6%B1%82%E6%84%9B)+-+%EC%84%A0%EC%9A%B0%EC%A0%95%EC%95%84.jpg",
-//                "선우정아",
-//            ),
-//            isFirst = TagEntity(TAG_IS_FIRST, R.string.tag_has_heard, 0),
-//            impressionTags = listOf(
-//                TagEntity(TAG_IMPRESSIVE, ImpressiveTag.values()[0].tag,  ImpressiveTag.values()[0].tagIndex),
-//                TagEntity(TAG_IMPRESSIVE, ImpressiveTag.values()[1].tag,  ImpressiveTag.values()[1].tagIndex),
-//            ),
-//            emotionalTags = listOf(
-//                TagEntity(TAG_EMOTIONAL, EmotionalTag.values()[0].tag, EmotionalTag.values()[0].tagIndex),
-//                TagEntity(TAG_EMOTIONAL, EmotionalTag.values()[1].tag, EmotionalTag.values()[1].tagIndex),
-//            ),
-//            content = "Hi",
-//            createdDate = "2021",
-//            isLiked = false,
-//            mumentHistoryCount = 10,
-//            likeCount = 1
-//        )
+        resetRvImpressionTags()
+        firstListenClickEvent()
+        secondListenClickEvent()
 
-        setTagRecyclerView ()
-        countText ()
+        switchClickEvent()
 
-        resetRvImpressionTags ()
-        firstListenClickEvent ()
-        secondListenClickEvent ()
+        scrollEditTextView()
+        initBottomSheet()
+        getAllData()
+        isClickDelete()
+        observingListen()
 
-        switchClickEvent ()
-
-        scrollEditTextView ()
-        initBottomSheet ()
-        getAllData ()
-        isClickDelete ()
-        observingListen ()
+        modifyRevoke()
     }
 
     //태그들 추가, 삭제 -> 5개 판별
@@ -315,19 +268,6 @@ class RecordFragment : Fragment() {
             }
         }
 
-        //뮤멘트 작성 완료 멘트떠야함
-        recordViewModel.createdMumentId.observe(viewLifecycleOwner) {
-            if (it == "") {
-                //Timber.d("뮤멘트 작성 실패~")
-            } else {
-                requireContext().snackBar(
-                    binding.clRecordRoot,
-                    getString(R.string.record_finish_record)
-                )
-                recordViewModel.createdMumentId.value = ""
-                // 상세보기로 이동하기
-            }
-        }
         recordViewModel.mumentData.observe(viewLifecycleOwner) {
             if (it != null) {
                 Timber.e("${it.impressionTags}")
@@ -441,9 +381,44 @@ class RecordFragment : Fragment() {
     //완료버튼 눌렀을 때
     private fun getAllData() {
         binding.btnRecordFinish.setOnClickListener {
-            recordViewModel.postMument()
+            if (recordViewModel.mumentId.value == "") {
+                requireContext().snackBar(
+                    binding.clRecordRoot,
+                    getString(R.string.record_finish_record)
+                )
+                recordViewModel.mumentId.value = ""
+                recordViewModel.postMument()
+
+            } else {
+                requireContext().snackBar(
+                    binding.clRecordRoot,
+                    getString(R.string.modify_record)
+                )
+                recordViewModel.mumentId.value = ""
+                recordViewModel.putMument()
+            }
         }
     }
+
+    private fun modifyRevoke() {
+        binding.btnModifyDelete.setOnClickListener {
+            MumentDialogBuilder()
+                .setHeader(getString(R.string.modify_header))
+                .setBody(getString(R.string.modify_body))
+                .setOption(true)
+                .setAllowListener {
+                    //곡 상세보기로 이동
+                }
+                .setCancelListener {
+                    //그대로
+                }
+                .build()
+                .show(childFragmentManager, this.tag)
+        }
+    }
+
+
+
 
     //곡에서 x버튼 클릭 리스너
     private fun isClickDelete() {
@@ -491,8 +466,11 @@ class RecordFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         Timber.d("OnDestroy View")
+        recordViewModel.mumentId.value = ""
         resetRecord()
         resetRecordTags()
+
+
     }
 
 

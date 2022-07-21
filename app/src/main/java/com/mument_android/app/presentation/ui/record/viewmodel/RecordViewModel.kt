@@ -41,6 +41,14 @@ class RecordViewModel @Inject constructor(
     private val _createdMumentId = MutableLiveData<String>("")
     val createdMumentId = _createdMumentId
 
+    private val _modifyMumentId = MutableLiveData<String>("")
+    val modifyMumentId = _modifyMumentId
+
+
+    private val _isRecord = MutableLiveData<Boolean>(false)
+    val isRecord get() :LiveData<Boolean> = _isRecord
+
+
     val mumentData = MutableLiveData<MumentDetailEntity>()
 
     var isPrivate = MutableLiveData<Boolean>(false)
@@ -87,7 +95,7 @@ class RecordViewModel @Inject constructor(
                 recordModifyMumentUseCase(mumentId = mumentId.value!!, recordDto).catch { e ->
                     e.printStackTrace()
                 }.collect {
-                    _createdMumentId.value = it
+                    _modifyMumentId.value = it
                 }
             }
         }
