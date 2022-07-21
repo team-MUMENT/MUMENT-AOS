@@ -82,6 +82,10 @@ object UseCaseModule {
     fun provideRecordModifyMumentUseCase(
         recordModifyController: RecordModifyController
     ):RecordModifyMumentUseCase = RecordModifyMumentUseCaseImpl(recordModifyController)
-
-
+    
+    @Provides
+    @Singleton
+    fun provideWhenHomeEnterUseCase(
+        homeRepository: HomeRepository
+    ): WhenHomeEnterUseCase = WhenHomeEnterUseCaseImpl(homeRepository)
 }

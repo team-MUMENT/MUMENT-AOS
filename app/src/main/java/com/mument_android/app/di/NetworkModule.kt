@@ -58,7 +58,6 @@ object NetworkModule {
     @Singleton
     fun provideRecordApiService(retrofit: Retrofit): RecordApiService = retrofit.create(RecordApiService::class.java)
 
-
     @Provides
     @Singleton
     fun provideLockerNetwork(retrofit: Retrofit): LockerApiService =
