@@ -11,6 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.SearchListAdapter
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
@@ -48,6 +50,7 @@ class SearchFragment : Fragment() {
     private fun settingAdapterAndDatabinding() {
         searchAdapter = SearchListAdapter(requireContext(), { data ->
             viewmodel.selectContent(data)
+            findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment)
         }, { data ->
             viewmodel.deleteRecentList(data)
         })

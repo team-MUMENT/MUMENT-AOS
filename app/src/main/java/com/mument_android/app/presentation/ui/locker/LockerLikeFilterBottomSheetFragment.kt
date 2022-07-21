@@ -211,7 +211,7 @@ class LockerLikeFilterBottomSheetFragment(
                 layoutManager = it
                 adapter = filterBottomSheetAdapterImpress
             }
-            filterBottomSheetAdapterImpress.selectedTags = initialTags.toMutableList()
+            filterBottomSheetAdapterImpress.selectedTags.addAll(initialTags)
             filterBottomSheetAdapterImpress.submitList(lockerFilterViewModel.impressionTags)
 
         }
@@ -226,7 +226,7 @@ class LockerLikeFilterBottomSheetFragment(
                 layoutManager = it
                 adapter = filterBottomSheetAdpaterEmotion
             }
-            filterBottomSheetAdpaterEmotion.selectedTags = initialTags.toMutableList()
+            filterBottomSheetAdpaterEmotion.selectedTags.addAll(initialTags)
             filterBottomSheetAdpaterEmotion.submitList(lockerFilterViewModel.emotionalTags)
         }
     }

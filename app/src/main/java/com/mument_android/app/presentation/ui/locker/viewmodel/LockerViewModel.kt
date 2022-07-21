@@ -169,6 +169,10 @@ class LockerViewModel @Inject constructor(
         _isGridLayout.value = isGrid
     }
 
+    fun chagneIsGridLikeLayout(isGrid: Boolean) {
+        _isGridLayout.value = isGrid
+    }
+
     //좋아요 그리드 변경
     fun changeLikeIsGridLayout(isGrid: Boolean) {
         _isLikeGridLayout.value = isGrid

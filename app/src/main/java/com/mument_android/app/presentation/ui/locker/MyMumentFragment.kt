@@ -37,8 +37,6 @@ class MyMumentFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
 
-
-        setMyMumentListAdapter()
         emptyBtnClick()
         settingRecyclerView()
         listBtnClickListener()

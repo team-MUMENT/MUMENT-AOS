@@ -11,9 +11,6 @@ class LockerFilterViewModel: ViewModel() {
     val emotionalTags = EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }
     val impressionTags = ImpressiveTag.values().map { TagEntity(TagEntity.TAG_IMPRESSIVE, it.tag, it.tagIndex) }
 
-    private val _initialSelectedTags = MutableLiveData<List<TagEntity>>()
-    val initialSelectedTags = _initialSelectedTags
-
     private val _selectedTags = MutableLiveData<List<TagEntity>>(mutableListOf())
     val selectedTags = _selectedTags
 
@@ -25,13 +22,17 @@ class LockerFilterViewModel: ViewModel() {
     private val _likeSelectedTags = MutableLiveData<List<TagEntity>>(mutableListOf())
     val likeSelectedTags = _likeSelectedTags
 
-
-
-
     //보관함 내 뮤멘트
     fun addSelectedTag(tag: TagEntity) {
         selectedTags.value?.toMutableList()?.let {
             it.add(tag)
+            _selectedTags.value = it
+        }
+    }
+
+    fun addInitialTags(tags: List<TagEntity>) {
+        selectedTags.value?.toMutableList().let {
+            it?.addAll(tags)
             _selectedTags.value = it
         }
     }
@@ -45,10 +46,6 @@ class LockerFilterViewModel: ViewModel() {
 
     fun clearSelectedTags() {
         _selectedTags.value = emptyList()
-    }
-
-    fun changeInitialSelectedTags(tags: List<TagEntity>) {
-        _initialSelectedTags.value = tags
     }
 
 

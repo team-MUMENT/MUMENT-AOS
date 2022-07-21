@@ -15,8 +15,10 @@ import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMyLikeBinding
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MyLikeFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyLikeBinding>()
     private val lockerViewModel: LockerViewModel by viewModels(ownerProducer = { requireParentFragment() })
@@ -34,9 +36,7 @@ class MyLikeFragment : Fragment() {
         binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
-        lockerViewModel.fetchMyLikeList()
 
-        setMyMumentListAdapter()
         settingRecyclerView()
         listBtnClickListener()
         gridBtnClickListener()
@@ -44,9 +44,14 @@ class MyLikeFragment : Fragment() {
         fetchLikes()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setMyMumentListAdapter()
+    }
+
     private fun setGridServerConnection() {
         binding.rvLikeLinear.run {
-            lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
+            lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
                 adapter = LockerTimeAdapter(isGridLayout = true)
                 (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
             }
@@ -75,9 +80,9 @@ class MyLikeFragment : Fragment() {
     //TODO: 필터 및 아이콘들 비활성화
     private fun initLikeEmpty(size: Int) {
         if (size == 0) {
-            binding.clEmptyView.visibility = View.VISIBLE
+            binding.clFilterResultNull.visibility = View.VISIBLE
         } else {
-            binding.clEmptyView.visibility = View.GONE
+            binding.clFilterResultNull.visibility = View.GONE
         }
     }
 
