@@ -93,4 +93,7 @@
     <string name="sort_latest">최신순</string>
     <string name="sort_like_count">좋아요순</string>
 
+    <string name="filter_result_none_title">필터 검색 결과가 없어요.</string>
+    <string name="filter_result_none_subtitle">선택한 필터를 변경해보세요.</string>
+
 </resources>

@@ -88,16 +88,16 @@ class MyMumentFragment : Fragment() {
     //TODO: 필터 및 아이콘들 비활성화
     private fun initMumentEmpty(size : Int) {
         if(size == 0) {
-            binding.clEmptyView.visibility = View.VISIBLE
+           binding.clFilterResultNull.visibility = View.VISIBLE
 
         } else {
-            binding.clEmptyView.visibility = View.GONE
+           binding.clFilterResultNull.visibility = View.GONE
         }
     }
 
     private fun emptyBtnClick() {
         binding.clEmptyRecord.setOnClickListener {
-            //TODO: 기록하기 뷰로 이동
+            //TODO: 기록하기 뷰로 이동 -> 데모데이 때 X
         }
     }
 
