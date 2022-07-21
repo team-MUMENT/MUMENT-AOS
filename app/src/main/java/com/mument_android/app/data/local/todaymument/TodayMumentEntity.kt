@@ -7,9 +7,9 @@ import com.mument_android.app.data.local.todaymument.todaymumentdata.User
 
 @Entity(tableName = "today_mument_table")
 data class TodayMumentEntity(
-    @PrimaryKey
     val _id: String,
     val content: String,
+    @PrimaryKey
     val createdAt: String,
     val feelingTag: List<Int>,
     val impressionTag: List<Int>,
