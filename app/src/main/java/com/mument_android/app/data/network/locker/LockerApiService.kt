@@ -15,4 +15,12 @@ interface LockerApiService {
         @Query("tag2") tag2: Int?,
         @Query("tag3") tag3: Int?
     ): BaseResponse<LockerMyMumentDto>
+
+    @GET("/user/like/{userId}/list")
+    suspend fun lockerLikeList(
+        @Path("userId") userId : String,
+        @Query("tag1") tag1: Int?,
+        @Query("tag2") tag2: Int?,
+        @Query("tag3") tag3: Int?
+    ): BaseResponse<LockerMyMumentDto>
 }
