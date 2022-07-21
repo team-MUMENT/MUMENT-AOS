@@ -12,13 +12,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
 import com.mument_android.R
+import com.mument_android.app.data.dto.home.Banner
 import com.mument_android.app.domain.entity.TempBannerData
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemBannerLayoutBinding
 
-class BannerListAdapter(val data: List<TempBannerData>) :
-    RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>(){
+class BannerListAdapter(var data: List<Banner>) :
+    RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>() {
 
+
+    val albumImage = listOf<Int>(
+        R.drawable.mument_banner_1,
+        R.drawable.mument_banner_2,
+        R.drawable.mument_banner_3
+    )
 
     class BannerViewHolder(val binding: ItemBannerLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -34,11 +41,15 @@ class BannerListAdapter(val data: List<TempBannerData>) :
     }
 
     override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
-        val builder = SpannableStringBuilder((position%data.size+1).toString()+" / "+data.size)
-        val span = ForegroundColorSpan(Color.WHITE)
-        builder.setSpan(span, 0,1,Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
-        holder.binding.setVariable(BR.banner, data[position%data.size])
-        holder.binding.tvIndex.text = builder
+        if (data.isNotEmpty()) {
+            val builder =
+                SpannableStringBuilder((position % data.size + 1).toString() + " / " + data.size)
+            val span = ForegroundColorSpan(Color.WHITE)
+            builder.setSpan(span, 0, 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+            holder.binding.banner = (data[position % data.size])
+            holder.binding.position = (position % data.size).toString()
+            holder.binding.tvIndex.text = builder
+        }
     }
 
     override fun getItemCount(): Int {
