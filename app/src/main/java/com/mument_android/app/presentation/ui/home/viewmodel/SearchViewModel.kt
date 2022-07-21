@@ -45,10 +45,6 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    init {
-        setRecentData(viewModelScope)
-    }
-
     fun setRecentData(scope: CoroutineScope) {
         scope.launch {
             cruRecentSearchListUseCase.getAllRecentSearchList().onStart {

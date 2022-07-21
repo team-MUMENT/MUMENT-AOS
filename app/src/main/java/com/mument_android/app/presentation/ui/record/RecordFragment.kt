@@ -3,6 +3,7 @@ package com.mument_android.app.presentation.ui.record
 import android.accessibilityservice.AccessibilityService
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputFilter
@@ -44,6 +45,8 @@ class RecordFragment : Fragment() {
     private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
+    //private val arge = Navigeargs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +58,13 @@ class RecordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        /*if (arge != null) {
+            if (arge.mument.isfirts == true) {
+                recordViewModel.changeIsFirst(true)
+            } else {
+                recordViewModel.findIsFirst()
+            }
+        }*/
         binding.recordViewModel = recordViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         setTagRecyclerView()
@@ -192,9 +201,9 @@ class RecordFragment : Fragment() {
                 }
                 false
             }
-            }
-            }
-  
+        }
+    }
+
 
     //바텀시트 올라오면서 처리
     private fun initBottomSheet() {
@@ -208,7 +217,7 @@ class RecordFragment : Fragment() {
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
             Timber.e("Test Selected Music : $it")
             recordViewModel.checkSelectedMusic(it != null)
-            binding.btnRecordFinish.isEnabled =true
+            binding.btnRecordFinish.isEnabled = true
             binding.btnRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
         }
     }
@@ -223,20 +232,50 @@ class RecordFragment : Fragment() {
     //처음 들었어요 다시들었어요 처리
     private fun observingListen() {
         recordViewModel.isFirst.observe(viewLifecycleOwner) {
-            if (it != null) {
-                if (!it) {
-                    binding.btnRecordFirst.isChangeButtonFont(it)
-                    binding.btnRecordSecond.isChangeButtonFont(!it)
-                    binding.btnRecordFirst.isClickable = false
-                } else {
-                    binding.btnRecordFirst.isChangeButtonFont(!it)
-                    binding.btnRecordSecond.isChangeButtonFont(it)
-                }
-            }else{
+            if (it != null) {/*
+                if (arge != null) {
+                    if (arge.mument.isFirst == false) {
+                        if (it) {
+                            binding.btnRecordFirst.isChangeButtonFont(it)
+                            binding.btnRecordSecond.isChangeButtonFont(!it)
+                        } else {
+                            binding.btnRecordFirst.isChangeButtonFont(it)
+                            binding.btnRecordSecond.isChangeButtonFont(!it)
+                            binding.btnRecordFirst.isClickable = false
+                        }
+                    } else {
+                        binding.btnRecordFirst.isChangeButtonFont(!it)
+                        binding.btnRecordSecond.isChangeButtonFont(it)
+                    }
+                } else {*/
+                    if (!it) {
+                        binding.btnRecordFirst.isChangeButtonFont(it)
+                        binding.btnRecordSecond.isChangeButtonFont(!it)
+                        binding.btnRecordFirst.isClickable = false
+                    } else {
+                        binding.btnRecordFirst.isChangeButtonFont(!it)
+                        binding.btnRecordSecond.isChangeButtonFont(it)
+                    }
+                //}
+            } else {
                 binding.btnRecordFirst.isChangeButtonFont(false)
                 binding.btnRecordSecond.isChangeButtonFont(false)
             }
             Timber.d("Observe $it")
+        }
+
+        //뮤멘트 작성 완료 멘트떠야함
+        recordViewModel.createdMumentId.observe(viewLifecycleOwner) {
+            if (it == "") {
+                //Timber.d("뮤멘트 작성 실패~")
+            } else {
+                requireContext().snackBar(
+                    binding.clRecordRoot,
+                    getString(R.string.record_finish_record)
+                )
+                // 상세보기로 이동하기
+
+            }
         }
     }
 
@@ -310,7 +349,7 @@ class RecordFragment : Fragment() {
         binding.etRecordWrite.text.clear()
         binding.tvRecordSecret.setText(R.string.record_open)
         binding.switchRecordSecret.isChecked = false
-        binding.btnRecordFinish.isEnabled =false
+        binding.btnRecordFinish.isEnabled = false
 
     }
 
@@ -326,7 +365,7 @@ class RecordFragment : Fragment() {
     //완료버튼 눌렀을 때
     private fun getAllData() {
         binding.btnRecordFinish.setOnClickListener {
-            recordViewModel.postMument()
+            recordViewModel.putMument()
         }
     }
 
@@ -335,8 +374,7 @@ class RecordFragment : Fragment() {
         binding.ivDelete.setOnClickListener {
             recordViewModel.removeSelectedMusic()
             binding.btnRecordFirst.isClickable = true
-            binding.btnRecordFinish.isEnabled =false
-
+            binding.btnRecordFinish.isEnabled = false
             binding.btnRecordFirst.isChangeButtonFont(false)
             binding.btnRecordSecond.isChangeButtonFont(false)
         }
@@ -374,3 +412,5 @@ class RecordFragment : Fragment() {
         }
     }
 }
+
+

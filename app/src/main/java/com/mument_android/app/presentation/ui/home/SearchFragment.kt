@@ -55,6 +55,7 @@ class SearchFragment : Fragment() {
         searchResultAdapter = SearchListAdapter(requireContext(), { data ->
             viewmodel.selectContent(data)
         }, {})
+        viewmodel.setRecentData(lifecycleScope)
         searchResultAdapter.option = false
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewmodel
