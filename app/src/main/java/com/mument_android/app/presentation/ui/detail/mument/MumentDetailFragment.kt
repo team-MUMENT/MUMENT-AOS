@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -27,6 +28,7 @@ import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMumentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,6 +36,7 @@ import javax.inject.Inject
 class MumentDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
+    private val args: MumentDetailFragmentArgs by navArgs()
     @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
 
     override fun onCreateView(
@@ -53,12 +56,16 @@ class MumentDetailFragment : Fragment() {
             ivBackButton.setOnClickListener { findNavController().popBackStack() }
         }
 
+        viewModel.changeMumentId(args.mumentId)
+        viewModel.fetchMumentDetailContent(args.mumentId)
+        binding.ivBackButton.setOnClickListener { findNavController().popBackStack() }
         setMumentTags()
         updateMumentTagList()
         changeLikeStatus()
         goToMumentHistory()
         showEditBottomSheet()
         successDeleteMument()
+        goToMusicDetail()
     }
 
     private fun setMumentTags() {
@@ -119,8 +126,20 @@ class MumentDetailFragment : Fragment() {
 
     private fun successDeleteMument() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.successDelete.collect {
-                findNavController().popBackStack()
+            launch {
+                viewModel.successDelete.collect {
+                    findNavController().popBackStack()
+                }
+            }
+        }
+    }
+
+    private fun goToMusicDetail()  {
+        binding.viewAlbumClickArea.setOnClickListener {
+            MumentDetailFragmentDirections.actionMumentDetailFragmentToMusicDetailFragment(
+                viewModel.mumentDetailContent.value?.data?.musicInfo?.id ?: ""
+            ).also {
+                findNavController().navigate(it)
             }
         }
     }

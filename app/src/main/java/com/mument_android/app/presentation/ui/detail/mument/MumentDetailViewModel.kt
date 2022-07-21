@@ -28,7 +28,7 @@ class MumentDetailViewModel @Inject constructor(
 ): ViewModel() {
     val isLiked = MutableStateFlow<Boolean>(false)
 
-    private val _mumentId = MutableStateFlow("62cd6d136500907694a2a548")
+    private val _mumentId = MutableStateFlow("")
     val mumentId = _mumentId.asStateFlow()
 
     private val _mumentDetailContent = MutableStateFlow<ApiResult<MumentDetailEntity>?>(null)
@@ -39,10 +39,6 @@ class MumentDetailViewModel @Inject constructor(
 
     private val _successDelete = MutableSharedFlow<Unit>()
     val successDelete = _successDelete.asSharedFlow()
-
-    init {
-        fetchMumentDetailContent()
-    }
 
     fun changeMumentId(id: String) {
         _mumentId.value = id
@@ -56,9 +52,9 @@ class MumentDetailViewModel @Inject constructor(
         _likeCount.value = likeCount.value - 1
     }
 
-    private fun fetchMumentDetailContent() {
+    fun fetchMumentDetailContent(mumentId: String) {
         viewModelScope.launch {
-            fetchMumentDetailContentUseCase(mumentId.value, BuildConfig.USER_ID).onStart {
+            fetchMumentDetailContentUseCase(mumentId, BuildConfig.USER_ID).onStart {
                 _mumentDetailContent.value = ApiResult.Loading(null)
             }.catch { e ->
                 _mumentDetailContent.value = ApiResult.Failure(e)
@@ -95,9 +91,10 @@ class MumentDetailViewModel @Inject constructor(
     fun deleteMument() {
         viewModelScope.launch {
             deleteMumentUseCase(mumentId.value).catch { e ->
+                _successDelete.emit(Unit)
                 e.printStackTrace()
             }.collect {
-                _successDelete.emit(it)
+                _successDelete.emit(Unit)
             }
         }
     }

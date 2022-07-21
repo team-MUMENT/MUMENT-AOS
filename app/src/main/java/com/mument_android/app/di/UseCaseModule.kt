@@ -112,7 +112,7 @@ object UseCaseModule {
     @Singleton
     fun provideFetchMusicDetailUseCase(musicDetailRepository: MusicDetailRepository): FetchMusicDetailUseCase =
         FetchMusicDetailUseCaseImpl(musicDetailRepository)
-    
+
     @Provides
     @Singleton
     fun proivdeDeleteMumentUseCase(deleteMumentController: DeleteMumentController): DeleteMumentUseCase =

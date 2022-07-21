@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTimeAdapter
@@ -23,6 +24,7 @@ import timber.log.Timber
 class MyMumentFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyMumentBinding>()
     private val lockerViewModel: LockerViewModel by viewModels( ownerProducer = { requireParentFragment() } )
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +39,7 @@ class MyMumentFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
 
+        setMyMumentListAdapter()
         emptyBtnClick()
         settingRecyclerView()
         listBtnClickListener()
@@ -53,7 +56,9 @@ class MyMumentFragment : Fragment() {
     private fun setGridServerConnection() {
         binding.rvMumentLinear.run {
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
-                adapter = LockerTimeAdapter(isGridLayout)
+                adapter = LockerTimeAdapter(isGridLayout) {
+                    showMumentDetail(it)
+                }
                 (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
                 //(adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
             }
@@ -67,15 +72,15 @@ class MyMumentFragment : Fragment() {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    binding.rvMumentLinear.adapter = LockerTimeAdapter(false)
+                    binding.rvMumentLinear.adapter = LockerTimeAdapter(false) {
+                        showMumentDetail(it)
+                    }
                     initMumentEmpty(it.data?.size ?: 0)
                     //initMumentEmpty(0)
                     (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
                 }
             }
-
         }
-
     }
 
     /*initMumentEmpty(it.size)
@@ -85,7 +90,6 @@ class MyMumentFragment : Fragment() {
     private fun initMumentEmpty(size : Int) {
         if(size == 0) {
            binding.clFilterResultNull.visibility = View.VISIBLE
-
         } else {
            binding.clFilterResultNull.visibility = View.GONE
         }
@@ -121,7 +125,6 @@ class MyMumentFragment : Fragment() {
             LockerFilterBottomSheetFragment.newInstance(
                 lockerViewModel.checkedTagList.value ?: listOf(),
                 completeSelectListener = {
-                    Timber.e("PLEASE .... $it")
                     lockerViewModel.changeCheckedTagList(it)
                 }
             ).show(parentFragmentManager, "LockerFilterBottomSheetFragment")
@@ -163,5 +166,10 @@ class MyMumentFragment : Fragment() {
         lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
             lockerViewModel.fetchMyMumentList()
         }
+    }
+
+    private fun showMumentDetail(mumentId: String) {
+        val action = LockerFragmentDirections.actionLockerFragmentToMumentDetailFragment(mumentId)
+        findNavController().navigate(action)
     }
 }

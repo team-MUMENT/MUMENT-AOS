@@ -13,7 +13,10 @@ import com.mument_android.databinding.ItemLockerDateBinding
 import timber.log.Timber
 
 //부모 어뎁터
-class LockerTimeAdapter(private val isGridLayout: Boolean): ListAdapter<LockerMumentEntity,LockerTimeAdapter.LockerTimeViewHolder>(
+class LockerTimeAdapter(
+    private val isGridLayout: Boolean,
+    private val showDetailListener: (String) -> Unit
+): ListAdapter<LockerMumentEntity,LockerTimeAdapter.LockerTimeViewHolder>(
     GlobalDiffCallBack<LockerMumentEntity>()
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LockerTimeViewHolder {
@@ -32,12 +35,17 @@ class LockerTimeAdapter(private val isGridLayout: Boolean): ListAdapter<LockerMu
         val mumentList = getItem(holder.absoluteAdapterPosition)
         holder.binding.rvMumentLinear.run {
             if(isGridLayout) {
-                adapter = LockerMumentGridAdapter()
+                adapter = LockerMumentGridAdapter {
+                    showDetailListener(it)
+                }
                 (adapter as LockerMumentGridAdapter).submitList(mumentList.mumentCard)
                 val gridLayoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
                 holder.binding.rvMumentLinear.layoutManager = gridLayoutManager
             } else {
-                adapter = LockerMumentLinearAdapter()
+                adapter = LockerMumentLinearAdapter {
+                    showDetailListener(it)
+                }
+
                 (adapter as LockerMumentLinearAdapter).submitList(mumentList.mumentCard)
             }
         }

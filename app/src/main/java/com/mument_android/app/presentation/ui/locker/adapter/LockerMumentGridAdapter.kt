@@ -11,7 +11,9 @@ import com.mument_android.databinding.ItemMumentImageBinding
 import timber.log.Timber
 
 //자식어뎁터
-class LockerMumentGridAdapter() :
+class LockerMumentGridAdapter(
+    private val showDetailListener: (String) -> Unit
+) :
     ListAdapter<LockerMumentEntity.MumentLockerCard, LockerMumentGridAdapter.MumentViewHolder>(
         GlobalDiffCallBack<LockerMumentEntity.MumentLockerCard>()
     ) {
@@ -27,7 +29,9 @@ class LockerMumentGridAdapter() :
 
     override fun onBindViewHolder(holder: MumentViewHolder, position: Int) {
         holder.binding.setVariable(BR.mument, getItem(position))
-        //TODO: 클릭 리스너로 상세 뮤멘트 연결
+        holder.binding.root.setOnClickListener {
+            getItem(position)._id?.let { it -> showDetailListener(it) }
+        }
     }
 
     class MumentViewHolder(val binding: ItemMumentImageBinding) : RecyclerView.ViewHolder(binding.root)

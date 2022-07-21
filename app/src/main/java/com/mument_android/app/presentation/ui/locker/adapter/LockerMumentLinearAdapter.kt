@@ -11,7 +11,9 @@ import com.mument_android.databinding.ItemLockerCardBinding
 import timber.log.Timber
 
 //자식어뎁터
-class LockerMumentLinearAdapter() : ListAdapter<LockerMumentEntity.MumentLockerCard, LockerMumentLinearAdapter.MumentViewHolder>(
+class LockerMumentLinearAdapter(
+    private val showDetailListener: (String) -> Unit
+) : ListAdapter<LockerMumentEntity.MumentLockerCard, LockerMumentLinearAdapter.MumentViewHolder>(
     GlobalDiffCallBack<LockerMumentEntity.MumentLockerCard>()
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MumentViewHolder {
@@ -25,7 +27,9 @@ class LockerMumentLinearAdapter() : ListAdapter<LockerMumentEntity.MumentLockerC
 
     override fun onBindViewHolder(holder: MumentViewHolder, position: Int) {
         holder.binding.setVariable(BR.mument, getItem(position))
-        //TODO: 클릭 리스너로 상세 뮤멘트 연결
+        holder.binding.root.setOnClickListener {
+            getItem(position)._id?.let { it -> showDetailListener(it) }
+        }
     }
 
     class MumentViewHolder(val binding: ItemLockerCardBinding) : RecyclerView.ViewHolder(binding.root)
