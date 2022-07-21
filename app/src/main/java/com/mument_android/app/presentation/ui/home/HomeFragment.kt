@@ -15,8 +15,10 @@ import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.BannerListAdapter
 import com.mument_android.app.data.network.home.adapter.HeardMumentListAdapter
 import com.mument_android.app.data.network.home.adapter.ImpressiveEmotionListAdapter
+import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel
 import com.mument_android.app.util.AutoClearedValue
+import com.mument_android.app.util.launchWhenStarted
 import com.mument_android.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -53,7 +55,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment)
         }
         binding.tvSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_mumentHistoryFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
             /*BottomSheetSearchFragment.newInstance().show(childFragmentManager, "Search")*/
         }
     }
@@ -61,13 +63,11 @@ class HomeFragment : Fragment() {
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { {} }
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { {} }
-        bannerAdapter = BannerListAdapter(viewModel.bannerData)
+        bannerAdapter = BannerListAdapter(viewModel.bannerData.value!!.toMutableList())
+        binding.vpBanner.adapter = bannerAdapter
     }
 
     private fun setRecyclerView() {
-        binding.rcHeard.adapter = heardAdapter
-        binding.rcImpressive.adapter = impressiveAdapter
-        binding.vpBanner.adapter = bannerAdapter
         binding.vpBanner.offscreenPageLimit = 1
         binding.vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -86,8 +86,27 @@ class HomeFragment : Fragment() {
     }
 
     private fun setListData() {
-        //bannerAdapter.()
-        heardAdapter.submitList(viewModel.mument)
-        impressiveAdapter.submitList(viewModel.mument)
+        viewModel.randomMument.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                impressiveAdapter.submitList(it)
+                binding.rcImpressive.adapter = impressiveAdapter
+                Timber.d("get Random ${impressiveAdapter.currentList}")
+            }
+        }
+        viewModel.knownMument.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                heardAdapter.submitList(it)
+                binding.rcHeard.adapter = heardAdapter
+                Timber.d("get Known ${heardAdapter.currentList}")
+            }
+        }
+        viewModel.bannerData.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                bannerAdapter.data = it.toMutableList()
+                bannerAdapter.notifyDataSetChanged()
+            }
+        }
+        viewModel.todayMument.observe(viewLifecycleOwner) {
+        }
     }
 }

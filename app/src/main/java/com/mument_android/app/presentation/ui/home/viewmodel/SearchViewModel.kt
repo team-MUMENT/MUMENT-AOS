@@ -2,6 +2,7 @@ package com.mument_android.app.presentation.ui.home.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.network.util.ApiResult
