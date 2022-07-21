@@ -13,6 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.HistoryListAdapter
+import com.mument_android.app.domain.entity.TagEntity
+import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.home.viewmodel.HistoryViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentHistoryBinding
@@ -46,12 +48,16 @@ class HistoryFragment : Fragment() {
         }
         adapter = HistoryListAdapter(requireContext())
         binding.rcHistory.adapter = adapter
-        //adapter.submitList(historyViewModel.musicDetailData.value)
+        historyViewModel.getHistory()
         collectType()
     }
 
+
     private fun collectType() {
         lifecycleScope.launch {
+            historyViewModel.musicDetailData.observe(viewLifecycleOwner){
+                adapter.submitList(it.mumentHistory)
+            }
             historyViewModel.selectSortType.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
                     Timber.d("collect : {$it}")

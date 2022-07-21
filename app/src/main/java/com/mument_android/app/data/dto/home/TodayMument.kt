@@ -1,23 +1,19 @@
-package com.mument_android.app.data.local.todaymument
+package com.mument_android.app.data.dto.home
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.mument_android.app.data.local.todaymument.todaymumentdata.Music
 import com.mument_android.app.data.local.todaymument.todaymumentdata.User
 
-@Entity(tableName = "today_mument_table")
-data class TodayMumentEntity(
+data class TodayMument(
     val _id: String,
+    val cardTag: List<Int>,
     val content: String,
-    @PrimaryKey
     val createdAt: String,
+    val date: String,
+    val displayDate: String,
     val feelingTag: List<Int>,
     val impressionTag: List<Int>,
-    val isDeleted: Boolean,
     val isFirst: Boolean,
-    val isLiked: Boolean,
-    val isPrivate: Boolean,
-    val likeCount: Int,
+    val mumentId: String,
     val music: Music,
     val user: User
 )

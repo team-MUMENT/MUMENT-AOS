@@ -7,6 +7,7 @@ import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.network.base.BaseResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -17,23 +18,23 @@ interface HomeService {
         @Query("keyword") keyword: String
     ): BaseResponse<List<RecentSearchData>>
 
-    @GET("/{userId}/{musicId}/history?default=Y")
+    @GET("mument/{userId}/{musicId}/history?default=Y")
     suspend fun getMumentHistory(
         @Path("userId") userId: String,
         @Path("musicId") musicId: String,
     ): BaseResponse<MumentHistoryDto>
 
-    @GET("/home/recommendation")
-    suspend fun getBannerMument(): BaseResponse<List<BannerMumentDto>>
+    @GET("/mument/banner")
+    suspend fun getBannerMument(): BaseResponse<BannerMumentDto>
 
-    @GET("/home/today/{userId}")
+    @GET("/mument/today")
     suspend fun getTodayMument(
-        @Path("userId") userId: String
+        @Query("userId") userId: String
     ): BaseResponse<TodayMumentDto>
 
-    @GET("/home/known")
-    suspend fun getKnownMument(): BaseResponse<List<KnownMumentDto>>
+    @GET("/mument/again")
+    suspend fun getKnownMument(): BaseResponse<KnownMumentDto>
 
-    @GET("/random")
-    suspend fun getRandomMument():BaseResponse<List<RandomMumentDto>>
+    @GET("/mument/random")
+    suspend fun getRandomMument():BaseResponse<RandomMumentDto>
 }

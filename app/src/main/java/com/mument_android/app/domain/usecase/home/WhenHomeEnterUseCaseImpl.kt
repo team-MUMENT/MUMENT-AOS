@@ -6,23 +6,20 @@ import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
 import com.mument_android.app.domain.repository.home.HomeRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 class WhenHomeEnterUseCaseImpl @Inject constructor(val homeRepository: HomeRepository) :
     WhenHomeEnterUseCase {
     override suspend fun getTodayMument(userId: String): Flow<TodayMumentDto> =
         homeRepository.getRemoteTodayMument(userId)
 
-    override suspend fun getBannerMument(): Flow<List<BannerMumentDto>> =
+    override suspend fun getBannerMument(): Flow<BannerMumentDto> =
         homeRepository.getBannerMument()
 
-    override suspend fun getRandomMument(): Flow<List<RandomMumentDto>> =
+    override suspend fun getRandomMument(): Flow<RandomMumentDto> =
         homeRepository.getRandomMument()
 
-    override suspend fun getKnownMument(): Flow<List<KnownMumentDto>> =
+    override suspend fun getKnownMument(): Flow<KnownMumentDto> =
         homeRepository.getKnownMument()
 
 }

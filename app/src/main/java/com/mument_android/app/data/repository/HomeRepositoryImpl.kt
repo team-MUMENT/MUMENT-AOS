@@ -13,9 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import okhttp3.internal.wait
 import timber.log.Timber
-import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 
@@ -42,15 +40,15 @@ class HomeRepositoryImpl @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
 
-    override suspend fun getBannerMument(): Flow<List<BannerMumentDto>> = flow {
+    override suspend fun getBannerMument(): Flow<BannerMumentDto> = flow {
         emit(homeDataSource.getBannerMument().data)
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getKnownMument(): Flow<List<KnownMumentDto>> = flow {
+    override suspend fun getKnownMument(): Flow<KnownMumentDto> = flow {
         emit(homeDataSource.getKnownMument().data)
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getRandomMument(): Flow<List<RandomMumentDto>> = flow {
+    override suspend fun getRandomMument(): Flow<RandomMumentDto> = flow {
         emit(homeDataSource.getRandomMument().data)
     }.flowOn(Dispatchers.IO)
 
@@ -59,7 +57,7 @@ class HomeRepositoryImpl @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     // Local
-    override suspend fun getLocalTodayMument(): List<TodayMumentEntity> =
+    override suspend fun getLocalTodayMument(): TodayMumentEntity =
         localTodayMumentDataSource.getTodayMument()
 
 
