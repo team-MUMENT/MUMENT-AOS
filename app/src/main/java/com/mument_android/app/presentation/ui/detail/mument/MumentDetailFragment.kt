@@ -26,6 +26,7 @@ import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMumentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -57,6 +58,7 @@ class MumentDetailFragment : Fragment() {
         changeLikeStatus()
         goToMumentHistory()
         showEditBottomSheet()
+        successDeleteMument()
     }
 
     private fun setMumentTags() {
@@ -105,9 +107,21 @@ class MumentDetailFragment : Fragment() {
                 }
 
                 override fun delete() {
-                    // 삭제하기로 이동
+                    MumentDialogBuilder()
+                        .setHeader("삭제하시겠어요?")
+                        .setAllowListener { viewModel.deleteMument() }
+                        .build()
+                        .show(childFragmentManager, this@MumentDetailFragment.tag)
                 }
             }).show(childFragmentManager, this.tag)
+        }
+    }
+
+    private fun successDeleteMument() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.successDelete.collect {
+                findNavController().popBackStack()
+            }
         }
     }
 }
