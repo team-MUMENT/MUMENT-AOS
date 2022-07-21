@@ -33,8 +33,8 @@ import javax.inject.Singleton
 object DataSourceModule {
 
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideGson(): Gson {
         return Gson()
     }
@@ -54,8 +54,8 @@ object DataSourceModule {
     fun provideLockerDataSource(lockerNetwork: LockerApiService): LockerDataSource =
         LockerDataSourceImpl(lockerNetwork)
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideDatabase(@ApplicationContext context: Context, gson: Gson): MumentDatabase {
         return Room.databaseBuilder(
             context,
@@ -98,4 +98,10 @@ object DataSourceModule {
     @Singleton
     fun provideMumentHistoryDataSource(service: HomeService): RemoteMumentHistoryDataSource =
         RemoteMumentHistoryDataSourceImpl(service)
+
+    @Provides
+    @Singleton
+    fun provideHomeDataSource(service: HomeService): HomeDataSource =
+        HomeDataSourceImpl(service)
+
 }
