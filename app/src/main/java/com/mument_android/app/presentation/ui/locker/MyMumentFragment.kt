@@ -47,6 +47,11 @@ class MyMumentFragment : Fragment() {
         fetchMuments()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setMyMumentListAdapter()
+    }
+
     private fun setGridServerConnection() {
         binding.rvMumentLinear.run {
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
