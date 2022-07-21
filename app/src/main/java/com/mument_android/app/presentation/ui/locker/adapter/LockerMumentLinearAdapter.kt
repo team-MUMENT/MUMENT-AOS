@@ -5,7 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
+import com.mument_android.app.data.enumtype.EmotionalTag
+import com.mument_android.app.data.enumtype.ImpressiveTag
+import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.locker.LockerMumentEntity
+import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemLockerCardBinding
 import timber.log.Timber
@@ -24,8 +28,13 @@ class LockerMumentLinearAdapter() : ListAdapter<LockerMumentEntity.MumentLockerC
     }
 
     override fun onBindViewHolder(holder: MumentViewHolder, position: Int) {
+        val data = getItem(position).cardTag?.map {
+            if(it<200) TagEntity(TagEntity.TAG_IMPRESSIVE, ImpressiveTag.findImpressiveStringTag(it), it)
+            else TagEntity(TagEntity.TAG_EMOTIONAL, EmotionalTag.findEmotionalStringTag(it), it)
+        }
+        holder.binding.rvMumentTag.adapter = MumentTagListAdapter()
+        (holder.binding.rvMumentTag.adapter as MumentTagListAdapter).submitList(data)
         holder.binding.setVariable(BR.mument, getItem(position))
-        //TODO: 클릭 리스너로 상세 뮤멘트 연결
     }
 
     class MumentViewHolder(val binding: ItemLockerCardBinding) : RecyclerView.ViewHolder(binding.root)
