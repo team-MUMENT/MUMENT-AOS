@@ -32,11 +32,14 @@
         <TextView
             android:id="@+id/tv_title"
             style="@style/TextView.Mument_B4_M14.Style"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@{searchdata.name}"
             android:textColor="@color/mument_color_black1"
+            app:layout_constraintEnd_toStartOf="@+id/iv_delete"
             app:layout_constraintStart_toEndOf="@id/iv_album"
             app:layout_constraintTop_toTopOf="@id/iv_album"
             tools:text="덩" />
