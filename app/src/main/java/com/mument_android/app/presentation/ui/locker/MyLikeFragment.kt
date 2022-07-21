@@ -5,21 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTimeAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMyLikeBinding
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MyLikeFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyLikeBinding>()
     private val lockerViewModel: LockerViewModel by viewModels(ownerProducer = { requireParentFragment() })
-    private val viewModel: LockerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,55 +36,64 @@ class MyLikeFragment : Fragment() {
         binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
-        //setMyMumentListAdapter()
+
         settingRecyclerView()
         listBtnClickListener()
         gridBtnClickListener()
         filterBtnClickListener()
+        fetchLikes()
     }
 
-    private fun setMyMumentListAdapter() {
+    override fun onResume() {
+        super.onResume()
+        setMyMumentListAdapter()
+    }
+
+    private fun setGridServerConnection() {
         binding.rvLikeLinear.run {
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
-                adapter = LockerTimeAdapter(isGridLayout)
+                adapter = LockerTimeAdapter(isGridLayout) {
+                    showMumentDetail(it)
+                }
                 (adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
             }
         }
-        lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
-
-        }
-
     }
 
-    /*
     private fun setMyMumentListAdapter() {
-        binding.rvLikeLinear.run {
-            viewModel.myMuments.observe(viewLifecycleOwner) {
-                initLikeEmpty(it.size)
-                (adapter as LockerTimeAdapter).submitList(it)
+        setGridServerConnection()
+        lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
+            when (it) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    binding.rvLikeLinear.adapter = LockerTimeAdapter(false) {
+                        showMumentDetail(it)
+                    }
+                    initLikeEmpty(it.data?.size ?: 0)
+                    //initMumentEmpty(0)
+                    (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
+                }
             }
-            viewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
-                adapter = LockerTimeAdapter(isGridLayout)
-                (adapter as LockerTimeAdapter).submitList(viewModel.myMuments.value)
-            }
-        }
-    }
 
-     */
+        }
+
+    }
 
     //좋아요 한 뮤멘트 엠티뷰
     //TODO: 필터 및 아이콘들 비활성화
     private fun initLikeEmpty(size: Int) {
         if (size == 0) {
-            binding.clEmptyView.visibility = View.VISIBLE
+            binding.clFilterResultNull.visibility = View.VISIBLE
         } else {
-            binding.clEmptyView.visibility = View.GONE
+            binding.clFilterResultNull.visibility = View.GONE
         }
     }
 
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
             lockerViewModel.changeLikeIsGridLayout(false)
+            setMyMumentListAdapter()
             binding.ivLockerList.isSelected = true
             binding.ivLockerGrid.isSelected = false
 
@@ -92,6 +103,7 @@ class MyLikeFragment : Fragment() {
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
             lockerViewModel.changeLikeIsGridLayout(true)
+            setGridServerConnection()
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
         }
@@ -99,14 +111,18 @@ class MyLikeFragment : Fragment() {
 
     private fun filterBtnClickListener() {
         binding.ivLockerFilter.setOnClickListener {
-            LockerLikeFilterBottomSheetFragment.newInstance()
-                .show(parentFragmentManager, "LockerLikeFilterBottomSheetFragment")
+            LockerLikeFilterBottomSheetFragment.newInstance(
+                lockerViewModel.checkedLikeTagList.value ?: listOf(),
+                completeSelectListener = {
+                    lockerViewModel.changeLikeCheckedTagList(it)
+                }
+            ).show(parentFragmentManager, "LockerLikeFilterBottomSheetFragment")
         }
     }
 
     private fun settingRecyclerView() {
         removeTag()
-        viewModel.likeRealTagList.observe(viewLifecycleOwner) {
+        lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 binding.rvSelectedTags.visibility = View.GONE
             } else {
@@ -119,10 +135,10 @@ class MyLikeFragment : Fragment() {
     private fun removeTag() {
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
-                viewModel.removeLikeCheckedList(tag)
+                lockerViewModel.removeLikeCheckedList(tag)
             }
 
-            viewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
+            lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
                 Timber.d("LikeTag: $it")
                 (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
                 if (it.isEmpty()) {
@@ -134,7 +150,17 @@ class MyLikeFragment : Fragment() {
                 }
             }
         }
+    }
 
+    private fun fetchLikes() {
+        lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
+            lockerViewModel.fetchMyLikeList()
+        }
+    }
+
+    private fun showMumentDetail(mumentId: String) {
+        val action = LockerFragmentDirections.actionLockerFragmentToMumentDetailFragment(mumentId)
+        findNavController().navigate(action)
     }
 
 

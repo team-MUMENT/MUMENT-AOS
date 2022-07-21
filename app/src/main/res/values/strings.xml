@@ -77,6 +77,14 @@
     <string name="record_reset_body">확인 선택 시, 작성 중인 내용이 삭제됩니다.</string>
     <string name="record_finish_record">🎉 뮤멘트가 작성되었어요!</string>
 
+<!--    modify record view-->
+    <string name="modify_record">뮤멘트가 수정되었어요.</string>
+    <string name="modify_title">수정하기</string>
+    <string name="modify_header">수정을 취소하시겠어요?</string>
+    <string name="modify_body">확인 선택 시 변경사항이 저장되지 않습니다.</string>
+
+
+
     <string name="locker_like_empty_title">아직 좋아요한 뮤멘트가 없어요.</string>
     <string name="locker_like_empty_sub_title">좋아요를 눌러 마음에 든 뮤멘트를 언제든 꺼내보세요</string>
     <string name="locker_mument_empty_title">아직 기록한 뮤멘트가 없어요.</string>
@@ -92,7 +100,8 @@
     <string name="record_mument">뮤멘트 기록하기</string>
     <string name="muments_recorded_by_me">내가 기록한 뮤멘트</string>
     <string name="doesnt_exist_recorded_mument">아직 뮤멘트가 없어요.</string>
-    <string name="write_first_mument">가장 먼저 뮤멘트를 남겨보세요.</string>
+    <string name="write_earliest_mument">가장 먼저 뮤멘트를 남겨보세요.</string>
+    <string name="write_first_mument">첫 뮤멘트를 남겨보세요.</string>
     <string name="show_my_history"><![CDATA[나의 히스토리 보기 >]]></string>
     <string name="every_mument">모든 뮤멘트</string>
     <string name="sort_latest">최신순</string>

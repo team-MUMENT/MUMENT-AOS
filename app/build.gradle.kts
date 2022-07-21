@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs")
     id("kotlin-kapt")
     id("kotlin-parcelize")
     /*id("com.google.protobuf")*/
@@ -107,13 +108,16 @@ dependencies {
 
     implementation(TestDependencies.mockito)
     androidTestImplementation(TestDependencies.mockitoAndroidTest)
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
-    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
-    testImplementation("androidx.arch.core:core-testing:2.1.0")
+
+    testImplementation(TestDependencies.coroutinesTest)
+    androidTestImplementation(TestDependencies.coreTesting)
+    testImplementation(TestDependencies.coreTesting)
+
     // Room
     kapt(AndroidXDependencies.roomCompiler)
     implementation(AndroidXDependencies.room)
     implementation(AndroidXDependencies.roomRuntime)
+
     // DataStore
     /*implementation(AndroidXDependencies.dataStore)
     implementation(AndroidXDependencies.protoBuf)*/

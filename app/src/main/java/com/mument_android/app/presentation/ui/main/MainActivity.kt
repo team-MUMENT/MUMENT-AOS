@@ -44,9 +44,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                 R.id.fragment_home_frame -> {}
                 R.id.fragment_locker_frame -> {}
                 R.id.fragment_record -> {
-                    bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
-                    bundle.putParcelable(MUMENT_DETAIL_ENTITY, viewModel.mumentDetailContents.value)
-                    navController.navigate(item.itemId, bundle)
+                    if (viewModel.checkHasBundle()) {
+                        bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
+                        bundle.putParcelable(MUMENT_DETAIL_ENTITY, viewModel.mumentDetailContents.value)
+                        viewModel.clearBundle()
+                    }
                 }
                 else -> {}
             }
