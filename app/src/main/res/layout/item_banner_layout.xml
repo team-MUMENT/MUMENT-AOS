@@ -7,7 +7,7 @@
         <import type="com.mument_android.R"/>
         <variable
             name="position"
-            type="String" />
+            type="int" />
         <variable
             name="banner"
             type="com.mument_android.app.data.dto.home.Banner" />
@@ -21,7 +21,7 @@
         android:paddingHorizontal="5dp">
 
         <ImageView
-            load_album_back="@{position ==`0` ? R.drawable.mument_banner_1: position==`1`? R.drawable.mument_banner_2 : R.drawable.mument_banner_3}"
+            load_album_back="@{position ==0 ? R.drawable.mument_banner_1: position==1? R.drawable.mument_banner_2 : R.drawable.mument_banner_3}"
             android:id="@+id/iv_banner_background"
             android:layout_width="match_parent"
             android:layout_height="257dp"
