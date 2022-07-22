@@ -13,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -27,6 +28,7 @@ import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IMPRESSIVE
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.presentation.ui.customview.MumentDialog
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
+import com.mument_android.app.presentation.ui.detail.mument.MoveMusicDetailNavigatorProvider
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
@@ -37,6 +39,7 @@ import com.mument_android.app.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecordFragment : Fragment() {
@@ -44,6 +47,8 @@ class RecordFragment : Fragment() {
     private val recordViewModel: RecordViewModel by activityViewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
+    @Inject
+    lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -296,7 +301,6 @@ class RecordFragment : Fragment() {
     }
 
 
-
     private fun secondListenClickEvent() {
         with(binding) {
             binding.btnRecordSecond.setOnClickListener {
@@ -324,6 +328,18 @@ class RecordFragment : Fragment() {
                 binding.tvRecordTextNum.isChangeRedLine()
             } else if (it.length <= 999) {
                 binding.tvRecordTextNum.isChangeBlack()
+            }
+        }
+        recordViewModel.createdMumentId.observe(viewLifecycleOwner) {
+            if (recordViewModel.mumentData.value != null) {
+                findNavController().popBackStack()
+                recordViewModel.mumentData.value = null
+            } else {
+                recordViewModel.selectedMusic.value?.let { it1 ->
+                    moveMusicDetailNavigatorProvider.musicMument(
+                        it1._id
+                    )
+                }
             }
         }
     }
@@ -420,8 +436,6 @@ class RecordFragment : Fragment() {
     }
 
 
-
-
     //곡에서 x버튼 클릭 리스너
     private fun isClickDelete() {
         binding.ivDelete.setOnClickListener {
@@ -470,7 +484,7 @@ class RecordFragment : Fragment() {
         Timber.d("OnDestroy View")
         recordViewModel.mumentId.value = ""
         resetRecord()
-        resetRecordTags()
+//        resetRecordTags()
 
 
     }

@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.mument_android.app.presentation.ui.detail.music.HomeMusicDetailFragmentDirections
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentHomeFrameBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFrameFragment: Fragment() {
     private var binding by AutoClearedValue<FragmentHomeFrameBinding>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

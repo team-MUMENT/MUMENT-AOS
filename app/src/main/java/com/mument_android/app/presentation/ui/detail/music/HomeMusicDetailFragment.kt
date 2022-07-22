@@ -4,15 +4,23 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.app.presentation.ui.detail.mument.MoveMusicDetailNavigatorProvider
+import com.mument_android.app.presentation.ui.detail.mument.MoveRecordProvider
 import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
 import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.FROM_HOME
+import com.mument_android.app.presentation.ui.home.HomeFragmentDirections
+import com.mument_android.app.presentation.ui.home.HomeFrameFragment
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeMusicDetailFragment: BaseMusicDetailFragment() {
+class HomeMusicDetailFragment : BaseMusicDetailFragment() {
     private val args: HomeMusicDetailFragmentArgs by navArgs()
 
+    @Inject
+    lateinit var recordProvider: MoveRecordProvider
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -28,17 +36,40 @@ class HomeMusicDetailFragment: BaseMusicDetailFragment() {
 
     private fun moveToHistoryFragment() {
         binding.tvShowMyHistory.setOnClickListener {
-            val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(args.musicIdFromHome)
+            val action =
+                HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(
+                    args.musicIdFromHome
+                )
             findNavController().navigate(action)
+        }
+        binding.tvRecordMument.setOnClickListener {
+            musicDetailViewModel.musicInfo.value?.let { it1 ->
+                Music(
+                    it1.id,
+                    it1.name,
+                    it1.artist,
+                    it1.thumbnail
+                )
+            }
+                ?.let { it2 -> recordProvider.recordMusic(it2) }
+/*
+            (homeFrame as HomeFrameFragment).arguments?.getParcelable<Music>("music")?.let {
+                val action = HomeFragmentDirections.actionHomeFragmentToHomeMusicDetailFragment(it)
+                findNavController().navigate(action)
+            }
+            val action = HomeMusicDetailFragmentDirections.*/
         }
     }
 
     private fun setMumentListAdapter() {
         setEveryMumentListAdapter(
-            MusicDetailMumentListAdapter(object: MumentClickListener {
+            MusicDetailMumentListAdapter(object : MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
                     Timber.e("$mumentId")
-                    val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(mumentId)
+                    val action =
+                        HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(
+                            mumentId
+                        )
                     findNavController().navigate(action)
                 }
 

@@ -14,6 +14,7 @@ import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
 import com.mument_android.R
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
+import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.base.BaseActivity
 import com.mument_android.app.presentation.ui.detail.mument.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
@@ -24,7 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), EditMumentNavigator  {
+class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
+    EditMumentNavigator {
     private lateinit var navController: NavController
     private val viewModel: MainViewModel by viewModels()
 
@@ -34,19 +36,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     }
 
     private fun initNavigation() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.navBar, findNavController(R.id.nav_host))
         binding.navBar.setupWithNavController(navController)
         binding.navBar.setOnItemSelectedListener { item ->
             val bundle = Bundle()
             when (item.itemId) {
-                R.id.fragment_home_frame -> {}
+                R.id.fragment_home_frame -> {
+                    if (viewModel.checkHasMusic()) {
+                        bundle.putString("musicId", viewModel.musicId.value)
+                        viewModel.clearBundle()
+                    } else if (viewModel.checkMusic()) {
+                        bundle.putParcelable("music", viewModel.music.value)
+                        viewModel.clearBundle()
+                    }
+                }
                 R.id.fragment_locker_frame -> {}
                 R.id.fragment_record -> {
                     if (viewModel.checkHasBundle()) {
                         bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
-                        bundle.putParcelable(MUMENT_DETAIL_ENTITY, viewModel.mumentDetailContents.value)
+                        bundle.putParcelable(
+                            MUMENT_DETAIL_ENTITY,
+                            viewModel.mumentDetailContents.value
+                        )
                         viewModel.clearBundle()
                     }
                 }
@@ -61,4 +75,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         viewModel.changeMumentId(mumentId)
         viewModel.changeMumentContents(mumentDetailEntity)
     }
+
+    override fun musicMument(musicId: String) {
+        viewModel.changeMusicId(musicId)
+    }
+
+    override fun recordMusic(music: Music) {
+        viewModel.changeMusic(music)
+    }
+
 }
