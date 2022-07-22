@@ -44,10 +44,8 @@ class RecordViewModel @Inject constructor(
     private val _modifyMumentId = MutableLiveData<String>("")
     val modifyMumentId = _modifyMumentId
 
-
     private val _isRecord = MutableLiveData<Boolean>(false)
     val isRecord get() :LiveData<Boolean> = _isRecord
-
 
     val mumentData = MutableLiveData<MumentDetailEntity>()
 
@@ -55,9 +53,11 @@ class RecordViewModel @Inject constructor(
 
     fun findIsFirst() {
         viewModelScope.launch {
-            checkIsFirstRecordUseCase.invoke("62cd5d4383956edb45d7d0ef", "62cd4416177f6e81ee8fa398").onStart {
-            }.collect {
-                _isFirst.value = it.isFirst
+            selectedMusic.value?.let {
+                checkIsFirstRecordUseCase.invoke(BuildConfig.USER_ID, it._id).onStart {
+                }.collect {
+                    _isFirst.value = it.isFirst
+                }
             }
         }
     }
@@ -66,21 +66,18 @@ class RecordViewModel @Inject constructor(
         _isFirst.value = isFirst
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Timber.d("On Cleared")
-    }
-
     fun postMument() {
         viewModelScope.launch {
             checkedTagList.value?.let { tags ->
                 val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
                 val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
                 val recordDto = MumentRecordDto(content = mumentContent.value ?: "", feelingTags, impressionTags, isFirst.value ?: true, isPrivate.value ?: false)
-                recordMumentUseCase(musicId = "62d2959e177f6e81ee8fa3de", userId = BuildConfig.USER_ID, recordDto).catch { e ->
-                    e.printStackTrace()
-                }.collect {
-                    _createdMumentId.value = it
+                selectedMusic.value?.let {
+                    recordMumentUseCase(musicId = it._id, userId = BuildConfig.USER_ID, recordDto).catch { e ->
+                        e.printStackTrace()
+                    }.collect {
+                        _createdMumentId.value = it
+                    }
                 }
             }
         }

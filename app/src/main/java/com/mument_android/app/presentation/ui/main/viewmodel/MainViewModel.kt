@@ -11,15 +11,15 @@ class MainViewModel : ViewModel() {
     val mumentId: LiveData<String> = _mumentId
     private val _musicId = MutableLiveData<String>("")
     val musicId: LiveData<String> = _musicId
-    private val _music = MutableLiveData<Music?>()
-    val music: LiveData<Music?> = _music
+    private val _music = MutableLiveData<Music>()
+    val music: LiveData<Music> = _music
 
     private val _mumentDetailContents = MutableLiveData<MumentDetailEntity>()
     val mumentDetailContents: LiveData<MumentDetailEntity> = _mumentDetailContents
 
     fun checkHasBundle() = (!mumentId.value.isNullOrEmpty() && mumentDetailContents.value != null)
     fun checkHasMusic() = (!musicId.value.isNullOrEmpty())
-    fun checkMusic() = (!(music.value != null))
+    fun checkMusic() = (music.value != null)
 
     fun changeMumentId(id: String) {
         _mumentId.value = id

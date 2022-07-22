@@ -14,6 +14,8 @@ import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
+import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.app.presentation.ui.detail.mument.MoveRecordProvider
 import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.util.AutoClearedValue
@@ -23,11 +25,13 @@ import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentBaseMusicDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 abstract class BaseMusicDetailFragment(): Fragment() {
     protected var binding by AutoClearedValue<FragmentBaseMusicDetailBinding>()
     protected val musicDetailViewModel: MusicDetailViewModel by viewModels()
+    @Inject lateinit var recordProvider: MoveRecordProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +50,17 @@ abstract class BaseMusicDetailFragment(): Fragment() {
         updateEveryMuments()
         setMyMumentTagList()
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
+
+        binding.tvRecordMument.setOnClickListener {
+            musicDetailViewModel.musicInfo.value?.let { it1 ->
+                Music(
+                    it1.id,
+                    it1.name,
+                    it1.artist,
+                    it1.thumbnail
+                )
+            }?.let { it2 -> recordProvider.recordMusic(it2) }
+        }
     }
 
     private fun changeMumentSort() {
@@ -63,7 +78,6 @@ abstract class BaseMusicDetailFragment(): Fragment() {
         binding.rvEveryMuments.run {
             addItemDecoration(RecyclerviewItemDivider(0, 15.dpToPx(requireContext()), IS_VERTICAL))
             adapter = mumentListAdapter
-
         }
     }
 

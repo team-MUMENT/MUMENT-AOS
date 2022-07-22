@@ -35,7 +35,7 @@
             android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{againMument.music.name + ` ` +againMument.music.artist}"
+            android:text="@{againMument.music.name + ` - ` +againMument.music.artist}"
             android:textColor="@color/mument_color_black2"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             tools:text="9와 4분의 3 승강장에 feasadsad" />

@@ -26,10 +26,13 @@ import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IMPRESSIVE
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
+import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.customview.MumentDialog
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.mument.MoveMusicDetailNavigatorProvider
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
+import com.mument_android.app.presentation.ui.home.HomeFragmentDirections
+import com.mument_android.app.presentation.ui.home.HomeFrameFragment
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
@@ -47,6 +50,7 @@ class RecordFragment : Fragment() {
     private val recordViewModel: RecordViewModel by activityViewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
+
     @Inject
     lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
 
@@ -58,11 +62,21 @@ class RecordFragment : Fragment() {
         this.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.recordViewModel = recordViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-
+    override fun onResume() {
+        super.onResume()
+        arguments?.getParcelable<Music>("music")?.let {
+            Timber.d("Data Get $it")
+            recordViewModel.changeSelectedMusic(
+                RecentSearchData(
+                    it._id,
+                    it.artist,
+                    it.image,
+                    it.name,
+                    null
+                )
+            )
+            recordViewModel.findIsFirst()
+        }
 
         arguments?.getString(MUMENT_ID_FOR_EDIT)?.let {
             recordViewModel.mumentId.value = it
@@ -77,6 +91,15 @@ class RecordFragment : Fragment() {
                 recordViewModel.findIsFirst()
             }
         }
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.recordViewModel = recordViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+
 
         setTagRecyclerView()
         countText()
@@ -222,10 +245,8 @@ class RecordFragment : Fragment() {
                 recordViewModel.changeSelectedMusic(it)
                 recordViewModel.findIsFirst()
             }.show(parentFragmentManager, "bottom sheet")
-            Timber.d(recordViewModel.selectedMusic.value.toString())
         }
         recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
-            Timber.e("Test Selected Music : $it")
             recordViewModel.checkSelectedMusic(it != null)
             binding.btnRecordFinish.isEnabled = recordViewModel.isSelectedMusic.value == true
             binding.btnRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
@@ -300,7 +321,6 @@ class RecordFragment : Fragment() {
         }
     }
 
-
     private fun secondListenClickEvent() {
         with(binding) {
             binding.btnRecordSecond.setOnClickListener {
@@ -356,8 +376,7 @@ class RecordFragment : Fragment() {
         }
     }
 
-//리셋버튼 클릭 및 알럿
-
+    //리셋버튼 클릭 및 알럿
     private fun resetButtonClickEvent() {
         MumentDialogBuilder()
             .setHeader(getString(R.string.record_reset_header))
@@ -435,7 +454,6 @@ class RecordFragment : Fragment() {
         }
     }
 
-
     //곡에서 x버튼 클릭 리스너
     private fun isClickDelete() {
         binding.ivDelete.setOnClickListener {
@@ -485,10 +503,7 @@ class RecordFragment : Fragment() {
         recordViewModel.mumentId.value = ""
         resetRecord()
 //        resetRecordTags()
-
-
     }
-
 
     companion object {
         const val MUMENT_ID_FOR_EDIT = "MUMENT_ID_FOR_EDIT"
