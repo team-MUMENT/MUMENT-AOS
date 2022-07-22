@@ -6,12 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.window.layout.WindowMetrics
 import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -27,9 +23,7 @@ import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> Unit) :
@@ -63,7 +57,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
 
 
     override fun getTheme(): Int {
-        return R.style.BottomSheetDialog_Rounded
+        return R.style.BottomSheetDialogTheme
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -73,8 +67,8 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
             ((dialogInterface as BottomSheetDialog).findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View).apply {
                 behavior = BottomSheetBehavior.from(this)
                 val layoutParams = this.layoutParams
-                layoutParams.height = getBottomSheetDialogDefaultHeight()
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                layoutParams.height = getBottomSheetDialogDefaultHeight()
                 behavior.disableShapeAnimations()
                 behavior.skipCollapsed = true
                 behavior.isHideable = true
@@ -87,17 +81,22 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewmodel.searchText.value = ""
         settingAdapterAndDatabinding()
         setListener()
         collectingList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewmodel.searchText.value = ""
+        viewmodel.setRecentData(lifecycleScope)
+    }
+
     private fun settingAdapterAndDatabinding() {
         adapter = SearchListAdapter({ data ->
-            contentClick(data)
             viewmodel.selectContent(data)
             viewmodel.setRecentData(lifecycleScope)
+            contentClick(data)
             dismiss()
         }, { data ->
             viewmodel.deleteRecentList(data)
@@ -110,7 +109,6 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
             binding.searchOption = false
             dismiss()
         }, {})
-        viewmodel.setRecentData(lifecycleScope)
         searchResultAdapter.option = false
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewmodel

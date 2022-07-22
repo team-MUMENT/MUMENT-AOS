@@ -180,21 +180,6 @@
 
 
     <!-- case : to use Bottom Sheet -->
-    <style name="BottomSheetDialog_Rounded" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheet_Rounded</item>
-    </style>
-
-    <style name="BottomSheet_Rounded" parent="Widget.MaterialComponents.BottomSheet">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceBottomSheetDialog_Rounded</item>
-    </style>
-
-    <style name="ShapeAppearanceBottomSheetDialog_Rounded" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">11dp</item>
-        <item name="cornerSizeTopLeft">11dp</item>
-        <item name="cornerSizeBottomRight">0dp</item>
-        <item name="cornerSizeBottomLeft">0dp</item>
-    </style>
 
     <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/rectangle_fill_white_top_11dp</item>
