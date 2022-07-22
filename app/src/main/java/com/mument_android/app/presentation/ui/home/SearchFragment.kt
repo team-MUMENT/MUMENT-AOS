@@ -66,6 +66,7 @@ class SearchFragment : Fragment() {
 
             }
         )
+
         viewmodel.setRecentData(lifecycleScope)
         searchResultAdapter.option = false
         binding.lifecycleOwner = viewLifecycleOwner

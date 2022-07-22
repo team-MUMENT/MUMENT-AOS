@@ -13,6 +13,7 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:background="@color/mument_color_bgwhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".app.presentation.ui.home.HomeFragment">
@@ -57,14 +58,12 @@
                         app:layout_constraintStart_toStartOf="@id/gl_inner_left"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <ImageView
                         android:id="@+id/textView5"
-                        style="@style/TextView.Mument_H2_B18.Style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="MUMENT"
-                        android:textColor="@color/mument_color_purple1"
+                        android:background="@drawable/ic_logo_text"
                         app:layout_constraintBottom_toBottomOf="@id/imageView3"
                         app:layout_constraintStart_toEndOf="@+id/imageView3"
                         app:layout_constraintTop_toTopOf="@id/imageView3" />

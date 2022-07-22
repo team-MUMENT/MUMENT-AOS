@@ -94,7 +94,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setRecyclerView() {
-        binding.vpBanner.offscreenPageLimit = 1
+        binding.vpBanner.offscreenPageLimit = 2
         binding.vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
