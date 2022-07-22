@@ -160,18 +160,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="111dp"
                     android:text="@string/record_choose_title"
+                    android:textColor="@color/mument_color_black2"
                     android:visibility="@{recordViewModel.isSelectedMusic() ? View.GONE:View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_record_search"
+                    style="@style/TextView.Mument_B4_M14.Style"
+                    android:textColor="@color/mument_color_gray1"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="143dp"
                     android:background="@drawable/retangle_fill_gray5_11dp"
                     android:drawableLeft="@drawable/ic_search"
                     android:drawablePadding="14dp"
+                    android:maxLines="1"
+                    android:inputType="textNoSuggestions"
                     android:hint="@string/record_search_hint"
                     android:paddingStart="10dp"
                     android:stateListAnimator="@null"
@@ -188,6 +193,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="233dp"
                     android:text="@string/record_first_title"
+                    android:textColor="@color/mument_color_black2"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -195,7 +201,9 @@
                     android:id="@+id/btn_record_first"
                     style="@style/TextView.Mument_B4_M14.TextAppearance"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="40dp"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/selector_retangle_gray5_to_purple2"
                     android:stateListAnimator="@null"
@@ -211,7 +219,9 @@
                     android:id="@+id/btn_record_second"
                     style="@style/TextView.Mument_B4_M14.Style"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="39dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/selector_retangle_gray5_to_purple2"
@@ -231,6 +241,7 @@
                     android:layout_marginTop="50dp"
                     android:text="@string/record_impression_title"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
+                    android:textColor="@color/mument_color_black2"
                     app:layout_constraintTop_toBottomOf="@+id/btn_record_first" />
 
 
@@ -255,6 +266,7 @@
                     android:layout_marginTop="46dp"
                     android:text="@string/record_choose_impression"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
+                    android:textColor="@color/mument_color_black2"
                     app:layout_constraintTop_toBottomOf="@+id/rv_record_impressive_tags" />
 
 
@@ -282,6 +294,7 @@
                     android:layout_marginTop="44dp"
                     android:text="@string/record_write_title"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
+                    android:textColor="@color/mument_color_black2"
                     app:layout_constraintTop_toBottomOf="@+id/rv_record_emotional_tags" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -306,12 +319,12 @@
 
                         <EditText
                             android:id="@+id/et_record_write"
-                            style="@style/TextView.Mument_B5_M13.Style"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/retangle_fill_gray5_11dp"
                             android:focusable="true"
                             android:focusableInTouchMode="true"
+                            android:inputType="textMultiLine|textNoSuggestions"
                             android:gravity="top"
                             android:hint="@string/record_write_hint"
                             android:maxLength="1000"
@@ -319,6 +332,8 @@
                             android:paddingHorizontal="13dp"
                             android:scrollbarStyle="insideInset"
                             android:scrollbars="vertical"
+                            android:fontFamily="@font/notosans_medium"
+                            android:textSize="13sp"
                             android:text="@={recordViewModel.mumentContent}"
                             android:textColor="@color/mument_color_black2"
                             android:textColorHint="@color/mument_color_gray1" />

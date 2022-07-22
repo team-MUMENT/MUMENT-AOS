@@ -52,7 +52,7 @@ object GlobalBindingAdapter {
         if (url != null) {
             view.load(url) {
                 crossfade(true)
-                this.transformations(RoundedCornersTransformation(11.0f))
+                this.transformations(RoundedCornersTransformation(34.0f))
             }
         } else {
         }
