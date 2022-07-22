@@ -12,10 +12,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.mument_android.R
+import com.mument_android.app.data.dto.home.Banner
+import com.mument_android.app.data.enumtype.EmotionalTag
+import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.data.network.home.adapter.BannerListAdapter
 import com.mument_android.app.data.network.home.adapter.HeardMumentListAdapter
 import com.mument_android.app.data.network.home.adapter.ImpressiveEmotionListAdapter
 import com.mument_android.app.data.network.util.ApiResult
+import com.mument_android.app.domain.entity.TagEntity
+import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenStarted
@@ -113,7 +119,15 @@ class HomeFragment : Fragment() {
                 bannerAdapter.notifyDataSetChanged()
             }
         }
-        viewModel.todayMument.observe(viewLifecycleOwner) {
+        viewModel.todayMument.observe(viewLifecycleOwner){
+            if(it != null){
+                val data = it.cardTag.map {
+                    if(it < 200) TagEntity(TagEntity.TAG_IMPRESSIVE, ImpressiveTag.findImpressiveStringTag(it), it)
+                    else TagEntity(TagEntity.TAG_EMOTIONAL, EmotionalTag.findEmotionalStringTag(it), it)
+                }
+                binding.clCard.rvTags.adapter = MumentTagListAdapter()
+                (binding.clCard.rvTags.adapter as MumentTagListAdapter).submitList(data)
+            }
         }
     }
 }
