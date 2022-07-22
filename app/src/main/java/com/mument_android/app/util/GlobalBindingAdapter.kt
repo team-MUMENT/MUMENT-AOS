@@ -184,8 +184,10 @@ object GlobalBindingAdapter {
     @BindingAdapter("toolbarElipseTitle")
     fun CollapsingToolbarLayout.setToolbarEllipsize(name: String?) {
         name?.let {
-            if(it.count() > 16) {
-                title = it.substring(0,15) + "..."
+            title = if(it.count() > 16) {
+                it.substring(0,15) + "..."
+            } else {
+                it
             }
         }
     }
@@ -194,10 +196,10 @@ object GlobalBindingAdapter {
     @BindingAdapter("setTextEllipse")
     fun TextView.setTextViewEllipse(name: String?) {
         name?.let {
-            if(it.count() > 16) {
-                text = it.substring(0,15) + "..."
+            text = if(it.count() > 16) {
+                it.substring(0,15) + "..."
             } else {
-                text = it
+                it
             }
         }
     }
