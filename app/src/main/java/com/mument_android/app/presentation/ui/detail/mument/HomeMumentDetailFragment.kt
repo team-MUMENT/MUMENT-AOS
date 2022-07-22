@@ -23,10 +23,10 @@ class HomeMumentDetailFragment: MumentDetailFragment() {
 
     private fun goToMusicDetail()  {
         binding.viewAlbumClickArea.setOnClickListener {
-            val action = HomeMumentDetailFragmentDirections.actionHomeMumentDetailFragmentToHomeMusicDetailFragment(
-                viewModel.mumentDetailContent.value?.data?.musicInfo?.id ?: ""
-            )
-            findNavController().navigate(action)
+            viewModel.mumentDetailContent.value?.data?.musicInfo?.id?.let {
+                val action = HomeMumentDetailFragmentDirections.actionHomeMumentDetailFragmentToHomeMusicDetailFragment(it)
+                findNavController().navigate(action)
+            }
         }
     }
 
@@ -38,5 +38,4 @@ class HomeMumentDetailFragment: MumentDetailFragment() {
             }
         }
     }
-
 }

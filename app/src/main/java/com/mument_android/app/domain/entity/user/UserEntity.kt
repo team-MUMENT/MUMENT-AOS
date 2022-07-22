@@ -7,5 +7,5 @@ import kotlinx.android.parcel.Parcelize
 data class UserEntity(
     val userId: String,
     val name: String,
-    val profileImage: String
+    val profileImage: String?
 ): Parcelable

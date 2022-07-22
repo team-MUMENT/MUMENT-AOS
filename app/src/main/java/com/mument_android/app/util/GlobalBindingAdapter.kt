@@ -22,16 +22,15 @@ import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IS_FIRST
 import com.mument_android.app.util.ViewUtils.dpToPx
 
 object GlobalBindingAdapter {
+    const val EMPTY_PROFILE = "https://mument.s3.ap-northeast-2.amazonaws.com/user/emptyImage.jpg"
 
     @JvmStatic
     @BindingAdapter("load_profile")
     fun loadProfileImage(view: ImageView, url: String?) {
-        if (!url.isNullOrEmpty()) {
-            view.load(url) {
-                crossfade(true)
-                this.transformations(CircleCropTransformation())
-            }
-        } else {
+        val profileImage = if (!url.isNullOrEmpty()) url else EMPTY_PROFILE
+        view.load(profileImage) {
+            crossfade(true)
+            this.transformations(CircleCropTransformation())
         }
     }
 

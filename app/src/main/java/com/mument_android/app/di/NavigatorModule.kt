@@ -1,9 +1,8 @@
 package com.mument_android.app.di
 
-import com.mument_android.app.presentation.ui.detail.mument.*
+import com.mument_android.app.presentation.ui.detail.mument.navigator.*
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 

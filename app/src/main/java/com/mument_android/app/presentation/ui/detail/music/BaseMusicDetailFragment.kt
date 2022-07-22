@@ -15,9 +15,8 @@ import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.app.presentation.ui.detail.mument.MoveRecordProvider
-import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
+import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveRecordProvider
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_VERTICAL

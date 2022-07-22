@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detail.mument
+package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
 import com.mument_android.R

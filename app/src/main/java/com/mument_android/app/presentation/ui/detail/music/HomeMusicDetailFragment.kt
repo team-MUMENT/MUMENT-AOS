@@ -5,12 +5,8 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.app.presentation.ui.detail.mument.MoveMusicDetailNavigatorProvider
-import com.mument_android.app.presentation.ui.detail.mument.MoveRecordProvider
+import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveRecordProvider
 import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
-import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.FROM_HOME
-import com.mument_android.app.presentation.ui.home.HomeFragmentDirections
-import com.mument_android.app.presentation.ui.home.HomeFrameFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
