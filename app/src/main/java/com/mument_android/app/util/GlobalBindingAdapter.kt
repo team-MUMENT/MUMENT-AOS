@@ -196,6 +196,8 @@ object GlobalBindingAdapter {
         name?.let {
             if(it.count() > 16) {
                 text = it.substring(0,15) + "..."
+            } else {
+                text = it
             }
         }
     }
