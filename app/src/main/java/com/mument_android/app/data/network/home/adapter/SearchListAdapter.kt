@@ -1,6 +1,5 @@
 package com.mument_android.app.data.network.home.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.util.GlobalDiffCallBack
-import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.ItemSearchListBinding
 
 class SearchListAdapter(
     private val contentClickListener: (RecentSearchData) -> Unit,
     private val itemClickListener: (RecentSearchData) -> Unit
-) :
-    ListAdapter<RecentSearchData, SearchListAdapter.SearchViewHolder>(GlobalDiffCallBack<RecentSearchData>()) {
+) : ListAdapter<RecentSearchData, SearchListAdapter.SearchViewHolder>(GlobalDiffCallBack<RecentSearchData>()) {
     var option = true
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
@@ -44,8 +41,5 @@ class SearchListAdapter(
         }
     }
 
-    class SearchViewHolder(
-        val binding: ItemSearchListBinding,
-    ) :
-        RecyclerView.ViewHolder(binding.root)
+    class SearchViewHolder(val binding: ItemSearchListBinding): RecyclerView.ViewHolder(binding.root)
 }

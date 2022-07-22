@@ -57,8 +57,7 @@ class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickL
                     !musicDetail.isLiked && !cbHeart.isChecked -> likeCount
                     else -> likeCount
                 }
-                val likeCountText = tvLikeCount.context.resources.getString(R.string.like_count_integer_format, updatedLikeCount)
-                tvLikeCount.text = likeCountText
+                tvLikeCount.text = updatedLikeCount.toString()
             }
         }
     }

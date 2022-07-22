@@ -78,7 +78,7 @@ class MumentDetailFragment : Fragment() {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
             }
-            rvMumentTags.addItemDecoration(RecyclerviewItemDivider(7, 5, IS_GRIDLAYOUT))
+            rvMumentTags.addItemDecoration(RecyclerviewItemDivider(7, 12, IS_GRIDLAYOUT))
         }
     }
 
@@ -140,7 +140,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToMusicDetail()  {
         binding.viewAlbumClickArea.setOnClickListener {
-            val action = MumentDetailFragmentDirections.actionMumentDetailFragmentToMusicDetailFragment(
+            val action = MumentDetailFragmentDirections.actionMumentDetailFragmentToLockerMusicDetailFragment(
                 viewModel.mumentDetailContent.value?.data?.musicInfo?.id ?: ""
             )
             Timber.e(viewModel.mumentDetailContent.value?.data?.musicInfo?.id)

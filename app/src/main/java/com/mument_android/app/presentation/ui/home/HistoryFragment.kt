@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.HistoryListAdapter
@@ -28,6 +29,8 @@ class HistoryFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentHistoryBinding>()
     private lateinit var adapter: HistoryListAdapter
     private val historyViewModel: HistoryViewModel by viewModels()
+    private val args: HistoryFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +43,9 @@ class HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.historyviewmodel = historyViewModel
+
+        historyViewModel.changeMusicId(args.musicId)
+
         binding.tvAsc.setOnClickListener {
             historyViewModel.changeSortType(true)
         }
@@ -60,7 +66,6 @@ class HistoryFragment : Fragment() {
             }
             historyViewModel.selectSortType.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
-                    Timber.d("collect : {$it}")
                     if (it) {
                         binding.tvAsc.setTextColor(requireContext().getColor(R.color.mument_color_purple1))
                         binding.tvDesc.setTextColor(requireContext().getColor(R.color.mument_color_gray1))

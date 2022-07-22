@@ -22,9 +22,8 @@ class MumentListRepositoryImpl @Inject constructor(
         userId: String,
         default: String
     ): Flow<List<MumentSummaryEntity>> = flow {
-        val mumentList = mumentListDataSource.fetchMumentList(musicId, userId, default).data.mumentList.map {
+        mumentListDataSource.fetchMumentList(musicId, userId, default).data?.mumentList?.map {
             mumentSummaryMapper.map(it)
-        }
-        emit(mumentList)
+        }?.let { emit(it)  }
     }.flowOn(Dispatchers.IO)
 }
