@@ -1,7 +1,7 @@
 package com.mument_android.app.data.dto.home
 
-import com.mument_android.app.data.local.todaymument.todaymumentdata.Music
-import com.mument_android.app.data.local.todaymument.todaymumentdata.User
+import com.mument_android.app.data.dto.history.User
+import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
 
 data class TodayMument(
     val _id: String,

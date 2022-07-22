@@ -56,7 +56,6 @@
             android:paddingTop="10dp"
             android:paddingEnd="48dp"
             android:paddingBottom="9dp"
-            android:text="@={viewmodel.searchText}"
             android:textAppearance="@style/TextView.Mument_B4_M14.TextAppearance"
             android:textColor="@color/mument_color_black2"
             app:layout_constraintEnd_toEndOf="parent"

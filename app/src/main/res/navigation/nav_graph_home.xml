@@ -33,19 +33,24 @@
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_searchFragment_to_musicDetailFragment"
-            app:destination="@id/musicDetailFragment" />
+            android:id="@+id/action_searchFragment_to_homeMusicDetailFragment"
+            app:destination="@id/homeMusicDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/musicDetailFragment"
-        android:name="com.mument_android.app.presentation.ui.home.MusicDetailFragment"
-        android:label="MusicDetailFragment"
-        tools:layout="@layout/fragment_music_detail">
+        android:id="@+id/homeMusicDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.detail.music.HomeMusicDetailFragment"
+        android:label="HomeMusicDetailFragment"
+        tools:layout="@layout/fragment_base_music_detail">
+
+        <argument
+            android:name="musicIdFromHome"
+            app:argType="string"/>
+
         <action
-            android:id="@+id/action_musicDetailFragment_to_mumentDetailFragment"
+            android:id="@+id/action_homeMusicDetailFragment_to_mumentDetailFragment"
             app:destination="@id/mumentDetailFragment" />
         <action
-            android:id="@+id/action_musicDetailFragment_to_mumentHistoryFragment"
+            android:id="@+id/action_homeMusicDetailFragment_to_mumentHistoryFragment"
             app:destination="@id/historyFragment" />
     </fragment>
     <fragment
@@ -53,6 +58,10 @@
         android:name="com.mument_android.app.presentation.ui.home.HistoryFragment"
         android:label="HistoryFragment"
         tools:layout="@layout/fragment_history">
+
+        <argument
+            android:name="musicId"
+            app:argType="string"/>
 
         <action
             android:id="@+id/action_musicHistory_to_mumentDetailFragment"

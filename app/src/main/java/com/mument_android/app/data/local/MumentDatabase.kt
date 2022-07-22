@@ -14,8 +14,6 @@ import com.mument_android.app.data.local.recentlist.RecentSearchData
 @TypeConverters(
     value = [
         IntListTypeConverter::class,
-        UserTypeConverter::class,
-        MusicTypeConverter::class,
         DateTypeConverter::class
     ]
 )

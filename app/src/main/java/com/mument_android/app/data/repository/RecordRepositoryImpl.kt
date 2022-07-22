@@ -18,6 +18,8 @@ class RecordRepositoryImpl @Inject constructor(
         userId: String,
         musicId: String
     ): Flow<RecordIsFirstEntity> = flow {
-        emit(recordMapper.map(recordDataSource.fetchMumentRecord(userId, musicId)))
+        recordDataSource.fetchMumentRecord(userId, musicId)?.let {
+            emit(recordMapper.map(it))
+        }
     }.flowOn(Dispatchers.IO)
 }

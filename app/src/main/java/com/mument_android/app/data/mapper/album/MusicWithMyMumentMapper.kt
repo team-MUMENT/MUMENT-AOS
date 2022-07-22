@@ -13,7 +13,7 @@ class MusicWithMyMumentMapper @Inject constructor(
     override fun map(from: MusicDetailDto): MusicWithMyMumentEntity {
         return MusicWithMyMumentEntity(
             musicInfoMapper.map(from.music),
-            mumentSummaryMapper.map(from.myMument)
+            if (from.myMument == null) null else mumentSummaryMapper.map(from.myMument)
         )
     }
 }

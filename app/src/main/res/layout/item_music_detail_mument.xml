@@ -73,59 +73,38 @@
             android:background="@color/mument_color_gray4"
             app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
 
-        <LinearLayout
-            android:id="@+id/linearlayout_tags"
-            android:layout_width="match_parent"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_mument_tags"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/view"
             app:layout_constraintTop_toBottomOf="@id/view"
-            app:layout_constraintStart_toStartOf="@id/view">
+            tools:itemCount="2"
+            tools:listitem="@layout/item_mument_string_tag" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/rectangle_fill_purple2_20dp"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="7dp"
-                android:paddingVertical="5dp"
-                android:text="@{mument.isFirst ? `처음` : `다시`}"
-                android:textColor="@color/mument_color_purple1"
-                tools:text="다시" />
-            <!--TODO(태그 로직 구현)-->
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:text="@{@string/emotional_blue}"
-                android:textColor="@color/mument_color_gray1" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:text="@{@string/emotional_blue}"
-                android:textColor="@color/mument_color_gray1" />
-        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="12dp"
+            android:paddingVertical="10dp"
             android:ellipsize="end"
             android:maxLines="3"
             android:text="@{mument.content}"
-            app:layout_constraintTop_toBottomOf="@+id/linearlayout_tags"
-            app:layout_constraintStart_toStartOf="@id/linearlayout_tags"
+            android:visibility="@{mument.content.empty || mument.content == null ? View.GONE : View.VISIBLE}"
+            app:layout_constraintTop_toBottomOf="@+id/rv_mument_tags"
+            app:layout_constraintStart_toStartOf="@id/rv_mument_tags"
             tools:text="음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게" />
 
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{mument.createdAt}"
+            android:text="@{mument.date}"
             android:textColor="@color/mument_color_gray2"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"

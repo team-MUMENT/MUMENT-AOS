@@ -50,7 +50,6 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
                 ?: BottomSheetSearchFragment(contentClick = { contentClick(it) }).apply {
                     INSTANCE = this
                 }
-
         }
     }
 
@@ -89,16 +88,13 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewmodel.searchText.value = ""
-        /*searchResultAdapter = SearchListAdapter(requireContext(),{ data ->
-            viewmodel.selectContent(data)
-        }, {})*/
         settingAdapterAndDatabinding()
         setListener()
         collectingList()
     }
 
     private fun settingAdapterAndDatabinding() {
-        adapter = SearchListAdapter(requireContext(), { data ->
+        adapter = SearchListAdapter({ data ->
             contentClick(data)
             viewmodel.selectContent(data)
             viewmodel.setRecentData(lifecycleScope)
@@ -107,7 +103,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
             viewmodel.deleteRecentList(data)
         })
         adapter.option = true
-        searchResultAdapter = SearchListAdapter(requireContext(), { data ->
+        searchResultAdapter = SearchListAdapter({ data ->
             viewmodel.selectContent(data)
             viewmodel.setRecentData(lifecycleScope)
             contentClick(data)
@@ -128,9 +124,8 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    if (result.data!!.isNotEmpty()) {
-                        searchResultAdapter.submitList(result.data)
-                    }
+                    searchResultAdapter.submitList(result.data)
+                    viewmodel.searchText.value = binding.etSearch.text.toString()
                 }
             }
         }
@@ -147,7 +142,6 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
     }
 
     private fun setListener() {
-
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewmodel.searchMusic(binding.etSearch.text.toString())
@@ -169,22 +163,9 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
             lifecycleScope.launch {
                 viewmodel.setRecentData(this)
                 binding.searchOption = false
+                searchResultAdapter.submitList(listOf())
                 binding.rcSearch.adapter = adapter
             }
-        }
-
-        lifecycleScope.launch {
-            viewmodel.searchList.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect { result ->
-                    when (result) {
-                        is ApiResult.Loading -> {}
-                        is ApiResult.Failure -> {}
-                        is ApiResult.Success -> {
-                            Timber.d("Bottom Collect ${result.data}")
-                            adapter.submitList(result.data)
-                        }
-                    }
-                }
         }
 
 

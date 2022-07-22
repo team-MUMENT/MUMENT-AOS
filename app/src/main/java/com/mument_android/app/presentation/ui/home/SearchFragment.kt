@@ -29,7 +29,7 @@ import timber.log.Timber
 class SearchFragment : Fragment() {
 
     private var binding by AutoClearedValue<FragmentSearchBinding>()
-    private val viewmodel: SearchViewModel by activityViewModels()
+    private val viewmodel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
     override fun onCreateView(
@@ -48,16 +48,23 @@ class SearchFragment : Fragment() {
     }
 
     private fun settingAdapterAndDatabinding() {
-        searchAdapter = SearchListAdapter(requireContext(), { data ->
-            viewmodel.selectContent(data)
-            findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment)
-        }, { data ->
-            viewmodel.deleteRecentList(data)
-        })
+        searchAdapter = SearchListAdapter(
+            contentClickListener = { data ->
+                viewmodel.selectContent(data)
+                val action = SearchFragmentDirections.actionSearchFragmentToHomeMusicDetailFragment(data._id)
+                findNavController().navigate(action) },
+            itemClickListener = { data -> viewmodel.deleteRecentList(data) }
+        )
         searchAdapter.option = true
-        searchResultAdapter = SearchListAdapter(requireContext(), { data ->
-            viewmodel.selectContent(data)
-        }, {})
+        searchResultAdapter = SearchListAdapter(
+            contentClickListener = { data ->
+                viewmodel.selectContent(data)
+                val action = SearchFragmentDirections.actionSearchFragmentToHomeMusicDetailFragment(data._id)
+                findNavController().navigate(action) },
+            itemClickListener =  {
+
+            }
+        )
         viewmodel.setRecentData(lifecycleScope)
         searchResultAdapter.option = false
         binding.lifecycleOwner = viewLifecycleOwner
@@ -67,7 +74,6 @@ class SearchFragment : Fragment() {
     }
 
     private fun addClickListener() {
-
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewmodel.searchMusic(binding.etSearch.text.toString())
@@ -76,12 +82,8 @@ class SearchFragment : Fragment() {
             }
             false
         }
-        binding.etSearch.setOnFocusChangeListener { view, b ->
-            if (b) {
-                binding.ivDelete.visibility = View.VISIBLE
-            } else {
-                binding.ivDelete.visibility = View.GONE
-            }
+        binding.etSearch.setOnFocusChangeListener { view, focused ->
+            binding.ivDelete.visibility = if (focused) View.VISIBLE else View.GONE
         }
 
         binding.ivDelete.setOnClickListener {
@@ -89,6 +91,7 @@ class SearchFragment : Fragment() {
             lifecycleScope.launch {
                 viewmodel.setRecentData(this)
                 binding.searchOption = false
+                searchResultAdapter.submitList(listOf())
                 binding.rcSearch.adapter = searchAdapter
             }
         }
@@ -107,15 +110,12 @@ class SearchFragment : Fragment() {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    if (result.data!!.isNotEmpty()) {
-                        searchResultAdapter.submitList(result.data)
-                    }
+                    searchResultAdapter.submitList(result.data)
+                    viewmodel.searchText.value = binding.etSearch.text.toString()
                 }
             }
         }
-        viewmodel.searchContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
-            //Timber.d("collect!! $it")
-        }
+
         viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
             when (result) {
                 is ApiResult.Loading -> {}

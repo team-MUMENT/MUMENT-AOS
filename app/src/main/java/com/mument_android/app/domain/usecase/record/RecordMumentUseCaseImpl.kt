@@ -17,6 +17,8 @@ class RecordMumentUseCaseImpl @Inject constructor(
         userId: String,
         mumentRecordDto: MumentRecordDto
     ): Flow<String> = flow {
-        emit(recordController.recordMument(musicId, userId, mumentRecordDto).data.id)
+        recordController.recordMument(musicId, userId, mumentRecordDto).data?.let {
+            emit(it.id)
+        }
     }.flowOn(Dispatchers.IO)
 }

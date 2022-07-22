@@ -5,5 +5,5 @@ import com.mument_android.app.data.dto.MumentSummaryDto
 
 data class MusicDetailDto(
     val music: MusicDto,
-    val myMument: MumentSummaryDto
+    val myMument: MumentSummaryDto?
 )
