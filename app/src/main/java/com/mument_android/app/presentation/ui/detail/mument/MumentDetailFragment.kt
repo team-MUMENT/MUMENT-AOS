@@ -120,13 +120,11 @@ abstract class MumentDetailFragment : Fragment() {
     }
 
     private fun showMumentHistory() {
-        viewModel.mumentDetailContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
-            if ((it?.data?.mumentHistoryCount ?:0) > 0) {
+        viewModel.hasWritten.observe(viewLifecycleOwner) { hasWritten ->
+            if (hasWritten == true) {
                 binding.tvGoToHistory.applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
             }
         }
-
-
     }
 
     companion object {

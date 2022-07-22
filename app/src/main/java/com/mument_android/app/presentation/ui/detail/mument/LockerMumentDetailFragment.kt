@@ -29,7 +29,6 @@ class LockerMumentDetailFragment: MumentDetailFragment() {
             val action = LockerMumentDetailFragmentDirections.actionMumentDetailFragmentToLockerMusicDetailFragment(
                 viewModel.mumentDetailContent.value?.data?.musicInfo?.id ?: ""
             )
-            Timber.e(viewModel.mumentDetailContent.value?.data?.musicInfo?.id)
             findNavController().navigate(action)
         }
     }

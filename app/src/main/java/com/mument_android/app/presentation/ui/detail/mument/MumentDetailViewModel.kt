@@ -1,5 +1,7 @@
 package com.mument_android.app.presentation.ui.detail.mument
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
@@ -9,6 +11,7 @@ import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.usecase.detail.DeleteMumentUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCase
+import com.mument_android.app.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,11 +25,15 @@ import javax.inject.Inject
 @HiltViewModel
 class MumentDetailViewModel @Inject constructor(
     private val fetchMumentDetailContentUseCase: FetchMumentDetailContentUseCase,
+    private val fetchMumentListUseCase: FetchMumentListUseCase,
     private val likeMumentUseCase: LikeMumentUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
     private val deleteMumentUseCase: DeleteMumentUseCase
 ): ViewModel() {
     val isLiked = MutableStateFlow<Boolean>(false)
+
+    private val _hasWritten = MutableLiveData<Boolean>()
+    val hasWritten: LiveData<Boolean> = _hasWritten
 
     private val _backStack = MutableStateFlow<String>("")
     val backStack = _backStack.asStateFlow()
@@ -69,7 +76,18 @@ class MumentDetailViewModel @Inject constructor(
                 _mumentDetailContent.value = ApiResult.Success(it)
                 isLiked.value = it.isLiked
                 _likeCount.value = it.likeCount
+                checkMumentHasWritten(it.musicInfo.id)
             }
+        }
+    }
+
+    fun checkMumentHasWritten(musicId: String) {
+        viewModelScope.launch {
+            fetchMumentListUseCase(musicId, BuildConfig.USER_ID, "Y")
+                .catch { e -> e.printStackTrace()}
+                .collect {
+                    _hasWritten.value = it.map { it.user.userId }.contains(BuildConfig.USER_ID)
+                }
         }
     }
 
