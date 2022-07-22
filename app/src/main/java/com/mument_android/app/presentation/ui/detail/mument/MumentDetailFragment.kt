@@ -78,7 +78,7 @@ class MumentDetailFragment : Fragment() {
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
             }
-            rvMumentTags.addItemDecoration(RecyclerviewItemDivider(7, 5, IS_GRIDLAYOUT))
+            rvMumentTags.addItemDecoration(RecyclerviewItemDivider(7, 12, IS_GRIDLAYOUT))
         }
     }
 
