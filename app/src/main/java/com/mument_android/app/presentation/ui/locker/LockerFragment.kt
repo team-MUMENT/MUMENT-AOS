@@ -9,12 +9,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mument_android.R
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentLockerBinding
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class LockerFragment : Fragment() {
@@ -56,8 +56,14 @@ class LockerFragment : Fragment() {
         }.attach()
 
         binding.root.setOnClickListener {
-            findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
+            findNavController().navigate(com.mument_android.R.id.action_lockerFragment_to_mumentDetailFragment)
         }
 
+
     }
+
+    private fun setImg() {
+
+    }
+
 }

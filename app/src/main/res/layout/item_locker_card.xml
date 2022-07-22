@@ -36,7 +36,7 @@
 
             <ImageView
                 load_profile="@{mument.userImage}"
-                android:layout_width="25dp"
+                android:layout_width="12dp"
                 android:layout_height="25dp"
                 tools:src="@drawable/ic_heart_off" />
 
