@@ -54,6 +54,51 @@ class HomeViewModel @Inject constructor(val useCase: WhenHomeEnterUseCase) : Vie
         }
     }
 
+    fun entityChange(dto: TodayMumentDto): TodayMumentEntity = TodayMumentEntity(
+        BuildConfig.USER_ID,
+        dto.todayMument.user.name,
+        dto.todayMument.user.image,
+        dto.todayMument.cardTag,
+        dto.todayMument._id,
+        dto.todayMument.content,
+        dto.todayMument.createdAt,
+        dto.todayMument.feelingTag,
+        dto.todayMument.impressionTag,
+        dto.todayMument.displayDate,
+        dto.todayMument.isFirst,
+        dto.todayMument.date,
+        dto.todayMument.mumentId,
+        dto.todayMument.music._id,
+        dto.todayMument.music.name,
+        dto.todayMument.music.artist,
+        dto.todayMument.music.image,
+        dto.todayDate
+    )
+
+    fun dtoChange(entity: TodayMumentEntity): TodayMument = TodayMument(
+        BuildConfig.USER_ID,
+        entity.cardTag,
+        entity.content,
+        entity.createdAt,
+        entity.date,
+        entity.displayDate,
+        entity.feelingTag,
+        entity.impressionTag,
+        entity.isFirst,
+        entity.mumentId,
+        Music(
+            entity.musicId,
+            entity.musicName,
+            entity.musicArtist,
+            entity.musicImage
+        ),
+        User(
+            entity.userId,
+            entity.userImage,
+            entity.userName,
+        )
+    )
+
     fun bannerIndexChange(position: Int) {
         bannerNum = position
     }

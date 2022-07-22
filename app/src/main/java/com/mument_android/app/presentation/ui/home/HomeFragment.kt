@@ -90,19 +90,26 @@ class HomeFragment : Fragment() {
             if (it.isNotEmpty()) {
                 impressiveAdapter.submitList(it)
                 binding.rcImpressive.adapter = impressiveAdapter
-                Timber.d("get Random ${impressiveAdapter.currentList}")
             }
         }
         viewModel.knownMument.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 heardAdapter.submitList(it)
                 binding.rcHeard.adapter = heardAdapter
-                Timber.d("get Known ${heardAdapter.currentList}")
             }
         }
         viewModel.bannerData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
-                bannerAdapter.data = it.toMutableList()
+                bannerAdapter.data = it.toMutableList().map {
+                    Banner(
+                        it._id,
+                        it.displayDate,
+                        Music(it.music._id, it.music.name, it.music.artist, it.music.image),
+                        it.tagTitle.replace("\\n", "\n")
+                    )
+
+                }
+                Timber.d("Adapter Data ${bannerAdapter.data}")
                 bannerAdapter.notifyDataSetChanged()
             }
         }
