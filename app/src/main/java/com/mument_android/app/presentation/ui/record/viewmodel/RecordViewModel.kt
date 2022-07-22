@@ -41,7 +41,7 @@ class RecordViewModel @Inject constructor(
     private val _createdMumentId = MutableLiveData<String>()
     val createdMumentId = _createdMumentId
 
-    private val _modifyMumentId = MutableLiveData<String>("")
+    private val _modifyMumentId = MutableLiveData<String>()
     val modifyMumentId = _modifyMumentId
 
     private val _isRecord = MutableLiveData<Boolean>(false)

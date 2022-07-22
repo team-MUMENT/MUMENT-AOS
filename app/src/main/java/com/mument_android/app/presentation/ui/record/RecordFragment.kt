@@ -348,16 +348,21 @@ class RecordFragment : Fragment() {
             }
         }
         recordViewModel.createdMumentId.observe(viewLifecycleOwner) {
-            if (recordViewModel.mumentData.value != null) {
-                findNavController().popBackStack()
-                recordViewModel.mumentData.value = null
-            } else {
-                recordViewModel.selectedMusic.value?.let { it1 ->
-                    moveMusicDetailNavigatorProvider.musicMument(
-                        it1._id
-                    )
+            if (it != null) {
+                if (recordViewModel.mumentData.value != null) {
+                    findNavController().popBackStack()
+                    recordViewModel.mumentData.value = null
+                } else {
+                    recordViewModel.selectedMusic.value?.let { it1 ->
+                        moveMusicDetailNavigatorProvider.musicMument(
+                            it1._id
+                        )
+                    }
                 }
             }
+        }
+        recordViewModel.modifyMumentId.observe(viewLifecycleOwner) {
+
         }
     }
 
