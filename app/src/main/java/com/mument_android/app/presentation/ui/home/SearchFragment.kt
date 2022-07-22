@@ -29,7 +29,7 @@ import timber.log.Timber
 class SearchFragment : Fragment() {
 
     private var binding by AutoClearedValue<FragmentSearchBinding>()
-    private val viewmodel: SearchViewModel by activityViewModels()
+    private val viewmodel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
     override fun onCreateView(
@@ -48,14 +48,13 @@ class SearchFragment : Fragment() {
     }
 
     private fun settingAdapterAndDatabinding() {
-        searchAdapter = SearchListAdapter(requireContext(), { data ->
+        searchAdapter = SearchListAdapter({ data ->
             viewmodel.selectContent(data)
-            findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment)
         }, { data ->
             viewmodel.deleteRecentList(data)
         })
         searchAdapter.option = true
-        searchResultAdapter = SearchListAdapter(requireContext(), { data ->
+        searchResultAdapter = SearchListAdapter({ data ->
             viewmodel.selectContent(data)
         }, {})
         viewmodel.setRecentData(lifecycleScope)
@@ -89,6 +88,7 @@ class SearchFragment : Fragment() {
             lifecycleScope.launch {
                 viewmodel.setRecentData(this)
                 binding.searchOption = false
+                searchResultAdapter.submitList(listOf())
                 binding.rcSearch.adapter = searchAdapter
             }
         }
@@ -107,9 +107,8 @@ class SearchFragment : Fragment() {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    if (result.data!!.isNotEmpty()) {
-                        searchResultAdapter.submitList(result.data)
-                    }
+                    searchResultAdapter.submitList(result.data)
+                    viewmodel.searchText.value = binding.etSearch.text.toString()
                 }
             }
         }

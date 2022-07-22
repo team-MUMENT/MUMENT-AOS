@@ -57,9 +57,9 @@ class HomeRepositoryImpl @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     // Local
-    override suspend fun getLocalTodayMument(): TodayMumentEntity =
-        localTodayMumentDataSource.getTodayMument()
-
+    override suspend fun getLocalTodayMument(userId: String): Flow<TodayMumentEntity> = flow {
+        emit(localTodayMumentDataSource.getTodayMument(userId))
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun updateTodayMument(mument: TodayMumentEntity) {
         localTodayMumentDataSource.updateMument(mument)

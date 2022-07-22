@@ -13,7 +13,6 @@ import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.ItemSearchListBinding
 
 class SearchListAdapter(
-    private val context: Context,
     private val contentClickListener: (RecentSearchData) -> Unit,
     private val itemClickListener: (RecentSearchData) -> Unit
 ) :
