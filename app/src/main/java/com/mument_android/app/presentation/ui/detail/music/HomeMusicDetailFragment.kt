@@ -42,10 +42,10 @@ class HomeMusicDetailFragment : BaseMusicDetailFragment() {
             findNavController().navigate(action)
         }
 
-        binding.cslEmptyView.setOnClickListener {
-            musicDetailViewModel.myMument.value?.musicId?.let {
+        binding.layoutMyMument.root.setOnClickListener {
+            musicDetailViewModel.myMument.value?.let {
                 val action =
-                    HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(it)
+                    HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(it.mumentId)
                 findNavController().navigate(action)
             }
         }
