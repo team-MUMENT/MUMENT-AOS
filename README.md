@@ -108,6 +108,10 @@ Mument
  뮤멘트 상세보기, 공유하기
  ```
 
+<br>
+<a href="https://destiny-plum-124.notion.site/a1ebcca8e8634731a879a4a069f94919"> 역할분담이 더 궁금하다면 여기로!</a>
+
+
 # Git Branch 전략
  <a href="https://techblog.woowahan.com/2553/"> Git Flow</a>
 

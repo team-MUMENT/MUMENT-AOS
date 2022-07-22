@@ -16,31 +16,31 @@
 
 
     // Impressive Tag
-    <string name="impressive_tone">🎙 음색</string>
-    <string name="impressive_beat">🥁 비트</string>
-    <string name="impressive_lyrics">🖋 가사</string>
-    <string name="impressive_melody">🎶 멜로디</string>
-    <string name="impressive_base">🎉 베이스</string>
-    <string name="impressive_intro">🛫 도입부</string>
+    <string name="impressive_tone">🎙   음색</string>
+    <string name="impressive_beat">🥁   비트</string>
+    <string name="impressive_lyrics">🖋   가사</string>
+    <string name="impressive_melody">🎶   멜로디</string>
+    <string name="impressive_base">🎉   베이스</string>
+    <string name="impressive_intro">🛫   도입부</string>
 
 
     // Emotional Tag
-    <string name="emotional_full">🎡 벅참</string>
-    <string name="emotional_excited">😄 신남</string>
-    <string name="emotional_flutter">💐 설렘</string>
-    <string name="emotional_happy">😚 행복</string>
-    <string name="emotional_confidence">🙌 자신감</string>
-    <string name="emotional_consolation">👥 위로</string>
-    <string name="emotional_blue">😔 우울</string>
-    <string name="emotional_miss">🕰 그리움</string>
-    <string name="emotional_loneliness">🛌 외로움</string>
-    <string name="emotional_dim">⌛ 아련함</string>
-    <string name="emotional_calm">☕ ️차분</string>
-    <string name="emotional_remembrance">💭 회상</string>
-    <string name="emotional_relaxed">🍀 여유로움</string>
-    <string name="emotional_romance">🌅 낭만</string>
-    <string name="emotional_stress">🌋 스트레스</string>
-    <string name="emotional_centimeter">🍁 센치함</string>
+    <string name="emotional_full">🎡   벅참</string>
+    <string name="emotional_excited">😄   신남</string>
+    <string name="emotional_flutter">💐   설렘</string>
+    <string name="emotional_happy">😚   행복</string>
+    <string name="emotional_confidence">🙌   자신감</string>
+    <string name="emotional_consolation">👥   위로</string>
+    <string name="emotional_blue">😔   우울</string>
+    <string name="emotional_miss">🕰   그리움</string>
+    <string name="emotional_loneliness">🛌   외로움</string>
+    <string name="emotional_dim">⌛   아련함</string>
+    <string name="emotional_calm">☕ ️ 차분</string>
+    <string name="emotional_remembrance">💭   회상</string>
+    <string name="emotional_relaxed">🍀   여유로움</string>
+    <string name="emotional_romance">🌅   낭만</string>
+    <string name="emotional_stress">🌋   스트레스</string>
+    <string name="emotional_centimeter">🍁   센치함</string>
 
     <string name="locker_year">년</string>
     <string name="locker_month">월</string>

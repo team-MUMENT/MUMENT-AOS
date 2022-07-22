@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="lockerMumentEntity"
             type="com.mument_android.app.domain.entity.locker.LockerMumentEntity" />
@@ -17,12 +18,12 @@
 
         <TextView
             android:id="@+id/tv_locker_date"
+            style="@style/TextView.Mument_H3_B16.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:text="@{lockerMumentEntity.date}"
-            style="@style/TextView.Mument_H3_B16.Style"
-            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="2022년 7월" />
@@ -31,23 +32,26 @@
             android:id="@+id/rv_mument_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="15dp"
+            android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/tv_locker_date"
             tools:listitem="@layout/item_locker_card" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_mument_grid"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_locker_date"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_locker_date"
             app:spanCount="4"
             tools:listitem="@layout/item_mument_image" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

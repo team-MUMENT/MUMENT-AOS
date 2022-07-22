@@ -48,7 +48,9 @@ class MyLikeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         setMyMumentListAdapter()
+
     }
 
     private fun setGridServerConnection() {
@@ -57,9 +59,11 @@ class MyLikeFragment : Fragment() {
 //                adapter = LockerTimeAdapter(isGridLayout)
 //                (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
 
+
             lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isLikeGridLayout ->
+
                 adapter = LockerTimeAdapter(isLikeGridLayout) {
-                   showMumentDetail(it)
+                    showMumentDetail(it)
                 }
                 (adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
 
@@ -75,15 +79,11 @@ class MyLikeFragment : Fragment() {
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
 
-                    /*
+
                     binding.rvLikeLinear.adapter =
-                        LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value)
-
-                     */
-
-                    binding.rvLikeLinear.adapter = LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value) {
-                        showMumentDetail(it)
-                    }
+                        LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value) {
+                            showMumentDetail(it)
+                        }
 
                     initLikeEmpty(it.data?.size ?: 0)
                     (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
@@ -176,7 +176,8 @@ class MyLikeFragment : Fragment() {
 
 
     private fun showMumentDetail(mumentId: String) {
-        val action = LockerFragmentDirections.actionLockerFragmentToLockerMumentDetailFragment(mumentId)
+        val action =
+            LockerFragmentDirections.actionLockerFragmentToLockerMumentDetailFragment(mumentId)
         findNavController().navigate(action)
     }
 

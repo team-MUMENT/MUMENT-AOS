@@ -54,9 +54,5 @@ class LockerFragment : Fragment() {
         TabLayoutMediator(binding.tlLocker, binding.vpLocker) { tab, position ->
             tab.text = tabLabel[position]
         }.attach()
-
-        binding.root.setOnClickListener {
-            findNavController().navigate(com.mument_android.R.id.action_lockerFragment_to_lockerMumentDetailFragment)
-        }
     }
 }
