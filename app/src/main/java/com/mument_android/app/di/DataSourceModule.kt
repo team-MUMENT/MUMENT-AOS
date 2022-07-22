@@ -58,8 +58,6 @@ object DataSourceModule {
             "friend_data_database"
         )
             .addTypeConverter(IntListTypeConverter(gson))
-            .addTypeConverter(UserTypeConverter(gson))
-            .addTypeConverter(MusicTypeConverter(gson))
             .addTypeConverter(DateTypeConverter())
             .build()
     }

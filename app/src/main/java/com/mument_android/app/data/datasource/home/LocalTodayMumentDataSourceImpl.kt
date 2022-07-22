@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class LocalTodayMumentDataSourceImpl @Inject constructor(private val dao: TodayMumentDAO) :
     LocalTodayMumentDataSource {
-    override suspend fun getTodayMument(): TodayMumentEntity = dao.getTodayMument()
+    override suspend fun getTodayMument(userId:String): TodayMumentEntity = dao.getTodayMument(userId)
 
 
     override suspend fun updateMument(mument: TodayMumentEntity) {

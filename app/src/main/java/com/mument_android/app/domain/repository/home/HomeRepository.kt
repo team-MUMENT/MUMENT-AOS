@@ -10,7 +10,7 @@ import com.mument_android.app.data.local.todaymument.TodayMumentEntity
 import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
-    suspend fun getLocalTodayMument(): TodayMumentEntity
+    suspend fun getLocalTodayMument(userId: String): Flow<TodayMumentEntity>
 
     suspend fun updateTodayMument(mument: TodayMumentEntity)
 
