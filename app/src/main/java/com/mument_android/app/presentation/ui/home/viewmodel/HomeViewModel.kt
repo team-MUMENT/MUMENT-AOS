@@ -29,7 +29,7 @@ class HomeViewModel @Inject constructor(
     val mument = listOf<MumentCard>()
     val bannerData = MutableLiveData<List<Banner>>(listOf())
     val todayMument = MutableLiveData<TodayMument>()
-    val randomMument = MutableLiveData<List<Mument>>(listOf())
+    val randomMument = MutableLiveData<RandomMumentDto>(null)
     val knownMument = MutableLiveData<List<AgainMument>>(listOf())
 
     init {
@@ -64,9 +64,8 @@ class HomeViewModel @Inject constructor(
                 knownMument.value = it.againMument.toMutableList()
             }
             useCase.getRandomMument().collect {
-                randomMument.value = it.mumentList.toMutableList()
+                randomMument.value = it
             }
-
             useCase.getTodayMument(BuildConfig.USER_ID).collect {
                 todayMument.value = it.todayMument
             }

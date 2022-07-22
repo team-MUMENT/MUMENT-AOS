@@ -1,17 +1,12 @@
 package com.mument_android.app.presentation.ui.main
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.navigation.NavArgument
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.navigation.NavigationBarView
-import com.google.android.material.navigation.NavigationView
 import com.mument_android.R
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
@@ -47,27 +42,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
                 R.id.fragment_home_frame -> {
                     if (viewModel.checkHasMusic()) {
                         bundle.putString("musicId", viewModel.musicId.value)
-                        viewModel.clearBundle()
-                    } else if (viewModel.checkMusic()) {
-                        bundle.putParcelable("music", viewModel.music.value)
-                        viewModel.clearBundle()
                     }
                 }
                 R.id.fragment_locker_frame -> {}
                 R.id.fragment_record -> {
                     if (viewModel.checkHasBundle()) {
+                        Timber.d("Has Bundle")
                         bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
                         bundle.putParcelable(
                             MUMENT_DETAIL_ENTITY,
                             viewModel.mumentDetailContents.value
                         )
-                        viewModel.clearBundle()
+                    }else if(viewModel.checkMusic()){
+                        Timber.d("Music!! ${viewModel.music.value}")
+                        bundle.putParcelable("music", viewModel.music.value)
                     }
                 }
                 else -> {}
             }
             navController.navigate(item.itemId, bundle)
-            true
+            viewModel.clearBundle()
+            false
         }
     }
 

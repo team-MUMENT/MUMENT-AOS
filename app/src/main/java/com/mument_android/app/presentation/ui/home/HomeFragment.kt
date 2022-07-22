@@ -52,12 +52,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
-        val homeFrame = requireParentFragment().requireParentFragment()
-
-        (homeFrame as HomeFrameFragment).arguments?.getString("musicId")?.let {
-            val action = HomeFragmentDirections.actionHomeFragmentToHomeMusicDetailFragment(it)
-            findNavController().navigate(action)
-        }
         bindData()
         binding.clCard.root.setOnClickListener {
             viewModel.todayMument.value?.mumentId?.let { showMumentDetail(it) }
@@ -71,7 +65,25 @@ class HomeFragment : Fragment() {
 
         binding.tvSearch.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
-            /*BottomSheetSearchFragment.newInstance().show(childFragmentManager, "Search")*/
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val homeFrame = requireParentFragment().requireParentFragment()
+
+        (homeFrame as HomeFrameFragment).arguments?.getString("musicId")?.let {
+            if (it != "") {
+                val action = HomeFragmentDirections.actionHomeFragmentToHomeMusicDetailFragment(it)
+                findNavController().navigate(action)
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.bannerNumIncrease.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { index ->
+                    binding.vpBanner.setCurrentItem(index, true)
+                }
         }
     }
 
@@ -101,19 +113,14 @@ class HomeFragment : Fragment() {
                 viewModel.bannerIndexChange(position)
             }
         })
-        lifecycleScope.launchWhenCreated {
-            viewModel.bannerNumIncrease.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect { index ->
-                    binding.vpBanner.setCurrentItem(index, true)
-                }
-        }
     }
 
     private fun setListData() {
         viewModel.randomMument.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                impressiveAdapter.submitList(it)
+            if (it != null) {
+                impressiveAdapter.submitList(it.mumentList)
                 binding.rcImpressive.adapter = impressiveAdapter
+                binding.tvImpressive.text = it.title
             }
         }
         viewModel.knownMument.observe(viewLifecycleOwner) {
@@ -131,16 +138,23 @@ class HomeFragment : Fragment() {
                         Music(it.music._id, it.music.name, it.music.artist, it.music.image),
                         it.tagTitle.replace("\\n", "\n")
                     )
-
                 }
                 bannerAdapter.notifyDataSetChanged()
             }
         }
-        viewModel.todayMument.observe(viewLifecycleOwner){
-            if(it != null){
+        viewModel.todayMument.observe(viewLifecycleOwner) {
+            if (it != null) {
                 val data = it.cardTag.map {
-                    if(it < 200) TagEntity(TagEntity.TAG_IMPRESSIVE, ImpressiveTag.findImpressiveStringTag(it), it)
-                    else TagEntity(TagEntity.TAG_EMOTIONAL, EmotionalTag.findEmotionalStringTag(it), it)
+                    if (it < 200) TagEntity(
+                        TagEntity.TAG_IMPRESSIVE,
+                        ImpressiveTag.findImpressiveStringTag(it),
+                        it
+                    )
+                    else TagEntity(
+                        TagEntity.TAG_EMOTIONAL,
+                        EmotionalTag.findEmotionalStringTag(it),
+                        it
+                    )
                 }
                 binding.clCard.rvTags.adapter = MumentTagListAdapter()
                 (binding.clCard.rvTags.adapter as MumentTagListAdapter).submitList(data)
