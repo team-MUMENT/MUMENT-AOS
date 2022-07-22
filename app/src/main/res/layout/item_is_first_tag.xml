@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingHorizontal="8dp"
+            android:paddingHorizontal="7dp"
             android:text="@{isFirstTag.tagString}"
             android:paddingVertical="5dp"
             style="@style/TextView.Mument_B7_M12.Style"

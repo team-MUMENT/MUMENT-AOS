@@ -49,13 +49,15 @@
                 android:text="@{mument.userName}"
                 tools:text="이수지" />
 
-            <ImageView
+            <CheckBox
                 android:id="@+id/iv_like"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_marginEnd="5dp"
-                android:src="@drawable/selector_heart_on_off"
-                android:visibility="@{mument.likeCount == null ? View.GONE : View.VISIBLE}" />
+                android:background="@drawable/selector_heart_on_off"
+                android:button="@null"
+                android:checked="@{mument.isLiked}"
+                android:visibility="@{mument.isPrivate != true ? View.VISIBLE : View.GONE}" />
 
             <TextView
                 style="@style/TextView.Mument_C1_R12.Style"
@@ -114,7 +116,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -126,8 +128,11 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="7dp"
                     android:paddingVertical="5dp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/notosans_medium"
                     android:text="@{mument.isFirst()?`처음` : `다시`}"
                     android:textColor="@color/mument_color_purple1"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="다시" />
@@ -136,12 +141,12 @@
                     android:id="@+id/rv_mument_tag"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginStart="8dp"
+                    android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="@+id/textView6"
                     app:layout_constraintStart_toEndOf="@+id/textView6"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView6"
                     tools:itemCount="2"
                     tools:listitem="@layout/item_mument_string_tag" />
 

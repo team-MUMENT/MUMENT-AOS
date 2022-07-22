@@ -9,7 +9,9 @@ import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.locker.LockerMumentEntity
+import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
+import com.mument_android.app.presentation.ui.detail.music.MusicDetailMumentListAdapter
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemLockerCardBinding
 import timber.log.Timber
@@ -43,5 +45,19 @@ class LockerMumentLinearAdapter(
         }
     }
 
-    class MumentViewHolder(val binding: ItemLockerCardBinding) : RecyclerView.ViewHolder(binding.root)
+    /*
+    private fun checkListMument(holder: MumentViewHolder) {
+        val musicDetail = getItem(holder.absoluteAdapterPosition)
+        holder.binding.run {
+            ivLike.setOnClickListener {
+                val likeCount = musicDetail.likeCount
+
+            }
+        }
+    }
+     */
+
+
+
+        class MumentViewHolder(val binding: ItemLockerCardBinding) : RecyclerView.ViewHolder(binding.root)
 }
