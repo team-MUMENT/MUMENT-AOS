@@ -11,6 +11,8 @@ import com.mument_android.app.domain.entity.locker.LockerMumentEntity
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.usecase.locker.FetchMyLikeListUseCase
 import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
+import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
+import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -20,7 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class LockerViewModel @Inject constructor(
     private val fetchMyMumentListUseCase: FetchMyMumentListUseCase,
-    private val fetchMyLikeListUseCase: FetchMyLikeListUseCase
+    private val fetchMyLikeListUseCase: FetchMyLikeListUseCase,
+    private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
+    private val likeMumentUseCase: LikeMumentUseCase
 ) : ViewModel() {
     val emotionalTags =
         EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }
@@ -168,6 +172,24 @@ class LockerViewModel @Inject constructor(
         val tempList = checkedLikeTagList.value?.toMutableList() ?: mutableListOf()
         tempList.remove(tag)
         checkedLikeTagList.value = tempList
+    }
+
+    fun cancelLikeMument(mumentId: String) {
+        viewModelScope.launch {
+            cancelLikeMumentUseCase(
+                mumentId,
+                BuildConfig.USER_ID
+            ).collect {}
+        }
+    }
+
+    fun likeMument(mumentId: String) {
+        viewModelScope.launch {
+            likeMumentUseCase(
+                mumentId,
+                BuildConfig.USER_ID
+            ).collect {}
+        }
     }
 
 }

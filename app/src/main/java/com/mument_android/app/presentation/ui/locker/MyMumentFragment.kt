@@ -56,9 +56,15 @@ class MyMumentFragment : Fragment() {
     private fun setGridServerConnection() {
         binding.rvMumentLinear.run {
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
-                adapter = LockerTimeAdapter(isGridLayout) {
-                    showMumentDetail(it)
-                }
+                adapter = LockerTimeAdapter(isGridLayout, showDetailListener = { showMumentDetail(it) }, object : LikeMumentListener{
+                    override fun likeMument(mumetId: String) {
+                        lockerViewModel.likeMument(mumetId)
+                    }
+
+                    override fun cancelLikeMument(mumetId: String) {
+                        cancelLikeMument(mumetId)
+                    }
+                })
                 (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
             }
         }
@@ -73,9 +79,15 @@ class MyMumentFragment : Fragment() {
                 is ApiResult.Success -> {
 
                     //binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value)
-                    binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value) {
-                        showMumentDetail(it)
-                    }
+                    binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value, showDetailListener = { showMumentDetail(it) }, object : LikeMumentListener{
+                        override fun likeMument(mumetId: String) {
+                            lockerViewModel.likeMument(mumetId)
+                        }
+
+                        override fun cancelLikeMument(mumetId: String) {
+                            lockerViewModel.cancelLikeMument(mumetId)
+                        }
+                    })
 
                     initMumentEmpty(it.data?.size ?: 0)
                     (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
