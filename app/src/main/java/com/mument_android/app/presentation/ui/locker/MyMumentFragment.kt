@@ -111,11 +111,11 @@ class MyMumentFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
-            setGridServerConnection()
             lockerViewModel.changeIsGridLayout(true)
-
+            setGridServerConnection()
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
+
         }
     }
 
