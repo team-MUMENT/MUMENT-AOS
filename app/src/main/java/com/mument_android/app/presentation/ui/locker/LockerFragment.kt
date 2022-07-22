@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTabAdapter
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
@@ -37,6 +39,7 @@ class LockerFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         initAdapter()
         initTab()
+        imageSet()
     }
 
 
@@ -54,5 +57,12 @@ class LockerFragment : Fragment() {
         TabLayoutMediator(binding.tlLocker, binding.vpLocker) { tab, position ->
             tab.text = tabLabel[position]
         }.attach()
+    }
+
+    private fun imageSet() {
+        binding.ivProfile.load("https://mument.s3.ap-northeast-2.amazonaws.com/user/angdroid/%EC%95%88%EB%93%9C.png") {
+            crossfade(true)
+            this.transformations(CircleCropTransformation())
+        }
     }
 }
