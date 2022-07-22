@@ -49,9 +49,11 @@ class MusicDetailFragment : Fragment() {
         changeMumentSort()
         updateEveryMuments()
         setMyMumentTagList()
+        musicDetailViewModel.musicId.observe(viewLifecycleOwner) {
+            musicDetailViewModel.fetchMusicDetail(it)
+            musicDetailViewModel.fetchMumentList(it)
+        }
         musicDetailViewModel.changeMusicId(args.musicId)
-        musicDetailViewModel.fetchMusicDetail(args.musicId)
-        musicDetailViewModel.changeSelectedSort(binding.tvSortLikeCount.text.toString())
     }
 
     private fun changeMumentSort() {

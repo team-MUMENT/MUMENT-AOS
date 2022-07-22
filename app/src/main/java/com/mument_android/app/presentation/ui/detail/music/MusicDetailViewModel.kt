@@ -64,8 +64,11 @@ class MusicDetailViewModel @Inject constructor(
                 musicId,
                 BuildConfig.USER_ID
             ).catch { e ->
+                Timber.e("${e.message}")
                 e.printStackTrace()
             }.collect {
+                Timber.e("${it.music}")
+
                 _musicInfo.value = it.music
                 _myMument.value = it.myMument
                 Timber.e("${it.myMument}")
@@ -81,7 +84,9 @@ class MusicDetailViewModel @Inject constructor(
                 findSortTypeTag(selectedSort.value)
             ).catch { e ->
                 e.printStackTrace()
+                Timber.e("${e.message}")
             }.collect {
+                Timber.e("${it}")
                 _mumentList.value = it
             }
         }
@@ -90,8 +95,10 @@ class MusicDetailViewModel @Inject constructor(
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId, BuildConfig.USER_ID)
-                .catch { e -> e.printStackTrace() }
-                .collect {
+                .catch {
+                        e -> e.printStackTrace()
+
+                }.collect {
 
                 }
         }

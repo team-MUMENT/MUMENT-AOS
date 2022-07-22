@@ -137,11 +137,11 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToMusicDetail()  {
         binding.viewAlbumClickArea.setOnClickListener {
-            MumentDetailFragmentDirections.actionMumentDetailFragmentToMusicDetailFragment(
+            val action = MumentDetailFragmentDirections.actionMumentDetailFragmentToMusicDetailFragment(
                 viewModel.mumentDetailContent.value?.data?.musicInfo?.id ?: ""
-            ).also {
-                findNavController().navigate(it)
-            }
+            )
+            Timber.e(viewModel.mumentDetailContent.value?.data?.musicInfo?.id)
+            findNavController().navigate(action)
         }
     }
 }
