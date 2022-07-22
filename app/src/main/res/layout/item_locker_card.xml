@@ -60,6 +60,7 @@
                 android:visibility="@{mument.isPrivate != true ? View.VISIBLE : View.GONE}" />
 
             <TextView
+                android:id="@+id/tv_like_count"
                 style="@style/TextView.Mument_C1_R12.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

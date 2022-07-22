@@ -62,9 +62,17 @@ class MyLikeFragment : Fragment() {
 
             lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isLikeGridLayout ->
 
-                adapter = LockerTimeAdapter(isLikeGridLayout) {
+                adapter = LockerTimeAdapter(isLikeGridLayout, showDetailListener = {
                     showMumentDetail(it)
-                }
+                }, object: LikeMumentListener {
+                    override fun likeMument(mumetId: String) {
+                        lockerViewModel.likeMument(mumetId)
+                    }
+
+                    override fun cancelLikeMument(mumetId: String) {
+                        lockerViewModel.cancelLikeMument(mumetId)
+                    }
+                })
                 (adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
 
             }
@@ -78,12 +86,19 @@ class MyLikeFragment : Fragment() {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-
-
                     binding.rvLikeLinear.adapter =
-                        LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value) {
-                            showMumentDetail(it)
-                        }
+                        LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value,
+                            showDetailListener =  {
+                                showMumentDetail(it)
+                        },object: LikeMumentListener {
+                            override fun likeMument(mumetId: String) {
+                                lockerViewModel.likeMument(mumetId)
+                            }
+
+                            override fun cancelLikeMument(mumetId: String) {
+                                lockerViewModel.cancelLikeMument(mumetId)
+                            }
+                        })
 
                     initLikeEmpty(it.data?.size ?: 0)
                     (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)

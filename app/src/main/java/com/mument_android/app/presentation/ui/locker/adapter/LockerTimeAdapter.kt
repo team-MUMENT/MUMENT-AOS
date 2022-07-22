@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
 import com.mument_android.app.domain.entity.locker.LockerMumentEntity
+import com.mument_android.app.presentation.ui.locker.LikeMumentListener
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemLockerDateBinding
 import timber.log.Timber
@@ -15,7 +16,8 @@ import timber.log.Timber
 //부모 어뎁터
 class LockerTimeAdapter(
     private val isGridLayout: Boolean,
-    private val showDetailListener: (String) -> Unit
+    private val showDetailListener: (String) -> Unit,
+    private val likeMumentListener: LikeMumentListener
 ): ListAdapter<LockerMumentEntity,LockerTimeAdapter.LockerTimeViewHolder>(
     GlobalDiffCallBack<LockerMumentEntity>()
 ) {
@@ -42,9 +44,18 @@ class LockerTimeAdapter(
                 val gridLayoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
                 holder.binding.rvMumentLinear.layoutManager = gridLayoutManager
             } else {
-                adapter = LockerMumentLinearAdapter {
-                    showDetailListener(it)
-                }
+                adapter = LockerMumentLinearAdapter(
+                    showDetailListener={ showDetailListener(it)
+
+                }, object: LikeMumentListener {
+                    override fun likeMument(mumetId: String) {
+                        likeMumentListener.likeMument(mumetId)
+                    }
+
+                    override fun cancelLikeMument(mumetId: String) {
+                        likeMumentListener.cancelLikeMument(mumetId)
+                    }
+                })
 
                 (adapter as LockerMumentLinearAdapter).submitList(mumentList.mumentCard)
             }
