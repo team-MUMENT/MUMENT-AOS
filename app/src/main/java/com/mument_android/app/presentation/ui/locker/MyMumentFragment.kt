@@ -87,9 +87,9 @@ class MyMumentFragment : Fragment() {
     //TODO: 필터 및 아이콘들 비활성화
     private fun initMumentEmpty(size : Int) {
         if(size == 0) {
-           binding.clFilterResultNull.visibility = View.VISIBLE
+            binding.clFilterResultNull.visibility = View.VISIBLE
         } else {
-           binding.clFilterResultNull.visibility = View.GONE
+            binding.clFilterResultNull.visibility = View.GONE
         }
     }
 
@@ -111,11 +111,11 @@ class MyMumentFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
-            setGridServerConnection()
             lockerViewModel.changeIsGridLayout(true)
-
+            setGridServerConnection()
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
+
         }
     }
 
