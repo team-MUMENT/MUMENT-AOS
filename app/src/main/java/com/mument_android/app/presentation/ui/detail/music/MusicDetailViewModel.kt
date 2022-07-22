@@ -1,5 +1,6 @@
 package com.mument_android.app.presentation.ui.detail.music
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,6 +34,9 @@ class MusicDetailViewModel @Inject constructor(
     private val likeMumentUseCase: LikeMumentUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase
 ): ViewModel() {
+    private val _musicId = MutableLiveData<String>()
+    val musicId: LiveData<String> = _musicId
+
     private val _musicInfo = MutableLiveData<MusicInfoEntity>()
     val musicInfo = _musicInfo
 
@@ -45,41 +49,44 @@ class MusicDetailViewModel @Inject constructor(
     private val _selectedSort = MutableStateFlow(SortTypeEnum.SORT_LIKE_COUNT.sort)
     val selectedSort = _selectedSort.asStateFlow()
 
-
-
-    init {
-        fetchMusicDetail()
-        fetchMumentList()
-    }
-
     fun changeSelectedSort(sort: String) {
         _selectedSort.value = sort
-        fetchMumentList()
+        fetchMumentList(musicId.value ?: "")
     }
 
-    private fun fetchMusicDetail() {
+    fun changeMusicId(id: String) {
+        _musicId.value = id
+    }
+
+    fun fetchMusicDetail(musicId: String) {
         viewModelScope.launch {
             fetchMusicDetailUseCase(
-                "62d2959e177f6e81ee8fa3de",
+                musicId,
                 BuildConfig.USER_ID
             ).catch { e ->
+                Timber.e("${e.message}")
                 e.printStackTrace()
             }.collect {
+                Timber.e("${it.music}")
+
                 _musicInfo.value = it.music
                 _myMument.value = it.myMument
+                Timber.e("${it.myMument}")
             }
         }
     }
 
-    private fun fetchMumentList() {
+    fun fetchMumentList(musicId: String) {
         viewModelScope.launch {
             fetchMumentListUseCase(
-                "62d2959e177f6e81ee8fa3de",
+                musicId,
                 BuildConfig.USER_ID,
                 findSortTypeTag(selectedSort.value)
             ).catch { e ->
                 e.printStackTrace()
+                Timber.e("${e.message}")
             }.collect {
+                Timber.e("${it}")
                 _mumentList.value = it
             }
         }
@@ -88,8 +95,10 @@ class MusicDetailViewModel @Inject constructor(
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId, BuildConfig.USER_ID)
-                .catch { e -> e.printStackTrace() }
-                .collect {
+                .catch {
+                        e -> e.printStackTrace()
+
+                }.collect {
 
                 }
         }

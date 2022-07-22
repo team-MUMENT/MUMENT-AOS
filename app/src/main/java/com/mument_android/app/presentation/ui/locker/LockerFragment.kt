@@ -55,9 +55,5 @@ class LockerFragment : Fragment() {
             tab.text = tabLabel[position]
         }.attach()
 
-        binding.root.setOnClickListener {
-            findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment)
-        }
-
     }
 }

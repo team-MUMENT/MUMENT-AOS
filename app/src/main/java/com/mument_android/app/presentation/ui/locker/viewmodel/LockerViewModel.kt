@@ -3,6 +3,7 @@ package com.mument_android.app.presentation.ui.locker.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.BuildConfig
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.data.network.util.ApiResult
@@ -87,7 +88,7 @@ class LockerViewModel @Inject constructor(
             }
 
             fetchMyMumentListUseCase(
-                userId = "62cd5d4383956edb45d7d0ef",
+                userId = BuildConfig.USER_ID,
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag
@@ -129,7 +130,7 @@ class LockerViewModel @Inject constructor(
             }
 
             fetchMyLikeListUseCase(
-                userId = "62cd5d4383956edb45d7d0ef",
+                userId = BuildConfig.USER_ID,
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag

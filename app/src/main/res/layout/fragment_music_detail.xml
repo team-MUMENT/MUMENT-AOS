@@ -164,11 +164,12 @@
                         android:layout_height="wrap_content"
                         android:layout_width="0dp"
                         android:layout_marginTop="15dp"
-                        android:visibility="@{musicDetailViewModel.myMument.createdAt == null ? View.GONE : View.VISIBLE }"
+                        android:visibility="@{musicDetailViewModel.myMument.createdAt.empty ? View.GONE : View.VISIBLE }"
                         app:layout_constraintTop_toBottomOf="@id/tv_my_muments"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:mument="@{musicDetailViewModel.myMument}"/>
+
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
