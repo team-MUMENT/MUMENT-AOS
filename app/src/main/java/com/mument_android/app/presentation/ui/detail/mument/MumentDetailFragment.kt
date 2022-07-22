@@ -86,6 +86,7 @@ class MumentDetailFragment : Fragment() {
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
                     (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(result.data?.combineTags())
+                    Timber.e(Thread.currentThread().name)
                 }
                 else -> {}
             }
