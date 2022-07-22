@@ -28,6 +28,9 @@ class MumentDetailViewModel @Inject constructor(
 ): ViewModel() {
     val isLiked = MutableStateFlow<Boolean>(false)
 
+    private val _backStack = MutableStateFlow<String>("")
+    val backStack = _backStack.asStateFlow()
+
     private val _mumentId = MutableStateFlow("")
     val mumentId = _mumentId.asStateFlow()
 
@@ -39,6 +42,10 @@ class MumentDetailViewModel @Inject constructor(
 
     private val _successDelete = MutableSharedFlow<Unit>()
     val successDelete = _successDelete.asSharedFlow()
+
+    fun changeBackStack(backstack: String) {
+        _backStack.value = backstack
+    }
 
     fun changeMumentId(id: String) {
         _mumentId.value = id

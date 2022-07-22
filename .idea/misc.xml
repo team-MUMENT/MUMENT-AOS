@@ -32,10 +32,11 @@
         <entry key="app/src/main/res/layout/fragment_home_frame.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_locker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.41884155273437496" />
+        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.2709832134292566" />
         <entry key="app/src/main/res/layout/fragment_mument_dialog.xml" value="0.15121580547112462" />
         <entry key="app/src/main/res/layout/fragment_music_detail.xml" value="0.1995022812111157" />
         <entry key="app/src/main/res/layout/fragment_my_like.xml" value="0.2418478260869565" />
+        <entry key="app/src/main/res/layout/fragment_my_mument.xml" value="0.10462962962962963" />
         <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_record_search.xml" value="0.22554347826086957" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />

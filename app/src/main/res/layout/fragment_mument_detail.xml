@@ -236,6 +236,8 @@
             android:paddingVertical="12dp"
             android:paddingHorizontal="13dp"
             android:layout_marginHorizontal="16dp"
+            android:elevation="1dp"
+            android:clickable="true"
             android:text="@{@string/go_to_mument_history_integer_format(mumentDetailViewModel.mumentDetailContent.data.mumentHistoryCount)}"
             android:drawableEnd="@drawable/ic_arrow_right_big"
             style="@style/TextView.Mument_C1_R12.Style"

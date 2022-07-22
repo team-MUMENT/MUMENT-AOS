@@ -1,6 +1,5 @@
-package com.mument_android.app.presentation.ui.home
+package com.mument_android.app.presentation.ui.home.history
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,15 +14,12 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.HistoryListAdapter
-import com.mument_android.app.domain.entity.TagEntity
-import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.home.viewmodel.HistoryViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentHistoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HistoryFragment : Fragment() {
@@ -59,6 +55,7 @@ class HistoryFragment : Fragment() {
         binding.llTouch.setOnClickListener {
             findNavController().popBackStack()
         }
+        binding.ivBtnBack.setOnClickListener { findNavController().popBackStack() }
     }
 
 
@@ -87,6 +84,4 @@ class HistoryFragment : Fragment() {
                 }
         }
     }
-
-
 }

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
+import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.FROM_HOME
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -27,7 +28,7 @@ class HomeMusicDetailFragment: BaseMusicDetailFragment() {
 
     private fun moveToHistoryFragment() {
         binding.tvShowMyHistory.setOnClickListener {
-            val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToMumentHistoryFragment(args.musicIdFromHome)
+            val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(args.musicIdFromHome)
             findNavController().navigate(action)
         }
     }
@@ -37,7 +38,7 @@ class HomeMusicDetailFragment: BaseMusicDetailFragment() {
             MusicDetailMumentListAdapter(object: MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
                     Timber.e("$mumentId")
-                    val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToMumentDetailFragment(mumentId)
+                    val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(mumentId)
                     findNavController().navigate(action)
                 }
 

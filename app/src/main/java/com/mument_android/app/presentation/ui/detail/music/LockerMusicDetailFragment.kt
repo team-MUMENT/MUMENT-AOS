@@ -26,7 +26,7 @@ class LockerMusicDetailFragment: BaseMusicDetailFragment() {
 
     private fun moveToHistoryFragment() {
         binding.tvShowMyHistory.setOnClickListener {
-            val action = LockerMusicDetailFragmentDirections.actionLockerMusicDetailFragmentToHistoryFragment3(args.musicIdFromLocker)
+            val action = LockerMusicDetailFragmentDirections.actionLockerMusicDetailFragmentToHistoryFragment(args.musicIdFromLocker)
             findNavController().navigate(action)
         }
     }
@@ -34,8 +34,8 @@ class LockerMusicDetailFragment: BaseMusicDetailFragment() {
     private fun setMumentListAdapter() {
         setEveryMumentListAdapter(MusicDetailMumentListAdapter(object: MumentClickListener {
             override fun showMumentDetail(mumentId: String) {
-//                val action = LockerMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToMumentDetailFragment(mumentId)
-//                findNavController().navigate(action)
+                val action = LockerMusicDetailFragmentDirections.actionLockerMusicDetailFragmentToLockerMumentDetailFragment(mumentId)
+                findNavController().navigate(action)
             }
 
             override fun likeMument(mumentId: String) {

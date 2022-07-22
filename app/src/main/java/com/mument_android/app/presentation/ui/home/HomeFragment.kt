@@ -21,6 +21,7 @@ import com.mument_android.app.data.network.home.adapter.ImpressiveEmotionListAda
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.FROM_HOME
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel
 import com.mument_android.app.util.AutoClearedValue
@@ -51,15 +52,16 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
         bindData()
+        binding.clCard.root.setOnClickListener {
+            viewModel.todayMument.value?.mumentId?.let { showMumentDetail(it) }
+        }
     }
 
     private fun bindData() {
         setAdapter()
         setRecyclerView()
         setListData()
-        binding.root.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment)
-        }
+
         binding.tvSearch.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
             /*BottomSheetSearchFragment.newInstance().show(childFragmentManager, "Search")*/
@@ -67,9 +69,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        heardAdapter = HeardMumentListAdapter(requireContext()) { {} }
-        impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { {} }
-        bannerAdapter = BannerListAdapter(viewModel.bannerData.value!!.toMutableList())
+        heardAdapter = HeardMumentListAdapter(requireContext()) {
+            HomeFragmentDirections.actionHomeFragmentToHomeMumentDetailFragment(it.mumentId).apply {
+                findNavController().navigate(this)
+            }
+        }
+        impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) {
+            HomeFragmentDirections.actionHomeFragmentToHomeMumentDetailFragment(it._id).apply {
+                findNavController().navigate(this)
+            }
+        }
+        bannerAdapter = BannerListAdapter(viewModel.bannerData.value!!.toMutableList()) {
+            val action = HomeFragmentDirections.actionHomeFragmentToHomeMusicDetailFragment(it)
+            findNavController().navigate(action)
+        }
         binding.vpBanner.adapter = bannerAdapter
     }
 
@@ -84,9 +97,7 @@ class HomeFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.bannerNumIncrease.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect { index ->
-                    binding.vpBanner.setCurrentItem(
-                        index, true
-                    )
+                    binding.vpBanner.setCurrentItem(index, true)
                 }
         }
     }
@@ -115,7 +126,6 @@ class HomeFragment : Fragment() {
                     )
 
                 }
-                Timber.d("Adapter Data ${bannerAdapter.data}")
                 bannerAdapter.notifyDataSetChanged()
             }
         }
@@ -130,4 +140,10 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+    private fun showMumentDetail(mumentId: String) {
+        val action = HomeFragmentDirections.actionHomeFragmentToHomeMumentDetailFragment(mumentId)
+        findNavController().navigate(action)
+    }
+
 }

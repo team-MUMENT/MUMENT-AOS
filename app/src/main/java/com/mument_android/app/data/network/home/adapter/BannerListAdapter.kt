@@ -17,15 +17,7 @@ import com.mument_android.app.domain.entity.TempBannerData
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemBannerLayoutBinding
 
-class BannerListAdapter(var data: List<Banner>) :
-    RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>() {
-
-
-    val albumImage = listOf<Int>(
-        R.drawable.mument_banner_1,
-        R.drawable.mument_banner_2,
-        R.drawable.mument_banner_3
-    )
+class BannerListAdapter(var data: List<Banner>, private val clickBanner: (String) -> Unit) : RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>() {
 
     class BannerViewHolder(val binding: ItemBannerLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -49,6 +41,9 @@ class BannerListAdapter(var data: List<Banner>) :
             holder.binding.banner = (data[position % data.size])
             holder.binding.position = (position % data.size).toString()
             holder.binding.tvIndex.text = builder
+            holder.binding.root.setOnClickListener {
+                clickBanner(data[position % data.size].music._id)
+            }
         }
     }
 

@@ -7,23 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.mument_android.R
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
-import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
 import com.mument_android.app.util.ViewUtils.applyVisibilityAnimation
-import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMumentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,10 +29,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MumentDetailFragment : Fragment() {
-    private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
-    private val viewModel: MumentDetailViewModel by viewModels()
-    private val args: MumentDetailFragmentArgs by navArgs()
+abstract class MumentDetailFragment : Fragment() {
+    protected var binding by AutoClearedValue<FragmentMumentDetailBinding>()
+    protected val viewModel: MumentDetailViewModel by viewModels()
     @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
 
     override fun onCreateView(
@@ -52,23 +47,15 @@ class MumentDetailFragment : Fragment() {
         with(binding) {
             lifecycleOwner = viewLifecycleOwner
             mumentDetailViewModel= viewModel
-            tvGoToHistory.applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
             ivBackButton.setOnClickListener { findNavController().popBackStack() }
         }
 
-        if (args.mumentId.isNotEmpty()) {
-            viewModel.changeMumentId(args.mumentId)
-            viewModel.fetchMumentDetailContent(args.mumentId)
-        }
-
-        binding.ivBackButton.setOnClickListener { findNavController().popBackStack() }
+        showMumentHistory()
         setMumentTags()
         updateMumentTagList()
         changeLikeStatus()
-        goToMumentHistory()
         showEditBottomSheet()
         successDeleteMument()
-        goToMusicDetail()
     }
 
     private fun setMumentTags() {
@@ -102,12 +89,6 @@ class MumentDetailFragment : Fragment() {
         }
     }
 
-    private fun goToMumentHistory() {
-        binding.tvGoToHistory.setOnClickListener {
-            // Todo: 뮤멘트 히스토리로 이동
-        }
-    }
-
     private fun showEditBottomSheet() {
         binding.ivKebab.setOnClickListener {
             EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
@@ -138,13 +119,18 @@ class MumentDetailFragment : Fragment() {
         }
     }
 
-    private fun goToMusicDetail()  {
-        binding.viewAlbumClickArea.setOnClickListener {
-            val action = MumentDetailFragmentDirections.actionMumentDetailFragmentToLockerMusicDetailFragment(
-                viewModel.mumentDetailContent.value?.data?.musicInfo?.id ?: ""
-            )
-            Timber.e(viewModel.mumentDetailContent.value?.data?.musicInfo?.id)
-            findNavController().navigate(action)
+    private fun showMumentHistory() {
+        viewModel.mumentDetailContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
+            if ((it?.data?.mumentHistoryCount ?:0) > 0) {
+                binding.tvGoToHistory.applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
+            }
         }
+
+
+    }
+
+    companion object {
+        const val FROM_HOME = "FROM_HOME"
+        const val FROM_LOCKER = "FROM_LOCKER"
     }
 }

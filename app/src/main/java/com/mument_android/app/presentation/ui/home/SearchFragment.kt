@@ -27,7 +27,6 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
-
     private var binding by AutoClearedValue<FragmentSearchBinding>()
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchListAdapter
