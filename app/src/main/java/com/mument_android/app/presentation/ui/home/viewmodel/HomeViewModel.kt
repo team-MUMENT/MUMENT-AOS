@@ -68,6 +68,9 @@ class HomeViewModel @Inject constructor(
                 randomMument.value = it.mumentList.toMutableList()
             }
 
+            useCase.getTodayMument(BuildConfig.USER_ID).collect {
+                todayMument.value = it.todayMument
+            }
         }
     }
 

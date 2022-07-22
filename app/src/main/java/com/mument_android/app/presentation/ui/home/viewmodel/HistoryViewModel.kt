@@ -1,5 +1,6 @@
 package com.mument_android.app.presentation.ui.home.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,15 +28,19 @@ class HistoryViewModel @Inject constructor(val useCase: GetMumentHistoryUseCase)
     val selectSortType get():StateFlow<Boolean> = _selectSortType.asStateFlow()
     val musicDetailData = MutableLiveData<MumentHistoryDto>()
 
+    private val _musicId = MutableLiveData<String>()
+    val musicId: LiveData<String> = _musicId
+
+    fun changeMusicId(id: String) {
+        _musicId.value = id
+    }
 
     fun getHistory() {
         viewModelScope.launch {
-
-            useCase.getMumentHistory(BuildConfig.USER_ID, "62d2959e177f6e81ee8fa3de").collect {
+            useCase.getMumentHistory(BuildConfig.USER_ID, musicId.value?:"").collect {
                 Timber.d("result $it")
                 musicDetailData.value = it
             }
-
         }
     }
 

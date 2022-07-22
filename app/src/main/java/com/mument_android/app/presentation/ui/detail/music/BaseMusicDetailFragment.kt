@@ -8,11 +8,10 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.fragment.findNavController
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
-import com.mument_android.app.data.enumtype.SortTypeEnum.Companion.findSortTypeTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
 import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
@@ -22,20 +21,18 @@ import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.app.util.launchWhenCreated
-import com.mument_android.databinding.FragmentMusicDetailBinding
+import com.mument_android.databinding.FragmentBaseMusicDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
-class MusicDetailFragment : Fragment() {
-    private var binding by AutoClearedValue<FragmentMusicDetailBinding>()
-    private val musicDetailViewModel: MusicDetailViewModel by viewModels()
-    private val args: MusicDetailFragmentArgs by navArgs()
+abstract class BaseMusicDetailFragment : Fragment() {
+    protected var binding by AutoClearedValue<FragmentBaseMusicDetailBinding>()
+    protected val musicDetailViewModel: MusicDetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentMusicDetailBinding.inflate(inflater, container, false).let {
+    ): View = FragmentBaseMusicDetailBinding.inflate(inflater, container, false).let {
         binding = it
         it.root
     }
@@ -49,11 +46,12 @@ class MusicDetailFragment : Fragment() {
         changeMumentSort()
         updateEveryMuments()
         setMyMumentTagList()
+
         musicDetailViewModel.musicId.observe(viewLifecycleOwner) {
             musicDetailViewModel.fetchMusicDetail(it)
             musicDetailViewModel.fetchMumentList(it)
         }
-        musicDetailViewModel.changeMusicId(args.musicId)
+        binding.ivBack.setOnClickListener { findNavController().popBackStack() }
     }
 
     private fun changeMumentSort() {

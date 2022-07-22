@@ -95,10 +95,7 @@ class MusicDetailViewModel @Inject constructor(
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId, BuildConfig.USER_ID)
-                .catch {
-                        e -> e.printStackTrace()
-
-                }.collect {
+                .catch { e -> e.printStackTrace() }.collect {
 
                 }
         }

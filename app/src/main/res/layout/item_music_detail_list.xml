@@ -15,6 +15,8 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="13dp"
         android:paddingBottom="16dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:background="@drawable/shape_border_default_redius_11dp"
         android:elevation="2dp">
 
@@ -61,7 +63,7 @@
             style="@style/TextView.Mument_C1_R12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/like_count_integer_format(mumentSummary.likeCount)}"
+            android:text="@{Integer.toString(mumentSummary.likeCount)}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
@@ -114,7 +116,7 @@
             style="@style/TextView.Mument_C1_R12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{mumentSummary.createdAt}"
+            android:text="@{mumentSummary.date}"
             android:textColor="@color/mument_color_gray2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_contents"

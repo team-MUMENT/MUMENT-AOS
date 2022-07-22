@@ -26,34 +26,30 @@ class HomeRepositoryImpl @Inject constructor(
 ) : HomeRepository {
     // Remote
     override suspend fun searchList(keyword: String): Flow<List<RecentSearchData>> = flow {
-        emit(remoteSearchListDataSource.searchMusicList(keyword).data)
+        remoteSearchListDataSource.searchMusicList(keyword).data?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getMumentHistory(userId: String, musicId: String): Flow<MumentHistoryDto> =
         flow<MumentHistoryDto> {
             remoteMumentHistoryDataSource.getMumentHistory(userId, musicId).apply {
-                if (this.success) {
-                    emit(this.data)
-                } else {
-                    Timber.d("Fail Get Mument History")
-                }
+                data?.let {emit(it) }
             }
         }.flowOn(Dispatchers.IO)
 
     override suspend fun getBannerMument(): Flow<BannerMumentDto> = flow {
-        emit(homeDataSource.getBannerMument().data)
+        homeDataSource.getBannerMument().data?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getKnownMument(): Flow<KnownMumentDto> = flow {
-        emit(homeDataSource.getKnownMument().data)
+        homeDataSource.getKnownMument().data?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getRandomMument(): Flow<RandomMumentDto> = flow {
-        emit(homeDataSource.getRandomMument().data)
+        homeDataSource.getRandomMument().data?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentDto> = flow {
-        emit(homeDataSource.getTodayMument(userId).data)
+        homeDataSource.getTodayMument(userId).data?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 
     // Local

@@ -13,6 +13,6 @@ class CancelLikeMumentUseCaseImpl @Inject constructor(
     private val likeMumentController: LikeMumentController
 ): CancelLikeMumentUseCase {
     override suspend fun invoke(mumentId: String, userId: String): Flow<Int> = flow {
-        emit(likeMumentController.cancelLikeMument(mumentId, userId).data.likeCount)
+        likeMumentController.cancelLikeMument(mumentId, userId).data?.likeCount?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 }

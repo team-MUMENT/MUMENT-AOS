@@ -22,19 +22,32 @@
         tools:layout="@layout/fragment_mument_detail">
         <argument android:name="mumentId"
             app:argType="string"/>
+
         <action
-            android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment"
-            app:destination="@id/musicDetailFragment" />
+            android:id="@+id/action_mumentDetailFragment_to_lockerMusicDetailFragment"
+            app:destination="@id/lockerMusicDetailFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/musicDetailFragment"
-        android:name="com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment"
-        android:label="MusicDetailFragment"
-        tools:layout="@layout/fragment_music_detail">
+        android:id="@+id/lockerMusicDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.detail.music.LockerMusicDetailFragment"
+        android:label="LockerMusicDetailFragment"
+        tools:layout="@layout/fragment_base_music_detail">
         <argument
-            android:name="musicId"
+            android:name="musicIdFromLocker"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_lockerMusicDetailFragment_to_historyFragment3"
+            app:destination="@id/historyFragment3" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/historyFragment3"
+        android:name="com.mument_android.app.presentation.ui.home.HistoryFragment"
+        android:label="HistoryFragment" >
+        <argument android:name="musicId"
             app:argType="string"/>
     </fragment>
+
 
 </navigation>

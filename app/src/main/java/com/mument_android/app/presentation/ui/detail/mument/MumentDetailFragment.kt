@@ -140,7 +140,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToMusicDetail()  {
         binding.viewAlbumClickArea.setOnClickListener {
-            val action = MumentDetailFragmentDirections.actionMumentDetailFragmentToMusicDetailFragment(
+            val action = MumentDetailFragmentDirections.actionMumentDetailFragmentToLockerMusicDetailFragment(
                 viewModel.mumentDetailContent.value?.data?.musicInfo?.id ?: ""
             )
             Timber.e(viewModel.mumentDetailContent.value?.data?.musicInfo?.id)

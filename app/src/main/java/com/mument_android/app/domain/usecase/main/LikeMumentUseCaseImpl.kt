@@ -15,6 +15,6 @@ class LikeMumentUseCaseImpl @Inject constructor(
     private val likeMumentController: LikeMumentController
 ): LikeMumentUseCase {
     override suspend fun invoke(mumentId: String, userId: String): Flow<Int> = flow {
-        emit(likeMumentController.likeMument(mumentId, userId).data.likeCount)
+        likeMumentController.likeMument(mumentId, userId).data?.likeCount?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 }

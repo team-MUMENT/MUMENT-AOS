@@ -21,8 +21,7 @@ class MumentSummaryMapper @Inject constructor(
             from.isPrivate,
             from.likeCount,
             from.isDeleted,
-            from.createdAt,
-            from.updatedAt,
+            from.date,
             from.cardTag,
             from.isLiked
         )

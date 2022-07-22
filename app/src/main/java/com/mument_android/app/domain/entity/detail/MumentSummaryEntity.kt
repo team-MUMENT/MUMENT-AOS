@@ -13,8 +13,7 @@ data class MumentSummaryEntity(
     val isPrivate: Boolean,
     val likeCount: Int,
     val isDeleted: Boolean,
-    val createdAt: String,
-    val updatedAt: String,
+    val date: String,
     val cardTag: List<Int>,
     val isLiked: Boolean
 )
