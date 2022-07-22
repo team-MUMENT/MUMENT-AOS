@@ -39,8 +39,5 @@ class HistoryListAdapter(val context: Context) :
         holder.binding.setVariable(BR.musicDetail, getItem(position))
     }
 
-    class HistoryViewHolder(
-        val binding: ItemMumentLayoutBinding,
-    ) :
-        RecyclerView.ViewHolder(binding.root)
+    class HistoryViewHolder(val binding: ItemMumentLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 }

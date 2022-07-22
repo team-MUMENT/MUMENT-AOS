@@ -1,6 +1,5 @@
-package com.mument_android.app.presentation.ui.home
+package com.mument_android.app.presentation.ui.home.history
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,24 +9,21 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.HistoryListAdapter
-import com.mument_android.app.domain.entity.TagEntity
-import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.home.viewmodel.HistoryViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentHistoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HistoryFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentHistoryBinding>()
-    private lateinit var adapter: HistoryListAdapter
     private val historyViewModel: HistoryViewModel by viewModels()
     private val args: HistoryFragmentArgs by navArgs()
 
@@ -52,17 +48,21 @@ class HistoryFragment : Fragment() {
         binding.tvDesc.setOnClickListener {
             historyViewModel.changeSortType(false)
         }
-        adapter = HistoryListAdapter(requireContext())
-        binding.rcHistory.adapter = adapter
+        binding.rcHistory.adapter = HistoryListAdapter(requireContext())
         historyViewModel.getHistory()
         collectType()
+
+        binding.llTouch.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        binding.ivBtnBack.setOnClickListener { findNavController().popBackStack() }
     }
 
 
     private fun collectType() {
         lifecycleScope.launch {
             historyViewModel.musicDetailData.observe(viewLifecycleOwner){
-                adapter.submitList(it.mumentHistory)
+                (binding.rcHistory.adapter as HistoryListAdapter).submitList(it.mumentHistory)
             }
             historyViewModel.selectSortType.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {

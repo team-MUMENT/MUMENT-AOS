@@ -27,7 +27,6 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
-
     private var binding by AutoClearedValue<FragmentSearchBinding>()
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchListAdapter
@@ -42,6 +41,8 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.ivBack.setOnClickListener { findNavController().popBackStack() }
         settingAdapterAndDatabinding()
         collectingList()
         addClickListener()

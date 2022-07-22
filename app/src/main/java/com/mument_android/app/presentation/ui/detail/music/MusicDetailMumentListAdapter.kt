@@ -38,7 +38,7 @@ class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickL
     override fun onBindViewHolder(holder: MusicDetailMumentListViewHolder, position: Int) {
         holder.binding.apply {
             setVariable(BR.mumentSummary, getItem(position))
-            root.setOnClickListener { mumentClickListener.showMumentDetail(getItem(position).mumentId) }
+            viewClickable.setOnClickListener { mumentClickListener.showMumentDetail(getItem(position).mumentId) }
             checkLikeMument(holder)
             setMumentTagList(holder)
         }

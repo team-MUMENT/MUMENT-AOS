@@ -15,6 +15,7 @@ import androidx.databinding.BindingAdapter
 import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.mument_android.R
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IS_FIRST
 import com.mument_android.app.util.ViewUtils.dpToPx
@@ -175,6 +176,26 @@ object GlobalBindingAdapter {
             }
             3 -> {
                 view.setImageResource(R.drawable.ic_alert)
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("toolbarElipseTitle")
+    fun CollapsingToolbarLayout.setToolbarEllipsize(name: String?) {
+        name?.let {
+            if(it.count() > 16) {
+                title = it.substring(0,15) + "..."
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setTextEllipse")
+    fun TextView.setTextViewEllipse(name: String?) {
+        name?.let {
+            if(it.count() > 16) {
+                text = it.substring(0,15) + "..."
             }
         }
     }

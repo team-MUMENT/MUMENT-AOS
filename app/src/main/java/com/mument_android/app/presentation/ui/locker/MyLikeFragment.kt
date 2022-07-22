@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mument_android.app.data.network.util.ApiResult
+import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.FROM_LOCKER
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTimeAdapter
 import com.mument_android.app.presentation.ui.locker.filter.LockerLikeFilterBottomSheetFragment
@@ -175,11 +176,8 @@ class MyLikeFragment : Fragment() {
 
 
     private fun showMumentDetail(mumentId: String) {
-        val action = LockerFragmentDirections.actionLockerFragmentToMumentDetailFragment(mumentId)
+        val action = LockerFragmentDirections.actionLockerFragmentToLockerMumentDetailFragment(mumentId)
         findNavController().navigate(action)
     }
-
-
-
 
 }

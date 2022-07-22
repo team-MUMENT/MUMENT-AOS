@@ -36,7 +36,6 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             localUseCase.getTodayMument(BuildConfig.USER_ID).onEach { result ->
             }.catch { e ->
-                Timber.d("error ${e.message}")
                 useCase.getTodayMument(BuildConfig.USER_ID).collect {
                     todayMument.value = it.todayMument
                     localUseCase.saveTodayMument(entityChange(it))

@@ -25,7 +25,7 @@ import com.mument_android.databinding.FragmentBaseMusicDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-abstract class BaseMusicDetailFragment : Fragment() {
+abstract class BaseMusicDetailFragment(): Fragment() {
     protected var binding by AutoClearedValue<FragmentBaseMusicDetailBinding>()
     protected val musicDetailViewModel: MusicDetailViewModel by viewModels()
 
@@ -42,15 +42,9 @@ abstract class BaseMusicDetailFragment : Fragment() {
         binding.musicDetailViewModel = musicDetailViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        setEveryMumentListAdapter()
         changeMumentSort()
         updateEveryMuments()
         setMyMumentTagList()
-
-        musicDetailViewModel.musicId.observe(viewLifecycleOwner) {
-            musicDetailViewModel.fetchMusicDetail(it)
-            musicDetailViewModel.fetchMumentList(it)
-        }
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
     }
 
@@ -65,22 +59,10 @@ abstract class BaseMusicDetailFragment : Fragment() {
         }
     }
 
-    private fun setEveryMumentListAdapter() {
+    protected fun setEveryMumentListAdapter(mumentListAdapter: MusicDetailMumentListAdapter) {
         binding.rvEveryMuments.run {
             addItemDecoration(RecyclerviewItemDivider(0, 15.dpToPx(requireContext()), IS_VERTICAL))
-            adapter = MusicDetailMumentListAdapter(object: MumentClickListener {
-                override fun showMumentDetail(mumentId: String) {
-
-                }
-
-                override fun likeMument(mumentId: String) {
-                    musicDetailViewModel.likeMument(mumentId)
-                }
-
-                override fun cancelLikeMument(mumentId: String) {
-                    musicDetailViewModel.cancelLikeMument(mumentId)
-                }
-            })
+            adapter = mumentListAdapter
 
         }
     }
@@ -113,9 +95,7 @@ abstract class BaseMusicDetailFragment : Fragment() {
         cardTags.addAll(
             mument.cardTag.map { tagIdx ->
                 val type = if (tagIdx < 200) TagEntity.TAG_IMPRESSIVE else TagEntity.TAG_EMOTIONAL
-                val tag = if (tagIdx < 200) ImpressiveTag.findImpressiveStringTag(tagIdx) else EmotionalTag.findEmotionalStringTag(
-                    tagIdx
-                )
+                val tag = if (tagIdx < 200) ImpressiveTag.findImpressiveStringTag(tagIdx) else EmotionalTag.findEmotionalStringTag(tagIdx)
                 TagEntity(type, tag, tagIdx)
             }
         )
