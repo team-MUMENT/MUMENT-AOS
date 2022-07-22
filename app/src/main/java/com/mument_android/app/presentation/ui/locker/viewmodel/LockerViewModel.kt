@@ -97,7 +97,7 @@ class LockerViewModel @Inject constructor(
             }.catch {
                 it.printStackTrace()
                 myMuments.value = ApiResult.Failure(null)
-            }.collect {
+            }.collectLatest {
                 myMuments.value = ApiResult.Success(it)
             }
         }
@@ -139,7 +139,7 @@ class LockerViewModel @Inject constructor(
             }.catch {
                 it.printStackTrace()
                 myLikeMuments.value = ApiResult.Failure(null)
-            }.collect {
+            }.collectLatest {
                 myLikeMuments.value = ApiResult.Success(it)
             }
         }
