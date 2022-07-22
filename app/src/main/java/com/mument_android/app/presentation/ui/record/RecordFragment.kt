@@ -295,6 +295,8 @@ class RecordFragment : Fragment() {
         }
     }
 
+
+
     private fun secondListenClickEvent() {
         with(binding) {
             binding.btnRecordSecond.setOnClickListener {

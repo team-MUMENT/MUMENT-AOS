@@ -123,7 +123,7 @@
 
         <TextView
             android:id="@+id/tv_clear_all"
-            style="@style/TextView.Mument_B4_M14.TextAppearance"
+            style="@style/TextView.Mument_B4_M14.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"

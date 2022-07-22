@@ -6,7 +6,7 @@
     <data>
         <variable
             name="mument"
-            type="com.mument_android.app.data.dto.locker.LockerMyMumentDto" />
+            type="com.mument_android.app.domain.entity.locker.LockerMumentEntity.MumentLockerCard" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,11 +26,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--TODO: 프로필 이미지 Bind-->
         <ImageView
+            android:id="@+id/iv_profile"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="16dp"
+            load_profile="@{mument.userImage}"
             app:layout_constraintBottom_toBottomOf="@+id/tv_locker_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_locker_title" />

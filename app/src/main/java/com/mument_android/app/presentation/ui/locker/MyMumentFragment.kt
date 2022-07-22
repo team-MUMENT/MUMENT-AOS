@@ -38,7 +38,6 @@ class MyMumentFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
 
-        setMyMumentListAdapter()
         emptyBtnClick()
         settingRecyclerView()
         listBtnClickListener()
@@ -57,7 +56,7 @@ class MyMumentFragment : Fragment() {
         binding.rvMumentLinear.run {
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
                 adapter = LockerTimeAdapter(isGridLayout) {
-                    //showMumentDetail(it)
+                    showMumentDetail(it)
                 }
                 (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
             }
@@ -111,8 +110,9 @@ class MyMumentFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
-            lockerViewModel.changeIsGridLayout(true)
             setGridServerConnection()
+            lockerViewModel.changeIsGridLayout(true)
+
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
         }
