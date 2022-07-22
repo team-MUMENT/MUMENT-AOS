@@ -29,6 +29,13 @@ class LockerMusicDetailFragment: BaseMusicDetailFragment() {
             val action = LockerMusicDetailFragmentDirections.actionLockerMusicDetailFragmentToHistoryFragment(args.musicIdFromLocker)
             findNavController().navigate(action)
         }
+        binding.layoutMyMument.root.setOnClickListener {
+            musicDetailViewModel.myMument.value?.let {
+                val action =
+                    HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(it.mumentId)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun setMumentListAdapter() {
