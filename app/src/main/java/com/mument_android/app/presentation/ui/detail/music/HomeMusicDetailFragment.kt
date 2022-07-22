@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeMusicDetailFragment: BaseMusicDetailFragment() {
@@ -13,6 +15,8 @@ class HomeMusicDetailFragment: BaseMusicDetailFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        setMumentListAdapter()
         musicDetailViewModel.musicId.observe(viewLifecycleOwner) {
             musicDetailViewModel.fetchMusicDetail(it)
             musicDetailViewModel.fetchMumentList(it)
@@ -26,5 +30,25 @@ class HomeMusicDetailFragment: BaseMusicDetailFragment() {
             val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToMumentHistoryFragment(args.musicIdFromHome)
             findNavController().navigate(action)
         }
+    }
+
+    private fun setMumentListAdapter() {
+        setEveryMumentListAdapter(
+            MusicDetailMumentListAdapter(object: MumentClickListener {
+                override fun showMumentDetail(mumentId: String) {
+                    Timber.e("$mumentId")
+                    val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToMumentDetailFragment(mumentId)
+                    findNavController().navigate(action)
+                }
+
+                override fun likeMument(mumentId: String) {
+                    musicDetailViewModel.likeMument(mumentId)
+                }
+
+                override fun cancelLikeMument(mumentId: String) {
+                    musicDetailViewModel.cancelLikeMument(mumentId)
+                }
+            })
+        )
     }
 }

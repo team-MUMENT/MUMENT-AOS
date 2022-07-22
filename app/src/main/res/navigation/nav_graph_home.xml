@@ -26,7 +26,12 @@
         android:id="@+id/mumentDetailFragment"
         android:name="com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment"
         android:label="MumentDetailFragment"
-        tools:layout="@layout/fragment_mument_detail" />
+        tools:layout="@layout/fragment_mument_detail" >
+
+        <argument
+            android:name="mumentId"
+            app:argType="string"/>
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.mument_android.app.presentation.ui.home.SearchFragment"

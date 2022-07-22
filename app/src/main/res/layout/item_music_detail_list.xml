@@ -46,30 +46,6 @@
             app:layout_constraintTop_toTopOf="@id/iv_profile"
             tools:text="이수지" />
 
-        <CheckBox
-            android:id="@+id/cb_heart"
-            android:layout_width="17dp"
-            android:layout_height="17dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/selector_heart_on_off"
-            android:button="@null"
-            android:checked="@{mumentSummary.liked}"
-            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
-            app:layout_constraintEnd_toStartOf="@id/tv_like_count"
-            app:layout_constraintTop_toTopOf="@id/iv_profile" />
-
-        <TextView
-            android:id="@+id/tv_like_count"
-            style="@style/TextView.Mument_C1_R12.Style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{Integer.toString(mumentSummary.likeCount)}"
-            android:textColor="@color/mument_color_gray1"
-            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_profile"
-            tools:text="15" />
-
         <View
             android:id="@+id/view_divider"
             android:layout_width="0dp"
@@ -121,6 +97,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_contents"
             tools:text="1 Sep, 2020" />
+
+        <View
+            android:id="@+id/view_clickable"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <CheckBox
+            android:id="@+id/cb_heart"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/selector_heart_on_off"
+            android:button="@null"
+            android:checked="@{mumentSummary.liked}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+            app:layout_constraintEnd_toStartOf="@id/tv_like_count"
+            app:layout_constraintTop_toTopOf="@id/iv_profile" />
+
+        <TextView
+            android:id="@+id/tv_like_count"
+            style="@style/TextView.Mument_C1_R12.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{Integer.toString(mumentSummary.likeCount)}"
+            android:textColor="@color/mument_color_gray1"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_profile"
+            tools:text="15" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -56,7 +56,7 @@ class MumentDetailFragment : Fragment() {
             ivBackButton.setOnClickListener { findNavController().popBackStack() }
         }
 
-        if (!args.mumentId.isNullOrEmpty()) {
+        if (args.mumentId.isNotEmpty()) {
             viewModel.changeMumentId(args.mumentId)
             viewModel.fetchMumentDetailContent(args.mumentId)
         }

@@ -24,13 +24,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:collapsedTitleGravity="center"
+                toolbarElipseTitle="@{musicDetailViewModel.musicInfo.name}"
                 app:collapsedTitleTextAppearance="@style/CollapsedTitleStyle"
                 app:contentScrim="@color/white"
                 app:expandedTitleGravity="center"
                 app:expandedTitleTextAppearance="@style/ExpandedTitleStyle"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:scrimAnimationDuration="150"
-                app:title="@{musicDetailViewModel.musicInfo.name}"
                 app:toolbarId="@id/toolbar">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,11 +58,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/TextView.Mument_H2_B18.Style"
-                        android:text="@{musicDetailViewModel.musicInfo.name}"
+                        setTextEllipse="@{musicDetailViewModel.musicInfo.name}"
                         android:layout_marginStart="10dp"
                         app:layout_constraintTop_toTopOf="@id/iv_album_profile"
                         app:layout_constraintStart_toEndOf="@id/iv_album_profile"
                         tools:text="하늘나라"/>
+
+                    <ImageView
+                        android:id="@+id/iv_arrow_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/ic_arrow_right_small"
+                        app:layout_constraintTop_toTopOf="@id/tv_album_name"
+                        app:layout_constraintStart_toEndOf="@id/tv_album_name"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_album_name"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_artist_name"
@@ -153,6 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/show_my_history"
+                        android:visibility="@{musicDetailViewModel.myMument == null ? View.GONE : View.VISIBLE}"
                         android:textColor="@color/mument_color_purple1"
                         app:layout_constraintTop_toTopOf="@id/tv_my_muments"
                         app:layout_constraintBottom_toBottomOf="@id/tv_my_muments"

@@ -19,11 +19,10 @@ import com.mument_android.app.domain.usecase.detail.FetchMusicDetailUseCase
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -60,34 +59,21 @@ class MusicDetailViewModel @Inject constructor(
 
     fun fetchMusicDetail(musicId: String) {
         viewModelScope.launch {
-            fetchMusicDetailUseCase(
-                musicId,
-                BuildConfig.USER_ID
-            ).catch { e ->
-                Timber.e("${e.message}")
+            fetchMusicDetailUseCase(musicId, BuildConfig.USER_ID).catch { e ->
                 e.printStackTrace()
             }.collect {
-                Timber.e("${it.music}")
-
                 _musicInfo.value = it.music
                 _myMument.value = it.myMument
-                Timber.e("${it.myMument}")
             }
         }
     }
 
     fun fetchMumentList(musicId: String) {
         viewModelScope.launch {
-            fetchMumentListUseCase(
-                musicId,
-                BuildConfig.USER_ID,
-                findSortTypeTag(selectedSort.value)
-            ).catch { e ->
+            fetchMumentListUseCase(musicId, BuildConfig.USER_ID, findSortTypeTag(selectedSort.value)).catch { e ->
                 e.printStackTrace()
-                Timber.e("${e.message}")
-            }.collect {
-                Timber.e("${it}")
-                _mumentList.value = it
+            }.collect { muments ->
+                _mumentList.value = muments
             }
         }
     }
@@ -95,9 +81,7 @@ class MusicDetailViewModel @Inject constructor(
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId, BuildConfig.USER_ID)
-                .catch { e -> e.printStackTrace() }.collect {
-
-                }
+                .catch { e -> e.printStackTrace() }.collect {}
         }
     }
 
@@ -105,9 +89,7 @@ class MusicDetailViewModel @Inject constructor(
         viewModelScope.launch {
             cancelLikeMumentUseCase(mumentId, BuildConfig.USER_ID)
                 .catch { e -> e.printStackTrace() }
-                .collect {
-
-                }
+                .collect {}
         }
     }
 }
