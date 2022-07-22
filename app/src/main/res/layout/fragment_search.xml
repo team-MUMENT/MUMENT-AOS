@@ -21,10 +21,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:background="@color/mument_color_bgwhite"
         android:clipChildren="true"
         tools:context=".app.presentation.ui.home.BottomSheetSearchFragment">
 
@@ -87,21 +86,19 @@
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:animateLayoutChanges="true"
-            android:paddingTop="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_search">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:animateLayoutChanges="true"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
                 <LinearLayout
+                    android:id="@+id/ll_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/tv_recent_search"
@@ -134,17 +131,16 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_search"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="fill_parent"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
                     android:visibility="@{viewmodel.searchList.data.size() == 0 &amp;&amp; viewmodel.searchResultList.data.size() == 0? View.GONE : View.VISIBLE}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_title"
                     tools:listitem="@layout/item_search_list" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
         <ImageView
