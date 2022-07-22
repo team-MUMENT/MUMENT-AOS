@@ -6,6 +6,7 @@ import android.text.SpannableString
 import android.text.method.ScrollingMovementMethod
 import android.text.style.ImageSpan
 import android.util.TypedValue
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
@@ -203,4 +204,20 @@ object GlobalBindingAdapter {
             }
         }
     }
+
+    @BindingAdapter("isLike")
+    fun setLike(imageView: ImageView, option : Boolean) {
+        imageView.isSelected = option
+    }
+
+    @JvmStatic
+    @BindingAdapter("isPrivate")
+    fun isPrivate(imageView: ImageView, option: Boolean) {
+        if(!option){
+            imageView.visibility = View.GONE
+        }else{
+            imageView.visibility = View.VISIBLE
+        }
+    }
+
 }

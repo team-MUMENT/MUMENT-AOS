@@ -20,6 +20,23 @@ class LockerMumentLinearAdapter(
 ) : ListAdapter<LockerMumentEntity.MumentLockerCard, LockerMumentLinearAdapter.MumentViewHolder>(
     GlobalDiffCallBack<LockerMumentEntity.MumentLockerCard>()
 ) {
+
+    private lateinit var mlistener : onItemClickListener
+
+    interface onItemClickListener{
+        fun onItemClick(user : String, postion : Int)
+    }
+
+    fun setOnItemClickListener(listener : onItemClickListener) {
+        mlistener = listener
+    }
+
+    fun plus(count : Int, like : Boolean, postion: Int) {
+        getItem(postion).isLiked = like
+        getItem(postion).likeCount = count
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MumentViewHolder {
         val binding = ItemLockerCardBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -41,7 +58,18 @@ class LockerMumentLinearAdapter(
         holder.binding.root.setOnClickListener {
             getItem(position)._id?.let { it -> showDetailListener(it) }
         }
+
+        holder.binding.ivLike.setOnClickListener {
+            Timber.d("Test : ${getItem(position)._id}")
+            holder.binding.ivLike.isSelected = true
+        }
     }
 
-    class MumentViewHolder(val binding: ItemLockerCardBinding) : RecyclerView.ViewHolder(binding.root)
+    class MumentViewHolder(val binding: ItemLockerCardBinding) : RecyclerView.ViewHolder(binding.root) {
+        val like = binding.ivLike
+        init {
+            like.setOnClickListener {
+            }
+        }
+    }
 }

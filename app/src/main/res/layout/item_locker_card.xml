@@ -54,7 +54,9 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_heart_off"
+                android:src="@drawable/selector_heart_on_off"
+                isLike="@{mument.isLiked}"
+                isPrivate="@{mument.isPrivate}"
                 android:visibility="@{mument.likeCount == null ? View.GONE : View.VISIBLE}" />
 
             <TextView

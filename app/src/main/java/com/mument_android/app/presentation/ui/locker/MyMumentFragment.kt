@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.FROM_LOCKER
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
+import com.mument_android.app.presentation.ui.locker.adapter.LockerMumentLinearAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTimeAdapter
 import com.mument_android.app.presentation.ui.locker.filter.LockerFilterBottomSheetFragment
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
@@ -22,6 +23,7 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class MyMumentFragment : Fragment() {
+    private lateinit var linearAdapter : LockerMumentLinearAdapter
     private var binding by AutoClearedValue<FragmentMyMumentBinding>()
     private val lockerViewModel: LockerViewModel by viewModels()
 
@@ -35,6 +37,10 @@ class MyMumentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        linearAdapter = LockerMumentLinearAdapter({})
+        binding.rvMumentLinear.adapter = linearAdapter
+
         binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
@@ -45,7 +51,6 @@ class MyMumentFragment : Fragment() {
         gridBtnClickListener()
         filterBtnClickListener()
         fetchMuments()
-
     }
 
     override fun onResume() {
