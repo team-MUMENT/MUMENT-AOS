@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.mument_android.BuildConfig
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.util.AutoClearedValue
@@ -75,8 +76,8 @@ abstract class MumentDetailFragment : Fragment() {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
+                    binding.ivKebab.visibility = if (result.data?.writerInfo?.userId == BuildConfig.USER_ID) View.VISIBLE else View.GONE
                     (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(result.data?.combineTags())
-                    Timber.e(Thread.currentThread().name)
                 }
                 else -> {}
             }

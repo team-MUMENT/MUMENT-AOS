@@ -21,7 +21,7 @@ class MumentCardMapper: BaseMapper<MusicDetailDto, MumentCard?> {
                 from.music.name,
                 from.music.artist,
                 from.myMument.user.id,
-                from.myMument.user.image,
+                from.myMument.user.image ,
                 from.myMument.user.name,
                 from.myMument.likeCount,
                 from.myMument.isLiked,
