@@ -236,7 +236,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_record_impressive_tags"
-                    android:layout_width="300dp"
+                    android:layout_width="280dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"

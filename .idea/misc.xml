@@ -9,7 +9,7 @@
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_ic_toggle.xml" value="0.146" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/drawable-xxxhdpi/selector_ic_filter.xml" value="0.1" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_base_music_detail.xml" value="0.14375" />
-        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_home.xml" value="0.14375" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_home.xml" value="0.8" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker_filter_bottom_sheet.xml" value="0.2132921174652241" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_locker_frame.xml" value="0.14375" />
@@ -19,14 +19,14 @@
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_music_detail.xml" value="0.17135416666666667" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_my_like.xml" value="0.6" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_my_mument.xml" value="0.4080370942812983" />
-        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_record.xml" value="0.25433962264150944" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/fragment_record.xml" value="0.536" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_banner_layout.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_heard_mument_layout.xml" value="0.17135416666666667" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_impressive_emotion_mument_layout.xml" value="0.21770833333333334" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_is_first_tag.xml" value="0.6" />
-        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_card.xml" value="0.62339514978602" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_card.xml" value="0.5057471264367817" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_locker_date.xml" value="0.264" />
-        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_filter_string_tag.xml" value="0.176" />
+        <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_filter_string_tag.xml" value="0.536" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_image.xml" value="0.6" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_layout.xml" value="0.4" />
         <entry key="..\:/Users/82104/user/MUMENT-AOS/app/src/main/res/layout/item_mument_string_tag.xml" value="0.5662650602409639" />
