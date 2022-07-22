@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDirections
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.BuildConfig
+import com.mument_android.R
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
+import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigatorProvider
+import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
@@ -96,6 +96,7 @@ abstract class MumentDetailFragment : Fragment() {
                 override fun edit() {
                     viewModel.mumentDetailContent.value?.data?.let {
                         editMumentNavigatorProvider.editMument(viewModel.mumentId.value, it)
+
                     }
                 }
 

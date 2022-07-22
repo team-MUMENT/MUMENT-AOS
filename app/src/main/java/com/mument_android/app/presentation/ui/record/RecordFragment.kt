@@ -29,7 +29,7 @@ import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.customview.MumentDialog
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
-import com.mument_android.app.presentation.ui.detail.mument.MoveMusicDetailNavigatorProvider
+import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveMusicDetailNavigatorProvider
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
 import com.mument_android.app.presentation.ui.home.HomeFragmentDirections
 import com.mument_android.app.presentation.ui.home.HomeFrameFragment
@@ -83,7 +83,6 @@ class RecordFragment : Fragment() {
         }
 
         arguments?.getParcelable<MumentDetailEntity>(MUMENT_DETAIL_ENTITY)?.let {
-            Timber.e("$it")
             recordViewModel.mumentData.value = it
             if (it.isFirst.tagIdx == 1) {
                 recordViewModel.changeIsFirst(true)
@@ -296,7 +295,6 @@ class RecordFragment : Fragment() {
 
         recordViewModel.mumentData.observe(viewLifecycleOwner) {
             if (it != null) {
-                Timber.e("${it.impressionTags}")
                 recordViewModel.selectedMusic.value = RecentSearchData(
                     it.musicInfo.id,
                     it.musicInfo.artist,
@@ -314,7 +312,6 @@ class RecordFragment : Fragment() {
                     rvImpressionTagsAdapter.selectedTags.addAll(data)
                     rvEmotionalTagsAdapter.selectedTags.addAll(data)
                 }
-                Timber.d("HI $it")
             } else {
 
             }

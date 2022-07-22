@@ -38,7 +38,7 @@ class RecordViewModel @Inject constructor(
     private val _selectedMusic = MutableLiveData<RecentSearchData>()
     val selectedMusic = _selectedMusic
 
-    private val _createdMumentId = MutableLiveData<String>("")
+    private val _createdMumentId = MutableLiveData<String>()
     val createdMumentId = _createdMumentId
 
     private val _modifyMumentId = MutableLiveData<String>("")
