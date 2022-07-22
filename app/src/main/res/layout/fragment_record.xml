@@ -236,8 +236,8 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_record_impressive_tags"
-                    android:layout_width="wrap_content"
-                    android:layout_height="94dp"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal"
@@ -260,7 +260,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_record_emotional_tags"
-                    android:layout_width="485dp"
+                    android:layout_width="540dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:clipToPadding="false"
