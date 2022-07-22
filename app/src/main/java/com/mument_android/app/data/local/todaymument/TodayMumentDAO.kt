@@ -14,6 +14,6 @@ interface TodayMumentDAO {
     @Update
     suspend fun updateTodayMument(data: TodayMumentEntity)
 
-    @Query("SELECT * FROM today_mument_table")
-    suspend fun getTodayMument(): TodayMumentEntity
+    @Query("SELECT * FROM today_mument_table WHERE userId = :userId")
+    suspend fun getTodayMument(userId:String): TodayMumentEntity
 }
