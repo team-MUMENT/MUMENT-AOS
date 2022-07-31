@@ -6,28 +6,31 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
 import com.mument_android.R
+import com.mument_android.app.data.enumtype.EmotionalTag
+import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.data.enumtype.SortTypeEnum
 import com.mument_android.app.data.enumtype.SortTypeEnum.Companion.findSortTypeTag
-import com.mument_android.app.domain.entity.MumentCard
-import com.mument_android.app.domain.entity.detail.MumentDetailEntity
+import com.mument_android.app.data.mapper.detail.IntegrationTagMapper
+import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
-import com.mument_android.app.domain.entity.detail.MusicWithMyMumentEntity
 import com.mument_android.app.domain.entity.music.MusicInfoEntity
-import com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity
 import com.mument_android.app.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMusicDetailUseCase
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MusicDetailViewModel @Inject constructor(
+    private val integrationTagMapper: IntegrationTagMapper,
     private val fetchMumentListUseCase: FetchMumentListUseCase,
     private val fetchMusicDetailUseCase: FetchMusicDetailUseCase,
     private val likeMumentUseCase: LikeMumentUseCase,
@@ -55,6 +58,21 @@ class MusicDetailViewModel @Inject constructor(
 
     fun changeMusicId(id: String) {
         _musicId.value = id
+    }
+
+    fun mapTagList(): List<TagEntity> {
+        val cardTags = mutableListOf<TagEntity>()
+        myMument.value?.let { mument ->
+            viewModelScope.launch {
+                withContext(Dispatchers.Default) {
+                    val isFirst = if (mument.isFirst) R.string.tag_is_first else R.string.tag_has_heard
+                    cardTags.add(TagEntity(TagEntity.TAG_IS_FIRST, isFirst, if (mument.isFirst) 1 else 0))
+                    cardTags.addAll(mument.cardTag.map { tagIdx -> integrationTagMapper.map(tagIdx) })
+                }
+            }
+        }
+
+        return cardTags
     }
 
     fun fetchMusicDetail(musicId: String) {

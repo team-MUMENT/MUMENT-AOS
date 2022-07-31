@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -16,9 +18,11 @@ import com.mument_android.R
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigatorProvider
+import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.app.util.*
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
+import com.mument_android.app.util.StartDestinationChecker.isFromHome
 import com.mument_android.app.util.ViewUtils.applyVisibilityAnimation
 import com.mument_android.databinding.FragmentMumentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -101,7 +105,6 @@ class MumentDetailFragment : Fragment() {
                 override fun edit() {
                     viewModel.mumentDetailContent.value?.data?.let {
                         editMumentNavigatorProvider.editMument(viewModel.mumentId.value, it)
-
                     }
                 }
 
@@ -133,11 +136,10 @@ class MumentDetailFragment : Fragment() {
     private fun goToMusicDetail()  {
         binding.viewAlbumClickArea.setOnClickListener {
             viewModel.mumentDetailContent.value?.data?.musicInfo?.id?.let { musicId ->
-                val bundle = Bundle().also { it.putString("MUSIC_ID", musicId) }
-                if (parentFragment?.parentFragment?.id == R.id.nav_host_fragment_home_frame) {
-                    findNavController().navigate(R.id.action_mumentDetailFragment_to_homeMusicDetailFragment, bundle)
-                } else {
-                    findNavController().navigate(R.id.action_mumentDetailFragment_to_lockerMusicDetailFragment, bundle)
+                Bundle().also {
+                    it.putString(MUSIC_ID, musicId)
+                    val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_musicDetailFragment_home else R.id.action_mumentDetailFragment_to_musicDetailFragment_locker
+                    findNavController().navigate(actionId, it)
                 }
             }
         }
@@ -146,17 +148,16 @@ class MumentDetailFragment : Fragment() {
     private fun goToHistory() {
         binding.tvGoToHistory.setOnClickListener {
             viewModel.mumentDetailContent.value?.data?.musicInfo?.id?.let { musicId ->
-                if (parentFragment?.parentFragment?.id == R.id.nav_host_fragment_home_frame) {
-                    val bundle = Bundle().also { it.putString("MUSIC_ID", musicId) }
-                    findNavController().navigate(R.id.action_mumentDetailFragment_to_historyFragment, bundle)
+                Bundle().also {
+                    it.putString(MUSIC_ID, musicId)
+                    val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_historyFragment_home else R.id.action_mumentDetailFragment_to_historyFragment_locker
+                    findNavController().navigate(actionId, it)
                 }
             }
         }
     }
 
     companion object {
-        const val FROM_HOME = "FROM_HOME"
-        const val FROM_LOCKER = "FROM_LOCKER"
         const val MUMENT_ID = "MUMENT_ID"
     }
 }

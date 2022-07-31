@@ -16,6 +16,7 @@ import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.SearchListAdapter
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
+import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
@@ -52,19 +53,19 @@ class SearchFragment : Fragment() {
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                val action = SearchFragmentDirections.actionSearchFragmentToHomeMusicDetailFragment(data._id)
-                findNavController().navigate(action) },
+                val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
+                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)
+            },
             itemClickListener = { data -> viewmodel.deleteRecentList(data) }
         )
         searchAdapter.option = true
         searchResultAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                val action = SearchFragmentDirections.actionSearchFragmentToHomeMusicDetailFragment(data._id)
-                findNavController().navigate(action) },
-            itemClickListener =  {
-
-            }
+                val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
+                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)
+            },
+            itemClickListener =  {}
         )
 
         viewmodel.setRecentData(lifecycleScope)

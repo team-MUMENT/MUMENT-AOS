@@ -15,6 +15,8 @@ import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
+import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveRecordProvider
 import com.mument_android.app.util.*
@@ -22,12 +24,15 @@ import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.FragmentBaseMusicDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-abstract class BaseMusicDetailFragment(): Fragment() {
-    protected var binding by AutoClearedValue<FragmentBaseMusicDetailBinding>()
-    protected val musicDetailViewModel: MusicDetailViewModel by viewModels()
+class MusicDetailFragment(): Fragment() {
+    private var binding by AutoClearedValue<FragmentBaseMusicDetailBinding>()
+    private val musicDetailViewModel: MusicDetailViewModel by viewModels()
     @Inject lateinit var recordProvider: MoveRecordProvider
 
     override fun onCreateView(
@@ -42,17 +47,31 @@ abstract class BaseMusicDetailFragment(): Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.musicDetailViewModel = musicDetailViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.ivBack.click { findNavController().popBackStack() }
 
+        recordMument()
+        fetchMusicDetailContents()
         changeMumentSort()
         updateEveryMuments()
         setMyMumentTagList()
-        binding.ivBack.setOnClickListener { findNavController().popBackStack() }
+        setEntireMumentListAdapter()
+        moveToHistoryFragment()
+    }
 
+    private fun recordMument() {
         binding.tvRecordMument.click {
             musicDetailViewModel.musicInfo.value?.let { musicInfo ->
                 recordProvider.recordMusic(Music(musicInfo.id, musicInfo.name, musicInfo.artist, musicInfo.thumbnail))
             }
         }
+    }
+
+    private fun fetchMusicDetailContents() {
+        musicDetailViewModel.musicId.observe(viewLifecycleOwner) {
+            musicDetailViewModel.fetchMusicDetail(it)
+            musicDetailViewModel.fetchMumentList(it)
+        }
+        arguments?.getString(MUSIC_ID)?.let { musicDetailViewModel.changeMusicId(it) }
     }
 
     private fun changeMumentSort() {
@@ -64,10 +83,25 @@ abstract class BaseMusicDetailFragment(): Fragment() {
         }
     }
 
-    protected fun setEveryMumentListAdapter(mumentListAdapter: MusicDetailMumentListAdapter) {
+    private fun setEntireMumentListAdapter() {
         binding.rvEveryMuments.run {
             addItemDecoration(RecyclerviewItemDivider(0, 15.dpToPx(requireContext()), IS_VERTICAL))
-            adapter = mumentListAdapter
+            adapter = MusicDetailMumentListAdapter(object : MumentClickListener {
+                override fun showMumentDetail(mumentId: String) {
+                    Bundle().also {
+                        it.putString(MumentDetailFragment.MUMENT_ID, mumentId)
+                        findNavController().navigate(R.id.action_homeMusicDetailFragment_to_mumentDetailFragment, it)
+                    }
+                }
+
+                override fun likeMument(mumentId: String) {
+                    musicDetailViewModel.likeMument(mumentId)
+                }
+
+                override fun cancelLikeMument(mumentId: String) {
+                    musicDetailViewModel.cancelLikeMument(mumentId)
+                }
+            })
         }
     }
 
@@ -77,32 +111,36 @@ abstract class BaseMusicDetailFragment(): Fragment() {
         }
     }
 
+    private fun setMyMumentTagList() {
+        binding.layoutMyMument.rvMumentTags.adapter = MumentTagListAdapter()
+        collectFlowWhenStarted(musicDetailViewModel.myMument) { mumentSummary ->
+            (binding.layoutMyMument.rvMumentTags.adapter as MumentTagListAdapter).submitList(musicDetailViewModel.mapTagList())
+        }
+    }
+
+    private fun moveToHistoryFragment() {
+        binding.tvShowMyHistory.click {
+            Bundle().also {
+                it.putString(MUSIC_ID, musicDetailViewModel.musicId.value ?: "")
+                findNavController().navigate(R.id.action_musicDetailFragment_to_historyFragment, it)
+            }
+        }
+
+        binding.layoutMyMument.root.setOnClickListener {
+            musicDetailViewModel.myMument.value?.let {
+                Bundle().also {
+                    it.putString(MUSIC_ID, musicDetailViewModel.musicId.value ?: "")
+                    findNavController().navigate(R.id.action_musicDetailFragment_to_historyFragment, it)
+                }
+            }
+        }
+    }
+
     private fun AppCompatTextView.changeSelectedSortTheme(selectedSort: String) {
         isSelected = selectedSort == text.toString()
     }
 
-    private fun setMyMumentTagList() {
-        binding.layoutMyMument.rvMumentTags.run {
-            adapter = MumentTagListAdapter()
-        }
-        collectFlowWhenStarted(musicDetailViewModel.myMument) { mumentSummary ->
-            mumentSummary?.let {
-                (binding.layoutMyMument.rvMumentTags.adapter as MumentTagListAdapter).submitList(mapTagList(mumentSummary))
-            }
-        }
-    }
-
-    private fun mapTagList(mument: MumentSummaryEntity): List<TagEntity> {
-        val cardTags = mutableListOf<TagEntity>()
-        val isFirst = if (mument.isFirst) R.string.tag_is_first else R.string.tag_has_heard
-        cardTags.add( TagEntity(TagEntity.TAG_IS_FIRST, isFirst,  if (mument.isFirst) 1 else 0) )
-        cardTags.addAll(
-            mument.cardTag.map { tagIdx ->
-                val type = if (tagIdx < 200) TagEntity.TAG_IMPRESSIVE else TagEntity.TAG_EMOTIONAL
-                val tag = if (tagIdx < 200) ImpressiveTag.findImpressiveStringTag(tagIdx) else EmotionalTag.findEmotionalStringTag(tagIdx)
-                TagEntity(type, tag, tagIdx)
-            }
-        )
-        return cardTags
+    companion object {
+        const val MUSIC_ID = "MUSIC_ID"
     }
 }

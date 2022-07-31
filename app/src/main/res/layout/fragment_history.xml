@@ -122,23 +122,25 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_asc"
+                    android:id="@+id/tv_latest_order"
                     style="@style/TextView.Mument_C1_R12.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="27dp"
                     android:layout_marginEnd="10dp"
                     android:text="최신순"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_desc"
+                    android:textColor="@color/selector_state_selected_gray1_purple1"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_oldest_order"
                     app:layout_constraintTop_toBottomOf="@+id/ll_touch" />
 
                 <TextView
-                    android:id="@+id/tv_desc"
+                    android:id="@+id/tv_oldest_order"
                     style="@style/TextView.Mument_C1_R12.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="27dp"
                     android:text="오래된순"
+                    android:textColor="@color/selector_state_selected_gray1_purple1"
                     app:layout_constraintEnd_toStartOf="@+id/gl_right"
                     app:layout_constraintTop_toBottomOf="@+id/ll_touch" />
 
@@ -150,7 +152,7 @@
                     android:paddingBottom="45dp"
                     android:stackFromBottom="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_asc"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_latest_order"
                     app:reverseLayout="true"
                     tools:listitem="@layout/item_mument_layout" />
             </androidx.constraintlayout.widget.ConstraintLayout>

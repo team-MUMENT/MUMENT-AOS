@@ -20,7 +20,9 @@ import com.mument_android.app.data.network.home.adapter.HeardMumentListAdapter
 import com.mument_android.app.data.network.home.adapter.ImpressiveEmotionListAdapter
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.MUMENT_ID
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
+import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentHomeBinding
@@ -68,10 +70,10 @@ class HomeFragment : Fragment() {
 
         val homeFrame = requireParentFragment().requireParentFragment()
 
-        (homeFrame as HomeFrameFragment).arguments?.getString("musicId")?.let {
-            if (it != "") {
-                val action = HomeFragmentDirections.actionHomeFragmentToHomeMusicDetailFragment(it)
-                findNavController().navigate(action)
+        (homeFrame as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
+            if (musicId.isNotEmpty()) {
+                val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
+                findNavController().navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)
             }
         }
         lifecycleScope.launchWhenCreated {
@@ -83,19 +85,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        heardAdapter = HeardMumentListAdapter(requireContext()) {
-            HomeFragmentDirections.actionHomeFragmentToMumentDetailFragment(it.mumentId).apply {
-                findNavController().navigate(this)
-            }
+        heardAdapter = HeardMumentListAdapter(requireContext()) { mument ->
+            val bundle = Bundle().also { it.putString(MUMENT_ID, mument.mumentId) }
+            findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
         }
-        impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) {
-            HomeFragmentDirections.actionHomeFragmentToMumentDetailFragment(it._id).apply {
-                findNavController().navigate(this)
-            }
+        impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { mument ->
+            val bundle = Bundle().also { it.putString(MUMENT_ID, mument._id) }
+            findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
         }
-        bannerAdapter = BannerListAdapter(viewModel.bannerData.value!!.toMutableList()) {
-            val action = HomeFragmentDirections.actionHomeFragmentToHomeMusicDetailFragment(it)
-            findNavController().navigate(action)
+        bannerAdapter = BannerListAdapter(viewModel.bannerData.value!!.toMutableList()) { musicId ->
+            val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
+            findNavController().navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)
         }
         binding.vpBanner.adapter = bannerAdapter
     }
@@ -158,8 +158,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun showMumentDetail(mumentId: String) {
-        val action = HomeFragmentDirections.actionHomeFragmentToMumentDetailFragment(mumentId)
-        findNavController().navigate(action)
+        val bundle = Bundle().also { it.putString(MUMENT_ID, mumentId) }
+        findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
     }
 
 }

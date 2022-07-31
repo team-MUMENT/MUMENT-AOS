@@ -18,8 +18,8 @@
             app:destination="@id/searchFragment" />
 
         <action
-            android:id="@+id/action_homeFragment_to_homeMusicDetailFragment"
-            app:destination="@id/homeMusicDetailFragment" />
+            android:id="@+id/action_homeFragment_to_musicDetailFragment"
+            app:destination="@id/musicDetailFragment" />
         <action
             android:id="@+id/action_homeFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
@@ -31,18 +31,14 @@
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_searchFragment_to_homeMusicDetailFragment"
-            app:destination="@id/homeMusicDetailFragment" />
+            android:id="@+id/action_searchFragment_to_musicDetailFragment"
+            app:destination="@id/musicDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/homeMusicDetailFragment"
-        android:name="com.mument_android.app.presentation.ui.detail.music.HomeMusicDetailFragment"
-        android:label="HomeMusicDetailFragment"
+        android:id="@+id/musicDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment"
+        android:label="MusicDetailFragment"
         tools:layout="@layout/fragment_base_music_detail">
-
-        <argument
-            android:name="musicId"
-            app:argType="string"/>
 
         <action
             android:id="@+id/action_homeMusicDetailFragment_to_mumentDetailFragment"
@@ -69,15 +65,12 @@
         android:label="MumentDetailFragment"
         tools:layout="@layout/fragment_mument_detail">
 
-        <argument android:name="mumentId"
-            app:argType="string"/>
-
         <action
-            android:id="@+id/action_mumentDetailFragment_to_historyFragment"
+            android:id="@+id/action_mumentDetailFragment_to_historyFragment_home"
             app:destination="@id/historyFragment" />
         <action
-            android:id="@+id/action_mumentDetailFragment_to_homeMusicDetailFragment"
-            app:destination="@id/homeMusicDetailFragment" />
+            android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_home"
+            app:destination="@id/musicDetailFragment" />
     </fragment>
 
 
