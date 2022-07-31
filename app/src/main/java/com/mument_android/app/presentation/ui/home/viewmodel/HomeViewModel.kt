@@ -36,38 +36,54 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             localUseCase.getTodayMument(BuildConfig.USER_ID).onEach { result ->
             }.catch { e ->
-                useCase.getTodayMument(BuildConfig.USER_ID).collect {
-                    todayMument.value = it.todayMument
-                    localUseCase.saveTodayMument(entityChange(it))
+                useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
+                    it.printStackTrace()
+                }?.collect {
+                    todayMument.value = it?.todayMument
+                    it?.let { localUseCase.saveTodayMument(entityChange(it)) }
                 }
             }.collect {
                 if (it != null) {
                     if (it.todayDate != LocalDate.now().toString()) {
-                        useCase.getTodayMument(BuildConfig.USER_ID).collect {
-                            todayMument.value = it.todayMument
-                            localUseCase.saveTodayMument(entityChange(it))
+                        useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
+                            it.printStackTrace()
+                        }?.collect {
+                            todayMument.value = it?.todayMument
+                            it?.let { localUseCase.saveTodayMument(entityChange(it)) }
+
                         }
                     } else {
                         todayMument.value = dtoChange(it)
                     }
                 } else {
-                    useCase.getTodayMument(BuildConfig.USER_ID).collect {
-                        todayMument.value = it.todayMument
-                        localUseCase.saveTodayMument(entityChange(it))
+                    useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
+                        it.printStackTrace()
+                    }?.collect {
+                        todayMument.value = it?.todayMument
+                        it?.let { localUseCase.saveTodayMument(entityChange(it)) }
+
                     }
                 }
             }
-            useCase.getBannerMument().collect {
+            useCase.getBannerMument().catch {
+                it.printStackTrace()
+            }.collect {
                 bannerData.value = it.bannerList.toMutableList()
             }
-            useCase.getKnownMument().collect {
+            useCase.getKnownMument().catch {
+                it.printStackTrace()
+            }.collect {
                 knownMument.value = it.againMument.toMutableList()
             }
-            useCase.getRandomMument().collect {
+            useCase.getRandomMument().catch {
+                it.printStackTrace()
+            }.collect {
                 randomMument.value = it
             }
-            useCase.getTodayMument(BuildConfig.USER_ID).collect {
-                todayMument.value = it.todayMument
+            useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
+                it.printStackTrace()
+            }?.collect {
+                todayMument.value = it?.todayMument
             }
         }
     }

@@ -18,19 +18,14 @@ import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.data.network.home.adapter.BannerListAdapter
 import com.mument_android.app.data.network.home.adapter.HeardMumentListAdapter
 import com.mument_android.app.data.network.home.adapter.ImpressiveEmotionListAdapter
-import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.FROM_HOME
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
-import com.mument_android.app.presentation.ui.detail.music.HomeMusicDetailFragmentDirections
 import com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel
 import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.launchWhenStarted
 import com.mument_android.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {

@@ -17,11 +17,9 @@ import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveRecordProvider
-import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.RecyclerviewItemDivider
+import com.mument_android.app.util.*
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
 import com.mument_android.app.util.ViewUtils.dpToPx
-import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentBaseMusicDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -50,26 +48,19 @@ abstract class BaseMusicDetailFragment(): Fragment() {
         setMyMumentTagList()
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
 
-        binding.tvRecordMument.setOnClickListener {
-            musicDetailViewModel.musicInfo.value?.let { it1 ->
-                Music(
-                    it1.id,
-                    it1.name,
-                    it1.artist,
-                    it1.thumbnail
-                )
-            }?.let { it2 -> recordProvider.recordMusic(it2) }
+        binding.tvRecordMument.click {
+            musicDetailViewModel.musicInfo.value?.let { musicInfo ->
+                recordProvider.recordMusic(Music(musicInfo.id, musicInfo.name, musicInfo.artist, musicInfo.thumbnail))
+            }
         }
     }
 
     private fun changeMumentSort() {
-        binding.run {
-            tvSortLikeCount.setOnClickListener { musicDetailViewModel?.changeSelectedSort(tvSortLikeCount.text.toString()) }
-            tvSortLatest.setOnClickListener { musicDetailViewModel?.changeSelectedSort(tvSortLatest.text.toString()) }
-            musicDetailViewModel?.selectedSort?.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
-                tvSortLatest.changeSelectedSortTheme(it)
-                tvSortLikeCount.changeSelectedSortTheme(it)
-            }
+        binding.tvSortLikeCount.click { musicDetailViewModel.changeSelectedSort(binding.tvSortLikeCount.text.toString()) }
+        binding.tvSortLatest.click { musicDetailViewModel.changeSelectedSort(binding.tvSortLatest.text.toString()) }
+        collectFlowWhenStarted(musicDetailViewModel.selectedSort) {
+            binding.tvSortLatest.changeSelectedSortTheme(it)
+            binding.tvSortLikeCount.changeSelectedSortTheme(it)
         }
     }
 
@@ -81,7 +72,7 @@ abstract class BaseMusicDetailFragment(): Fragment() {
     }
 
     private fun updateEveryMuments() {
-        musicDetailViewModel.mumentList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
+        collectFlowWhenStarted(musicDetailViewModel.mumentList) {
             (binding.rvEveryMuments.adapter as MusicDetailMumentListAdapter).submitList(it)
         }
     }
@@ -94,9 +85,9 @@ abstract class BaseMusicDetailFragment(): Fragment() {
         binding.layoutMyMument.rvMumentTags.run {
             adapter = MumentTagListAdapter()
         }
-        musicDetailViewModel.myMument.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
-            it?.let {
-                (binding.layoutMyMument.rvMumentTags.adapter as MumentTagListAdapter).submitList(mapTagList(it))
+        collectFlowWhenStarted(musicDetailViewModel.myMument) { mumentSummary ->
+            mumentSummary?.let {
+                (binding.layoutMyMument.rvMumentTags.adapter as MumentTagListAdapter).submitList(mapTagList(mumentSummary))
             }
         }
     }
