@@ -5,6 +5,10 @@ import com.mument_android.app.data.dto.detail.MumentDetailDto
 import com.mument_android.app.data.dto.UserDto
 import com.mument_android.app.data.network.base.BaseResponse
 import com.mument_android.app.data.network.detail.DetailApiService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -14,6 +18,8 @@ import javax.inject.Inject
 class MumentDetailDataSourceImpl @Inject constructor(
     private val mumentDetailApiService: DetailApiService
 ): MumentDetailDataSource {
-    override suspend fun fetchMumentDetail(mumentId: String, userId: String): BaseResponse<MumentDetailDto> =
-        mumentDetailApiService.fetchMumentDetail(mumentId, userId)
+    override suspend fun fetchMumentDetail(mumentId: String, userId: String): Flow<BaseResponse<MumentDetailDto>> = flow {
+        emit(mumentDetailApiService.fetchMumentDetail(mumentId, userId))
+    }.flowOn(Dispatchers.IO)
+
 }
