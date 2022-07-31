@@ -11,14 +11,14 @@
         android:label="LockerFragment"
         tools:layout="@layout/fragment_locker">
         <action
-            android:id="@+id/action_lockerFragment_to_lockerMumentDetailFragment"
-            app:destination="@id/lockerMumentDetailFragment" />
+            android:id="@+id/action_lockerFragment_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/lockerMumentDetailFragment"
-        android:name="com.mument_android.app.presentation.ui.detail.mument.LockerMumentDetailFragment"
-        android:label="LockerMumentDetailFragment"
+        android:id="@+id/mumentDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment"
+        android:label="MumentDetailFragment"
         tools:layout="@layout/fragment_mument_detail">
 
 
@@ -46,8 +46,8 @@
             android:id="@+id/action_lockerMusicDetailFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
         <action
-            android:id="@+id/action_lockerMusicDetailFragment_to_lockerMumentDetailFragment"
-            app:destination="@id/lockerMumentDetailFragment" />
+            android:id="@+id/action_lockerMusicDetailFragment_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
 
     </fragment>
 

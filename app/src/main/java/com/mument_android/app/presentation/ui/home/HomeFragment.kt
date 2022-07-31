@@ -84,12 +84,12 @@ class HomeFragment : Fragment() {
 
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) {
-            HomeFragmentDirections.actionHomeFragmentToHomeMumentDetailFragment(it.mumentId).apply {
+            HomeFragmentDirections.actionHomeFragmentToMumentDetailFragment(it.mumentId).apply {
                 findNavController().navigate(this)
             }
         }
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) {
-            HomeFragmentDirections.actionHomeFragmentToHomeMumentDetailFragment(it._id).apply {
+            HomeFragmentDirections.actionHomeFragmentToMumentDetailFragment(it._id).apply {
                 findNavController().navigate(this)
             }
         }
@@ -158,7 +158,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun showMumentDetail(mumentId: String) {
-        val action = HomeFragmentDirections.actionHomeFragmentToHomeMumentDetailFragment(mumentId)
+        val action = HomeFragmentDirections.actionHomeFragmentToMumentDetailFragment(mumentId)
         findNavController().navigate(action)
     }
 

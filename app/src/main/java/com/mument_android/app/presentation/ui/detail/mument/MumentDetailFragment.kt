@@ -17,11 +17,9 @@ import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigatorProvider
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.RecyclerviewItemDivider
+import com.mument_android.app.util.*
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
 import com.mument_android.app.util.ViewUtils.applyVisibilityAnimation
-import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMumentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -30,9 +28,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-abstract class MumentDetailFragment : Fragment() {
-    protected var binding by AutoClearedValue<FragmentMumentDetailBinding>()
-    protected val viewModel: MumentDetailViewModel by viewModels()
+class MumentDetailFragment : Fragment() {
+    private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
+    private val viewModel: MumentDetailViewModel by viewModels()
     @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
 
     override fun onCreateView(
@@ -51,12 +49,19 @@ abstract class MumentDetailFragment : Fragment() {
             ivBackButton.setOnClickListener { findNavController().popBackStack() }
         }
 
+        arguments?.getString(MUMENT_ID)?.let {
+            viewModel.changeMumentId(it)
+            viewModel.fetchMumentDetailContent(it)
+        }
+
         showMumentHistory()
         setMumentTags()
         updateMumentTagList()
         changeLikeStatus()
         showEditBottomSheet()
         successDeleteMument()
+        goToMusicDetail()
+        goToHistory()
     }
 
     private fun setMumentTags() {
@@ -71,7 +76,7 @@ abstract class MumentDetailFragment : Fragment() {
     }
 
     private fun updateMumentTagList() {
-        viewModel.mumentDetailContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+        collectFlowWhenStarted(viewModel.mumentDetailContent) { result ->
             when(result) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
@@ -85,13 +90,13 @@ abstract class MumentDetailFragment : Fragment() {
     }
 
     private fun changeLikeStatus() {
-        binding.cbHeart.setOnClickListener {
+        binding.cbHeart.click {
             if(binding.cbHeart.isChecked) viewModel.likeMument() else viewModel.cancelLikeMument()
         }
     }
 
     private fun showEditBottomSheet() {
-        binding.ivKebab.setOnClickListener {
+        binding.ivKebab.click {
             EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
                 override fun edit() {
                     viewModel.mumentDetailContent.value?.data?.let {
@@ -112,12 +117,8 @@ abstract class MumentDetailFragment : Fragment() {
     }
 
     private fun successDeleteMument() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            launch {
-                viewModel.successDelete.collect {
-                    findNavController().popBackStack()
-                }
-            }
+        collectFlowWhenStarted(viewModel.successDelete) {
+            findNavController().popBackStack()
         }
     }
 
@@ -129,8 +130,33 @@ abstract class MumentDetailFragment : Fragment() {
         }
     }
 
+    private fun goToMusicDetail()  {
+        binding.viewAlbumClickArea.setOnClickListener {
+            viewModel.mumentDetailContent.value?.data?.musicInfo?.id?.let { musicId ->
+                val bundle = Bundle().also { it.putString("MUSIC_ID", musicId) }
+                if (parentFragment?.parentFragment?.id == R.id.nav_host_fragment_home_frame) {
+                    findNavController().navigate(R.id.action_mumentDetailFragment_to_homeMusicDetailFragment, bundle)
+                } else {
+                    findNavController().navigate(R.id.action_mumentDetailFragment_to_lockerMusicDetailFragment, bundle)
+                }
+            }
+        }
+    }
+
+    private fun goToHistory() {
+        binding.tvGoToHistory.setOnClickListener {
+            viewModel.mumentDetailContent.value?.data?.musicInfo?.id?.let { musicId ->
+                if (parentFragment?.parentFragment?.id == R.id.nav_host_fragment_home_frame) {
+                    val bundle = Bundle().also { it.putString("MUSIC_ID", musicId) }
+                    findNavController().navigate(R.id.action_mumentDetailFragment_to_historyFragment, bundle)
+                }
+            }
+        }
+    }
+
     companion object {
         const val FROM_HOME = "FROM_HOME"
         const val FROM_LOCKER = "FROM_LOCKER"
+        const val MUMENT_ID = "MUMENT_ID"
     }
 }

@@ -10,7 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LockerMusicDetailFragment: BaseMusicDetailFragment() {
-    private val args: LockerMusicDetailFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -20,19 +19,20 @@ class LockerMusicDetailFragment: BaseMusicDetailFragment() {
             musicDetailViewModel.fetchMusicDetail(it)
             musicDetailViewModel.fetchMumentList(it)
         }
-        musicDetailViewModel.changeMusicId(args.musicIdFromLocker)
+        arguments?.getString("MUSIC_ID")?.let { musicDetailViewModel.changeMusicId(it) }
+
+//        musicDetailViewModel.changeMusicId(args.musicIdFromLocker)
         moveToHistoryFragment()
     }
 
     private fun moveToHistoryFragment() {
         binding.tvShowMyHistory.setOnClickListener {
-            val action = LockerMusicDetailFragmentDirections.actionLockerMusicDetailFragmentToHistoryFragment(args.musicIdFromLocker)
+            val action = LockerMusicDetailFragmentDirections.actionLockerMusicDetailFragmentToHistoryFragment(arguments?.getString("MUSIC_ID") ?: "")
             findNavController().navigate(action)
         }
         binding.layoutMyMument.root.setOnClickListener {
             musicDetailViewModel.myMument.value?.let {
-                val action =
-                    HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(it.mumentId)
+                val action = LockerMusicDetailFragmentDirections.actionLockerMusicDetailFragmentToMumentDetailFragment(it.mumentId)
                 findNavController().navigate(action)
             }
         }
@@ -41,7 +41,7 @@ class LockerMusicDetailFragment: BaseMusicDetailFragment() {
     private fun setMumentListAdapter() {
         setEveryMumentListAdapter(MusicDetailMumentListAdapter(object: MumentClickListener {
             override fun showMumentDetail(mumentId: String) {
-                val action = LockerMusicDetailFragmentDirections.actionLockerMusicDetailFragmentToLockerMumentDetailFragment(mumentId)
+                val action = LockerMusicDetailFragmentDirections.actionLockerMusicDetailFragmentToMumentDetailFragment(mumentId)
                 findNavController().navigate(action)
             }
 

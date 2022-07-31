@@ -25,23 +25,19 @@ class HomeMusicDetailFragment : BaseMusicDetailFragment() {
             musicDetailViewModel.fetchMusicDetail(it)
             musicDetailViewModel.fetchMumentList(it)
         }
-        musicDetailViewModel.changeMusicId(args.musicIdFromHome)
+        musicDetailViewModel.changeMusicId(args.musicId)
         moveToHistoryFragment()
     }
 
     private fun moveToHistoryFragment() {
         binding.tvShowMyHistory.setOnClickListener {
-            val action =
-                HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHistoryFragment(
-                    args.musicIdFromHome
-                )
+            val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHistoryFragment(args.musicId)
             findNavController().navigate(action)
         }
 
         binding.layoutMyMument.root.setOnClickListener {
             musicDetailViewModel.myMument.value?.let {
-                val action =
-                    HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(it.mumentId)
+                val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHistoryFragment(it.mumentId)
                 findNavController().navigate(action)
             }
         }
@@ -51,11 +47,7 @@ class HomeMusicDetailFragment : BaseMusicDetailFragment() {
         setEveryMumentListAdapter(
             MusicDetailMumentListAdapter(object : MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
-                    Timber.e("$mumentId")
-                    val action =
-                        HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToHomeMumentDetailFragment(
-                            mumentId
-                        )
+                    val action = HomeMusicDetailFragmentDirections.actionHomeMusicDetailFragmentToMumentDetailFragment(mumentId)
                     findNavController().navigate(action)
                 }
 
