@@ -1,5 +1,6 @@
 package com.mument_android.app.presentation.ui.detail.music
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,18 +62,15 @@ class MusicDetailViewModel @Inject constructor(
         _musicId.value = id
     }
 
-    fun mapTagList(): List<TagEntity> {
+    suspend fun mapTagList(): List<TagEntity> {
         val cardTags = mutableListOf<TagEntity>()
         myMument.value?.let { mument ->
-            viewModelScope.launch {
-                withContext(Dispatchers.Default) {
-                    val isFirst = if (mument.isFirst) R.string.tag_is_first else R.string.tag_has_heard
-                    cardTags.add(TagEntity(TagEntity.TAG_IS_FIRST, isFirst, if (mument.isFirst) 1 else 0))
-                    cardTags.addAll(mument.cardTag.map { tagIdx -> integrationTagMapper.map(tagIdx) })
-                }
+            withContext(Dispatchers.Default) {
+                val isFirst = if (mument.isFirst) R.string.tag_is_first else R.string.tag_has_heard
+                cardTags.add(TagEntity(TagEntity.TAG_IS_FIRST, isFirst, if (mument.isFirst) 1 else 0))
+                cardTags.addAll(mument.cardTag.map { tagIdx -> integrationTagMapper.map(tagIdx) })
             }
         }
-
         return cardTags
     }
 
