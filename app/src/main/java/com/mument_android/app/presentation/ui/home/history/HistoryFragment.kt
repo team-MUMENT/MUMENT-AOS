@@ -14,8 +14,12 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mument_android.R
 import com.mument_android.app.data.network.home.adapter.HistoryListAdapter
+import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.presentation.ui.home.viewmodel.HistoryViewModel
 import com.mument_android.app.util.AutoClearedValue
+import com.mument_android.app.util.changeTextColor
+import com.mument_android.app.util.click
+import com.mument_android.app.util.collectFlowWhenStarted
 import com.mument_android.databinding.FragmentHistoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -25,7 +29,6 @@ import kotlinx.coroutines.launch
 class HistoryFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentHistoryBinding>()
     private val historyViewModel: HistoryViewModel by viewModels()
-    private val args: HistoryFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,48 +43,35 @@ class HistoryFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.historyviewmodel = historyViewModel
 
-        historyViewModel.changeMusicId(args.musicId)
+        arguments?.getString(MUSIC_ID)?.let {
+            historyViewModel.changeMusicId(it)
+        }
 
-        binding.tvAsc.setOnClickListener {
-            historyViewModel.changeSortType(true)
-        }
-        binding.tvDesc.setOnClickListener {
-            historyViewModel.changeSortType(false)
-        }
+        binding.llTouch.click { findNavController().popBackStack() }
+        binding.ivBtnBack.click { findNavController().popBackStack() }
+        binding.tvLatestOrder.click { historyViewModel.changeSortType(true) }
+        binding.tvOldestOrder.click { historyViewModel.changeSortType(false) }
+
         binding.rcHistory.adapter = HistoryListAdapter(requireContext())
+        historyViewModel.musicDetailData.observe(viewLifecycleOwner){
+            (binding.rcHistory.adapter as HistoryListAdapter).submitList(it.mumentHistory)
+        }
+
         historyViewModel.getHistory()
         collectType()
 
-        binding.llTouch.setOnClickListener {
-            findNavController().popBackStack()
-        }
-        binding.ivBtnBack.setOnClickListener { findNavController().popBackStack() }
+
     }
 
 
     private fun collectType() {
-        lifecycleScope.launch {
-            historyViewModel.musicDetailData.observe(viewLifecycleOwner){
-                (binding.rcHistory.adapter as HistoryListAdapter).submitList(it.mumentHistory)
+        collectFlowWhenStarted(historyViewModel.selectSortType) { sort ->
+            binding.tvLatestOrder.isSelected = sort
+            binding.tvOldestOrder.isSelected = !sort
+            (binding.rcHistory.layoutManager as LinearLayoutManager).apply {
+                reverseLayout = !sort
+                stackFromEnd = !sort
             }
-            historyViewModel.selectSortType.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect {
-                    if (it) {
-                        binding.tvAsc.setTextColor(requireContext().getColor(R.color.mument_color_purple1))
-                        binding.tvDesc.setTextColor(requireContext().getColor(R.color.mument_color_gray1))
-                        (binding.rcHistory.layoutManager as LinearLayoutManager).apply {
-                            this.reverseLayout = false
-                            this.stackFromEnd = false
-                        }
-                    } else {
-                        binding.tvAsc.setTextColor(requireContext().getColor(R.color.mument_color_gray1))
-                        binding.tvDesc.setTextColor(requireContext().getColor(R.color.mument_color_purple1))
-                        (binding.rcHistory.layoutManager as LinearLayoutManager).apply {
-                            this.reverseLayout = true
-                            this.stackFromEnd = true
-                        }
-                    }
-                }
         }
     }
 }

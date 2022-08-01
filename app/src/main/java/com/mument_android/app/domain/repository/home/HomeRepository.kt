@@ -32,7 +32,7 @@ interface HomeRepository {
 
     suspend fun getMumentHistory(userId: String, musicId: String): Flow<MumentHistoryDto>
 
-    suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentDto>
+    suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentDto>?
 
     suspend fun getBannerMument(): Flow<BannerMumentDto>
 

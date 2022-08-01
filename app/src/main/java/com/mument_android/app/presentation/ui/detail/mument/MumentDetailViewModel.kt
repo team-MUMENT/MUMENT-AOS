@@ -41,7 +41,7 @@ class MumentDetailViewModel @Inject constructor(
     private val _mumentId = MutableStateFlow("")
     val mumentId = _mumentId.asStateFlow()
 
-    private val _mumentDetailContent = MutableStateFlow<ApiResult<MumentDetailEntity>?>(null)
+    private val _mumentDetailContent = MutableStateFlow<ApiResult<MumentDetailEntity?>>(ApiResult.Idle(null))
     val mumentDetailContent = _mumentDetailContent.asStateFlow()
 
     private val _likeCount = MutableStateFlow(0)
@@ -74,9 +74,9 @@ class MumentDetailViewModel @Inject constructor(
                 _mumentDetailContent.value = ApiResult.Failure(e)
             }.collect {
                 _mumentDetailContent.value = ApiResult.Success(it)
-                isLiked.value = it.isLiked
-                _likeCount.value = it.likeCount
-                checkMumentHasWritten(it.musicInfo.id)
+                isLiked.value = it?.isLiked ?: false
+                _likeCount.value = it?.likeCount ?: 0
+                checkMumentHasWritten(it?.musicInfo?.id ?: "")
             }
         }
     }

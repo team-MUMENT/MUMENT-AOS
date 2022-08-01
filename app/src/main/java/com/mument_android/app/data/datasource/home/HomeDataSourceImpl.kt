@@ -12,7 +12,7 @@ class HomeDataSourceImpl @Inject constructor(val service: HomeService) : HomeDat
     override suspend fun getBannerMument(): BaseResponse<BannerMumentDto> =
         service.getBannerMument()
 
-    override suspend fun getTodayMument(userId: String): BaseResponse<TodayMumentDto> =
+    override suspend fun getTodayMument(userId: String): BaseResponse<TodayMumentDto>? =
         service.getTodayMument(userId)
 
     override suspend fun getKnownMument(): BaseResponse<KnownMumentDto> =

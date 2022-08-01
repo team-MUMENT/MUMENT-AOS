@@ -15,11 +15,11 @@ enum class ImpressiveTag(val tagIndex: Int, @StringRes val tag: Int) {
     companion object {
         fun findImpressiveStringTag(tagIndex: Int): Int {
             return ImpressiveTag.values().find { it.tagIndex == tagIndex }?.tag
-                ?: throw IllegalArgumentException("Cannot find Emotional Tag...")
+                ?: throw IllegalArgumentException("Cannot find Impression Tag...")
         }
         fun findImpressiveTagEnum(tagIndex: Int): ImpressiveTag {
             return ImpressiveTag.values().find { it.tagIndex == tagIndex }
-                ?: throw IllegalArgumentException("Cannot find Emotional TagEnum...")
+                ?: throw IllegalArgumentException("Cannot find Impression TagEnum...")
         }
     }
 }

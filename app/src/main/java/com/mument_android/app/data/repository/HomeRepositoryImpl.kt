@@ -48,8 +48,8 @@ class HomeRepositoryImpl @Inject constructor(
         homeDataSource.getRandomMument().data?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentDto> = flow {
-        homeDataSource.getTodayMument(userId).data?.let { emit(it) }
+    override suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentDto>? = flow {
+        homeDataSource.getTodayMument(userId)?.data?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 
     // Local

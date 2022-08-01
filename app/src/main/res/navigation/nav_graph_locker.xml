@@ -11,43 +11,36 @@
         android:label="LockerFragment"
         tools:layout="@layout/fragment_locker">
         <action
-            android:id="@+id/action_lockerFragment_to_lockerMumentDetailFragment"
-            app:destination="@id/lockerMumentDetailFragment" />
+            android:id="@+id/action_lockerFragment_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/lockerMumentDetailFragment"
-        android:name="com.mument_android.app.presentation.ui.detail.mument.LockerMumentDetailFragment"
-        android:label="LockerMumentDetailFragment"
+        android:id="@+id/mumentDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment"
+        android:label="MumentDetailFragment"
         tools:layout="@layout/fragment_mument_detail">
 
-
-        <argument android:name="mumentId"
-            app:argType="string"/>
-
         <action
-            android:id="@+id/action_mumentDetailFragment_to_lockerMusicDetailFragment"
-            app:destination="@id/lockerMusicDetailFragment" />
+            android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_locker"
+            app:destination="@id/musicDetailFragment" />
         <action
-            android:id="@+id/action_lockerMumentDetailFragment_to_historyFragment"
+            android:id="@+id/action_mumentDetailFragment_to_historyFragment_locker"
             app:destination="@id/historyFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/lockerMusicDetailFragment"
-        android:name="com.mument_android.app.presentation.ui.detail.music.LockerMusicDetailFragment"
-        android:label="LockerMusicDetailFragment"
+        android:id="@+id/musicDetailFragment"
+        android:name="com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment"
+        android:label="MusicDetailFragment"
         tools:layout="@layout/fragment_base_music_detail">
-        <argument
-            android:name="musicIdFromLocker"
-            app:argType="string"/>
 
         <action
-            android:id="@+id/action_lockerMusicDetailFragment_to_historyFragment"
+            android:id="@+id/action_musicDetailFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
         <action
-            android:id="@+id/action_lockerMusicDetailFragment_to_lockerMumentDetailFragment"
-            app:destination="@id/lockerMumentDetailFragment" />
+            android:id="@+id/action_musicDetailFragment_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
 
     </fragment>
 
@@ -56,10 +49,6 @@
         android:name="com.mument_android.app.presentation.ui.home.history.HistoryFragment"
         android:label="LockerHistoryFragment"
         tools:layout="@layout/fragment_history">
-
-        <argument
-            android:name="musicId"
-            app:argType="string"/>
 
     </fragment>
 

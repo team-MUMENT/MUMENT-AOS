@@ -30,7 +30,7 @@ interface HomeService {
     @GET("/mument/today")
     suspend fun getTodayMument(
         @Query("userId") userId: String
-    ): BaseResponse<TodayMumentDto>
+    ): BaseResponse<TodayMumentDto>?
 
     @GET("/mument/again")
     suspend fun getKnownMument(): BaseResponse<KnownMumentDto>

@@ -23,13 +23,13 @@ class MumentListRepositoryImpl @Inject constructor(
         userId: String,
         default: String
     ): Flow<List<MumentSummaryEntity>> = flow {
-        val mumentList = mumentListDataSource.fetchMumentList(musicId, userId, default).data.mumentList
-        val publicMuments = mumentList.filter { !it.isPrivate }.map { mumentSummaryMapper.map(it) }
+        val mumentList = mumentListDataSource.fetchMumentList(musicId, userId, default).data?.mumentList
+        val publicMuments = mumentList?.filter { !it.isPrivate }?.map { mumentSummaryMapper.map(it) }
         val filteredList = mutableListOf<MumentSummaryEntity>()
-        mumentList.filter { it.isPrivate }.onEach {
+        mumentList?.filter { it.isPrivate }?.onEach {
             if(it.user.id == BuildConfig.USER_ID)  filteredList.add(mumentSummaryMapper.map(it))
         }
-        filteredList.addAll(publicMuments)
+        publicMuments?.let { filteredList.addAll(it) }
         emit(filteredList)
     }.flowOn(Dispatchers.IO)
 }

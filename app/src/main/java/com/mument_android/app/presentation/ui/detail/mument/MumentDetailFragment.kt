@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -16,12 +18,12 @@ import com.mument_android.R
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigatorProvider
+import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.RecyclerviewItemDivider
+import com.mument_android.app.util.*
 import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
+import com.mument_android.app.util.StartDestinationChecker.isFromHome
 import com.mument_android.app.util.ViewUtils.applyVisibilityAnimation
-import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMumentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -30,9 +32,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-abstract class MumentDetailFragment : Fragment() {
-    protected var binding by AutoClearedValue<FragmentMumentDetailBinding>()
-    protected val viewModel: MumentDetailViewModel by viewModels()
+class MumentDetailFragment : Fragment() {
+    private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
+    private val viewModel: MumentDetailViewModel by viewModels()
     @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
 
     override fun onCreateView(
@@ -51,12 +53,19 @@ abstract class MumentDetailFragment : Fragment() {
             ivBackButton.setOnClickListener { findNavController().popBackStack() }
         }
 
+        arguments?.getString(MUMENT_ID)?.let {
+            viewModel.changeMumentId(it)
+            viewModel.fetchMumentDetailContent(it)
+        }
+
         showMumentHistory()
         setMumentTags()
         updateMumentTagList()
         changeLikeStatus()
         showEditBottomSheet()
         successDeleteMument()
+        goToMusicDetail()
+        goToHistory()
     }
 
     private fun setMumentTags() {
@@ -71,7 +80,7 @@ abstract class MumentDetailFragment : Fragment() {
     }
 
     private fun updateMumentTagList() {
-        viewModel.mumentDetailContent.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+        collectFlowWhenStarted(viewModel.mumentDetailContent) { result ->
             when(result) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
@@ -85,18 +94,17 @@ abstract class MumentDetailFragment : Fragment() {
     }
 
     private fun changeLikeStatus() {
-        binding.cbHeart.setOnClickListener {
+        binding.cbHeart.click {
             if(binding.cbHeart.isChecked) viewModel.likeMument() else viewModel.cancelLikeMument()
         }
     }
 
     private fun showEditBottomSheet() {
-        binding.ivKebab.setOnClickListener {
+        binding.ivKebab.click {
             EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
                 override fun edit() {
                     viewModel.mumentDetailContent.value?.data?.let {
                         editMumentNavigatorProvider.editMument(viewModel.mumentId.value, it)
-
                     }
                 }
 
@@ -112,12 +120,8 @@ abstract class MumentDetailFragment : Fragment() {
     }
 
     private fun successDeleteMument() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            launch {
-                viewModel.successDelete.collect {
-                    findNavController().popBackStack()
-                }
-            }
+        collectFlowWhenStarted(viewModel.successDelete) {
+            findNavController().popBackStack()
         }
     }
 
@@ -129,8 +133,31 @@ abstract class MumentDetailFragment : Fragment() {
         }
     }
 
+    private fun goToMusicDetail()  {
+        binding.viewAlbumClickArea.setOnClickListener {
+            viewModel.mumentDetailContent.value?.data?.musicInfo?.id?.let { musicId ->
+                Bundle().also {
+                    it.putString(MUSIC_ID, musicId)
+                    val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_musicDetailFragment_home else R.id.action_mumentDetailFragment_to_musicDetailFragment_locker
+                    findNavController().navigate(actionId, it)
+                }
+            }
+        }
+    }
+
+    private fun goToHistory() {
+        binding.tvGoToHistory.setOnClickListener {
+            viewModel.mumentDetailContent.value?.data?.musicInfo?.id?.let { musicId ->
+                Bundle().also {
+                    it.putString(MUSIC_ID, musicId)
+                    val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_historyFragment_home else R.id.action_mumentDetailFragment_to_historyFragment_locker
+                    findNavController().navigate(actionId, it)
+                }
+            }
+        }
+    }
+
     companion object {
-        const val FROM_HOME = "FROM_HOME"
-        const val FROM_LOCKER = "FROM_LOCKER"
+        const val MUMENT_ID = "MUMENT_ID"
     }
 }

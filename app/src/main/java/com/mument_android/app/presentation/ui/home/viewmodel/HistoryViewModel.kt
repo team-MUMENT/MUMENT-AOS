@@ -25,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HistoryViewModel @Inject constructor(val useCase: GetMumentHistoryUseCase) : ViewModel() {
     private val _selectSortType = MutableStateFlow<Boolean>(true)
-    val selectSortType get():StateFlow<Boolean> = _selectSortType.asStateFlow()
+    val selectSortType = _selectSortType.asStateFlow()
     val musicDetailData = MutableLiveData<MumentHistoryDto>()
 
     private val _musicId = MutableLiveData<String>()
@@ -38,7 +38,6 @@ class HistoryViewModel @Inject constructor(val useCase: GetMumentHistoryUseCase)
     fun getHistory() {
         viewModelScope.launch {
             useCase.getMumentHistory(BuildConfig.USER_ID, musicId.value?:"").collect {
-                Timber.d("result $it")
                 musicDetailData.value = it
             }
         }

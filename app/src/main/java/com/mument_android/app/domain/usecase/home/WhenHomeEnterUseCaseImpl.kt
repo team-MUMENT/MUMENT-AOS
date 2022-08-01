@@ -8,9 +8,10 @@ import com.mument_android.app.domain.repository.home.HomeRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class WhenHomeEnterUseCaseImpl @Inject constructor(val homeRepository: HomeRepository) :
-    WhenHomeEnterUseCase {
-    override suspend fun getTodayMument(userId: String): Flow<TodayMumentDto> =
+class WhenHomeEnterUseCaseImpl @Inject constructor(
+    val homeRepository: HomeRepository
+) : WhenHomeEnterUseCase {
+    override suspend fun getTodayMument(userId: String): Flow<TodayMumentDto>? =
         homeRepository.getRemoteTodayMument(userId)
 
     override suspend fun getBannerMument(): Flow<BannerMumentDto> =
