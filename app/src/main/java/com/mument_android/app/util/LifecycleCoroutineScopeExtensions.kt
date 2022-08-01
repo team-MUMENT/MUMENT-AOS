@@ -12,7 +12,7 @@ inline fun <T>StateFlow<T>.launchWhenCreated(lifecycleScope: LifecycleCoroutineS
     lifecycleScope.launchWhenCreated { collect { callback(it) } }
 }
 
-inline fun <reified T, reified R> R.collectFlow(
+inline fun <T, R> R.collectFlow(
     flow: Flow<T>, state: Lifecycle.State, crossinline block: suspend (T) -> Unit
 ) {
     when(this) {
@@ -30,10 +30,10 @@ inline fun <reified T, reified R> R.collectFlow(
     }
 }
 
-inline fun <reified T, reified R> R.collectFlowWhenStarted(
+inline fun <T, R> R.collectFlowWhenStarted(
     flow: Flow<T>, crossinline block: suspend (T) -> Unit
 ) = collectFlow(flow, Lifecycle.State.STARTED, block)
 
-inline fun <reified T, reified R> R.collectFlowWhenCreated(
+inline fun <T, R> R.collectFlowWhenCreated(
     flow: Flow<T>, crossinline block: suspend (T) -> Unit
 ) = collectFlow(flow, Lifecycle.State.CREATED, block)
