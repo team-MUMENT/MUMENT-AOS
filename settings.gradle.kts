@@ -14,3 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Mument_Android"
 include (":app")
+include(":core")
+include(":data")
+include(":domain")
