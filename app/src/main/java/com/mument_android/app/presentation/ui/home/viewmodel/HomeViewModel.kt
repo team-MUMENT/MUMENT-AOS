@@ -36,34 +36,24 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             localUseCase.getTodayMument(BuildConfig.USER_ID).onEach { result ->
             }.catch { e ->
-                useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
+                /*useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
                     it.printStackTrace()
                 }?.collect {
                     todayMument.value = it?.todayMument
-                    it?.let { localUseCase.saveTodayMument(entityChange(it)) }
-                }
+                    it.let { localUseCase.saveTodayMument(entityChange(it)) }
+                }*/
             }.collect {
-                if (it != null) {
-                    if (it.todayDate != LocalDate.now().toString()) {
-                        useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
-                            it.printStackTrace()
-                        }?.collect {
-                            todayMument.value = it?.todayMument
-                            it?.let { localUseCase.saveTodayMument(entityChange(it)) }
-
-                        }
-                    } else {
-                        todayMument.value = dtoChange(it)
-                    }
-                } else {
+                /*if (it.todayDate != LocalDate.now().toString()) {
                     useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
                         it.printStackTrace()
                     }?.collect {
                         todayMument.value = it?.todayMument
-                        it?.let { localUseCase.saveTodayMument(entityChange(it)) }
+                        it.let { localUseCase.saveTodayMument(entityChange(it)) }
 
                     }
-                }
+                } else {*/
+                //todayMument.value = dtoChange(it)
+                //}
             }
             useCase.getBannerMument().catch {
                 it.printStackTrace()
