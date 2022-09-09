@@ -1,4 +1,4 @@
-package com.mument_android.app.data.network.home.adapter
+package com.mument_android.app.presentation.ui.home.history
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,7 +10,6 @@ import com.mument_android.app.data.dto.history.MumentHistory
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
-import com.mument_android.app.domain.entity.musicdetail.MusicDetailEntity
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemMumentLayoutBinding

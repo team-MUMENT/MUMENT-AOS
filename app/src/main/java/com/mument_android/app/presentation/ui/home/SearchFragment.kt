@@ -6,14 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mument_android.R
-import com.mument_android.app.data.network.home.adapter.SearchListAdapter
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment
@@ -22,9 +18,7 @@ import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -116,6 +110,7 @@ class SearchFragment : Fragment() {
                     searchResultAdapter.submitList(result.data)
                     viewmodel.searchText.value = binding.etSearch.text.toString()
                 }
+                else -> {}
             }
         }
 
@@ -127,6 +122,7 @@ class SearchFragment : Fragment() {
                     searchAdapter.submitList(result.data)
                     binding.rcSearch.adapter = searchAdapter
                 }
+                else -> {}
             }
         }
     }

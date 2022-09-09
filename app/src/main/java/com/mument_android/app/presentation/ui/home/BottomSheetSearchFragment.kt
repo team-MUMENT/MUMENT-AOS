@@ -15,7 +15,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
 import com.mument_android.app.data.local.recentlist.RecentSearchData
-import com.mument_android.app.data.network.home.adapter.SearchListAdapter
 import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.main.MainActivity
@@ -125,6 +124,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
                     searchResultAdapter.submitList(result.data)
                     viewmodel.searchText.value = binding.etSearch.text.toString()
                 }
+                else -> {}
             }
         }
         viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
@@ -135,6 +135,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
                     adapter.submitList(result.data)
                     binding.rcSearch.adapter = adapter
                 }
+                else -> {}
             }
         }
     }

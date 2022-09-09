@@ -104,6 +104,7 @@ class MyLikeFragment : Fragment() {
                     initLikeEmpty(it.data?.size ?: 0)
                     (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
                 }
+                else -> {}
             }
 
         }

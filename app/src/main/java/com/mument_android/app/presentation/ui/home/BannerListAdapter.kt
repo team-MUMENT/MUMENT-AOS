@@ -1,20 +1,13 @@
-package com.mument_android.app.data.network.home.adapter
+package com.mument_android.app.presentation.ui.home
 
 import android.graphics.Color
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.BR
-import com.mument_android.R
 import com.mument_android.app.data.dto.home.Banner
-import com.mument_android.app.domain.entity.TempBannerData
-import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemBannerLayoutBinding
 import timber.log.Timber
 

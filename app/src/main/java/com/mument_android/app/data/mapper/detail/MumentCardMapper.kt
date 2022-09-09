@@ -13,7 +13,7 @@ class MumentCardMapper: BaseMapper<MusicDetailDto, MumentCard?> {
             null
         } else {
             MumentCard(
-                from.myMument?.id,
+                from.myMument.id!!,
                 from.myMument.content ?: "",
                 from.myMument.createdAt,
                 from.music.id,

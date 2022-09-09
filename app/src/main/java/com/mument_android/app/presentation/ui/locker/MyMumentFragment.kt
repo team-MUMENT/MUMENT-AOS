@@ -92,6 +92,7 @@ class MyMumentFragment : Fragment() {
                     initMumentEmpty(it.data?.size ?: 0)
                     (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
                 }
+                else -> {}
             }
         }
     }

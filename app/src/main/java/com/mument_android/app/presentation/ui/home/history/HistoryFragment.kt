@@ -6,24 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mument_android.R
-import com.mument_android.app.data.network.home.adapter.HistoryListAdapter
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.presentation.ui.home.viewmodel.HistoryViewModel
 import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.changeTextColor
 import com.mument_android.app.util.click
 import com.mument_android.app.util.collectFlowWhenStarted
 import com.mument_android.databinding.FragmentHistoryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HistoryFragment : Fragment() {

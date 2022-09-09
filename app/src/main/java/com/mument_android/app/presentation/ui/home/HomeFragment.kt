@@ -15,9 +15,6 @@ import com.mument_android.R
 import com.mument_android.app.data.dto.home.Banner
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
-import com.mument_android.app.data.network.home.adapter.BannerListAdapter
-import com.mument_android.app.data.network.home.adapter.HeardMumentListAdapter
-import com.mument_android.app.data.network.home.adapter.ImpressiveEmotionListAdapter
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.MUMENT_ID
@@ -73,7 +70,10 @@ class HomeFragment : Fragment() {
         (homeFrame as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
             if (musicId.isNotEmpty()) {
                 val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
-                findNavController().navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_musicDetailFragment,
+                    bundle
+                )
             }
         }
         lifecycleScope.launchWhenCreated {
