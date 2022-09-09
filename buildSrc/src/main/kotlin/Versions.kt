@@ -8,7 +8,7 @@ object Versions {
     const val materialDesignVersion = "1.5.0"
     const val constraintLayoutVersion = "2.1.3"
     const val legacySupportVersion = "1.0.0"
-    const val hiltVersion = "2.40"
+    const val hiltVersion = "2.42"
     const val navVersion = "2.4.1"
     const val lifecycleVersion = "2.4.1"
     const val fragmentKtxVersion = "1.4.1"
