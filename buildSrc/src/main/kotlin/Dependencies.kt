@@ -81,3 +81,7 @@ object ThirdPartyDependencies {
 }
 
 
+object Plugins {
+    const val HILT_PLUGIN = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltVersion}"
+    const val SAFE_ARGS_PLUGIN = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navVersion}"
+}
