@@ -1,4 +1,4 @@
-package com.mument_android.app.data.network.util
+package com.startup.core.network
 
 sealed class ApiResult<out T>(val data: T?) {
     data class Idle<T>(val datas: T?): ApiResult<T>(null)
