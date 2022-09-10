@@ -1,6 +1,6 @@
 package com.mument_android.app.data.dto.home
 
-import com.mument_android.app.data.dto.history.User
+import com.mument_android.app.domain.entity.history.User
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
 
 data class TodayMument(

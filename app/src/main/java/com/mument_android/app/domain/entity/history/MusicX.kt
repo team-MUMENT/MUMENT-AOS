@@ -1,4 +1,4 @@
-package com.mument_android.app.data.dto.history
+package com.mument_android.app.domain.entity.history
 
 data class MusicX(
     val _id: String,
