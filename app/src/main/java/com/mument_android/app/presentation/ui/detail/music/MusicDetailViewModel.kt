@@ -79,7 +79,7 @@ class MusicDetailViewModel @Inject constructor(
     fun fetchMusicDetail(musicId: String) {
         viewModelScope.launch {
             fetchMusicDetailUseCase(musicId, BuildConfig.USER_ID).catch { e ->
-                e.printStackTrace()
+                //Todo exception handling
             }.collect {
                 _musicInfo.value = it.music
                 _myMument.value = it.myMument
@@ -89,8 +89,12 @@ class MusicDetailViewModel @Inject constructor(
 
     fun fetchMumentList(musicId: String) {
         viewModelScope.launch {
-            fetchMumentListUseCase(musicId, BuildConfig.USER_ID, findSortTypeTag(selectedSort.value)).catch { e ->
-                e.printStackTrace()
+            fetchMumentListUseCase(
+                musicId,
+                BuildConfig.USER_ID,
+                findSortTypeTag(selectedSort.value)
+            ).catch { e ->
+                //Todo exception handling
             }.collect { muments ->
                 _mumentList.value = muments
             }
@@ -100,15 +104,18 @@ class MusicDetailViewModel @Inject constructor(
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId, BuildConfig.USER_ID)
-                .catch { e -> e.printStackTrace() }.collect {}
+                .catch { e -> //Todo exception handling }.collect {}
+                }
         }
     }
 
     fun cancelLikeMument(mumentId: String) {
         viewModelScope.launch {
             cancelLikeMumentUseCase(mumentId, BuildConfig.USER_ID)
-                .catch { e -> e.printStackTrace() }
+                .catch { e -> //Todo exception handling
+                }
                 .collect {}
         }
+
     }
 }

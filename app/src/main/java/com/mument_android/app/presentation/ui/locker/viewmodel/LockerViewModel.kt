@@ -4,9 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
-import com.mument_android.app.data.enumtype.EmotionalTag
-import com.mument_android.app.data.enumtype.ImpressiveTag
-import com.mument_android.app.data.network.util.ApiResult
+import com.startup.core.network.ApiResult
 import com.mument_android.app.domain.entity.locker.LockerMumentEntity
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.usecase.locker.FetchMyLikeListUseCase
@@ -16,7 +14,6 @@ import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,11 +23,6 @@ class LockerViewModel @Inject constructor(
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
     private val likeMumentUseCase: LikeMumentUseCase
 ) : ViewModel() {
-    val emotionalTags =
-        EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }
-    val impressionTags =
-        ImpressiveTag.values().map { TagEntity(TagEntity.TAG_IMPRESSIVE, it.tag, it.tagIndex) }
-
     val myMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
 
     val myLikeMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
@@ -99,7 +91,7 @@ class LockerViewModel @Inject constructor(
             ).onStart {
                 myMuments.value = ApiResult.Loading(null)
             }.catch {
-                it.printStackTrace()
+                //Todo exception handling
                 myMuments.value = ApiResult.Failure(null)
             }.collectLatest {
                 myMuments.value = ApiResult.Success(it)
@@ -141,7 +133,7 @@ class LockerViewModel @Inject constructor(
             ).onStart {
                 myLikeMuments.value = ApiResult.Loading(null)
             }.catch {
-                it.printStackTrace()
+                //Todo exception handling
                 myLikeMuments.value = ApiResult.Failure(null)
             }.collectLatest {
                 myLikeMuments.value = ApiResult.Success(it)

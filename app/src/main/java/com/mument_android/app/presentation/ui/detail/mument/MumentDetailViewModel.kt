@@ -86,7 +86,8 @@ class MumentDetailViewModel @Inject constructor(
     fun checkMumentHasWritten(musicId: String) {
         viewModelScope.launch {
             fetchMumentListUseCase(musicId, BuildConfig.USER_ID, "Y")
-                .catch { e -> e.printStackTrace()}
+                .catch { e -> //Todo exception handling
+                }
                 .collect {
                     _hasWritten.value = it.map { it.user.userId }.contains(BuildConfig.USER_ID)
                 }
@@ -119,7 +120,7 @@ class MumentDetailViewModel @Inject constructor(
         viewModelScope.launch {
             deleteMumentUseCase(mumentId.value).catch { e ->
                 _successDelete.emit(Unit)
-                e.printStackTrace()
+                //Todo exception handling
             }.collect {
                 _successDelete.emit(Unit)
             }

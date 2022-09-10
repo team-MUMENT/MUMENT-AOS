@@ -4,10 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
-import com.mument_android.app.data.dto.history.User
+import com.mument_android.app.domain.entity.history.User
 import com.mument_android.app.data.dto.home.*
 import com.mument_android.app.data.local.todaymument.TodayMumentEntity
-import com.mument_android.app.data.network.util.ApiResult
 import com.mument_android.app.domain.entity.MumentCard
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.domain.usecase.home.SaveTodayMumentUseCase
@@ -16,9 +15,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,7 +33,7 @@ class HomeViewModel @Inject constructor(
             localUseCase.getTodayMument(BuildConfig.USER_ID).onEach { result ->
             }.catch { e ->
                 /*useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
-                    it.printStackTrace()
+                    //Todo exception handling
                 }?.collect {
                     todayMument.value = it?.todayMument
                     it.let { localUseCase.saveTodayMument(entityChange(it)) }
@@ -45,7 +41,7 @@ class HomeViewModel @Inject constructor(
             }.collect {
                 /*if (it.todayDate != LocalDate.now().toString()) {
                     useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
-                        it.printStackTrace()
+                        //Todo exception handling
                     }?.collect {
                         todayMument.value = it?.todayMument
                         it.let { localUseCase.saveTodayMument(entityChange(it)) }
@@ -56,22 +52,22 @@ class HomeViewModel @Inject constructor(
                 //}
             }
             useCase.getBannerMument().catch {
-                it.printStackTrace()
+                //Todo exception handling
             }.collect {
                 bannerData.value = it.bannerList.toMutableList()
             }
             useCase.getKnownMument().catch {
-                it.printStackTrace()
+                //Todo exception handling
             }.collect {
                 knownMument.value = it.againMument.toMutableList()
             }
             useCase.getRandomMument().catch {
-                it.printStackTrace()
+                //Todo exception handling
             }.collect {
                 randomMument.value = it
             }
             useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
-                it.printStackTrace()
+                //Todo exception handling
             }?.collect {
                 todayMument.value = it?.todayMument
             }

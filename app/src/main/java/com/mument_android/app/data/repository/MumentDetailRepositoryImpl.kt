@@ -11,10 +11,14 @@ import javax.inject.Inject
 class MumentDetailRepositoryImpl @Inject constructor(
     private val mumentDetailDataSource: MumentDetailDataSource,
     private val mumentDetailMapper: MumentDetailMapper
-): MumentDetailRepository {
-    override suspend fun fetchMumentDetail(mumentId: String, userId: String): Flow<MumentDetailEntity?> =
+) : MumentDetailRepository {
+    override suspend fun fetchMumentDetail(
+        mumentId: String,
+        userId: String
+    ): Flow<MumentDetailEntity?> =
         mumentDetailDataSource.fetchMumentDetail(mumentId, userId)
             .map { it.data?.let { mumentDetailMapper.map(it) } }
             .flowOn(Dispatchers.Default)
-            .catch { it.printStackTrace() }
+            .catch { //Todo exception handling
+            }
 }

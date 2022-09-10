@@ -74,7 +74,7 @@ class RecordViewModel @Inject constructor(
                 val recordDto = MumentRecordDto(content = mumentContent.value ?: "", feelingTags, impressionTags, isFirst.value ?: true, isPrivate.value ?: false)
                 selectedMusic.value?.let {
                     recordMumentUseCase(musicId = it._id, userId = BuildConfig.USER_ID, recordDto).catch { e ->
-                        e.printStackTrace()
+                        //Todo exception handling
                     }.collect {
                         _createdMumentId.value = it
                     }
@@ -90,7 +90,7 @@ class RecordViewModel @Inject constructor(
                 val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
                 val recordDto = MumentRecordDto(content = mumentContent.value ?: "", feelingTags, impressionTags, isFirst.value ?: true, isPrivate.value ?: false)
                 recordModifyMumentUseCase(mumentId = mumentId.value!!, recordDto).catch { e ->
-                    e.printStackTrace()
+                    //Todo exception handling
                 }.collect {
                     _modifyMumentId.value = it
                 }
