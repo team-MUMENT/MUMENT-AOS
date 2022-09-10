@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
-import com.mument_android.R
-import com.mument_android.app.data.enumtype.EmotionalTag
-import com.mument_android.app.data.network.util.ApiResult
+import com.startup.core.network.ApiResult
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.usecase.detail.DeleteMumentUseCase
 import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCase
@@ -15,11 +13,14 @@ import com.mument_android.app.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +30,7 @@ class MumentDetailViewModel @Inject constructor(
     private val likeMumentUseCase: LikeMumentUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
     private val deleteMumentUseCase: DeleteMumentUseCase
-): ViewModel() {
+) : ViewModel() {
     val isLiked = MutableStateFlow<Boolean>(false)
 
     private val _hasWritten = MutableLiveData<Boolean>()
@@ -41,7 +42,8 @@ class MumentDetailViewModel @Inject constructor(
     private val _mumentId = MutableStateFlow("")
     val mumentId = _mumentId.asStateFlow()
 
-    private val _mumentDetailContent = MutableStateFlow<ApiResult<MumentDetailEntity?>>(ApiResult.Idle(null))
+    private val _mumentDetailContent =
+        MutableStateFlow<ApiResult<MumentDetailEntity?>>(ApiResult.Idle(null))
     val mumentDetailContent = _mumentDetailContent.asStateFlow()
 
     private val _likeCount = MutableStateFlow(0)

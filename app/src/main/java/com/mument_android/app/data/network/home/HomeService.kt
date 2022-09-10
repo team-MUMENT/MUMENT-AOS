@@ -7,7 +7,6 @@ import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.network.base.BaseResponse
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

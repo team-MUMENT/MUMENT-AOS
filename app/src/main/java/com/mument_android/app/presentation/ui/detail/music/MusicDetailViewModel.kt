@@ -1,14 +1,11 @@
 package com.mument_android.app.presentation.ui.detail.music
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
 import com.mument_android.R
-import com.mument_android.app.data.enumtype.EmotionalTag
-import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.data.enumtype.SortTypeEnum
 import com.mument_android.app.data.enumtype.SortTypeEnum.Companion.findSortTypeTag
 import com.mument_android.app.data.mapper.detail.IntegrationTagMapper
@@ -27,7 +24,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,7 +33,7 @@ class MusicDetailViewModel @Inject constructor(
     private val fetchMusicDetailUseCase: FetchMusicDetailUseCase,
     private val likeMumentUseCase: LikeMumentUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase
-): ViewModel() {
+) : ViewModel() {
     private val _musicId = MutableLiveData<String>()
     val musicId: LiveData<String> = _musicId
 
@@ -67,7 +63,13 @@ class MusicDetailViewModel @Inject constructor(
         myMument.value?.let { mument ->
             withContext(Dispatchers.Default) {
                 val isFirst = if (mument.isFirst) R.string.tag_is_first else R.string.tag_has_heard
-                cardTags.add(TagEntity(TagEntity.TAG_IS_FIRST, isFirst, if (mument.isFirst) 1 else 0))
+                cardTags.add(
+                    TagEntity(
+                        TagEntity.TAG_IS_FIRST,
+                        isFirst,
+                        if (mument.isFirst) 1 else 0
+                    )
+                )
                 cardTags.addAll(mument.cardTag.map { tagIdx -> integrationTagMapper.map(tagIdx) })
             }
         }

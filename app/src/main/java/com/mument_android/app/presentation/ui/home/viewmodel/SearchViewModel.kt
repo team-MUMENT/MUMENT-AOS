@@ -2,10 +2,10 @@ package com.mument_android.app.presentation.ui.home.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.mument_android.app.data.local.recentlist.RecentSearchData
-import com.mument_android.app.data.network.util.ApiResult
+//Todo domain으로 변경
+import com.startup.core.network.ApiResult
 import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
 import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCase
 import com.mument_android.app.domain.usecase.home.SearchMusicUseCase
@@ -18,8 +18,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,7 +52,6 @@ class SearchViewModel @Inject constructor(
             }.catch {
                 searchList.value = ApiResult.Failure(null)
             }.collect {
-                Timber.d("Emit $it")
                 searchList.value = ApiResult.Success(it)
             }
         }

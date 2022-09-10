@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.app.data.dto.home.Banner
 import com.mument_android.databinding.ItemBannerLayoutBinding
-import timber.log.Timber
 
 class BannerListAdapter(var data: List<Banner>, private val clickBanner: (String) -> Unit) : RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>() {
 
@@ -33,7 +32,6 @@ class BannerListAdapter(var data: List<Banner>, private val clickBanner: (String
             val span = ForegroundColorSpan(Color.WHITE)
             builder.setSpan(span, 0, 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
             holder.binding.banner = (data[position % data.size])
-            Timber.d("${(position % data.size)}")
             holder.binding.position = (position % data.size)
             holder.binding.tvIndex.text = builder
             holder.binding.root.setOnClickListener {

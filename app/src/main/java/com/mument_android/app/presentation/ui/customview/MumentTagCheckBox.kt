@@ -1,12 +1,9 @@
 package com.mument_android.app.presentation.ui.customview
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.widget.CompoundButton
 import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.mument_android.R
 import com.mument_android.app.util.ViewUtils.dpToPx

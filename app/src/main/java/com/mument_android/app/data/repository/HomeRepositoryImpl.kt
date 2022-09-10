@@ -8,12 +8,12 @@ import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.local.todaymument.TodayMumentEntity
+import com.mument_android.app.domain.entity.history.MumentHistoryEntity
 import com.mument_android.app.domain.repository.home.HomeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -29,10 +29,13 @@ class HomeRepositoryImpl @Inject constructor(
         remoteSearchListDataSource.searchMusicList(keyword).data?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getMumentHistory(userId: String, musicId: String): Flow<MumentHistoryDto> =
-        flow<MumentHistoryDto> {
+    override suspend fun getMumentHistory(
+        userId: String,
+        musicId: String
+    ): Flow<MumentHistoryEntity> =
+        flow {
             remoteMumentHistoryDataSource.getMumentHistory(userId, musicId).apply {
-                data?.let {emit(it) }
+                data?.let { emit(MumentHistoryEntity(it.mumentHistory, it.music)) }
             }
         }.flowOn(Dispatchers.IO)
 

@@ -1,12 +1,12 @@
 package com.mument_android.app.domain.repository.home
 
-import com.mument_android.app.data.dto.history.MumentHistoryDto
 import com.mument_android.app.data.dto.home.BannerMumentDto
 import com.mument_android.app.data.dto.home.KnownMumentDto
 import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
 import com.mument_android.app.data.local.recentlist.RecentSearchData
 import com.mument_android.app.data.local.todaymument.TodayMumentEntity
+import com.mument_android.app.domain.entity.history.MumentHistoryEntity
 import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
@@ -30,7 +30,7 @@ interface HomeRepository {
 
     suspend fun searchList(keyword: String): Flow<List<RecentSearchData>>
 
-    suspend fun getMumentHistory(userId: String, musicId: String): Flow<MumentHistoryDto>
+    suspend fun getMumentHistory(userId: String, musicId: String): Flow<MumentHistoryEntity>
 
     suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentDto>?
 

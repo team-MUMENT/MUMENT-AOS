@@ -1,6 +1,5 @@
 package com.mument_android.app.domain.repository.detail
 
-import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
 import kotlinx.coroutines.flow.Flow
 

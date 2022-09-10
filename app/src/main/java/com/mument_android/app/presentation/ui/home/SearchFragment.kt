@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mument_android.R
-import com.mument_android.app.data.network.util.ApiResult
+import com.startup.core.network.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
