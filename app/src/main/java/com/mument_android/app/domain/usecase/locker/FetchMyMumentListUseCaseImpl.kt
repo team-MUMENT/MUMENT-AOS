@@ -3,7 +3,6 @@ package com.mument_android.app.domain.usecase.locker
 import com.mument_android.app.domain.entity.locker.LockerMumentEntity
 import com.mument_android.app.domain.repository.locker.LockerRepository
 import kotlinx.coroutines.flow.Flow
-import timber.log.Timber
 import javax.inject.Inject
 class FetchMyMumentListUseCaseImpl @Inject constructor(
     private val lockerRepository: LockerRepository

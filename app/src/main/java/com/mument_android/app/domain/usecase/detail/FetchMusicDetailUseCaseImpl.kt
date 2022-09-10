@@ -1,7 +1,5 @@
 package com.mument_android.app.domain.usecase.detail
 
-import com.mument_android.app.domain.entity.MumentCard
-import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.entity.detail.MusicWithMyMumentEntity
 import com.mument_android.app.domain.repository.detail.MusicDetailRepository
 import kotlinx.coroutines.flow.Flow

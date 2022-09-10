@@ -4,6 +4,7 @@ import com.mument_android.app.data.dto.home.BannerMumentDto
 import com.mument_android.app.data.dto.home.KnownMumentDto
 import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
+//TODO data layer remove
 import kotlinx.coroutines.flow.Flow
 
 interface WhenHomeEnterUseCase {
