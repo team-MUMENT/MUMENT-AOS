@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
@@ -22,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LockerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentLockerBinding>()
     private lateinit var lockerTabAdapter: LockerTabAdapter
-    private val lockerViewModel : LockerViewModel by viewModels()
+    private val lockerViewModel: LockerViewModel by viewModels()
     private val viewModel: LockerViewModel by activityViewModels()
 
     override fun onCreateView(

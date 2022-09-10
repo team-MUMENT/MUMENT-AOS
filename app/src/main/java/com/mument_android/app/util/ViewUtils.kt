@@ -2,7 +2,6 @@ package com.mument_android.app.util
 
 import android.app.Activity
 import android.content.Context
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import android.view.animation.TranslateAnimation
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.snackbar.Snackbar
 import com.mument_android.R
-import timber.log.Timber
 import java.lang.IllegalArgumentException
 
 

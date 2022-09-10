@@ -2,7 +2,6 @@ package com.mument_android.app.presentation.ui.locker.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,6 @@ import com.mument_android.app.domain.entity.locker.LockerMumentEntity
 import com.mument_android.app.presentation.ui.locker.LikeMumentListener
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemLockerDateBinding
-import timber.log.Timber
 
 //부모 어뎁터
 class LockerTimeAdapter(

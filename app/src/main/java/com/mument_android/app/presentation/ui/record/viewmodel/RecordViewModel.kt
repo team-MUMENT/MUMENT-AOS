@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.mument_android.BuildConfig
 import com.mument_android.app.data.dto.record.MumentRecordDto
 import com.mument_android.app.data.local.recentlist.RecentSearchData
+//TODO data layer remove
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCase
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel

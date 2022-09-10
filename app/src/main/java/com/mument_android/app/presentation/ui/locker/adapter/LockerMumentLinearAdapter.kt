@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
+//TODO(data layer remove)
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.locker.LockerMumentEntity
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter

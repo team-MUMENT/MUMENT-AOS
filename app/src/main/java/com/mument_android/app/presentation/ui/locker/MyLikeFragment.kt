@@ -19,7 +19,6 @@ import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentMyLikeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MyLikeFragment : Fragment() {
@@ -146,9 +145,7 @@ class MyLikeFragment : Fragment() {
             LockerLikeFilterBottomSheetFragment.newInstance(
                 lockerViewModel.checkedLikeTagList.value ?: listOf(),
                 completeSelectListener = {
-
                     lockerViewModel.changeLikeCheckedTagList(it)
-                    Timber.d("$it")
                 }
             ).show(parentFragmentManager, "LockerLikeFilterBottomSheetFragment")
         }

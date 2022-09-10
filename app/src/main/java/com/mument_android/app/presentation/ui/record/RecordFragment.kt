@@ -22,17 +22,15 @@ import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.data.local.recentlist.RecentSearchData
+//TODO data layer remove
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IMPRESSIVE
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.app.presentation.ui.customview.MumentDialog
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveMusicDetailNavigatorProvider
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
-import com.mument_android.app.presentation.ui.home.HomeFragmentDirections
-import com.mument_android.app.presentation.ui.home.HomeFrameFragment
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.app.util.RecyclerviewItemDivider
@@ -65,7 +63,6 @@ class RecordFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         arguments?.getParcelable<Music>("music")?.let {
-            Timber.d("Data Get $it")
             recordViewModel.changeSelectedMusic(
                 RecentSearchData(
                     it._id,
