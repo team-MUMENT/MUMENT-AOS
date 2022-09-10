@@ -1,7 +1,7 @@
 package com.mument_android.app.data.datasource.home
 
 import com.mument_android.app.data.local.todaymument.TodayMumentDAO
-import com.mument_android.app.data.local.todaymument.TodayMumentEntity
+import com.mument_android.app.domain.entity.home.todaymument.TodayMumentEntity
 import javax.inject.Inject
 
 class LocalTodayMumentDataSourceImpl @Inject constructor(private val dao: TodayMumentDAO) :

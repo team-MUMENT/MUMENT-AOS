@@ -5,8 +5,8 @@ import com.mument_android.app.data.dto.home.BannerMumentDto
 import com.mument_android.app.data.dto.home.KnownMumentDto
 import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
-import com.mument_android.app.data.local.recentlist.RecentSearchData
-import com.mument_android.app.data.local.todaymument.TodayMumentEntity
+import com.mument_android.app.domain.entity.home.recentlist.RecentSearchData
+import com.mument_android.app.domain.entity.home.todaymument.TodayMumentEntity
 import com.mument_android.app.domain.entity.history.MumentHistoryEntity
 import com.mument_android.app.domain.repository.home.HomeRepository
 import kotlinx.coroutines.Dispatchers

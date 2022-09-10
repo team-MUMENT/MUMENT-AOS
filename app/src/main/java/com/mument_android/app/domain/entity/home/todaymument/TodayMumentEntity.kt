@@ -1,4 +1,4 @@
-package com.mument_android.app.data.local.todaymument
+package com.mument_android.app.domain.entity.home.todaymument
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

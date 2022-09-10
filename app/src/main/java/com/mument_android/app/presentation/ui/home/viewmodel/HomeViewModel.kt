@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
 import com.mument_android.app.domain.entity.history.User
 import com.mument_android.app.data.dto.home.*
-import com.mument_android.app.data.local.todaymument.TodayMumentEntity
+import com.mument_android.app.domain.entity.home.todaymument.TodayMumentEntity
 import com.mument_android.app.domain.entity.MumentCard
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.domain.usecase.home.SaveTodayMumentUseCase
