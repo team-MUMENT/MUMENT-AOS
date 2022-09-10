@@ -1,6 +1,5 @@
 package com.mument_android.app.data.datasource.locker
 
-import com.mument_android.app.data.dto.MyMumentListDto
 import com.mument_android.app.data.dto.locker.LockerMyMumentDto
 import com.mument_android.app.data.network.base.BaseResponse
 import com.mument_android.app.data.network.locker.LockerApiService

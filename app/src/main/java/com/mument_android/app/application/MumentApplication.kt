@@ -1,9 +1,7 @@
 package com.mument_android.app.application
 
 import android.app.Application
-import androidx.core.provider.FontRequest
 import com.mument_android.BuildConfig
-import com.mument_android.R
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 

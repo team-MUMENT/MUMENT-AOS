@@ -8,7 +8,6 @@ import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.User
 @ProvidedTypeConverter
 class UserTypeConverter(private val gson: Gson) {
 
-
     @TypeConverter
     fun listToJson(value: User): String? {
         return gson.toJson(value)

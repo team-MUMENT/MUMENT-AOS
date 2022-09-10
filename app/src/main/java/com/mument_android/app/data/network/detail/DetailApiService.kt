@@ -1,7 +1,6 @@
 package com.mument_android.app.data.network.detail
 
 import com.mument_android.app.data.dto.MumentListDto
-import com.mument_android.app.data.dto.MumentSummaryDto
 import com.mument_android.app.data.dto.detail.MumentDetailDto
 import com.mument_android.app.data.dto.detail.MusicDetailDto
 import com.mument_android.app.data.network.base.BaseResponse

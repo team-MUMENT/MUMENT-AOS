@@ -1,6 +1,5 @@
 package com.mument_android.app.data.network.locker
 
-import com.mument_android.app.data.dto.MyMumentListDto
 import com.mument_android.app.data.dto.locker.LockerMyMumentDto
 import com.mument_android.app.data.network.base.BaseResponse
 import retrofit2.http.GET
