@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import com.mument_android.BuildConfig
 import com.mument_android.app.data.dto.record.MumentRecordDto
 import com.mument_android.app.domain.entity.home.recentlist.RecentSearchData
-//TODO data layer remove
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCase

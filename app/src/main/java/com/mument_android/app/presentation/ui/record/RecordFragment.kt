@@ -22,7 +22,6 @@ import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.home.recentlist.RecentSearchData
-//TODO data layer remove
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IMPRESSIVE
