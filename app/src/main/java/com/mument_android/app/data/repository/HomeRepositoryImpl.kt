@@ -24,7 +24,8 @@ class HomeRepositoryImpl @Inject constructor(
     private val localRecentSaerchListDataSource: LocalRecentSearchListDataSource,
     private val remoteMumentHistoryDataSource: RemoteMumentHistoryDataSource,
     private val remoteSearchListDataSource: RemoteSearchListDataSource,
-    private val homeDataSource: HomeDataSource
+    private val homeDataSource: HomeDataSource,
+    private val randomMumentMapper: RandomMumentMapper
 ) : HomeRepository {
     // Remote
     override suspend fun searchList(keyword: String): Flow<List<RecentSearchData>> = flow {
@@ -49,8 +50,8 @@ class HomeRepositoryImpl @Inject constructor(
         homeDataSource.getKnownMument().data?.let { emit(it) }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getRandomMument(): Flow<RandomMumentDto> = flow {
-        homeDataSource.getRandomMument().data?.let { emit(it) }
+    override suspend fun getRandomMument(): Flow<RandomMumentEntity> = flow {
+        homeDataSource.getRandomMument().data?.let { emit(randomMumentMapper.map(it)) }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentDto>? = flow {

@@ -3,6 +3,7 @@ package com.mument_android.app.di
 import com.mument_android.app.data.mapper.album.MusicInfoMapper
 import com.mument_android.app.data.mapper.album.MusicWithMyMumentMapper
 import com.mument_android.app.data.mapper.detail.*
+import com.mument_android.app.data.mapper.home.RandomMumentMapper
 import com.mument_android.app.data.mapper.locker.*
 import com.mument_android.app.data.mapper.main.*
 import com.mument_android.app.data.mapper.record.RecordMapper
@@ -64,6 +65,10 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideMumentCardMapper(): MumentCardMapper = MumentCardMapper()
+
+    @Provides
+    @Singleton
+    fun provideRandomMumentMapper(): RandomMumentMapper = RandomMumentMapper()
 
     @Provides
     @Singleton

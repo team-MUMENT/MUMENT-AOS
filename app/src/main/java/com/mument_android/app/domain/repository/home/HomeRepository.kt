@@ -39,5 +39,5 @@ interface HomeRepository {
 
     suspend fun getKnownMument(): Flow<KnownMumentDto>
 
-    suspend fun getRandomMument(): Flow<RandomMumentDto>
+    suspend fun getRandomMument(): Flow<RandomMumentEntity>
 }
