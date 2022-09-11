@@ -12,10 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.mument_android.R
-import com.mument_android.app.data.dto.home.Banner
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
+import com.mument_android.app.domain.entity.home.BannerEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.MUMENT_ID
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
@@ -127,7 +127,7 @@ class HomeFragment : Fragment() {
         viewModel.bannerData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 bannerAdapter.data = it.toMutableList().map {
-                    Banner(
+                    BannerEntity(
                         it._id,
                         it.displayDate,
                         Music(it.music._id, it.music.name, it.music.artist, it.music.image),

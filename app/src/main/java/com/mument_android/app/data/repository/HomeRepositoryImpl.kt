@@ -1,16 +1,11 @@
 package com.mument_android.app.data.repository
 
 import com.mument_android.app.data.datasource.home.*
-import com.mument_android.app.data.dto.home.BannerMumentDto
 import com.mument_android.app.data.dto.home.KnownMumentDto
-import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
-import com.mument_android.app.data.mapper.detail.MumentDetailMapper
 import com.mument_android.app.data.mapper.home.RandomMumentMapper
-import com.mument_android.app.domain.entity.home.RecentSearchData
-import com.mument_android.app.domain.entity.home.TodayMumentEntity
 import com.mument_android.app.domain.entity.history.MumentHistoryEntity
-import com.mument_android.app.domain.entity.home.RandomMumentEntity
+import com.mument_android.app.domain.entity.home.*
 import com.mument_android.app.domain.repository.home.HomeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -42,20 +37,20 @@ class HomeRepositoryImpl @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
 
-    override suspend fun getBannerMument(): Flow<BannerMumentDto> = flow {
-        homeDataSource.getBannerMument().data?.let { emit(it) }
+    override suspend fun getBannerMument(): Flow<List<BannerEntity>> = flow {
+        homeDataSource.getBannerMument().data?.let { emit(it.bannerList) }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getKnownMument(): Flow<KnownMumentDto> = flow {
-        homeDataSource.getKnownMument().data?.let { emit(it) }
+    override suspend fun getKnownMument(): Flow<List<AgainMumentEntity>> = flow {
+        homeDataSource.getKnownMument().data?.let { emit(it.againMumentEntity) }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getRandomMument(): Flow<RandomMumentEntity> = flow {
         homeDataSource.getRandomMument().data?.let { emit(randomMumentMapper.map(it)) }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentDto>? = flow {
-        homeDataSource.getTodayMument(userId)?.data?.let { emit(it) }
+    override suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentEntity> = flow {
+        homeDataSource.getTodayMument(userId)?.data?.let { emit(it.todayMument) }
     }.flowOn(Dispatchers.IO)
 
     // Local

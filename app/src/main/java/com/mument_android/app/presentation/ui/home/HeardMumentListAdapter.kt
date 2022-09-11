@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
-import com.mument_android.app.data.dto.home.AgainMument
+import com.mument_android.app.domain.entity.home.AgainMumentEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.ItemHeardMumentLayoutBinding
@@ -14,9 +14,9 @@ import timber.log.Timber
 
 class HeardMumentListAdapter(
     private val context: Context,
-    private val itemClickListener: (AgainMument) -> Unit
+    private val itemClickListener: (AgainMumentEntity) -> Unit
 ) :
-    ListAdapter<AgainMument, HeardMumentListAdapter.HeardViewHolder>(GlobalDiffCallBack<AgainMument>()) {
+    ListAdapter<AgainMumentEntity, HeardMumentListAdapter.HeardViewHolder>(GlobalDiffCallBack<AgainMumentEntity>()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeardViewHolder {

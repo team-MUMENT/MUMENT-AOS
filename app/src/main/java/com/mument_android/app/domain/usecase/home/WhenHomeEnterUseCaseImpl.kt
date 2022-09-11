@@ -2,8 +2,11 @@ package com.mument_android.app.domain.usecase.home
 
 import com.mument_android.app.data.dto.home.BannerMumentDto
 import com.mument_android.app.data.dto.home.KnownMumentDto
-import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
+import com.mument_android.app.domain.entity.home.AgainMumentEntity
+import com.mument_android.app.domain.entity.home.BannerEntity
+import com.mument_android.app.domain.entity.home.RandomMumentEntity
+import com.mument_android.app.domain.entity.home.TodayMumentEntity
 //TODO data layer remove
 import com.mument_android.app.domain.repository.home.HomeRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,16 +15,16 @@ import javax.inject.Inject
 class WhenHomeEnterUseCaseImpl @Inject constructor(
     val homeRepository: HomeRepository
 ) : WhenHomeEnterUseCase {
-    override suspend fun getTodayMument(userId: String): Flow<TodayMumentDto>? =
+    override suspend fun getTodayMument(userId: String): Flow<TodayMumentEntity> =
         homeRepository.getRemoteTodayMument(userId)
 
-    override suspend fun getBannerMument(): Flow<BannerMumentDto> =
+    override suspend fun getBannerMument(): Flow<List<BannerEntity>> =
         homeRepository.getBannerMument()
 
-    override suspend fun getRandomMument(): Flow<RandomMumentDto> =
+    override suspend fun getRandomMument(): Flow<RandomMumentEntity> =
         homeRepository.getRandomMument()
 
-    override suspend fun getKnownMument(): Flow<KnownMumentDto> =
+    override suspend fun getKnownMument(): Flow<List<AgainMumentEntity>> =
         homeRepository.getKnownMument()
 
 }

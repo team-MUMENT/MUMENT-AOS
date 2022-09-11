@@ -1,15 +1,14 @@
 package com.mument_android.app.domain.usecase.home
 
-import com.mument_android.app.data.dto.home.BannerMumentDto
-import com.mument_android.app.data.dto.home.KnownMumentDto
-import com.mument_android.app.data.dto.home.RandomMumentDto
-import com.mument_android.app.data.dto.home.TodayMumentDto
-//TODO data layer remove
+import com.mument_android.app.domain.entity.home.AgainMumentEntity
+import com.mument_android.app.domain.entity.home.BannerEntity
+import com.mument_android.app.domain.entity.home.RandomMumentEntity
+import com.mument_android.app.domain.entity.home.TodayMumentEntity
 import kotlinx.coroutines.flow.Flow
 
 interface WhenHomeEnterUseCase {
-    suspend fun getTodayMument(userId: String): Flow<TodayMumentDto>?
-    suspend fun getBannerMument(): Flow<BannerMumentDto>
-    suspend fun getRandomMument(): Flow<RandomMumentDto>
-    suspend fun getKnownMument(): Flow<KnownMumentDto>
+    suspend fun getTodayMument(userId: String): Flow<TodayMumentEntity>?
+    suspend fun getBannerMument(): Flow<List<BannerEntity>>
+    suspend fun getRandomMument(): Flow<RandomMumentEntity>
+    suspend fun getKnownMument(): Flow<List<AgainMumentEntity>>
 }
