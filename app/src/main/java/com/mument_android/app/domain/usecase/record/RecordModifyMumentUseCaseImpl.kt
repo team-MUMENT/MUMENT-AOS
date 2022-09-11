@@ -1,22 +1,16 @@
 package com.mument_android.app.domain.usecase.record
 
-import com.mument_android.app.data.controller.RecordModifyController
-import com.mument_android.app.data.dto.record.MumentRecordDto
+import com.mument_android.app.domain.entity.record.MumentRecordEntity
 //TODO data layer remove
-import kotlinx.coroutines.Dispatchers
+import com.mument_android.app.domain.repository.record.RecordRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class RecordModifyMumentUseCaseImpl @Inject constructor(
-    private val recordModifyController: RecordModifyController
+    private val repository: RecordRepository
 ) : RecordModifyMumentUseCase {
     override suspend fun invoke(
         mumentId: String,
-        mumentRecordDto: MumentRecordDto
-    ): Flow<String> = flow {
-        recordModifyController.recordModifyMument(mumentId, mumentRecordDto)
-            .data?.let { emit(it.id) }
-    }.flowOn(Dispatchers.IO)
+        mumentRecordEntity: MumentRecordEntity
+    ): Flow<String> = repository.updateMumentRecord(mumentId, mumentRecordEntity)
 }

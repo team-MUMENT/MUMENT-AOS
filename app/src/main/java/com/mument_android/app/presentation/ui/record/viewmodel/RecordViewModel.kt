@@ -5,11 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
-import com.mument_android.app.data.dto.record.MumentRecordDto
-//Todo Data Layer Remove
 import com.mument_android.app.domain.entity.home.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
+import com.mument_android.app.domain.entity.record.MumentRecordEntity
 import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCase
 import com.mument_android.app.domain.usecase.record.RecordModifyMumentUseCase
 import com.mument_android.app.domain.usecase.record.RecordMumentUseCase
@@ -32,7 +31,7 @@ class RecordViewModel @Inject constructor(
     private val _isFirst = MutableLiveData<Boolean?>()
     val isFirst: LiveData<Boolean?> get() :LiveData<Boolean?> = _isFirst
 
-    val mumentId  = MutableLiveData<String>("")
+    val mumentId = MutableLiveData<String>("")
     val mumentContent = MutableLiveData<String>()
 
     private val _isSelectedMusic = MutableLiveData<Boolean>(false)
@@ -65,7 +64,7 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    fun changeIsFirst(isFirst:Boolean){
+    fun changeIsFirst(isFirst: Boolean) {
         _isFirst.value = isFirst
     }
 
@@ -74,9 +73,19 @@ class RecordViewModel @Inject constructor(
             checkedTagList.value?.let { tags ->
                 val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
                 val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
-                val recordDto = MumentRecordDto(content = mumentContent.value ?: "", feelingTags, impressionTags, isFirst.value ?: true, isPrivate.value ?: false)
+                val recordEntity = MumentRecordEntity(
+                    content = mumentContent.value ?: "",
+                    feelingTags,
+                    impressionTags,
+                    isFirst.value ?: true,
+                    isPrivate.value ?: false
+                )
                 selectedMusic.value?.let {
-                    recordMumentUseCase(musicId = it._id, userId = BuildConfig.USER_ID, recordDto).catch { e ->
+                    recordMumentUseCase(
+                        musicId = it._id,
+                        userId = BuildConfig.USER_ID,
+                        recordEntity
+                    ).catch { e ->
                         //Todo exception handling
                     }.collect {
                         _createdMumentId.value = it
@@ -86,13 +95,19 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    fun putMument(){
+    fun putMument() {
         viewModelScope.launch {
             checkedTagList.value?.let { tags ->
                 val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
                 val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
-                val recordDto = MumentRecordDto(content = mumentContent.value ?: "", feelingTags, impressionTags, isFirst.value ?: true, isPrivate.value ?: false)
-                recordModifyMumentUseCase(mumentId = mumentId.value!!, recordDto).catch { e ->
+                val recordEntity = MumentRecordEntity(
+                    content = mumentContent.value ?: "",
+                    feelingTags,
+                    impressionTags,
+                    isFirst.value ?: true,
+                    isPrivate.value ?: false
+                )
+                recordModifyMumentUseCase(mumentId = mumentId.value!!, recordEntity).catch { e ->
                     //Todo exception handling
                 }.collect {
                     _modifyMumentId.value = it
@@ -100,7 +115,8 @@ class RecordViewModel @Inject constructor(
             }
         }
     }
-    fun setCheckTaglist(tagList:List<TagEntity>){
+
+    fun setCheckTaglist(tagList: List<TagEntity>) {
         val data = checkedTagList.value?.toMutableList()
         data?.addAll(tagList)
         _checkedTagList.value = data
@@ -109,6 +125,7 @@ class RecordViewModel @Inject constructor(
     fun changeSelectedMusic(music: RecentSearchData) {
         _selectedMusic.value = music
     }
+
     fun checkSelectedMusic(isSelected: Boolean) {
         _isSelectedMusic.value = isSelected
     }
