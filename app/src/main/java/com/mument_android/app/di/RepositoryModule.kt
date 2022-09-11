@@ -1,5 +1,7 @@
 package com.mument_android.app.di
 
+import com.mument_android.app.data.controller.RecordController
+import com.mument_android.app.data.controller.RecordModifyController
 import com.mument_android.app.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.app.data.datasource.detail.MumentListDataSource
 import com.mument_android.app.data.datasource.detail.MusicDetailDataSource
@@ -11,6 +13,7 @@ import com.mument_android.app.data.mapper.detail.MumentDetailMapper
 import com.mument_android.app.data.mapper.detail.MumentSummaryMapper
 import com.mument_android.app.data.mapper.home.RandomMumentMapper
 import com.mument_android.app.data.mapper.locker.LockerMapper
+import com.mument_android.app.data.mapper.record.MumentRecordMapper
 import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.repository.*
 import com.mument_android.app.domain.repository.detail.MumentDetailRepository
@@ -48,8 +51,17 @@ object RepositoryModule {
     @Singleton
     fun provideRecordRepository(
         recordMapper: RecordMapper,
-        recordDataSource: RecordDataSource
-    ): RecordRepository = RecordRepositoryImpl(recordDataSource, recordMapper)
+        recordDataSource: RecordDataSource,
+        recordModifyController: RecordModifyController,
+        recordController: RecordController,
+        mumentRecordMapper: MumentRecordMapper
+    ): RecordRepository = RecordRepositoryImpl(
+        recordDataSource,
+        recordMapper,
+        recordModifyController,
+        recordController,
+        mumentRecordMapper
+    )
 
 
     @Provides

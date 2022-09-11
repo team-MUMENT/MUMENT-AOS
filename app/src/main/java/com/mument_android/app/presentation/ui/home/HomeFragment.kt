@@ -119,13 +119,13 @@ class HomeFragment : Fragment() {
             }
         }
         viewModel.knownMument.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
+            if (it != null) {
                 heardAdapter.submitList(it)
                 binding.rcHeard.adapter = heardAdapter
             }
         }
         viewModel.bannerData.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
+            if (it != null) {
                 bannerAdapter.data = it.toMutableList().map {
                     BannerEntity(
                         it._id,

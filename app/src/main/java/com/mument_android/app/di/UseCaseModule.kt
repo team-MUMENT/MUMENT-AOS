@@ -80,14 +80,14 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideRecordMumentUseCase(
-        recordController: RecordController
-    ): RecordMumentUseCase = RecordMumentUseCaseImpl(recordController)
+        recordRepository: RecordRepository
+    ): RecordMumentUseCase = RecordMumentUseCaseImpl(recordRepository)
 
     @Provides
     @Singleton
     fun provideRecordModifyMumentUseCase(
-        recordModifyController: RecordModifyController
-    ):RecordModifyMumentUseCase = RecordModifyMumentUseCaseImpl(recordModifyController)
+        recordRepository: RecordRepository
+    ):RecordModifyMumentUseCase = RecordModifyMumentUseCaseImpl(recordRepository)
     
     @Provides
     @Singleton

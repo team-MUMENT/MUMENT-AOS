@@ -7,8 +7,8 @@ import com.mument_android.app.domain.entity.home.TodayMumentEntity
 import kotlinx.coroutines.flow.Flow
 
 interface WhenHomeEnterUseCase {
-    suspend fun getTodayMument(userId: String): Flow<TodayMumentEntity>
-    suspend fun getBannerMument(): Flow<List<BannerEntity>>
-    suspend fun getRandomMument(): Flow<RandomMumentEntity>
-    suspend fun getKnownMument(): Flow<List<AgainMumentEntity>>
+    suspend fun getTodayMument(userId: String): Flow<TodayMumentEntity?>
+    suspend fun getBannerMument(): Flow<List<BannerEntity>?>
+    suspend fun getRandomMument(): Flow<RandomMumentEntity?>
+    suspend fun getKnownMument(): Flow<List<AgainMumentEntity>?>
 }

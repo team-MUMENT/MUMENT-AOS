@@ -6,6 +6,7 @@ import com.mument_android.app.data.mapper.detail.*
 import com.mument_android.app.data.mapper.home.RandomMumentMapper
 import com.mument_android.app.data.mapper.locker.*
 import com.mument_android.app.data.mapper.main.*
+import com.mument_android.app.data.mapper.record.MumentRecordMapper
 import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.mapper.user.UserMapper
 import dagger.Module
@@ -41,6 +42,10 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideRecordMapper(): RecordMapper = RecordMapper()
+
+    @Provides
+    @Singleton
+    fun provideMumentRecordMapper(): MumentRecordMapper = MumentRecordMapper()
 
     @Provides
     @Singleton
