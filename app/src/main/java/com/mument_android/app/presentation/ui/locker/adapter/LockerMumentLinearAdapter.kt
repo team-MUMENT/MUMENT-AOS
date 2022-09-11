@@ -43,14 +43,14 @@ class LockerMumentLinearAdapter(
 
         likeMument(holder)
         holder.binding.root.setOnClickListener {
-            getItem(position)._id?.let { it -> showDetailListener(it) }
+            getItem(position)._id?.let { name -> showDetailListener(name) }
         }
     }
 
     private fun likeMument(holder: MumentViewHolder) {
         val mument = getItem(holder.absoluteAdapterPosition)
         val isLiked = mument.isLiked
-        var likeCount = mument.likeCount ?: 0
+        val likeCount = mument.likeCount ?: 0
         holder.binding.run {
             ivLike.setOnClickListener {
                 tvLikeCount.text = when {

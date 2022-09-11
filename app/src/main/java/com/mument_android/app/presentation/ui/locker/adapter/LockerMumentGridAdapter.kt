@@ -29,7 +29,7 @@ class LockerMumentGridAdapter(
     override fun onBindViewHolder(holder: MumentViewHolder, position: Int) {
         holder.binding.setVariable(BR.mument, getItem(position))
         holder.binding.root.setOnClickListener {
-            getItem(position)._id?.let { it -> showDetailListener(it) }
+            getItem(position)._id?.let { name -> showDetailListener(name) }
         }
     }
 

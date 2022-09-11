@@ -10,7 +10,7 @@
             type="int" />
         <variable
             name="banner"
-            type="com.mument_android.app.data.dto.home.Banner" />
+            type="com.mument_android.app.domain.entity.home.BannerEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

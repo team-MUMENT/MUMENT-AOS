@@ -56,21 +56,21 @@ class HomeViewModel @Inject constructor(
             useCase.getBannerMument().catch {
                 //Todo exception handling
             }.collect {
-                bannerData.value = it
+                bannerData.value = it.toMutableList()
             }
             useCase.getKnownMument().catch {
                 //Todo exception handling
             }.collect {
-                knownMument.value = it
+                knownMument.value = it.toMutableList()
             }
             useCase.getRandomMument().catch {
                 //Todo exception handling
             }.collect {
                 randomMument.value = it
             }
-            useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
+            useCase.getTodayMument(BuildConfig.USER_ID).catch {
                 //Todo exception handling
-            }?.collect {
+            }.collect {
                 todayMument.value = it
             }
         }

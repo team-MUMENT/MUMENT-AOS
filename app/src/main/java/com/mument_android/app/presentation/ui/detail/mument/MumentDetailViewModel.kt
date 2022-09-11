@@ -99,7 +99,7 @@ class MumentDetailViewModel @Inject constructor(
             increaseLikeCount()
             likeMumentUseCase(
                 mumentId.value,
-                mumentDetailContent.value?.data?.writerInfo?.userId ?: ""
+                mumentDetailContent.value.data?.writerInfo?.userId ?: ""
             ).collect {
 
             }
@@ -111,7 +111,7 @@ class MumentDetailViewModel @Inject constructor(
             decreaseLikeCount()
             cancelLikeMumentUseCase(
                 mumentId.value,
-                mumentDetailContent.value?.data?.writerInfo?.userId ?: ""
+                mumentDetailContent.value.data?.writerInfo?.userId ?: ""
             ).collect {}
         }
     }

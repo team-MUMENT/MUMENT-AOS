@@ -4,7 +4,7 @@ import android.os.Parcelable
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.music.MusicInfoEntity
 import com.mument_android.app.domain.entity.user.UserEntity
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MumentDetailEntity(

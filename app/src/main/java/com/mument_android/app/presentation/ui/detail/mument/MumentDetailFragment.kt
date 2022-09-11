@@ -99,7 +99,7 @@ class MumentDetailFragment : Fragment() {
         binding.ivKebab.click {
             EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
                 override fun edit() {
-                    viewModel.mumentDetailContent.value?.data?.let {
+                    viewModel.mumentDetailContent.value.data?.let {
                         editMumentNavigatorProvider.editMument(viewModel.mumentId.value, it)
                     }
                 }
@@ -131,7 +131,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToMusicDetail()  {
         binding.viewAlbumClickArea.setOnClickListener {
-            viewModel.mumentDetailContent.value?.data?.musicInfo?.id?.let { musicId ->
+            viewModel.mumentDetailContent.value.data?.musicInfo?.id?.let { musicId ->
                 Bundle().also {
                     it.putString(MUSIC_ID, musicId)
                     val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_musicDetailFragment_home else R.id.action_mumentDetailFragment_to_musicDetailFragment_locker
@@ -143,7 +143,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToHistory() {
         binding.tvGoToHistory.setOnClickListener {
-            viewModel.mumentDetailContent.value?.data?.musicInfo?.id?.let { musicId ->
+            viewModel.mumentDetailContent.value.data?.musicInfo?.id?.let { musicId ->
                 Bundle().also {
                     it.putString(MUSIC_ID, musicId)
                     val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_historyFragment_home else R.id.action_mumentDetailFragment_to_historyFragment_locker

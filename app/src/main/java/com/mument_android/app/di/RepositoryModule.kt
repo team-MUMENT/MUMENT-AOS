@@ -9,6 +9,7 @@ import com.mument_android.app.data.datasource.record.RecordDataSource
 import com.mument_android.app.data.mapper.album.MusicWithMyMumentMapper
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
 import com.mument_android.app.data.mapper.detail.MumentSummaryMapper
+import com.mument_android.app.data.mapper.home.RandomMumentMapper
 import com.mument_android.app.data.mapper.locker.LockerMapper
 import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.repository.*
@@ -58,12 +59,13 @@ object RepositoryModule {
         recentSearchListDataSource: LocalRecentSearchListDataSource,
         mumentHistoryDataSource: RemoteMumentHistoryDataSource,
         searchListDataSource: RemoteSearchListDataSource,
-        homeDataSource: HomeDataSource
+        homeDataSource: HomeDataSource,
+        randomMumentMapper: RandomMumentMapper
     ): HomeRepository = HomeRepositoryImpl(
         todayMumentDataSource,
         recentSearchListDataSource,
         mumentHistoryDataSource,
-        searchListDataSource, homeDataSource
+        searchListDataSource, homeDataSource, randomMumentMapper
     )
 
     @Provides
@@ -71,7 +73,8 @@ object RepositoryModule {
     fun provideMusicDetailRepository(
         musicWithMyMumentMapper: MusicWithMyMumentMapper,
         musicDetailDataSource: MusicDetailDataSource
-    ): MusicDetailRepository = MusicDetailRepositoryImpl(musicWithMyMumentMapper, musicDetailDataSource)
+    ): MusicDetailRepository =
+        MusicDetailRepositoryImpl(musicWithMyMumentMapper, musicDetailDataSource)
 
     @Provides
     @Singleton
