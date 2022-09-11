@@ -8,6 +8,7 @@ import com.mument_android.BR
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag.Companion.findEmotionalStringTag
 import com.mument_android.app.data.enumtype.ImpressiveTag.Companion.findImpressiveStringTag
+//Todo Data Layer Remove
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IMPRESSIVE

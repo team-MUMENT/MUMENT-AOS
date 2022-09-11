@@ -9,7 +9,6 @@ import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemMumentStringTagBinding
 
-
 class MumentTagListAdapter: ListAdapter<TagEntity, MumentTagListAdapter.MumentTagListViewHolder>(
     GlobalDiffCallBack<TagEntity>()
 ) {

@@ -9,6 +9,7 @@ import com.mument_android.R
 import com.mument_android.app.data.enumtype.SortTypeEnum
 import com.mument_android.app.data.enumtype.SortTypeEnum.Companion.findSortTypeTag
 import com.mument_android.app.data.mapper.detail.IntegrationTagMapper
+//Todo Data Layer Remove
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
 import com.mument_android.app.domain.entity.music.MusicInfoEntity

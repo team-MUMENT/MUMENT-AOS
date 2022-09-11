@@ -10,7 +10,6 @@ import com.mument_android.app.domain.entity.home.AgainMumentEntity
 import com.mument_android.app.util.GlobalDiffCallBack
 import com.mument_android.app.util.ViewUtils.dpToPx
 import com.mument_android.databinding.ItemHeardMumentLayoutBinding
-import timber.log.Timber
 
 class HeardMumentListAdapter(
     private val context: Context,
@@ -31,8 +30,6 @@ class HeardMumentListAdapter(
 
     override fun onBindViewHolder(holder: HeardViewHolder, position: Int) {
         val mumentData = getItem(position)
-
-        Timber.d("Again ${getItem(position)}")
         with(holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams) {
             marginStart = if (position == 0) 16.dpToPx(context) else 5.dpToPx(context)
             marginEnd = if (position == (itemCount - 1)) 16.dpToPx(context) else 5.dpToPx(context)

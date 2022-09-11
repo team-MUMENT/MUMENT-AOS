@@ -16,7 +16,6 @@ import com.mument_android.app.util.AutoClearedValue
 import com.mument_android.databinding.FragmentLockerBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class LockerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentLockerBinding>()

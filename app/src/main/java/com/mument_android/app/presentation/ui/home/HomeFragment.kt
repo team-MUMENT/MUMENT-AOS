@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.mument_android.R
 import com.mument_android.app.data.enumtype.EmotionalTag
 import com.mument_android.app.data.enumtype.ImpressiveTag
+// Todo Data Layer Remove
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.home.BannerEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music

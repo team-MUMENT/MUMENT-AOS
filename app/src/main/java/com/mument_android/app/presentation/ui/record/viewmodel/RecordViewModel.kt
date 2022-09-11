@@ -1,8 +1,12 @@
 package com.mument_android.app.presentation.ui.record.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
 import com.mument_android.app.data.dto.record.MumentRecordDto
+//Todo Data Layer Remove
 import com.mument_android.app.domain.entity.home.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
