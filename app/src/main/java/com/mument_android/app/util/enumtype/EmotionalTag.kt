@@ -1,4 +1,4 @@
-package com.mument_android.app.data.enumtype
+package com.mument_android.app.util.enumtype
 
 import androidx.annotation.StringRes
 import com.mument_android.R

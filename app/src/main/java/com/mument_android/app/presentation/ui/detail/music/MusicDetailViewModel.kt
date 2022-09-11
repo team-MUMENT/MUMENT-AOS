@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
 import com.mument_android.R
-import com.mument_android.app.data.enumtype.SortTypeEnum
-import com.mument_android.app.data.enumtype.SortTypeEnum.Companion.findSortTypeTag
+import com.mument_android.app.util.enumtype.SortTypeEnum
+import com.mument_android.app.util.enumtype.SortTypeEnum.Companion.findSortTypeTag
 import com.mument_android.app.data.mapper.detail.IntegrationTagMapper
 //Todo Data Layer Remove
 import com.mument_android.app.domain.entity.TagEntity
@@ -105,8 +105,8 @@ class MusicDetailViewModel @Inject constructor(
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId, BuildConfig.USER_ID)
-                .catch { e -> //Todo exception handling }.collect {}
-                }
+                .catch { e -> //Todo exception handling
+                }.collect {}
         }
     }
 
@@ -117,6 +117,5 @@ class MusicDetailViewModel @Inject constructor(
                 }
                 .collect {}
         }
-
     }
 }

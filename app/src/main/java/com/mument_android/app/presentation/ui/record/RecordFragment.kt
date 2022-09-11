@@ -19,9 +19,8 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.R
-import com.mument_android.app.data.enumtype.EmotionalTag
-import com.mument_android.app.data.enumtype.ImpressiveTag
-//Todo Data Layer Remove
+import com.mument_android.app.util.enumtype.EmotionalTag
+import com.mument_android.app.util.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.home.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL

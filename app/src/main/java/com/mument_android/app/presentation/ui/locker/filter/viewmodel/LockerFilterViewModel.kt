@@ -2,9 +2,8 @@ package com.mument_android.app.presentation.ui.locker.filter.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mument_android.app.data.enumtype.EmotionalTag
-import com.mument_android.app.data.enumtype.ImpressiveTag
-//Todo data layer remove
+import com.mument_android.app.util.enumtype.EmotionalTag
+import com.mument_android.app.util.enumtype.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 
 class LockerFilterViewModel: ViewModel() {

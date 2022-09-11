@@ -1,4 +1,4 @@
-package com.mument_android.app.data.enumtype
+package com.mument_android.app.util.enumtype
 
 enum class SortTypeEnum(val sort: String, val tag: String) {
     SORT_LIKE_COUNT("좋아요순", "Y"),
