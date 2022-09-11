@@ -1,6 +1,6 @@
 package com.mument_android.app.domain.usecase.home
 
-import com.mument_android.app.domain.entity.home.recentlist.RecentSearchData
+import com.mument_android.app.domain.entity.home.RecentSearchData
 import com.mument_android.app.domain.repository.home.HomeRepository
 import javax.inject.Inject
 

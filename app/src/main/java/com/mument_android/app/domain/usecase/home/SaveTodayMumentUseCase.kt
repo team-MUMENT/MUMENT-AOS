@@ -1,6 +1,6 @@
 package com.mument_android.app.domain.usecase.home
 
-import com.mument_android.app.domain.entity.home.todaymument.TodayMumentEntity
+import com.mument_android.app.domain.entity.home.TodayMumentEntity
 import kotlinx.coroutines.flow.Flow
 
 interface SaveTodayMumentUseCase {

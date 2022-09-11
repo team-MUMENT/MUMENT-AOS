@@ -3,7 +3,7 @@ package com.mument_android.app.presentation.ui.home.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.app.domain.entity.home.recentlist.RecentSearchData
+import com.mument_android.app.domain.entity.home.RecentSearchData
 import com.startup.core.network.ApiResult
 import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
 import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCase

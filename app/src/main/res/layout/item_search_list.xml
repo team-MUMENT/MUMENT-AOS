@@ -9,7 +9,7 @@
 
         <variable
             name="searchdata"
-            type="com.mument_android.app.domain.entity.home.recentlist.RecentSearchData" />
+            type="com.mument_android.app.domain.entity.home.RecentSearchData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

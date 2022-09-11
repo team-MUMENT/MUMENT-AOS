@@ -1,4 +1,4 @@
-package com.mument_android.app.domain.entity.home.recentlist
+package com.mument_android.app.domain.entity.home
 
 import androidx.room.Entity
 import androidx.room.Ignore

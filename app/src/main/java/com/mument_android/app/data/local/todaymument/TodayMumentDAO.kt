@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Update
 import androidx.room.Delete
 import androidx.room.Query
-import com.mument_android.app.domain.entity.home.todaymument.TodayMumentEntity
+import com.mument_android.app.domain.entity.home.TodayMumentEntity
 
 @Dao
 interface TodayMumentDAO {

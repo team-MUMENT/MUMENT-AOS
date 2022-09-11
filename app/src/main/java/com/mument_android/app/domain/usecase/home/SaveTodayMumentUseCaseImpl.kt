@@ -1,6 +1,6 @@
 package com.mument_android.app.domain.usecase.home
 
-import com.mument_android.app.domain.entity.home.todaymument.TodayMumentEntity
+import com.mument_android.app.domain.entity.home.TodayMumentEntity
 import com.mument_android.app.domain.repository.home.HomeRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

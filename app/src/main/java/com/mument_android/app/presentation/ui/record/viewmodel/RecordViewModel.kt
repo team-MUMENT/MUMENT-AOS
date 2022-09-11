@@ -3,7 +3,7 @@ package com.mument_android.app.presentation.ui.record.viewmodel
 import androidx.lifecycle.*
 import com.mument_android.BuildConfig
 import com.mument_android.app.data.dto.record.MumentRecordDto
-import com.mument_android.app.domain.entity.home.recentlist.RecentSearchData
+import com.mument_android.app.domain.entity.home.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCase
