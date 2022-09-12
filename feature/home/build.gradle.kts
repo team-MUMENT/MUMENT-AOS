@@ -39,8 +39,10 @@ android {
 dependencies {
         addAndroidXDependencies()
         addTestDependencies()
-        addNetworkDependencies()
         addNavigationDependencies()
         addDaggerHiltDependencies()
         addLifecycleDependencies()
+    implementation(ThirdPartyDependencies.coil)
+    implementation(KotlinDependencies.coroutines)
+    implementation(AndroidXDependencies.coroutines)
 }
