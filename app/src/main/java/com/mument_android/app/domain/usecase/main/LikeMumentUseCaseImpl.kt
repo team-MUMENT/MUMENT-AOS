@@ -1,17 +1,12 @@
 package com.mument_android.app.domain.usecase.main
 
-import com.mument_android.app.data.controller.LikeMumentController
-//TODO data layer remove
-import kotlinx.coroutines.Dispatchers
+import com.mument_android.app.domain.repository.main.MainRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class LikeMumentUseCaseImpl @Inject constructor(
-    private val likeMumentController: LikeMumentController
-): LikeMumentUseCase {
-    override suspend fun invoke(mumentId: String, userId: String): Flow<Int> = flow {
-        likeMumentController.likeMument(mumentId, userId).data?.likeCount?.let { emit(it) }
-    }.flowOn(Dispatchers.IO)
+    private val mainRepository: MainRepository
+) : LikeMumentUseCase {
+    override suspend fun invoke(mumentId: String, userId: String): Flow<Int> =
+        mainRepository.likeMument(mumentId, userId)
 }

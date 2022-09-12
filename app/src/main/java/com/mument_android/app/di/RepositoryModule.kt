@@ -1,5 +1,7 @@
 package com.mument_android.app.di
 
+import com.mument_android.app.data.controller.DeleteMumentController
+import com.mument_android.app.data.controller.LikeMumentController
 import com.mument_android.app.data.controller.RecordController
 import com.mument_android.app.data.controller.RecordModifyController
 import com.mument_android.app.data.datasource.detail.MumentDetailDataSource
@@ -21,6 +23,7 @@ import com.mument_android.app.domain.repository.detail.MumentListRepository
 import com.mument_android.app.domain.repository.detail.MusicDetailRepository
 import com.mument_android.app.domain.repository.home.HomeRepository
 import com.mument_android.app.domain.repository.locker.LockerRepository
+import com.mument_android.app.domain.repository.main.MainRepository
 import com.mument_android.app.domain.repository.record.RecordRepository
 import dagger.Module
 import dagger.Provides
@@ -34,11 +37,25 @@ object RepositoryModule {
 
     @Provides
     @Singleton
+    fun provideMumentMainUseCase(
+        likeMumentController: LikeMumentController
+    ): MainRepository =
+        MainRepositoryImpl(
+            likeMumentController
+        )
+
+    @Provides
+    @Singleton
     fun provideMumentDetailUseCase(
         mumentDetailDataSource: MumentDetailDataSource,
-        mumentDetailMapper: MumentDetailMapper
+        mumentDetailMapper: MumentDetailMapper,
+        deleteMumentController: DeleteMumentController
     ): MumentDetailRepository =
-        MumentDetailRepositoryImpl(mumentDetailDataSource, mumentDetailMapper)
+        MumentDetailRepositoryImpl(
+            mumentDetailDataSource,
+            mumentDetailMapper,
+            deleteMumentController
+        )
 
     @Provides
     @Singleton

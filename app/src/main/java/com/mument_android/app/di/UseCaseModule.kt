@@ -4,6 +4,7 @@ import com.mument_android.app.data.controller.*
 import com.mument_android.app.domain.repository.detail.*
 import com.mument_android.app.domain.repository.home.HomeRepository
 import com.mument_android.app.domain.repository.locker.LockerRepository
+import com.mument_android.app.domain.repository.main.MainRepository
 import com.mument_android.app.domain.repository.record.RecordRepository
 import com.mument_android.app.domain.usecase.home.*
 import com.mument_android.app.domain.usecase.detail.*
@@ -31,8 +32,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideLikeMumentUseCase(likeMumentController: LikeMumentController): LikeMumentUseCase =
-        LikeMumentUseCaseImpl(likeMumentController)
+    fun provideLikeMumentUseCase(mainRepository: MainRepository): LikeMumentUseCase =
+        LikeMumentUseCaseImpl(mainRepository)
 
     @Provides
     @Singleton
@@ -47,8 +48,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideCancelLikeMumentUseCase(likeMumentController: LikeMumentController): CancelLikeMumentUseCase =
-        CancelLikeMumentUseCaseImpl(likeMumentController)
+    fun provideCancelLikeMumentUseCase(mainRepository: MainRepository): CancelLikeMumentUseCase =
+        CancelLikeMumentUseCaseImpl(mainRepository)
 
 
     @Provides
@@ -107,6 +108,6 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun proivdeDeleteMumentUseCase(deleteMumentController: DeleteMumentController): DeleteMumentUseCase =
-        DeleteMumentUseCaseImpl(deleteMumentController)
+    fun proivdeDeleteMumentUseCase(mumentDetailRepository: MumentDetailRepository): DeleteMumentUseCase =
+        DeleteMumentUseCaseImpl(mumentDetailRepository)
 }

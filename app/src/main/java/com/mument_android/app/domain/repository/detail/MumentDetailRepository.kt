@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface MumentDetailRepository {
     suspend fun fetchMumentDetail(mumentId: String, userId: String): Flow<MumentDetailEntity?>
+    suspend fun deleteMument(mumentId: String):Flow<Unit>
 }
