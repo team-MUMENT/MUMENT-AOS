@@ -25,7 +25,7 @@ import com.startup.domain.entity.TagEntity.Companion.TAG_IMPRESSIVE
 import com.startup.domain.entity.detail.MumentDetailEntity
 import com.startup.domain.entity.home.RecentSearchData
 import com.startup.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
+import com.startup.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveMusicDetailNavigatorProvider
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel

@@ -1,11 +1,11 @@
-package com.mument_android.app.presentation.ui.customview
+package com.startup.core_dependent.ui
 
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.content.res.ResourcesCompat
-import com.mument_android.R
+import com.startup.core_dependent.R
 import com.startup.core_dependent.util.ViewUtils.dpToPx
 
 class MumentTagCheckBox @JvmOverloads constructor(

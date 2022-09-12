@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.customview
+package com.startup.core_dependent.ui
 
 class MumentDialogBuilder {
     private var header: String? = null
@@ -21,7 +21,7 @@ class MumentDialogBuilder {
         return this
     }
 
-    fun setAllowListener(listener:() -> Unit): MumentDialogBuilder{
+    fun setAllowListener(listener:() -> Unit): MumentDialogBuilder {
         allowListener = listener
         return this
     }

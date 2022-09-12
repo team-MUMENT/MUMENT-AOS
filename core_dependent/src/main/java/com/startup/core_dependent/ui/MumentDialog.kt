@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.customview
+package com.startup.core_dependent.ui
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import com.mument_android.databinding.FragmentMumentDialogBinding
+import com.startup.core_dependent.databinding.FragmentMumentDialogBinding
 import com.startup.core_dependent.util.AutoClearedValue
 import com.startup.core_dependent.util.ViewUtils.getDeviceSize
 

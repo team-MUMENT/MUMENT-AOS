@@ -12,7 +12,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.BuildConfig
 import com.mument_android.R
-import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
+import com.startup.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigatorProvider
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.util.StartDestinationChecker.isFromHome
