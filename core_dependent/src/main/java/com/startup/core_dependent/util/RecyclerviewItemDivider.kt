@@ -1,4 +1,4 @@
-package com.mument_android.app.util
+package com.startup.core_dependent.util
 
 import android.graphics.Rect
 import android.view.View

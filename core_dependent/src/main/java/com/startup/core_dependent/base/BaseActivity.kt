@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.base
+package com.startup.core_dependent.base
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes

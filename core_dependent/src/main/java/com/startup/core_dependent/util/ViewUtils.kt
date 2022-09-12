@@ -1,4 +1,4 @@
-package com.mument_android.app.util
+package com.startup.core_dependent.util
 
 import android.app.Activity
 import android.content.Context
@@ -15,7 +15,7 @@ import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.snackbar.Snackbar
-import com.mument_android.R
+import com.startup.core_dependent.R
 import java.lang.IllegalArgumentException
 
 

@@ -1,7 +1,7 @@
-package com.mument_android.app.util.enumtype
+package com.startup.core_dependent.util
 
 import androidx.annotation.StringRes
-import com.mument_android.R
+import com.startup.core_dependent.R
 import java.lang.IllegalArgumentException
 
 enum class ImpressiveTag(val tagIndex: Int, @StringRes val tag: Int) {

@@ -1,4 +1,4 @@
-package com.mument_android.app.util
+package com.startup.core_dependent.util
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver

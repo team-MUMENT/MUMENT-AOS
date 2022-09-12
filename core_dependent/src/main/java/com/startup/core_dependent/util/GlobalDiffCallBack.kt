@@ -1,4 +1,4 @@
-package com.mument_android.app.util
+package com.startup.core_dependent.util
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil

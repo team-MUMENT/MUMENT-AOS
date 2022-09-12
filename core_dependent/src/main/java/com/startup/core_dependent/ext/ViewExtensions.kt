@@ -1,4 +1,4 @@
-package com.mument_android.app.util
+package com.startup.core_dependent.ext
 
 import android.view.View
 import android.widget.TextView
