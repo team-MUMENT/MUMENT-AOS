@@ -1,8 +1,8 @@
-package com.mument_android.app.data.mapper.detail
+package com.mument_android.app.presentation.util
 
-import com.mument_android.app.util.enumtype.EmotionalTag
-import com.mument_android.app.util.enumtype.ImpressiveTag
-import com.mument_android.app.data.mapper.BaseMapper
+import com.startup.core_dependent.util.EmotionalTag
+import com.startup.core_dependent.util.ImpressiveTag
+import com.startup.core.base.BaseMapper
 import com.mument_android.app.domain.entity.TagEntity
 
 /**
