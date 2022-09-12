@@ -40,5 +40,7 @@ dependencies {
     addTestDependencies()
     addNetworkDependencies()
     addDaggerHiltDependencies()
+    addRoomDependencies()
+    addNetworkDependencies()
     addLifecycleDependencies()
 }
