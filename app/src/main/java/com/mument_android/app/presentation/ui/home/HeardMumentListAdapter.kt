@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
-import com.mument_android.app.domain.entity.home.AgainMumentEntity
+import com.startup.domain.entity.home.AgainMumentEntity
 import com.mument_android.databinding.ItemHeardMumentLayoutBinding
 import com.startup.core_dependent.util.GlobalDiffCallBack
 import com.startup.core_dependent.util.ViewUtils.dpToPx

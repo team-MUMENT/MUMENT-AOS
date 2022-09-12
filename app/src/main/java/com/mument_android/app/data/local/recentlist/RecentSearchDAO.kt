@@ -1,7 +1,12 @@
 package com.mument_android.app.data.local.recentlist
 
-import androidx.room.*
-import com.mument_android.app.domain.entity.home.RecentSearchData
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Update
+import androidx.room.Query
+import com.startup.domain.entity.home.RecentSearchData
 
 @Dao
 interface RecentSearchDAO {

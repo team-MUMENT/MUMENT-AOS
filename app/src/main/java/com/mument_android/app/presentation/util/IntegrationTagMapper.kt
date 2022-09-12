@@ -1,6 +1,6 @@
 package com.mument_android.app.presentation.util
 
-import com.mument_android.app.domain.entity.TagEntity
+import com.startup.domain.entity.TagEntity
 import com.startup.core.base.BaseMapper
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.ImpressiveTag

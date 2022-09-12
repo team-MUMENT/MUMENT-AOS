@@ -7,7 +7,7 @@
 
         <variable
             name="musicDetail"
-            type="com.mument_android.app.domain.entity.history.MumentHistory" />
+            type="com.startup.domain.entity.history.MumentHistory" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

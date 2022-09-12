@@ -3,7 +3,7 @@ package com.mument_android.app.data.local.converter
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.User
+import com.startup.domain.entity.User
 
 @ProvidedTypeConverter
 class UserTypeConverter(private val gson: Gson) {

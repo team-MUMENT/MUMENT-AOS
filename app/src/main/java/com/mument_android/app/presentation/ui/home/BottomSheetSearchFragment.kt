@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
-import com.mument_android.app.domain.entity.home.RecentSearchData
+import com.startup.domain.entity.home.RecentSearchData
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.app.util.launchWhenCreated

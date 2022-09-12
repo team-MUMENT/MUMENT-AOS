@@ -2,7 +2,7 @@ package com.mument_android.app.data.mapper.album
 
 import com.mument_android.app.data.dto.detail.MusicDetailDto
 import com.mument_android.app.data.mapper.detail.MumentSummaryMapper
-import com.mument_android.app.domain.entity.detail.MusicWithMyMumentEntity
+import com.startup.domain.entity.detail.MusicWithMyMumentEntity
 import com.startup.core.base.BaseMapper
 import javax.inject.Inject
 

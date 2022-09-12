@@ -6,7 +6,7 @@ import com.mument_android.app.data.mapper.main.EmotionalTagMapper
 import com.mument_android.app.data.mapper.main.ImpressiveTagMapper
 import com.mument_android.app.data.mapper.main.IsFirstTagMapper
 import com.mument_android.app.data.mapper.user.UserMapper
-import com.mument_android.app.domain.entity.detail.MumentDetailEntity
+import com.startup.domain.entity.detail.MumentDetailEntity
 import com.startup.core.base.BaseMapper
 import javax.inject.Inject
 

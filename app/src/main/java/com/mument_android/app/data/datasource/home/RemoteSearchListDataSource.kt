@@ -1,6 +1,6 @@
 package com.mument_android.app.data.datasource.home
 
-import com.mument_android.app.domain.entity.home.RecentSearchData
+import com.startup.domain.entity.home.RecentSearchData
 import com.startup.core.base.BaseResponse
 
 interface RemoteSearchListDataSource {

@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
-import com.mument_android.app.domain.entity.history.MumentHistoryEntity
-import com.mument_android.app.domain.usecase.home.GetMumentHistoryUseCase
+import com.startup.domain.entity.history.MumentHistoryEntity
+import com.startup.domain.usecase.home.GetMumentHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

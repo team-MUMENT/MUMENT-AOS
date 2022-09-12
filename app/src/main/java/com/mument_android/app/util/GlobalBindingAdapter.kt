@@ -18,7 +18,7 @@ import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.mument_android.R
-import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IS_FIRST
+import com.startup.domain.entity.TagEntity.Companion.TAG_IS_FIRST
 import com.startup.core_dependent.util.ViewUtils.dpToPx
 
 object GlobalBindingAdapter {

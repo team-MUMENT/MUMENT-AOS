@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
-import com.mument_android.app.domain.entity.TagEntity
-import com.mument_android.app.domain.entity.locker.LockerMumentEntity
+import com.startup.domain.entity.TagEntity
+import com.startup.domain.entity.locker.LockerMumentEntity
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.locker.LikeMumentListener
 import com.mument_android.databinding.ItemLockerCardBinding

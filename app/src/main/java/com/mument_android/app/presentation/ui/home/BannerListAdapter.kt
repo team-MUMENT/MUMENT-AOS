@@ -7,7 +7,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.app.domain.entity.home.BannerEntity
+import com.startup.domain.entity.home.BannerEntity
 import com.mument_android.databinding.ItemBannerLayoutBinding
 
 class BannerListAdapter(var data: List<BannerEntity>, private val clickBanner: (String) -> Unit) : RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>() {

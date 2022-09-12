@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
-import com.mument_android.app.domain.entity.TagEntity
+import com.startup.domain.entity.TagEntity
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.filter.viewmodel.LockerFilterViewModel

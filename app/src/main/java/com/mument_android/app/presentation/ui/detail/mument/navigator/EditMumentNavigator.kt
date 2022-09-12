@@ -1,7 +1,7 @@
 package com.mument_android.app.presentation.ui.detail.mument.navigator
 
-import com.mument_android.app.domain.entity.detail.MumentDetailEntity
-import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.startup.domain.entity.detail.MumentDetailEntity
+import com.startup.domain.entity.musicdetail.musicdetaildata.Music
 
 interface EditMumentNavigator {
     fun editMument(mumentId: String, mumentDetailEntity: MumentDetailEntity)

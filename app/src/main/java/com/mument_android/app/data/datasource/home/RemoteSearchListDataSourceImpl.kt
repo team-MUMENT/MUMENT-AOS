@@ -1,7 +1,7 @@
 package com.mument_android.app.data.datasource.home
 
 import com.mument_android.app.data.network.home.HomeService
-import com.mument_android.app.domain.entity.home.RecentSearchData
+import com.startup.domain.entity.home.RecentSearchData
 import com.startup.core.base.BaseResponse
 
 class RemoteSearchListDataSourceImpl(val homeService: HomeService):RemoteSearchListDataSource {

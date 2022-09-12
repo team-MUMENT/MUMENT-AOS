@@ -12,9 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.mument_android.R
-import com.mument_android.app.domain.entity.TagEntity
-import com.mument_android.app.domain.entity.home.BannerEntity
-import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.startup.domain.entity.TagEntity
+import com.startup.domain.entity.home.BannerEntity
+import com.startup.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.MUMENT_ID
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID

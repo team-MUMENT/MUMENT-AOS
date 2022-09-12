@@ -3,10 +3,10 @@ package com.mument_android.app.presentation.ui.home.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.app.domain.entity.home.RecentSearchData
-import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
-import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCase
-import com.mument_android.app.domain.usecase.home.SearchMusicUseCase
+import com.startup.domain.entity.home.RecentSearchData
+import com.startup.domain.usecase.home.CRURecentSearchListUseCase
+import com.startup.domain.usecase.home.DeleteRecentSearchListUseCase
+import com.startup.domain.usecase.home.SearchMusicUseCase
 import com.startup.core.network.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope

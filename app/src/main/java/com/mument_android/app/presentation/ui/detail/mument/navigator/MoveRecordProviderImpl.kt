@@ -2,7 +2,7 @@ package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
 import com.mument_android.R
-import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.startup.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.main.MainActivity
 import javax.inject.Inject
 

@@ -8,8 +8,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.mument_android.R
-import com.mument_android.app.domain.entity.detail.MumentDetailEntity
-import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.startup.domain.entity.detail.MumentDetailEntity
+import com.startup.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.app.presentation.ui.record.RecordFragment.Companion.MUMENT_DETAIL_ENTITY

@@ -3,8 +3,8 @@ package com.mument_android.app.data.repository
 import com.mument_android.BuildConfig
 import com.mument_android.app.data.datasource.detail.MumentListDataSource
 import com.mument_android.app.data.mapper.detail.MumentSummaryMapper
-import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
-import com.mument_android.app.domain.repository.detail.MumentListRepository
+import com.startup.domain.entity.detail.MumentSummaryEntity
+import com.startup.domain.repository.detail.MumentListRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

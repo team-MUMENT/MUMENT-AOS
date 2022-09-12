@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
-import com.mument_android.app.domain.entity.TagEntity
+import com.startup.domain.entity.TagEntity
 import com.mument_android.databinding.ItemTagCheckboxBinding
 import com.startup.core_dependent.util.GlobalDiffCallBack
 

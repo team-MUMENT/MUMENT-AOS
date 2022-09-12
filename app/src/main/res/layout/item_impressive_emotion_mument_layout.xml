@@ -7,7 +7,7 @@
 
         <variable
             name="randomMument"
-            type="com.mument_android.app.data.dto.home.Mument" />
+            type="com.startup.domain.entity.home.Mument" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

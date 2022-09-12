@@ -5,9 +5,9 @@ import com.mument_android.app.data.controller.RecordModifyController
 import com.mument_android.app.data.datasource.record.RecordDataSource
 import com.mument_android.app.data.mapper.record.MumentRecordMapper
 import com.mument_android.app.data.mapper.record.RecordMapper
-import com.mument_android.app.domain.entity.record.MumentRecordEntity
-import com.mument_android.app.domain.entity.record.RecordIsFirstEntity
-import com.mument_android.app.domain.repository.record.RecordRepository
+import com.startup.domain.entity.record.MumentRecordEntity
+import com.startup.domain.entity.record.RecordIsFirstEntity
+import com.startup.domain.repository.record.RecordRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

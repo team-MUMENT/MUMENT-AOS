@@ -2,8 +2,8 @@ package com.mument_android.app.data.repository
 
 import com.mument_android.app.data.datasource.detail.MusicDetailDataSource
 import com.mument_android.app.data.mapper.album.MusicWithMyMumentMapper
-import com.mument_android.app.domain.entity.detail.MusicWithMyMumentEntity
-import com.mument_android.app.domain.repository.detail.MusicDetailRepository
+import com.startup.domain.entity.detail.MusicWithMyMumentEntity
+import com.startup.domain.repository.detail.MusicDetailRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

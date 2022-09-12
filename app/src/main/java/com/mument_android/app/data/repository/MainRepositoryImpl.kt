@@ -1,7 +1,7 @@
 package com.mument_android.app.data.repository
 
 import com.mument_android.app.data.controller.LikeMumentController
-import com.mument_android.app.domain.repository.main.MainRepository
+import com.startup.domain.repository.main.MainRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

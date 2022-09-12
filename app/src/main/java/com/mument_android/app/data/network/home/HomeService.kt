@@ -5,7 +5,7 @@ import com.mument_android.app.data.dto.home.BannerMumentDto
 import com.mument_android.app.data.dto.home.KnownMumentDto
 import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
-import com.mument_android.app.domain.entity.home.RecentSearchData
+import com.startup.domain.entity.home.RecentSearchData
 import com.startup.core.base.BaseResponse
 import retrofit2.http.GET
 import retrofit2.http.Path

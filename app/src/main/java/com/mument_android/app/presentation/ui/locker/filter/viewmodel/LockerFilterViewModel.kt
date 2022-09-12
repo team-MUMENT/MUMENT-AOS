@@ -2,7 +2,7 @@ package com.mument_android.app.presentation.ui.locker.filter.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mument_android.app.domain.entity.TagEntity
+import com.startup.domain.entity.TagEntity
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.ImpressiveTag
 

@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mument_android.R
-import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
+import com.startup.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
 import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter

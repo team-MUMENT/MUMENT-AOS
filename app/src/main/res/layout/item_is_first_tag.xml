@@ -4,7 +4,7 @@
     <data>
         <variable
             name="isFirstTag"
-            type="com.mument_android.app.domain.entity.TagEntity" />
+            type="com.startup.domain.entity.TagEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

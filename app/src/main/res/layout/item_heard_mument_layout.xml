@@ -7,7 +7,7 @@
 
         <variable
             name="againMument"
-            type="com.mument_android.app.domain.entity.home.AgainMumentEntity" />
+            type="com.startup.domain.entity.home.AgainMumentEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

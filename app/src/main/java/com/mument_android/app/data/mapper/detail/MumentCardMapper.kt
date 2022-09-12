@@ -1,7 +1,7 @@
 package com.mument_android.app.data.mapper.detail
 
 import com.mument_android.app.data.dto.detail.MusicDetailDto
-import com.mument_android.app.domain.entity.MumentCard
+import com.startup.domain.entity.MumentCard
 import com.startup.core.base.BaseMapper
 import com.startup.core_dependent.util.EmotionalTag.Companion.findEmotionalTagEnum
 import com.startup.core_dependent.util.ImpressiveTag.Companion.findImpressiveTagEnum

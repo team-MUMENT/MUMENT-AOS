@@ -2,9 +2,9 @@ package com.mument_android.app.data.repository
 
 import com.mument_android.app.data.datasource.home.*
 import com.mument_android.app.data.mapper.home.RandomMumentMapper
-import com.mument_android.app.domain.entity.history.MumentHistoryEntity
-import com.mument_android.app.domain.entity.home.*
-import com.mument_android.app.domain.repository.home.HomeRepository
+import com.startup.domain.entity.history.MumentHistoryEntity
+import com.startup.domain.entity.home.*
+import com.startup.domain.repository.home.HomeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

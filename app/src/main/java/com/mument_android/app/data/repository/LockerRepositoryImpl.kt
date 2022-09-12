@@ -2,8 +2,8 @@ package com.mument_android.app.data.repository
 
 import com.mument_android.app.data.datasource.locker.LockerDataSource
 import com.mument_android.app.data.mapper.locker.LockerMapper
-import com.mument_android.app.domain.entity.locker.LockerMumentEntity
-import com.mument_android.app.domain.repository.locker.LockerRepository
+import com.startup.domain.entity.locker.LockerMumentEntity
+import com.startup.domain.repository.locker.LockerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

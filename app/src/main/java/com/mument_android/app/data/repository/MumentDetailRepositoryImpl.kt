@@ -3,8 +3,8 @@ package com.mument_android.app.data.repository
 import com.mument_android.app.data.controller.DeleteMumentController
 import com.mument_android.app.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.app.data.mapper.detail.MumentDetailMapper
-import com.mument_android.app.domain.entity.detail.MumentDetailEntity
-import com.mument_android.app.domain.repository.detail.MumentDetailRepository
+import com.startup.domain.entity.detail.MumentDetailEntity
+import com.startup.domain.repository.detail.MumentDetailRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
