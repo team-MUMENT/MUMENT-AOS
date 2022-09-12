@@ -1,4 +1,4 @@
-package com.mument_android.app.data.mapper
+package com.startup.core.base
 
 interface BaseMapper<F,T> {
     fun map(from: F): T
