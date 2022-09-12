@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
-import com.mument_android.app.domain.entity.home.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
+import com.mument_android.app.domain.entity.home.RecentSearchData
 import com.mument_android.app.domain.entity.record.MumentRecordEntity
 import com.mument_android.app.domain.usecase.record.IsFirstRecordMumentUseCase
 import com.mument_android.app.domain.usecase.record.RecordModifyMumentUseCase

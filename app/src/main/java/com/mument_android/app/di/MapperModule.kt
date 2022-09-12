@@ -2,10 +2,16 @@ package com.mument_android.app.di
 
 import com.mument_android.app.data.mapper.album.MusicInfoMapper
 import com.mument_android.app.data.mapper.album.MusicWithMyMumentMapper
-import com.mument_android.app.data.mapper.detail.*
+import com.mument_android.app.data.mapper.detail.MumentCardMapper
+import com.mument_android.app.data.mapper.detail.MumentDetailMapper
+import com.mument_android.app.data.mapper.detail.MumentSummaryDtoMapper
+import com.mument_android.app.data.mapper.detail.MumentSummaryMapper
 import com.mument_android.app.data.mapper.home.RandomMumentMapper
-import com.mument_android.app.data.mapper.locker.*
-import com.mument_android.app.data.mapper.main.*
+import com.mument_android.app.data.mapper.locker.LockerMapper
+import com.mument_android.app.data.mapper.locker.MumentLockerCardMapper
+import com.mument_android.app.data.mapper.main.EmotionalTagMapper
+import com.mument_android.app.data.mapper.main.ImpressiveTagMapper
+import com.mument_android.app.data.mapper.main.IsFirstTagMapper
 import com.mument_android.app.data.mapper.record.MumentRecordMapper
 import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.mapper.user.UserMapper

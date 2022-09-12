@@ -15,12 +15,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.R
 import com.mument_android.app.domain.entity.home.RecentSearchData
-import com.startup.core.network.ApiResult
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.startup.core_dependent.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
+import com.startup.core.network.ApiResult
+import com.startup.core_dependent.util.AutoClearedValue
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

@@ -4,11 +4,7 @@ import com.mument_android.app.data.dto.record.MumentIsFirstDto
 import com.mument_android.app.data.dto.record.MumentRecordDto
 import com.mument_android.app.data.dto.record.ResponseRecordMumentDto
 import com.startup.core.base.BaseResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 interface RecordApiService {
     @GET("/mument/{userId}/{musicId}/is-first")

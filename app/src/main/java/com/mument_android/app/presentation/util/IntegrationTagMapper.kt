@@ -1,9 +1,9 @@
 package com.mument_android.app.presentation.util
 
+import com.mument_android.app.domain.entity.TagEntity
+import com.startup.core.base.BaseMapper
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.ImpressiveTag
-import com.startup.core.base.BaseMapper
-import com.mument_android.app.domain.entity.TagEntity
 
 /**
  * 감정태그, 인상깊은 부분 태그 종류에 상관없이 TagEntity로 반환

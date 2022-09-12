@@ -2,7 +2,6 @@ package com.startup.core_dependent.util
 
 import androidx.annotation.StringRes
 import com.startup.core_dependent.R
-import java.lang.IllegalArgumentException
 
 enum class ImpressiveTag(val tagIndex: Int, @StringRes val tag: Int) {
     TONE(100, R.string.impressive_tone),

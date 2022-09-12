@@ -2,13 +2,13 @@ package com.mument_android.app.data.mapper.detail
 
 import com.mument_android.app.data.dto.MumentSummaryDto
 import com.mument_android.app.data.dto.MusicDto
-import com.startup.core.base.BaseMapper
 import com.mument_android.app.data.mapper.album.MusicInfoMapper
 import com.mument_android.app.data.mapper.main.EmotionalTagMapper
 import com.mument_android.app.data.mapper.main.ImpressiveTagMapper
 import com.mument_android.app.data.mapper.main.IsFirstTagMapper
 import com.mument_android.app.data.mapper.user.UserMapper
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
+import com.startup.core.base.BaseMapper
 import javax.inject.Inject
 
 class MumentSummaryDtoMapper @Inject constructor(

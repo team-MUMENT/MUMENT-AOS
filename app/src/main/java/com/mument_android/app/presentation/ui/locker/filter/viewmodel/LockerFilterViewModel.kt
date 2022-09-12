@@ -2,9 +2,9 @@ package com.mument_android.app.presentation.ui.locker.filter.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mument_android.app.domain.entity.TagEntity
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.ImpressiveTag
-import com.mument_android.app.domain.entity.TagEntity
 
 class LockerFilterViewModel: ViewModel() {
     val emotionalTags = EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }

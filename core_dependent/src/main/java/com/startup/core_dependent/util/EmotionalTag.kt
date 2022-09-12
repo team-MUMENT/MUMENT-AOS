@@ -2,7 +2,6 @@ package com.startup.core_dependent.util
 
 import androidx.annotation.StringRes
 import com.startup.core_dependent.R
-import java.lang.IllegalArgumentException
 
 /**
  * Enum Class는 열거형 함수인데 kotlin 이외에도 여러 언어에 존재합니다.

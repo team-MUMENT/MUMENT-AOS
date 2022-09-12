@@ -2,21 +2,20 @@ package com.startup.core_dependent.util
 
 import android.app.Activity
 import android.content.Context
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.TextView
-import android.widget.Toast
-import android.util.DisplayMetrics
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
+import android.widget.FrameLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.snackbar.Snackbar
 import com.startup.core_dependent.R
-import java.lang.IllegalArgumentException
 
 
 object ViewUtils {

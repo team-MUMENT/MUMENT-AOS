@@ -1,9 +1,9 @@
 package com.mument_android.app.data.mapper.detail
 
 import com.mument_android.app.data.dto.MumentSummaryDto
-import com.startup.core.base.BaseMapper
 import com.mument_android.app.data.mapper.user.UserMapper
 import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
+import com.startup.core.base.BaseMapper
 import javax.inject.Inject
 
 class MumentSummaryMapper @Inject constructor(

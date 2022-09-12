@@ -10,12 +10,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.mument_android.R
 import com.mument_android.app.domain.entity.detail.MumentDetailEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
-import com.startup.core_dependent.base.BaseActivity
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.app.presentation.ui.record.RecordFragment.Companion.MUMENT_DETAIL_ENTITY
 import com.mument_android.app.presentation.ui.record.RecordFragment.Companion.MUMENT_ID_FOR_EDIT
 import com.mument_android.databinding.ActivityMainBinding
+import com.startup.core_dependent.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -12,18 +12,18 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.BuildConfig
 import com.mument_android.R
-import com.startup.core.network.ApiResult
 import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigatorProvider
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
+import com.mument_android.app.util.StartDestinationChecker.isFromHome
+import com.mument_android.app.util.collectFlowWhenStarted
+import com.mument_android.databinding.FragmentMumentDetailBinding
+import com.startup.core.network.ApiResult
+import com.startup.core_dependent.ext.click
 import com.startup.core_dependent.util.AutoClearedValue
 import com.startup.core_dependent.util.RecyclerviewItemDivider
 import com.startup.core_dependent.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
-import com.mument_android.app.util.StartDestinationChecker.isFromHome
 import com.startup.core_dependent.util.ViewUtils.applyVisibilityAnimation
-import com.startup.core_dependent.ext.click
-import com.mument_android.app.util.collectFlowWhenStarted
-import com.mument_android.databinding.FragmentMumentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

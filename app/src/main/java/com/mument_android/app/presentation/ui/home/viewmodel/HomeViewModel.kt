@@ -4,19 +4,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
-import com.mument_android.app.domain.entity.home.AgainMumentEntity
-import com.mument_android.app.domain.entity.home.TodayMumentEntity
 import com.mument_android.app.domain.entity.MumentCard
+import com.mument_android.app.domain.entity.home.AgainMumentEntity
 import com.mument_android.app.domain.entity.home.BannerEntity
 import com.mument_android.app.domain.entity.home.RandomMumentEntity
+import com.mument_android.app.domain.entity.home.TodayMumentEntity
 import com.mument_android.app.domain.usecase.home.SaveTodayMumentUseCase
 import com.mument_android.app.domain.usecase.home.WhenHomeEnterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.mument_android.app.presentation.ui.locker.viewmodel.LockerViewModel
-import com.startup.core_dependent.util.AutoClearedValue
 import com.mument_android.databinding.FragmentLockerFrameBinding
+import com.startup.core_dependent.util.AutoClearedValue
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

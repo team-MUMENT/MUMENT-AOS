@@ -1,9 +1,9 @@
 package com.mument_android.app.data.mapper.main
 
 import com.mument_android.R
-import com.startup.core.base.BaseMapper
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IS_FIRST
+import com.startup.core.base.BaseMapper
 
 class IsFirstTagMapper: BaseMapper<Boolean, TagEntity> {
     override fun map(from: Boolean): TagEntity =

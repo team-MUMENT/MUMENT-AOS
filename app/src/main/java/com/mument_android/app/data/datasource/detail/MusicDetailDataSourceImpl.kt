@@ -1,8 +1,8 @@
 package com.mument_android.app.data.datasource.detail
 
 import com.mument_android.app.data.dto.detail.MusicDetailDto
-import com.startup.core.base.BaseResponse
 import com.mument_android.app.data.network.detail.DetailApiService
+import com.startup.core.base.BaseResponse
 import javax.inject.Inject
 
 class MusicDetailDataSourceImpl @Inject constructor(

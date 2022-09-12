@@ -2,7 +2,7 @@ package com.mument_android.app.data.local.converter
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import java.util.Date
+import java.util.*
 
 @ProvidedTypeConverter
 class DateTypeConverter {

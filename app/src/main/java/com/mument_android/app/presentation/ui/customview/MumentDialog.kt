@@ -3,16 +3,12 @@ package com.mument_android.app.presentation.ui.customview
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import com.mument_android.databinding.FragmentMumentDialogBinding
 import com.startup.core_dependent.util.AutoClearedValue
 import com.startup.core_dependent.util.ViewUtils.getDeviceSize
-import com.mument_android.databinding.FragmentMumentDialogBinding
 
 class MumentDialog(
     private val header: String?,

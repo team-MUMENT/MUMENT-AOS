@@ -1,19 +1,19 @@
 package com.mument_android.app.presentation.ui.home.history
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.presentation.ui.home.viewmodel.HistoryViewModel
-import com.startup.core_dependent.util.AutoClearedValue
-import com.startup.core_dependent.ext.click
 import com.mument_android.app.util.collectFlowWhenStarted
 import com.mument_android.databinding.FragmentHistoryBinding
+import com.startup.core_dependent.ext.click
+import com.startup.core_dependent.util.AutoClearedValue
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

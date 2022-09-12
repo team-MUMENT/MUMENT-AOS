@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
 import com.mument_android.app.domain.entity.home.RecentSearchData
-import com.startup.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.databinding.ItemSearchListBinding
+import com.startup.core_dependent.util.GlobalDiffCallBack
 
 class SearchListAdapter(
     private val contentClickListener: (RecentSearchData) -> Unit,
