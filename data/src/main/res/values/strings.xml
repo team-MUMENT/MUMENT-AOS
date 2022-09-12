@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tag_is_first">처음</string>
+    <string name="tag_has_heard">다시</string>
+</resources>
