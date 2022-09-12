@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
 import com.mument_android.app.data.dto.home.Mument
-import com.mument_android.app.util.GlobalDiffCallBack
-import com.mument_android.app.util.ViewUtils.dpToPx
+import com.startup.core_dependent.util.GlobalDiffCallBack
+import com.startup.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.databinding.ItemImpressiveEmotionMumentLayoutBinding
 import timber.log.Timber
 

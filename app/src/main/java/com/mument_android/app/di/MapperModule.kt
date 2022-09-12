@@ -9,6 +9,7 @@ import com.mument_android.app.data.mapper.main.*
 import com.mument_android.app.data.mapper.record.MumentRecordMapper
 import com.mument_android.app.data.mapper.record.RecordMapper
 import com.mument_android.app.data.mapper.user.UserMapper
+import com.mument_android.app.presentation.util.IntegrationTagMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

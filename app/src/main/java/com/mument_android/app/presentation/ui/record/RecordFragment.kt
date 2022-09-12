@@ -19,8 +19,8 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.R
-import com.mument_android.app.util.enumtype.EmotionalTag
-import com.mument_android.app.util.enumtype.ImpressiveTag
+import com.startup.core_dependent.util.EmotionalTag
+import com.startup.core_dependent.util.ImpressiveTag
 import com.mument_android.app.domain.entity.home.RecentSearchData
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
@@ -31,11 +31,11 @@ import com.mument_android.app.presentation.ui.customview.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveMusicDetailNavigatorProvider
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
-import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.RecyclerviewItemDivider
-import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
-import com.mument_android.app.util.ViewUtils.dpToPx
-import com.mument_android.app.util.ViewUtils.snackBar
+import com.startup.core_dependent.util.AutoClearedValue
+import com.startup.core_dependent.util.RecyclerviewItemDivider
+import com.startup.core_dependent.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
+import com.startup.core_dependent.util.ViewUtils.dpToPx
+import com.startup.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.FragmentRecordBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber

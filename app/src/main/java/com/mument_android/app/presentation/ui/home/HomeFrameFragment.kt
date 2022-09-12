@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.mument_android.app.util.AutoClearedValue
+import com.startup.core_dependent.util.AutoClearedValue
 import com.mument_android.databinding.FragmentHomeFrameBinding
 import dagger.hilt.android.AndroidEntryPoint
 

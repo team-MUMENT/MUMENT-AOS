@@ -1,7 +1,7 @@
 package com.mument_android.app.data.datasource.home
 
 import com.mument_android.app.data.dto.history.MumentHistoryDto
-import com.mument_android.app.data.network.base.BaseResponse
+import com.startup.core.base.BaseResponse
 import com.mument_android.app.data.network.home.HomeService
 import timber.log.Timber
 import javax.inject.Inject

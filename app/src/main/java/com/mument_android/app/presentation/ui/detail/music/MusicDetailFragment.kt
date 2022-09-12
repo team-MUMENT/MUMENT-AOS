@@ -14,11 +14,11 @@ import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
 import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveRecordProvider
-import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.RecyclerviewItemDivider
-import com.mument_android.app.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
-import com.mument_android.app.util.ViewUtils.dpToPx
-import com.mument_android.app.util.click
+import com.startup.core_dependent.util.AutoClearedValue
+import com.startup.core_dependent.util.RecyclerviewItemDivider
+import com.startup.core_dependent.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
+import com.startup.core_dependent.util.ViewUtils.dpToPx
+import com.startup.core_dependent.ext.click
 import com.mument_android.app.util.collectFlowWhenStarted
 import com.mument_android.databinding.FragmentBaseMusicDetailBinding
 import dagger.hilt.android.AndroidEntryPoint

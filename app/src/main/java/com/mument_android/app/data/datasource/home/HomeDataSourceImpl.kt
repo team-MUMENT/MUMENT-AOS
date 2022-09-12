@@ -4,7 +4,7 @@ import com.mument_android.app.data.dto.home.BannerMumentDto
 import com.mument_android.app.data.dto.home.KnownMumentDto
 import com.mument_android.app.data.dto.home.RandomMumentDto
 import com.mument_android.app.data.dto.home.TodayMumentDto
-import com.mument_android.app.data.network.base.BaseResponse
+import com.startup.core.base.BaseResponse
 import com.mument_android.app.data.network.home.HomeService
 import javax.inject.Inject
 

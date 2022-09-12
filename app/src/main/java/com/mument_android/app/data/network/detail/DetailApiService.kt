@@ -3,7 +3,7 @@ package com.mument_android.app.data.network.detail
 import com.mument_android.app.data.dto.MumentListDto
 import com.mument_android.app.data.dto.detail.MumentDetailDto
 import com.mument_android.app.data.dto.detail.MusicDetailDto
-import com.mument_android.app.data.network.base.BaseResponse
+import com.startup.core.base.BaseResponse
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path

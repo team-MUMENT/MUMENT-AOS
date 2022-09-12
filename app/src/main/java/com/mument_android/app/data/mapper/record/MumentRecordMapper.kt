@@ -1,7 +1,7 @@
 package com.mument_android.app.data.mapper.record
 
 import com.mument_android.app.data.dto.record.MumentRecordDto
-import com.mument_android.app.data.mapper.BaseMapper
+import com.startup.core.base.BaseMapper
 import com.mument_android.app.domain.entity.record.MumentRecordEntity
 
 class MumentRecordMapper : BaseMapper<MumentRecordEntity, MumentRecordDto> {

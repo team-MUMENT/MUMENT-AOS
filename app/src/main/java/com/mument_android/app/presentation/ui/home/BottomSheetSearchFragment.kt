@@ -18,7 +18,7 @@ import com.mument_android.app.domain.entity.home.RecentSearchData
 import com.startup.core.network.ApiResult
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.mument_android.app.util.AutoClearedValue
+import com.startup.core_dependent.util.AutoClearedValue
 import com.mument_android.app.util.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint

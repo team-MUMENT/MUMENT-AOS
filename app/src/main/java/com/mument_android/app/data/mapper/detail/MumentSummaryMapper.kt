@@ -1,7 +1,7 @@
 package com.mument_android.app.data.mapper.detail
 
 import com.mument_android.app.data.dto.MumentSummaryDto
-import com.mument_android.app.data.mapper.BaseMapper
+import com.startup.core.base.BaseMapper
 import com.mument_android.app.data.mapper.user.UserMapper
 import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
 import javax.inject.Inject

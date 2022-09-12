@@ -6,7 +6,7 @@ import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.content.res.ResourcesCompat
 import com.mument_android.R
-import com.mument_android.app.util.ViewUtils.dpToPx
+import com.startup.core_dependent.util.ViewUtils.dpToPx
 
 class MumentTagCheckBox @JvmOverloads constructor(
     context: Context,

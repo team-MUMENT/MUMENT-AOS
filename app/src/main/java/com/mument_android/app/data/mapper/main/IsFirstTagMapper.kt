@@ -1,7 +1,7 @@
 package com.mument_android.app.data.mapper.main
 
 import com.mument_android.R
-import com.mument_android.app.data.mapper.BaseMapper
+import com.startup.core.base.BaseMapper
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IS_FIRST
 

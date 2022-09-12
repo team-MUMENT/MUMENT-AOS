@@ -6,10 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
 import com.mument_android.R
-import com.mument_android.app.util.enumtype.SortTypeEnum
-import com.mument_android.app.util.enumtype.SortTypeEnum.Companion.findSortTypeTag
-import com.mument_android.app.data.mapper.detail.IntegrationTagMapper
-//Todo Data Layer Remove
+import com.startup.core.util.SortTypeEnum
+import com.startup.core.util.SortTypeEnum.Companion.findSortTypeTag
+import com.mument_android.app.presentation.util.IntegrationTagMapper
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.detail.MumentSummaryEntity
 import com.mument_android.app.domain.entity.music.MusicInfoEntity

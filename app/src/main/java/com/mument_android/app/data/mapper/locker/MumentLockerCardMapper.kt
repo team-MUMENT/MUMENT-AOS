@@ -1,10 +1,11 @@
 package com.mument_android.app.data.mapper.locker
 
 import com.mument_android.app.data.dto.locker.LockerMyMumentDto
-import com.mument_android.app.data.mapper.BaseMapper
+import com.startup.core.base.BaseMapper
 import com.mument_android.app.domain.entity.locker.LockerMumentEntity
 
-class MumentLockerCardMapper: BaseMapper<LockerMyMumentDto.Mument, LockerMumentEntity.MumentLockerCard> {
+class MumentLockerCardMapper:
+    BaseMapper<LockerMyMumentDto.Mument, LockerMumentEntity.MumentLockerCard> {
     override fun map(from: LockerMyMumentDto.Mument): LockerMumentEntity.MumentLockerCard {
         return LockerMumentEntity.MumentLockerCard(
             from._id,

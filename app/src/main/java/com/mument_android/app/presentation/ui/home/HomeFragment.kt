@@ -12,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.mument_android.R
-import com.mument_android.app.util.enumtype.EmotionalTag
-import com.mument_android.app.util.enumtype.ImpressiveTag
+import com.startup.core_dependent.util.EmotionalTag
+import com.startup.core_dependent.util.ImpressiveTag
 import com.mument_android.app.domain.entity.TagEntity
 import com.mument_android.app.domain.entity.home.BannerEntity
 import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
@@ -21,7 +21,7 @@ import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel
-import com.mument_android.app.util.AutoClearedValue
+import com.startup.core_dependent.util.AutoClearedValue
 import com.mument_android.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect

@@ -10,8 +10,8 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import com.mument_android.app.util.AutoClearedValue
-import com.mument_android.app.util.ViewUtils.getDeviceSize
+import com.startup.core_dependent.util.AutoClearedValue
+import com.startup.core_dependent.util.ViewUtils.getDeviceSize
 import com.mument_android.databinding.FragmentMumentDialogBinding
 
 class MumentDialog(

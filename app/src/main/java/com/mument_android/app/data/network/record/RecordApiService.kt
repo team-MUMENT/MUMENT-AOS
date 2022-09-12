@@ -3,7 +3,7 @@ package com.mument_android.app.data.network.record
 import com.mument_android.app.data.dto.record.MumentIsFirstDto
 import com.mument_android.app.data.dto.record.MumentRecordDto
 import com.mument_android.app.data.dto.record.ResponseRecordMumentDto
-import com.mument_android.app.data.network.base.BaseResponse
+import com.startup.core.base.BaseResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -28,5 +28,5 @@ interface RecordApiService {
     suspend fun putMumentRecord(
         @Path("mumentId")mumentId : String,
         @Body mumentRecordDto: MumentRecordDto
-    ) :BaseResponse<ResponseRecordMumentDto>
+    ) : BaseResponse<ResponseRecordMumentDto>
 }

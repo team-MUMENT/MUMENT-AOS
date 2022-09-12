@@ -17,6 +17,7 @@ rootProject.name = "Mument_Android"
 include(
     ":app",
     ":core",
+    ":core_dependent",
     ":data",
     ":domain",
     ":feature:login",

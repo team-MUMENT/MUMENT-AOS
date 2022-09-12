@@ -1,7 +1,7 @@
 package com.mument_android.app.data.network.locker
 
 import com.mument_android.app.data.dto.locker.LockerMyMumentDto
-import com.mument_android.app.data.network.base.BaseResponse
+import com.startup.core.base.BaseResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

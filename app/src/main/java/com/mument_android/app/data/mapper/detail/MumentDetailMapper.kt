@@ -1,7 +1,7 @@
 package com.mument_android.app.data.mapper.detail
 
 import com.mument_android.app.data.dto.detail.MumentDetailDto
-import com.mument_android.app.data.mapper.BaseMapper
+import com.startup.core.base.BaseMapper
 import com.mument_android.app.data.mapper.album.MusicInfoMapper
 import com.mument_android.app.data.mapper.main.EmotionalTagMapper
 import com.mument_android.app.data.mapper.main.ImpressiveTagMapper

@@ -19,7 +19,7 @@ import coil.transform.RoundedCornersTransformation
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.mument_android.R
 import com.mument_android.app.domain.entity.TagEntity.Companion.TAG_IS_FIRST
-import com.mument_android.app.util.ViewUtils.dpToPx
+import com.startup.core_dependent.util.ViewUtils.dpToPx
 
 object GlobalBindingAdapter {
     const val EMPTY_PROFILE = "https://mument.s3.ap-northeast-2.amazonaws.com/user/emptyImage.jpg"
