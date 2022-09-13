@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.presentation.ui.home.viewmodel.HistoryViewModel
-import com.mument_android.app.util.collectFlowWhenStarted
+import com.startup.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.databinding.FragmentHistoryBinding
 import com.startup.core_dependent.ext.click
 import com.startup.core_dependent.util.AutoClearedValue

@@ -16,7 +16,7 @@ import com.startup.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigatorProvider
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.util.StartDestinationChecker.isFromHome
-import com.mument_android.app.util.collectFlowWhenStarted
+import com.startup.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.databinding.FragmentMumentDetailBinding
 import com.startup.core.network.ApiResult
 import com.startup.core_dependent.ext.click

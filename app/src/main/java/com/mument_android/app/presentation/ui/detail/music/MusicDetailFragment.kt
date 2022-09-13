@@ -14,7 +14,7 @@ import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
 import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment
 import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveRecordProvider
-import com.mument_android.app.util.collectFlowWhenStarted
+import com.startup.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.databinding.FragmentBaseMusicDetailBinding
 import com.startup.core_dependent.ext.click
 import com.startup.core_dependent.util.AutoClearedValue

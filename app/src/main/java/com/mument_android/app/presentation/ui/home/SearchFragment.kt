@@ -13,7 +13,7 @@ import com.mument_android.R
 import com.startup.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
-import com.mument_android.app.util.launchWhenCreated
+import com.startup.core_dependent.ext.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding
 import com.startup.core.network.ApiResult
 import com.startup.core_dependent.util.AutoClearedValue
