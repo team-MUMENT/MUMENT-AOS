@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detail.mument
+package com.startup.detail.mument
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import com.mument_android.databinding.FragmentEditMumentDialogBinding
 import com.startup.core_dependent.util.AutoClearedValue
+import com.startup.detail.databinding.FragmentEditMumentDialogBinding
 
 class EditMumentDialogFragment(private val editListener: EditListener): DialogFragment() {
     interface EditListener {

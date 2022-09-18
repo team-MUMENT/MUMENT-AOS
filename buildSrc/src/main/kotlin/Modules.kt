@@ -8,4 +8,5 @@ object Modules {
     const val FEATURE_LOGIN_MODULE = ":feature:login"
     const val FEATURE_LOCKER_MODULE = ":feature:locker"
     const val FEATURE_RECORD_MODULE = ":feature:record"
+    const val FEATURE_DETAIL_MODULE = ":feature:detail"
 }

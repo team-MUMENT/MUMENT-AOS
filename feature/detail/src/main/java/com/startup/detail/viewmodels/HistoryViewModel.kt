@@ -1,10 +1,10 @@
-package com.mument_android.app.presentation.ui.home.viewmodel
+package com.startup.detail.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.BuildConfig
+import com.startup.detail.BuildConfig
 import com.startup.domain.entity.history.MumentHistoryEntity
 import com.startup.domain.usecase.home.GetMumentHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

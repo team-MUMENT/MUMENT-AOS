@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/musicDetailFragment"
-        android:name="com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment"
+        android:name="com.startup.detail.music.MusicDetailFragment"
         android:label="MusicDetailFragment"
         tools:layout="@layout/fragment_base_music_detail">
 
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.mument_android.app.presentation.ui.home.history.HistoryFragment"
+        android:name="com.startup.detail.history.HistoryFragment"
         android:label="HistoryFragment"
         tools:layout="@layout/fragment_history">
         <argument
@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/mumentDetailFragment"
-        android:name="com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment"
+        android:name="com.startup.detail.mument.MumentDetailFragment"
         android:label="MumentDetailFragment"
         tools:layout="@layout/fragment_mument_detail">
 

@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mument_android.R
 import com.startup.core_dependent.ui.MumentDialogBuilder
-import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment
+import com.startup.detail.music.MusicDetailFragment
 import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
 import com.startup.core_dependent.ext.launchWhenCreated
 import com.mument_android.databinding.FragmentSearchBinding

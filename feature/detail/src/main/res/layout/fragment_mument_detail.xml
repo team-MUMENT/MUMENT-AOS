@@ -6,14 +6,14 @@
     <data>
         <variable
             name="mumentDetailViewModel"
-            type="com.mument_android.app.presentation.ui.detail.mument.MumentDetailViewModel" />
+            type="com.startup.detail.viewmodels.MumentDetailViewModel" />
         <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".app.presentation.ui.detail.mument.MumentDetailFragment">
+        tools:context="com.startup.detail.mument.MumentDetailFragment">
 
         <ImageView
             android:id="@+id/iv_back_button"

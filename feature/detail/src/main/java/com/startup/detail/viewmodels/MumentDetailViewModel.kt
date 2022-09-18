@@ -1,10 +1,9 @@
-package com.mument_android.app.presentation.ui.detail.mument
+package com.startup.detail.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.BuildConfig
 import com.startup.domain.entity.detail.MumentDetailEntity
 import com.startup.domain.usecase.detail.DeleteMumentUseCase
 import com.startup.domain.usecase.detail.FetchMumentDetailContentUseCase
@@ -12,6 +11,7 @@ import com.startup.domain.usecase.detail.FetchMumentListUseCase
 import com.startup.domain.usecase.main.CancelLikeMumentUseCase
 import com.startup.domain.usecase.main.LikeMumentUseCase
 import com.startup.core.network.ApiResult
+import com.startup.detail.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

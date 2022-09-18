@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detail.mument
+package com.startup.detail.mument
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,28 +10,24 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.mument_android.BuildConfig
-import com.mument_android.R
 import com.startup.core_dependent.ui.MumentDialogBuilder
-import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigatorProvider
-import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
-import com.mument_android.app.util.StartDestinationChecker.isFromHome
 import com.startup.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.databinding.FragmentMumentDetailBinding
 import com.startup.core.network.ApiResult
 import com.startup.core_dependent.ext.click
 import com.startup.core_dependent.util.AutoClearedValue
 import com.startup.core_dependent.util.RecyclerviewItemDivider
 import com.startup.core_dependent.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
 import com.startup.core_dependent.util.ViewUtils.applyVisibilityAnimation
+import com.startup.detail.BuildConfig
+import com.startup.detail.databinding.FragmentMumentDetailBinding
+import com.startup.detail.viewmodels.MumentDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MumentDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
-    @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
+    //@Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,7 +96,7 @@ class MumentDetailFragment : Fragment() {
             EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
                 override fun edit() {
                     viewModel.mumentDetailContent.value.data?.let {
-                        editMumentNavigatorProvider.editMument(viewModel.mumentId.value, it)
+                        //editMumentNavigatorProvider.editMument(viewModel.mumentId.value, it) Todo Navi
                     }
                 }
 
@@ -132,11 +128,11 @@ class MumentDetailFragment : Fragment() {
     private fun goToMusicDetail()  {
         binding.viewAlbumClickArea.setOnClickListener {
             viewModel.mumentDetailContent.value.data?.musicInfo?.id?.let { musicId ->
-                Bundle().also {
+                /*Bundle().also {
                     it.putString(MUSIC_ID, musicId)
                     val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_musicDetailFragment_home else R.id.action_mumentDetailFragment_to_musicDetailFragment_locker
                     findNavController().navigate(actionId, it)
-                }
+                } Todo Navi */
             }
         }
     }
@@ -144,11 +140,11 @@ class MumentDetailFragment : Fragment() {
     private fun goToHistory() {
         binding.tvGoToHistory.setOnClickListener {
             viewModel.mumentDetailContent.value.data?.musicInfo?.id?.let { musicId ->
-                Bundle().also {
+                /*Bundle().also {
                     it.putString(MUSIC_ID, musicId)
                     val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_historyFragment_home else R.id.action_mumentDetailFragment_to_historyFragment_locker
                     findNavController().navigate(actionId, it)
-                }
+                } Todo Navi*/
             }
         }
     }

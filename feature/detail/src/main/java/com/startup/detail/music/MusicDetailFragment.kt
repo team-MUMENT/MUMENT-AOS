@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detail.music
+package com.startup.detail.music
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,27 +8,23 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.mument_android.R
-import com.startup.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
-import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment
-import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
-import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveRecordProvider
 import com.startup.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.databinding.FragmentBaseMusicDetailBinding
 import com.startup.core_dependent.ext.click
 import com.startup.core_dependent.util.AutoClearedValue
 import com.startup.core_dependent.util.RecyclerviewItemDivider
 import com.startup.core_dependent.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
 import com.startup.core_dependent.util.ViewUtils.dpToPx
+import com.startup.detail.databinding.FragmentBaseMusicDetailBinding
+import com.startup.detail.mument.MumentClickListener
+import com.startup.detail.mument.MumentTagListAdapter
+import com.startup.detail.viewmodels.MusicDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MusicDetailFragment(): Fragment() {
     private var binding by AutoClearedValue<FragmentBaseMusicDetailBinding>()
     private val musicDetailViewModel: MusicDetailViewModel by viewModels()
-    @Inject lateinit var recordProvider: MoveRecordProvider
+    //@Inject lateinit var recordProvider: MoveRecordProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +52,7 @@ class MusicDetailFragment(): Fragment() {
     private fun recordMument() {
         binding.tvRecordMument.click {
             musicDetailViewModel.musicInfo.value?.let { musicInfo ->
-                recordProvider.recordMusic(Music(musicInfo.id, musicInfo.name, musicInfo.artist, musicInfo.thumbnail))
+                //recordProvider.recordMusic(Music(musicInfo.id, musicInfo.name, musicInfo.artist, musicInfo.thumbnail))
             }
         }
     }
@@ -83,10 +79,10 @@ class MusicDetailFragment(): Fragment() {
             addItemDecoration(RecyclerviewItemDivider(0, 15.dpToPx(requireContext()), IS_VERTICAL))
             adapter = MusicDetailMumentListAdapter(object : MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
-                    Bundle().also {
+                    /*Bundle().also {
                         it.putString(MumentDetailFragment.MUMENT_ID, mumentId)
                         findNavController().navigate(R.id.action_homeMusicDetailFragment_to_mumentDetailFragment, it)
-                    }
+                    } Todo Navi*/
                 }
 
                 override fun likeMument(mumentId: String) {
@@ -115,18 +111,18 @@ class MusicDetailFragment(): Fragment() {
 
     private fun moveToHistoryFragment() {
         binding.tvShowMyHistory.click {
-            Bundle().also {
+            /*Bundle().also {
                 it.putString(MUSIC_ID, musicDetailViewModel.musicId.value ?: "")
                 findNavController().navigate(R.id.action_musicDetailFragment_to_historyFragment, it)
-            }
+            } Todo Navi*/
         }
 
         binding.layoutMyMument.root.setOnClickListener {
             musicDetailViewModel.myMument.value?.let {
-                Bundle().also {
+                /*Bundle().also {
                     it.putString(MUSIC_ID, musicDetailViewModel.musicId.value ?: "")
                     findNavController().navigate(R.id.action_musicDetailFragment_to_historyFragment, it)
-                }
+                } Todo Navi*/
             }
         }
     }

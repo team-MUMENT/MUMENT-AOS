@@ -15,9 +15,9 @@ import com.mument_android.R
 import com.startup.domain.entity.TagEntity
 import com.startup.domain.entity.home.BannerEntity
 import com.startup.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.MUMENT_ID
-import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
-import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
+import com.startup.detail.mument.MumentDetailFragment.Companion.MUMENT_ID
+import com.startup.detail.mument.MumentTagListAdapter
+import com.startup.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel
 import com.mument_android.databinding.FragmentHomeBinding
 import com.startup.core_dependent.util.AutoClearedValue

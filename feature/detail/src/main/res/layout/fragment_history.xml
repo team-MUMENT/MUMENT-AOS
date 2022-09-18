@@ -6,7 +6,7 @@
 
         <variable
             name="historyviewmodel"
-            type="com.mument_android.app.presentation.ui.home.viewmodel.HistoryViewModel" />
+            type="com.startup.detail.viewmodels.HistoryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

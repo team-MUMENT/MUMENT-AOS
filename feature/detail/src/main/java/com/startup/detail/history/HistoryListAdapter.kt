@@ -1,18 +1,18 @@
-package com.mument_android.app.presentation.ui.home.history
+package com.startup.detail.history
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.BR
 import com.startup.domain.entity.TagEntity
 import com.startup.domain.entity.history.MumentHistory
-import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
-import com.mument_android.databinding.ItemMumentLayoutBinding
+import com.startup.detail.mument.MumentTagListAdapter
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.GlobalDiffCallBack
 import com.startup.core_dependent.util.ImpressiveTag
+import com.startup.detail.BR
+import com.startup.detail.databinding.ItemMumentLayoutBinding
 
 class HistoryListAdapter(val context: Context) :
     ListAdapter<MumentHistory, HistoryListAdapter.HistoryViewHolder>(GlobalDiffCallBack<MumentHistory>()) {

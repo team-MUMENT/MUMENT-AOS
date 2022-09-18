@@ -1,26 +1,26 @@
-package com.mument_android.app.presentation.ui.detail.music
+package com.startup.detail.music
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.BR
-import com.mument_android.R
 import com.startup.domain.entity.TagEntity
 import com.startup.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
 import com.startup.domain.entity.TagEntity.Companion.TAG_IMPRESSIVE
 import com.startup.domain.entity.TagEntity.Companion.TAG_IS_FIRST
 import com.startup.domain.entity.detail.MumentSummaryEntity
-import com.mument_android.app.presentation.ui.detail.mument.MumentClickListener
-import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
-import com.mument_android.databinding.ItemMusicDetailListBinding
 import com.startup.core_dependent.util.EmotionalTag.Companion.findEmotionalStringTag
 import com.startup.core_dependent.util.GlobalDiffCallBack
 import com.startup.core_dependent.util.ImpressiveTag.Companion.findImpressiveStringTag
+import com.startup.detail.R
+import com.startup.detail.databinding.ItemMusicDetailListBinding
+import com.startup.detail.mument.MumentClickListener
+import com.startup.detail.mument.MumentTagListAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.startup.detail.BR
 
 class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickListener): ListAdapter<MumentSummaryEntity, MusicDetailMumentListAdapter.MusicDetailMumentListViewHolder>(
     GlobalDiffCallBack<MumentSummaryEntity>()

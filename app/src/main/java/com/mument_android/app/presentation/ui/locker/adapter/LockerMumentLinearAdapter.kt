@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.BR
 import com.startup.domain.entity.TagEntity
 import com.startup.domain.entity.locker.LockerMumentEntity
-import com.mument_android.app.presentation.ui.detail.mument.MumentTagListAdapter
+import com.startup.detail.mument.MumentTagListAdapter
 import com.mument_android.app.presentation.ui.locker.LikeMumentListener
 import com.mument_android.databinding.ItemLockerCardBinding
 import com.startup.core_dependent.util.EmotionalTag

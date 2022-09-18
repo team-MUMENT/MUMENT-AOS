@@ -1,7 +1,7 @@
 package com.mument_android.app.presentation.ui.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.mument_android.app.presentation.ui.detail.mument.MumentDetailViewModel
+import com.startup.detail.viewmodels.MumentDetailViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher

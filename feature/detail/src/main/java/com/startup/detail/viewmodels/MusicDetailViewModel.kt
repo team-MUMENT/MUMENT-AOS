@@ -1,11 +1,9 @@
-package com.mument_android.app.presentation.ui.detail.music
+package com.startup.detail.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.BuildConfig
-import com.mument_android.R
 import com.startup.domain.entity.TagEntity
 import com.startup.domain.entity.detail.MumentSummaryEntity
 import com.startup.domain.entity.music.MusicInfoEntity
@@ -13,9 +11,11 @@ import com.startup.domain.usecase.detail.FetchMumentListUseCase
 import com.startup.domain.usecase.detail.FetchMusicDetailUseCase
 import com.startup.domain.usecase.main.CancelLikeMumentUseCase
 import com.startup.domain.usecase.main.LikeMumentUseCase
-import com.mument_android.app.presentation.util.IntegrationTagMapper
 import com.startup.core.util.SortTypeEnum
 import com.startup.core.util.SortTypeEnum.Companion.findSortTypeTag
+import com.startup.detail.BuildConfig
+import com.startup.detail.R
+import com.startup.detail.util.IntegrationTagMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

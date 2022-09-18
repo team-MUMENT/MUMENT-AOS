@@ -1,13 +1,13 @@
-package com.mument_android.app.presentation.ui.detail.mument
+package com.startup.detail.mument
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.BR
 import com.startup.domain.entity.TagEntity
-import com.mument_android.databinding.ItemMumentStringTagBinding
 import com.startup.core_dependent.util.GlobalDiffCallBack
+import com.startup.detail.BR
+import com.startup.detail.databinding.ItemMumentStringTagBinding
 
 class MumentTagListAdapter: ListAdapter<TagEntity, MumentTagListAdapter.MumentTagListViewHolder>(
     GlobalDiffCallBack<TagEntity>()

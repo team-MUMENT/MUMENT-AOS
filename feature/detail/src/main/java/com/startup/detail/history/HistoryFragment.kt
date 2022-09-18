@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.home.history
+package com.startup.detail.history
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mument_android.app.presentation.ui.detail.music.MusicDetailFragment.Companion.MUSIC_ID
-import com.mument_android.app.presentation.ui.home.viewmodel.HistoryViewModel
+import com.startup.detail.music.MusicDetailFragment.Companion.MUSIC_ID
+import com.startup.detail.viewmodels.HistoryViewModel
 import com.startup.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.databinding.FragmentHistoryBinding
 import com.startup.core_dependent.ext.click
 import com.startup.core_dependent.util.AutoClearedValue
+import com.startup.detail.databinding.FragmentHistoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,8 +50,6 @@ class HistoryFragment : Fragment() {
 
         historyViewModel.getHistory()
         collectType()
-
-
     }
 
 

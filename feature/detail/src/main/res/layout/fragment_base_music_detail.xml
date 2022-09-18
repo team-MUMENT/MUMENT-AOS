@@ -5,20 +5,19 @@
     <data>
         <variable
             name="musicDetailViewModel"
-            type="com.mument_android.app.presentation.ui.detail.music.MusicDetailViewModel" />
+            type="com.startup.detail.viewmodels.MusicDetailViewModel" />
         <import type="android.view.View"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".app.presentation.ui.detail.music.MusicDetailFragment">
+        tools:context="com.startup.detail.music.MusicDetailFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"

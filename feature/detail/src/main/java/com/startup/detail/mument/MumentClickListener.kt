@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detail.mument
+package com.startup.detail.mument
 
 interface MumentClickListener {
     fun showMumentDetail(mumentId: String)

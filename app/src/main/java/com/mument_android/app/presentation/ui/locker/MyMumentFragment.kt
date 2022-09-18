@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mument_android.R
-import com.mument_android.app.presentation.ui.detail.mument.MumentDetailFragment.Companion.MUMENT_ID
+import com.startup.detail.mument.MumentDetailFragment.Companion.MUMENT_ID
 import com.mument_android.app.presentation.ui.locker.adapter.FilterBottomSheetSelectedAdapter
 import com.mument_android.app.presentation.ui.locker.adapter.LockerTimeAdapter
 import com.mument_android.app.presentation.ui.locker.filter.LockerFilterBottomSheetFragment

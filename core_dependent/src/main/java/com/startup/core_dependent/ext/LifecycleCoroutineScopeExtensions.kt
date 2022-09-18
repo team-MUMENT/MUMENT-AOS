@@ -13,7 +13,7 @@ inline fun <T> StateFlow<T>.launchWhenCreated(
     lifecycleScope: LifecycleCoroutineScope,
     crossinline callback: (T) -> Unit
 ) {
-    lifecycleScope.launchWhenCreated { collect { callback(it) } }
+    lifecycleScope.launch { collect { callback(it) } }
 }
 
 inline fun <T, R> R.collectFlow(
