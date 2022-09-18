@@ -78,4 +78,5 @@ dependencies {
     implementation(project(Modules.FEATURE_LOGIN_MODULE))
     implementation(project(Modules.FEATURE_HOME_MODULE))
     implementation(project(Modules.FEATURE_RECORD_MODULE))
+    implementation(project(Modules.FEATURE_DETAIL_MODULE))
 }

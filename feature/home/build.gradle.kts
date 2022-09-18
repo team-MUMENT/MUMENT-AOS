@@ -34,14 +34,19 @@ android {
     kotlinOptions {
         jvmTarget = DefaultConfig.JVM_TARGET
     }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
-        addAndroidXDependencies()
-        addTestDependencies()
-        addNavigationDependencies()
-        addDaggerHiltDependencies()
-        addLifecycleDependencies()
+    addAndroidXDependencies()
+    addTestDependencies()
+    addNavigationDependencies()
+    addDaggerHiltDependencies()
+    addLifecycleDependencies()
     implementation(ThirdPartyDependencies.coil)
     implementation(KotlinDependencies.coroutines)
     implementation(AndroidXDependencies.coroutines)
