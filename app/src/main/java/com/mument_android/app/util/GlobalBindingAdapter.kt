@@ -1,14 +1,7 @@
 package com.mument_android.app.util
 
-import android.graphics.drawable.Drawable
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.method.ScrollingMovementMethod
-import android.text.style.ImageSpan
 import android.util.TypedValue
-import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -16,7 +9,6 @@ import androidx.databinding.BindingAdapter
 import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.mument_android.R
 import com.startup.domain.entity.TagEntity.Companion.TAG_IS_FIRST
 import com.startup.core_dependent.util.ViewUtils.dpToPx
@@ -118,12 +110,6 @@ object GlobalBindingAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("setMovementMethod")
-    fun TextView.setMovementMethod(scroll: Boolean) {
-        if (scroll) movementMethod = ScrollingMovementMethod()
-    }
-
-    @JvmStatic
     @BindingAdapter("setTagType")
     fun AppCompatTextView.setTagType(tagType: String) {
         val backgroundDrawable =
@@ -151,20 +137,6 @@ object GlobalBindingAdapter {
 
 
     @JvmStatic
-    @BindingAdapter(value = ["stringRes", "drawableIcon"])
-    fun AppCompatTextView.setDrawableLeftGravityCenter(stringRes: String, drawableIcon: Drawable) {
-        text = SpannableString("   $stringRes").apply {
-            drawableIcon.setBounds(0, 0, drawableIcon.intrinsicWidth, drawableIcon.intrinsicHeight)
-            setSpan(
-                ImageSpan(drawableIcon),
-                0,
-                1,
-                Spannable.SPAN_INCLUSIVE_EXCLUSIVE
-            )
-        }
-    }
-
-    @JvmStatic
     @BindingAdapter("emptyView")
     fun setEmptyView(view: ImageView, option: Int) {
         when (option) {
@@ -177,45 +149,6 @@ object GlobalBindingAdapter {
             3 -> {
                 view.setImageResource(R.drawable.ic_alert)
             }
-        }
-    }
-
-    @JvmStatic
-    @BindingAdapter("toolbarElipseTitle")
-    fun CollapsingToolbarLayout.setToolbarEllipsize(name: String?) {
-        name?.let {
-            title = if(it.count() > 16) {
-                it.substring(0,15) + "..."
-            } else {
-                it
-            }
-        }
-    }
-
-    @JvmStatic
-    @BindingAdapter("setTextEllipse")
-    fun TextView.setTextViewEllipse(name: String?) {
-        name?.let {
-            text = if(it.count() > 16) {
-                it.substring(0,15) + "..."
-            } else {
-                it
-            }
-        }
-    }
-
-    @BindingAdapter("isLike")
-    fun setLike(imageView: ImageView, option : Boolean) {
-        imageView.isSelected = option
-    }
-
-    @JvmStatic
-    @BindingAdapter("isPrivate")
-    fun isPrivate(imageView: ImageView, option: Boolean) {
-        if(!option){
-            imageView.visibility = View.GONE
-        }else{
-            imageView.visibility = View.VISIBLE
         }
     }
 

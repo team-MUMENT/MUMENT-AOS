@@ -25,7 +25,6 @@ class RecordTagAdapter(
     }
 
     val selectedTags = mutableListOf<TagEntity>()
-    var enabled: Boolean = true
     var reset: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordTagViewHolder {

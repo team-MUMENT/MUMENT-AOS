@@ -69,10 +69,6 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    suspend fun selectMusicList(data: RecentSearchData) = withContext(Dispatchers.IO) {
-        cruRecentSearchListUseCase.insertOrUpdateRecentSearchItem(data)
-    }
-
     fun insertOrUpdateRecentItem(data: RecentSearchData) {
         viewModelScope.launch(Dispatchers.IO) {
             cruRecentSearchListUseCase.insertOrUpdateRecentSearchItem(data)
