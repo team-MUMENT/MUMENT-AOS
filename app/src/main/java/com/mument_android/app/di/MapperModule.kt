@@ -15,7 +15,6 @@ import com.startup.data.mapper.main.IsFirstTagMapper
 import com.startup.data.mapper.record.MumentRecordMapper
 import com.startup.data.mapper.record.RecordMapper
 import com.startup.data.mapper.user.UserMapper
-import com.mument_android.app.presentation.util.IntegrationTagMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -105,9 +104,5 @@ object MapperModule {
         mumentSummaryMapper: MumentSummaryMapper
     ): MusicWithMyMumentMapper =
         MusicWithMyMumentMapper(musicInfoMapper, mumentSummaryMapper)
-
-    @Provides
-    @Singleton
-    fun provideIntegrationTagEntityMapper(): IntegrationTagMapper = IntegrationTagMapper()
 
 }
