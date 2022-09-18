@@ -23,5 +23,6 @@ include(
     ":feature:login",
     ":feature:locker",
     ":feature:record",
-    ":feature:home"
+    ":feature:home",
+    ":feature:detail"
 )
