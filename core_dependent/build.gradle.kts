@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
     id("kotlin-kapt")
 }
 
@@ -42,4 +43,5 @@ dependencies {
     addAndroidXDependencies()
     addTestDependencies()
     addLifecycleDependencies()
+    implementation(project(Modules.CORE_MODULE))
 }

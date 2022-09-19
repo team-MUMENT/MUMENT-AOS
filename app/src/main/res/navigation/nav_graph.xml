@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/fragment_locker_frame"
-        android:name="com.mument_android.app.presentation.ui.locker.LockerFrameFragment"
+        android:name="com.startup.locker.LockerFrameFragment"
         android:label="fragment_third"
         tools:layout="@layout/fragment_locker_frame" />
 </navigation>

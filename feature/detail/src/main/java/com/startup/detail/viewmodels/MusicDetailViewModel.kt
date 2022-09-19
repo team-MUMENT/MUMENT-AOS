@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.startup.domain.entity.TagEntity
+import com.startup.core.TagEntity
 import com.startup.domain.entity.detail.MumentSummaryEntity
 import com.startup.domain.entity.music.MusicInfoEntity
 import com.startup.domain.usecase.detail.FetchMumentListUseCase

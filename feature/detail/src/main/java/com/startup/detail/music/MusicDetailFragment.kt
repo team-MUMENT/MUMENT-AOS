@@ -16,7 +16,7 @@ import com.startup.core_dependent.util.RecyclerviewItemDivider.Companion.IS_VERT
 import com.startup.core_dependent.util.ViewUtils.dpToPx
 import com.startup.detail.databinding.FragmentBaseMusicDetailBinding
 import com.startup.detail.mument.MumentClickListener
-import com.startup.detail.mument.MumentTagListAdapter
+import com.startup.core_dependent.MumentTagListAdapter
 import com.startup.detail.viewmodels.MusicDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -43,4 +43,5 @@ dependencies {
     implementation(ThirdPartyDependencies.gson)
     implementation(KotlinDependencies.kotlinxSerialization)
     implementation(AndroidXDependencies.coroutines)
+    implementation(project(Modules.CORE_MODULE))
 }

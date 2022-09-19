@@ -6,7 +6,6 @@ import android.text.SpannableString
 import android.text.method.ScrollingMovementMethod
 import android.text.style.ImageSpan
 import android.util.TypedValue
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
@@ -17,7 +16,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.startup.domain.entity.TagEntity.Companion.TAG_IS_FIRST
+import com.startup.core.TagEntity.Companion.TAG_IS_FIRST
 import com.startup.core_dependent.util.ViewUtils.dpToPx
 import com.startup.detail.R
 

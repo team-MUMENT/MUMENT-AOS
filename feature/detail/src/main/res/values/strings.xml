@@ -14,7 +14,6 @@
     <string name="like_count_integer_format">%d명이 좋아합니다.</string>
     <string name="go_to_mument_history_integer_format">%d개의 뮤멘트가 있는 히스토리 보러가기</string>
     <string name="record_mument">뮤멘트 기록하기</string>
-    <string name="doesnt_exist_recorded_mument">아직 뮤멘트가 없어요.</string>
     <string name="write_earliest_mument">가장 먼저 뮤멘트를 남겨보세요.</string>
     <string name="write_first_mument">첫 뮤멘트를 남겨보세요.</string>
 </resources>

@@ -1,7 +1,7 @@
 package com.startup.data.mapper.main
 
-import com.startup.domain.entity.TagEntity
-import com.startup.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
+import com.startup.core.TagEntity
+import com.startup.core.TagEntity.Companion.TAG_EMOTIONAL
 import com.startup.core.base.BaseMapper
 import com.startup.core_dependent.util.EmotionalTag.Companion.findEmotionalStringTag
 

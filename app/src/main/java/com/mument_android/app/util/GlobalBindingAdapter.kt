@@ -10,7 +10,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.mument_android.R
-import com.startup.domain.entity.TagEntity.Companion.TAG_IS_FIRST
+import com.startup.core.TagEntity.Companion.TAG_IS_FIRST
 import com.startup.core_dependent.util.ViewUtils.dpToPx
 
 object GlobalBindingAdapter {

@@ -13,6 +13,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.startup.core_dependent.ui.MumentDialogBuilder
 import com.startup.core_dependent.ext.collectFlowWhenStarted
 import com.startup.core.network.ApiResult
+import com.startup.core_dependent.MumentTagListAdapter
 import com.startup.core_dependent.ext.click
 import com.startup.core_dependent.util.AutoClearedValue
 import com.startup.core_dependent.util.RecyclerviewItemDivider

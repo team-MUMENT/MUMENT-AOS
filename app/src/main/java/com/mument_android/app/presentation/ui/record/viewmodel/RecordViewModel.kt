@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
-import com.startup.domain.entity.TagEntity
+import com.startup.core.TagEntity
 import com.startup.domain.entity.detail.MumentDetailEntity
 import com.startup.domain.entity.home.RecentSearchData
 import com.startup.domain.entity.record.MumentRecordEntity

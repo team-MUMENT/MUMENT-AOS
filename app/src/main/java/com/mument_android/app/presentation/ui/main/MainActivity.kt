@@ -50,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
                 R.id.fragment_record -> {
                     if (viewModel.checkHasBundle()) {
                         bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
-                        bundle.putParcelable(
+                        bundle.putSerializable(
                             MUMENT_DETAIL_ENTITY,
                             viewModel.mumentDetailContents.value
                         )

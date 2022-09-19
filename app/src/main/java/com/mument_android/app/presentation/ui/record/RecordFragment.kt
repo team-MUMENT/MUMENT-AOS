@@ -19,9 +19,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.R
-import com.startup.domain.entity.TagEntity
-import com.startup.domain.entity.TagEntity.Companion.TAG_EMOTIONAL
-import com.startup.domain.entity.TagEntity.Companion.TAG_IMPRESSIVE
 import com.startup.domain.entity.detail.MumentDetailEntity
 import com.startup.domain.entity.home.RecentSearchData
 import com.startup.domain.entity.musicdetail.musicdetaildata.Music
@@ -30,6 +27,9 @@ import com.mument_android.app.presentation.ui.detail.mument.navigator.MoveMusicD
 import com.mument_android.app.presentation.ui.home.BottomSheetSearchFragment
 import com.mument_android.app.presentation.ui.record.viewmodel.RecordViewModel
 import com.mument_android.databinding.FragmentRecordBinding
+import com.startup.core.TagEntity
+import com.startup.core.TagEntity.Companion.TAG_EMOTIONAL
+import com.startup.core.TagEntity.Companion.TAG_IMPRESSIVE
 import com.startup.core_dependent.util.AutoClearedValue
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.ImpressiveTag
@@ -78,7 +78,7 @@ class RecordFragment : Fragment() {
             recordViewModel.mumentId.value = it
         }
 
-        arguments?.getParcelable<MumentDetailEntity>(MUMENT_DETAIL_ENTITY)?.let {
+        (arguments?.getSerializable(MUMENT_DETAIL_ENTITY) as MumentDetailEntity).let {
             recordViewModel.mumentData.value = it
             if (it.isFirst.tagIdx == 1) {
                 recordViewModel.changeIsFirst(true)
