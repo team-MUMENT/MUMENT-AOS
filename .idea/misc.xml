@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/rectangle_fill_blue1_14dp.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/rectangle_fill_blue3_20dp.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/rectangle_fill_gray5_20dp.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_purple2_20dp.xml" value="0.157" />
         <entry key="app/src/main/res/drawable/rectangle_fill_purple_11dp.xml" value="0.1785" />
         <entry key="app/src/main/res/drawable/retangle_fill_gray3_14dp.xml" value="0.166" />
         <entry key="app/src/main/res/drawable/retangle_fill_gray5.xml" value="0.151" />
@@ -62,6 +63,31 @@
         <entry key="app/src/main/res/layout/item_tag_checkbox.xml" value="0.7323455810546875" />
         <entry key="app/src/main/res/layout/mument_layout_cardview.xml" value="0.2546816479400749" />
         <entry key="app/src/main/res/menu/menu_bottom_navi.xml" value="0.29583333333333334" />
+        <entry key="core_dependent/src/main/res/drawable/rectangle_fill_blue3_20dp.xml" value="0.151" />
+        <entry key="core_dependent/src/main/res/drawable/rectangle_fill_gray5_11dp.xml" value="0.151" />
+        <entry key="core_dependent/src/main/res/drawable/rectangle_fill_purple2_20dp.xml" value="0.157" />
+        <entry key="core_dependent/src/main/res/layout/item_mument_string_tag.xml" value="0.14739583333333334" />
+        <entry key="feature/detail/src/main/res/drawable/selector_heart_on_off.xml" value="0.151" />
+        <entry key="feature/detail/src/main/res/layout/item_mument_string_tag.xml" value="0.17291666666666666" />
+        <entry key="feature/locker/src/main/res/drawable-v24/rectangle_fill_blue3_20dp.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/drawable-v24/rectangle_fill_gray5_20dp.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/drawable-v24/rectangle_fill_purple2_20dp.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/drawable-v24/rectangle_fill_purple_11dp.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/drawable-v24/selector_heart_on_off.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/drawable-v24/shape_border_default_redius_11dp.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/font/noto_sans.xml" value="0.17135416666666667" />
+        <entry key="feature/locker/src/main/res/layout/fragment_locker.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_locker_filter_bottom_sheet.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_locker_frame.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_locker_like_filter_bottom_sheet.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_my_like.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_my_mument.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_locker_card.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_locker_date.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_mument_filter_string_tag.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_mument_image.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_mument_string_tag.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_tag_checkbox.xml" value="0.14114583333333333" />
       </map>
     </option>
   </component>
