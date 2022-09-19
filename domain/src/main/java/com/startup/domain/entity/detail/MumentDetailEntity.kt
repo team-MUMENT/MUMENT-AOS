@@ -1,12 +1,10 @@
 package com.startup.domain.entity.detail
 
-import android.os.Parcelable
-import com.startup.domain.entity.TagEntity
+import com.startup.core.TagEntity
 import com.startup.domain.entity.music.MusicInfoEntity
 import com.startup.domain.entity.user.UserEntity
-import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
-@Parcelize
 data class MumentDetailEntity(
     val writerInfo: UserEntity,
     val musicInfo: MusicInfoEntity,
@@ -18,7 +16,7 @@ data class MumentDetailEntity(
     val isLiked: Boolean,
     val mumentHistoryCount: Int,
     val likeCount: Int
-): Parcelable {
+): Serializable {
     fun combineTags(): List<TagEntity> {
         return mutableListOf<TagEntity>().also {
             it.add(isFirst)
