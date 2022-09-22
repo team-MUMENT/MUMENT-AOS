@@ -42,9 +42,9 @@ class RecordFragment : Fragment() {
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
 
-   /* @Inject
-    lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
-*/
+    /* @Inject
+     lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
+ */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -257,10 +257,10 @@ class RecordFragment : Fragment() {
                     if (recordViewModel.mumentData.value!!.isFirst.tagIdx == 0) {
                         if (it) {
                             binding.btnRecordFirst.isChangeButtonFont(it)
-                            binding.btnRecordSecond.isChangeButtonFont(!it)
+                            binding.btnRecordSecond.isChangeButtonFont(false)
                         } else {
                             binding.btnRecordFirst.isChangeButtonFont(it)
-                            binding.btnRecordSecond.isChangeButtonFont(!it)
+                            binding.btnRecordSecond.isChangeButtonFont(true)
                             binding.btnRecordFirst.isClickable = false
                         }
                     } else {
@@ -270,10 +270,10 @@ class RecordFragment : Fragment() {
                 } else {
                     if (!it) {
                         binding.btnRecordFirst.isChangeButtonFont(it)
-                        binding.btnRecordSecond.isChangeButtonFont(!it)
+                        binding.btnRecordSecond.isChangeButtonFont(true)
                         binding.btnRecordFirst.isClickable = false
                     } else {
-                        binding.btnRecordFirst.isChangeButtonFont(!it)
+                        binding.btnRecordFirst.isChangeButtonFont(false)
                         binding.btnRecordSecond.isChangeButtonFont(it)
                     }
                 }
@@ -333,7 +333,7 @@ class RecordFragment : Fragment() {
         recordViewModel.mumentContent.observe(viewLifecycleOwner) {
             if (it.length >= 1000) {
                 binding.tvRecordTextNum.isChangeRedLine()
-            } else if (it.length <= 999) {
+            } else {
                 binding.tvRecordTextNum.isChangeBlack()
             }
         }
@@ -346,7 +346,7 @@ class RecordFragment : Fragment() {
                     recordViewModel.selectedMusic.value?.let { it1 ->
                         /*moveMusicDetailNavigatorProvider.musicMument(
                             it1._id
-                        )*/
+                        )Todo Navi*/
                     }
                 }
             }
