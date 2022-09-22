@@ -24,8 +24,7 @@
         android:id="@+id/cl_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="true"
-        tools:context=".app.presentation.ui.home.BottomSheetSearchFragment">
+        android:clipChildren="true">
 
         <ImageView
             android:id="@+id/iv_back"

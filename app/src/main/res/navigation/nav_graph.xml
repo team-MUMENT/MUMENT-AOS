@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/fragment_record"
-        android:name="com.mument_android.app.presentation.ui.record.RecordFragment"
+        android:name="com.startup.record.RecordFragment"
         android:label="fragment_second"
         tools:layout="@layout/fragment_record">
         <argument android:name="mumment_id_for_edit"

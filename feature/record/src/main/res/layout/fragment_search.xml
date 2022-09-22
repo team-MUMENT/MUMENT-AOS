@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="option"
+            type="Boolean" />
+
+        <variable
+            name="searchOption"
+            type="Boolean" />
+
+        <variable
+            name="viewmodel"
+            type="com.startup.record.SearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="true"
+        tools:context="com.startup.record.BottomSheetSearchFragment">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:paddingEnd="4dp"
+            android:src="@drawable/ic_back"
+            android:visibility="@{option==true? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/et_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_search" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangle_fill_gray5_11dp"
+            android:hint="곡 아티스트"
+            android:imeOptions="actionDone"
+            android:inputType="text|textNoSuggestions"
+            android:maxLines="1"
+            android:paddingStart="40dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="48dp"
+            android:paddingBottom="9dp"
+            android:textAppearance="@style/TextView.Mument_B4_M14.TextAppearance"
+            android:textColor="@color/mument_color_black2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_back"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toBottomOf="@id/et_search"
+            app:layout_constraintStart_toStartOf="@id/et_search"
+            app:layout_constraintTop_toTopOf="@id/et_search" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="14dp"
+            android:src="@drawable/ic_delete_circle"
+            app:layout_constraintBottom_toBottomOf="@id/et_search"
+            app:layout_constraintEnd_toEndOf="@id/et_search"
+            app:layout_constraintTop_toTopOf="@id/et_search" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_search">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/ll_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_recent_search"
+                        style="@style/TextView.Mument_H2_B18.Style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="30dp"
+                        android:text="최근 검색한 곡"
+                        android:textColor="@color/mument_color_black1"
+                        android:visibility="@{viewmodel.searchList.data.size()==0||searchOption? View.GONE:View.VISIBLE}" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/et_all_delete"
+                        style="@style/TextView.Mument_B7_M12.Style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="14dp"
+                        android:text="모두 삭제"
+                        android:textColor="@color/mument_color_gray2"
+                        android:visibility="@{viewmodel.searchList.data.size()==0||option==false||searchOption? View.GONE:View.VISIBLE}" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rc_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginTop="25dp"
+                    android:overScrollMode="never"
+                    android:visibility="@{viewmodel.searchList.data.size() == 0 &amp;&amp; viewmodel.searchResultList.data.size() == 0? View.GONE : View.VISIBLE}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_title"
+                    tools:listitem="@layout/item_search_list" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ImageView
+            android:id="@+id/iv_empty"
+            emptyView="@{searchOption?3:option?1:2}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:visibility="@{((viewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(viewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_search"
+            tools:src="@drawable/empty_mument" />
+
+        <TextView
+            android:id="@+id/tv_empty_title"
+            style="@style/TextView.Mument_H3_B16.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@{searchOption?@string/search_result_empty_header(viewmodel.searchText):option?@string/search_empty_header:@string/search_record_empty_header}"
+            android:textColor="@color/mument_color_gray1"
+            android:visibility="@{((viewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(viewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
+
+        <TextView
+            android:id="@+id/tv_empty_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:text="@{searchOption?@string/search_result_empty_body:@string/search_empty_body}"
+            android:textColor="@color/mument_color_gray2"
+            android:visibility="@{((viewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(viewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_empty_title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
