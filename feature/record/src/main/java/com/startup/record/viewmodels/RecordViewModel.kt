@@ -1,4 +1,4 @@
-package com.startup.record
+package com.startup.record.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +11,7 @@ import com.startup.domain.entity.record.MumentRecordEntity
 import com.startup.domain.usecase.record.IsFirstRecordMumentUseCase
 import com.startup.domain.usecase.record.RecordModifyMumentUseCase
 import com.startup.domain.usecase.record.RecordMumentUseCase
+import com.startup.record.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect

@@ -19,6 +19,7 @@ import com.startup.core.network.ApiResult
 import com.startup.core_dependent.ext.launchWhenCreated
 import com.startup.core_dependent.util.AutoClearedValue
 import com.startup.record.databinding.FragmentSearchBinding
+import com.startup.record.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

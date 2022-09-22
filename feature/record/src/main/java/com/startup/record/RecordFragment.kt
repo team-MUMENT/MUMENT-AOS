@@ -33,6 +33,7 @@ import com.startup.core_dependent.util.RecyclerviewItemDivider.Companion.IS_GRID
 import com.startup.core_dependent.util.ViewUtils.dpToPx
 import com.startup.core_dependent.util.ViewUtils.snackBar
 import com.startup.record.databinding.FragmentRecordBinding
+import com.startup.record.viewmodels.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

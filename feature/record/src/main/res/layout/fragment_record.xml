@@ -9,7 +9,7 @@
 
         <variable
             name="recordViewModel"
-            type="com.startup.record.RecordViewModel" />
+            type="com.startup.record.viewmodels.RecordViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
