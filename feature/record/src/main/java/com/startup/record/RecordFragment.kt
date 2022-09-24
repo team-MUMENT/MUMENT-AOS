@@ -73,7 +73,7 @@ class RecordFragment : Fragment() {
             recordViewModel.mumentId.value = it
         }
 
-        (arguments?.getSerializable(MUMENT_DETAIL_ENTITY) as MumentDetailEntity).let {
+        (arguments?.getSerializable(MUMENT_DETAIL_ENTITY)?.let { it as MumentDetailEntity })?.let {
             recordViewModel.mumentData.value = it
             if (it.isFirst.tagIdx == 1) {
                 recordViewModel.changeIsFirst(true)

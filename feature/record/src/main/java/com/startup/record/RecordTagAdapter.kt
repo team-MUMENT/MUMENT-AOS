@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.startup.core.TagEntity
+import com.startup.core_dependent.databinding.ItemTagCheckboxBinding
 import com.startup.core_dependent.util.GlobalDiffCallBack
-import com.startup.record.databinding.ItemTagCheckboxBinding
 
 class RecordTagAdapter(
     val context: Context,

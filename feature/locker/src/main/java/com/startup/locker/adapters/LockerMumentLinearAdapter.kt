@@ -22,6 +22,7 @@ class LockerMumentLinearAdapter(
     GlobalDiffCallBack<LockerMumentEntity.MumentLockerCard>()
 ) {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MumentViewHolder {
         val binding = ItemLockerCardBinding.inflate(
             LayoutInflater.from(parent.context),

@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.startup.core.TagEntity
 import com.startup.core_dependent.BR
+import com.startup.core_dependent.databinding.ItemTagCheckboxBinding
 import com.startup.core_dependent.util.GlobalDiffCallBack
-import com.startup.locker.databinding.ItemTagCheckboxBinding
 
 
 class FilterBottomSheetAdapter(
@@ -28,7 +28,8 @@ class FilterBottomSheetAdapter(
     var reset: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomSheetFilterHolder {
-        val binding = ItemTagCheckboxBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemTagCheckboxBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BottomSheetFilterHolder(binding)
     }
 
@@ -51,7 +52,7 @@ class FilterBottomSheetAdapter(
                 }
             }
 
-            if (selectedTags.map { it.tagString }.contains(getItem(position).tagString)){
+            if (selectedTags.map { it.tagString }.contains(getItem(position).tagString)) {
                 checkBox.isChecked = true
             }
 
@@ -62,5 +63,6 @@ class FilterBottomSheetAdapter(
         }
     }
 
-    class BottomSheetFilterHolder(val binding: ItemTagCheckboxBinding) : RecyclerView.ViewHolder(binding.root)
+    class BottomSheetFilterHolder(val binding: ItemTagCheckboxBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

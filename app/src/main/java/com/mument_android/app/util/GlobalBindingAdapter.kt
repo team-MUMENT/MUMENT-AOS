@@ -87,18 +87,6 @@ object GlobalBindingAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("load_album_five")
-    fun loadAlbumFiveImage(view: ImageView, url: String?) {
-        if (!url.isNullOrEmpty()) {
-            view.load(url) {
-                crossfade(true)
-                this.transformations(RoundedCornersTransformation(5.0f))
-            }
-        } else {
-        }
-    }
-
-    @JvmStatic
     @BindingAdapter("load_search_album")
     fun loadSearchImage(view: ImageView, url: String?) {
         if (!url.isNullOrEmpty()) {
@@ -122,19 +110,6 @@ object GlobalBindingAdapter {
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
         setPadding(7.dpToPx(context), 5.dpToPx(context), 7.dpToPx(context), 5.dpToPx(context))
     }
-
-    @JvmStatic
-    @BindingAdapter("setSelectTagType")
-    fun AppCompatTextView.setSelectTagType(tagType: String) {
-        val backgroundDrawable = R.drawable.rectangle_fill_blue3_20dp
-        val textColor = R.color.mument_color_blue1
-        background = ContextCompat.getDrawable(context, backgroundDrawable)
-        setTextColor(ContextCompat.getColor(context, textColor))
-        typeface = ResourcesCompat.getFont(context, R.font.notosans_medium)
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
-        setPadding(7.dpToPx(context), 5.dpToPx(context), 7.dpToPx(context), 5.dpToPx(context))
-    }
-
 
     @JvmStatic
     @BindingAdapter("emptyView")

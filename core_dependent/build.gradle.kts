@@ -42,6 +42,7 @@ android {
 dependencies {
     addAndroidXDependencies()
     addTestDependencies()
+    addDaggerHiltDependencies()
     addLifecycleDependencies()
     implementation(project(Modules.CORE_MODULE))
 }
