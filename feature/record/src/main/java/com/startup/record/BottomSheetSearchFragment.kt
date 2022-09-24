@@ -18,7 +18,7 @@ import com.startup.domain.entity.home.RecentSearchData
 import com.startup.core.network.ApiResult
 import com.startup.core_dependent.ext.launchWhenCreated
 import com.startup.core_dependent.util.AutoClearedValue
-import com.startup.record.databinding.FragmentSearchBinding
+import com.startup.record.databinding.BottomsheetFragmentSearchBinding
 import com.startup.record.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,7 +29,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var adapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
-    private var binding by AutoClearedValue<FragmentSearchBinding>()
+    private var binding by AutoClearedValue<BottomsheetFragmentSearchBinding>()
     private lateinit var behavior: BottomSheetBehavior<View>
 
     companion object {
@@ -48,7 +48,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentSearchBinding.inflate(inflater, container, false).run {
+    ): View = BottomsheetFragmentSearchBinding.inflate(inflater, container, false).run {
         binding = this
         this.root
     }
@@ -109,7 +109,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
         }, {})
         searchResultAdapter.option = false
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewmodel = viewmodel
+        binding.bottomViewmodel = viewmodel
         binding.option = false
         binding.rcSearch.adapter = adapter
     }

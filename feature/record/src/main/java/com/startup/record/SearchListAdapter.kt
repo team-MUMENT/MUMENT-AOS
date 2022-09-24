@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.startup.domain.entity.home.RecentSearchData
 import com.startup.core_dependent.util.GlobalDiffCallBack
-import com.startup.record.databinding.ItemSearchListBinding
+import com.startup.record.databinding.ItemBottomsheetSearchListBinding
 
 class SearchListAdapter(
     private val contentClickListener: (RecentSearchData) -> Unit,
@@ -16,7 +16,7 @@ class SearchListAdapter(
     var option = true
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
-            ItemSearchListBinding.inflate(
+            ItemBottomsheetSearchListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -40,5 +40,5 @@ class SearchListAdapter(
         }
     }
 
-    class SearchViewHolder(val binding: ItemSearchListBinding): RecyclerView.ViewHolder(binding.root)
+    class SearchViewHolder(val binding: ItemBottomsheetSearchListBinding): RecyclerView.ViewHolder(binding.root)
 }
