@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -6,7 +7,8 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
-
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 android {
     compileSdk = DefaultConfig.COMPILE_SDK
 
@@ -16,6 +18,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+        buildConfigField("String", "USER_ID", properties.getProperty("USER_ID"))
+
     }
 
     buildTypes {
@@ -50,4 +55,9 @@ dependencies {
     implementation(ThirdPartyDependencies.coil)
     implementation(KotlinDependencies.coroutines)
     implementation(AndroidXDependencies.coroutines)
+    implementation(ThirdPartyDependencies.flexBox)
+
+    implementation(project(Modules.DOMAIN_MODULE))
+    implementation(project(Modules.CORE_MODULE))
+    implementation(project(Modules.CORE_DEPENDENT_MODULE))
 }

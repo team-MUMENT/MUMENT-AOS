@@ -1,15 +1,15 @@
-package com.mument_android.app.presentation.ui.home
+package com.startup.home.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.BR
 import com.startup.domain.entity.home.AgainMumentEntity
-import com.mument_android.databinding.ItemHeardMumentLayoutBinding
 import com.startup.core_dependent.util.GlobalDiffCallBack
 import com.startup.core_dependent.util.ViewUtils.dpToPx
+import com.startup.home.BR
+import com.startup.home.databinding.ItemHeardMumentLayoutBinding
 
 class HeardMumentListAdapter(
     private val context: Context,

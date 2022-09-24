@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.home
+package com.startup.home.adapters
 
 import android.graphics.Color
 import android.text.SpannableStringBuilder
@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.startup.domain.entity.home.BannerEntity
-import com.mument_android.databinding.ItemBannerLayoutBinding
+import com.startup.home.databinding.ItemBannerLayoutBinding
 
 class BannerListAdapter(var data: List<BannerEntity>, private val clickBanner: (String) -> Unit) : RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>() {
 

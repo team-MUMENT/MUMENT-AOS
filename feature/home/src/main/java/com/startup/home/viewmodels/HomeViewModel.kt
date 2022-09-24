@@ -1,9 +1,8 @@
-package com.mument_android.app.presentation.ui.home.viewmodel
+package com.startup.home.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.BuildConfig
 import com.startup.domain.entity.MumentCard
 import com.startup.domain.entity.home.AgainMumentEntity
 import com.startup.domain.entity.home.BannerEntity
@@ -11,6 +10,7 @@ import com.startup.domain.entity.home.RandomMumentEntity
 import com.startup.domain.entity.home.TodayMumentEntity
 import com.startup.domain.usecase.home.SaveTodayMumentUseCase
 import com.startup.domain.usecase.home.WhenHomeEnterUseCase
+import com.startup.home.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch

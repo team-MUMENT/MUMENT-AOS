@@ -1,12 +1,12 @@
-package com.mument_android.app.presentation.ui.home
+package com.startup.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.mument_android.databinding.FragmentHomeFrameBinding
 import com.startup.core_dependent.util.AutoClearedValue
+import com.startup.home.databinding.FragmentHomeFrameBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

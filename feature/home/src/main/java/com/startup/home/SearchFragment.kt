@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.home
+package com.startup.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,14 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.mument_android.R
 import com.startup.core_dependent.ui.MumentDialogBuilder
-import com.startup.detail.music.MusicDetailFragment
-import com.mument_android.app.presentation.ui.home.viewmodel.SearchViewModel
+import com.startup.home.viewmodels.SearchViewModel
 import com.startup.core_dependent.ext.launchWhenCreated
-import com.mument_android.databinding.FragmentSearchBinding
 import com.startup.core.network.ApiResult
 import com.startup.core_dependent.util.AutoClearedValue
+import com.startup.home.adapters.SearchListAdapter
+import com.startup.home.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -42,13 +41,13 @@ class SearchFragment : Fragment() {
         collectingList()
         addClickListener()
     }
-
+    //TODO Navi
     private fun settingAdapterAndDatabinding() {
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
-                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)
+                /*val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
+                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
             },
             itemClickListener = { data -> viewmodel.deleteRecentList(data) }
         )
@@ -56,8 +55,8 @@ class SearchFragment : Fragment() {
         searchResultAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
-                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)
+                /*val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
+                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
             },
             itemClickListener =  {}
         )

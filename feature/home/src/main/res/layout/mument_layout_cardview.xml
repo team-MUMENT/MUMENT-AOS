@@ -7,7 +7,7 @@
 
         <import type="android.view.View" />
 
-        <import type="com.mument_android.R" />
+        <import type="com.startup.home.R" />
 
         <variable
             name="mument"

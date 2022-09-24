@@ -1,14 +1,14 @@
-package com.mument_android.app.presentation.ui.home
+package com.startup.home.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.startup.home.BR
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.BR
 import com.startup.domain.entity.home.RecentSearchData
-import com.mument_android.databinding.ItemSearchListBinding
 import com.startup.core_dependent.util.GlobalDiffCallBack
+import com.startup.home.databinding.ItemSearchListBinding
 
 class SearchListAdapter(
     private val contentClickListener: (RecentSearchData) -> Unit,

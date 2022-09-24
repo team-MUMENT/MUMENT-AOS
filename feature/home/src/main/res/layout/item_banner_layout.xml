@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.mument_android.R"/>
+        <import type="com.startup.home.R"/>
         <variable
             name="position"
             type="int" />

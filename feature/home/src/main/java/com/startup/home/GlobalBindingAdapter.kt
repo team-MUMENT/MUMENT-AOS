@@ -1,17 +1,10 @@
-package com.mument_android.app.util
+package com.startup.home
 
-import android.util.TypedValue
 import android.widget.ImageView
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
-import com.mument_android.R
-import com.startup.core.model.TagEntity.Companion.TAG_IS_FIRST
-import com.startup.core_dependent.util.ViewUtils.dpToPx
 
 object GlobalBindingAdapter {
     const val EMPTY_PROFILE = "https://mument.s3.ap-northeast-2.amazonaws.com/user/emptyImage.jpg"
@@ -97,19 +90,6 @@ object GlobalBindingAdapter {
         }
     }
 
-    @JvmStatic
-    @BindingAdapter("setTagType")
-    fun AppCompatTextView.setTagType(tagType: String) {
-        val backgroundDrawable =
-            if (tagType == TAG_IS_FIRST) R.drawable.rectangle_fill_purple2_20dp else R.drawable.rectangle_fill_gray5_20dp
-        val textColor =
-            if (tagType == TAG_IS_FIRST) R.color.mument_color_purple1 else R.color.mument_color_gray1
-        background = ContextCompat.getDrawable(context, backgroundDrawable)
-        setTextColor(ContextCompat.getColor(context, textColor))
-        typeface = ResourcesCompat.getFont(context, R.font.notosans_medium)
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
-        setPadding(7.dpToPx(context), 5.dpToPx(context), 7.dpToPx(context), 5.dpToPx(context))
-    }
 
     @JvmStatic
     @BindingAdapter("emptyView")

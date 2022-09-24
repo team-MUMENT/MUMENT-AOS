@@ -152,8 +152,7 @@
             android:visibility="@{((bottomViewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(bottomViewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_search"
-            tools:src="@drawable/empty_mument" />
+            app:layout_constraintTop_toBottomOf="@id/et_search"/>
 
         <TextView
             android:id="@+id/tv_empty_title"

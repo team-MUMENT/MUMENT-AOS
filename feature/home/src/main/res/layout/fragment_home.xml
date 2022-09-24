@@ -9,7 +9,7 @@
 
         <variable
             name="homeViewModel"
-            type="com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel" />
+            type="com.startup.home.viewmodels.HomeViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

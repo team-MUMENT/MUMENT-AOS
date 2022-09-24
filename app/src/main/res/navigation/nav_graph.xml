@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_home_frame"
-        android:name="com.mument_android.app.presentation.ui.home.HomeFrameFragment"
+        android:name="com.startup.home.HomeFrameFragment"
         android:label="fragment_first"
         tools:layout="@layout/fragment_home_frame" />
 

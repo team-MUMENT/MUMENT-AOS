@@ -1,16 +1,15 @@
-package com.mument_android.app.presentation.ui.home
+package com.startup.home.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.BR
 import com.startup.domain.entity.home.Mument
-import com.mument_android.databinding.ItemImpressiveEmotionMumentLayoutBinding
+import com.startup.home.BR
 import com.startup.core_dependent.util.GlobalDiffCallBack
 import com.startup.core_dependent.util.ViewUtils.dpToPx
-import timber.log.Timber
+import com.startup.home.databinding.ItemImpressiveEmotionMumentLayoutBinding
 
 class ImpressiveEmotionListAdapter(
     private val context: Context,
@@ -30,7 +29,6 @@ class ImpressiveEmotionListAdapter(
 
     override fun onBindViewHolder(holder: ImpressiveEmotionViewHolder, position: Int) {
         val mementData = getItem(position)
-        Timber.d("Impress ${getItem(position)}")
         with(holder.binding.clMument.layoutParams as ViewGroup.MarginLayoutParams) {
             marginStart = if (position == 0) 16.dpToPx(context) else 5.dpToPx(context)
             marginEnd = if (position == (itemCount - 1)) 16.dpToPx(context) else 5.dpToPx(context)
