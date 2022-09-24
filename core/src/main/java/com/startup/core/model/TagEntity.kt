@@ -1,4 +1,4 @@
-package com.startup.core
+package com.startup.core.model
 
 data class TagEntity(
     val tagType: String,

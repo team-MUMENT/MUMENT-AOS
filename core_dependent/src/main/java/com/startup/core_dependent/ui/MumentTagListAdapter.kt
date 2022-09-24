@@ -1,10 +1,11 @@
-package com.startup.core_dependent
+package com.startup.core_dependent.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.startup.core.TagEntity
+import com.startup.core.model.TagEntity
+import com.startup.core_dependent.BR
 import com.startup.core_dependent.databinding.ItemMumentStringTagBinding
 import com.startup.core_dependent.util.GlobalDiffCallBack
 

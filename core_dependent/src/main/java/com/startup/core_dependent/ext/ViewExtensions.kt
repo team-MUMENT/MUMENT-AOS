@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import com.startup.core_dependent.R
-import com.startup.core.TagEntity.Companion.TAG_IS_FIRST
+import com.startup.core.model.TagEntity.Companion.TAG_IS_FIRST
 import com.startup.core_dependent.util.ViewUtils.dpToPx
 
 inline fun View.click(crossinline block: () -> Unit) {

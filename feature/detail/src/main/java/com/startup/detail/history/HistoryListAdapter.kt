@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.startup.domain.entity.history.MumentHistory
-import com.startup.core_dependent.MumentTagListAdapter
-import com.startup.core.TagEntity
+import com.startup.core_dependent.ui.MumentTagListAdapter
+import com.startup.core.model.TagEntity
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.GlobalDiffCallBack
 import com.startup.core_dependent.util.ImpressiveTag

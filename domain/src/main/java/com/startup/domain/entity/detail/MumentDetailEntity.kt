@@ -1,6 +1,6 @@
 package com.startup.domain.entity.detail
 
-import com.startup.core.TagEntity
+import com.startup.core.model.TagEntity
 import com.startup.domain.entity.music.MusicInfoEntity
 import com.startup.domain.entity.user.UserEntity
 import java.io.Serializable

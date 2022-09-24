@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.startup.core.TagEntity
-import com.startup.core.TagEntity.Companion.TAG_EMOTIONAL
-import com.startup.core.TagEntity.Companion.TAG_IMPRESSIVE
-import com.startup.core.TagEntity.Companion.TAG_IS_FIRST
+import com.startup.core.model.TagEntity
+import com.startup.core.model.TagEntity.Companion.TAG_EMOTIONAL
+import com.startup.core.model.TagEntity.Companion.TAG_IMPRESSIVE
+import com.startup.core.model.TagEntity.Companion.TAG_IS_FIRST
 import com.startup.domain.entity.detail.MumentSummaryEntity
 import com.startup.core_dependent.util.EmotionalTag.Companion.findEmotionalStringTag
 import com.startup.core_dependent.util.GlobalDiffCallBack
@@ -15,7 +15,7 @@ import com.startup.core_dependent.util.ImpressiveTag.Companion.findImpressiveStr
 import com.startup.detail.R
 import com.startup.detail.databinding.ItemMusicDetailListBinding
 import com.startup.detail.mument.MumentClickListener
-import com.startup.core_dependent.MumentTagListAdapter
+import com.startup.core_dependent.ui.MumentTagListAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -13,7 +13,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.startup.core.TagEntity
+import com.startup.core.model.TagEntity
 import com.startup.locker.adapters.FilterBottomSheetAdapter
 import com.startup.locker.adapters.FilterBottomSheetSelectedAdapter
 import com.startup.locker.viewmodels.LockerFilterViewModel

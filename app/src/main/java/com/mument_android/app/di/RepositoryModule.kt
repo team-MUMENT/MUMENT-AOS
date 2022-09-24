@@ -1,6 +1,5 @@
 package com.mument_android.app.di
 
-import com.startup.core_dependent.MumentTagListAdapter
 import com.startup.data.controller.DeleteMumentController
 import com.startup.data.controller.LikeMumentController
 import com.startup.data.controller.RecordController

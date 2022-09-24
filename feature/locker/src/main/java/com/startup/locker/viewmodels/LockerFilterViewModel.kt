@@ -2,7 +2,7 @@ package com.startup.locker.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.startup.core.TagEntity
+import com.startup.core.model.TagEntity
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.ImpressiveTag
 

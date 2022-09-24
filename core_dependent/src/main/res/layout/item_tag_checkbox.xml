@@ -3,7 +3,7 @@
     <data>
         <variable
             name="tagEntity"
-            type="com.startup.core.TagEntity" />
+            type="com.startup.core.model.TagEntity" />
     </data>
     <FrameLayout
         android:id="@+id/fl_item"

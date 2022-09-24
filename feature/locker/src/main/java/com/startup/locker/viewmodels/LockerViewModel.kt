@@ -3,7 +3,7 @@ package com.startup.locker.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.startup.core.TagEntity
+import com.startup.core.model.TagEntity
 import com.startup.domain.entity.locker.LockerMumentEntity
 import com.startup.domain.usecase.locker.FetchMyLikeListUseCase
 import com.startup.domain.usecase.locker.FetchMyMumentListUseCase

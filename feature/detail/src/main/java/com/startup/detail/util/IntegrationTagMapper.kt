@@ -1,6 +1,6 @@
 package com.startup.detail.util
 
-import com.startup.core.TagEntity
+import com.startup.core.model.TagEntity
 import com.startup.core.base.BaseMapper
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.ImpressiveTag

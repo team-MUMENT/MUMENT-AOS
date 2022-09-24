@@ -15,11 +15,11 @@ import com.mument_android.R
 import com.startup.domain.entity.home.BannerEntity
 import com.startup.domain.entity.musicdetail.musicdetaildata.Music
 import com.startup.detail.mument.MumentDetailFragment.Companion.MUMENT_ID
-import com.startup.core_dependent.MumentTagListAdapter
+import com.startup.core_dependent.ui.MumentTagListAdapter
 import com.startup.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.app.presentation.ui.home.viewmodel.HomeViewModel
 import com.mument_android.databinding.FragmentHomeBinding
-import com.startup.core.TagEntity
+import com.startup.core.model.TagEntity
 import com.startup.core_dependent.util.AutoClearedValue
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.ImpressiveTag

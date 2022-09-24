@@ -22,9 +22,9 @@ import com.startup.domain.entity.detail.MumentDetailEntity
 import com.startup.domain.entity.home.RecentSearchData
 import com.startup.domain.entity.musicdetail.musicdetaildata.Music
 import com.startup.core_dependent.ui.MumentDialogBuilder
-import com.startup.core.TagEntity
-import com.startup.core.TagEntity.Companion.TAG_EMOTIONAL
-import com.startup.core.TagEntity.Companion.TAG_IMPRESSIVE
+import com.startup.core.model.TagEntity
+import com.startup.core.model.TagEntity.Companion.TAG_EMOTIONAL
+import com.startup.core.model.TagEntity.Companion.TAG_IMPRESSIVE
 import com.startup.core_dependent.util.AutoClearedValue
 import com.startup.core_dependent.util.EmotionalTag
 import com.startup.core_dependent.util.ImpressiveTag
