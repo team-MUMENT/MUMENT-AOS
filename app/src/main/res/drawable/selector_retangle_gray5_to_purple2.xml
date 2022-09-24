@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/retangle_fill_gray5_11dp" android:state_selected="false" />
-    <item android:drawable="@drawable/retangle_fill_purple2_11dp" android:state_selected="true"/>
-
-</selector>
