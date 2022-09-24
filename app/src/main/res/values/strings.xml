@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Mument_Android</string>
-    <!-- TODO: Remove or change this placeholder text -->
 
     <!-- bottom navi -->
     <string name="bottom_navi_home">홈</string>
