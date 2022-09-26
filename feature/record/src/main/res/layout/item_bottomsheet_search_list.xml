@@ -8,7 +8,7 @@
 
         <variable
             name="bottomSearchData"
-            type="com.startup.domain.entity.home.RecentSearchData" />
+            type="com.mument_android.domain.entity.home.RecentSearchData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

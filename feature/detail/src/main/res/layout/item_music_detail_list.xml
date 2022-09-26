@@ -6,7 +6,7 @@
     <data>
         <variable
             name="mumentSummary"
-            type="com.startup.domain.entity.detail.MumentSummaryEntity" />
+            type="com.mument_android.domain.entity.detail.MumentSummaryEntity" />
         <import type="android.view.View"/>
     </data>
 

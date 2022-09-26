@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.startup.home.R"/>
+        <import type="com.mument_android.home.R"/>
         <variable
             name="position"
             type="int" />
         <variable
             name="banner"
-            type="com.startup.domain.entity.home.BannerEntity" />
+            type="com.mument_android.domain.entity.home.BannerEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

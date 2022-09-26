@@ -1,4 +1,4 @@
-package com.startup.core
+package com.mument_android.core
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

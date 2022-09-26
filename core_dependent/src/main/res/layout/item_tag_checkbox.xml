@@ -3,7 +3,7 @@
     <data>
         <variable
             name="tagEntity"
-            type="com.startup.core.model.TagEntity" />
+            type="com.mument_android.core.model.TagEntity" />
     </data>
     <FrameLayout
         android:id="@+id/fl_item"
@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <com.startup.core_dependent.ui.MumentTagCheckBox
+        <com.mument_android.core_dependent.ui.MumentTagCheckBox
             android:id="@+id/cb_tag"
             android:layout_width="wrap_content"
             android:layout_height="37dp"

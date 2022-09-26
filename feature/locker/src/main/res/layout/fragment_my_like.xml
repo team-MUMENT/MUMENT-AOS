@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.startup.locker.viewmodels.LockerViewModel" />
+            type="com.mument_android.locker.viewmodels.LockerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

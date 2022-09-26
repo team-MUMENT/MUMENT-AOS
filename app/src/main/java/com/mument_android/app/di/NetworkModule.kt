@@ -1,10 +1,10 @@
 package com.mument_android.app.di
 
-import com.startup.data.network.detail.DetailApiService
-import com.startup.data.network.home.HomeService
-import com.startup.data.network.locker.LockerApiService
-import com.startup.data.network.main.MainApiService
-import com.startup.data.network.record.RecordApiService
+import com.mument_android.data.network.detail.DetailApiService
+import com.mument_android.data.network.home.HomeService
+import com.mument_android.data.network.locker.LockerApiService
+import com.mument_android.data.network.main.MainApiService
+import com.mument_android.data.network.record.RecordApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

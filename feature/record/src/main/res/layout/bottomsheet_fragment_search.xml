@@ -17,7 +17,7 @@
 
         <variable
             name="bottomViewmodel"
-            type="com.startup.record.viewmodels.SearchViewModel" />
+            type="com.mument_android.record.viewmodels.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="true"
-        tools:context="com.startup.record.BottomSheetSearchFragment">
+        tools:context="com.mument_android.record.com.mument_android.record.BottomSheetSearchFragment">
 
         <ImageView
             android:id="@+id/iv_back"

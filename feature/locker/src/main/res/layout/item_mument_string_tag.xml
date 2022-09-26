@@ -6,7 +6,7 @@
 
         <variable
             name="tagEntity"
-            type="com.startup.core.model.TagEntity" />
+            type="com.mument_android.core.model.TagEntity" />
     </data>
 
     <FrameLayout

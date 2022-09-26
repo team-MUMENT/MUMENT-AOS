@@ -17,7 +17,7 @@
 
         <variable
             name="viewmodel"
-            type="com.startup.home.viewmodels.SearchViewModel" />
+            type="com.mument_android.home.viewmodels.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

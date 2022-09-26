@@ -5,14 +5,13 @@
     <data>
         <variable
             name="musicDetailViewModel"
-            type="com.startup.detail.viewmodels.MusicDetailViewModel" />
+            type="com.mument_android.detail.viewmodels.MusicDetailViewModel" />
         <import type="android.view.View"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.startup.detail.music.MusicDetailFragment">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"

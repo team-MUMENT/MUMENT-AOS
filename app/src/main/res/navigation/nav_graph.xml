@@ -6,13 +6,13 @@
 
     <fragment
         android:id="@+id/fragment_home_frame"
-        android:name="com.startup.home.HomeFrameFragment"
+        android:name="com.mument_android.home.HomeFrameFragment"
         android:label="fragment_first"
         tools:layout="@layout/fragment_home_frame" />
 
     <fragment
         android:id="@+id/fragment_record"
-        android:name="com.startup.record.RecordFragment"
+        android:name="com.mument_android.record.RecordFragment"
         android:label="fragment_second"
         tools:layout="@layout/fragment_record">
         <argument android:name="mumment_id_for_edit"
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/fragment_locker_frame"
-        android:name="com.startup.locker.LockerFrameFragment"
+        android:name="com.mument_android.locker.LockerFrameFragment"
         android:label="fragment_third"
         tools:layout="@layout/fragment_locker_frame" />
 </navigation>

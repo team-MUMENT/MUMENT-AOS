@@ -3,8 +3,8 @@ package com.mument_android.app.presentation.ui.main.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.startup.domain.entity.detail.MumentDetailEntity
-import com.startup.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.domain.entity.detail.MumentDetailEntity
+import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 
 class MainViewModel : ViewModel() {
     private val _mumentId = MutableLiveData<String>("")

@@ -9,7 +9,7 @@
 
         <variable
             name="recordViewModel"
-            type="com.startup.record.viewmodels.RecordViewModel" />
+            type="com.mument_android.record.viewmodels.RecordViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="hideKeyBoard"
-        tools:context="com.startup.record.RecordFragment">
+        tools:context="com.mument_android.record.com.mument_android.record.RecordFragment">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/sv_record"
