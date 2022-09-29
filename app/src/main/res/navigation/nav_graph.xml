@@ -2,18 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
     app:startDestination="@id/fragment_home_frame">
 
     <fragment
         android:id="@+id/fragment_home_frame"
-        android:name="com.mument_android.app.presentation.ui.home.HomeFrameFragment"
+        android:name="com.mument_android.home.HomeFrameFragment"
         android:label="fragment_first"
         tools:layout="@layout/fragment_home_frame" />
 
     <fragment
         android:id="@+id/fragment_record"
-        android:name="com.mument_android.app.presentation.ui.record.RecordFragment"
+        android:name="com.mument_android.record.RecordFragment"
         android:label="fragment_second"
         tools:layout="@layout/fragment_record">
         <argument android:name="mumment_id_for_edit"
@@ -23,7 +22,7 @@
 
     <fragment
         android:id="@+id/fragment_locker_frame"
-        android:name="com.mument_android.app.presentation.ui.locker.LockerFrameFragment"
+        android:name="com.mument_android.locker.LockerFrameFragment"
         android:label="fragment_third"
         tools:layout="@layout/fragment_locker_frame" />
 </navigation>

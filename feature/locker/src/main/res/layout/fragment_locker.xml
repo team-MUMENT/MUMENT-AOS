@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="mument"
+            type="com.mument_android.domain.entity.locker.LockerMumentEntity.MumentLockerCard" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_locker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".app.presentation.ui.locker.LockerFragment">
+
+        <TextView
+            android:id="@+id/tv_locker_title"
+            style="@style/TextView.Mument_H1_B25.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="27dp"
+            android:text="@string/bottom_navi_locker"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            load_profile="@{mument.userImage}"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_locker_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_locker_title" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_locker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:background="@color/mument_color_bgwhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_locker_title"
+            app:tabIndicatorColor="@color/mument_color_purple1"
+            app:tabTextAppearance="@style/tab_text" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mument_color_gray4"
+            app:layout_constraintTop_toBottomOf="@+id/tl_locker" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_locker"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_locker" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

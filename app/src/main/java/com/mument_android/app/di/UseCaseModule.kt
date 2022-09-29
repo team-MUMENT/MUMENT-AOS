@@ -1,29 +1,23 @@
 package com.mument_android.app.di
 
-import com.mument_android.app.data.controller.*
-import com.mument_android.app.domain.repository.detail.MumentDetailRepository
-import com.mument_android.app.domain.repository.detail.MumentListRepository
-import com.mument_android.app.domain.repository.detail.MusicDetailRepository
-import com.mument_android.app.domain.repository.home.HomeRepository
-import com.mument_android.app.domain.repository.locker.LockerRepository
-import com.mument_android.app.domain.repository.record.RecordRepository
-import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCase
-import com.mument_android.app.domain.usecase.detail.FetchMumentDetailContentUseCaseImpl
-import com.mument_android.app.domain.usecase.home.*
-import com.mument_android.app.domain.usecase.detail.*
-import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCase
-import com.mument_android.app.domain.usecase.home.CRURecentSearchListUseCaseImpl
-import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCase
-import com.mument_android.app.domain.usecase.home.DeleteRecentSearchListUseCaseImpl
-import com.mument_android.app.domain.usecase.locker.FetchMyLikeListUseCase
-import com.mument_android.app.domain.usecase.locker.FetchMyLikeListUseCaseImpl
-import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCase
-import com.mument_android.app.domain.usecase.locker.FetchMyMumentListUseCaseImpl
-import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCase
-import com.mument_android.app.domain.usecase.main.CancelLikeMumentUseCaseImpl
-import com.mument_android.app.domain.usecase.main.LikeMumentUseCase
-import com.mument_android.app.domain.usecase.main.LikeMumentUseCaseImpl
-import com.mument_android.app.domain.usecase.record.*
+import com.mument_android.domain.repository.detail.MumentDetailRepository
+import com.mument_android.domain.repository.detail.MumentListRepository
+import com.mument_android.domain.repository.detail.MusicDetailRepository
+import com.mument_android.domain.repository.home.HomeRepository
+import com.mument_android.domain.repository.locker.LockerRepository
+import com.mument_android.domain.repository.main.MainRepository
+import com.mument_android.domain.repository.record.RecordRepository
+import com.mument_android.domain.usecase.detail.*
+import com.mument_android.domain.usecase.home.*
+import com.mument_android.domain.usecase.locker.FetchMyLikeListUseCase
+import com.mument_android.domain.usecase.locker.FetchMyLikeListUseCaseImpl
+import com.mument_android.domain.usecase.locker.FetchMyMumentListUseCase
+import com.mument_android.domain.usecase.locker.FetchMyMumentListUseCaseImpl
+import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
+import com.mument_android.domain.usecase.main.CancelLikeMumentUseCaseImpl
+import com.mument_android.domain.usecase.main.LikeMumentUseCase
+import com.mument_android.domain.usecase.main.LikeMumentUseCaseImpl
+import com.mument_android.domain.usecase.record.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,8 +39,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideLikeMumentUseCase(likeMumentController: LikeMumentController): LikeMumentUseCase =
-        LikeMumentUseCaseImpl(likeMumentController)
+    fun provideLikeMumentUseCase(mainRepository: MainRepository): LikeMumentUseCase =
+        LikeMumentUseCaseImpl(mainRepository)
 
     @Provides
     @Singleton
@@ -61,8 +55,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideCancelLikeMumentUseCase(likeMumentController: LikeMumentController): CancelLikeMumentUseCase =
-        CancelLikeMumentUseCaseImpl(likeMumentController)
+    fun provideCancelLikeMumentUseCase(mainRepository: MainRepository): CancelLikeMumentUseCase =
+        CancelLikeMumentUseCaseImpl(mainRepository)
 
 
     @Provides
@@ -94,14 +88,14 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideRecordMumentUseCase(
-        recordController: RecordController
-    ): RecordMumentUseCase = RecordMumentUseCaseImpl(recordController)
+        recordRepository: RecordRepository
+    ): RecordMumentUseCase = RecordMumentUseCaseImpl(recordRepository)
 
     @Provides
     @Singleton
     fun provideRecordModifyMumentUseCase(
-        recordModifyController: RecordModifyController
-    ):RecordModifyMumentUseCase = RecordModifyMumentUseCaseImpl(recordModifyController)
+        recordRepository: RecordRepository
+    ):RecordModifyMumentUseCase = RecordModifyMumentUseCaseImpl(recordRepository)
     
     @Provides
     @Singleton
@@ -121,6 +115,6 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun proivdeDeleteMumentUseCase(deleteMumentController: DeleteMumentController): DeleteMumentUseCase =
-        DeleteMumentUseCaseImpl(deleteMumentController)
+    fun proivdeDeleteMumentUseCase(mumentDetailRepository: MumentDetailRepository): DeleteMumentUseCase =
+        DeleteMumentUseCaseImpl(mumentDetailRepository)
 }

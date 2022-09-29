@@ -1,15 +1,20 @@
 package com.mument_android.app.di
 
-import com.mument_android.app.data.mapper.album.MusicInfoMapper
-import com.mument_android.app.data.mapper.album.MusicWithMyMumentMapper
-import com.mument_android.app.data.mapper.detail.*
-import com.mument_android.app.data.mapper.locker.LockerMapper
-import com.mument_android.app.data.mapper.locker.MumentLockerCardMapper
-import com.mument_android.app.data.mapper.main.EmotionalTagMapper
-import com.mument_android.app.data.mapper.main.ImpressiveTagMapper
-import com.mument_android.app.data.mapper.main.IsFirstTagMapper
-import com.mument_android.app.data.mapper.record.RecordMapper
-import com.mument_android.app.data.mapper.user.UserMapper
+import com.mument_android.data.mapper.album.MusicInfoMapper
+import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
+import com.mument_android.data.mapper.detail.MumentCardMapper
+import com.mument_android.data.mapper.detail.MumentDetailMapper
+import com.mument_android.data.mapper.detail.MumentSummaryDtoMapper
+import com.mument_android.data.mapper.detail.MumentSummaryMapper
+import com.mument_android.data.mapper.home.RandomMumentMapper
+import com.mument_android.data.mapper.locker.LockerMapper
+import com.mument_android.data.mapper.locker.MumentLockerCardMapper
+import com.mument_android.data.mapper.main.EmotionalTagMapper
+import com.mument_android.data.mapper.main.ImpressiveTagMapper
+import com.mument_android.data.mapper.main.IsFirstTagMapper
+import com.mument_android.data.mapper.record.MumentRecordMapper
+import com.mument_android.data.mapper.record.RecordMapper
+import com.mument_android.data.mapper.user.UserMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,6 +51,10 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideMumentRecordMapper(): MumentRecordMapper = MumentRecordMapper()
+
+    @Provides
+    @Singleton
     fun provideMumentDetailMapper(
         userMapper: UserMapper,
         musicInfoMapper: MusicInfoMapper,
@@ -70,6 +79,10 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideRandomMumentMapper(): RandomMumentMapper = RandomMumentMapper()
+
+    @Provides
+    @Singleton
     fun provideMumentSummaryDtoMapper(
         userMapper: UserMapper,
         musicInfoMapper: MusicInfoMapper,
@@ -91,9 +104,5 @@ object MapperModule {
         mumentSummaryMapper: MumentSummaryMapper
     ): MusicWithMyMumentMapper =
         MusicWithMyMumentMapper(musicInfoMapper, mumentSummaryMapper)
-
-    @Provides
-    @Singleton
-    fun provideIntegrationTagEntityMapper(): IntegrationTagMapper = IntegrationTagMapper()
 
 }

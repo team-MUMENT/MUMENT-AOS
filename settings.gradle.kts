@@ -13,4 +13,16 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Mument_Android"
-include (":app")
+//파라미터가 vararg라 여러개 보내기 가능
+include(
+    ":app",
+    ":core",
+    ":core_dependent",
+    ":data",
+    ":domain",
+    ":feature:login",
+    ":feature:locker",
+    ":feature:record",
+    ":feature:home",
+    ":feature:detail"
+)

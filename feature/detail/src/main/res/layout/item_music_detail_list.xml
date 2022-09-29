@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="mumentSummary"
+            type="com.mument_android.domain.entity.detail.MumentSummaryEntity" />
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="13dp"
+        android:paddingBottom="16dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:background="@drawable/shape_border_default_redius_11dp"
+        android:elevation="2dp">
+
+        <ImageView
+            android:id="@+id/iv_profile"
+            load_profile="@{mumentSummary.user.profileImage}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="11dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.076"
+            tools:background="@color/mument_color_gray2" />
+
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            style="@style/TextView.Mument_C1_R12.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="@{mumentSummary.user.name}"
+            android:textColor="@color/mument_color_black2"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+            app:layout_constraintStart_toEndOf="@id/iv_profile"
+            app:layout_constraintTop_toTopOf="@id/iv_profile"
+            tools:text="이수지" />
+
+        <View
+            android:id="@+id/view_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="11dp"
+            android:background="@color/mument_color_gray4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_mument_tags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/view_divider"
+            app:layout_constraintTop_toBottomOf="@id/view_divider"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_mument_string_tag" />
+
+
+        <TextView
+            android:id="@+id/tv_contents"
+            style="@style/TextView.Mument_B4_M14.Style"
+            setMovementMethod="@{true}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:maxHeight="150dp"
+            android:scrollbars="vertical"
+            android:text="@{mumentSummary.content}"
+            android:visibility="@{mumentSummary.content.empty || mumentSummary.content == null ? View.GONE : View.VISIBLE}"
+            android:textColor="@color/mument_color_gray1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_mument_tags"
+            tools:text="@string/mument_detail_dummy_strings" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/TextView.Mument_C1_R12.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{mumentSummary.date}"
+            android:textColor="@color/mument_color_gray2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_contents"
+            tools:text="1 Sep, 2020" />
+
+        <View
+            android:id="@+id/view_clickable"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <CheckBox
+            android:id="@+id/cb_heart"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/selector_heart_on_off"
+            android:button="@null"
+            android:checked="@{mumentSummary.liked}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+            app:layout_constraintEnd_toStartOf="@id/tv_like_count"
+            app:layout_constraintTop_toTopOf="@id/iv_profile" />
+
+        <TextView
+            android:id="@+id/tv_like_count"
+            style="@style/TextView.Mument_C1_R12.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{Integer.toString(mumentSummary.likeCount)}"
+            android:textColor="@color/mument_color_gray1"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_profile"
+            tools:text="15" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

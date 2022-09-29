@@ -8,14 +8,14 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.mument_android.R
-import com.mument_android.app.domain.entity.detail.MumentDetailEntity
-import com.mument_android.app.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.app.presentation.base.BaseActivity
+import com.mument_android.domain.entity.detail.MumentDetailEntity
+import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
-import com.mument_android.app.presentation.ui.record.RecordFragment.Companion.MUMENT_DETAIL_ENTITY
-import com.mument_android.app.presentation.ui.record.RecordFragment.Companion.MUMENT_ID_FOR_EDIT
+import com.mument_android.record.RecordFragment.Companion.MUMENT_DETAIL_ENTITY
+import com.mument_android.record.RecordFragment.Companion.MUMENT_ID_FOR_EDIT
 import com.mument_android.databinding.ActivityMainBinding
+import com.mument_android.core_dependent.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
                 R.id.fragment_record -> {
                     if (viewModel.checkHasBundle()) {
                         bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
-                        bundle.putParcelable(
+                        bundle.putSerializable(
                             MUMENT_DETAIL_ENTITY,
                             viewModel.mumentDetailContents.value
                         )
