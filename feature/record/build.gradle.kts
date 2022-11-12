@@ -54,11 +54,9 @@ dependencies {
     addDaggerHiltDependencies()
     addLifecycleDependencies()
     implementation(ThirdPartyDependencies.coil)
-    implementation(KotlinDependencies.coroutines)
     implementation(AndroidXDependencies.coroutines)
     implementation(ThirdPartyDependencies.flexBox)
     implementation(AndroidXDependencies.window)
-
     implementation(project(Modules.DOMAIN_MODULE))
     implementation(project(Modules.CORE_MODULE))
     implementation(project(Modules.CORE_DEPENDENT_MODULE))
