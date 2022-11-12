@@ -5,7 +5,7 @@ import com.mument_android.data.dto.home.KnownMumentDto
 import com.mument_android.data.dto.home.RandomMumentDto
 import com.mument_android.data.dto.home.TodayMumentDto
 import com.mument_android.data.network.home.HomeService
-import com.mument_android.core.base.BaseResponse
+import com.mument_android.data.util.BaseResponse
 import javax.inject.Inject
 
 class HomeDataSourceImpl @Inject constructor(val service: HomeService) : HomeDataSource {

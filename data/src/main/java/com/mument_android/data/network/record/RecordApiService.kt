@@ -1,6 +1,6 @@
 package com.mument_android.data.network.record
 
-import com.mument_android.core.base.BaseResponse
+import com.mument_android.data.util.BaseResponse
 import com.mument_android.data.dto.record.MumentIsFirstDto
 import com.mument_android.data.dto.record.MumentRecordDto
 import com.mument_android.data.dto.record.ResponseRecordMumentDto
