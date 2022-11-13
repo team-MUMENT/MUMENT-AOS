@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -36,6 +37,7 @@ import com.mument_android.record.R
 import com.mument_android.record.databinding.FragmentRecordBinding
 import com.mument_android.record.viewmodels.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecordFragment : Fragment() {
@@ -44,9 +46,8 @@ class RecordFragment : Fragment() {
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
 
-    /* @Inject
+     @Inject
      lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
- */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -346,9 +347,9 @@ class RecordFragment : Fragment() {
                     recordViewModel.mumentData.value = null
                 } else {
                     recordViewModel.selectedMusic.value?.let { it1 ->
-                        /*moveMusicDetailNavigatorProvider.musicMument(
+                        moveMusicDetailNavigatorProvider.musicMument(
                             it1._id
-                        )Todo Navi*/
+                        )
                     }
                 }
             }
