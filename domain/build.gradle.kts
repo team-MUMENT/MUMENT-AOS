@@ -40,6 +40,6 @@ dependencies {
     addDaggerHiltDependencies()
     addRoomDependencies()
     implementation(KotlinDependencies.kotlinxSerialization)
-    implementation(KotlinDependencies.coroutines)
+    implementation(AndroidXDependencies.coroutines)
     implementation(project(Modules.CORE_MODULE))
 }

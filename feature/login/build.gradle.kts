@@ -49,4 +49,5 @@ dependencies {
     addLifecycleDependencies()
     implementation(ThirdPartyDependencies.coil)
     implementation(AndroidXDependencies.coroutines)
+    implementation(project(Modules.NAVIGATION_MODULE))
 }
