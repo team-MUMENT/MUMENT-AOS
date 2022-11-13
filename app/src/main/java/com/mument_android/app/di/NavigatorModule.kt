@@ -1,5 +1,8 @@
 package com.mument_android.app.di
 
+import com.angdroid.navigation.EditMumentNavigatorProvider
+import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
+import com.angdroid.navigation.MoveRecordProvider
 import com.mument_android.app.presentation.ui.detail.mument.navigator.*
 import dagger.Binds
 import dagger.Module
