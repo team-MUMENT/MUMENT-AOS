@@ -3,28 +3,96 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_gray1_to_purple1.xml" value="0.1" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_ic_locker.xml" value="0.163" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable-xxhdpi/selector_ic_record.xml" value="0.163" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1215" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_ic_home.xml" value="0.163" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_ic_lock.xml" value="0.163" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_ic_locker.xml" value="0.1215" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_ic_recor.xml" value="0.163" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_ic_record.xml" value="0.1" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/drawable/selector_text_gray1_to_purple1.xml" value="0.1" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/fragment_home.xml" value="0.264" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/fragment_locker.xml" value="0.1" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/fragment_mument_detail.xml" value="0.18177083333333333" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/fragment_record.xml" value="0.1" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/fragment_search.xml" value="0.14537037037037037" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/fragment_song_detail.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/menu/menu_bottom_navi.xml" value="0.176" />
+        <entry key="../../../../../../layout/custom_preview.xml" value="0.12949640287769784" />
+        <entry key="app/src/main/res/drawable-mdpi/selector_ic_list.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_btn_record_icon.xml" value="0.109" />
+        <entry key="app/src/main/res/drawable/oval_fill_white.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_blue1_14dp.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_blue3_20dp.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_gray5_20dp.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_purple2_20dp.xml" value="0.157" />
+        <entry key="app/src/main/res/drawable/rectangle_fill_purple_11dp.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/retangle_fill_gray3_14dp.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/retangle_fill_gray5.xml" value="0.151" />
+        <entry key="app/src/main/res/drawable/retangle_fill_purple2_11dp.xml" value="0.1985" />
+        <entry key="app/src/main/res/drawable/selector_ic_home.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable/selector_ic_locker.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable/selector_ic_record.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable/selector_record_font_gray1_to_purple1.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/selector_record_switch.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/selector_retangle_gray5_to_purple2.xml" value="0.1985" />
+        <entry key="app/src/main/res/drawable/selector_state_selected_gray1_purple1.xml" value="0.178" />
+        <entry key="app/src/main/res/drawable/selector_style_gray2_purple1.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/selector_switch.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/selector_swith.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/shape_border_default_redius_11dp.xml" value="0.152" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2128623188405797" />
+        <entry key="app/src/main/res/layout/fragment_base_music_detail.xml" value="0.23859126984126985" />
+        <entry key="app/src/main/res/layout/fragment_edit_mument_dialog.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/fragment_history.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_home_frame.xml" value="0.2128623188405797" />
+        <entry key="app/src/main/res/layout/fragment_locker.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_locker_filter_bottom_sheet.xml" value="0.14739583333333334" />
+        <entry key="app/src/main/res/layout/fragment_locker_frame.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_locker_like_filter_bottom_sheet.xml" value="0.14739583333333334" />
+        <entry key="app/src/main/res/layout/fragment_mument_detail.xml" value="0.30176629448394404" />
+        <entry key="app/src/main/res/layout/fragment_mument_dialog.xml" value="0.15121580547112462" />
+        <entry key="app/src/main/res/layout/fragment_music_detail.xml" value="0.1995022812111157" />
+        <entry key="app/src/main/res/layout/fragment_my_like.xml" value="0.2418478260869565" />
+        <entry key="app/src/main/res/layout/fragment_my_mument.xml" value="0.10462962962962963" />
+        <entry key="app/src/main/res/layout/fragment_record.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_record_search.xml" value="0.22554347826086957" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_song_detail.xml" value="0.21415850400712377" />
+        <entry key="app/src/main/res/layout/item_banner_layout.xml" value="0.2821557971014493" />
+        <entry key="app/src/main/res/layout/item_emotional_tag.xml" value="0.2667572463768116" />
+        <entry key="app/src/main/res/layout/item_heard_mument_layout.xml" value="0.14463019250253292" />
+        <entry key="app/src/main/res/layout/item_impressive_emotion_mument_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_is_first_tag.xml" value="0.14739583333333334" />
+        <entry key="app/src/main/res/layout/item_locker_card.xml" value="0.39566695601851853" />
+        <entry key="app/src/main/res/layout/item_locker_date.xml" value="0.14010416666666667" />
+        <entry key="app/src/main/res/layout/item_mument_filter_string_tag.xml" value="0.14739583333333334" />
+        <entry key="app/src/main/res/layout/item_mument_image.xml" value="0.2518518518518518" />
+        <entry key="app/src/main/res/layout/item_mument_layout.xml" value="0.1203125" />
+        <entry key="app/src/main/res/layout/item_mument_string_tag.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_music_detail_list.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/item_music_detail_mument.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/item_search_list.xml" value="0.14010416666666667" />
+        <entry key="app/src/main/res/layout/item_song_detail_mument.xml" value="0.3128007699711261" />
+        <entry key="app/src/main/res/layout/item_tag_checkbox.xml" value="0.7323455810546875" />
+        <entry key="app/src/main/res/layout/mument_layout_cardview.xml" value="0.2546816479400749" />
+        <entry key="app/src/main/res/menu/menu_bottom_navi.xml" value="0.29583333333333334" />
+        <entry key="core_dependent/src/main/res/drawable/rectangle_fill_blue3_20dp.xml" value="0.151" />
+        <entry key="core_dependent/src/main/res/drawable/rectangle_fill_gray5_11dp.xml" value="0.151" />
+        <entry key="core_dependent/src/main/res/drawable/rectangle_fill_purple2_20dp.xml" value="0.157" />
+        <entry key="core_dependent/src/main/res/layout/item_mument_string_tag.xml" value="0.14739583333333334" />
+        <entry key="feature/detail/src/main/res/drawable/selector_heart_on_off.xml" value="0.151" />
+        <entry key="feature/detail/src/main/res/layout/item_mument_string_tag.xml" value="0.17291666666666666" />
+        <entry key="feature/locker/src/main/res/drawable-v24/rectangle_fill_blue3_20dp.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/drawable-v24/rectangle_fill_gray5_20dp.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/drawable-v24/rectangle_fill_purple2_20dp.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/drawable-v24/rectangle_fill_purple_11dp.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/drawable-v24/selector_heart_on_off.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/drawable-v24/shape_border_default_redius_11dp.xml" value="0.151" />
+        <entry key="feature/locker/src/main/res/font/noto_sans.xml" value="0.17135416666666667" />
+        <entry key="feature/locker/src/main/res/layout/fragment_locker.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_locker_filter_bottom_sheet.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_locker_frame.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_locker_like_filter_bottom_sheet.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_my_like.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_my_mument.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_locker_card.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_locker_date.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_mument_filter_string_tag.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_mument_image.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_mument_string_tag.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/item_tag_checkbox.xml" value="0.14114583333333333" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

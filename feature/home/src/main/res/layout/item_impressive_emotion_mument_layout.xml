@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="randomMument"
+            type="com.mument_android.domain.entity.home.Mument" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_mument"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="5dp"
+        android:background="@drawable/shape_border_default_redius_11dp"
+        android:elevation="3dp"
+        android:paddingHorizontal="13dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="13dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_musicnote"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/TextView.Mument_B2_B13.Style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@{randomMument.music.name + ` - ` + randomMument.music.artist}"
+            android:textColor="@color/mument_color_black2"
+            app:layout_constraintBottom_toBottomOf="@id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageView"
+            app:layout_constraintTop_toTopOf="@id/imageView"
+            tools:text="민수는 혼란스럽다 - 민수" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/TextView.Mument_B5_M13.Style"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:text="@{randomMument.content}"
+            android:textColor="@color/mument_color_gray1"
+            app:layout_constraintBottom_toTopOf="@id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            tools:text="안녕하세요. 배가 고픕니다. 맛있는 밥과 김치찌개를 먹고 싶습니다. 도서관에 책 반납도 하고 샤워도 하고 싶습니다." />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="13dp"
+            android:background="@color/mument_color_gray4"
+            app:layout_constraintBottom_toTopOf="@+id/imageView2" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            load_profile="@{randomMument.user.image}"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@drawable/ic_heart_off" />
+
+        <TextView
+            style="@style/TextView.Mument_C1_R12.Style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="@{randomMument.user.name}"
+            app:layout_constraintBottom_toBottomOf="@id/imageView2"
+            app:layout_constraintStart_toEndOf="@id/imageView2"
+            app:layout_constraintTop_toTopOf="@id/imageView2"
+            tools:text="이수지" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

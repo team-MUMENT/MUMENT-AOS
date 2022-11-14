@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+        <import type="com.mument_android.home.R" />
+        <variable
+            name="mument"
+            type="com.mument_android.domain.entity.home.TodayMumentEntity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_mument"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:background="@drawable/shape_border_default_redius_11dp"
+        android:elevation="3dp"
+        android:paddingHorizontal="13dp"
+        android:paddingTop="11dp"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                load_profile="@{mument.userImage}"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                tools:src="@drawable/ic_heart_off" />
+
+            <TextView
+                style="@style/TextView.Mument_C1_R12.Style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_weight="1"
+                android:text="@{mument.userName}"
+                tools:text="이수지" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="11dp"
+            android:background="@color/mument_color_gray4"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <ImageView
+            android:id="@+id/imageview"
+            load_album="@{mument.musicImage}"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:src="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/TextView.Mument_B2_B14.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toEndOf="@+id/imageview"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            android:text="@{mument.musicName}"
+            tools:text="Antifreeze" />
+
+        <TextView
+            android:id="@+id/tv_sub"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="10dp"
+            android:text="@{mument.musicArtist}"
+            app:layout_constraintStart_toEndOf="@+id/imageview"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:text="백예린" />
+
+        <TextView
+            android:id="@+id/textView8"
+            style="@style/TextView.Mument_B6_B12.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/rectangle_fill_purple2_20dp"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:paddingHorizontal="7dp"
+            android:paddingVertical="5dp"
+            android:layout_marginTop="3dp"
+            android:text="@{mument.first?`처음` : `다시`}"
+            android:textColor="@color/mument_color_purple1"
+            app:layout_constraintStart_toEndOf="@id/imageview"
+            app:layout_constraintTop_toBottomOf="@id/tv_sub"
+            tools:text="다시" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_tags"
+            android:layout_width="0dp"
+            android:layout_marginTop="3dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:layout_marginStart="8dp"
+            tools:itemCount="2"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toEndOf="@+id/textView8"
+            app:layout_constraintTop_toTopOf="@id/textView8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/textView8"
+            tools:listitem="@layout/item_mument_string_tag" />
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="@{mument.content}"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/rv_tags"
+            tools:text="음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="@{mument.date}"
+            android:textColor="@color/mument_color_gray2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="1 Sep, 2020" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

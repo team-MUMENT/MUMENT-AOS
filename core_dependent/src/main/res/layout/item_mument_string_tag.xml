@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tagEntity"
+            type="com.mument_android.core.model.TagEntity" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            setTagType="@{tagEntity.tagType}"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:includeFontPadding="false"
+            android:paddingStart="8dp"
+            android:textSize="12sp"
+            android:fontFamily="@font/notosans_medium"
+            android:textColor="@color/mument_color_gray1"
+            android:paddingTop="5dp"
+            android:paddingEnd="13dp"
+            android:paddingBottom="5dp"
+            android:gravity="center"
+            android:text="@{tagEntity.tagString}"
+            tools:text="@string/emotional_confidence" />
+
+    </FrameLayout>
+</layout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="mument_detail_dummy_strings">음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심</string>
+    <string name="muments_recorded_by_me">내가 기록한 뮤멘트</string>
+    <string name="tag_is_first">처음</string>
+    <string name="tag_has_heard">다시</string>
+    <string name="every_mument">모든 뮤멘트</string>
+    <string name="sort_latest">최신순</string>
+    <string name="mument">뮤멘트</string>
+    <string name="sort_like_count">좋아요순</string>
+    <string name="show_my_history"><![CDATA[나의 히스토리 보기 >]]></string>
+    <string name="locker_mument_empty_title">아직 기록한 뮤멘트가 없어요.</string>
+    <string name="like_count_integer_format">%d명이 좋아합니다.</string>
+    <string name="go_to_mument_history_integer_format">%d개의 뮤멘트가 있는 히스토리 보러가기</string>
+    <string name="record_mument">뮤멘트 기록하기</string>
+    <string name="write_earliest_mument">가장 먼저 뮤멘트를 남겨보세요.</string>
+    <string name="write_first_mument">첫 뮤멘트를 남겨보세요.</string>
+</resources>

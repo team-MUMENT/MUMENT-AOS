@@ -7,6 +7,7 @@ object KotlinDependencies {
 }
 
 object AndroidXDependencies {
+    const val window = "androidx.window:window:${Versions.window}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
     const val constraintLayout =
@@ -20,11 +21,20 @@ object AndroidXDependencies {
     const val lifeCycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleVersion}"
     const val lifecycleJava8 =
         "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycleVersion}"
+
+    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycleVersion}"
+    const val liveData =  "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleVersion}"
     const val legacy = "androidx.legacy:legacy-support-v4:${Versions.legacySupportVersion}"
     const val security = "androidx.security:security-crypto:${Versions.securityVersion}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
     const val junit = "androidx.test.ext:junit-ktx:${Versions.junit}"
     const val cardview = "androidx.cardview:cardview:${Versions.cardviewVersion}"
+    const val emoji = "androidx.emoji:emoji:${Versions.emoji}"
+    const val dataStore = "androidx.datastore:datastore-core:${Versions.dataStore}"
+    const val protoBuf = "com.google.protobuf:protobuf-javalite:${Versions.protoBuf}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
+    const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
+    const val room = "androidx.room:room-ktx:${Versions.roomVersion}"
 }
 
 object HiltDependencies {
@@ -35,6 +45,10 @@ object TestDependencies {
     const val jUnit = "junit:junit:${Versions.junitVersion}"
     const val androidTest = "androidx.test.ext:junit:${Versions.androidTestVersion}"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoVersion}"
+    const val mockito = "org.mockito:mockito-core:${Versions.mockitoCoreVersion}"
+    const val mockitoAndroidTest = "org.mockito:mockito-android:${Versions.mockitoAndroidVersion}"
+    const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
+    const val coreTesting = "androidx.arch.core:core-testing:2.1.0"
 }
 
 object MaterialDesignDependencies {
@@ -44,7 +58,8 @@ object MaterialDesignDependencies {
 
 object KaptDependencies {
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glideVersion}"
-    const val hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
+    const val hiltAndroidCompiler =
+        "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
 }
 
 object ThirdPartyDependencies {
@@ -59,7 +74,14 @@ object ThirdPartyDependencies {
     const val coil = "io.coil-kt:coil:${Versions.coilVersion}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timberVersion}"
     const val gson = "com.google.code.gson:gson:${Versions.gsonVersion}"
-    const val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.gsonConverterVersion}"
+    const val gsonConverter =
+        "com.squareup.retrofit2:converter-gson:${Versions.gsonConverterVersion}"
+    const val flexBox = "com.google.android.flexbox:flexbox:${Versions.flexBoxVersion}"
+
 }
 
 
+object Plugins {
+    const val HILT_PLUGIN = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltVersion}"
+    const val SAFE_ARGS_PLUGIN = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navVersion}"
+}

@@ -4,24 +4,27 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs")
     id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
-    compileSdk = 32
+    compileSdk = DefaultConfig.COMPILE_SDK
 
     defaultConfig {
-        applicationId = "com.mument_android"
-        minSdk = 26
-        targetSdk = 32
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = DefaultConfig.APPLICATION_ID
+        minSdk = DefaultConfig.MIN_SDK
+        targetSdk = DefaultConfig.TARGET_SDK
+        versionCode = DefaultConfig.VERSION_CODE
+        versionName = DefaultConfig.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+        buildConfigField("String", "USER_ID", properties.getProperty("USER_ID"))
     }
 
     buildTypes {
@@ -38,7 +41,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = DefaultConfig.JVM_TARGET
     }
 
     buildFeatures {
@@ -48,57 +51,32 @@ android {
 }
 
 dependencies {
-
-    implementation(AndroidXDependencies.coreKtx)
-    implementation(AndroidXDependencies.appCompat)
-    implementation(MaterialDesignDependencies.materialDesign)
-    implementation(AndroidXDependencies.constraintLayout)
-    testImplementation(TestDependencies.jUnit)
-    androidTestImplementation(TestDependencies.androidTest)
-    androidTestImplementation(TestDependencies.espresso)
-
-    //navigation component
-    implementation(AndroidXDependencies.navigationFragment)
-    implementation(AndroidXDependencies.navigationUI)
-
-    //coil
+    addAndroidXDependencies()
+    implementation(AndroidXDependencies.window)
+    addNetworkDependencies()
+    addNavigationDependencies()
+    addDaggerHiltDependencies()
+    implementation(AndroidXDependencies.lifecycleJava8)
+    addLifecycleDependencies()
+    addRoomDependencies()
+    addTestDependencies()
     implementation(ThirdPartyDependencies.coil)
-
-    //Lottie
     implementation(ThirdPartyDependencies.lottie)
-
-    //cardView
     implementation(AndroidXDependencies.cardview)
-
-    //coRoutine
     implementation(KotlinDependencies.coroutines)
-
-    //retrofit
-    implementation(ThirdPartyDependencies.gsonConverter)
-    implementation(ThirdPartyDependencies.retrofit)
-
-    //okhttp
-    implementation(ThirdPartyDependencies.okHttp)
-    implementation(ThirdPartyDependencies.okHttpBom)
-    implementation(ThirdPartyDependencies.okHttpLoggingInterceptor)
-
-    //gson
+    implementation(AndroidXDependencies.coroutines)
     implementation(ThirdPartyDependencies.gson)
     implementation(KotlinDependencies.kotlinxSerialization)
-
-    //Timber
     implementation(ThirdPartyDependencies.timber)
+    implementation(ThirdPartyDependencies.flexBox)
 
-    //recyclerview
-    implementation(AndroidXDependencies.recyclerView)
-
-    // Jetpack Lifecycle
-    implementation(AndroidXDependencies.coroutines)
-    implementation(AndroidXDependencies.lifeCycleKtx)
-    implementation(AndroidXDependencies.lifecycleJava8)
-
-    // Hilt
-    implementation(HiltDependencies.hilt)
-    kapt(KaptDependencies.hiltAndroidCompiler)
-
+    implementation(project(Modules.CORE_MODULE))
+    implementation(project(Modules.DATA_MODULE))
+    implementation(project(Modules.DOMAIN_MODULE))
+    implementation(project(Modules.CORE_DEPENDENT_MODULE))
+    implementation(project(Modules.FEATURE_LOCKER_MODULE))
+    implementation(project(Modules.FEATURE_LOGIN_MODULE))
+    implementation(project(Modules.FEATURE_HOME_MODULE))
+    implementation(project(Modules.FEATURE_RECORD_MODULE))
+    implementation(project(Modules.FEATURE_DETAIL_MODULE))
 }

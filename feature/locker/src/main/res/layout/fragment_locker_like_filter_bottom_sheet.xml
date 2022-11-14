@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/rectangle_fill_white_top_11dp">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_filter_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_filter_title"
+            style="@style/TextView.Mument_H2_B18.TextAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/locker_filter"
+            android:textColor="@color/mument_color_black2"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_filter_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="23dp"
+            android:src="@drawable/ic_delete_light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_filter"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/mument_color_gray3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_filter_title" />
+
+        <TextView
+            android:id="@+id/tv_locker_max_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="/ 3"
+            android:textColor="@color/mument_color_gray2"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/view_filter"
+            app:layout_constraintTop_toBottomOf="@+id/view_filter" />
+
+        <TextView
+            android:id="@+id/tv_filter_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:text="0"
+            android:textColor="@color/mument_color_blue1"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_locker_max_num"
+            app:layout_constraintEnd_toStartOf="@+id/tv_locker_max_num"
+            app:layout_constraintTop_toTopOf="@+id/tv_locker_max_num"
+            tools:text="0" />
+
+        <TextView
+            android:id="@+id/tv_filter_total"
+            style="@style/TextView.Mument_B1_B15.TextAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/locker_impress_selection"
+            android:textColor="@color/mument_color_black2"
+            app:layout_constraintStart_toStartOf="@+id/view_filter"
+            app:layout_constraintTop_toBottomOf="@+id/tv_filter_num" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_impressive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_filter_total"
+            app:layout_constraintTop_toBottomOf="@+id/tv_filter_total"
+            tools:listitem="@layout/item_mument_string_tag" />
+
+        <TextView
+            android:id="@+id/tv_filter_impress"
+            style="@style/TextView.Mument_B1_B15.TextAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="33dp"
+            android:text="@string/locker_emotion"
+            android:textColor="@color/mument_color_black2"
+            app:layout_constraintStart_toStartOf="@+id/tv_filter_total"
+            app:layout_constraintTop_toBottomOf="@+id/rv_impressive" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_emotion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_filter_impress"
+            app:layout_constraintTop_toBottomOf="@+id/tv_filter_impress"
+            tools:listitem="@layout/item_mument_string_tag" />
+
+        <TextView
+            android:id="@+id/tv_clear_all"
+            style="@style/TextView.Mument_B4_M14.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="46dp"
+            android:text="@string/locker_delete"
+            android:layout_marginBottom="29dp"
+            android:textColor="@color/mument_color_gray2"
+            app:layout_constraintBottom_toTopOf="@+id/cl_selected_tag"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_emotion" />
+
+        <TextView
+            android:id="@+id/tv_approve"
+            style="@style/TextView.Mument_B2_B13.TextAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangle_fill_purple_11dp"
+            android:includeFontPadding="false"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            android:text="@string/locker_apply_tag"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_clear_all"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_clear_all" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_selected_tag"
+            android:layout_width="match_parent"
+            android:layout_height="79dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/mument_color_gray3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_clear_all"
+            app:layout_constraintTop_toBottomOf="@+id/tv_approve">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_selected_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_mument_filter_string_tag" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
