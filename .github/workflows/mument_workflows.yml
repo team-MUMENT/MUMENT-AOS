@@ -6,10 +6,10 @@ name: MumentAndroidCI
 on:
   push:
     branches:
-      - main
+      - develop
   pull_request:
     branches:
-      - main
+      - develop
 
   workflow_dispatch:
 
@@ -60,16 +60,16 @@ jobs:
         with:
           slack_token: ${{ secrets.SLACK_READ_WRITE_TOKEN }}
           channels: ${{ secrets.SLACK_CHANNEL_DEPLOY }}
-          file_path: 'app/build/outputs/apk/release/app-release-unsigned.apk'
-          file_name: 'app-release-unsigned.apk'
+          file_path: 'app/build/outputs/apk/debug/app-debug.apk'
+          file_name: 'app-debug.apk.apk'
           file_type: 'apk'
           initial_comment: '${{ github.ref }} Success Deploy Mument App'
           
       - name: Mument apk artifact
         uses: actions/upload-artifact@v3
         with:
-          name: app-release-unsigned.apk
-          path: app/build/outputs/apk/release/app-release-unsigned.apk
+          name: app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
           
       - name: action-slack
         uses: 8398a7/action-slack@v3
