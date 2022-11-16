@@ -22,12 +22,12 @@ jobs:
 
       - name: Decode BASE_URL
         env:
-          BASE_URL: ${ secrets.BASE_URL }
+          BASE_URL: ${{ secrets.BASE_URL }}
         run: echo BASE_URL=\"$BASE_URL\" > ./local.properties
 
       - name: Decode USER_ID
         env:
-          BASE_URL: ${ secrets.USER_ID }
+          USER_ID: ${{ secrets.USER_ID }}
         run: echo USER_ID=\"$USER_ID\" > ./local.properties
           
       - name: Gradle cache
