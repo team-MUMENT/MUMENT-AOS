@@ -23,8 +23,8 @@ android {
         versionName = DefaultConfig.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
-        buildConfigField("String", "USER_ID", properties.getProperty("USER_ID"))
+        buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
+        buildConfigField("String", "USER_ID", properties["USER_ID"] as String)
     }
 
     buildTypes {
