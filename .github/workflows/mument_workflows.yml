@@ -53,9 +53,9 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
         
       - name: Build APK
-        run: bash ./gradlew assembleRelease --stacktrace
+        run: bash ./gradlew assembleDebug --stacktrace
         
-      - run: './gradlew assembleRelease'
+      - run: './gradlew assembleDebug'
       - uses: MeilCli/slack-upload-file@v1
         with:
           slack_token: ${{ secrets.SLACK_READ_WRITE_TOKEN }}
