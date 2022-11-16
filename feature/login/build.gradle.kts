@@ -26,6 +26,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+        getByName("debug") {
+            buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
+            buildConfigField("String", "USER_ID", properties["USER_ID"] as String)
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
