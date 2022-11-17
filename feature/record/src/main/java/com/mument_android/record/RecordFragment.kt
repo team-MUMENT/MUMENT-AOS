@@ -90,9 +90,6 @@ class RecordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.recordViewModel = recordViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
-
-
         setTagRecyclerView()
         countText()
 

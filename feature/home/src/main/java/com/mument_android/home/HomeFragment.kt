@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
         setListData()
 
         binding.tvSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+            //findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
     }
 
