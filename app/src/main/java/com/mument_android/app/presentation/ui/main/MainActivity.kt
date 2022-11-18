@@ -42,7 +42,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     //appbar 상단 모서리 radius값 추가
     private fun customAppBar() {
-        val radius = 80f
+        val radius = 48f
         val bottomAppBar = binding.appBar
 
         val bottomBarBackground = bottomAppBar.background as MaterialShapeDrawable

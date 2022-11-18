@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             app:fabAlignmentMode="center"
-            app:fabCradleRoundedCornerRadius="30dp"
+            app:fabCradleRoundedCornerRadius="24dp"
             app:layout_constraintBottom_toBottomOf="@+id/nav_host"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
