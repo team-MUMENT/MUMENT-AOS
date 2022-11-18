@@ -38,6 +38,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         customAppBar()
     }
 
+    //TODO : 아이콘 변경
+
+    //appbar 상단 모서리 radius값 추가
     private fun customAppBar() {
         val radius = 80f
         val bottomAppBar = binding.appBar
@@ -50,6 +53,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
             .build()
     }
 
+    //floatingBtn 클릭 시 기록하기 뷰로 이동
     private fun floatingBtnListener() {
         binding.floatingActionButton.setOnClickListener {
             findNavController(R.id.nav_host).navigate(R.id.fragment_record)
