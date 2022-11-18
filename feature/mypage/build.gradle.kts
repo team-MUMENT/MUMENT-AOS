@@ -1,14 +1,13 @@
 import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs")
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
-
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 
@@ -16,19 +15,17 @@ android {
     compileSdk = DefaultConfig.COMPILE_SDK
 
     defaultConfig {
-        applicationId = DefaultConfig.APPLICATION_ID
         minSdk = DefaultConfig.MIN_SDK
         targetSdk = DefaultConfig.TARGET_SDK
-        versionCode = DefaultConfig.VERSION_CODE
-        versionName = DefaultConfig.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
         buildConfigField("String", "USER_ID", properties.getProperty("USER_ID"))
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -51,25 +48,15 @@ android {
 }
 
 dependencies {
+    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("com.google.android.material:material:1.4.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     addAndroidXDependencies()
-    addNavigationDependencies()
-    addRoomDependencies()
-    addDaggerHiltDependencies()
-    implementation(AndroidXDependencies.lifecycleJava8)
-    addLifecycleDependencies()
     addTestDependencies()
-    addNetworkDependencies()
-    implementation(ThirdPartyDependencies.gson)
-    implementation(ThirdPartyDependencies.timber)
-    implementation(project(Modules.CORE_MODULE))
-    implementation(project(Modules.CORE_DEPENDENT_MODULE))
-    implementation(project(Modules.DOMAIN_MODULE))
-    implementation(project(Modules.NAVIGATION_MODULE))
-    implementation(project(Modules.DATA_MODULE))
-    implementation(project(Modules.FEATURE_LOCKER_MODULE))
-    implementation(project(Modules.FEATURE_LOGIN_MODULE))
-    implementation(project(Modules.FEATURE_HOME_MODULE))
-    implementation(project(Modules.FEATURE_RECORD_MODULE))
-    implementation(project(Modules.FEATURE_DETAIL_MODULE))
-    implementation(project(Modules.FEATURE_MY_PAGE_MODULE))
+    addNavigationDependencies()
+    addDaggerHiltDependencies()
+    addLifecycleDependencies()
+    implementation(ThirdPartyDependencies.coil)
+    implementation(KotlinDependencies.coroutines)
+    implementation(AndroidXDependencies.coroutines)
 }

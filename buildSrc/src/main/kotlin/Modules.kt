@@ -10,4 +10,6 @@ object Modules {
     const val FEATURE_LOCKER_MODULE = ":feature:locker"
     const val FEATURE_RECORD_MODULE = ":feature:record"
     const val FEATURE_DETAIL_MODULE = ":feature:detail"
+    const val FEATURE_MY_PAGE_MODULE = ":feature:mypage"
+
 }
