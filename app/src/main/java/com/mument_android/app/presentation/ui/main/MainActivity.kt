@@ -39,7 +39,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     private fun customAppBar() {
-        val radius = 50f
+        val radius = 80f
         val bottomAppBar = binding.appBar
 
         val bottomBarBackground = bottomAppBar.background as MaterialShapeDrawable
