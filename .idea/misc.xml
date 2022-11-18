@@ -110,6 +110,10 @@
         <entry key="feature/locker/src/main/res/layout/item_mument_image.xml" value="0.14114583333333333" />
         <entry key="feature/locker/src/main/res/layout/item_mument_string_tag.xml" value="0.14114583333333333" />
         <entry key="feature/locker/src/main/res/layout/item_tag_checkbox.xml" value="0.14114583333333333" />
+        <entry key="feature/mypage/src/main/res/layout/activity_my_page.xml" value="0.1" />
+        <entry key="feature/record/src/main/res/drawable/rectangle_fill_gray5_11dp.xml" value="0.1655" />
+        <entry key="feature/record/src/main/res/drawable/retangle_fill_gray3_14dp.xml" value="0.1655" />
+        <entry key="feature/record/src/main/res/drawable/retangle_fill_gray5_11dp.xml" value="0.1655" />
       </map>
     </option>
   </component>

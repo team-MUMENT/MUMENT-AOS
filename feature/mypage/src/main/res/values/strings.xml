@@ -1,1 +1,31 @@
-<resources></resources>
+<resources>
+    <string name="app_name">Mument_Android</string>
+
+    <!-- my page view -->
+    <string name="my_page_title">마이페이지</string>
+    <string name="my_page_profile">프로필</string>
+    <string name="my_page_setting">설정</string>
+    <string name="my_page_alarm_setting">알람 설정</string>
+    <string name="my_page_block_user_management">차단 유저 관리</string>
+    <string name="my_page_service">서비스</string>
+    <string name="my_page_notice">공지사항</string>
+    <string name="my_page_FAQ">자주 묻는 질문</string>
+    <string name="my_page_inquiry">문의하기</string>
+    <string name="my_page_info">정보</string>
+    <string name="my_page_TOS">약관 및 정책</string>
+    <string name="my_page_open_source">오픈소스 라이선스</string>
+
+    <string name="my_page_version_info">버전 정보</string>
+    <string name="my_page_log_out">로그아웃</string>
+    <string name="my_page_withdrawal">회원탈퇴</string>
+
+
+
+
+
+
+
+
+
+
+</resources>
