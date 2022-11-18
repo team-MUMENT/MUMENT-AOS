@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.RoundedCornerTreatment
@@ -34,6 +35,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         super.onCreate(savedInstanceState)
         initNavigation()
         floatingBtnListener()
+        customAppBar()
+    }
+
+    private fun customAppBar() {
+        val radius = 50f
+        val bottomAppBar = binding.appBar
+
+        val bottomBarBackground = bottomAppBar.background as MaterialShapeDrawable
+        bottomBarBackground.shapeAppearanceModel = bottomBarBackground.shapeAppearanceModel
+            .toBuilder()
+            .setTopRightCorner(CornerFamily.ROUNDED, radius)
+            .setTopLeftCorner(CornerFamily.ROUNDED, radius)
+            .build()
     }
 
     private fun floatingBtnListener() {
@@ -45,7 +59,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     private fun initNavigation() {
         binding.navBar.background = null
         binding.navBar.menu.getItem(1).isEnabled = false
-        binding.navBar.menu.getItem(1).isVisible = false
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
