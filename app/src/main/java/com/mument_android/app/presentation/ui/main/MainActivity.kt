@@ -21,6 +21,7 @@ import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.record.RecordFragment.Companion.MUMENT_DETAIL_ENTITY
 import com.mument_android.record.RecordFragment.Companion.MUMENT_ID_FOR_EDIT
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -32,15 +33,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNavigation()
-        floatingBtn()
+        floatingBtnListener()
     }
 
-    private fun floatingBtn() {
-        val bottomBarBackground = binding.appBar.background as MaterialShapeDrawable
-        bottomBarBackground.shapeAppearanceModel = bottomBarBackground.shapeAppearanceModel
-            .toBuilder()
-            .setAllCorners(RoundedCornerTreatment()).setAllCornerSizes(RelativeCornerSize(0.5f))
-            .build()
+    private fun floatingBtnListener() {
+        binding.floatingActionButton.setOnClickListener {
+            findNavController(R.id.nav_host).navigate(R.id.fragment_record)
+        }
     }
 
     private fun initNavigation() {
@@ -71,12 +70,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
                             MUMENT_DETAIL_ENTITY,
                             viewModel.mumentDetailContents.value
                         )
-                    }else if(viewModel.checkMusic()){
+                    } else if (viewModel.checkMusic()) {
                         bundle.putParcelable("music", viewModel.music.value)
                     }
                 }
                 else -> {}
+
             }
+
             navController.navigate(item.itemId, bundle)
             viewModel.clearBundle()
             false
