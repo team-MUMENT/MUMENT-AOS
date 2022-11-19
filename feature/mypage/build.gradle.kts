@@ -51,6 +51,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation(project(mapOf("path" to ":core_dependent")))
     addAndroidXDependencies()
     addTestDependencies()
     addNavigationDependencies()
@@ -59,4 +60,7 @@ dependencies {
     implementation(ThirdPartyDependencies.coil)
     implementation(KotlinDependencies.coroutines)
     implementation(AndroidXDependencies.coroutines)
+    implementation(AndroidXDependencies.preference)
+
+
 }
