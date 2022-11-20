@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
                         android:fontFamily="@font/notosans_medium"
-                        android:text="@string/notify_personal_info"
+                        android:text="@string/notify_not_relative"
                         android:textColor="@color/black"
                         android:textSize="14dp"
                         app:layout_constraintBottom_toBottomOf="parent"
