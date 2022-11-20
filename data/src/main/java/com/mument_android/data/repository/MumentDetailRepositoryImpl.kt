@@ -1,5 +1,6 @@
 package com.mument_android.data.repository
 
+import android.util.Log
 import com.mument_android.data.controller.DeleteMumentController
 import com.mument_android.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.data.mapper.detail.MumentDetailMapper
@@ -24,8 +25,6 @@ class MumentDetailRepositoryImpl @Inject constructor(
         mumentDetailDataSource.fetchMumentDetail(mumentId, userId)
             .map { it.data?.let { mumentDetailMapper.map(it) } }
             .flowOn(Dispatchers.Default)
-            .catch { //Todo exception handling
-            }
 
     override suspend fun deleteMument(mumentId: String): Flow<Unit> =
         deleteMumentController.deleteMument(mumentId)

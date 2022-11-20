@@ -1,17 +1,18 @@
 package com.mument_android.detail.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.usecase.detail.DeleteMumentUseCase
 import com.mument_android.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
-import com.mument_android.core.network.ApiResult
+import com.mument_android.core_dependent.util.setState
 import com.mument_android.detail.BuildConfig
+import com.mument_android.detail.mument.MumentDetailContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -27,6 +28,9 @@ class MumentDetailViewModel @Inject constructor(
 ) : ViewModel() {
     val isLiked = MutableStateFlow<Boolean>(false)
 
+    private val _viewState = MutableStateFlow(MumentDetailContract.MumentDetailState())
+    val viewState = _viewState.asStateFlow()
+
     private val _hasWritten = MutableLiveData<Boolean>()
     val hasWritten: LiveData<Boolean> = _hasWritten
 
@@ -35,13 +39,6 @@ class MumentDetailViewModel @Inject constructor(
 
     private val _mumentId = MutableStateFlow("")
     val mumentId = _mumentId.asStateFlow()
-
-    private val _mumentDetailContent =
-        MutableStateFlow<ApiResult<MumentDetailEntity?>>(ApiResult.Idle(null))
-    val mumentDetailContent = _mumentDetailContent.asStateFlow()
-
-    private val _likeCount = MutableStateFlow(0)
-    val likeCount = _likeCount.asStateFlow()
 
     private val _successDelete = MutableSharedFlow<Unit>()
     val successDelete = _successDelete.asSharedFlow()
@@ -57,29 +54,44 @@ class MumentDetailViewModel @Inject constructor(
     }
 
     private fun increaseLikeCount() {
-        _likeCount.value = likeCount.value + 1
+        _viewState.value = MumentDetailContract.MumentDetailState(likeCount = viewState.value.likeCount + 1)
     }
 
     private fun decreaseLikeCount() {
-        _likeCount.value = likeCount.value - 1
+        _viewState.value = MumentDetailContract.MumentDetailState(likeCount = viewState.value.likeCount - 1)
     }
 
     fun fetchMumentDetailContent(mumentId: String) {
         viewModelScope.launch {
             fetchMumentDetailContentUseCase(mumentId, BuildConfig.USER_ID).onStart {
-                _mumentDetailContent.value = ApiResult.Loading(null)
+                _viewState.setState { copy(onNetwork = true) }
             }.catch { e ->
-                _mumentDetailContent.value = ApiResult.Failure(e)
-            }.collect {
-                _mumentDetailContent.value = ApiResult.Success(it)
-                isLiked.value = it?.isLiked ?: false
-                _likeCount.value = it?.likeCount ?: 0
-                checkMumentHasWritten(it?.musicInfo?.id ?: "")
+                _viewState.setState { copy(hasError= true, onNetwork = false) }
+            }.collect { mument ->
+                _viewState.setState {
+                    if (mument == null) {
+                        copy(hasError = true, onNetwork = false)
+                    } else {
+                        checkMumentHasWritten(mument.musicInfo.id)
+                        copy(
+                            writer = mument.writerInfo,
+                            musicInfo = mument.musicInfo,
+                            isFirst = mument.isFirst,
+                            tags = mument.combineTags(),
+                            content = mument.content,
+                            createdDate = mument.createdDate,
+                            isLiked = mument.isLiked,
+                            mumentHistoryCount = mument.mumentHistoryCount,
+                            likeCount = mument.likeCount,
+                            onNetwork = false
+                        )
+                    }
+                }
             }
         }
     }
 
-    fun checkMumentHasWritten(musicId: String) {
+    private fun checkMumentHasWritten(musicId: String) {
         viewModelScope.launch {
             fetchMumentListUseCase(musicId, BuildConfig.USER_ID, "Y")
                 .catch { e -> //Todo exception handling
@@ -95,7 +107,7 @@ class MumentDetailViewModel @Inject constructor(
             increaseLikeCount()
             likeMumentUseCase(
                 mumentId.value,
-                mumentDetailContent.value.data?.writerInfo?.userId ?: ""
+                BuildConfig.USER_ID
             ).collect {
 
             }
@@ -107,7 +119,7 @@ class MumentDetailViewModel @Inject constructor(
             decreaseLikeCount()
             cancelLikeMumentUseCase(
                 mumentId.value,
-                mumentDetailContent.value.data?.writerInfo?.userId ?: ""
+                BuildConfig.USER_ID
             ).collect {}
         }
     }

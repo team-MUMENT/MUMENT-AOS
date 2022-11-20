@@ -3,19 +3,27 @@ package com.mument_android.core_dependent.util
 import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import android.widget.FrameLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.children
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.google.android.material.snackbar.Snackbar
 import com.mument_android.core_dependent.R
+import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 
 
 object ViewUtils {
@@ -109,4 +117,29 @@ object ViewUtils {
         })
         startAnimation(animationSet)
     }
+}
+
+fun ViewGroup.showProgress() {
+    val size = 50.dpToPx(context)
+    if (!children.any { it is ProgressBar}) {
+        viewTreeObserver.addOnGlobalLayoutListener(object: OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                ProgressBar(context)
+                    .also {
+                        it.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).also {
+                            it.width = size
+                            it.height = size
+                        }
+                        it.x = (width - size).toFloat() / 2
+                        it.y = (height - size).toFloat() / 2
+                    }.also { addView(it) }
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
+}
+
+fun ViewGroup.removeProgress() {
+    val progress = children.find { it is ProgressBar }
+    removeView(progress)
 }
