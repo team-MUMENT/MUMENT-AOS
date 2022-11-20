@@ -94,8 +94,7 @@ class MumentDetailViewModel @Inject constructor(
     private fun checkMumentHasWritten(musicId: String) {
         viewModelScope.launch {
             fetchMumentListUseCase(musicId, BuildConfig.USER_ID, "Y")
-                .catch { e -> //Todo exception handling
-                }
+                .catch { e ->  }
                 .collect {
                     _hasWritten.value = it.map { it.user.userId }.contains(BuildConfig.USER_ID)
                 }
