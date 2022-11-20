@@ -4,8 +4,8 @@
 
     <application>
         <activity
-            android:name=".NotifyMumentActivity"
-            android:exported="false" />
+            android:name=".mument.NotifyMumentActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

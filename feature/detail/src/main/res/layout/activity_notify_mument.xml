@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
 
     </data>
@@ -16,12 +17,123 @@
             android:id="@+id/iv_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_back"
-            android:layout_marginTop="41dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/mument_icon_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        
+
+        <TextView
+            android:id="@+id/tv_notify_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosans_bold"
+            android:text="@string/notify_title"
+            android:textColor="@color/mument_color_black1"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_back_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_back_button" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="29dp"
+            android:fontFamily="@font/notosans_bold"
+            android:text="@string/notify_reason"
+            android:textColor="@color/mument_color_black1"
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_back_button" />
+
+        <TextView
+            android:id="@+id/tv_notify_reference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/notosans_medium"
+            android:text="@string/notify_reference"
+            android:textColor="@color/mument_color_gray1"
+            android:textSize="13dp"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/tv_notify_reference"
+            app:layout_constraintTop_toBottomOf="@+id/tv_notify_reference">
+
+            <RadioButton
+                android:id="@+id/rb_first_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:buttonTint="@color/mument_color_gray2"
+                android:fontFamily="@font/notosans_medium"
+                android:text="@string/notify_not_relative"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <RadioButton
+                android:id="@+id/rb_second_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:buttonTint="@color/mument_color_gray2"
+                android:fontFamily="@font/notosans_medium"
+                android:text="@string/notify_personal_info"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <RadioButton
+                android:id="@+id/rb_third_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:buttonTint="@color/mument_color_gray2"
+                android:fontFamily="@font/notosans_medium"
+                android:text="@string/notify_not_good"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <RadioButton
+                android:id="@+id/rb_forth_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:buttonTint="@color/mument_color_gray2"
+                android:fontFamily="@font/notosans_medium"
+                android:text="@string/notify_noxious_content"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <RadioButton
+                android:id="@+id/rb_fifth_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:buttonTint="@color/mument_color_gray2"
+                android:fontFamily="@font/notosans_medium"
+                android:text="@string/notify_same_content"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <RadioButton
+                android:id="@+id/rb_sixth_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:buttonTint="@color/mument_color_gray2"
+                android:fontFamily="@font/notosans_medium"
+                android:text="@string/notify_advertise"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+
+        </RadioGroup>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
