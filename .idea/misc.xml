@@ -10,9 +10,13 @@
         <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/menu/menu_bottom_navi.xml" value="0.24974358974358973" />
         <entry key="..\:/Users/82104/MUMENT-AOS/core_dependent/src/main/res/drawable/rectangle_fill_blue3_20dp.xml" value="0.1955" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/activity_notify_mument.xml" value="0.264" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/drawable-xhdpi/rectangle_fill_gray5_7dp.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/drawable-xhdpi/selector_radio_on_off.xml" value="0.185" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/drawable-xxxhdpi/rectangle_fill_gray5_20dp.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/activity_notify_mument.xml" value="0.4" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_mument_detail.xml" value="0.22291666666666668" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/home/src/main/res/drawable-hdpi/rectangle_fill_white_top_11dp.xml" value="0.242" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/locker/src/main/res/layout/fragment_locker.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/drawable-mdpi/selector_ic_list.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_btn_record_icon.xml" value="0.109" />
         <entry key="app/src/main/res/drawable/oval_fill_white.xml" value="0.166" />

@@ -60,81 +60,259 @@
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <RadioGroup
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_first_reason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="@+id/tv_notify_reference"
             app:layout_constraintTop_toBottomOf="@+id/tv_notify_reference">
 
-            <RadioButton
-                android:id="@+id/rb_first_reason"
+            <ImageView
+                android:id="@+id/iv_first_reason"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:buttonTint="@color/mument_color_gray2"
-                android:fontFamily="@font/notosans_medium"
-                android:text="@string/notify_not_relative"
-                android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:src="@drawable/selector_radio_on_off"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioButton
-                android:id="@+id/rb_second_reason"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:buttonTint="@color/mument_color_gray2"
+                android:layout_marginStart="7dp"
                 android:fontFamily="@font/notosans_medium"
                 android:text="@string/notify_personal_info"
                 android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_first_reason"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <RadioButton
-                android:id="@+id/rb_third_reason"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_second_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_notify_reference"
+            app:layout_constraintTop_toBottomOf="@+id/cl_first_reason">
+
+            <ImageView
+                android:id="@+id/iv_second_reason"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:buttonTint="@color/mument_color_gray2"
+                android:src="@drawable/selector_radio_on_off"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:fontFamily="@font/notosans_medium"
+                android:text="@string/notify_personal_info"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_second_reason"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_third_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_notify_reference"
+            app:layout_constraintTop_toBottomOf="@+id/cl_second_reason">
+
+            <ImageView
+                android:id="@+id/iv_third_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/selector_radio_on_off"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
                 android:fontFamily="@font/notosans_medium"
                 android:text="@string/notify_not_good"
                 android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_third_reason"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <RadioButton
-                android:id="@+id/rb_forth_reason"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_forth_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_notify_reference"
+            app:layout_constraintTop_toBottomOf="@+id/cl_third_reason">
+
+            <ImageView
+                android:id="@+id/iv_forth_reason"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:buttonTint="@color/mument_color_gray2"
+                android:src="@drawable/selector_radio_on_off"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
                 android:fontFamily="@font/notosans_medium"
                 android:text="@string/notify_noxious_content"
                 android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_forth_reason"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <RadioButton
-                android:id="@+id/rb_fifth_reason"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_fifth_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_notify_reference"
+            app:layout_constraintTop_toBottomOf="@+id/cl_forth_reason">
+
+            <ImageView
+                android:id="@+id/iv_fifth_reason"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:buttonTint="@color/mument_color_gray2"
+                android:src="@drawable/selector_radio_on_off"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
                 android:fontFamily="@font/notosans_medium"
                 android:text="@string/notify_same_content"
                 android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_fifth_reason"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <RadioButton
-                android:id="@+id/rb_sixth_reason"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_sixth_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_notify_reference"
+            app:layout_constraintTop_toBottomOf="@+id/cl_fifth_reason">
+
+            <ImageView
+                android:id="@+id/iv_sixth_reason"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:buttonTint="@color/mument_color_gray2"
+                android:src="@drawable/selector_radio_on_off"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
                 android:fontFamily="@font/notosans_medium"
                 android:text="@string/notify_advertise"
                 android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_sixth_reason"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_seventh_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_notify_reference"
+            app:layout_constraintTop_toBottomOf="@+id/cl_sixth_reason">
 
-        </RadioGroup>
+            <ImageView
+                android:id="@+id/iv_seventh_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/selector_radio_on_off"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:fontFamily="@font/notosans_medium"
+                android:text="@string/notify_etc"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_seventh_reason"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rectangle_fill_gray5_7dp"
+            android:fontFamily="@font/notosans_medium"
+            android:gravity="top"
+            android:hint="@string/notify_write_content"
+            android:lines="6"
+            android:paddingStart="13dp"
+            android:paddingTop="15dp"
+            android:textColor="@color/mument_color_black2"
+            android:textColorHint="@color/mument_color_gray1"
+            android:textSize="13dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_seventh_reason" />
+
+        <TextView
+            android:id="@+id/tv_max_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosans_medium"
+            android:text="/100"
+            android:layout_marginEnd="11dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/mument_color_gray2"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="@+id/editText"
+            app:layout_constraintEnd_toEndOf="@+id/editText" />
+
+        <TextView
+            android:id="@+id/tv_recent_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/notosans_medium"
+            android:text="0"
+            android:textColor="@color/mument_color_purple1"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="@+id/editText"
+            app:layout_constraintEnd_toStartOf="@+id/tv_max_length" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
