@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
 
 plugins {
     id("com.android.application")
@@ -10,7 +11,7 @@ plugins {
 }
 
 val properties = Properties()
-properties.load(project.rootProject.file("local.properties").inputStream())
+properties.load(rootProject.file("local.properties").inputStream())
 
 android {
     compileSdk = DefaultConfig.COMPILE_SDK
