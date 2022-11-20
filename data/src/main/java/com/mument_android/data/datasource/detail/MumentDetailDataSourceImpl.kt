@@ -12,8 +12,8 @@ import javax.inject.Inject
 class MumentDetailDataSourceImpl @Inject constructor(
     private val mumentDetailApiService: DetailApiService
 ): MumentDetailDataSource {
-    override suspend fun fetchMumentDetail(mumentId: String, userId: String): Flow<BaseResponse<MumentDetailDto>> = flow {
-        emit(mumentDetailApiService.fetchMumentDetail(mumentId, userId))
+    override suspend fun fetchMumentDetail(mumentId: String): Flow<BaseResponse<MumentDetailDto>> = flow {
+        emit(mumentDetailApiService.fetchMumentDetail(mumentId))
     }.flowOn(Dispatchers.IO)
 
 }
