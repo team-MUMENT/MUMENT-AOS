@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
 import com.mument_android.locker.adapters.LockerTimeAdapter
 import com.mument_android.locker.filter.LockerFilterBottomSheetFragment
@@ -17,11 +18,14 @@ import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.locker.MyLikeFragment.Companion.MUMENT_ID
 import com.mument_android.locker.databinding.FragmentMyMumentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MyMumentFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyMumentBinding>()
     private val lockerViewModel: LockerViewModel by viewModels()
+    @Inject
+    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -181,7 +185,8 @@ class MyMumentFragment : Fragment() {
     }
 
     private fun showMumentDetail(mumentId: String) {
-        val bundle = Bundle().also { it.putString(MUMENT_ID, mumentId) }
+        //val bundle = Bundle().also { it.putString(MUMENT_ID, mumentId) }
+        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
         //findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment, bundle)
     }
 }

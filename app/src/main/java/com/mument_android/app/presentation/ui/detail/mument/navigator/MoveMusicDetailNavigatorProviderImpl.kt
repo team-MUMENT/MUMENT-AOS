@@ -11,7 +11,7 @@ class MoveMusicDetailNavigatorProviderImpl @Inject constructor(private val activ
     override fun musicMument(musicId: String) {
         with(activity as MainActivity){
             musicMument(musicId)
-            binding.navBar.selectedItemId = R.id.fragment_home_frame
+            binding.navBar.selectedItemId = R.id.fragment_home
         }
     }
 }
