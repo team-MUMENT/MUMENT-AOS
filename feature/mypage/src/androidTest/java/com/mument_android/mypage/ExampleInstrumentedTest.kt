@@ -1,4 +1,4 @@
-package com.example.mypage
+package com.mument_android.mypage
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.mypage.test", appContext.packageName)
+        assertEquals("com.mument_android.mypage.test", appContext.packageName)
     }
 }
