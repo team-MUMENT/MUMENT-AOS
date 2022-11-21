@@ -79,6 +79,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/notosans_medium"
             android:textColor="@color/mument_color_black1"
+            android:text="@{myPageViewModel.userId}"
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_my_page_profile"
             app:layout_constraintStart_toStartOf="@+id/tv_my_page_profile"
