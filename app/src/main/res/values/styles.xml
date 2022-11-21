@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="BottomNaviCustom" parent="Widget.Design.BottomNavigationView">
+        <item name="itemPaddingTop">6dp</item>
+        <item name="itemPaddingBottom">4dp</item>
+        <item name="fontFamily">@font/notosans_medium</item>
+    </style>
 </resources>

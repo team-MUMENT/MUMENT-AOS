@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/fragment_home_frame"
+        android:id="@+id/fragment_home"
         android:icon="@drawable/selector_ic_home"
         android:title="@string/bottom_navi_home"/>
 
@@ -11,7 +11,7 @@
         android:title="@string/bottom_navi_record"/>
 
     <item
-        android:id="@+id/fragment_locker_frame"
+        android:id="@+id/fragment_locker"
         android:icon="@drawable/selector_ic_locker"
         android:title="@string/bottom_navi_locker"/>
 
