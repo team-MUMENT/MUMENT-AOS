@@ -3,15 +3,11 @@ package com.mument_android.mypage
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.os.trace
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
-import com.example.mypage.R
-import com.example.mypage.databinding.ActivityMyPageBinding
 import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.mypage.databinding.ActivityMyPageBinding
 
 class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_page) {
 
@@ -56,8 +52,8 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_
             binding.btnMyPageGoNotice,
             binding.btnMyPageGoFAQ,
             binding.btnMyPageGoInquiry,
-            binding.btnMyPageGoTOS,
-            binding.btnMyPageGoOpenSource
+            binding.btnMyPageGoAppInfo,
+            binding.btnMyPageGoIntroduceMument
         )
 
         supportFragmentManager.beginTransaction().add(R.id.fc_my_page, fragmentArray[0])

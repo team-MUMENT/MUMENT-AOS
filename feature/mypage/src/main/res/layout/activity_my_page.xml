@@ -16,13 +16,25 @@
         android:layout_height="match_parent"
         tools:context="com.mument_android.mypage.MyPageActivity">
 
+    <ScrollView
+        android:id="@+id/sv_my_page"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_my_page_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:src="@drawable/mument_icon_back"
+            android:background="@drawable/mument_icon_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_my_page_title" />
 
@@ -30,7 +42,7 @@
             android:id="@+id/tv_my_page_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="62dp"
+            android:layout_marginTop="64dp"
             android:text="@string/my_page_title"
             android:textAppearance="@style/TextView.Mument_H2_B18.TextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/mument_back_3"
+            android:background="@drawable/mument_back_3"
             android:onClick="transactionBtnEvent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_my_page_profile" />
@@ -149,7 +161,7 @@
             android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
             android:onClick="transactionBtnEvent"
-            android:src="@drawable/mument_back_3"
+            android:background="@drawable/mument_back_3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_my_page_block_user_management" />
 
@@ -195,7 +207,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/mument_back_3"
+            android:background="@drawable/mument_back_3"
             android:onClick="transactionBtnEvent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_my_page_notice" />
@@ -219,7 +231,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/mument_back_3"
+            android:background="@drawable/mument_back_3"
             android:onClick="transactionBtnEvent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_my_page_FAQ" />
@@ -243,7 +255,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/mument_back_3"
+            android:background="@drawable/mument_back_3"
             android:onClick="transactionBtnEvent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_my_page_inquiry" />
@@ -273,62 +285,62 @@
             app:layout_constraintTop_toBottomOf="@+id/view_my_page_line_03" />
 
         <TextView
-            android:id="@+id/tv_my_page_TOS"
+            android:id="@+id/tv_my_page_app_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="21dp"
             android:fontFamily="@font/notosans_medium"
-            android:text="@string/my_page_TOS"
+            android:text="@string/my_page_app_info"
             android:textColor="@color/mument_color_black1"
             android:textSize="16dp"
             app:layout_constraintStart_toStartOf="@+id/tv_my_page_info"
             app:layout_constraintTop_toBottomOf="@+id/tv_my_page_info" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_my_page_go_TOS"
+            android:id="@+id/btn_my_page_go_app_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/mument_back_3"
+            android:background="@drawable/mument_back_3"
             android:onClick="transactionBtnEvent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_my_page_TOS" />
+            app:layout_constraintTop_toTopOf="@+id/tv_my_page_app_info" />
 
 
         <TextView
-            android:id="@+id/tv_my_page_open_source"
+            android:id="@+id/tv_my_page_introduce_mument"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="21dp"
             android:fontFamily="@font/notosans_medium"
-            android:text="@string/my_page_open_source"
+            android:text="@string/my_page_introduce_mument"
             android:textColor="@color/mument_color_black1"
             android:textSize="16dp"
             app:layout_constraintStart_toStartOf="@+id/tv_my_page_info"
-            app:layout_constraintTop_toBottomOf="@+id/tv_my_page_TOS" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_my_page_app_info" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_my_page_go_open_source"
+            android:id="@+id/btn_my_page_go_introduce_mument"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/mument_back_3"
+            android:background="@drawable/mument_back_3"
             android:onClick="transactionBtnEvent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_my_page_open_source" />
+            app:layout_constraintTop_toTopOf="@+id/tv_my_page_introduce_mument" />
 
         <TextView
             android:id="@+id/tv_my_page_version_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="69dp"
+            android:layout_marginTop="55dp"
             android:fontFamily="@font/notosans_medium"
             android:text="@string/my_page_version_info"
             android:textColor="@color/mument_color_gray1"
             android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_my_page_introduce_mument"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -341,17 +353,19 @@
             app:layout_constraintEnd_toStartOf="@id/tv_my_page_withdrawal"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_my_page_version_info" />
+            app:layout_constraintTop_toBottomOf="@id/tv_my_page_version_info"/>
 
         <TextView
             android:id="@+id/tv_my_page_withdrawal"
             android:layout_width="61dp"
             android:layout_height="19dp"
             android:layout_marginTop="13dp"
+            android:layout_marginBottom="38dp"
             android:text="@string/my_page_withdrawal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_my_page_logout"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_page_version_info" />
+            app:layout_constraintTop_toBottomOf="@id/tv_my_page_version_info"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         <androidx.fragment.app.FragmentContainerView
@@ -360,8 +374,11 @@
             android:layout_height="0dp"
             android:visibility="@{myPageViewModel.isBtnClick() ?View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="-16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
