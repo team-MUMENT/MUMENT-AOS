@@ -7,8 +7,7 @@
 
     <item
         android:id="@+id/fragment_record"
-        android:icon="@drawable/selector_ic_record"
-        android:title="@string/bottom_navi_record"/>
+        android:title=""/>
 
     <item
         android:id="@+id/fragment_locker"

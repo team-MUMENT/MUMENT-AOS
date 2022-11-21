@@ -7,16 +7,23 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.RelativeCornerSize
+import com.google.android.material.shape.RoundedCornerTreatment
 import com.mument_android.R
-import com.mument_android.domain.entity.detail.MumentDetailEntity
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
+import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.databinding.ActivityMainBinding
+import com.mument_android.domain.entity.detail.MumentDetailEntity
+import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.record.RecordFragment.Companion.MUMENT_DETAIL_ENTITY
 import com.mument_android.record.RecordFragment.Companion.MUMENT_ID_FOR_EDIT
-import com.mument_android.databinding.ActivityMainBinding
-import com.mument_android.core_dependent.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
@@ -27,9 +34,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNavigation()
+        floatingBtnListener()
+        customAppBar()
+    }
+
+    //TODO : 아이콘 변경
+
+    //appbar 상단 모서리 radius값 추가
+    private fun customAppBar() {
+        val radius = 48f
+        val bottomAppBar = binding.appBar
+
+        val bottomBarBackground = bottomAppBar.background as MaterialShapeDrawable
+        bottomBarBackground.shapeAppearanceModel = bottomBarBackground.shapeAppearanceModel
+            .toBuilder()
+            .setTopRightCorner(CornerFamily.ROUNDED, radius)
+            .setTopLeftCorner(CornerFamily.ROUNDED, radius)
+            .build()
+    }
+
+    //floatingBtn 클릭 시 기록하기 뷰로 이동
+    private fun floatingBtnListener() {
+        binding.floatingActionButton.setOnClickListener {
+            findNavController(R.id.nav_host).navigate(R.id.fragment_record)
+        }
     }
 
     private fun initNavigation() {
+        binding.navBar.background = null
+        binding.navBar.menu.getItem(1).isEnabled = false
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
@@ -58,12 +91,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
                             MUMENT_DETAIL_ENTITY,
                             viewModel.mumentDetailContents.value
                         )
-                    }else if(viewModel.checkMusic()){
+                    } else if (viewModel.checkMusic()) {
                         bundle.putParcelable("music", viewModel.music.value)
                     }
                 }
                 else -> {}
+
             }
+
             navController.navigate(item.itemId, bundle)
             viewModel.clearBundle()
             false
