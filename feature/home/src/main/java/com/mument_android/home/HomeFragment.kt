@@ -1,31 +1,27 @@
 package com.mument_android.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.mument_android.domain.entity.home.BannerEntity
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.core_dependent.ui.MumentTagListAdapter
-import com.mument_android.home.viewmodels.HomeViewModel
 import com.mument_android.core.model.TagEntity
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.ImpressiveTag
-import com.mument_android.home.R
+import com.mument_android.domain.entity.home.BannerEntity
+import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.home.adapters.BannerListAdapter
 import com.mument_android.home.adapters.HeardMumentListAdapter
 import com.mument_android.home.adapters.ImpressiveEmotionListAdapter
 import com.mument_android.home.databinding.FragmentHomeBinding
+import com.mument_android.home.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -59,7 +55,10 @@ class HomeFragment : Fragment() {
         setListData()
 
         binding.tvSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+            Intent(requireActivity(), SearchActivity::class.java).apply {
+                startActivity(this)
+            }
+            //findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
     }
 
@@ -67,7 +66,7 @@ class HomeFragment : Fragment() {
         super.onResume()
 
         val homeFrame = requireParentFragment().requireParentFragment()
-    //TODO Navi
+        //TODO Navi
         /*(homeFrame as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
             if (musicId.isNotEmpty()) {
                 val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
@@ -77,13 +76,8 @@ class HomeFragment : Fragment() {
                 )
             }
         }*/
-        lifecycleScope.launchWhenCreated {
-            viewModel.bannerNumIncrease.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect { index ->
-                    binding.vpBanner.setCurrentItem(index, true)
-                }
-        }
     }
+
     // TODO NAVI
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { mument ->
@@ -94,10 +88,11 @@ class HomeFragment : Fragment() {
             /*val bundle = Bundle().also { it.putString(MUMENT_ID, mument._id) }
             findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
         }
-        bannerAdapter = BannerListAdapter(viewModel.bannerData.value!!.toMutableList()) { musicId ->
-            /*val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
-            findNavController().navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)*/
-        }
+        bannerAdapter =
+            BannerListAdapter(viewModel.bannerData.value?.toMutableList() ?: listOf()) { musicId ->
+                /*val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
+                findNavController().navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)*/
+            }
         binding.vpBanner.adapter = bannerAdapter
     }
 
@@ -112,44 +107,43 @@ class HomeFragment : Fragment() {
     }
 
     private fun setListData() {
-        viewModel.randomMument.observe(viewLifecycleOwner) {
+        collectFlowWhenStarted(viewModel.bannerNumIncrease) { index ->
+            binding.vpBanner.setCurrentItem(index, true)
+        }
+        collectFlowWhenStarted(viewModel.randomMument) {
             if (it != null) {
                 impressiveAdapter.submitList(it.mumentList)
                 binding.rcImpressive.adapter = impressiveAdapter
                 binding.tvImpressive.text = it.title
             }
         }
-        viewModel.knownMument.observe(viewLifecycleOwner) {
-            if (it != null) {
-                heardAdapter.submitList(it)
-                binding.rcHeard.adapter = heardAdapter
-            }
+        collectFlowWhenStarted(viewModel.knownMument) {
+            heardAdapter.submitList(it)
+            binding.rcHeard.adapter = heardAdapter
         }
-        viewModel.bannerData.observe(viewLifecycleOwner) {
-            if (it != null) {
-                bannerAdapter.data = it.toMutableList().map {
-                    BannerEntity(
-                        it._id,
-                        it.displayDate,
-                        Music(it.music._id, it.music.name, it.music.artist, it.music.image),
-                        it.tagTitle.replace("\\n", "\n")
-                    )
-                }
-                bannerAdapter.notifyDataSetChanged()
+        collectFlowWhenStarted(viewModel.bannerData) { banner ->
+            bannerAdapter.data = banner.map {
+                BannerEntity(
+                    it._id,
+                    it.displayDate,
+                    Music(it.music._id, it.music.name, it.music.artist, it.music.image),
+                    it.tagTitle.replace("\\n", "\n")
+                )
             }
+            bannerAdapter.notifyDataSetChanged()
         }
-        viewModel.todayMument.observe(viewLifecycleOwner) {
-            if (it != null) {
-                val data = it.cardTag.map {
-                    if (it < 200) TagEntity(
+        collectFlowWhenStarted(viewModel.todayMument) { today ->
+            if (today != null) {
+                val data = today.cardTag.map { tag ->
+                    if (tag < 200) TagEntity(
                         TagEntity.TAG_IMPRESSIVE,
-                        ImpressiveTag.findImpressiveStringTag(it),
-                        it
+                        ImpressiveTag.findImpressiveStringTag(tag),
+                        tag
                     )
                     else TagEntity(
                         TagEntity.TAG_EMOTIONAL,
-                        EmotionalTag.findEmotionalStringTag(it),
-                        it
+                        EmotionalTag.findEmotionalStringTag(tag),
+                        tag
                     )
                 }
                 binding.clCard.rvTags.adapter = MumentTagListAdapter()
@@ -157,6 +151,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
     // TODO NAVI
     private fun showMumentDetail(mumentId: String) {
         /*val bundle = Bundle().also { it.putString(MUMENT_ID, mumentId) }
