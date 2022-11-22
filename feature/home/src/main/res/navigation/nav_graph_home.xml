@@ -30,7 +30,7 @@
         android:id="@+id/searchFragment"
         android:name="com.mument_android.home.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search">
+        tools:layout="@layout/share_search_layout">
         <!--<action
             android:id="@+id/action_searchFragment_to_musicDetailFragment"
             app:destination="@id/musicDetailFragment" />-->
