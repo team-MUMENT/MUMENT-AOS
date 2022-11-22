@@ -1,75 +1,37 @@
 package com.mument_android.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.mument_android.core_dependent.ui.MumentDialogBuilder
-import com.mument_android.home.viewmodels.SearchViewModel
-import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.core.network.ApiResult
-import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.home.adapters.SearchListAdapter
 import com.mument_android.home.databinding.ShareSearchLayoutBinding
+import com.mument_android.home.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
-    private var binding by AutoClearedValue<ShareSearchLayoutBinding>()
+class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_search_layout) {
+
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = ShareSearchLayoutBinding.inflate(inflater, container, false).run {
-        binding = this
-        this.root
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.ivBack.setOnClickListener { findNavController().popBackStack() }
         settingAdapterAndDatabinding()
         collectingList()
         addClickListener()
     }
-    //TODO Navi
-    private fun settingAdapterAndDatabinding() {
-        searchAdapter = SearchListAdapter(
-            contentClickListener = { data ->
-                viewmodel.selectContent(data)
-                /*val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
-                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
-            },
-            itemClickListener = { data -> viewmodel.deleteRecentList(data) }
-        )
-        searchAdapter.option = true
-        searchResultAdapter = SearchListAdapter(
-            contentClickListener = { data ->
-                viewmodel.selectContent(data)
-                /*val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
-                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
-            },
-            itemClickListener =  {}
-        )
-
-        viewmodel.setRecentData()
-        searchResultAdapter.option = false
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewmodel = viewmodel
-        binding.option = true
-        binding.rcSearch.adapter = searchAdapter
-    }
 
     private fun addClickListener() {
+
+        binding.ivBack.setOnClickListener { finish() }
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewmodel.searchMusic(binding.etSearch.text.toString())
@@ -96,12 +58,12 @@ class SearchFragment : Fragment() {
             MumentDialogBuilder().setAllowListener {
                 viewmodel.allListDelete()
             }.setCancelListener { }.setBody("").setHeader("최근 검색한 내역을\n모두 삭제하시겠어요?").build()
-                .show(childFragmentManager, this.tag)
+                .show(supportFragmentManager, "")
         }
     }
 
     private fun collectingList() {
-        viewmodel.searchResultList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+        collectFlowWhenStarted(viewmodel.searchResultList) { result ->
             when (result) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
@@ -113,7 +75,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
+        collectFlowWhenStarted(viewmodel.searchList) { result ->
             when (result) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
@@ -126,8 +88,30 @@ class SearchFragment : Fragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewmodel.searchResultList.value?.data?.toMutableList()?.clear()
+    private fun settingAdapterAndDatabinding() {
+        binding.lifecycleOwner = this
+        binding.viewmodel = viewmodel
+        binding.option = true
+        searchAdapter = SearchListAdapter(
+            contentClickListener = { data ->
+                viewmodel.selectContent(data)
+                /*val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
+                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
+            },
+            itemClickListener = { data -> viewmodel.deleteRecentList(data) }
+        )
+        searchAdapter.option = true
+        searchResultAdapter = SearchListAdapter(
+            contentClickListener = { data ->
+                viewmodel.selectContent(data)
+                /*val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
+                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
+            },
+            itemClickListener = {}
+        )
+
+        binding.rcSearch.adapter = searchAdapter
+
+        searchResultAdapter.option = false
     }
 }

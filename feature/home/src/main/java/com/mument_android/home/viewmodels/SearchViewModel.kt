@@ -3,17 +3,15 @@ package com.mument_android.home.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core.network.ApiResult
 import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.usecase.home.CRURecentSearchListUseCase
 import com.mument_android.domain.usecase.home.DeleteRecentSearchListUseCase
 import com.mument_android.domain.usecase.home.SearchMusicUseCase
-import com.mument_android.core.network.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import java.util.*
@@ -43,8 +41,12 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    fun setRecentData(scope: CoroutineScope) {
-        scope.launch {
+    init {
+        setRecentData()
+    }
+
+    fun setRecentData() {
+        viewModelScope.launch(Dispatchers.IO) {
             cruRecentSearchListUseCase.getAllRecentSearchList().onStart {
                 searchList.value = ApiResult.Loading(null)
             }.catch {
@@ -68,7 +70,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun insertOrUpdateRecentItem(data: RecentSearchData) {
+    private fun insertOrUpdateRecentItem(data: RecentSearchData) {
         viewModelScope.launch(Dispatchers.IO) {
             cruRecentSearchListUseCase.insertOrUpdateRecentSearchItem(data)
         }
@@ -77,7 +79,7 @@ class SearchViewModel @Inject constructor(
     fun deleteRecentList(data: RecentSearchData) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteRecentSearchListUseCase.deleteRecentSearchItem(data).let {
-                setRecentData(this)
+                setRecentData()
             }
         }
     }
@@ -85,7 +87,7 @@ class SearchViewModel @Inject constructor(
     fun allListDelete() {
         viewModelScope.launch(Dispatchers.IO) {
             deleteRecentSearchListUseCase.deleteAllRecentSearchList()
-            setRecentData(this)
+            setRecentData()
         }
         searchList.value = ApiResult.Success(listOf())
     }
