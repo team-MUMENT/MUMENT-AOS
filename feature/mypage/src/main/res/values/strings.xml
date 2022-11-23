@@ -19,12 +19,22 @@
     <string name="my_page_log_out">로그아웃</string>
     <string name="my_page_withdrawal">회원탈퇴</string>
 
+    <!-- profile setting view-->
+    <string name="profile_setting_title">프로필 설정</string>
+    <string name="profile_setting_finish">완료</string>
+    <string name="profile_setting_hint">닉네임을 입력해주세요. (필수)</string>
+    <string name="profile_setting_id_condition">특수문자 제외 2–15자</string>
+    <string name="profile_setting_nickname_num">%d/15</string>
+
+
     <!-- alarm setting view -->
     <string name="alarm">알람</string>
     <string name="alarm_content">누군가 내 뮤멘트에 좋아요했을 때, 중요한 공지사항,
                          마케팅 이벤트, 계정 상태에 대한 알림을 받을 수 있어요</string>
+
     <!-- block user management view-->
     <string name="unblocking">해제</string>
+
 
 
 </resources>

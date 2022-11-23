@@ -14,11 +14,11 @@ class MyPageViewModel : ViewModel() {
     //Profile
     val userId = MutableLiveData<String>()
     val userImg = MutableLiveData<Int>()
+    val userNickNameContent = MutableLiveData("")
 
     //Notice
     private val _noticeList = MutableLiveData<List<NoticeData>>()
     val noticeList = _noticeList
-
 
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
@@ -32,6 +32,7 @@ class MyPageViewModel : ViewModel() {
             userImg = userImg.value ?: 0
         )
     }
+
 
 }
 
