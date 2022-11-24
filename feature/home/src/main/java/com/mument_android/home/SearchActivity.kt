@@ -34,10 +34,12 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
         binding.ivBack.setOnClickListener { finish() }
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewmodel.searchMusic(binding.etSearch.text.toString())
-                binding.rcSearch.adapter = searchResultAdapter
+                callSearch()
             }
             false
+        }
+        binding.ivSearch.setOnClickListener {
+            callSearch()
         }
         binding.etSearch.setOnFocusChangeListener { view, focused ->
             binding.ivDelete.visibility = if (focused) View.VISIBLE else View.GONE
@@ -56,6 +58,10 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
             }.setCancelListener { }.setBody("").setHeader("최근 검색한 내역을\n모두 삭제하시겠어요?").build()
                 .show(supportFragmentManager, "")
         }
+    }
+    private fun callSearch(){
+        viewmodel.searchMusic(binding.etSearch.text.toString())
+        binding.rcSearch.adapter = searchResultAdapter
     }
 
     private fun collectingList() {
