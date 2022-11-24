@@ -31,7 +31,6 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
     }
 
     private fun addClickListener() {
-
         binding.ivBack.setOnClickListener { finish() }
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -71,7 +70,6 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    Log.e("Result Search", result.data.toString())
                     searchResultAdapter.submitList(result.data)
                     viewmodel.searchSwitch(true)
                 }
@@ -103,7 +101,6 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
                 }
                 setResult(RESULT_OK, intent)
                 finish()
-                /*findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
             },
             itemClickListener = { data -> viewmodel.deleteRecentList(data) }
         )
@@ -111,8 +108,11 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
         searchResultAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                /*val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
-                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
+                val intent = Intent().setClassName(packageName, MAINACTIVITY).apply {
+                    putExtra(MUSIC, data._id)
+                }
+                setResult(RESULT_OK, intent)
+                finish()
             },
             itemClickListener = {}
         )

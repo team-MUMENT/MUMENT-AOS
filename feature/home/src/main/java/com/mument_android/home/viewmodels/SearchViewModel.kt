@@ -49,6 +49,7 @@ class SearchViewModel @Inject constructor(
             )
         )
     }
+
     fun setRecentData() {
         viewModelScope.launch(Dispatchers.IO) {
             cruRecentSearchListUseCase.getAllRecentSearchList().catch {
@@ -62,6 +63,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchSwitch(option: Boolean) {
+        if (!option) _searchResultList.value = ApiResult.Success(listOf())
         searchOption.value = option
     }
 
