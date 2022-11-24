@@ -4,5 +4,5 @@ import com.mument_android.domain.entity.home.RecentSearchData
 import kotlinx.coroutines.flow.Flow
 
 interface SearchMusicUseCase {
-    suspend fun searchMusic(keyword:String): Flow<List<RecentSearchData>>
+    suspend fun searchMusic(keyword:String): Flow<List<RecentSearchData>?>
 }

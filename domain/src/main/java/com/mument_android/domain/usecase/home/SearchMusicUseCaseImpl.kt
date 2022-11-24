@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.launchIn
 import javax.inject.Inject
 
 class SearchMusicUseCaseImpl  @Inject constructor(val homeRepository: HomeRepository):SearchMusicUseCase {
-    override suspend fun searchMusic(keyword: String): Flow<List<RecentSearchData>> = flow { homeRepository.searchList(keyword) }
+    override suspend fun searchMusic(keyword: String): Flow<List<RecentSearchData>?> = flow { emit(homeRepository.searchList(keyword)) }
 }
