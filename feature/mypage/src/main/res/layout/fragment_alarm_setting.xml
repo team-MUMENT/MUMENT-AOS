@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AlarmSettingFragment">
+    android:background="@color/mument_color_white"
+    tools:context="com.mument_android.mypage.fragment.AlarmSettingFragment">
 
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginStart="15dp"
-        android:src="@drawable/mument_icon_back"
+        android:background="@drawable/mument_icon_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_alarm_setting_title" />
 
@@ -28,13 +29,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment
-        android:name="com.example.mypage.AlarmSettingFragment$SettingPreferenceFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_alarm_setting_title" />
+<!--    <fragment-->
+<!--        android:name="com.example.mypage.AlarmSettingFragment$SettingPreferenceFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tv_alarm_setting_title" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

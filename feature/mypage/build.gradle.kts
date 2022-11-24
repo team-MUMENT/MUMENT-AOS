@@ -61,6 +61,4 @@ dependencies {
     implementation(KotlinDependencies.coroutines)
     implementation(AndroidXDependencies.coroutines)
     implementation(AndroidXDependencies.preference)
-    implementation(KaptDependencies.glideCompiler)
-
 }
