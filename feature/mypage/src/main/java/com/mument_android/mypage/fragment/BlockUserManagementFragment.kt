@@ -18,7 +18,7 @@ class BlockUserManagementFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View= FragmentBlockUserManagementBinding.inflate(inflater, container, false).run {
+    ): View = FragmentBlockUserManagementBinding.inflate(inflater, container, false).run {
         binding = this
         this.root
     }
@@ -29,10 +29,9 @@ class BlockUserManagementFragment : Fragment() {
         setBlockUserRecyclerView()
     }
 
-    private fun setBlockUserRecyclerView(){
+    private fun setBlockUserRecyclerView() {
         blockUserManagementAdapter = BlockUserManagementAdapter()
         binding.rvBlockUser.adapter = blockUserManagementAdapter
-
         blockUserManagementAdapter.submitList(blockUserList)
     }
 
