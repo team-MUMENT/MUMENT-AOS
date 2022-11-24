@@ -1,6 +1,7 @@
 package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
+import com.angdroid.navigation.MoveRecordProvider
 import com.mument_android.R
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.app.presentation.ui.main.MainActivity

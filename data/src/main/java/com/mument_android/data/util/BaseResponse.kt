@@ -1,4 +1,4 @@
-package com.mument_android.core.base
+package com.mument_android.data.util
 
 data class BaseResponse<T> (
     val status: Int,

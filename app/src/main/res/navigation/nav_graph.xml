@@ -2,13 +2,81 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/fragment_home_frame">
+    android:id="@+id/nav_graph"
+    tools:layout="@layout/fragment_home"
+    app:startDestination="@id/fragment_home">
+    <navigation
+        android:id="@+id/fragment_home"
+        app:startDestination="@id/homeFragment">
+        <fragment
+            android:id="@+id/homeFragment"
+            android:name="com.mument_android.home.HomeFragment"
+            android:label="HomeFragment"
+            tools:layout="@layout/fragment_home">
+            <action
+                android:id="@+id/action_homeFragment_to_searchFragment"
+                app:destination="@id/searchFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_mumentDetailFragment"
+                app:destination="@id/mumentDetailFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_musicDetailFragment"
+                app:destination="@id/musicDetailFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_historyFragment"
+                app:destination="@id/historyFragment" />
+        </fragment>
 
-    <fragment
-        android:id="@+id/fragment_home_frame"
-        android:name="com.mument_android.home.HomeFrameFragment"
-        android:label="fragment_first"
-        tools:layout="@layout/fragment_home_frame" />
+        <fragment
+            android:id="@+id/searchFragment"
+            android:name="com.mument_android.home.SearchFragment"
+            android:label="SearchFragment"
+            tools:layout="@layout/fragment_search">
+            <action
+                android:id="@+id/action_searchFragment_to_musicDetailFragment"
+                app:destination="@id/musicDetailFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/musicDetailFragment"
+            android:name="com.mument_android.detail.music.MusicDetailFragment"
+            android:label="MusicDetailFragment"
+            tools:layout="@layout/fragment_base_music_detail">
+
+            <action
+                android:id="@+id/action_homeMusicDetailFragment_to_mumentDetailFragment"
+                app:destination="@id/mumentDetailFragment" />
+            <action
+                android:id="@+id/action_homeMusicDetailFragment_to_historyFragment"
+                app:destination="@id/historyFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/historyFragment"
+            android:name="com.mument_android.detail.history.HistoryFragment"
+            android:label="HistoryFragment"
+            tools:layout="@layout/fragment_history">
+            <argument
+                android:name="musicId"
+                app:argType="string"/>
+            <action
+                android:id="@+id/action_homeHistoryFragment_to_mumentDetailFragment"
+                app:destination="@id/mumentDetailFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/mumentDetailFragment"
+            android:name="com.mument_android.detail.mument.MumentDetailFragment"
+            android:label="MumentDetailFragment"
+            tools:layout="@layout/fragment_mument_detail">
+
+            <action
+                android:id="@+id/action_mumentDetailFragment_to_historyFragment_home"
+                app:destination="@id/historyFragment" />
+            <action
+                android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_home"
+                app:destination="@id/musicDetailFragment" />
+        </fragment>
+
+
+    </navigation>
 
     <fragment
         android:id="@+id/fragment_record"
@@ -20,9 +88,54 @@
             app:nullable="true"/>
     </fragment>
 
-    <fragment
-        android:id="@+id/fragment_locker_frame"
-        android:name="com.mument_android.locker.LockerFrameFragment"
-        android:label="fragment_third"
-        tools:layout="@layout/fragment_locker_frame" />
+    <navigation
+        android:id="@+id/fragment_locker"
+        app:startDestination="@id/lockerFragment">
+
+        <fragment
+            android:id="@+id/lockerFragment"
+            android:name="com.mument_android.locker.LockerFragment"
+            android:label="LockerFragment"
+            tools:layout="@layout/fragment_locker">
+            <action
+                android:id="@+id/action_lockerFragment_to_mumentDetailFragment"
+                app:destination="@id/mumentDetailFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/mumentDetailFragment"
+            android:name="com.mument_android.detail.mument.MumentDetailFragment"
+            android:label="MumentDetailFragment"
+            tools:layout="@layout/fragment_mument_detail">
+
+            <action
+                android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_locker"
+                app:destination="@id/musicDetailFragment" />
+            <action
+                android:id="@+id/action_mumentDetailFragment_to_historyFragment_locker"
+                app:destination="@id/historyFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/musicDetailFragment"
+            android:name="com.mument_android.detail.music.MusicDetailFragment"
+            android:label="MusicDetailFragment"
+            tools:layout="@layout/fragment_base_music_detail">
+
+            <action
+                android:id="@+id/action_musicDetailFragment_to_historyFragment"
+                app:destination="@id/historyFragment" />
+            <action
+                android:id="@+id/action_musicDetailFragment_to_mumentDetailFragment"
+                app:destination="@id/mumentDetailFragment" />
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/historyFragment"
+            android:name="com.mument_android.detail.history.HistoryFragment"
+            android:label="LockerHistoryFragment"
+            tools:layout="@layout/fragment_history">
+
+        </fragment>
+    </navigation>
 </navigation>

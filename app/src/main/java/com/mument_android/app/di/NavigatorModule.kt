@@ -1,5 +1,6 @@
 package com.mument_android.app.di
 
+import com.angdroid.navigation.*
 import com.mument_android.app.presentation.ui.detail.mument.navigator.*
 import dagger.Binds
 import dagger.Module
@@ -18,5 +19,17 @@ abstract class NavigatorModule {
 
     @Binds
     abstract fun provideMusicRecodeProvider(music: MoveRecordProviderImpl): MoveRecordProvider
+
+    @Binds
+    abstract fun provideSearchProvider(search: SearchNavigatorProviderImpl): SearchNavigatorProvider
+
+    @Binds
+    abstract fun provideMusicDetailProvider(music: MusicDetailNavigatorProviderImpl): MusicDetailNavigatorProvider
+
+    @Binds
+    abstract fun provideMumentDetailProvider(mument: MumentDetailNavigatorProviderImpl): MumentDetailNavigatorProvider
+
+    @Binds
+    abstract fun provideHistoryProvider(mument: HistoryNavigatorProviderImpl): HistoryNavigatorProvider
 
 }

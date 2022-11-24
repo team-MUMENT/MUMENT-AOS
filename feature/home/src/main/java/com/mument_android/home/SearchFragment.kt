@@ -46,8 +46,8 @@ class SearchFragment : Fragment() {
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                /*val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
-                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
+                val bundle = Bundle().also { it.putString(MUSIC_ID, data._id) }
+                /*findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
             },
             itemClickListener = { data -> viewmodel.deleteRecentList(data) }
         )
@@ -55,8 +55,8 @@ class SearchFragment : Fragment() {
         searchResultAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                /*val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
-                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
+                val bundle = Bundle().also { it.putString(MUSIC_ID, data._id) }
+                /*findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
             },
             itemClickListener =  {}
         )
@@ -129,5 +129,9 @@ class SearchFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         viewmodel.searchResultList.value?.data?.toMutableList()?.clear()
+    }
+
+    companion object {
+        const val MUSIC_ID = "MUSIC_ID"
     }
 }

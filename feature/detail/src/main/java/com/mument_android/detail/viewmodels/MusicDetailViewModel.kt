@@ -11,8 +11,8 @@ import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.domain.usecase.detail.FetchMusicDetailUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
-import com.mument_android.core.util.SortTypeEnum
-import com.mument_android.core.util.SortTypeEnum.Companion.findSortTypeTag
+import com.mument_android.detail.util.SortTypeEnum
+import com.mument_android.detail.util.SortTypeEnum.Companion.findSortTypeTag
 import com.mument_android.detail.BuildConfig
 import com.mument_android.detail.util.IntegrationTagMapper
 import com.mument_android.detail.R

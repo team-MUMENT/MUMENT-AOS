@@ -17,7 +17,7 @@ class MainViewModel : ViewModel() {
     private val _mumentDetailContents = MutableLiveData<MumentDetailEntity>()
     val mumentDetailContents: LiveData<MumentDetailEntity> = _mumentDetailContents
 
-    fun checkHasBundle() = (!mumentId.value.isNullOrEmpty() && mumentDetailContents.value != null)
+    fun checkHasMument() = (!mumentId.value.isNullOrEmpty() && mumentDetailContents.value != null)
     fun checkHasMusic() = (!musicId.value.isNullOrEmpty())
     fun checkMusic() = (music.value != null)
 

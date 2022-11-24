@@ -9,11 +9,10 @@
         android:name="com.mument_android.locker.LockerFragment"
         android:label="LockerFragment"
         tools:layout="@layout/fragment_locker">
-        <!--<action
+        <action
             android:id="@+id/action_lockerFragment_to_mumentDetailFragment"
-            app:destination="@id/mumentDetailFragment" />-->
+            app:destination="@id/mumentDetailFragment" />
     </fragment>
-<!-- TODO Navi
     <fragment
         android:id="@+id/mumentDetailFragment"
         android:name="com.mument_android.detail.mument.MumentDetailFragment"
@@ -49,7 +48,7 @@
         android:label="LockerHistoryFragment"
         tools:layout="@layout/fragment_history">
 
-    </fragment>-->
+    </fragment>
 
 
 </navigation>

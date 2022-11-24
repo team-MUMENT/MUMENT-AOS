@@ -7,14 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.angdroid.navigation.EditMumentNavigatorProvider
+import com.angdroid.navigation.MumentDetailNavigatorProvider
+import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.mument_android.core_dependent.ui.MumentDialogBuilder
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core.network.ApiResult
-import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.ext.click
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ui.MumentDialogBuilder
+import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
@@ -23,12 +26,21 @@ import com.mument_android.detail.BuildConfig
 import com.mument_android.detail.databinding.FragmentMumentDetailBinding
 import com.mument_android.detail.viewmodels.MumentDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MumentDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
-    //@Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
+
+    @Inject
+    lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
+
+    @Inject
+    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+
+    @Inject
+    lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +54,7 @@ class MumentDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             lifecycleOwner = viewLifecycleOwner
-            mumentDetailViewModel= viewModel
+            mumentDetailViewModel = viewModel
             ivBackButton.setOnClickListener { findNavController().popBackStack() }
         }
 
@@ -74,11 +86,12 @@ class MumentDetailFragment : Fragment() {
 
     private fun updateMumentTagList() {
         collectFlowWhenStarted(viewModel.mumentDetailContent) { result ->
-            when(result) {
+            when (result) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    binding.ivKebab.visibility = if (result.data?.writerInfo?.userId == BuildConfig.USER_ID) View.VISIBLE else View.GONE
+                    binding.ivKebab.visibility =
+                        if (result.data?.writerInfo?.userId == BuildConfig.USER_ID) View.VISIBLE else View.GONE
                     (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(result.data?.combineTags())
                 }
                 else -> {}
@@ -88,7 +101,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun changeLikeStatus() {
         binding.cbHeart.click {
-            if(binding.cbHeart.isChecked) viewModel.likeMument() else viewModel.cancelLikeMument()
+            if (binding.cbHeart.isChecked) viewModel.likeMument() else viewModel.cancelLikeMument()
         }
     }
 
@@ -97,7 +110,7 @@ class MumentDetailFragment : Fragment() {
             EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
                 override fun edit() {
                     viewModel.mumentDetailContent.value.data?.let {
-                        //editMumentNavigatorProvider.editMument(viewModel.mumentId.value, it) Todo Navi
+                        editMumentNavigatorProvider.editMument(viewModel.mumentId.value, it)
                     }
                 }
 
@@ -121,14 +134,20 @@ class MumentDetailFragment : Fragment() {
     private fun showMumentHistory() {
         viewModel.hasWritten.observe(viewLifecycleOwner) { hasWritten ->
             if (hasWritten == true) {
-                binding.tvGoToHistory.applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
+                binding.tvGoToHistory.applyVisibilityAnimation(
+                    isUpward = true,
+                    reveal = true,
+                    durationTime = 700,
+                    delay = 150
+                )
             }
         }
     }
 
-    private fun goToMusicDetail()  {
+    private fun goToMusicDetail() {
         binding.viewAlbumClickArea.setOnClickListener {
             viewModel.mumentDetailContent.value.data?.musicInfo?.id?.let { musicId ->
+                mumentDetailNavigatorProvider.moveMumentDetail(musicId)
                 /*Bundle().also {
                     it.putString(MUSIC_ID, musicId)
                     val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_musicDetailFragment_home else R.id.action_mumentDetailFragment_to_musicDetailFragment_locker
@@ -141,6 +160,7 @@ class MumentDetailFragment : Fragment() {
     private fun goToHistory() {
         binding.tvGoToHistory.setOnClickListener {
             viewModel.mumentDetailContent.value.data?.musicInfo?.id?.let { musicId ->
+                musicDetailNavigatorProvider.moveMusicDetail(musicId)
                 /*Bundle().also {
                     it.putString(MUSIC_ID, musicId)
                     val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_historyFragment_home else R.id.action_mumentDetailFragment_to_historyFragment_locker
