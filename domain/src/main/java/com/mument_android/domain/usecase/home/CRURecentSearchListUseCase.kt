@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface CRURecentSearchListUseCase {
 
     suspend fun insertOrUpdateRecentSearchItem(data: RecentSearchData)
-    suspend fun getAllRecentSearchList(): Flow<List<RecentSearchData>>
+    suspend fun getAllRecentSearchList(): Flow<List<RecentSearchData>?>
 }
