@@ -1,10 +1,10 @@
 package com.mument_android.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
@@ -13,7 +13,6 @@ import com.mument_android.home.adapters.SearchListAdapter
 import com.mument_android.home.databinding.ShareSearchLayoutBinding
 import com.mument_android.home.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_search_layout) {
@@ -21,6 +20,7 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,7 +36,6 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewmodel.searchMusic(binding.etSearch.text.toString())
                 binding.rcSearch.adapter = searchResultAdapter
-                binding.searchOption = true
             }
             false
         }
@@ -46,12 +45,9 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
 
         binding.ivDelete.setOnClickListener {
             binding.etSearch.text = null
-            lifecycleScope.launch {
-                viewmodel.setRecentData()
-                binding.searchOption = false
-                searchResultAdapter.submitList(listOf())
-                binding.rcSearch.adapter = searchAdapter
-            }
+            viewmodel.setRecentData()
+            binding.rcSearch.adapter = searchAdapter
+            viewmodel.searchSwitch(false)
         }
 
         binding.etAllDelete.setOnClickListener {
@@ -68,8 +64,9 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
+                    Log.e("Result Search", result.data.toString())
                     searchResultAdapter.submitList(result.data)
-                    viewmodel.searchText.value = binding.etSearch.text.toString()
+                    viewmodel.searchSwitch(true)
                 }
                 else -> {}
             }
@@ -91,7 +88,6 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
     private fun settingAdapterAndDatabinding() {
         binding.lifecycleOwner = this
         binding.viewmodel = viewmodel
-        binding.option = true
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
@@ -111,7 +107,6 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
         )
 
         binding.rcSearch.adapter = searchAdapter
-
         searchResultAdapter.option = false
     }
 }
