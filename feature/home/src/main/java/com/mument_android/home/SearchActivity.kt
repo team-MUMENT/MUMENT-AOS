@@ -1,5 +1,6 @@
 package com.mument_android.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -97,8 +98,12 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                /*val bundle = Bundle().also { it.putString(MusicDetailFragment.MUSIC_ID, data._id) }
-                findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
+                val intent = Intent().setClassName(packageName, MAINACTIVITY).apply {
+                    putExtra(MUSIC, data._id)
+                }
+                setResult(RESULT_OK, intent)
+                finish()
+                /*findNavController().navigate(R.id.action_searchFragment_to_musicDetailFragment, bundle)*/
             },
             itemClickListener = { data -> viewmodel.deleteRecentList(data) }
         )
@@ -111,12 +116,12 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
             },
             itemClickListener = {}
         )
-
         binding.rcSearch.adapter = searchAdapter
         searchResultAdapter.option = false
     }
 
     companion object {
-        const val MUSIC_ID = "MUSIC_ID"
+        private const val MUSIC = "MUSIC_ID"
+        private const val MAINACTIVITY = "com.mument_android.app.presentation.ui.MainActivity"
     }
 }

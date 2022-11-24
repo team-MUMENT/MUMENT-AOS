@@ -5,18 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.angdroid.navigation.SearchNavigatorProvider
 import com.mument_android.core.model.TagEntity
-import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.ImpressiveTag
@@ -37,12 +37,17 @@ class HomeFragment : Fragment() {
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
     private lateinit var bannerAdapter: BannerListAdapter
+
     @Inject
     lateinit var searchNavigatorProvider: SearchNavigatorProvider
+
     @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
+
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+
+    private lateinit var getResultText: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +62,15 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
         bindData()
+
+        getResultText =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == AppCompatActivity.RESULT_OK) {
+                    it.data?.getStringExtra(MUSIC_ID)?.apply {
+                        musicDetailNavigatorProvider.moveMusicDetail(this)
+                    }
+                }
+            }
         binding.clCard.root.setOnClickListener {
             viewModel.todayMument.value?.mumentId?.let { showMumentDetail(it) }
         }
@@ -68,9 +82,7 @@ class HomeFragment : Fragment() {
         setListData()
 
         binding.tvSearch.setOnClickListener {
-            Intent(requireActivity(), SearchActivity::class.java).apply {
-                startActivity(this)
-            }
+            getResultText.launch(Intent(requireActivity(), SearchActivity::class.java))
             //findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
     }
@@ -79,8 +91,22 @@ class HomeFragment : Fragment() {
         super.onResume()
 
 //        val homeFrame = requireParentFragment().requireParentFragment()
-    //TODO Navi
-        /*(homeFrame as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
+        //TODO Navi
+        /*(homeFra
+
+@BindingAdapter("app:ui_state_search_result")
+fun RecyclerView.bindUiStateSearchResultList(uiState: UiState){
+    val boundAdapter = this.adapter
+    visibility = if (boundAdapter is SearchListAdapter && uiState is UiState.Success<*>) {
+        (uiState.data as List<RecentSearchData>).run {
+            boundAdapter.submitList(this)
+        }
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
+}
+me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
             if (musicId.isNotEmpty()) {
                 val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
                 findNavController().navigate(
