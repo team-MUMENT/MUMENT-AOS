@@ -9,9 +9,6 @@
         android:name="com.mument_android.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
         <!--TODO Navi
         <action
             android:id="@+id/action_homeFragment_to_mumentDetailFragment"
@@ -26,15 +23,6 @@
             app:destination="@id/historyFragment" />-->
     </fragment>
 
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.mument_android.home.SearchFragment"
-        android:label="SearchFragment"
-        tools:layout="@layout/share_search_layout">
-        <!--<action
-            android:id="@+id/action_searchFragment_to_musicDetailFragment"
-            app:destination="@id/musicDetailFragment" />-->
-    </fragment>
     <!-- TODO Navi
     <fragment
         android:id="@+id/musicDetailFragment"
