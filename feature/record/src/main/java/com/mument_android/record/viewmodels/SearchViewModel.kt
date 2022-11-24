@@ -50,7 +50,9 @@ class SearchViewModel @Inject constructor(
             }.catch {
                 searchList.value = ApiResult.Failure(null)
             }.collect {
-                searchList.value = ApiResult.Success(it)
+                if (it != null) {
+                    searchList.value = ApiResult.Success(it)
+                }
             }
         }
     }
@@ -62,7 +64,9 @@ class SearchViewModel @Inject constructor(
             }.catch {
                 searchResultList.value = ApiResult.Failure(null)
             }.collect {
-                searchResultList.value = ApiResult.Success(it)
+                if (it != null) {
+                    searchResultList.value = ApiResult.Success(it)
+                }
             }
 
         }

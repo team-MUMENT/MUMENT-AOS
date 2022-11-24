@@ -8,14 +8,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="option"
-            type="Boolean" />
-
-        <variable
-            name="searchOption"
-            type="Boolean" />
-
-        <variable
             name="viewmodel"
             type="com.mument_android.home.viewmodels.SearchViewModel" />
     </data>
@@ -33,7 +25,6 @@
             android:layout_marginStart="20dp"
             android:paddingEnd="4dp"
             android:src="@drawable/ic_back"
-            android:visibility="@{option? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/et_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/et_search" />
@@ -107,7 +98,7 @@
                         android:layout_marginTop="30dp"
                         android:text="@string/home_recent_search"
                         android:textColor="@color/mument_color_black1"
-                        android:visibility="@{viewmodel.searchList.data.size()==0||searchOption? View.GONE:View.VISIBLE}" />
+                        android:visibility="@{viewmodel.searchList.data.size()==0||viewmodel.searchOption? View.GONE:View.VISIBLE}" />
 
                     <View
                         android:layout_width="0dp"
@@ -123,7 +114,7 @@
                         android:layout_marginEnd="14dp"
                         android:text="@string/home_all_delete"
                         android:textColor="@color/mument_color_gray2"
-                        android:visibility="@{viewmodel.searchList.data.size()!=0||option==false||searchOption? View.GONE:View.VISIBLE}" />
+                        android:visibility="@{viewmodel.searchList.data.size()==0||viewmodel.searchOption? View.GONE:View.VISIBLE}" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -144,7 +135,7 @@
 
         <ImageView
             android:id="@+id/iv_empty"
-            emptyView="@{searchOption?3:option?1:2}"
+            emptyView="@{viewmodel.searchOption?3:1}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/app_space_12"
@@ -160,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/app_space_20"
             android:gravity="center"
-            android:text="@{searchOption?@string/search_result_empty_header(viewmodel.searchText):option?@string/search_empty_header:@string/search_record_empty_header}"
+            android:text="@{viewmodel.searchOption?@string/search_result_empty_header(viewmodel.searchText):@string/search_empty_header}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -171,7 +162,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/app_space_8"
-            android:text="@{searchOption?@string/search_result_empty_body:@string/search_empty_body}"
+            android:text="@{viewmodel.searchOption?@string/search_result_empty_body:@string/search_empty_body}"
             android:textColor="@color/mument_color_gray2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -181,7 +172,7 @@
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{((viewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(viewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
+            android:visibility="@{((viewmodel.searchList.data.size()==0&amp;&amp;!viewmodel.searchOption)||(viewmodel.searchResultList.data.size()==0&amp;&amp;viewmodel.searchOption))? View.VISIBLE:View.GONE}"
             app:constraint_referenced_ids="iv_empty, tv_empty_title, tv_empty_sub" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
