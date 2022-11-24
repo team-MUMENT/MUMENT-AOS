@@ -57,7 +57,7 @@ class NotifyMumentActivity :
             binding.tvNotifyFinish.isEnabled = true
         }
         view2.setOnClickListener {
-            if (!view1.isSelected) {
+            if (!view2.isSelected) {
                 view1.isSelected = false
                 view2.isSelected = true
                 view3.isSelected = false
@@ -69,7 +69,7 @@ class NotifyMumentActivity :
             binding.tvNotifyFinish.isEnabled = true
         }
         view3.setOnClickListener {
-            if (!view1.isSelected) {
+            if (!view3.isSelected) {
                 view1.isSelected = false
                 view2.isSelected = false
                 view3.isSelected = true
@@ -81,7 +81,7 @@ class NotifyMumentActivity :
             binding.tvNotifyFinish.isEnabled = true
         }
         view4.setOnClickListener {
-            if (!view1.isSelected) {
+            if (!view4.isSelected) {
                 view1.isSelected = false
                 view2.isSelected = false
                 view3.isSelected = false
@@ -93,7 +93,7 @@ class NotifyMumentActivity :
             binding.tvNotifyFinish.isEnabled = true
         }
         view5.setOnClickListener {
-            if (!view1.isSelected) {
+            if (!view5.isSelected) {
                 view1.isSelected = false
                 view2.isSelected = false
                 view3.isSelected = false
@@ -105,7 +105,7 @@ class NotifyMumentActivity :
             binding.tvNotifyFinish.isEnabled = true
         }
         view6.setOnClickListener {
-            if (!view1.isSelected) {
+            if (!view6.isSelected) {
                 view1.isSelected = false
                 view2.isSelected = false
                 view3.isSelected = false
@@ -117,7 +117,7 @@ class NotifyMumentActivity :
             binding.tvNotifyFinish.isEnabled = true
         }
         view7.setOnClickListener {
-            if (!view1.isSelected) {
+            if (!view7.isSelected) {
                 view1.isSelected = false
                 view2.isSelected = false
                 view3.isSelected = false
@@ -126,8 +126,9 @@ class NotifyMumentActivity :
                 view6.isSelected = false
                 view7.isSelected = true
             }
+            binding.tvNotifyFinish.isEnabled = true
         }
-        binding.tvNotifyFinish.isEnabled = true
+
     }
 
     private fun checkBoxListener() {

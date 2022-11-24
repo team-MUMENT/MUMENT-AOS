@@ -46,7 +46,7 @@ class MumentDetailViewModel @Inject constructor(
     private val _successDelete = MutableSharedFlow<Unit>()
     val successDelete = _successDelete.asSharedFlow()
 
-    val notifyContent = MutableStateFlow("")
+    val notifyContent =  MutableLiveData<String>()
 
     fun changeBackStack(backstack: String) {
         _backStack.value = backstack
