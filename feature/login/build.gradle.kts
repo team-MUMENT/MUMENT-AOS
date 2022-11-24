@@ -48,6 +48,6 @@ dependencies {
     addDaggerHiltDependencies()
     addLifecycleDependencies()
     implementation(ThirdPartyDependencies.coil)
-    implementation(KotlinDependencies.coroutines)
     implementation(AndroidXDependencies.coroutines)
+    implementation(project(Modules.NAVIGATION_MODULE))
 }

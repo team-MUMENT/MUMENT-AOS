@@ -18,6 +18,7 @@ include(
     ":app",
     ":core",
     ":core_dependent",
+    ":navigation",
     ":data",
     ":domain",
     ":feature:login",

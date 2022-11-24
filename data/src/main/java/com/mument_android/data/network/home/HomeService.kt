@@ -1,7 +1,7 @@
 package com.mument_android.data.network.home
 
 import com.mument_android.domain.entity.home.RecentSearchData
-import com.mument_android.core.base.BaseResponse
+import com.mument_android.data.util.BaseResponse
 import com.mument_android.data.dto.history.MumentHistoryDto
 import com.mument_android.data.dto.home.BannerMumentDto
 import com.mument_android.data.dto.home.KnownMumentDto

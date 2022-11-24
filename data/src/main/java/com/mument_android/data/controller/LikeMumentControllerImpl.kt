@@ -2,7 +2,7 @@ package com.mument_android.data.controller
 
 import com.mument_android.data.dto.LikeCountDto
 import com.mument_android.data.network.main.MainApiService
-import com.mument_android.core.base.BaseResponse
+import com.mument_android.data.util.BaseResponse
 import javax.inject.Inject
 
 class LikeMumentControllerImpl @Inject constructor(

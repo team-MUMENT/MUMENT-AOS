@@ -109,4 +109,8 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
         binding.rcSearch.adapter = searchAdapter
         searchResultAdapter.option = false
     }
+
+    companion object {
+        const val MUSIC_ID = "MUSIC_ID"
+    }
 }

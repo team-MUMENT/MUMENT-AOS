@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.detail.mument.navigator
+package com.angdroid.navigation
 
 interface MoveMusicDetailNavigatorProvider {
     fun musicMument(musicId: String)

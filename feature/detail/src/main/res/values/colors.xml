@@ -2,6 +2,7 @@
 <resources>
 
     <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
     <color name="mument_color_white">#FFFFFFFF</color>
     <color name="mument_color_black1">#222222</color>
     <color name="mument_color_gray1">#838383</color>

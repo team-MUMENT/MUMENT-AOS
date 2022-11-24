@@ -9,7 +9,7 @@
         tools:context=".ui.activities.HomeActivity">
 
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

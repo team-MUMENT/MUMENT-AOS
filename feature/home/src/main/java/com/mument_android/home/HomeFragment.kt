@@ -7,7 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.angdroid.navigation.MumentDetailNavigatorProvider
+import com.angdroid.navigation.MusicDetailNavigatorProvider
+import com.angdroid.navigation.SearchNavigatorProvider
+import com.mument_android.core.model.TagEntity
+import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
@@ -22,6 +30,8 @@ import com.mument_android.home.adapters.ImpressiveEmotionListAdapter
 import com.mument_android.home.databinding.FragmentHomeBinding
 import com.mument_android.home.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -30,6 +40,12 @@ class HomeFragment : Fragment() {
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
     private lateinit var bannerAdapter: BannerListAdapter
+    @Inject
+    lateinit var searchNavigatorProvider: SearchNavigatorProvider
+    @Inject
+    lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
+    @Inject
+    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,8 +81,8 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val homeFrame = requireParentFragment().requireParentFragment()
-        //TODO Navi
+//        val homeFrame = requireParentFragment().requireParentFragment()
+    //TODO Navi
         /*(homeFrame as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
             if (musicId.isNotEmpty()) {
                 val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
@@ -81,18 +97,17 @@ class HomeFragment : Fragment() {
     // TODO NAVI
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { mument ->
-            /*val bundle = Bundle().also { it.putString(MUMENT_ID, mument.mumentId) }
-            findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
+            mumentDetailNavigatorProvider.moveMumentDetail(mument.mumentId)
+            /*findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
         }
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { mument ->
-            /*val bundle = Bundle().also { it.putString(MUMENT_ID, mument._id) }
-            findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
+            mumentDetailNavigatorProvider.moveMumentDetail(mument._id)
+            /*findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
         }
-        bannerAdapter =
-            BannerListAdapter(viewModel.bannerData.value?.toMutableList() ?: listOf()) { musicId ->
-                /*val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
-                findNavController().navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)*/
-            }
+        bannerAdapter = BannerListAdapter(viewModel.bannerData.value.toMutableList()) { musicId ->
+            musicDetailNavigatorProvider.moveMusicDetail(musicId)
+            /*findNavController().navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)*/
+        }
         binding.vpBanner.adapter = bannerAdapter
     }
 
@@ -154,8 +169,13 @@ class HomeFragment : Fragment() {
 
     // TODO NAVI
     private fun showMumentDetail(mumentId: String) {
-        /*val bundle = Bundle().also { it.putString(MUMENT_ID, mumentId) }
-        findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
+        //val bundle = Bundle().also { it.putString(MUMENT_ID, ) }
+        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
+        /*findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
     }
 
+    companion object {
+        const val MUMENT_ID = "MUMENT_ID"
+        const val MUSIC_ID = "MUSIC_ID"
+    }
 }

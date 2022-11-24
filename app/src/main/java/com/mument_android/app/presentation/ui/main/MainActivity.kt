@@ -28,7 +28,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     EditMumentNavigator {
-    private lateinit var navController: NavController
+    lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,22 +66,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
-        NavigationUI.setupWithNavController(binding.navBar, findNavController(R.id.nav_host))
+        NavigationUI.setupWithNavController(binding.navBar, navController)
         binding.navBar.setupWithNavController(navController)
         binding.navBar.setOnItemSelectedListener { item ->
             val bundle = Bundle()
             when (item.itemId) {
-                R.id.fragment_home_frame -> {
+                R.id.fragment_home -> {
                     if (viewModel.checkHasMusic()) {
-                        bundle.putString("musicId", viewModel.musicId.value)
+                        bundle.putString(MUSIC_ID, viewModel.musicId.value)
+                        navController.navigate(
+                            R.id.action_homeFragment_to_musicDetailFragment,
+                            bundle
+                        )
                         viewModel.clearBundle()
                     } else if (viewModel.checkMusic()) {
                         viewModel.clearBundle()
                     }
                 }
-                R.id.fragment_locker_frame -> {}
+                R.id.fragment_locker -> {}
                 R.id.fragment_record -> {
-                    if (viewModel.checkHasBundle()) {
+                    if (viewModel.checkHasMument()) {
                         bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
                         bundle.putSerializable(
                             MUMENT_DETAIL_ENTITY,
@@ -112,6 +116,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     override fun recordMusic(music: Music) {
         viewModel.changeMusic(music)
+    }
+    companion object {
+        const val MUMENT_ID = "MUMENT_ID"
+        const val MUSIC_ID = "MUSIC_ID"
     }
 
 }

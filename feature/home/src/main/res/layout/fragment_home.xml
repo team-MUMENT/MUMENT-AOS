@@ -13,9 +13,9 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:background="@color/mument_color_bgwhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/mument_color_bgwhite"
         tools:context=".app.presentation.ui.home.HomeFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -115,8 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:paddingBottom="33dp"
-                tools:context=".app.presentation.ui.home.HomeFragment">
+                android:paddingBottom="33dp">
 
 
                 <androidx.viewpager2.widget.ViewPager2
@@ -144,13 +143,13 @@
                     android:id="@+id/cl_card"
                     layout="@layout/mument_layout_cardview"
                     android:layout_width="match_parent"
-                    app:mument="@{homeViewModel.todayMument}"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="18dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_today" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_today"
+                    app:mument="@{homeViewModel.todayMument}" />
 
                 <TextView
                     android:id="@+id/tv_heard"
