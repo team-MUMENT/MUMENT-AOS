@@ -26,6 +26,7 @@ class NotifyMumentActivity :
                 clSeventhReason
             )
         }
+        nextBtnListener()
     }
 
     private fun backBtnListener() {
@@ -53,6 +54,7 @@ class NotifyMumentActivity :
                 view6.isSelected = false
                 view7.isSelected = false
             }
+            binding.tvNotifyFinish.isEnabled = true
         }
         view2.setOnClickListener {
             if (!view1.isSelected) {
@@ -64,6 +66,7 @@ class NotifyMumentActivity :
                 view6.isSelected = false
                 view7.isSelected = false
             }
+            binding.tvNotifyFinish.isEnabled = true
         }
         view3.setOnClickListener {
             if (!view1.isSelected) {
@@ -75,6 +78,7 @@ class NotifyMumentActivity :
                 view6.isSelected = false
                 view7.isSelected = false
             }
+            binding.tvNotifyFinish.isEnabled = true
         }
         view4.setOnClickListener {
             if (!view1.isSelected) {
@@ -86,6 +90,7 @@ class NotifyMumentActivity :
                 view6.isSelected = false
                 view7.isSelected = false
             }
+            binding.tvNotifyFinish.isEnabled = true
         }
         view5.setOnClickListener {
             if (!view1.isSelected) {
@@ -97,6 +102,7 @@ class NotifyMumentActivity :
                 view6.isSelected = false
                 view7.isSelected = false
             }
+            binding.tvNotifyFinish.isEnabled = true
         }
         view6.setOnClickListener {
             if (!view1.isSelected) {
@@ -108,6 +114,7 @@ class NotifyMumentActivity :
                 view6.isSelected = true
                 view7.isSelected = false
             }
+            binding.tvNotifyFinish.isEnabled = true
         }
         view7.setOnClickListener {
             if (!view1.isSelected) {
@@ -120,11 +127,20 @@ class NotifyMumentActivity :
                 view7.isSelected = true
             }
         }
+        binding.tvNotifyFinish.isEnabled = true
     }
 
     private fun checkBoxListener() {
         binding.clBlock.setOnClickListener {
             binding.ivBlockCheck.isSelected = !binding.ivBlockCheck.isSelected
+        }
+    }
+
+
+    private fun nextBtnListener() {
+        binding.tvNotifyFinish.setOnClickListener {
+            //TODO : 서버통신
+            finish()
         }
     }
 }
