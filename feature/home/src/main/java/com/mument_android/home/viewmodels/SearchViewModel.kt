@@ -12,7 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -47,26 +47,23 @@ class SearchViewModel @Inject constructor(
 
     fun setRecentData() {
         viewModelScope.launch(Dispatchers.IO) {
-            cruRecentSearchListUseCase.getAllRecentSearchList().onStart {
-                searchList.value = ApiResult.Loading(null)
-            }.catch {
+            cruRecentSearchListUseCase.getAllRecentSearchList().catch {
                 searchList.value = ApiResult.Failure(null)
             }.collect {
-                searchList.value = ApiResult.Success(it)
+                if (it != null) {
+                    searchList.value = ApiResult.Success(it)
+                }
             }
         }
     }
 
     fun searchMusic(keyword: String) {
         viewModelScope.launch {
-            searchMusicUseCase.searchMusic(keyword).onStart {
-                searchResultList.value = ApiResult.Loading(null)
-            }.catch {
+            searchMusicUseCase.searchMusic(keyword).catch {
                 searchResultList.value = ApiResult.Failure(null)
             }.collect {
                 searchResultList.value = ApiResult.Success(it)
             }
-
         }
     }
 
@@ -78,9 +75,8 @@ class SearchViewModel @Inject constructor(
 
     fun deleteRecentList(data: RecentSearchData) {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteRecentSearchListUseCase.deleteRecentSearchItem(data).let {
-                setRecentData()
-            }
+            deleteRecentSearchListUseCase.deleteRecentSearchItem(data)
+            setRecentData()
         }
     }
 
