@@ -16,9 +16,7 @@ import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.angdroid.navigation.SearchNavigatorProvider
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
-import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.ImpressiveTag
@@ -30,7 +28,6 @@ import com.mument_android.home.adapters.ImpressiveEmotionListAdapter
 import com.mument_android.home.databinding.FragmentHomeBinding
 import com.mument_android.home.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
