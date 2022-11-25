@@ -32,6 +32,7 @@ class BlockUserManagementFragment : Fragment() {
     private fun setBlockUserRecyclerView() {
         blockUserManagementAdapter = BlockUserManagementAdapter()
         binding.rvBlockUser.adapter = blockUserManagementAdapter
+        blockUserList.add(UserData(3,"jinsil"))
         blockUserManagementAdapter.submitList(blockUserList)
     }
 

@@ -13,7 +13,7 @@
         android:textColor="@color/mument_color_black1"
         android:textSize="16dp"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="게시물 이름 1" />
@@ -44,7 +44,7 @@
         android:id="@+id/view_notice_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="20dp"
         android:background="@color/mument_color_gray4"
         android:layout_marginHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"

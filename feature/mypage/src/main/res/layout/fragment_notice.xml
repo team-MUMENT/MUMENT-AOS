@@ -40,7 +40,7 @@
             android:id="@+id/rv_notice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_notice_title"
             tools:listitem="@layout/item_notice" />
 
