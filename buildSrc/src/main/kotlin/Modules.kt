@@ -4,6 +4,7 @@ object Modules {
     const val CORE_DEPENDENT_MODULE = ":core_dependent"
     const val DATA_MODULE = ":data"
     const val DOMAIN_MODULE = ":domain"
+    const val NAVIGATION_MODULE = ":navigation"
     const val FEATURE_HOME_MODULE = ":feature:home"
     const val FEATURE_LOGIN_MODULE = ":feature:login"
     const val FEATURE_LOCKER_MODULE = ":feature:locker"

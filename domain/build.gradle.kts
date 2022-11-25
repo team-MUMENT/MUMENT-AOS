@@ -39,8 +39,6 @@ dependencies {
     addTestDependencies()
     addDaggerHiltDependencies()
     addRoomDependencies()
-    implementation(KotlinDependencies.coroutines)
-    implementation(ThirdPartyDependencies.gson)
     implementation(KotlinDependencies.kotlinxSerialization)
     implementation(AndroidXDependencies.coroutines)
     implementation(project(Modules.CORE_MODULE))

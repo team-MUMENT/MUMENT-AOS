@@ -8,6 +8,9 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.angdroid.navigation.HistoryNavigatorProvider
+import com.angdroid.navigation.MoveRecordProvider
+import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -19,12 +22,19 @@ import com.mument_android.detail.mument.MumentClickListener
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.detail.viewmodels.MusicDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 
 @AndroidEntryPoint
 class MusicDetailFragment(): Fragment() {
     private var binding by AutoClearedValue<FragmentBaseMusicDetailBinding>()
     private val musicDetailViewModel: MusicDetailViewModel by viewModels()
-    //@Inject lateinit var recordProvider: MoveRecordProvider
+    @Inject
+    lateinit var recordProvider: MoveRecordProvider
+    @Inject
+    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+    @Inject
+    lateinit var historyNavigatorProvider: HistoryNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +62,7 @@ class MusicDetailFragment(): Fragment() {
     private fun recordMument() {
         binding.tvRecordMument.click {
             musicDetailViewModel.musicInfo.value?.let { musicInfo ->
-                //recordProvider.recordMusic(Music(musicInfo.id, musicInfo.name, musicInfo.artist, musicInfo.thumbnail))
+                recordProvider.recordMusic(Music(musicInfo.id, musicInfo.name, musicInfo.artist, musicInfo.thumbnail))
             }
         }
     }
@@ -79,10 +89,11 @@ class MusicDetailFragment(): Fragment() {
             addItemDecoration(RecyclerviewItemDivider(0, 15.dpToPx(requireContext()), IS_VERTICAL))
             adapter = MusicDetailMumentListAdapter(object : MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
+                    mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
                     /*Bundle().also {
                         it.putString(MumentDetailFragment.MUMENT_ID, mumentId)
                         findNavController().navigate(R.id.action_homeMusicDetailFragment_to_mumentDetailFragment, it)
-                    } Todo Navi*/
+                    }*/
                 }
 
                 override fun likeMument(mumentId: String) {
@@ -111,20 +122,22 @@ class MusicDetailFragment(): Fragment() {
 
     private fun moveToHistoryFragment() {
         binding.tvShowMyHistory.click {
+            musicDetailViewModel.musicId.value?.let { historyNavigatorProvider.moveHistory(it) }
             /*Bundle().also {
                 it.putString(MUSIC_ID, musicDetailViewModel.musicId.value ?: "")
                 findNavController().navigate(R.id.action_musicDetailFragment_to_historyFragment, it)
-            } Todo Navi*/
+            }*/
         }
 
-        binding.layoutMyMument.root.setOnClickListener {
+        /*binding.layoutMyMument.root.setOnClickListener { //이 이동은 안쓰는듯?
             musicDetailViewModel.myMument.value?.let {
-                /*Bundle().also {
+                musicDetailViewModel.musicId.value?.let { historyNavigatorProvider.moveHistory(it) }
+                *//*Bundle().also {
                     it.putString(MUSIC_ID, musicDetailViewModel.musicId.value ?: "")
                     findNavController().navigate(R.id.action_musicDetailFragment_to_historyFragment, it)
-                } Todo Navi*/
+                } *//*
             }
-        }
+        }*/
     }
 
     private fun AppCompatTextView.changeSelectedSortTheme(selectedSort: String) {
