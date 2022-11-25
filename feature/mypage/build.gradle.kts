@@ -1,3 +1,4 @@
+import Modules.CORE_DEPENDENT_MODULE
 import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
@@ -48,10 +49,10 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation(project(mapOf("path" to ":core_dependent")))
+    implementation(project(CORE_DEPENDENT_MODULE))
+    implementation(project(Modules.DOMAIN_MODULE))
+    implementation(project(Modules.CORE_MODULE))
+
     addAndroidXDependencies()
     addTestDependencies()
     addNavigationDependencies()
