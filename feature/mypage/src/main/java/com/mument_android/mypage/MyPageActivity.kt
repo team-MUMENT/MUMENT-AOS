@@ -13,7 +13,6 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_
 
     private val myPageViewModel: MyPageViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -21,13 +20,6 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_
         binding.myPageViewModel = myPageViewModel
         setContentView(binding.root)
 
-        setTextUnderLine()
-    }
-
-    // 텍스트 밑줄 설정하는 함수
-    private fun setTextUnderLine() {
-        binding.tvMyPageLogout.paintFlags = Paint.UNDERLINE_TEXT_FLAG
-        binding.tvMyPageWithdrawal.paintFlags = Paint.UNDERLINE_TEXT_FLAG
     }
 
     //각 카테고리 버튼 눌렀을 때 이동하는 함수

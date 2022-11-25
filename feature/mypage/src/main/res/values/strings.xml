@@ -16,8 +16,8 @@
     <string name="my_page_introduce_mument">뮤멘트 소개</string>
 
     <string name="my_page_version_info">버전 정보</string>
-    <string name="my_page_log_out">로그아웃</string>
-    <string name="my_page_withdrawal">회원탈퇴</string>
+    <string name="my_page_log_out"><u>로그아웃</u></string>
+    <string name="my_page_withdrawal"><u>회원탈퇴</u></string>
 
     <!-- profile setting view-->
     <string name="profile_setting_title">프로필 설정</string>
