@@ -1,10 +1,8 @@
 package com.mument_android.mypage
 
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.widget.AppCompatImageButton
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.mypage.databinding.ActivityMyPageBinding
 import com.mument_android.mypage.fragment.*
@@ -15,11 +13,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding.lifecycleOwner = this
         binding.myPageViewModel = myPageViewModel
-        setContentView(binding.root)
-
     }
 
     //각 카테고리 버튼 눌렀을 때 이동하는 함수

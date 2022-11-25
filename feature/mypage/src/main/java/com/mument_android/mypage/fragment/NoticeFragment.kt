@@ -26,14 +26,12 @@ class NoticeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = FragmentNoticeBinding.inflate(inflater, container, false).run {
         binding = this
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.myPageViewModel = myPageViewModel
-
         this.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.myPageViewModel = myPageViewModel
 
         setNoticeRecyclerView()
     }

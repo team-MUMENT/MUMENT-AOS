@@ -20,9 +20,6 @@ class MyPageViewModel : ViewModel() {
     private val _noticeList = MutableLiveData<List<NoticeData>>()
     val noticeList = _noticeList
 
-
-
-
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
         _isBtnClick.value = isBtnClick
