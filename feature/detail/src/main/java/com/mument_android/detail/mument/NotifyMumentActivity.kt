@@ -1,18 +1,24 @@
 package com.mument_android.detail.mument
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.ActivityNotifyMumentBinding
+import com.mument_android.detail.viewmodels.MumentDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NotifyMumentActivity :
     BaseActivity<ActivityNotifyMumentBinding>(R.layout.activity_notify_mument) {
+
+    private val viewModel: MumentDetailViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         backBtnListener()
         checkBoxListener()
         with(binding) {
@@ -140,8 +146,9 @@ class NotifyMumentActivity :
 
     private fun nextBtnListener() {
         binding.tvNotifyFinish.setOnClickListener {
-            //TODO : 서버통신
+            //TODO : 신고 api연결
             finish()
         }
     }
+
 }
