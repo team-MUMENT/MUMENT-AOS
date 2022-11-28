@@ -77,7 +77,7 @@ class RecordFragment : Fragment() {
 
         (arguments?.getSerializable(MUMENT_DETAIL_ENTITY)?.let { it as MumentDetailEntity })?.let {
             recordViewModel.mumentData.value = it
-            if (it.isFirst.tagIdx == 1) {
+            if (it.mument.isFirst.tagIdx == 1) {
                 recordViewModel.changeIsFirst(true)
             } else {
                 recordViewModel.findIsFirst()
@@ -254,7 +254,7 @@ class RecordFragment : Fragment() {
         recordViewModel.isFirst.observe(viewLifecycleOwner) {
             if (it != null) {
                 if (recordViewModel.mumentData.value != null) {
-                    if (recordViewModel.mumentData.value!!.isFirst.tagIdx == 0) {
+                    if (recordViewModel.mumentData.value!!.mument.isFirst.tagIdx == 0) {
                         if (it) {
                             binding.btnRecordFirst.isChangeButtonFont(it)
                             binding.btnRecordSecond.isChangeButtonFont(false)
@@ -286,16 +286,16 @@ class RecordFragment : Fragment() {
         recordViewModel.mumentData.observe(viewLifecycleOwner) {
             if (it != null) {
                 recordViewModel.selectedMusic.value = RecentSearchData(
-                    it.musicInfo.id,
-                    it.musicInfo.artist,
-                    it.musicInfo.thumbnail,
-                    it.musicInfo.name,
+                    it.mument.musicInfo.id,
+                    it.mument.musicInfo.artist,
+                    it.mument.musicInfo.thumbnail,
+                    it.mument.musicInfo.name,
                     null
                 )
-                recordViewModel.setCheckTaglist(it.impressionTags ?: listOf())
-                recordViewModel.setCheckTaglist(it.emotionalTags ?: listOf())
+                recordViewModel.setCheckTaglist(it.mument.impressionTags ?: listOf())
+                recordViewModel.setCheckTaglist(it.mument.emotionalTags ?: listOf())
                 recordViewModel.findIsFirst()
-                recordViewModel.mumentContent.value = it.content
+                recordViewModel.mumentContent.value = it.mument.content
                 binding.switchRecordSecret.isChecked = false
 
                 recordViewModel.checkedTagList.value?.let { data ->

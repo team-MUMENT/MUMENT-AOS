@@ -10,9 +10,10 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface DetailApiService {
-    @GET("/mument/{mumentId}")
+    @GET("/mument/{mumentId}/{userId}")
     suspend fun fetchMumentDetail(
-        @Path ("mumentId") mumentId: String
+        @Path ("mumentId") mumentId: String,
+        @Path("userId") userId: String
     ): BaseResponse<MumentDetailDto>
 
     @GET("/music/{musicId}/{userId}")

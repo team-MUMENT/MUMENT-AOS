@@ -91,7 +91,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRecordApiService(@UnAuthRetrofit retrofit: Retrofit): RecordApiService = retrofit.create(RecordApiService::class.java)
+    fun provideRecordApiService(@UnAuthRetrofit retrofit: Retrofit): RecordApiService =
+        retrofit.create(RecordApiService::class.java)
 
     @Provides
     @Singleton

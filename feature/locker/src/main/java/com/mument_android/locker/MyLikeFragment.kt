@@ -63,7 +63,6 @@ class MyLikeFragment : Fragment() {
 
 
             lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isLikeGridLayout ->
-
                 adapter = LockerTimeAdapter(isLikeGridLayout, showDetailListener = {
                     showMumentDetail(it)
                 }, object: LikeMumentListener {

@@ -1,18 +1,17 @@
 package com.mument_android.detail.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core_dependent.util.setState
+import com.mument_android.detail.BuildConfig
+import com.mument_android.detail.mument.MumentDetailContract
 import com.mument_android.domain.usecase.detail.DeleteMumentUseCase
 import com.mument_android.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
-import com.mument_android.core_dependent.util.setState
-import com.mument_android.detail.BuildConfig
-import com.mument_android.detail.mument.MumentDetailContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -28,7 +27,7 @@ class MumentDetailViewModel @Inject constructor(
 ) : ViewModel() {
     val isLiked = MutableStateFlow<Boolean>(false)
 
-    private val _viewState = MutableStateFlow(MumentDetailContract.MumentDetailState())
+    private val _viewState = MutableStateFlow(MumentDetailContract.MumentDetailViewState())
     val viewState = _viewState.asStateFlow()
 
     private val _hasWritten = MutableLiveData<Boolean>()
@@ -54,35 +53,30 @@ class MumentDetailViewModel @Inject constructor(
     }
 
     private fun increaseLikeCount() {
-        _viewState.value = MumentDetailContract.MumentDetailState(likeCount = viewState.value.likeCount + 1)
+        _viewState.value = MumentDetailContract.MumentDetailViewState(likeCount = viewState.value.likeCount + 1)
     }
 
     private fun decreaseLikeCount() {
-        _viewState.value = MumentDetailContract.MumentDetailState(likeCount = viewState.value.likeCount - 1)
+        _viewState.value = MumentDetailContract.MumentDetailViewState(likeCount = viewState.value.likeCount - 1)
     }
 
     fun fetchMumentDetailContent(mumentId: String) {
         viewModelScope.launch {
-            fetchMumentDetailContentUseCase(mumentId, BuildConfig.USER_ID).onStart {
+            fetchMumentDetailContentUseCase(mumentId).onStart {
                 _viewState.setState { copy(onNetwork = true) }
             }.catch { e ->
                 _viewState.setState { copy(hasError= true, onNetwork = false) }
-            }.collect { mument ->
+            }.collect { mumentDetail ->
                 _viewState.setState {
-                    if (mument == null) {
+                    if (mumentDetail == null) {
                         copy(hasError = true, onNetwork = false)
                     } else {
-                        checkMumentHasWritten(mument.musicInfo.id)
+                        checkMumentHasWritten(mumentDetail.mument.musicInfo.id)
                         copy(
-                            writer = mument.writerInfo,
-                            musicInfo = mument.musicInfo,
-                            isFirst = mument.isFirst,
-                            tags = mument.combineTags(),
-                            content = mument.content,
-                            createdDate = mument.createdDate,
-                            isLiked = mument.isLiked,
-                            mumentHistoryCount = mument.mumentHistoryCount,
-                            likeCount = mument.likeCount,
+                            mument = mumentDetail.mument,
+                            isLiked = mumentDetail.isLiked,
+                            likeCount = mumentDetail.likeCount,
+                            mumentHistoryCount = mumentDetail.mumentHistoryCount,
                             onNetwork = false
                         )
                     }

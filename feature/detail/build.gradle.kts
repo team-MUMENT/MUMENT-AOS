@@ -11,6 +11,7 @@ plugins {
 
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
+
 android {
     compileSdk = DefaultConfig.COMPILE_SDK
 

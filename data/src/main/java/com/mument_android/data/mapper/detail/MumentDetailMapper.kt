@@ -8,6 +8,10 @@ import com.mument_android.data.mapper.main.IsFirstTagMapper
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.core.base.BaseMapper
+import com.mument_android.core.model.TagEntity
+import com.mument_android.domain.entity.detail.MumentEntity
+import com.mument_android.domain.entity.music.MusicInfoEntity
+import com.mument_android.domain.entity.user.UserEntity
 import javax.inject.Inject
 
 class MumentDetailMapper @Inject constructor(
@@ -19,16 +23,18 @@ class MumentDetailMapper @Inject constructor(
 ): BaseMapper<MumentDetailDto, MumentDetailEntity> {
     override fun map(from: MumentDetailDto): MumentDetailEntity {
         return MumentDetailEntity(
-            userMapper.map(from.user),
-            musicInfoMapper.map(from.music),
-            isFirstTagMapper.map(from.isFirst),
-            from.impressionTag?.map { impressiveTagMapper.map(it) },
-            from.feelingTag?.map { emotionalTagMapper.map(it) },
-            from.content,
-            from.createdAt,
-            from.isLiked,
-            from.count,
-            from.likeCount
+            mument = MumentEntity(
+                writerInfo = userMapper.map(from.user),
+                musicInfo = musicInfoMapper.map(from.music),
+                isFirst = isFirstTagMapper.map(from.isFirst),
+                impressionTags = from.impressionTag?.map { impressiveTagMapper.map(it) },
+                emotionalTags = from.feelingTag?.map { emotionalTagMapper.map(it) },
+                content = from.content,
+                createdDate = from.createdAt
+            ),
+            isLiked = from.isLiked,
+            likeCount = from.likeCount,
+            mumentHistoryCount = from.count
         )
     }
 }

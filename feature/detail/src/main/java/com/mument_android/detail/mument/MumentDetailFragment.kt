@@ -87,8 +87,8 @@ class MumentDetailFragment : Fragment() {
 
     private fun updateMumentDetail() {
         collectFlowWhenStarted(viewModel.viewState) {
-            changeKebabButtonVisibility(it.writer?.userId ?: "")
-            (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(it.tags)
+            changeKebabButtonVisibility(it.mument?.writerInfo?.userId ?: "")
+            (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(it.mument?.combineTags())
             binding.constraintlayoutRoot.run { if (it.onNetwork) showProgress() else removeProgress() }
             if (it.hasError) Toast.makeText(requireContext(), "데이터를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
         }
@@ -108,7 +108,7 @@ class MumentDetailFragment : Fragment() {
         binding.ivKebab.click {
             EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
                 override fun edit() {
-                    viewModel.viewState.value.content?.let {
+                    viewModel.viewState.value.mument?.content?.let {
                         //editMumentNavigatorProvider.editMument(viewModel.mumentId.value, it) Todo Navi
                     }
                 }
@@ -145,7 +145,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToMusicDetail() {
         binding.viewAlbumClickArea.setOnClickListener {
-            viewModel.viewState.value.musicInfo?.id?.let { musicId ->
+            viewModel.viewState.value.mument?.musicInfo?.id?.let { musicId ->
                 /*Bundle().also {
                     it.putString(MUSIC_ID, musicId)
                     val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_musicDetailFragment_home else R.id.action_mumentDetailFragment_to_musicDetailFragment_locker
@@ -157,7 +157,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToHistory() {
         binding.tvGoToHistory.setOnClickListener {
-            viewModel.viewState.value.musicInfo?.id?.let { musicId ->
+            viewModel.viewState.value.mument?.musicInfo?.id?.let { musicId ->
                 /*Bundle().also {
                     it.putString(MUSIC_ID, musicId)
                     val actionId = if (isFromHome()) R.id.action_mumentDetailFragment_to_historyFragment_home else R.id.action_mumentDetailFragment_to_historyFragment_locker
