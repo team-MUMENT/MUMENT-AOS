@@ -102,7 +102,7 @@ class MumentDetailFragment : Fragment() {
     private fun changeLikeStatus() {
         binding.cbHeart.click {
             val event = if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
-            viewModel.emitUserEvent(event)
+            viewModel.emitEvent(event)
         }
     }
 
@@ -111,14 +111,14 @@ class MumentDetailFragment : Fragment() {
             EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
                 override fun edit() {
                     viewModel.viewState.value.mument?.content?.let { mument ->
-                        viewModel.emitUserEvent(MumentDetailEvent.OnClickEditMument(mument))
+                        viewModel.emitEvent(MumentDetailEvent.OnClickEditMument(mument))
                     }
                 }
 
                 override fun delete() {
                     MumentDialogBuilder()
                         .setHeader("삭제하시겠어요?")
-                        .setAllowListener { viewModel.emitUserEvent(MumentDetailEvent.OnClickDeleteMument) }
+                        .setAllowListener { viewModel.emitEvent(MumentDetailEvent.OnClickDeleteMument) }
                         .build()
                         .show(childFragmentManager, this@MumentDetailFragment.tag)
                 }
@@ -129,7 +129,7 @@ class MumentDetailFragment : Fragment() {
     private fun goToMusicDetail() {
         binding.viewAlbumClickArea.setOnClickListener {
             viewModel.viewState.value.mument?.musicInfo?.id?.let { musicId ->
-                viewModel.emitUserEvent(MumentDetailEvent.OnClickAlum(musicId))
+                viewModel.emitEvent(MumentDetailEvent.OnClickAlum(musicId))
             }
         }
     }
@@ -137,7 +137,7 @@ class MumentDetailFragment : Fragment() {
     private fun goToHistory() {
         binding.tvGoToHistory.setOnClickListener {
             viewModel.viewState.value.mument?.musicInfo?.id?.let { musicId ->
-                viewModel.emitUserEvent(MumentDetailEvent.OnClickHistory(musicId))
+                viewModel.emitEvent(MumentDetailEvent.OnClickHistory(musicId))
             }
         }
     }

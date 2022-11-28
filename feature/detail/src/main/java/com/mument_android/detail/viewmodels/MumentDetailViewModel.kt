@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.core_dependent.util.emitUserEvent
-import com.mument_android.core_dependent.util.handleUserEvent
-import com.mument_android.core_dependent.util.setEffect
-import com.mument_android.core_dependent.util.setState
+import com.mument_android.core_dependent.util.*
 import com.mument_android.detail.BuildConfig
 import com.mument_android.domain.usecase.detail.DeleteMumentUseCase
 import com.mument_android.domain.usecase.detail.FetchMumentDetailContentUseCase
@@ -35,14 +32,14 @@ class MumentDetailViewModel @Inject constructor(
     private val _effect: Channel<MumentDetailSideEffect> = Channel()
     val effect = _effect.receiveAsFlow()
 
-    private val _userEvent: MutableSharedFlow<MumentDetailEvent> = MutableSharedFlow()
+    private val _event: MutableSharedFlow<MumentDetailEvent> = MutableSharedFlow()
 
     init {
-        handleUserEvent()
+        handleEvent()
     }
 
-    fun emitUserEvent(event: MumentDetailEvent) {
-        _userEvent.emitUserEvent(viewModelScope, event)
+    fun emitEvent(event: MumentDetailEvent) {
+        _event.emitEvent(viewModelScope, event)
     }
 
     private fun setEffect(effect: MumentDetailSideEffect, listener: (() -> Unit)? = null) {
@@ -50,8 +47,8 @@ class MumentDetailViewModel @Inject constructor(
         listener?.let { it() }
     }
 
-    private fun handleUserEvent() {
-        _userEvent.asSharedFlow().handleUserEvent(viewModelScope) { event ->
+    private fun handleEvent() {
+        _event.asSharedFlow().handleEvent(viewModelScope) { event ->
             when(event) {
                 MumentDetailEvent.OnClickLikeMument -> likeMument()
                 MumentDetailEvent.OnClickUnLikeMument -> cancelLikeMument()

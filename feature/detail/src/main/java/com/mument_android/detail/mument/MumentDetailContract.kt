@@ -1,7 +1,7 @@
 package com.mument_android.detail.mument
 
 import com.mument_android.core.util.SideEffect
-import com.mument_android.core.util.UserEvent
+import com.mument_android.core.util.Event
 import com.mument_android.core.util.ViewState
 import com.mument_android.domain.entity.detail.MumentEntity
 
@@ -18,7 +18,7 @@ class MumentDetailContract {
         val hasWrittenMument: Boolean = false
     ): ViewState
 
-    sealed class MumentDetailEvent: UserEvent {
+    sealed class MumentDetailEvent: Event {
         data class OnClickAlum(val musicId: String): MumentDetailEvent()
         data class OnClickHistory (val musicId: String): MumentDetailEvent()
         data class OnClickEditMument (val mument: String): MumentDetailEvent()

@@ -1,8 +1,7 @@
 package com.mument_android.core_dependent.util
 
-import androidx.lifecycle.viewModelScope
 import com.mument_android.core.util.SideEffect
-import com.mument_android.core.util.UserEvent
+import com.mument_android.core.util.Event
 import com.mument_android.core.util.ViewState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -21,11 +20,11 @@ inline fun <E: SideEffect> Channel<E>.setEffect(coroutineScope: CoroutineScope, 
     coroutineScope.launch { send(builder()) }
 }
 
-fun <UE: UserEvent> MutableSharedFlow<UE>.emitUserEvent(coroutineScope: CoroutineScope, event: UE) {
+fun <E: Event> MutableSharedFlow<E>.emitEvent(coroutineScope: CoroutineScope, event: E) {
     coroutineScope.launch { emit(event) }
 }
 
-inline fun <UE: UserEvent> SharedFlow<UE>.handleUserEvent(coroutineScope: CoroutineScope, crossinline receiver: (UE) -> Unit) {
+inline fun <E: Event> SharedFlow<E>.handleEvent(coroutineScope: CoroutineScope, crossinline receiver: (E) -> Unit) {
     coroutineScope.launch {
         collect { receiver(it) }
     }
