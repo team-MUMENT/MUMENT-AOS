@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-inline fun <S: ViewState> MutableStateFlow<S>.setState(crossinline reducer: S.() -> S) {
+fun <S: ViewState> MutableStateFlow<S>.setState(reducer: S.() -> S) {
     val newState = this.value.reducer()
     value = newState
 }

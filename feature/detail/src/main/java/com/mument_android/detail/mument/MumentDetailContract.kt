@@ -29,10 +29,10 @@ class MumentDetailContract {
     }
 
     sealed class MumentDetailSideEffect: SideEffect {
-        object PopBackStack: MumentDetailSideEffect()
         data class NavToMusicDetail(val musicId: String): MumentDetailSideEffect()
         data class NavToMumentHistory(val musicId: String): MumentDetailSideEffect()
         data class EditMument(val mumentId: String): MumentDetailSideEffect()
+        object PopBackStack: MumentDetailSideEffect()
         object SuccessMumentDeletion: MumentDetailSideEffect()
         object FailMumentDeletion: MumentDetailSideEffect()
     }
