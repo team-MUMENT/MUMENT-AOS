@@ -93,8 +93,7 @@ object ViewUtils {
             isUpward && reveal -> TranslateAnimation(0f, 0f, 70f, 0f)
             isUpward && !reveal -> TranslateAnimation(0f, 0f, 0f, -height.toFloat())
             !isUpward && reveal -> TranslateAnimation(0f, 0f,  -height.toFloat(),0f)
-            !isUpward && !reveal -> TranslateAnimation(0f, 0f,  0f, height.toFloat())
-            else -> throw IllegalArgumentException("Visibility Animation Argument Error")
+            else -> TranslateAnimation(0f, 0f,  0f, height.toFloat())
         }
 
         alphaAnimation.duration = durationTime
