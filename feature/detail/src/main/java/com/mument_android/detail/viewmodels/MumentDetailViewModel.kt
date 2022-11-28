@@ -29,8 +29,6 @@ class MumentDetailViewModel @Inject constructor(
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
     private val deleteMumentUseCase: DeleteMumentUseCase
 ) : ViewModel() {
-    val isLiked = MutableStateFlow<Boolean>(false)
-
     private val _viewState = MutableStateFlow(MumentDetailViewState())
     val viewState = _viewState.asStateFlow()
 
@@ -73,28 +71,24 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun likeMument() {
         viewModelScope.launch {
-            increaseLikeCount()
+            _viewState.setState { copy(likeCount = likeCount + 1 ) }
             likeMumentUseCase(viewState.value.requestMumentId, BuildConfig.USER_ID)
                 .catch { }
-                .collect { }
+                .collect {
+                    _viewState.setState { copy(isLikedMument = true) }
+                }
         }
     }
 
     private fun cancelLikeMument() {
         viewModelScope.launch {
-            decreaseLikeCount()
+            _viewState.setState { copy(likeCount = likeCount - 1 ) }
             cancelLikeMumentUseCase(viewState.value.requestMumentId, BuildConfig.USER_ID)
-                .catch {  }
-                .collect {}
+                .catch { }
+                .collect {
+                    _viewState.setState { copy(isLikedMument = false) }
+                }
         }
-    }
-
-    private fun increaseLikeCount() {
-        viewState.value.apply { _viewState.value = copy(likeCount = likeCount + 1 ) }
-    }
-
-    private fun decreaseLikeCount() {
-        viewState.value.apply { _viewState.value = copy(likeCount = likeCount - 1 ) }
     }
 
     private fun fetchMumentDetailContent(mumentId: String) {
