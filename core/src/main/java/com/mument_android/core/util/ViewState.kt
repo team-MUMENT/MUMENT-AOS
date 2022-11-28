@@ -1,3 +1,6 @@
 package com.mument_android.core.util
 
-interface ViewState
+interface ViewState {
+    val hasError: Boolean
+    val onNetwork: Boolean
+}
