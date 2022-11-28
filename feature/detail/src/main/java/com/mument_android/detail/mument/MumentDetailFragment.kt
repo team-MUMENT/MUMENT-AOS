@@ -86,10 +86,9 @@ class MumentDetailFragment : Fragment() {
 
     private fun updateMumentDetail() {
         collectFlowWhenStarted(viewModel.viewState) {
-            binding.ivKebab.visibility = if (it.isWriter) View.VISIBLE else View.GONE
             (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(it.mument?.combineTags())
             binding.constraintlayoutRoot.run { if (it.onNetwork) showProgress() else removeProgress() }
-            if (it.hasError) Toast.makeText(requireContext(), "데이터를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
+            if (it.hasError) requireContext().showToast("데이터를 불러올 수 없습니다.")
             showMumentHistory(it.hasWrittenMument)
         }
     }
@@ -146,12 +145,12 @@ class MumentDetailFragment : Fragment() {
     private fun receiveEffect() {
         collectFlowWhenStarted(viewModel.effect) { effect ->
             when(effect) {
-                MumentDetailSideEffect.FailMumentDeletion -> { requireContext().showToast("뮤멘트를 삭제하지 못했습니다.") }
-                MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
-                is MumentDetailSideEffect.EditMument -> { /** Todo: (Navigate To Edit Mument) **/ }
-                is MumentDetailSideEffect.NavToMusicDetail -> { /** Todo: Navigate To MusicDetail**/ }
-                is MumentDetailSideEffect.NavToMumentHistory -> TODO()
+                MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
+                is MumentDetailSideEffect.EditMument -> { /** Todo: Navigate To Edit Mument **/ }
+                is MumentDetailSideEffect.NavToMusicDetail -> { /** Todo: Navigate To MusicDetail **/ }
+                is MumentDetailSideEffect.NavToMumentHistory -> { /** Todo: Navigate To MumentHistory **/ }
+                is MumentDetailSideEffect.Toast -> requireContext().showToast(effect.message)
             }
         }
     }

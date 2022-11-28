@@ -64,12 +64,10 @@ class MumentDetailViewModel @Inject constructor(
         }
     }
 
-
     fun updateRequestMumentId(id: String) {
         _viewState.setState { copy(requestMumentId = id) }
         fetchMumentDetailContent(id)
     }
-
 
     private fun likeMument() {
         viewModelScope.launch {
@@ -86,8 +84,9 @@ class MumentDetailViewModel @Inject constructor(
         viewModelScope.launch {
             _viewState.setState { copy(likeCount = likeCount - 1 ) }
             cancelLikeMumentUseCase(viewState.value.requestMumentId, BuildConfig.USER_ID)
-                .catch { }
-                .collect {
+                .catch {
+
+                }.collect {
                     _viewState.setState { copy(isLikedMument = false) }
                 }
         }
@@ -99,21 +98,18 @@ class MumentDetailViewModel @Inject constructor(
                 _viewState.setState { copy(onNetwork = true) }
             }.catch { e ->
                 _viewState.setState { copy(hasError= true, onNetwork = false) }
+                setEffect(MumentDetailSideEffect.Toast("데이터를 불러올 수 없습니다."))
             }.collect { mumentDetail ->
+                fetchMumentList(mumentDetail.mument.musicInfo.id)
                 _viewState.setState {
-                    if (mumentDetail == null) {
-                        copy(hasError = true, onNetwork = false)
-                    } else {
-                        fetchMumentList(mumentDetail.mument.musicInfo.id)
-                        copy(
-                            isWriter = mumentDetail.mument.writerInfo.userId == BuildConfig.USER_ID,
-                            mument = mumentDetail.mument,
-                            isLikedMument = mumentDetail.isLiked,
-                            likeCount = mumentDetail.likeCount,
-                            historyCount = mumentDetail.mumentHistoryCount,
-                            onNetwork = false
-                        )
-                    }
+                    copy(
+                        isWriter = mumentDetail.mument.writerInfo.userId == BuildConfig.USER_ID,
+                        mument = mumentDetail.mument,
+                        isLikedMument = mumentDetail.isLiked,
+                        likeCount = mumentDetail.likeCount,
+                        historyCount = mumentDetail.mumentHistoryCount,
+                        onNetwork = false
+                    )
                 }
             }
         }
@@ -135,9 +131,9 @@ class MumentDetailViewModel @Inject constructor(
         viewModelScope.launch {
             deleteMumentUseCase(viewState.value.requestMumentId)
                 .catch {
-                    _effect.setEffect(viewModelScope) { MumentDetailSideEffect.FailMumentDeletion }
+                    setEffect(MumentDetailSideEffect.Toast("뮤멘트를 삭제하지 못했습니다."))
                 }.collect {
-                    _effect.setEffect(viewModelScope) { MumentDetailSideEffect.SuccessMumentDeletion }
+                    setEffect(MumentDetailSideEffect.SuccessMumentDeletion)
                 }
         }
     }
