@@ -44,7 +44,7 @@ class MumentDetailViewModel @Inject constructor(
     fun emitUserEvent(event: MumentDetailEvent) {
         _userEvent.emitUserEvent(viewModelScope, event)
     }
-    
+
     private fun setEffect(effect: MumentDetailSideEffect, listener: (() -> Unit)? = null) {
         _effect.setEffect(viewModelScope) { effect }
         listener?.let { it() }
