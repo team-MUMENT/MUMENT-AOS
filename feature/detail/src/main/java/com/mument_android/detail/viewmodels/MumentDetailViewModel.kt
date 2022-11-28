@@ -44,10 +44,10 @@ class MumentDetailViewModel @Inject constructor(
     fun emitUserEvent(event: MumentDetailEvent) {
         _userEvent.emitUserEvent(viewModelScope, event)
     }
-
-    fun updateRequestMumentId(id: String) {
-        _viewState.setState { copy(requestMumentId = id) }
-        fetchMumentDetailContent(id)
+    
+    private fun setEffect(effect: MumentDetailSideEffect, listener: (() -> Unit)? = null) {
+        _effect.setEffect(viewModelScope) { effect }
+        listener?.let { it() }
     }
 
     private fun handleUserEvent() {
@@ -64,10 +64,12 @@ class MumentDetailViewModel @Inject constructor(
         }
     }
 
-    private fun setEffect(effect: MumentDetailSideEffect, listener: (() -> Unit)? = null) {
-        _effect.setEffect(viewModelScope) { effect }
-        listener?.let { it() }
+
+    fun updateRequestMumentId(id: String) {
+        _viewState.setState { copy(requestMumentId = id) }
+        fetchMumentDetailContent(id)
     }
+
 
     private fun likeMument() {
         viewModelScope.launch {
