@@ -14,6 +14,22 @@
     <string name="like_count_integer_format">%d명이 좋아합니다.</string>
     <string name="go_to_mument_history_integer_format">%d개의 뮤멘트가 있는 히스토리 보러가기</string>
     <string name="record_mument">뮤멘트 기록하기</string>
-    <string name="write_earliest_mument">가장 먼저 뮤멘트를 남겨보세요.</string>
+    <string name="write_earliest_mument">가장 먼저 뮤멘트를 남겨n보세요.</string>
     <string name="write_first_mument">첫 뮤멘트를 남겨보세요.</string>
+
+    <!--신고하기-->
+    <string name="notify_title">신고하기</string>
+    <string name="notify_reason">뮤멘트를 신고하려는 이유를 알려주세요!</string>
+    <string name="notify_reference">관리자 검토 후 타당한 근거 없이 신고된 내용은\n반영되지 않을 수 있습니다.</string>
+    <string name="notify_not_relative">관련 없는 내용이에요.</string>
+    <string name="notify_personal_info">개인정보가 노출될 위험이 있어요.</string>
+    <string name="notify_not_good">욕설, 혐오, 차별 등 부적절한 내용이 있어요.</string>
+    <string name="notify_noxious_content">음란적, 선정적인 유해한 콘텐츠를 포함하고 있어요.</string>
+    <string name="notify_same_content">같은 내용을 도배하고 있어요.</string>
+    <string name="notify_advertise">부적절한 홍보 또는 광고가 포함되어 있어요.</string>
+    <string name="notify_etc">기타</string>
+    <string name="notify_write_content">신고 내용을 작성해주세요.</string>
+    <string name="notify_block">차단하기</string>
+    <string name="notify_block_reference">신고하는 사용자의 뮤멘트를 더 이상 보고 싶지 않아요.</string>
+    <string name="notify_text_num">%d/100</string>
 </resources>
