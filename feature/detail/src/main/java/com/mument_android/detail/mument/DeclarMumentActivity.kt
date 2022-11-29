@@ -5,13 +5,13 @@ import android.view.View
 import androidx.activity.viewModels
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.detail.R
-import com.mument_android.detail.databinding.ActivityNotifyMumentBinding
+import com.mument_android.detail.databinding.ActivityDeclarMumentBinding
 import com.mument_android.detail.viewmodels.MumentDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NotifyMumentActivity :
-    BaseActivity<ActivityNotifyMumentBinding>(R.layout.activity_notify_mument) {
+class DeclarMumentActivity :
+    BaseActivity<ActivityDeclarMumentBinding>(R.layout.activity_declar_mument) {
 
     private val viewModel: MumentDetailViewModel by viewModels()
 

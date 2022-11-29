@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".mument.NotifyMumentActivity">
+        tools:context=".mument.DeclarMumentActivity">
 
         <ScrollView
             android:id="@+id/sv_mypage_modify"

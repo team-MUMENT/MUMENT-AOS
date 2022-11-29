@@ -47,11 +47,4 @@ object GlobalBindingAdapter {
             }
         }
     }
-
-    @JvmStatic
-    @BindingAdapter("intToString")
-    fun android.widget.Button.intToString(num: Int) {
-        this.text = num.toString()
-    }
-
 }
