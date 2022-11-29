@@ -42,10 +42,6 @@ object ViewUtils {
 
     fun Context.showToast(msg: String) {
         val toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
-        val viewGroup = toast.view as ViewGroup
-        val textView = viewGroup.getChildAt(0) as TextView
-        textView.textSize = 12.0F
-        textView.gravity = Gravity.CENTER_VERTICAL
         toast.show()
     }
 

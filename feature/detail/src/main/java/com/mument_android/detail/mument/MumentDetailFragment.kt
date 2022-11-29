@@ -36,15 +36,9 @@ import com.mument_android.detail.mument.MumentDetailContract.*
 class MumentDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
-
-    @Inject
-    lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
-
-    @Inject
-    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
-
-    @Inject
-    lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
+    @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
+    @Inject lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+    @Inject lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

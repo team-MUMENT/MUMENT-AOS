@@ -14,7 +14,7 @@ interface DetailApiService {
     suspend fun fetchMumentDetail(
         @Path ("mumentId") mumentId: String,
         @Path("userId") userId: String
-    ): MumentDetailDto
+    ): BaseResponse<MumentDetailDto>
 
     @GET("/music/{musicId}/{userId}")
     suspend fun fetchMusicDetailInfo(

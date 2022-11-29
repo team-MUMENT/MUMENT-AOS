@@ -81,9 +81,8 @@ class MumentDetailViewModel @Inject constructor(
         viewModelScope.launch {
             _viewState.setState { copy(likeCount = likeCount - 1 ) }
             cancelLikeMumentUseCase(viewState.value.requestMumentId, BuildConfig.USER_ID)
-                .catch {
-
-                }.collect {
+                .catch { }
+                .collect {
                     _viewState.setState { copy(isLikedMument = false) }
                 }
         }
@@ -97,19 +96,26 @@ class MumentDetailViewModel @Inject constructor(
                 _viewState.setState { copy(hasError= true, onNetwork = false) }
                 setEffect(MumentDetailSideEffect.Toast("데이터를 불러올 수 없습니다."))
             }.collect { mumentDetail ->
-                fetchMumentList(mumentDetail.mument.musicInfo.id)
-                _viewState.setState {
-                    copy(
-                        isWriter = mumentDetail.mument.writerInfo.userId == BuildConfig.USER_ID,
-                        mument = mumentDetail.mument,
-                        isLikedMument = mumentDetail.isLiked,
-                        likeCount = mumentDetail.likeCount,
-                        historyCount = mumentDetail.mumentHistoryCount,
-                        onNetwork = false
-                    )
-                }
+                mumentDetail?.let {
+                    fetchMumentList(mumentDetail.mument.musicInfo.id)
+                    _viewState.setState {
+                        copy(
+                            isWriter = mumentDetail.mument.writerInfo.userId == BuildConfig.USER_ID,
+                            mument = mumentDetail.mument,
+                            isLikedMument = mumentDetail.isLiked,
+                            likeCount = mumentDetail.likeCount,
+                            historyCount = mumentDetail.mumentHistoryCount,
+                            onNetwork = false
+                        )
+                    }
+                } ?: disableFetchData()
             }
         }
+    }
+
+    private fun disableFetchData() {
+        _viewState.setState { copy(hasError= true, onNetwork = false) }
+        setEffect(MumentDetailSideEffect.Toast("데이터를 불러올 수 없습니다."))
     }
 
     private fun fetchMumentList(musicId: String) {

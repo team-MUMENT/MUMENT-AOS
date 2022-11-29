@@ -16,9 +16,9 @@ class MumentDetailRepositoryImpl @Inject constructor(
     private val mumentDetailMapper: MumentDetailMapper,
     private val deleteMumentController: DeleteMumentController
 ) : MumentDetailRepository {
-    override suspend fun fetchMumentDetail(mumentId: String): Flow<MumentDetailEntity> =
+    override suspend fun fetchMumentDetail(mumentId: String): Flow<MumentDetailEntity?> =
         mumentDetailDataSource.fetchMumentDetail(mumentId)
-            .map { mumentDetailMapper.map(it) }
+            .map { it.data?.let { it -> mumentDetailMapper.map(it) } }
             .flowOn(Dispatchers.Default)
 
     override suspend fun deleteMument(mumentId: String): Flow<Unit> =
