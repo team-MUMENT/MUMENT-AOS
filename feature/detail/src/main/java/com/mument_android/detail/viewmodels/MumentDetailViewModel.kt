@@ -55,12 +55,15 @@ class MumentDetailViewModel @Inject constructor(
                 is MumentDetailEvent.OnClickAlum -> setEffect(MumentDetailSideEffect.NavToMusicDetail(event.musicId))
                 is MumentDetailEvent.OnClickHistory -> setEffect(MumentDetailSideEffect.NavToMumentHistory(event.musicId))
                 is MumentDetailEvent.OnClickEditMument -> setEffect(MumentDetailSideEffect.EditMument(event.mument))
+                is MumentDetailEvent.ReceiveMumentId -> {
+                    _viewState.setState { copy(requestMumentId = event.mumentId) }
+                    updateRequestMumentId(event.mumentId)
+                }
             }
         }
     }
 
-    fun updateRequestMumentId(id: String) {
-        _viewState.setState { copy(requestMumentId = id) }
+    private fun updateRequestMumentId(id: String) {
         fetchMumentDetailContent(id)
     }
 

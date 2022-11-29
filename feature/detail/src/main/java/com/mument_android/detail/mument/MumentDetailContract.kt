@@ -19,6 +19,7 @@ class MumentDetailContract {
     ): ViewState
 
     sealed class MumentDetailEvent: Event {
+        data class ReceiveMumentId(val mumentId: String): MumentDetailEvent()
         data class OnClickAlum(val musicId: String): MumentDetailEvent()
         data class OnClickHistory (val musicId: String): MumentDetailEvent()
         data class OnClickEditMument (val mument: String): MumentDetailEvent()

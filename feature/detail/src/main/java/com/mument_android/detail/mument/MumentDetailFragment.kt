@@ -66,7 +66,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun receiveMumentID() {
         arguments?.getString(MUMENT_ID)?.let {
-            viewModel.updateRequestMumentId(it)
+            viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(it))
         }
     }
 
