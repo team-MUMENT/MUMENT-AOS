@@ -16,7 +16,7 @@ fun <S: ViewState> MutableStateFlow<S>.setState(reducer: S.() -> S) {
     value = newState
 }
 
-inline fun <E: SideEffect> Channel<E>.setEffect(coroutineScope: CoroutineScope, crossinline builder: () -> E) {
+inline fun <E: SideEffect> Channel<E>.emitEffect(coroutineScope: CoroutineScope, crossinline builder: () -> E) {
     coroutineScope.launch { send(builder()) }
 }
 
@@ -25,7 +25,5 @@ fun <E: Event> MutableSharedFlow<E>.emitEvent(coroutineScope: CoroutineScope, ev
 }
 
 inline fun <E: Event> SharedFlow<E>.collectEvent(coroutineScope: CoroutineScope, crossinline receiver: (E) -> Unit) {
-    coroutineScope.launch {
-        collect { receiver(it) }
-    }
+    coroutineScope.launch { collect { receiver(it) } }
 }

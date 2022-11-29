@@ -40,9 +40,8 @@ class MumentDetailViewModel @Inject constructor(
         _event.emitEvent(viewModelScope, event)
     }
 
-    private fun setEffect(effect: MumentDetailSideEffect, listener: (() -> Unit)? = null) {
-        _effect.setEffect(viewModelScope) { effect }
-        listener?.let { it() }
+    private fun emitEffect(effect: MumentDetailSideEffect) {
+        _effect.emitEffect(viewModelScope) { effect }
     }
 
     private fun collectEvent() {
@@ -51,10 +50,10 @@ class MumentDetailViewModel @Inject constructor(
                 MumentDetailEvent.OnClickLikeMument -> likeMument()
                 MumentDetailEvent.OnClickUnLikeMument -> cancelLikeMument()
                 MumentDetailEvent.OnClickDeleteMument -> deleteMument()
-                MumentDetailEvent.OnClickBackIcon -> setEffect(MumentDetailSideEffect.PopBackStack)
-                is MumentDetailEvent.OnClickAlum -> setEffect(MumentDetailSideEffect.NavToMusicDetail(event.musicId))
-                is MumentDetailEvent.OnClickHistory -> setEffect(MumentDetailSideEffect.NavToMumentHistory(event.musicId))
-                is MumentDetailEvent.OnClickEditMument -> setEffect(MumentDetailSideEffect.EditMument(event.mument))
+                MumentDetailEvent.OnClickBackIcon -> emitEffect(MumentDetailSideEffect.PopBackStack)
+                is MumentDetailEvent.OnClickAlum -> emitEffect(MumentDetailSideEffect.NavToMusicDetail(event.musicId))
+                is MumentDetailEvent.OnClickHistory -> emitEffect(MumentDetailSideEffect.NavToMumentHistory(event.musicId))
+                is MumentDetailEvent.OnClickEditMument -> emitEffect(MumentDetailSideEffect.EditMument(event.mument))
                 is MumentDetailEvent.ReceiveMumentId -> {
                     _viewState.setState { copy(requestMumentId = event.mumentId) }
                     updateRequestMumentId(event.mumentId)
@@ -95,7 +94,7 @@ class MumentDetailViewModel @Inject constructor(
                 _viewState.setState { copy(onNetwork = true) }
             }.catch { e ->
                 _viewState.setState { copy(hasError= true, onNetwork = false) }
-                setEffect(MumentDetailSideEffect.Toast("데이터를 불러올 수 없습니다."))
+                emitEffect(MumentDetailSideEffect.Toast("데이터를 불러올 수 없습니다."))
             }.collect { mumentDetail ->
                 mumentDetail?.let {
                     fetchMumentList(mumentDetail.mument.musicInfo.id)
@@ -116,7 +115,7 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun disableFetchData() {
         _viewState.setState { copy(hasError= true, onNetwork = false) }
-        setEffect(MumentDetailSideEffect.Toast("데이터를 불러올 수 없습니다."))
+        emitEffect(MumentDetailSideEffect.Toast("데이터를 불러올 수 없습니다."))
     }
 
     private fun fetchMumentList(musicId: String) {
@@ -135,9 +134,9 @@ class MumentDetailViewModel @Inject constructor(
         viewModelScope.launch {
             deleteMumentUseCase(viewState.value.requestMumentId)
                 .catch {
-                    setEffect(MumentDetailSideEffect.Toast("뮤멘트를 삭제하지 못했습니다."))
+                    emitEffect(MumentDetailSideEffect.Toast("뮤멘트를 삭제하지 못했습니다."))
                 }.collect {
-                    setEffect(MumentDetailSideEffect.SuccessMumentDeletion)
+                    emitEffect(MumentDetailSideEffect.SuccessMumentDeletion)
                 }
         }
     }
