@@ -33,7 +33,7 @@ class MumentDetailViewModel @Inject constructor(
     private val _event: MutableSharedFlow<MumentDetailEvent> = MutableSharedFlow()
 
     init {
-        handleEvent()
+        collectEvent()
     }
 
     fun emitEvent(event: MumentDetailEvent) {
@@ -45,8 +45,8 @@ class MumentDetailViewModel @Inject constructor(
         listener?.let { it() }
     }
 
-    private fun handleEvent() {
-        _event.asSharedFlow().handleEvent(viewModelScope) { event ->
+    private fun collectEvent() {
+        _event.asSharedFlow().collectEvent(viewModelScope) { event ->
             when(event) {
                 MumentDetailEvent.OnClickLikeMument -> likeMument()
                 MumentDetailEvent.OnClickUnLikeMument -> cancelLikeMument()

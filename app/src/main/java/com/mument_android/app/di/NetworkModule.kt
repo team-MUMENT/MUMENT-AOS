@@ -22,12 +22,16 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private val loggingInterceptor =
+    @Provides
+    @Singleton
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).apply {
             this.level = HttpLoggingInterceptor.Level.BODY
         }
 
-    private val authInterceptor = Interceptor { chain ->
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(): Interceptor = Interceptor { chain ->
         val request = chain.request().newBuilder().addHeaders(BuildConfig.USER_ID).build()
         chain.proceed(request)
     }
@@ -37,7 +41,7 @@ object NetworkModule {
     @Provides
     @Singleton
     @AuthOkHttpClient
-    fun provideAuthOkHttpClient(): OkHttpClient =
+    fun provideAuthOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, authInterceptor: Interceptor): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
@@ -61,7 +65,7 @@ object NetworkModule {
     @Provides
     @Singleton
     @UnAuthOkHttpClient
-    fun provideUnAuthOkHttpClientBuilder(): OkHttpClient =
+    fun provideUnAuthOkHttpClientBuilder(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)

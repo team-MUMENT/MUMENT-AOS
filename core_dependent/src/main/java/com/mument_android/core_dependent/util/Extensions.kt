@@ -24,7 +24,7 @@ fun <E: Event> MutableSharedFlow<E>.emitEvent(coroutineScope: CoroutineScope, ev
     coroutineScope.launch { emit(event) }
 }
 
-inline fun <E: Event> SharedFlow<E>.handleEvent(coroutineScope: CoroutineScope, crossinline receiver: (E) -> Unit) {
+inline fun <E: Event> SharedFlow<E>.collectEvent(coroutineScope: CoroutineScope, crossinline receiver: (E) -> Unit) {
     coroutineScope.launch {
         collect { receiver(it) }
     }
