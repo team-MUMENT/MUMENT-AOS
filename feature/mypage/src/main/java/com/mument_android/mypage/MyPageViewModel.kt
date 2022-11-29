@@ -1,5 +1,6 @@
 package com.mument_android.mypage
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mument_android.mypage.data.NoticeData
@@ -9,16 +10,17 @@ class MyPageViewModel : ViewModel() {
 
     //myPage
     private val _isBtnClick = MutableLiveData(false)
-    val isBtnClick = _isBtnClick
+    val isBtnClick: LiveData<Boolean> get() = _isBtnClick
 
     //Profile
-    val userId = MutableLiveData<String>()
+    private val _userId = MutableLiveData<String>()
+    val userId : LiveData<String> get() = _userId
     val userImg = MutableLiveData<Int>()
-    val userNickNameContent = MutableLiveData("")
+     val userNickNameContent = MutableLiveData("")
 
     //Notice
     private val _noticeList = MutableLiveData<List<NoticeData>>()
-    val noticeList = _noticeList
+    val noticeList: LiveData<List<NoticeData>> get() = _noticeList
 
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
@@ -32,7 +34,6 @@ class MyPageViewModel : ViewModel() {
             userImg = userImg.value ?: 0
         )
     }
-
 }
 
 

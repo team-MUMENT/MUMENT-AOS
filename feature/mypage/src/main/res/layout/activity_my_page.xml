@@ -96,7 +96,6 @@
                     android:layout_marginTop="14dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/mument_back_3"
-                    android:onClick="transactionBtnEvent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_my_page_profile" />
 
@@ -143,7 +142,6 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/mument_back_3"
-                    android:onClick="transactionBtnEvent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_my_page_alarm_setting" />
 
@@ -166,7 +164,6 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/mument_back_3"
-                    android:onClick="transactionBtnEvent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_my_page_block_user_management" />
 
@@ -213,7 +210,6 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/mument_back_3"
-                    android:onClick="transactionBtnEvent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_my_page_notice" />
 
@@ -237,7 +233,6 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/mument_back_3"
-                    android:onClick="transactionBtnEvent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_my_page_FAQ" />
 
@@ -247,7 +242,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="26dp"
                     android:fontFamily="@font/notosans_medium"
-                    android:onClick="transactionBtnEvent"
                     android:text="@string/my_page_inquiry"
                     android:textColor="@color/mument_color_black1"
                     android:textSize="16dp"
@@ -261,7 +255,6 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/mument_back_3"
-                    android:onClick="transactionBtnEvent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_my_page_inquiry" />
 
@@ -308,7 +301,6 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/mument_back_3"
-                    android:onClick="transactionBtnEvent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_my_page_app_info" />
 
@@ -332,7 +324,6 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/mument_back_3"
-                    android:onClick="transactionBtnEvent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_my_page_introduce_mument" />
 
