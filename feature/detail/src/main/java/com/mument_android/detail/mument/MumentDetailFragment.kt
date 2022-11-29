@@ -52,19 +52,28 @@ class MumentDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mumentDetailViewModel = viewModel
-        binding.ivBackButton.setOnClickListener { findNavController().popBackStack() }
 
-        arguments?.getString(MUMENT_ID)?.let {
-            viewModel.updateRequestMumentId(it)
-        }
-
+        receiveMumentID()
         updateMumentDetail()
+        popBackStack()
         receiveEffect()
         setMumentTags()
         changeLikeStatus()
         showEditBottomSheet()
         goToMusicDetail()
         goToHistory()
+    }
+
+    private fun receiveMumentID() {
+        arguments?.getString(MUMENT_ID)?.let {
+            viewModel.updateRequestMumentId(it)
+        }
+    }
+
+    private fun popBackStack() {
+        binding.ivBackButton.setOnClickListener {
+            viewModel.emitEvent(MumentDetailEvent.OnClickBackIcon)
+        }
     }
 
     private fun setMumentTags() {
