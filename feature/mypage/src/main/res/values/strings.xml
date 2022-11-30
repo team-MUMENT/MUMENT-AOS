@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Mument_Android</string>
+
+    <!-- my page view -->
+    <string name="my_page_title">마이페이지</string>
+    <string name="my_page_profile">프로필</string>
+    <string name="my_page_setting">설정</string>
+    <string name="my_page_alarm_setting">알람 설정</string>
+    <string name="my_page_block_user_management">차단 유저 관리</string>
+    <string name="my_page_service">서비스</string>
+    <string name="my_page_notice">공지사항</string>
+    <string name="my_page_FAQ">자주 묻는 질문</string>
+    <string name="my_page_inquiry">문의하기</string>
+    <string name="my_page_info">정보</string>
+    <string name="my_page_app_info">앱 정보</string>
+    <string name="my_page_introduce_mument">뮤멘트 소개</string>
+
+    <string name="my_page_version_info">버전 정보</string>
+    <string name="my_page_log_out"><u>로그아웃</u></string>
+    <string name="my_page_withdrawal"><u>회원탈퇴</u></string>
+
+    <!-- profile setting view-->
+    <string name="profile_setting_title">프로필 설정</string>
+    <string name="profile_setting_finish">완료</string>
+    <string name="profile_setting_hint">닉네임을 입력해주세요. (필수)</string>
+    <string name="profile_setting_id_condition">특수문자 제외 2–15자</string>
+    <string name="profile_setting_nickname_num">%d/15</string>
+
+
+    <!-- alarm setting view -->
+    <string name="alarm">알람</string>
+    <string name="alarm_content">누군가 내 뮤멘트에 좋아요했을 때, 중요한 공지사항,
+                         마케팅 이벤트, 계정 상태에 대한 알림을 받을 수 있어요</string>
+
+    <!-- block user management view-->
+    <string name="unblocking">해제</string>
+
+
+
+</resources>

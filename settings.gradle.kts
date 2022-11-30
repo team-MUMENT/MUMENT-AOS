@@ -25,5 +25,6 @@ include(
     ":feature:locker",
     ":feature:record",
     ":feature:home",
-    ":feature:detail"
+    ":feature:detail",
+    ":feature:mypage"
 )

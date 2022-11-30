@@ -90,6 +90,7 @@
         <entry key="core_dependent/src/main/res/drawable/rectangle_fill_purple2_20dp.xml" value="0.157" />
         <entry key="core_dependent/src/main/res/layout/item_mument_string_tag.xml" value="0.14739583333333334" />
         <entry key="feature/detail/src/main/res/drawable/selector_heart_on_off.xml" value="0.151" />
+        <entry key="feature/detail/src/main/res/layout/fragment_history.xml" value="0.12685185185185185" />
         <entry key="feature/detail/src/main/res/layout/item_mument_string_tag.xml" value="0.17291666666666666" />
         <entry key="feature/locker/src/main/res/drawable-v24/rectangle_fill_blue3_20dp.xml" value="0.151" />
         <entry key="feature/locker/src/main/res/drawable-v24/rectangle_fill_gray5_20dp.xml" value="0.151" />
@@ -98,9 +99,9 @@
         <entry key="feature/locker/src/main/res/drawable-v24/selector_heart_on_off.xml" value="0.151" />
         <entry key="feature/locker/src/main/res/drawable-v24/shape_border_default_redius_11dp.xml" value="0.151" />
         <entry key="feature/locker/src/main/res/font/noto_sans.xml" value="0.17135416666666667" />
-        <entry key="feature/locker/src/main/res/layout/fragment_locker.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_locker.xml" value="0.15366719563802084" />
         <entry key="feature/locker/src/main/res/layout/fragment_locker_filter_bottom_sheet.xml" value="0.14114583333333333" />
-        <entry key="feature/locker/src/main/res/layout/fragment_locker_frame.xml" value="0.14114583333333333" />
+        <entry key="feature/locker/src/main/res/layout/fragment_locker_frame.xml" value="0.2410313924153646" />
         <entry key="feature/locker/src/main/res/layout/fragment_locker_like_filter_bottom_sheet.xml" value="0.14114583333333333" />
         <entry key="feature/locker/src/main/res/layout/fragment_my_like.xml" value="0.14114583333333333" />
         <entry key="feature/locker/src/main/res/layout/fragment_my_mument.xml" value="0.14114583333333333" />
@@ -110,6 +111,27 @@
         <entry key="feature/locker/src/main/res/layout/item_mument_image.xml" value="0.14114583333333333" />
         <entry key="feature/locker/src/main/res/layout/item_mument_string_tag.xml" value="0.14114583333333333" />
         <entry key="feature/locker/src/main/res/layout/item_tag_checkbox.xml" value="0.14114583333333333" />
+        <entry key="feature/mypage/src/main/res/drawable/rectangle_fill_gray4_11dp.xml" value="0.184" />
+        <entry key="feature/mypage/src/main/res/drawable/rectangle_fill_purple1_6dp.xml" value="0.1305" />
+        <entry key="feature/mypage/src/main/res/layout/activity_my_page.xml" value="0.21064060803474485" />
+        <entry key="feature/mypage/src/main/res/layout/fragment_alarm_setting.xml" value="0.17784256559766765" />
+        <entry key="feature/mypage/src/main/res/layout/fragment_block_user_management.xml" value="0.3182291666666667" />
+        <entry key="feature/mypage/src/main/res/layout/fragment_info_app.xml" value="0.36675872802734366" />
+        <entry key="feature/mypage/src/main/res/layout/fragment_inquiry.xml" value="0.2522537231445313" />
+        <entry key="feature/mypage/src/main/res/layout/fragment_introduce_mument.xml" value="0.1" />
+        <entry key="feature/mypage/src/main/res/layout/fragment_notice.xml" value="0.41202697753906253" />
+        <entry key="feature/mypage/src/main/res/layout/fragment_profile_setting.xml" value="0.3222151536207933" />
+        <entry key="feature/mypage/src/main/res/layout/fragment_question.xml" value="0.1" />
+        <entry key="feature/mypage/src/main/res/layout/item_block_user.xml" value="0.28938140869140627" />
+        <entry key="feature/mypage/src/main/res/layout/item_notice.xml" value="0.4042724609375" />
+        <entry key="feature/mypage/src/main/res/xml/setting_alarm_preference.xml" value="0.30178527832031254" />
+        <entry key="feature/record/src/main/res/drawable/rectangle_fill_gray2_11dp.xml" value="0.1305" />
+        <entry key="feature/record/src/main/res/drawable/rectangle_fill_gray5_11dp.xml" value="0.1655" />
+        <entry key="feature/record/src/main/res/drawable/retangle_fill_gray3_14dp.xml" value="0.1655" />
+        <entry key="feature/record/src/main/res/drawable/retangle_fill_gray5_11dp.xml" value="0.1655" />
+        <entry key="feature/record/src/main/res/layout/bottomsheet_fragment_search.xml" value="0.1" />
+        <entry key="feature/record/src/main/res/layout/fragment_record.xml" value="0.1" />
+        <entry key="feature/record/src/main/res/layout/item_bottomsheet_search_list.xml" value="0.3182291666666667" />
       </map>
     </option>
   </component>
