@@ -21,9 +21,6 @@ abstract class NavigatorModule {
     abstract fun provideMusicRecodeProvider(music: MoveRecordProviderImpl): MoveRecordProvider
 
     @Binds
-    abstract fun provideSearchProvider(search: SearchNavigatorProviderImpl): SearchNavigatorProvider
-
-    @Binds
     abstract fun provideMusicDetailProvider(music: MusicDetailNavigatorProviderImpl): MusicDetailNavigatorProvider
 
     @Binds

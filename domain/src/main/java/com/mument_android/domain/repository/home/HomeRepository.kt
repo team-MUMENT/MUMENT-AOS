@@ -5,15 +5,12 @@ import com.mument_android.domain.entity.home.*
 import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
-    suspend fun getLocalTodayMument(userId: String): Flow<TodayMumentEntity>
 
     suspend fun updateTodayMument(mument: TodayMumentEntity)
 
     suspend fun insertTodayMument(mument: TodayMumentEntity)
 
     suspend fun deleteTodayMument(mument: TodayMumentEntity)
-
-    suspend fun getRecentSearchList(): Flow<List<RecentSearchData>>
 
     suspend fun insertRecentSearchList(data: RecentSearchData)
 
@@ -23,15 +20,19 @@ interface HomeRepository {
 
     suspend fun deleteAllRecentSearchList()
 
-    suspend fun searchList(keyword: String): Flow<List<RecentSearchData>>
+    suspend fun getRecentSearchList(): List<RecentSearchData>?
 
-    suspend fun getMumentHistory(userId: String, musicId: String): Flow<MumentHistoryEntity>
+    suspend fun getLocalTodayMument(userId: String): TodayMumentEntity?
 
-    suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentEntity>
+    suspend fun searchList(keyword: String): List<RecentSearchData>?
 
-    suspend fun getBannerMument(): Flow<List<BannerEntity>>
+    suspend fun getMumentHistory(userId: String, musicId: String): MumentHistoryEntity?
 
-    suspend fun getKnownMument(): Flow<List<AgainMumentEntity>>
+    suspend fun getRemoteTodayMument(userId: String): TodayMumentEntity?
 
-    suspend fun getRandomMument(): Flow<RandomMumentEntity>
+    suspend fun getBannerMument(): List<BannerEntity>?
+
+    suspend fun getKnownMument(): List<AgainMumentEntity>?
+
+    suspend fun getRandomMument(): RandomMumentEntity?
 }

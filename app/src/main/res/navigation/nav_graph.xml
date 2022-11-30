@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    tools:layout="@layout/fragment_home"
-    app:startDestination="@id/fragment_home">
+    app:startDestination="@id/fragment_home"
+    tools:layout="@layout/fragment_home">
     <navigation
         android:id="@+id/fragment_home"
         app:startDestination="@id/homeFragment">
@@ -13,9 +13,6 @@
             android:name="com.mument_android.home.HomeFragment"
             android:label="HomeFragment"
             tools:layout="@layout/fragment_home">
-            <action
-                android:id="@+id/action_homeFragment_to_searchFragment"
-                app:destination="@id/searchFragment" />
             <action
                 android:id="@+id/action_homeFragment_to_mumentDetailFragment"
                 app:destination="@id/mumentDetailFragment" />
@@ -27,15 +24,6 @@
                 app:destination="@id/historyFragment" />
         </fragment>
 
-        <fragment
-            android:id="@+id/searchFragment"
-            android:name="com.mument_android.home.SearchFragment"
-            android:label="SearchFragment"
-            tools:layout="@layout/fragment_search">
-            <action
-                android:id="@+id/action_searchFragment_to_musicDetailFragment"
-                app:destination="@id/musicDetailFragment" />
-        </fragment>
         <fragment
             android:id="@+id/musicDetailFragment"
             android:name="com.mument_android.detail.music.MusicDetailFragment"
@@ -56,7 +44,7 @@
             tools:layout="@layout/fragment_history">
             <argument
                 android:name="musicId"
-                app:argType="string"/>
+                app:argType="string" />
             <action
                 android:id="@+id/action_homeHistoryFragment_to_mumentDetailFragment"
                 app:destination="@id/mumentDetailFragment" />
@@ -66,7 +54,6 @@
             android:name="com.mument_android.detail.mument.MumentDetailFragment"
             android:label="MumentDetailFragment"
             tools:layout="@layout/fragment_mument_detail">
-
             <action
                 android:id="@+id/action_mumentDetailFragment_to_historyFragment_home"
                 app:destination="@id/historyFragment" />
@@ -75,18 +62,18 @@
                 app:destination="@id/musicDetailFragment" />
         </fragment>
 
-
     </navigation>
-
     <fragment
         android:id="@+id/fragment_record"
         android:name="com.mument_android.record.RecordFragment"
         android:label="fragment_second"
         tools:layout="@layout/fragment_record">
-        <argument android:name="mumment_id_for_edit"
+        <argument
+            android:name="mumment_id_for_edit"
             app:argType="string"
-            app:nullable="true"/>
+            app:nullable="true" />
     </fragment>
+
 
     <navigation
         android:id="@+id/fragment_locker"
@@ -106,7 +93,6 @@
             android:name="com.mument_android.detail.mument.MumentDetailFragment"
             android:label="MumentDetailFragment"
             tools:layout="@layout/fragment_mument_detail">
-
             <action
                 android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_locker"
                 app:destination="@id/musicDetailFragment" />
@@ -120,7 +106,6 @@
             android:name="com.mument_android.detail.music.MusicDetailFragment"
             android:label="MusicDetailFragment"
             tools:layout="@layout/fragment_base_music_detail">
-
             <action
                 android:id="@+id/action_musicDetailFragment_to_historyFragment"
                 app:destination="@id/historyFragment" />
@@ -129,13 +114,10 @@
                 app:destination="@id/mumentDetailFragment" />
 
         </fragment>
-
         <fragment
             android:id="@+id/historyFragment"
             android:name="com.mument_android.detail.history.HistoryFragment"
             android:label="LockerHistoryFragment"
-            tools:layout="@layout/fragment_history">
-
-        </fragment>
+            tools:layout="@layout/fragment_history"></fragment>
     </navigation>
 </navigation>

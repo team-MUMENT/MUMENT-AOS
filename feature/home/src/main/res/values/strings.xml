@@ -71,12 +71,11 @@
     <string name="record_reset_body">확인 선택 시, 작성 중인 내용이 삭제됩니다.</string>
     <string name="record_finish_record">🎉 뮤멘트가 작성되었어요!</string>
 
-<!--    modify record view-->
+    <!--    modify record view-->
     <string name="modify_record">뮤멘트가 수정되었어요.</string>
     <string name="modify_title">수정하기</string>
     <string name="modify_header">수정을 취소하시겠어요?</string>
     <string name="modify_body">확인 선택 시 변경사항이 저장되지 않습니다.</string>
-
 
 
     <string name="locker_like_empty_title">아직 좋아요한 뮤멘트가 없어요.</string>
@@ -101,5 +100,8 @@
 
     <string name="filter_result_none_title">필터 검색 결과가 없어요.</string>
     <string name="filter_result_none_subtitle">선택한 필터를 변경해보세요.</string>
+    <string name="home_all_delete">모두 삭제</string>
+    <string name="home_recent_search">최근 검색한 곡</string>
+    <string name="home_search_hint">곡 아티스트</string>
 
 </resources>

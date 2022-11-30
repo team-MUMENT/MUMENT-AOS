@@ -14,47 +14,45 @@ import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(
     private val localTodayMumentDataSource: LocalTodayMumentDataSource,
-    private val localRecentSaerchListDataSource: LocalRecentSearchListDataSource,
+    private val localRecentSearchListDataSource: LocalRecentSearchListDataSource,
     private val remoteMumentHistoryDataSource: RemoteMumentHistoryDataSource,
     private val remoteSearchListDataSource: RemoteSearchListDataSource,
     private val homeDataSource: HomeDataSource,
     private val randomMumentMapper: RandomMumentMapper
 ) : HomeRepository {
     // Remote
-    override suspend fun searchList(keyword: String): Flow<List<RecentSearchData>> = flow {
-        remoteSearchListDataSource.searchMusicList(keyword).data?.let { emit(it) }
-    }.flowOn(Dispatchers.IO)
+    override suspend fun searchList(keyword: String): List<RecentSearchData>? =
+        remoteSearchListDataSource.searchMusicList(keyword).data
 
     override suspend fun getMumentHistory(
         userId: String,
         musicId: String
-    ): Flow<MumentHistoryEntity> =
-        flow {
-            remoteMumentHistoryDataSource.getMumentHistory(userId, musicId).apply {
-                data?.let { emit(MumentHistoryEntity(it.mumentHistory, it.music)) }
+    ): MumentHistoryEntity? =
+        remoteMumentHistoryDataSource.getMumentHistory(userId, musicId).let { response ->
+            response.data?.let { history ->
+                MumentHistoryEntity(
+                    history.mumentHistory,
+                    history.music
+                )
             }
-        }.flowOn(Dispatchers.IO)
+        }
 
-    override suspend fun getBannerMument(): Flow<List<BannerEntity>> = flow {
-        homeDataSource.getBannerMument().data?.let { emit(it.bannerList) }
-    }.flowOn(Dispatchers.IO)
+    override suspend fun getBannerMument(): List<BannerEntity>? =
+        homeDataSource.getBannerMument().data?.bannerList
 
-    override suspend fun getKnownMument(): Flow<List<AgainMumentEntity>> = flow {
-        homeDataSource.getKnownMument().data?.let { emit(it.againMumentEntity) }
-    }.flowOn(Dispatchers.IO)
 
-    override suspend fun getRandomMument(): Flow<RandomMumentEntity> = flow {
-        homeDataSource.getRandomMument().data?.let { emit(randomMumentMapper.map(it)) }
-    }.flowOn(Dispatchers.IO)
+    override suspend fun getKnownMument(): List<AgainMumentEntity>? =
+        homeDataSource.getKnownMument().data?.againMumentEntity
 
-    override suspend fun getRemoteTodayMument(userId: String): Flow<TodayMumentEntity> = flow {
-        homeDataSource.getTodayMument(userId)?.data?.let { emit(it.todayMument) }
-    }.flowOn(Dispatchers.IO)
+    override suspend fun getRandomMument(): RandomMumentEntity? =
+        homeDataSource.getRandomMument().data?.let { randomMumentMapper.map(it) }
+
+    override suspend fun getRemoteTodayMument(userId: String): TodayMumentEntity? =
+        homeDataSource.getTodayMument(userId)?.data?.todayMument
 
     // Local
-    override suspend fun getLocalTodayMument(userId: String): Flow<TodayMumentEntity> = flow {
-        emit(localTodayMumentDataSource.getTodayMument(userId))
-    }.flowOn(Dispatchers.IO)
+    override suspend fun getLocalTodayMument(userId: String): TodayMumentEntity? =
+        localTodayMumentDataSource.getTodayMument(userId)
 
     override suspend fun updateTodayMument(mument: TodayMumentEntity) {
         localTodayMumentDataSource.updateMument(mument)
@@ -68,17 +66,14 @@ class HomeRepositoryImpl @Inject constructor(
         localTodayMumentDataSource.deleteMument(mument)
     }
 
-    override suspend fun getRecentSearchList(): Flow<List<RecentSearchData>> = flow {
-        emit(localRecentSaerchListDataSource.getAllRecentSearchList())
-    }.flowOn(Dispatchers.IO)
-
+    override suspend fun getRecentSearchList(): List<RecentSearchData> = localRecentSearchListDataSource.getAllRecentSearchList()
 
     override suspend fun insertRecentSearchList(data: RecentSearchData) {
-        localRecentSaerchListDataSource.insertRecentSearchList(data)
+        localRecentSearchListDataSource.insertRecentSearchList(data)
     }
 
     override suspend fun updateRecentSearchList(data: RecentSearchData) {
-        localRecentSaerchListDataSource.updateRecentSearchList(
+        localRecentSearchListDataSource.updateRecentSearchList(
             RecentSearchData(
                 data._id,
                 data.artist,
@@ -90,11 +85,11 @@ class HomeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteRecentSearchList(data: RecentSearchData) {
-        localRecentSaerchListDataSource.deleteRecentSearchList(data)
+        localRecentSearchListDataSource.deleteRecentSearchList(data)
     }
 
     override suspend fun deleteAllRecentSearchList() {
-        localRecentSaerchListDataSource.deleteAllRecentSearchList()
+        localRecentSearchListDataSource.deleteAllRecentSearchList()
     }
 
 }

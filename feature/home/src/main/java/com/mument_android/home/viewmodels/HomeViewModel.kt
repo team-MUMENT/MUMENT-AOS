@@ -12,10 +12,7 @@ import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
 import com.mument_android.home.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,10 +22,19 @@ class HomeViewModel @Inject constructor(
     val localUseCase: SaveTodayMumentUseCase
 ) : ViewModel() {
     val mument = listOf<com.mument_android.domain.entity.MumentCard>()
-    val bannerData = MutableLiveData<List<BannerEntity>>(listOf())
-    val todayMument = MutableLiveData<TodayMumentEntity>()
-    val randomMument = MutableLiveData<RandomMumentEntity>(null)
-    val knownMument = MutableLiveData<List<AgainMumentEntity>>(listOf())
+    val bannerData = MutableStateFlow<List<BannerEntity>>(listOf())
+    val todayMument = MutableStateFlow<TodayMumentEntity?>(null)
+    val randomMument = MutableStateFlow<RandomMumentEntity?>(null)
+    val knownMument = MutableStateFlow<List<AgainMumentEntity>>(listOf())
+    private var bannerNum = 0
+    val bannerNumIncrease = flow {
+        while (true) {
+            bannerNum = ++bannerNum
+            delay(3000)
+            emit(bannerNum)
+        }
+    }
+
 
     init {
         viewModelScope.launch {
@@ -55,12 +61,16 @@ class HomeViewModel @Inject constructor(
             useCase.getBannerMument().catch {
                 //Todo exception handling
             }.collect {
-                bannerData.value = it?.toMutableList()
+                if (it != null) {
+                    bannerData.value = it
+                }
             }
             useCase.getKnownMument().catch {
                 //Todo exception handling
             }.collect {
-                knownMument.value = it?.toMutableList()
+                if (it != null) {
+                    knownMument.value = it
+                }
             }
             useCase.getRandomMument().catch {
                 //Todo exception handling
@@ -72,15 +82,6 @@ class HomeViewModel @Inject constructor(
             }.collect {
                 todayMument.value = it
             }
-        }
-    }
-
-    private var bannerNum = 0
-    val bannerNumIncrease = flow {
-        while (true) {
-            bannerNum = ++bannerNum
-            delay(3000)
-            emit(bannerNum)
         }
     }
 

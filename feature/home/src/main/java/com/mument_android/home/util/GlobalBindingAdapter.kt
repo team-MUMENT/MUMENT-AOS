@@ -1,10 +1,11 @@
-package com.mument_android.home
+package com.mument_android.home.util
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
+import com.mument_android.home.R
 
 object GlobalBindingAdapter {
     const val EMPTY_PROFILE = "https://mument.s3.ap-northeast-2.amazonaws.com/user/emptyImage.jpg"
@@ -42,30 +43,6 @@ object GlobalBindingAdapter {
         } else {
         }
     }
-
-//    @JvmStatic
-//    @BindingAdapter("android:text")
-//    fun EmotionalTagCheckBox.setText(text: String) {
-//        getEmojiTextViewHelper()
-//        setText(text)
-//    }
-//
-//    @JvmStatic
-//    @BindingAdapter("textChanged")
-//    fun EmotionalTagCheckBox.setTextChangedListener(listener: InverseBindingListener) {
-//        addTextChangedListener(object: TextWatcher {
-//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-//            override fun afterTextChanged(p0: Editable?) { listener.onChange() }
-//        })
-//    }
-//
-//    @JvmStatic
-//    @InverseBindingAdapter(attribute = "android:text", event = "textChanged")
-//    fun EmotionalTagCheckBox.getText(): String? {
-//        getEmojiTextViewHelper()
-//        return text.toString()
-//    }
 
     @JvmStatic
     @BindingAdapter("load_album_top")
