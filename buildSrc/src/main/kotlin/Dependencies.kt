@@ -35,6 +35,9 @@ object AndroidXDependencies {
     const val roomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
     const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
     const val room = "androidx.room:room-ktx:${Versions.roomVersion}"
+
+    const val preference ="androidx.preference:preference-ktx:${Versions.preferences}"
+
 }
 
 object HiltDependencies {

@@ -7,6 +7,7 @@ plugins {
     id("kotlin-parcelize")
 }
 
+
 android {
     compileSdk = DefaultConfig.COMPILE_SDK
 
