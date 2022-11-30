@@ -17,7 +17,6 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
-
     <style name="TextView.Mument_B1_B15.Style" parent="">
         <item name="android:textAppearance">@style/TextView.Mument_B1_B15.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
@@ -40,7 +39,6 @@
         <item name="android:textAppearance">@style/TextView.Mument_B7_M12.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
-
 
     <style name="TextView.Mument_H1_B25.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_bold</item>
@@ -81,5 +79,5 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/mument_color_gray1</item>
     </style>
-    
+
 </resources>

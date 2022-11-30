@@ -27,5 +27,4 @@ include(
     ":feature:home",
     ":feature:detail",
     ":feature:mypage",
-    ":feature:navigation"
 )
