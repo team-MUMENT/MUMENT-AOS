@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
-import com.angdroid.navigation.SearchNavigatorProvider
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
@@ -37,9 +36,6 @@ class HomeFragment : Fragment() {
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
     private lateinit var bannerAdapter: BannerListAdapter
-
-    @Inject
-    lateinit var searchNavigatorProvider: SearchNavigatorProvider
 
     @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider

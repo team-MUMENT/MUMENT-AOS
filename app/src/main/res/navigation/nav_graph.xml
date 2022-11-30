@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    tools:layout="@layout/fragment_home"
-    app:startDestination="@id/fragment_home">
+    app:startDestination="@id/fragment_home"
+    tools:layout="@layout/fragment_home">
     <navigation
         android:id="@+id/fragment_home"
         app:startDestination="@id/homeFragment">
@@ -44,7 +44,7 @@
             tools:layout="@layout/fragment_history">
             <argument
                 android:name="musicId"
-                app:argType="string"/>
+                app:argType="string" />
             <action
                 android:id="@+id/action_homeHistoryFragment_to_mumentDetailFragment"
                 app:destination="@id/mumentDetailFragment" />
@@ -63,6 +63,17 @@
         </fragment>
 
     </navigation>
+    <fragment
+        android:id="@+id/fragment_record"
+        android:name="com.mument_android.record.RecordFragment"
+        android:label="fragment_second"
+        tools:layout="@layout/fragment_record">
+        <argument
+            android:name="mumment_id_for_edit"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
 
     <navigation
         android:id="@+id/fragment_locker"
@@ -107,7 +118,6 @@
             android:id="@+id/historyFragment"
             android:name="com.mument_android.detail.history.HistoryFragment"
             android:label="LockerHistoryFragment"
-            tools:layout="@layout/fragment_history">
-        </fragment>
+            tools:layout="@layout/fragment_history"></fragment>
     </navigation>
 </navigation>

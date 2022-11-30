@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
+import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
 import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
@@ -14,6 +15,7 @@ import com.mument_android.home.adapters.SearchListAdapter
 import com.mument_android.home.databinding.ShareSearchLayoutBinding
 import com.mument_android.home.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_search_layout) {
@@ -21,6 +23,8 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
+    @Inject
+    lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,11 +100,7 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                val intent = Intent().setClassName(packageName, MAINACTIVITY).apply {
-                    putExtra(MUSIC, data._id)
-                }
-                setResult(RESULT_OK, intent)
-                finish()
+                moveMusicDetailNavigatorProvider.intentMusicDetail(data._id)
             },
             itemClickListener = { data -> viewmodel.deleteRecentList(data) }
         )
@@ -108,11 +108,7 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
         searchResultAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                val intent = Intent().setClassName(packageName, MAINACTIVITY).apply {
-                    putExtra(MUSIC, data._id)
-                }
-                setResult(RESULT_OK, intent)
-                finish()
+                moveMusicDetailNavigatorProvider.intentMusicDetail(data._id)
             },
             itemClickListener = {}
         )
