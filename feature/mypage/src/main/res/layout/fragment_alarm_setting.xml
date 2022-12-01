@@ -12,9 +12,9 @@
         android:id="@+id/btn_alarm_setting_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_marginStart="15dp"
         android:background="@drawable/mument_icon_back"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_alarm_setting_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_alarm_setting_title" />
 
@@ -29,13 +29,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <fragment-->
-<!--        android:name="com.example.mypage.AlarmSettingFragment$SettingPreferenceFragment"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/tv_alarm_setting_title" />-->
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fc_preference_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_alarm_setting_title" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

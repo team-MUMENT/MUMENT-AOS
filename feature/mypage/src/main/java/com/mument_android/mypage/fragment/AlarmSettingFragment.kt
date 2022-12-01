@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.preference.PreferenceFragmentCompat
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.mypage.R
@@ -22,13 +24,19 @@ class AlarmSettingFragment : Fragment() {
         this.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+            childFragmentManager.commit {
+                add(R.id.fc_preference_fragment, SettingPreferenceFragment())
+            }
 
-    class SettingPreferenceFragment : PreferenceFragmentCompat(){
+    }
+
+    class SettingPreferenceFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            addPreferencesFromResource(R.xml.setting_alarm_preference)
+            setPreferencesFromResource(R.xml.setting_alarm_preference, rootKey)
         }
-
     }
 
 }
