@@ -11,8 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.commit
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.mypage.R
 import com.mument_android.mypage.databinding.FragmentAlarmSettingBinding
@@ -73,18 +76,25 @@ class AlarmSettingFragment : Fragment() {
         return Intent().apply {
             action = "android.settings.APP_NOTIFICATION_SETTINGS"
             putExtra("app_package", context.packageName)
-            putExtra("app_uid",context.applicationInfo?.uid)
+            putExtra("app_uid", context.applicationInfo?.uid)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
     }
 
-
-
-
-
     class SettingPreferenceFragment : PreferenceFragmentCompat() {
+
+        val switch = findPreference<SwitchPreferenceCompat>("alarm")
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.setting_alarm_preference, rootKey)
+
+        }
+
+        override fun onPreferenceTreeClick(preference: Preference): Boolean {
+            if (NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()){
+
+            }
+            return super.onPreferenceTreeClick(preference)
         }
     }
 
