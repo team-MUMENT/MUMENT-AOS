@@ -32,6 +32,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+        getByName("debug") {
+            buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
+            buildConfigField("String", "USER_ID", properties["USER_ID"] as String)
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -60,4 +64,5 @@ dependencies {
     implementation(project(Modules.CORE_MODULE))
     implementation(project(Modules.CORE_DEPENDENT_MODULE))
     implementation(project(Modules.NAVIGATION_MODULE))
+    implementation(project(Modules.FEATURE_DETAIL_MODULE))
 }

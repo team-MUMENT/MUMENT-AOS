@@ -5,5 +5,5 @@ import com.mument_android.data.util.BaseResponse
 import kotlinx.coroutines.flow.Flow
 
 interface MumentDetailDataSource {
-    suspend fun fetchMumentDetail(mumentId: String, userId: String): Flow<BaseResponse<MumentDetailDto>>
+    suspend fun fetchMumentDetail(mumentId: String): Flow<BaseResponse<MumentDetailDto>>
 }

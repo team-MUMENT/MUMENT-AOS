@@ -6,10 +6,10 @@ name: MumentAndroidCI
 on:
   push:
     branches:
-      - main
+      - develop
   pull_request:
     branches:
-      - main
+      - develop
 
   workflow_dispatch:
 
@@ -20,16 +20,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Decode BASE_URL
+      - name: Access BASE_URL
         env:
-          BASE_URL: ${ secrets.BASE_URL }
-        run: echo BASE_URL=\"$BASE_URL\" > ./local.properties
+          BASE_URL: ${{ secrets.BASE_URL }}
+        run: echo BASE_URL=\"$BASE_URL\"> ./local.properties
 
-      - name: Decode USER_ID
+      - name: Access USER_ID
         env:
-          BASE_URL: ${ secrets.USER_ID }
-        run: echo USER_ID=\"$USER_ID\" > ./local.properties
-          
+          BASE_URL: ${{ $USER_ID }}
+        run: echo USER_ID=\"$USER_ID\"> ./local.properties
+
       - name: Gradle cache
         uses: actions/cache@v3
         with:
@@ -53,23 +53,23 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
         
       - name: Build APK
-        run: bash ./gradlew assembleRelease --stacktrace
+        run: bash ./gradlew assembleDebug --stacktrace
         
-      - run: './gradlew assembleRelease'
+      - run: './gradlew assembleDebug'
       - uses: MeilCli/slack-upload-file@v1
         with:
           slack_token: ${{ secrets.SLACK_READ_WRITE_TOKEN }}
           channels: ${{ secrets.SLACK_CHANNEL_DEPLOY }}
-          file_path: 'app/build/outputs/apk/release/app-release-unsigned.apk'
-          file_name: 'app-release-unsigned.apk'
+          file_path: 'app/build/outputs/apk/debug/app-debug.apk'
+          file_name: 'app-debug.apk.apk'
           file_type: 'apk'
           initial_comment: '${{ github.ref }} Success Deploy Mument App'
           
       - name: Mument apk artifact
         uses: actions/upload-artifact@v3
         with:
-          name: app-release-unsigned.apk
-          path: app/build/outputs/apk/release/app-release-unsigned.apk
+          name: app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
           
       - name: action-slack
         uses: 8398a7/action-slack@v3

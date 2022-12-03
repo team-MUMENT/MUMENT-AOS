@@ -39,6 +39,7 @@ object GlobalBindingAdapter {
                 this.transformations(RoundedCornersTransformation(11.0f))
             }
         } else {
+
         }
     }
 
