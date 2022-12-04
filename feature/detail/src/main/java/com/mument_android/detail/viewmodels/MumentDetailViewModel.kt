@@ -1,5 +1,6 @@
 package com.mument_android.detail.viewmodels
 
+import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core_dependent.util.*
@@ -22,7 +23,8 @@ class MumentDetailViewModel @Inject constructor(
     private val fetchMumentListUseCase: FetchMumentListUseCase,
     private val likeMumentUseCase: LikeMumentUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
-    private val deleteMumentUseCase: DeleteMumentUseCase
+    private val deleteMumentUseCase: DeleteMumentUseCase,
+    private val mediaUtils: MediaUtils
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(MumentDetailViewState())
     val viewState = _viewState.asStateFlow()
@@ -57,6 +59,10 @@ class MumentDetailViewModel @Inject constructor(
                 is MumentDetailEvent.ReceiveMumentId -> {
                     _viewState.setState { copy(requestMumentId = event.mumentId) }
                     updateRequestMumentId(event.mumentId)
+                }
+                is MumentDetailEvent.OnClickShareMument -> {
+                    val uri = mediaUtils.getBitmapUri(event.mumentView, FILE_NAME_TO_SHARE)
+                    emitEffect(MumentDetailSideEffect.ShowShareOptions(uri))
                 }
             }
         }
@@ -139,5 +145,9 @@ class MumentDetailViewModel @Inject constructor(
                     emitEffect(MumentDetailSideEffect.SuccessMumentDeletion)
                 }
         }
+    }
+
+    companion object {
+        private const val FILE_NAME_TO_SHARE= "MumentShareImage"
     }
 }

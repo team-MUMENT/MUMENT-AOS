@@ -11,7 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintlayout_root"
+        android:id="@+id/csl_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.mument_android.detail.com.mument_android.detail.mument.MumentDetailFragment">
@@ -38,6 +38,7 @@
             app:layout_constraintTop_toTopOf="@+id/iv_back_button" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/csl_mument_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"

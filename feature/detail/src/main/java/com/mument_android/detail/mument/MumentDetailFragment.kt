@@ -1,10 +1,13 @@
 package com.mument_android.detail.mument
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -25,12 +28,14 @@ import com.mument_android.core_dependent.util.ViewUtils.applyVisibilityAnimation
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.core_dependent.util.removeProgress
 import com.mument_android.core_dependent.util.showProgress
-import com.mument_android.detail.BuildConfig
+import com.mument_android.detail.InstagramShareComponent
+import com.mument_android.detail.LayoutMumentToShare
 import com.mument_android.detail.databinding.FragmentMumentDetailBinding
+import com.mument_android.detail.mument.MumentDetailContract.*
 import com.mument_android.detail.viewmodels.MumentDetailViewModel
+import com.mument_android.domain.entity.detail.MumentEntity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.mument_android.detail.mument.MumentDetailContract.*
 
 @AndroidEntryPoint
 class MumentDetailFragment : Fragment() {
@@ -39,6 +44,7 @@ class MumentDetailFragment : Fragment() {
     @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
     @Inject lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
     @Inject lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,9 +96,10 @@ class MumentDetailFragment : Fragment() {
     private fun updateMumentDetail() {
         collectFlowWhenStarted(viewModel.viewState) {
             (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(it.mument?.combineTags())
-            binding.constraintlayoutRoot.run { if (it.onNetwork) showProgress() else removeProgress() }
+            binding.cslRoot.run { if (it.onNetwork) showProgress() else removeProgress() }
             if (it.hasError) requireContext().showToast("데이터를 불러올 수 없습니다.")
             showMumentHistory(it.hasWrittenMument)
+            if(it.mument != null) shareMumentOnInstagram(it.mument)
         }
     }
 
@@ -145,6 +152,30 @@ class MumentDetailFragment : Fragment() {
         }
     }
 
+    private fun shareMumentOnInstagram(mument: MumentEntity) {
+        val view = LayoutMumentToShare(requireContext(), mument)
+        binding.cslRoot.addView(view)
+
+        binding.ivShare.setOnClickListener {
+            viewModel.viewState.value.mument?.let {
+                viewModel.emitEvent(MumentDetailEvent.OnClickShareMument(view))
+            }
+        }
+    }
+
+    private fun navToInstagramStory(uri: Uri?) {
+        Intent(SHARE_INSTAGRAM_STORY_ID).apply {
+            putExtra(APP_ID_KEY, requireContext().packageName)
+            type = TYPE_IMAGE
+            putExtra(STICKER_ASSET_KEY, uri)
+            requireContext().grantUriPermission(INSTAGRAM_ID, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+            if (requireActivity().packageManager.resolveActivity(this, 0) != null) {
+                startActivity(this)
+            }
+        }
+    }
+
     private fun receiveEffect() {
         collectFlowWhenStarted(viewModel.effect) { effect ->
             when(effect) {
@@ -154,11 +185,17 @@ class MumentDetailFragment : Fragment() {
                 is MumentDetailSideEffect.NavToMusicDetail -> { /** Todo: Navigate To MusicDetail **/ }
                 is MumentDetailSideEffect.NavToMumentHistory -> { /** Todo: Navigate To MumentHistory **/ }
                 is MumentDetailSideEffect.Toast -> requireContext().showToast(effect.message)
+                is MumentDetailSideEffect.ShowShareOptions -> navToInstagramStory(effect.fileUri)
             }
         }
     }
 
     companion object {
+        private const val INSTAGRAM_ID = "com.instagram.android"
+        private const val SHARE_INSTAGRAM_STORY_ID = "com.instagram.share.ADD_TO_STORY"
+        private const val APP_ID_KEY = "source_application"
+        private const val STICKER_ASSET_KEY = "interactive_asset_uri"
         const val MUMENT_ID = "MUMENT_ID"
+        private const val TYPE_IMAGE = "image/*"
     }
 }
