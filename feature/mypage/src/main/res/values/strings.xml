@@ -29,8 +29,7 @@
 
     <!-- alarm setting view -->
     <string name="alarm">알림</string>
-    <string name="alarm_content">누군가 내 뮤멘트에 좋아요했을 때, 중요한 공지사항,
-                         마케팅 이벤트, 계정 상태에 대한 알림을 받을 수 있어요</string>
+    <string name="alarm_content">누군가 내 뮤멘트에 좋아요했을 때, 중요한 공지사항,\n마케팅 이벤트, 계정 상태에 대한 알림을 받을 수 있어요</string>
 
     <!-- block user management view-->
     <string name="unblocking">해제</string>

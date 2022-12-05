@@ -1,37 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/mument_color_white"
     tools:context="com.mument_android.mypage.fragment.AlarmSettingFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mument_color_white">
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/btn_alarm_setting_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:background="@drawable/mument_icon_back"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_alarm_setting_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_alarm_setting_title" />
 
-    <TextView
-        android:id="@+id/tv_alarm_setting_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="@string/my_page_alarm_setting"
-        android:textAppearance="@style/TextView.Mument_H2_B18.TextAppearance"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_alarm_setting_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/mument_icon_back"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_alarm_setting_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_alarm_setting_title" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text = "@string/alarm"/>
+        <TextView
+            android:id="@+id/tv_alarm_setting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:text="@string/my_page_alarm_setting"
+            android:textAppearance="@style/TextView.Mument_H2_B18.TextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_alarm_setting_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="129dp"
+            android:fontFamily="@font/notosans_medium"
+            android:text="@string/alarm"
+            android:textColor="@color/mument_color_black1"
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="@+id/btn_alarm_setting_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tc_alarm_setting_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosans_medium"
+            android:text="@string/alarm_content"
+            android:textColor="@color/mument_color_gray1"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_alarm_setting_sub_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alarm_setting_sub_title" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_alarm_setting_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="143dp"
+            checkAlarm="@{"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/mument_toggle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
