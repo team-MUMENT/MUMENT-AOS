@@ -10,6 +10,7 @@
         <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/82104/MUMENT-AOS/app/src/main/res/menu/menu_bottom_navi.xml" value="0.24974358974358973" />
         <entry key="..\:/Users/82104/MUMENT-AOS/core_dependent/src/main/res/drawable/rectangle_fill_blue3_20dp.xml" value="0.1955" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/core_dependent/src/main/res/layout/activity_web_view.xml" value="0.14895833333333333" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/drawable-xhdpi/rectangle_fill_gray2_11dp.xml" value="0.1" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/drawable-xhdpi/rectangle_fill_gray5_7dp.xml" value="0.1" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/drawable-xhdpi/rectangle_fill_purple1_11dp.xml" value="0.1" />
@@ -25,7 +26,7 @@
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/locker/src/main/res/layout/fragment_locker.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/locker/src/main/res/layout/fragment_locker_filter_bottom_sheet.xml" value="0.1" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/font/font.xml" value="0.1824074074074074" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/activity_log_in.xml" value="0.2" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/activity_log_in.xml" value="0.4" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/record/src/main/res/drawable/selector_rectagle_gray2_purple1_11dp.xml" value="0.196" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/record/src/main/res/layout/fragment_record.xml" value="0.25364583333333335" />
         <entry key="app/src/main/res/drawable-mdpi/selector_ic_list.xml" value="0.1" />
