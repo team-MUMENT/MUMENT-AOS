@@ -10,9 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mument_android.core_dependent.R
 import com.mument_android.core_dependent.databinding.ActivityWebViewBinding
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class WebViewActivity : BaseActivity<ActivityWebViewBinding>(R.layout.activity_web_view) {
 
     private var url: String? = null

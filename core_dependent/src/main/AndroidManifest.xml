@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".WebViewActivity"
+            android:name=".base.WebViewActivity"
             android:exported="false" />
     </application>
 
