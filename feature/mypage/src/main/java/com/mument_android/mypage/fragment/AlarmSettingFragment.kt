@@ -6,24 +6,20 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
-import androidx.fragment.app.commit
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreferenceCompat
+import androidx.fragment.app.viewModels
 import com.mument_android.core_dependent.util.AutoClearedValue
-import com.mument_android.mypage.R
+import com.mument_android.mypage.MyPageViewModel
 import com.mument_android.mypage.databinding.FragmentAlarmSettingBinding
 
 class AlarmSettingFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentAlarmSettingBinding>()
+    private val myPageViewModel: MyPageViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -36,7 +32,15 @@ class AlarmSettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.myPageViewModel = myPageViewModel
+        openAppAlarmSetting(requireContext())
     }
+
+    override fun onResume() {
+        super.onResume()
+        checkAlarmSetting()
+    }
+
 
     //앱 내의 알림설정 화면 띄우기
     private fun openAppAlarmSetting(context: Context) {
@@ -45,11 +49,16 @@ class AlarmSettingFragment : Fragment() {
         } else {
             alarmSettingVersionDown(context)
         }
-        try {
-            context.startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            e.printStackTrace()
+
+        binding.btnAlarmSettingSwitch.setOnClickListener {
+            try {
+                context.startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
+            }
         }
+
+
     }
 
     //API 26 이상일 떄의  내 알림 설정 보여주기
@@ -71,4 +80,11 @@ class AlarmSettingFragment : Fragment() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
     }
+
+    private fun checkAlarmSetting(){
+        binding.btnAlarmSettingSwitch.isSelected = NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
+    }
+
+
+
 }

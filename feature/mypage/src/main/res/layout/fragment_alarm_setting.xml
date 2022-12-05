@@ -4,6 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.mument_android.mypage.fragment.AlarmSettingFragment">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="myPageViewModel"
+            type="com.mument_android.mypage.MyPageViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,7 +49,8 @@
             android:text="@string/alarm"
             android:textColor="@color/mument_color_black1"
             android:textSize="16dp"
-            app:layout_constraintStart_toStartOf="@+id/btn_alarm_setting_back"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -60,12 +70,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="143dp"
-            checkAlarm="@{"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/mument_toggle"
+            android:background="@drawable/selector_mypage_switch"
+            android:onClick="clickAlarmSettingEvent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>
