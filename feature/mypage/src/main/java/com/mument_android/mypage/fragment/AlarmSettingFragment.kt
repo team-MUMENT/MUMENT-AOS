@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.commit
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.mypage.R
@@ -34,17 +36,6 @@ class AlarmSettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setPreferenceFragment()
-        openAppAlarmSetting(requireContext())
-
-    }
-
-    //설정 프래그먼트 fragment container 에 세팅
-    private fun setPreferenceFragment() {
-        childFragmentManager.commit {
-            add(R.id.fc_preference_fragment, SettingPreferenceFragment())
-        }
     }
 
     //앱 내의 알림설정 화면 띄우기
@@ -80,22 +71,4 @@ class AlarmSettingFragment : Fragment() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
     }
-
-    class SettingPreferenceFragment : PreferenceFragmentCompat() {
-
-        val switch = findPreference<SwitchPreferenceCompat>("alarm")
-
-        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.setting_alarm_preference, rootKey)
-
-        }
-
-        override fun onPreferenceTreeClick(preference: Preference): Boolean {
-            if (NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()){
-
-            }
-            return super.onPreferenceTreeClick(preference)
-        }
-    }
-
 }
