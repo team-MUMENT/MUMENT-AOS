@@ -18,13 +18,12 @@
         android:layout_height="match_parent"
         android:background="@color/mument_color_white">
 
-
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageView
             android:id="@+id/btn_alarm_setting_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
             android:background="@drawable/mument_icon_back"
+            android:layout_marginStart="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_alarm_setting_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_alarm_setting_title" />
@@ -49,12 +48,11 @@
             android:text="@string/alarm"
             android:textColor="@color/mument_color_black1"
             android:textSize="16dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/btn_alarm_setting_back"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tc_alarm_setting_content"
+            android:id="@+id/tv_alarm_setting_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

@@ -81,6 +81,7 @@ class AlarmSettingFragment : Fragment() {
         }
     }
 
+    //앱 내의 알림설정 여부에 따라 버튼 이미지 변경
     private fun checkAlarmSetting(){
         binding.btnAlarmSettingSwitch.isSelected = NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
     }
