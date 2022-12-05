@@ -46,6 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_subtitle1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,13 +55,65 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_kakao">
 
             <TextView
+                android:id="@+id/tv_subtitl1"
                 style="@style/TextView.Mument_B8_M12.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_subtitle1"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_terms_of_service"
+                style="@style/TextView.Mument_B7_B12.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:text="@string/login_terms_of_service"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_subtitl1"
+                app:layout_constraintStart_toEndOf="@+id/tv_subtitl1"
+                app:layout_constraintTop_toTopOf="@+id/tv_subtitl1" />
+
+            <TextView
+                android:id="@+id/tv_subtitl2"
+                style="@style/TextView.Mument_B8_M12.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_subtitle2"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_terms_of_service"
+                app:layout_constraintStart_toEndOf="@+id/tv_terms_of_service"
+                app:layout_constraintTop_toTopOf="@+id/tv_terms_of_service" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_subtitle1">
+
+            <TextView
+                android:id="@+id/tv_privacy_policy"
+                style="@style/TextView.Mument_B7_B12.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_privacy_policy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_subtitl3"
+                style="@style/TextView.Mument_B8_M12.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_subtitle3"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_privacy_policy"
+                app:layout_constraintStart_toEndOf="@+id/tv_privacy_policy"
+                app:layout_constraintTop_toTopOf="@+id/tv_privacy_policy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 
