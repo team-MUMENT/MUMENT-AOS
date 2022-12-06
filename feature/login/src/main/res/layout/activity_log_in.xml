@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/aos_login_background"
         tools:context=".app.presentation.ui.classroom.QuestionDetailActivity">
 
 
