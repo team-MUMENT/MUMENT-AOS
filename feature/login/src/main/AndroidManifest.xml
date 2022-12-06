@@ -5,7 +5,7 @@
     <application>
         <activity
             android:name=".LogInActivity"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>
