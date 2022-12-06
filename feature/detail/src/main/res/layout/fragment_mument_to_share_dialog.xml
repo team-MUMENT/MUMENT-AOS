@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.mument_android.detail.viewmodels.MumentDetailViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/csl_root"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="10dp"
         android:background="@drawable/rectangle_fill_white_11dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <ImageView
             android:id="@+id/iv_profile_image"
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -23,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
+            android:text="sdfsdfs"
             app:layout_constraintTop_toTopOf="@id/iv_profile_image"
             app:layout_constraintStart_toEndOf="@id/iv_profile_image"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
@@ -79,6 +88,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="16dp"
             style="@style/TextView.Mument_B4_M14.Style"
+            android:textColor="@color/mument_color_gray1"
             app:layout_constraintTop_toBottomOf="@id/rv_tags"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +99,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintVertical_bias="1.0"
             style="@style/TextView.Mument_C1_R12.Style"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_mument"
             app:layout_constraintStart_toStartOf="@id/tv_mument"
             tools:text="1 Sep, 2020"/>

@@ -1,4 +1,4 @@
-package com.mument_android.detail
+package com.mument_android.detail.mument
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -25,11 +26,12 @@ import com.mument_android.core_dependent.util.MediaUtils
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.getDeviceSize
+import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentMumentToShareDialogBinding
-import com.mument_android.detail.mument.MumentDetailContract
 import com.mument_android.detail.viewmodels.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -40,6 +42,13 @@ class MumentToShareDialogFragment(
     private val viewModel: MumentDetailViewModel by viewModels()
     @Inject lateinit var mediaUtils: MediaUtils
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.let { window ->
+            window.setWindowAnimations(com.mument_android.core_dependent.R.style.DialogExposeAnimation)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,7 +57,6 @@ class MumentToShareDialogFragment(
         binding = it
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
-
         it.root
     }
 
@@ -62,6 +70,7 @@ class MumentToShareDialogFragment(
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        setUpMumentTagList()
         getMumentArgs()
         renderView()
     }
@@ -78,26 +87,32 @@ class MumentToShareDialogFragment(
     private fun getMumentArgs() {
         arguments?.getString(KEY_PASS_MUMENT)?.let {
             val mument = Gson().fromJson(it, MumentEntity::class.java)
-            viewModel.emitEvent(MumentDetailContract.MumentDetailEvent.RenderMumentToShare(mument))
-            renderMumentTags(mument.combineTags())
-            checkImagesRendered(mument)
+            viewModel.emitEvent(MumentDetailContract.MumentDetailEvent.UpdateMumentToShareInstagram(mument))
         }
     }
 
     private fun renderView() {
-        collectFlowWhenStarted(viewModel.viewState) {
-            it.mument?.let { mument ->
+        collectFlowWhenStarted(viewModel.viewState) { state ->
+            checkImagesRendered(state)
+            state.mument?.let { mument ->
                 with(binding) {
-                    tvWriterName.text = it.mument.writerInfo.name
+                    tvWriterName.text = state.mument.writerInfo.name
                     tvMument.text = mument.content
                     tvMusicName.text = mument.musicInfo.name
                     tvDate.text = mument.createdDate
+                    (rvTags.adapter as MumentTagListAdapter).submitList(mument.combineTags())
+                    ivProfileImage.loadImage(mument.writerInfo.profileImage?: "") {
+                        viewModel?.updateRenderedProfileImage(true)
+                    }
+                    ivAlbumCover.loadImage(mument.musicInfo.thumbnail) {
+                        viewModel?.updateRenderedAlbumCover(true)
+                    }
                 }
             }
         }
     }
 
-    private fun renderMumentTags(mumentTags: List<TagEntity>) {
+    private fun setUpMumentTagList() {
         binding.rvTags.run {
             addItemDecoration(RecyclerviewItemDivider(0, 4.dpToPx(requireContext()), RecyclerviewItemDivider.IS_VERTICAL))
             layoutManager = FlexboxLayoutManager(context).apply {
@@ -106,30 +121,26 @@ class MumentToShareDialogFragment(
                 flexDirection = FlexDirection.ROW
             }
             adapter = MumentTagListAdapter()
-            (adapter as MumentTagListAdapter).submitList(mumentTags)
             binding.rvTags.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    viewModel.chagneIsRenderTags(true)
+                    viewModel.updateRenderedTags(true)
                     binding.rvTags.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             })
         }
     }
 
-    private fun checkImagesRendered(mument: MumentEntity) {
-        binding.ivProfileImage.loadImage(mument.writerInfo.profileImage?: "") {
-            viewModel.changeIsRenderProfile(true)
-        }
-
-        binding.ivAlbumCover.loadImage(mument.musicInfo.thumbnail) {
-            viewModel.changeIsRenderAlbum(true)
-        }
-
-        collectFlowWhenStarted(viewModel.isEveryImageRender) { isEveryImageRender ->
-            if (isEveryImageRender) {
+    private fun checkImagesRendered(state: MumentDetailContract.MumentDetailViewState) {
+        with(state) {
+            if (renderedProfileImage && renderedTags && renderdAlbumCover) {
                 mediaUtils.getBitmapUri(binding.cslRoot, "MumentShareImage")?.let {
-                    captureCallback(it)
-                    dismiss()
+                    CoroutineScope(Dispatchers.Default).launch {
+                        delay(600)
+                        withContext(Dispatchers.Main) {
+                            captureCallback(it)
+                            dismiss()
+                        }
+                    }
                 }
             }
         }

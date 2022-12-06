@@ -1,6 +1,5 @@
 package com.mument_android.detail.viewmodels
 
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core_dependent.util.*
@@ -46,6 +45,18 @@ class MumentDetailViewModel @Inject constructor(
         _effect.emitEffect(viewModelScope) { effect }
     }
 
+    fun updateRenderedProfileImage(completed: Boolean) {
+        _viewState.setState { copy(renderedProfileImage = completed) }
+    }
+
+    fun updateRenderedAlbumCover(completed: Boolean) {
+        _viewState.setState { copy(renderdAlbumCover = completed) }
+    }
+
+    fun updateRenderedTags(completed: Boolean) {
+        _viewState.setState { copy(renderedTags = completed) }
+    }
+
     private fun collectEvent() {
         _event.asSharedFlow().collectEvent(viewModelScope) { event ->
             when(event) {
@@ -60,10 +71,9 @@ class MumentDetailViewModel @Inject constructor(
                     _viewState.setState { copy(requestMumentId = event.mumentId) }
                     updateRequestMumentId(event.mumentId)
                 }
-                is MumentDetailEvent.OnClickShareMument -> {
-                    val uri = mediaUtils.getBitmapUri(event.mumentView, FILE_NAME_TO_SHARE)
-                    emitEffect(MumentDetailSideEffect.ShowShareOptions(uri))
-                }
+                is MumentDetailEvent.OnClickShareMument -> { emitEffect(MumentDetailSideEffect.OpenShareMumentDialog(event.mumentEntity)) }
+                is MumentDetailEvent.UpdateMumentToShareInstagram -> { _viewState.setState { copy(mument = event.mument) } }
+                is MumentDetailEvent.OnDismissShareMumentDialog -> emitEffect(MumentDetailSideEffect.NavToInstagram(event.imageUri))
             }
         }
     }

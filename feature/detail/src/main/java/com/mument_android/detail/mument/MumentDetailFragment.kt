@@ -1,13 +1,20 @@
 package com.mument_android.detail.mument
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.LinearLayout
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.registerForActivityResult
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet.Constraint
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,6 +24,7 @@ import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.gson.Gson
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
@@ -28,10 +36,10 @@ import com.mument_android.core_dependent.util.ViewUtils.applyVisibilityAnimation
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.core_dependent.util.removeProgress
 import com.mument_android.core_dependent.util.showProgress
-import com.mument_android.detail.InstagramShareComponent
-import com.mument_android.detail.LayoutMumentToShare
 import com.mument_android.detail.databinding.FragmentMumentDetailBinding
-import com.mument_android.detail.mument.MumentDetailContract.*
+import com.mument_android.detail.mument.MumentDetailContract.MumentDetailEvent
+import com.mument_android.detail.mument.MumentDetailContract.MumentDetailSideEffect
+import com.mument_android.detail.mument.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
 import com.mument_android.detail.viewmodels.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +52,6 @@ class MumentDetailFragment : Fragment() {
     @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
     @Inject lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
     @Inject lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +75,7 @@ class MumentDetailFragment : Fragment() {
         showEditBottomSheet()
         goToMusicDetail()
         goToHistory()
+        shareMumentOnInstagram()
     }
 
     private fun receiveMumentID() {
@@ -99,7 +107,6 @@ class MumentDetailFragment : Fragment() {
             binding.cslRoot.run { if (it.onNetwork) showProgress() else removeProgress() }
             if (it.hasError) requireContext().showToast("데이터를 불러올 수 없습니다.")
             showMumentHistory(it.hasWrittenMument)
-            if(it.mument != null) shareMumentOnInstagram(it.mument)
         }
     }
 
@@ -152,29 +159,40 @@ class MumentDetailFragment : Fragment() {
         }
     }
 
-    private fun shareMumentOnInstagram(mument: MumentEntity) {
-        val view = LayoutMumentToShare(requireContext(), mument)
-        binding.cslRoot.addView(view)
-
+    private fun shareMumentOnInstagram() {
         binding.ivShare.setOnClickListener {
             viewModel.viewState.value.mument?.let {
-                viewModel.emitEvent(MumentDetailEvent.OnClickShareMument(view))
+                viewModel.emitEvent(MumentDetailEvent.OnClickShareMument(it))
             }
         }
     }
 
-    private fun navToInstagramStory(uri: Uri?) {
+    private fun openShareMumentDialog(mument: MumentEntity) {
+        MumentToShareDialogFragment { uri ->
+            viewModel.emitEvent(MumentDetailEvent.OnDismissShareMumentDialog(uri))
+        }.apply {
+            Bundle().apply {
+                val mumentJson = Gson().toJson(mument)
+                putString(KEY_PASS_MUMENT, mumentJson)
+                arguments = this
+            }
+        }.show(childFragmentManager, "")
+    }
+
+    private fun navToInstagram(uri: Uri) {
         Intent(SHARE_INSTAGRAM_STORY_ID).apply {
             putExtra(APP_ID_KEY, requireContext().packageName)
             type = TYPE_IMAGE
             putExtra(STICKER_ASSET_KEY, uri)
             requireContext().grantUriPermission(INSTAGRAM_ID, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-            if (requireActivity().packageManager.resolveActivity(this, 0) != null) {
+            try {
                 startActivity(this)
+            } catch (e: ActivityNotFoundException) {
+                requireContext().showToast("Instagram이 설치되어 있지 않습니다.")
             }
         }
     }
+
 
     private fun receiveEffect() {
         collectFlowWhenStarted(viewModel.effect) { effect ->
@@ -185,7 +203,8 @@ class MumentDetailFragment : Fragment() {
                 is MumentDetailSideEffect.NavToMusicDetail -> { /** Todo: Navigate To MusicDetail **/ }
                 is MumentDetailSideEffect.NavToMumentHistory -> { /** Todo: Navigate To MumentHistory **/ }
                 is MumentDetailSideEffect.Toast -> requireContext().showToast(effect.message)
-                is MumentDetailSideEffect.ShowShareOptions -> navToInstagramStory(effect.fileUri)
+                is MumentDetailSideEffect.OpenShareMumentDialog -> {openShareMumentDialog(effect.mument) }
+                is MumentDetailSideEffect.NavToInstagram -> { navToInstagram(effect.imageUri) }
             }
         }
     }
