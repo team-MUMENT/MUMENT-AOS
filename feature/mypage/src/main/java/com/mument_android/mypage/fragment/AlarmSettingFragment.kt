@@ -1,7 +1,4 @@
 package com.mument_android.mypage.fragment
-
-import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -33,7 +30,7 @@ class AlarmSettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.myPageViewModel = myPageViewModel
-        openAppAlarmSetting(requireContext())
+        openAppAlarmSetting()
     }
 
     override fun onResume() {
@@ -43,49 +40,35 @@ class AlarmSettingFragment : Fragment() {
 
 
     //앱 내의 알림설정 화면 띄우기
-    private fun openAppAlarmSetting(context: Context) {
-        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            alarmSettingVersionUp(context)
-        } else {
-            alarmSettingVersionDown(context)
-        }
-
+    private fun openAppAlarmSetting() {
         binding.btnAlarmSettingSwitch.setOnClickListener {
-            try {
-                context.startActivity(intent)
-            } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
+                startActivity(alarmSetting())
+        }
+    }
+
+    //알림 설정 보여주기
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun alarmSetting(): Intent {
+        val intent = with(Intent()) {
+
+            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+            //버전에 따른 알림 설정
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                putExtra(Settings.EXTRA_APP_PACKAGE,  activity?.packageName)
+            } else {
+                putExtra("app_package", activity?.packageName)
+                putExtra("app_uid", activity?.applicationInfo?.uid)
             }
         }
-
-
-    }
-
-    //API 26 이상일 떄의  내 알림 설정 보여주기
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun alarmSettingVersionUp(context: Context): Intent {
-        return Intent().apply {
-            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-    }
-
-    // API 26 이하 일 때
-    private fun alarmSettingVersionDown(context: Context): Intent {
-        return Intent().apply {
-            action = "android.settings.APP_NOTIFICATION_SETTINGS"
-            putExtra("app_package", context.packageName)
-            putExtra("app_uid", context.applicationInfo?.uid)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
+        return intent
     }
 
     //앱 내의 알림설정 여부에 따라 버튼 이미지 변경
-    private fun checkAlarmSetting(){
-        binding.btnAlarmSettingSwitch.isSelected = NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
+    private fun checkAlarmSetting() {
+        binding.btnAlarmSettingSwitch.isSelected =
+            NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
     }
-
-
-
 }
+
