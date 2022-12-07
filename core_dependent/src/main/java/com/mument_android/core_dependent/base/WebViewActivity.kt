@@ -44,18 +44,6 @@ class WebViewActivity : BaseActivity<ActivityWebViewBinding>(R.layout.activity_w
         } else {
             return super.onOptionsItemSelected(item)
         }
-
-        /*
-        // 툴바 홈키로 액티비티 종료
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-
-         */
     }
 
     private fun loadUrlFromIntent() {
@@ -105,25 +93,5 @@ class WebViewActivity : BaseActivity<ActivityWebViewBinding>(R.layout.activity_w
 
         // 뒤로가기 (홈) 버튼 활성화
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    class BaseWebViewClient : WebViewClient() {
-        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-            if (view != null && url != null)
-                view.loadUrl(url)
-            return true
-        }
-    }
-
-    class BaseWebChromeClient : WebChromeClient() {
-        private val _titleData = MutableLiveData<String>()
-        val titleData: LiveData<String>
-            get() = _titleData
-
-        override fun onReceivedTitle(view: WebView?, title: String?) {
-            super.onReceivedTitle(view, title)
-            if (title != null && title.isNotEmpty())
-                _titleData.value = title!!
-        }
     }
 }
