@@ -4,6 +4,9 @@
 
     <application>
         <activity
+            android:name=".SplashActivity"
+            android:exported="false" />
+        <activity
             android:name=".LogInActivity"
             android:exported="false" />
     </application>
