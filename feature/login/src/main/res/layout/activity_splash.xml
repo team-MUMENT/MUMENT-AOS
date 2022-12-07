@@ -5,10 +5,16 @@
     <data>
 
     </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_splash_main"
+        android:src="@drawable/splash_screen"
+        android:background="@color/mument_color_purple1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_splash"
-        android:background="@color/mument_color_purple1"
+        android:background="@drawable/splash_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -41,5 +47,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/iv_main_logo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
