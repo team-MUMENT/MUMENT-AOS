@@ -4,6 +4,9 @@
 
     <application>
         <activity
+            android:name=".OnBoardingActivity"
+            android:exported="false" />
+        <activity
             android:name=".SplashActivity"
             android:exported="false" />
         <activity
