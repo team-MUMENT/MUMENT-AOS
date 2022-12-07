@@ -26,16 +26,26 @@ class WebViewActivity : BaseActivity<ActivityWebViewBinding>(R.layout.activity_w
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         // 웹뷰 back 가능하도록
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && binding.wvContent.canGoBack()) {
+        return if ((keyCode == KeyEvent.KEYCODE_BACK) && binding.wvContent.canGoBack()) {
             binding.wvContent.goBack()
-            return true
+            true
+        } else {
+            return super.onKeyDown(keyCode, event)
         }
 
-        return super.onKeyDown(keyCode, event)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // 툴바 홈키로 액티비티 종료
+        return if(item.itemId == android.R.id.home) {
+            finish()
+            true
+        } else {
+            return super.onOptionsItemSelected(item)
+        }
 
+        /*
         // 툴바 홈키로 액티비티 종료
         when (item.itemId) {
             android.R.id.home -> {
@@ -44,6 +54,8 @@ class WebViewActivity : BaseActivity<ActivityWebViewBinding>(R.layout.activity_w
             }
         }
         return super.onOptionsItemSelected(item)
+
+         */
     }
 
     private fun loadUrlFromIntent() {

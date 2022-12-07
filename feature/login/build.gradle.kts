@@ -43,8 +43,7 @@ android {
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":core_dependent")))
-    implementation(project(mapOf("path" to ":core_dependent")))
+    implementation(project(Modules.CORE_DEPENDENT_MODULE))
     addAndroidXDependencies()
     addTestDependencies()
     addNavigationDependencies()
