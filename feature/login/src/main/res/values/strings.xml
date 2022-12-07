@@ -6,4 +6,6 @@
     <string name="login_privacy_policy"><u>개인정보처리방침</u></string>
     <string name="login_subtitle3">에 동의하게 됩니다.</string>
     <string name="splash_mument">MUMENT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
