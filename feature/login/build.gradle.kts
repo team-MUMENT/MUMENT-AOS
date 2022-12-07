@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.CORE_DEPENDENT_MODULE))
     addAndroidXDependencies()
     addTestDependencies()
     addNavigationDependencies()
