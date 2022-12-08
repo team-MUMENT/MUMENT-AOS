@@ -16,6 +16,7 @@
     <string name="record_mument">뮤멘트 기록하기</string>
     <string name="write_earliest_mument">가장 먼저 뮤멘트를 남겨n보세요.</string>
     <string name="write_first_mument">첫 뮤멘트를 남겨보세요.</string>
+    <string name="doesnt_installed_insta">Instagram이 설치되어있지 않습니다.</string>
 
     <!--신고하기-->
     <string name="notify_title">신고하기</string>

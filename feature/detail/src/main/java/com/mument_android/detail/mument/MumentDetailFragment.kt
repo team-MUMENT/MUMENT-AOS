@@ -1,10 +1,12 @@
 package com.mument_android.detail.mument
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +38,7 @@ import com.mument_android.core_dependent.util.ViewUtils.applyVisibilityAnimation
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.core_dependent.util.removeProgress
 import com.mument_android.core_dependent.util.showProgress
+import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentMumentDetailBinding
 import com.mument_android.detail.mument.MumentDetailContract.MumentDetailEvent
 import com.mument_android.detail.mument.MumentDetailContract.MumentDetailSideEffect
@@ -168,8 +171,8 @@ class MumentDetailFragment : Fragment() {
     }
 
     private fun openShareMumentDialog(mument: MumentEntity) {
-        MumentToShareDialogFragment { uri ->
-            viewModel.emitEvent(MumentDetailEvent.OnDismissShareMumentDialog(uri))
+        MumentToShareDialogFragment { file, uri ->
+            viewModel.emitEvent(MumentDetailEvent.OnDismissShareMumentDialog(file, uri))
         }.apply {
             Bundle().apply {
                 val mumentJson = Gson().toJson(mument)
@@ -181,18 +184,23 @@ class MumentDetailFragment : Fragment() {
 
     private fun navToInstagram(uri: Uri) {
         Intent(SHARE_INSTAGRAM_STORY_ID).apply {
-            putExtra(APP_ID_KEY, requireContext().packageName)
             type = TYPE_IMAGE
+            putExtra(APP_ID_KEY, requireContext().packageName)
             putExtra(STICKER_ASSET_KEY, uri)
             requireContext().grantUriPermission(INSTAGRAM_ID, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
             try {
+                navInstagramLauncher.launch(this)
                 startActivity(this)
             } catch (e: ActivityNotFoundException) {
-                requireContext().showToast("Instagram이 설치되어 있지 않습니다.")
+                requireContext().showToast(resources.getString(R.string.doesnt_installed_insta))
             }
         }
     }
 
+    private val navInstagramLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        Log.e("get back", "get back")
+        viewModel.emitEvent(MumentDetailEvent.EntryFromInstagram)
+    }
 
     private fun receiveEffect() {
         collectFlowWhenStarted(viewModel.effect) { effect ->

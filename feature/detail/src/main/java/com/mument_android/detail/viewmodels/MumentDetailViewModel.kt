@@ -73,7 +73,11 @@ class MumentDetailViewModel @Inject constructor(
                 }
                 is MumentDetailEvent.OnClickShareMument -> { emitEffect(MumentDetailSideEffect.OpenShareMumentDialog(event.mumentEntity)) }
                 is MumentDetailEvent.UpdateMumentToShareInstagram -> { _viewState.setState { copy(mument = event.mument) } }
-                is MumentDetailEvent.OnDismissShareMumentDialog -> emitEffect(MumentDetailSideEffect.NavToInstagram(event.imageUri))
+                is MumentDetailEvent.OnDismissShareMumentDialog -> {
+                    emitEffect(MumentDetailSideEffect.NavToInstagram(event.imageUri))
+                    _viewState.setState { copy(fileToShare = event.imageFile) }
+                }
+                MumentDetailEvent.EntryFromInstagram -> deleteSharedImageFile()
             }
         }
     }
@@ -155,6 +159,12 @@ class MumentDetailViewModel @Inject constructor(
                     emitEffect(MumentDetailSideEffect.SuccessMumentDeletion)
                 }
         }
+    }
+
+    private fun deleteSharedImageFile() {
+        val file = viewState.value.fileToShare
+        _viewState.setState { copy(fileToShare = null) }
+        file?.delete()
     }
 
     companion object {

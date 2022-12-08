@@ -13,13 +13,13 @@ import java.io.File
 import java.io.FileOutputStream
 
 class MediaUtils(private val context: Context) {
-    fun getBitmapUri(view: View, fileNameToSave: String): Uri? {
+    fun getBitmapUri(view: View, fileNameToSave: String): Pair<File, Uri>? {
         val bitmap = getBitmap(view)
-        val uri = bitmapToFile(bitmap, fileNameToSave)?.let {
+        val file = bitmapToFile(bitmap, fileNameToSave)
+        val uri = file?.let {
             FileProvider.getUriForFile(context, "${context.packageName}.provider", it)
         }
-
-        return uri
+        return if (file != null && uri != null) file to uri else null
     }
 
     private fun bitmapToFile(bitmap: Bitmap?, fileNameToSave: String): File? {

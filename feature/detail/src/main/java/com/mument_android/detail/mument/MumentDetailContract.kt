@@ -5,6 +5,7 @@ import com.mument_android.core.util.SideEffect
 import com.mument_android.core.util.Event
 import com.mument_android.core.util.ViewState
 import com.mument_android.domain.entity.detail.MumentEntity
+import java.io.File
 
 class MumentDetailContract {
     data class MumentDetailViewState(
@@ -19,7 +20,8 @@ class MumentDetailContract {
         val hasWrittenMument: Boolean = false,
         val renderedProfileImage: Boolean = false,
         val renderedTags: Boolean = false,
-        val renderdAlbumCover: Boolean = false
+        val renderdAlbumCover: Boolean = false,
+        val fileToShare: File? = null
     ): ViewState
 
     sealed class MumentDetailEvent: Event {
@@ -28,11 +30,12 @@ class MumentDetailContract {
         data class OnClickHistory (val musicId: String): MumentDetailEvent()
         data class OnClickEditMument (val mument: String): MumentDetailEvent()
         data class OnClickShareMument(val mumentEntity: MumentEntity): MumentDetailEvent()
-        data class OnDismissShareMumentDialog(val imageUri: Uri): MumentDetailEvent()
+        data class OnDismissShareMumentDialog(val imageFile: File, val imageUri: Uri): MumentDetailEvent()
         object OnClickBackIcon: MumentDetailEvent()
         object OnClickLikeMument: MumentDetailEvent()
         object OnClickUnLikeMument: MumentDetailEvent()
         object OnClickDeleteMument: MumentDetailEvent()
+        object EntryFromInstagram: MumentDetailEvent()
 
         // Instagram 공유하기 전 노출되는 Dialog에 Mument 업데이트 하기 위한 Event
         data class UpdateMumentToShareInstagram(val mument: MumentEntity): MumentDetailEvent()

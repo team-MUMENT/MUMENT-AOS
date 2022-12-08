@@ -32,11 +32,12 @@ import com.mument_android.detail.viewmodels.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MumentToShareDialogFragment(
-    val captureCallback: (Uri) -> Unit
+    val captureCallback: (File, Uri) -> Unit
 ): DialogFragment() {
     private var binding by AutoClearedValue<FragmentMumentToShareDialogBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
@@ -44,9 +45,7 @@ class MumentToShareDialogFragment(
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.let { window ->
-            window.setWindowAnimations(com.mument_android.core_dependent.R.style.DialogExposeAnimation)
-        }
+        dialog?.window?.setWindowAnimations(com.mument_android.core_dependent.R.style.DialogExposeAnimation)
     }
 
     override fun onCreateView(
@@ -133,16 +132,19 @@ class MumentToShareDialogFragment(
     private fun checkImagesRendered(state: MumentDetailContract.MumentDetailViewState) {
         with(state) {
             if (renderedProfileImage && renderedTags && renderdAlbumCover) {
-                mediaUtils.getBitmapUri(binding.cslRoot, "MumentShareImage")?.let {
-                    CoroutineScope(Dispatchers.Default).launch {
-                        delay(600)
-                        withContext(Dispatchers.Main) {
-                            captureCallback(it)
-                            dismiss()
-                        }
-                    }
+                mediaUtils.getBitmapUri(binding.cslRoot, FILE_NAME).let { fileInfo ->
+                    fileInfo?.let { dismissWithDelay(it.first, it.second) }
+                        ?: dismiss()
                 }
             }
+        }
+    }
+
+    private fun dismissWithDelay(file: File, uri: Uri) {
+        CoroutineScope(Dispatchers.Default).launch {
+            delay(600)
+            withContext(Dispatchers.Main) { captureCallback(file, uri) }
+            dismiss()
         }
     }
 
@@ -159,6 +161,7 @@ class MumentToShareDialogFragment(
     }
 
     companion object {
+        private const val FILE_NAME = "MumentShareImage"
         const val KEY_PASS_MUMENT = "KEY_PASS_MUMENT"
     }
 }
