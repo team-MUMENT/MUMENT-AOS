@@ -20,7 +20,7 @@ class OnBoardingActivity :  BaseActivity<ActivityOnBoardingBinding>(R.layout.act
     }
 
     private inner class OnBoardingPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
-        override fun getItemCount(): Int = 4
+        override fun getItemCount(): Int = 3
 
         override fun createFragment(position: Int): Fragment {
 
