@@ -1,4 +1,4 @@
-package com.mument_android.onboarding
+package com.mument_android.login.onboarding
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
