@@ -13,8 +13,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="10dp"
         android:background="@drawable/rectangle_fill_white_11dp">
+
 
         <ImageView
             android:id="@+id/iv_profile_image"
@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_profile_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-        
+
         <ImageView
             android:id="@+id/iv_album_cover"
             android:layout_width="0dp"

@@ -1,13 +1,14 @@
 package com.mument_android.core_dependent.util
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
+import android.graphics.*
 import android.net.Uri
 import android.os.Environment
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.mument_android.core_dependent.R
+import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -49,14 +50,30 @@ class MediaUtils(private val context: Context) {
     private fun getBitmap(view: View): Bitmap {
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        val background = view.background
-        if (background != null) {
-            background.draw(canvas)
-        } else {
-            canvas.drawColor(Color.WHITE)
-        }
+        canvas.drawColor(Color.WHITE)
         view.draw(canvas)
         return bitmap
+    }
+
+    private fun getRoundedCornerBitmap(bitmap: Bitmap): Bitmap? {
+        val output = Bitmap.createBitmap(
+            bitmap.width,
+            bitmap.height,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(output)
+        canvas.drawColor(Color.TRANSPARENT)
+        val paint = Paint()
+        val rect = Rect(0, 0, bitmap.width, bitmap.height)
+        val rectF = RectF(rect)
+        val roundPx = 11.dpToPx(context).toFloat()
+        paint.isAntiAlias = true
+        canvas.drawARGB(0, 0, 0, 0)
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint)
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawBitmap(bitmap, rect, rect, paint)
+
+        return output
     }
 
     private fun resizeBitmap(source: Bitmap, maxLength: Int): Bitmap? {

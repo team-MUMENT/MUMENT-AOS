@@ -1,6 +1,7 @@
 package com.mument_android.detail.mument
 
 import android.net.Uri
+import androidx.annotation.StringRes
 import com.mument_android.core.util.SideEffect
 import com.mument_android.core.util.Event
 import com.mument_android.core.util.ViewState
@@ -29,7 +30,7 @@ class MumentDetailContract {
         data class OnClickAlum(val musicId: String): MumentDetailEvent()
         data class OnClickHistory (val musicId: String): MumentDetailEvent()
         data class OnClickEditMument (val mument: String): MumentDetailEvent()
-        data class OnClickShareMument(val mumentEntity: MumentEntity): MumentDetailEvent()
+        data class OnClickShareMument(val mumentEntity: MumentEntity?): MumentDetailEvent()
         data class OnDismissShareMumentDialog(val imageFile: File, val imageUri: Uri): MumentDetailEvent()
         object OnClickBackIcon: MumentDetailEvent()
         object OnClickLikeMument: MumentDetailEvent()
@@ -44,7 +45,7 @@ class MumentDetailContract {
     sealed class MumentDetailSideEffect: SideEffect {
         object PopBackStack: MumentDetailSideEffect()
         object SuccessMumentDeletion: MumentDetailSideEffect()
-        data class Toast(val message: String): MumentDetailSideEffect()
+        data class Toast(@StringRes val message: Int): MumentDetailSideEffect()
         data class NavToMusicDetail(val musicId: String): MumentDetailSideEffect()
         data class NavToMumentHistory(val musicId: String): MumentDetailSideEffect()
         data class EditMument(val mumentId: String): MumentDetailSideEffect()

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core_dependent.util.*
 import com.mument_android.detail.BuildConfig
+import com.mument_android.detail.R
 import com.mument_android.domain.usecase.detail.DeleteMumentUseCase
 import com.mument_android.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
@@ -71,7 +72,11 @@ class MumentDetailViewModel @Inject constructor(
                     _viewState.setState { copy(requestMumentId = event.mumentId) }
                     updateRequestMumentId(event.mumentId)
                 }
-                is MumentDetailEvent.OnClickShareMument -> { emitEffect(MumentDetailSideEffect.OpenShareMumentDialog(event.mumentEntity)) }
+                is MumentDetailEvent.OnClickShareMument -> {
+                    event.mumentEntity?.let { mument ->
+                        emitEffect(MumentDetailSideEffect.OpenShareMumentDialog(mument))
+                    } ?: emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_access_insta))
+                }
                 is MumentDetailEvent.UpdateMumentToShareInstagram -> { _viewState.setState { copy(mument = event.mument) } }
                 is MumentDetailEvent.OnDismissShareMumentDialog -> {
                     emitEffect(MumentDetailSideEffect.NavToInstagram(event.imageUri))
@@ -114,7 +119,7 @@ class MumentDetailViewModel @Inject constructor(
                 _viewState.setState { copy(onNetwork = true) }
             }.catch { e ->
                 _viewState.setState { copy(hasError= true, onNetwork = false) }
-                emitEffect(MumentDetailSideEffect.Toast("데이터를 불러올 수 없습니다."))
+                emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_load_data))
             }.collect { mumentDetail ->
                 mumentDetail?.let {
                     fetchMumentList(mumentDetail.mument.musicInfo.id)
@@ -135,7 +140,7 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun disableFetchData() {
         _viewState.setState { copy(hasError= true, onNetwork = false) }
-        emitEffect(MumentDetailSideEffect.Toast("데이터를 불러올 수 없습니다."))
+        emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_load_data))
     }
 
     private fun fetchMumentList(musicId: String) {
@@ -154,7 +159,7 @@ class MumentDetailViewModel @Inject constructor(
         viewModelScope.launch {
             deleteMumentUseCase(viewState.value.requestMumentId)
                 .catch {
-                    emitEffect(MumentDetailSideEffect.Toast("뮤멘트를 삭제하지 못했습니다."))
+                    emitEffect(MumentDetailSideEffect.Toast(R.string.fail_to_delete_mument))
                 }.collect {
                     emitEffect(MumentDetailSideEffect.SuccessMumentDeletion)
                 }

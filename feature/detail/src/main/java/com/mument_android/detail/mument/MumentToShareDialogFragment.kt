@@ -5,8 +5,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -18,7 +16,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.gson.Gson
-import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -26,7 +23,7 @@ import com.mument_android.core_dependent.util.MediaUtils
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.getDeviceSize
-import com.mument_android.detail.R
+import com.mument_android.core_dependent.util.checkIsViewLoaded
 import com.mument_android.detail.databinding.FragmentMumentToShareDialogBinding
 import com.mument_android.detail.viewmodels.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
@@ -100,12 +97,7 @@ class MumentToShareDialogFragment(
                     tvMusicName.text = mument.musicInfo.name
                     tvDate.text = mument.createdDate
                     (rvTags.adapter as MumentTagListAdapter).submitList(mument.combineTags())
-                    ivProfileImage.loadImage(mument.writerInfo.profileImage?: "") {
-                        viewModel?.updateRenderedProfileImage(true)
-                    }
-                    ivAlbumCover.loadImage(mument.musicInfo.thumbnail) {
-                        viewModel?.updateRenderedAlbumCover(true)
-                    }
+                    checkAllViewsRendered(mument)
                 }
             }
         }
@@ -120,19 +112,13 @@ class MumentToShareDialogFragment(
                 flexDirection = FlexDirection.ROW
             }
             adapter = MumentTagListAdapter()
-            binding.rvTags.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    viewModel.updateRenderedTags(true)
-                    binding.rvTags.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            })
         }
     }
 
     private fun checkImagesRendered(state: MumentDetailContract.MumentDetailViewState) {
         with(state) {
             if (renderedProfileImage && renderedTags && renderdAlbumCover) {
-                mediaUtils.getBitmapUri(binding.cslRoot, FILE_NAME).let { fileInfo ->
+                mediaUtils.getBitmapUri(binding.root.rootView, FILE_NAME).let { fileInfo ->
                     fileInfo?.let { dismissWithDelay(it.first, it.second) }
                         ?: dismiss()
                 }
@@ -148,7 +134,15 @@ class MumentToShareDialogFragment(
         }
     }
 
-    private inline fun ImageView.loadImage(url: String, crossinline finishRenderCallback:() -> Unit) {
+    private fun checkAllViewsRendered(mument: MumentEntity) {
+        with(binding) {
+            rvTags.checkIsViewLoaded { viewModel?.updateRenderedTags(true) }
+            ivProfileImage.checkIfImageLoaded(mument.writerInfo.profileImage?: "") { viewModel?.updateRenderedProfileImage(true) }
+            ivAlbumCover.checkIfImageLoaded(mument.musicInfo.thumbnail) { viewModel?.updateRenderedAlbumCover(true) }
+        }
+    }
+
+    private inline fun ImageView.checkIfImageLoaded(url: String, crossinline finishRenderCallback:() -> Unit) {
         load(url) {
             allowHardware(false)
             listener(object: ImageRequest.Listener {
