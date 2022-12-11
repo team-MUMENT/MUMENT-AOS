@@ -9,11 +9,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.mument_android.core_dependent.R
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import javax.inject.Inject
 
-class MediaUtils(private val context: Context) {
+class MediaUtils @Inject constructor(@ApplicationContext private val context: Context) {
     fun getBitmapUri(view: View, fileNameToSave: String): Pair<File, Uri>? {
         val bitmap = getBitmap(view)
         val file = bitmapToFile(bitmap, fileNameToSave)
@@ -39,10 +41,8 @@ class MediaUtils(private val context: Context) {
                 fos.flush()
                 fos.close()
             }
-
             file
         } catch (e: Exception) {
-            e.printStackTrace()
             file
         }
     }
@@ -87,10 +87,7 @@ class MediaUtils(private val context: Context) {
                 val targetWidth = (maxLength * aspectRatio).toInt()
                 return Bitmap.createScaledBitmap(source, targetWidth, maxLength, false)
             } else {
-                if (source.width <= maxLength) {
-                    return source
-                }
-
+                if (source.width <= maxLength) { return source }
                 val aspectRatio = source.height.toDouble() / source.width.toDouble()
                 val targetHeight = (maxLength * aspectRatio).toInt()
                 return Bitmap.createScaledBitmap(source, maxLength, targetHeight, false)

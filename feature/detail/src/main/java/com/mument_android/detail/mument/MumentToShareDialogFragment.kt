@@ -4,10 +4,12 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.request.ImageRequest
 import coil.request.ImageResult
@@ -28,7 +30,9 @@ import com.mument_android.detail.databinding.FragmentMumentToShareDialogBinding
 import com.mument_android.detail.viewmodels.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
@@ -127,10 +131,9 @@ class MumentToShareDialogFragment(
     }
 
     private fun dismissWithDelay(file: File, uri: Uri) {
-        CoroutineScope(Dispatchers.Default).launch {
+        lifecycleScope.launch(Dispatchers.Default) {
             delay(600)
-            withContext(Dispatchers.Main) { captureCallback(file, uri) }
-            dismiss()
+            captureCallback(file, uri)
         }
     }
 
@@ -152,6 +155,17 @@ class MumentToShareDialogFragment(
                 }
             })
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("onStop", "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("onDestroy", "onDestroy")
+
     }
 
     companion object {
