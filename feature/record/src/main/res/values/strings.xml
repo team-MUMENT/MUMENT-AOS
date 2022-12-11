@@ -52,6 +52,7 @@
     <string name="locker_apply_tag">태그 적용하기</string>
 
     <!--    record view-->
+    <string name="record_title">기록하기</string>
     <string name="record_choose_title">곡을 선택해주세요.</string>
     <string name="record_search_hint">곡, 아티스트 검색</string>
     <string name="record_first_title">처음 들은 곡인가요?</string>

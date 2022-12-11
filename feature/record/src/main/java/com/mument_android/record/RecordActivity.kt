@@ -58,7 +58,7 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
         isClickDelete()
         observingListen()
 
-        modifyRevoke()
+        deleteBtnEvent()
     }
 
 
@@ -104,7 +104,7 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
                 override fun alertMaxCount() {
                     this@RecordActivity.snackBar(
                         binding.clRecordRoot,
-                       this@RecordActivity.getString(R.string.record_snackbar_tag_info)
+                        this@RecordActivity.getString(R.string.record_snackbar_tag_info)
                     )
                 }
             }
@@ -142,7 +142,8 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
                 adapter = rvImpressionTagsAdapter
             }
             rvImpressionTagsAdapter.submitList(
-                ImpressiveTag.values().map { TagEntity(TagEntity.TAG_IMPRESSIVE, it.tag, it.tagIndex) }
+                ImpressiveTag.values()
+                    .map { TagEntity(TagEntity.TAG_IMPRESSIVE, it.tag, it.tagIndex) }
             )
         }
     }
@@ -157,7 +158,8 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
                 adapter = rvEmotionalTagsAdapter
             }
             rvEmotionalTagsAdapter.submitList(
-                EmotionalTag.values().map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }
+                EmotionalTag.values()
+                    .map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }
             )
         }
     }
@@ -193,26 +195,8 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
         }
         recordViewModel.selectedMusic.observe(this) {
             recordViewModel.checkSelectedMusic(it != null)
-            binding.btnRecordFinish.isEnabled = recordViewModel.isSelectedMusic.value == true
-            binding.btnRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
-        }
-    }
-
-    //reset 버튼 클릭 리스너
-    private fun resetButtonClickEvent() {
-        binding.btnRecordReset.setOnClickListener {
-                MumentDialogBuilder()
-                    .setHeader(getString(R.string.record_reset_header))
-                    .setBody(getString(R.string.record_reset_body))
-                    .setOption(true)
-                    .setAllowListener {
-                        resetRecord()
-                        resetRecordTags()
-                    }
-                    .setCancelListener {}
-                    .build()
-                    .show(supportFragmentManager,it.tag.toString())
-
+            binding.tvRecordFinish.isEnabled = recordViewModel.isSelectedMusic.value == true
+            binding.tvRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
         }
     }
 
@@ -226,7 +210,7 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
         binding.etRecordWrite.text.clear()
         binding.tvRecordSecret.setText(R.string.record_open)
         binding.switchRecordSecret.isChecked = false
-        binding.btnRecordFinish.isEnabled = false
+        binding.tvRecordFinish.isEnabled = false
         recordViewModel.mumentData.value = null
 
     }
@@ -361,7 +345,7 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
 
     //완료버튼 눌렀을 때
     private fun getAllData() {
-        binding.btnRecordFinish.setOnClickListener {
+        binding.tvRecordFinish.setOnClickListener {
             if (recordViewModel.mumentId.value == "") {
                 this.snackBar(
                     binding.clRecordRoot,
@@ -381,20 +365,37 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
         }
     }
 
-    private fun modifyRevoke() {
-        binding.btnModifyDelete.setOnClickListener {
-            MumentDialogBuilder()
-                .setHeader(getString(R.string.modify_header))
-                .setBody(getString(R.string.modify_body))
-                .setOption(true)
-                .setAllowListener {
-                    //곡 상세보기로 이동
-                }
-                .setCancelListener {
-                    //그대로
-                }
-                .build()
-                .show(supportFragmentManager, it.tag.toString())
+    //x 버튼 눌렀을 때 (기록하기/수정하기)
+    private fun deleteBtnEvent() {
+        binding.btnRecordDelete.setOnClickListener {
+            if (recordViewModel.mumentId.value?.isEmpty() == true) {
+                MumentDialogBuilder()
+                    .setHeader(getString(R.string.record_reset_header))
+                    .setBody(getString(R.string.record_reset_body))
+                    .setOption(true)
+                    .setAllowListener {
+                        resetRecord()
+                        resetRecordTags()
+                    }
+                    .setCancelListener {}
+                    .build()
+                    .show(supportFragmentManager, attributionTag)
+
+            } else {
+                MumentDialogBuilder()
+                    .setHeader(getString(R.string.modify_header))
+                    .setBody(getString(R.string.modify_body))
+                    .setOption(true)
+                    .setAllowListener {
+                        //곡 상세보기로 이동
+                    }
+                    .setCancelListener {
+                        //그대로
+                    }
+                    .build()
+                    .show(supportFragmentManager, attributionTag)
+
+            }
         }
     }
 
@@ -403,7 +404,7 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
         binding.ivDelete.setOnClickListener {
             recordViewModel.removeSelectedMusic()
             binding.btnRecordFirst.isClickable = true
-            binding.btnRecordFinish.isEnabled = false
+            binding.tvRecordFinish.isEnabled = false
             binding.btnRecordFirst.isChangeButtonFont(false)
             binding.btnRecordSecond.isChangeButtonFont(false)
         }
