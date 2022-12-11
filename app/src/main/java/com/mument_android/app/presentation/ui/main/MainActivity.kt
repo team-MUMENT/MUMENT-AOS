@@ -1,5 +1,6 @@
 package com.mument_android.app.presentation.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.navigation.NavController
@@ -7,11 +8,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.shape.RelativeCornerSize
-import com.google.android.material.shape.RoundedCornerTreatment
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
@@ -19,10 +17,10 @@ import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.record.RecordFragment.Companion.MUMENT_DETAIL_ENTITY
-import com.mument_android.record.RecordFragment.Companion.MUMENT_ID_FOR_EDIT
+import com.mument_android.record.RecordActivity
+import com.mument_android.record.RecordActivity.Companion.MUMENT_DETAIL_ENTITY
+import com.mument_android.record.RecordActivity.Companion.MUMENT_ID_FOR_EDIT
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -56,8 +54,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     //floatingBtn 클릭 시 기록하기 뷰로 이동
     private fun floatingBtnListener() {
         binding.floatingActionButton.setOnClickListener {
-            findNavController(R.id.nav_host).navigate(R.id.fragment_record)
+            val intent = Intent(this, RecordActivity::class.java)
+            startActivity(intent)
         }
+
     }
 
     private fun initNavigation() {
@@ -84,7 +84,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
                     }
                 }
                 R.id.fragment_locker -> {}
-                R.id.fragment_record -> {
+                R.id.activity_record -> {
                     if (viewModel.checkHasMument()) {
                         bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
                         bundle.putSerializable(
