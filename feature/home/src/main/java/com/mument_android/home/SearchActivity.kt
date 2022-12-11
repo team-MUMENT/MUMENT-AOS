@@ -1,8 +1,6 @@
 package com.mument_android.home
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
@@ -114,10 +112,5 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
         )
         binding.rcSearch.adapter = searchAdapter
         searchResultAdapter.option = false
-    }
-
-    companion object {
-        private const val MUSIC = "MUSIC_ID"
-        private const val MAINACTIVITY = "com.mument_android.app.presentation.ui.MainActivity"
     }
 }
