@@ -1,9 +1,8 @@
 package com.mument_android.home
 
-import com.mument_android.core.util.SideEffect
 import com.mument_android.core.util.Event
+import com.mument_android.core.util.SideEffect
 import com.mument_android.core.util.ViewState
-import com.mument_android.domain.entity.detail.MumentEntity
 import com.mument_android.domain.entity.home.AgainMumentEntity
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.home.RandomMumentEntity
@@ -13,12 +12,11 @@ class HomeContract {
     data class HomeViewState(
         override val hasError: Boolean = false,
         override val onNetwork: Boolean = false,
-        val requestMumentId: String = "",
         val bannerEntity: List<BannerEntity>? = null,
         val todayMumentEntity: TodayMumentEntity? = null,
         val heardMumentEntity: List<AgainMumentEntity>? = null,
-        val emotionMumentEntity: List<RandomMumentEntity>? = null,
-        val notificationStatus: Boolean = false
+        val emotionMumentEntity: RandomMumentEntity? = null,
+        val notificationStatus: Boolean = false,
     ) : ViewState
 
     sealed class HomeEvent : Event {

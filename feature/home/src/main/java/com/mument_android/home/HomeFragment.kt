@@ -123,10 +123,13 @@ me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
             mumentDetailNavigatorProvider.moveMumentDetail(mument._id)
             /*findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
         }
-        bannerAdapter = BannerListAdapter(viewModel.bannerData.value.toMutableList()) { musicId ->
-            musicDetailNavigatorProvider.moveMusicDetail(musicId)
-            /*findNavController().navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)*/
-        }
+        bannerAdapter =
+            viewModel.bannerData.value?.toMutableList()?.let {
+                BannerListAdapter(it) { musicId ->
+                    musicDetailNavigatorProvider.moveMusicDetail(musicId)
+                    /*findNavController().navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)*/
+                }
+            }!!
         binding.vpBanner.adapter = bannerAdapter
     }
 
@@ -156,14 +159,14 @@ me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
             binding.rcHeard.adapter = heardAdapter
         }
         collectFlowWhenStarted(viewModel.bannerData) { banner ->
-            bannerAdapter.data = banner.map {
+            bannerAdapter.data = banner?.map {
                 BannerEntity(
                     it._id,
                     it.displayDate,
                     Music(it.music._id, it.music.name, it.music.artist, it.music.image),
                     it.tagTitle.replace("\\n", "\n")
                 )
-            }
+            }!!
             bannerAdapter.notifyDataSetChanged()
         }
         collectFlowWhenStarted(viewModel.todayMument) { today ->

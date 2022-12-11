@@ -1,6 +1,5 @@
 package com.mument_android.home.viewmodels
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.domain.entity.home.AgainMumentEntity
@@ -10,7 +9,9 @@ import com.mument_android.domain.entity.home.TodayMumentEntity
 import com.mument_android.domain.usecase.home.SaveTodayMumentUseCase
 import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
 import com.mument_android.home.BuildConfig
+import com.mument_android.home.HomeContract.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -22,10 +23,19 @@ class HomeViewModel @Inject constructor(
     val localUseCase: SaveTodayMumentUseCase
 ) : ViewModel() {
     val mument = listOf<com.mument_android.domain.entity.MumentCard>()
-    val bannerData = MutableStateFlow<List<BannerEntity>>(listOf())
+    val bannerData = MutableStateFlow<List<BannerEntity>?>(listOf())
     val todayMument = MutableStateFlow<TodayMumentEntity?>(null)
     val randomMument = MutableStateFlow<RandomMumentEntity?>(null)
-    val knownMument = MutableStateFlow<List<AgainMumentEntity>>(listOf())
+    val knownMument = MutableStateFlow<List<AgainMumentEntity>?>(listOf())
+    private val _homeViewState = MutableStateFlow(HomeViewState())
+    val homeViewState get() = _homeViewState.asStateFlow()
+
+    private val _homeEffect: Channel<HomeSideEffect> = Channel()
+    val effect = _homeEffect.receiveAsFlow()
+
+    private val _homeEvent: MutableSharedFlow<HomeEvent> = MutableSharedFlow()
+
+
     private var bannerNum = 0
     val bannerNumIncrease = flow {
         while (true) {
