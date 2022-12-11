@@ -200,30 +200,6 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
         }
     }
 
-    //reset 처리
-    private fun resetRecord() {
-        binding.btnRecordFirst.isChangeButtonFont(false)
-        binding.btnRecordSecond.isChangeButtonFont(false)
-        binding.btnRecordFirst.isClickable = true
-        recordViewModel.removeSelectedMusic()
-        binding.svRecord.scrollTo(0, 0)
-        binding.etRecordWrite.text.clear()
-        binding.tvRecordSecret.setText(R.string.record_open)
-        binding.switchRecordSecret.isChecked = false
-        binding.tvRecordFinish.isEnabled = false
-        recordViewModel.mumentData.value = null
-
-    }
-
-    //tag 라셋
-    private fun resetRecordTags() {
-        binding.rvRecordImpressiveTags.resetCheckedTags(rvImpressionTagsAdapter)
-        binding.rvRecordEmotionalTags.resetCheckedTags(rvEmotionalTagsAdapter)
-        rvEmotionalTagsAdapter.selectedTags.clear()
-        rvImpressionTagsAdapter.selectedTags.clear()
-        recordViewModel.resetCheckedList()
-    }
-
     //처음 들었어요 다시들었어요 처리
     private fun observingListen() {
         recordViewModel.isFirst.observe(this) {
@@ -370,12 +346,11 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
         binding.btnRecordDelete.setOnClickListener {
             if (recordViewModel.mumentId.value?.isEmpty() == true) {
                 MumentDialogBuilder()
-                    .setHeader(getString(R.string.record_reset_header))
-                    .setBody(getString(R.string.record_reset_body))
+                    .setHeader(getString(R.string.record_delete_header))
+                    .setBody(getString(R.string.record_delete_body))
                     .setOption(true)
                     .setAllowListener {
-                        resetRecord()
-                        resetRecordTags()
+                        onBackPressed()
                     }
                     .setCancelListener {}
                     .build()
@@ -445,8 +420,6 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
     override fun onStop() {
         super.onStop()
         recordViewModel.mumentId.value = ""
-//        resetRecord()
-//        resetRecordTags()
     }
 
     companion object {
