@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.home.databinding.ItemBannerLayoutBinding
 
-class BannerListAdapter(var data: List<BannerEntity>, private val clickBanner: (String) -> Unit) : RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>() {
+class BannerListAdapter(var data: List<BannerEntity>, private val clickBanner: (String) -> Unit) :
+    RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>() {
 
     class BannerViewHolder(val binding: ItemBannerLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -37,6 +38,13 @@ class BannerListAdapter(var data: List<BannerEntity>, private val clickBanner: (
             holder.binding.root.setOnClickListener {
                 clickBanner(data[position % data.size].music._id)
             }
+        } else {
+            val builder =
+                SpannableStringBuilder((position % 3 + 1).toString() + " / " + 3)
+            val span = ForegroundColorSpan(Color.WHITE)
+            builder.setSpan(span, 0, 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+            holder.binding.position = (position % 3)
+            holder.binding.tvIndex.text = builder
         }
     }
 

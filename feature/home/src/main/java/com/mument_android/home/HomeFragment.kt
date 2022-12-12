@@ -119,6 +119,8 @@ me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
             mumentDetailNavigatorProvider.moveMumentDetail(mument.mumentId)
             /*findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
         }
+
+        binding.rcHeard.adapter = heardAdapter
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { mument ->
             mumentDetailNavigatorProvider.moveMumentDetail(mument._id)
             /*findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
@@ -147,6 +149,47 @@ me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
         collectFlowWhenStarted(viewModel.bannerNumIncrease) { index ->
             binding.vpBanner.setCurrentItem(index, true)
         }
+        collectFlowWhenStarted(viewModel.homeViewState) { homeViewState ->
+            with(homeViewState) {
+                emotionMumentEntity?.let {
+                    impressiveAdapter.submitList(it.mumentList)
+                    binding.rcImpressive.adapter = impressiveAdapter
+                    binding.tvImpressive.text = it.title
+                }
+
+                todayMumentEntity?.let { today ->
+                    val data = today.cardTag.map { tag ->
+                        if (tag < 200) TagEntity(
+                            TagEntity.TAG_IMPRESSIVE,
+                            ImpressiveTag.findImpressiveStringTag(tag),
+                            tag
+                        )
+                        else TagEntity(
+                            TagEntity.TAG_EMOTIONAL,
+                            EmotionalTag.findEmotionalStringTag(tag),
+                            tag
+                        )
+                    }
+                    binding.clCard.rvTags.adapter = MumentTagListAdapter()
+                    (binding.clCard.rvTags.adapter as MumentTagListAdapter).submitList(data)
+                }
+                heardMumentEntity?.let { heard ->
+                    heardAdapter.submitList(heard)
+                }
+                bannerEntity?.let { banner ->
+                    bannerAdapter.data = banner.map {
+                        BannerEntity(
+                            it._id,
+                            it.displayDate,
+                            Music(it.music._id, it.music.name, it.music.artist, it.music.image),
+                            it.tagTitle.replace("\\n", "\n")
+                        )
+                    }
+                    bannerAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+    /*
         collectFlowWhenStarted(viewModel.randomMument) {
             if (it != null) {
                 impressiveAdapter.submitList(it.mumentList)
@@ -156,7 +199,6 @@ me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
         }
         collectFlowWhenStarted(viewModel.knownMument) {
             heardAdapter.submitList(it)
-            binding.rcHeard.adapter = heardAdapter
         }
         collectFlowWhenStarted(viewModel.bannerData) { banner ->
             bannerAdapter.data = banner?.map {
@@ -186,14 +228,12 @@ me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
                 binding.clCard.rvTags.adapter = MumentTagListAdapter()
                 (binding.clCard.rvTags.adapter as MumentTagListAdapter).submitList(data)
             }
-        }
+        }*/
     }
 
     // TODO NAVI
     private fun showMumentDetail(mumentId: String) {
-        //val bundle = Bundle().also { it.putString(MUMENT_ID, ) }
         mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
-        /*findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
     }
 
     companion object {

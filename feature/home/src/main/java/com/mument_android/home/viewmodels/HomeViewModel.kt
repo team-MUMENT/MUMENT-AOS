@@ -2,6 +2,7 @@ package com.mument_android.home.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core_dependent.util.setState
 import com.mument_android.domain.entity.home.AgainMumentEntity
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.home.RandomMumentEntity
@@ -34,16 +35,14 @@ class HomeViewModel @Inject constructor(
     val effect = _homeEffect.receiveAsFlow()
 
     private val _homeEvent: MutableSharedFlow<HomeEvent> = MutableSharedFlow()
+    var num = 0
 
-
-    private var bannerNum = 0
     val bannerNumIncrease = flow {
         while (true) {
-            bannerNum = ++bannerNum
-            delay(3000)
-            emit(bannerNum)
+            delay(2000)
+            emit(num++)
         }
-    }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3000), 0)
 
 
     init {
@@ -56,7 +55,10 @@ class HomeViewModel @Inject constructor(
                         todayMument.value = it?.todayMument
                         it.let { localUseCase.saveTodayMument(it.todayMument) }
                     }*/
-            }.collect {
+            }.collect { today ->
+                _homeViewState.setState {
+                    copy(todayMumentEntity = today)
+                }
                 /*if (it.todayDate != LocalDate.now().toString()) {
                     useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
                         //Todo exception handling
@@ -70,33 +72,35 @@ class HomeViewModel @Inject constructor(
             }
             useCase.getBannerMument().catch {
                 //Todo exception handling
-            }.collect {
-                if (it != null) {
-                    bannerData.value = it
+            }.collect { banners ->
+                if (banners != null) {
+                    _homeViewState.setState {
+                        copy(bannerEntity = banners)
+                    }
+                    bannerData.value = banners
                 }
             }
             useCase.getKnownMument().catch {
                 //Todo exception handling
-            }.collect {
-                if (it != null) {
-                    knownMument.value = it
+            }.collect { heards ->
+                if (heards != null) {
+                    _homeViewState.setState {
+                        copy(heardMumentEntity = heards)
+                    }
+                    knownMument.value = heards
                 }
             }
             useCase.getRandomMument().catch {
                 //Todo exception handling
-            }.collect {
-                randomMument.value = it
-            }
-            useCase.getTodayMument(BuildConfig.USER_ID).catch {
-                //Todo exception handling
-            }.collect {
-                todayMument.value = it
+            }.collect { random ->
+                randomMument.value = random
+                _homeViewState.setState { copy(emotionMumentEntity = random) }
             }
         }
     }
 
     fun bannerIndexChange(position: Int) {
-        bannerNum = position
+        num = position
     }
 
 }
