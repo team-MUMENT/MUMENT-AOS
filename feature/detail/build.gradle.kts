@@ -59,6 +59,7 @@ dependencies {
     addNavigationDependencies()
     addDaggerHiltDependencies()
     addLifecycleDependencies()
+    implementation(ThirdPartyDependencies.gson)
     implementation(ThirdPartyDependencies.coil)
     implementation(AndroidXDependencies.coroutines)
     implementation(ThirdPartyDependencies.flexBox)

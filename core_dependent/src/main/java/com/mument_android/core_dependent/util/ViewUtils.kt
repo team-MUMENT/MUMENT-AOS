@@ -13,10 +13,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
-import android.widget.FrameLayout
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
@@ -137,4 +134,15 @@ fun ViewGroup.showProgress() {
 fun ViewGroup.removeProgress() {
     val progress = children.find { it is ProgressBar }
     removeView(progress)
+}
+
+inline fun <T: View> T.checkIsViewLoaded(crossinline callback: T.() -> Unit) {
+    viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            if (measuredWidth > 0 && measuredHeight > 0) {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                callback()
+            }
+        }
+    })
 }

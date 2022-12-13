@@ -5,6 +5,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <queries>
+        <package android:name="com.instagram.android"/>
+    </queries>
+
     <application
         android:name=".app.application.MumentApplication"
         android:allowBackup="true"
@@ -17,10 +21,12 @@
         android:theme="@style/Theme.Mument_Android"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
             android:name=".app.presentation.ui.main.MainActivity"
             android:windowSoftInputMode="adjustNothing"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -29,6 +35,16 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>
