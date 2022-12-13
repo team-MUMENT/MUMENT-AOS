@@ -85,15 +85,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
                 }
                 R.id.fragment_locker -> {}
                 R.id.activity_record -> {
-                    if (viewModel.checkHasMument()) {
-                        bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
-                        bundle.putSerializable(
-                            MUMENT_DETAIL_ENTITY,
-                            viewModel.mumentDetailContents.value
-                        )
-                    } else if (viewModel.checkMusic()) {
-                        bundle.putParcelable("music", viewModel.music.value)
-                    }
+//                    if (viewModel.checkHasMument()) {
+//                        bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
+//                        bundle.putSerializable(
+//                            MUMENT_DETAIL_ENTITY,
+//                            viewModel.mumentDetailContents.value
+//                        )
+//                    } else if (viewModel.checkMusic()) {
+//                        bundle.putParcelable("music", viewModel.music.value)
+//                    }
                 }
                 else -> {}
 
