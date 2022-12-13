@@ -134,6 +134,7 @@ class MumentToShareDialogFragment(
         lifecycleScope.launch(Dispatchers.Default) {
             delay(600)
             captureCallback(file, uri)
+            dismiss()
         }
     }
 
@@ -155,17 +156,6 @@ class MumentToShareDialogFragment(
                 }
             })
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.e("onStop", "onStop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("onDestroy", "onDestroy")
-
     }
 
     companion object {

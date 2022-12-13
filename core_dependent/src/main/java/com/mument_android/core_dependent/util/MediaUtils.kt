@@ -28,11 +28,11 @@ class MediaUtils @Inject constructor(@ApplicationContext private val context: Co
     private fun bitmapToFile(bitmap: Bitmap?, fileNameToSave: String): File? {
         var file: File? = null
         return try {
-            file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString() + File.separator + fileNameToSave + ".jpeg")
+            file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString() + File.separator + fileNameToSave + ".png")
             file.createNewFile()
 
             val bitmapByteArray = ByteArrayOutputStream().let { bos ->
-                bitmap?.compress(Bitmap.CompressFormat.JPEG, 80, bos)
+                bitmap?.compress(Bitmap.CompressFormat.PNG, 80, bos)
                 bos.toByteArray()
             }
 
@@ -50,7 +50,6 @@ class MediaUtils @Inject constructor(@ApplicationContext private val context: Co
     private fun getBitmap(view: View): Bitmap {
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        canvas.drawColor(Color.WHITE)
         view.draw(canvas)
         return bitmap
     }
