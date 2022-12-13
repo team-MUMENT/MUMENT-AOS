@@ -6,7 +6,7 @@
         android:title="@string/bottom_navi_home"/>
 
     <item
-        android:id="@+id/fragment_record"
+        android:id="@+id/activity_record"
         android:title=""/>
 
     <item
