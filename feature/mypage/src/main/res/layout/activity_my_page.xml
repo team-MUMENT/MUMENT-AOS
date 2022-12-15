@@ -357,7 +357,7 @@
                     android:layout_height="19dp"
                     android:layout_marginTop="13dp"
                     android:layout_marginBottom="38dp"
-                    android:text="@string/my_page_withdrawal"
+                    android:text="@string/my_page_unregister"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_my_page_logout"
@@ -374,6 +374,7 @@
             android:visibility="@{myPageViewModel.isBtnClick() ?View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="-16dp" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
