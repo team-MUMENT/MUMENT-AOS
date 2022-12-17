@@ -10,10 +10,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.mypage.databinding.ActivityMyPageBinding
-import com.mument_android.mypage.fragment.AlarmSettingFragment
-import com.mument_android.mypage.fragment.BlockUserManagementFragment
-import com.mument_android.mypage.fragment.NoticeFragment
-import com.mument_android.mypage.fragment.ProfileSettingFragment
+import com.mument_android.mypage.fragment.*
 
 class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_page) {
 
@@ -25,6 +22,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_
         binding.myPageViewModel = myPageViewModel
 
         transactionBtnEvent()
+        moveUnregister()
     }
 
     //각 카테고리 버튼 눌렀을 때 이동하는 함수
@@ -46,6 +44,15 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_
             myPageViewModel.isClickBtnEvent(true)
         }
     }
+
+    private fun moveUnregister() {
+        binding.tvMyPageWithdrawal.setOnClickListener {
+            supportFragmentManager.commit() {
+                replace(R.id.fc_my_page, UnregisterFragment())
+            }
+        }
+    }
+
 }
 
 
