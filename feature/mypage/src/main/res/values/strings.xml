@@ -17,7 +17,7 @@
 
     <string name="my_page_version_info">버전 정보</string>
     <string name="my_page_log_out"><u>로그아웃</u></string>
-    <string name="my_page_withdrawal"><u>회원탈퇴</u></string>
+    <string name="my_page_unregister"><u>회원탈퇴</u></string>
 
     <!-- profile setting view-->
     <string name="profile_setting_title">프로필 설정</string>
@@ -33,6 +33,23 @@
 
     <!-- block user management view-->
     <string name="unblocking">해제</string>
+
+    <!-- unregister view-->
+    <string name="unregister_title">회원탈퇴</string>
+    <string name="unregister_really_gone">정말 떠나시는 건가요?</string>
+    <string name="unregister_content">지금 당장 뮤멘트를 떠나시면 곡에 담긴 추억이 모두 사라지게 돼요. 00님이 좋아하신 뮤멘트들도 더이상 모아볼 수 없게됩니다.</string>
+    <string name="unregister_what_reason">탈퇴하시려는 이유가 궁금해요.</string>
+    <string name="unregister_choose_reason">이유 선택</string>
+    <string name="unregister_reason_first">컨텐츠가 부족해요</string>
+    <string name="unregister_reason_second">원하는 곡이 없어요</string>
+    <string name="unregister_reason_third">뮤멘트 기록 방식이 불편해요</string>
+    <string name="unregister_reason_fourth">알람이 너무 자주와요</string>
+    <string name="unregister_reason_fifth">앱 장애가 많아요</string>
+    <string name="unregister_reason_sixth">기타</string>
+    <string name="unregister_hint">계정을 삭제하는 이유를 알려주세요.</string>
+    <string name="unregister_reason_num">%d/100</string>
+    <string name="unregister_agree">안내사항을 모두 확인했으며, 탈퇴를 신청합니다.</string>
+    <string name="unregister_finish">탈퇴하기</string>
 
 
 
