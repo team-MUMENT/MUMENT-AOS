@@ -38,6 +38,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
+    private lateinit var getResultText: ActivityResultLauncher<Intent>
 
     @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
@@ -45,7 +46,6 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
 
-    private lateinit var getResultText: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,14 +73,13 @@ class HomeFragment : Fragment() {
 
     private fun bindData() {
         setAdapter()
-        setRecyclerView()
+        setBannerCallBack()
         setListData()
         receiveEffect()
         binding.tvSearch.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickSearch)
         }
     }
-
 
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { mument ->
@@ -93,7 +92,7 @@ class HomeFragment : Fragment() {
         binding.rcImpressive.adapter = impressiveAdapter
     }
 
-    private fun setRecyclerView() {
+    private fun setBannerCallBack() {
         binding.vpBanner.offscreenPageLimit = 2
         binding.vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {

@@ -6,10 +6,6 @@ import com.mument_android.core_dependent.util.collectEvent
 import com.mument_android.core_dependent.util.emitEffect
 import com.mument_android.core_dependent.util.emitEvent
 import com.mument_android.core_dependent.util.setState
-import com.mument_android.domain.entity.home.AgainMumentEntity
-import com.mument_android.domain.entity.home.BannerEntity
-import com.mument_android.domain.entity.home.RandomMumentEntity
-import com.mument_android.domain.entity.home.TodayMumentEntity
 import com.mument_android.domain.usecase.home.SaveTodayMumentUseCase
 import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
 import com.mument_android.home.BuildConfig
@@ -20,9 +16,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import android.R
-
-import android.widget.TextView
 
 
 @HiltViewModel
@@ -34,7 +27,7 @@ class HomeViewModel @Inject constructor(
     val homeViewState get() = _homeViewState.asStateFlow()
 
     val homeViewStateEnabled = flow {
-        _homeViewState.value.run {
+        _homeViewState.value.run {//테스트 못함,, 데이터가 없어서
             emit(
                 nullCheck(
                     bannerEntity,
@@ -64,11 +57,10 @@ class HomeViewModel @Inject constructor(
 
 
     init {
-
         collectEvent()
         viewModelScope.launch {
             localUseCase.getTodayMument(BuildConfig.USER_ID).onEach { result ->
-                /*}.catch { e ->
+                /*}.catch { e -> Data Layer로 이동
                     useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
                         //Todo exception handling
                     }?.collect {
@@ -79,7 +71,7 @@ class HomeViewModel @Inject constructor(
                 _homeViewState.setState {
                     copy(todayMumentEntity = today)
                 }
-                /*if (it.todayDate != LocalDate.now().toString()) {
+                /*if (it.todayDate != LocalDate.now().toString()) { Data Layer로 이동
                     useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
                         //Todo exception handling
                     }?.collect { collect ->
@@ -111,7 +103,9 @@ class HomeViewModel @Inject constructor(
             useCase.getRandomMument().catch {
                 //Todo exception handling
             }.collect { random ->
-                _homeViewState.setState { copy(emotionMumentEntity = random) }
+                if (random != null) {
+                    _homeViewState.setState { copy(emotionMumentEntity = random) }
+                }
             }
         }
     }
@@ -121,11 +115,19 @@ class HomeViewModel @Inject constructor(
             when (event) {
                 HomeEvent.OnClickSearch -> emitEffect(HomeSideEffect.GoToSearchActivity)
                 HomeEvent.OnClickNotification -> emitEffect(HomeSideEffect.GoToNotification)
-                is HomeEvent.CallBackSearchResult -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicId))
+                is HomeEvent.CallBackSearchResult -> emitEffect(
+                    HomeSideEffect.NavToMusicDetail(
+                        event.musicId
+                    )
+                )
                 is HomeEvent.OnClickBanner -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicId))
                 is HomeEvent.OnClickTodayMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument))
                 is HomeEvent.OnClickHeardMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument))
-                is HomeEvent.OnClickRandomMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument))
+                is HomeEvent.OnClickRandomMument -> emitEffect(
+                    HomeSideEffect.NavToMumentDetail(
+                        event.mument
+                    )
+                )
             }
         }
     }

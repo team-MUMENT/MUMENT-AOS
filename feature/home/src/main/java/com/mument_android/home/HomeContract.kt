@@ -35,6 +35,5 @@ class HomeContract {
         data class Toast(val message: String) : HomeSideEffect()
         data class NavToMusicDetail(val musicId: String) : HomeSideEffect()
         data class NavToMumentDetail(val mumentId: String) : HomeSideEffect()
-
     }
 }

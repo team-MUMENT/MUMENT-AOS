@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <queries>
-        <package android:name="com.instagram.android"/>
+        <package android:name="com.instagram.android" />
     </queries>
 
     <application
@@ -24,8 +24,8 @@
 
         <activity
             android:name=".app.presentation.ui.main.MainActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
