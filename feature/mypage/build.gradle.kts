@@ -60,5 +60,4 @@ dependencies {
     implementation(ThirdPartyDependencies.coil)
     implementation(KotlinDependencies.coroutines)
     implementation(AndroidXDependencies.coroutines)
-    implementation(AndroidXDependencies.preference)
 }

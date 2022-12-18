@@ -1,0 +1,118 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+
+    <!-- Typography-->
+    <style name="TextView.Mument_H1_B25.Style" parent="">
+        <item name="android:textAppearance">@style/TextView.Mument_H1_B25.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextView.Mument_H2_B18.Style" parent="">
+        <item name="android:textAppearance">@style/TextView.Mument_H2_B18.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextView.Mument_H3_B16.Style" parent="">
+        <item name="android:textAppearance">@style/TextView.Mument_H3_B16.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+
+    <style name="TextView.Mument_B1_B15.Style" parent="">
+        <item name="android:textAppearance">@style/TextView.Mument_B1_B15.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+
+    <style name="TextView.Mument_B4_M14.Style" parent="">
+        <item name="android:textAppearance">@style/TextView.Mument_B4_M14.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+
+    <style name="TextView.Mument_B5_M13.Style" parent="">
+        <item name="android:textAppearance">@style/TextView.Mument_B5_M13.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+
+    <style name="TextView.Mument_B7_M12.Style" parent="">
+        <item name="android:textAppearance">@style/TextView.Mument_B7_M12.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextView.Mument_B8_M12.Style" parent="">
+        <item name="android:textAppearance">@style/TextView.Mument_B8_M12.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextView.Mument_B7_B12.Style" parent="">
+        <item name="android:textAppearance">@style/TextView.Mument_B7_B12.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+
+    <style name="TextView.Mument_H1_B25.TextAppearance" parent="">
+        <item name="android:fontFamily">@font/notosans_bold</item>
+        <item name="android:textSize">@dimen/font_size_25</item>
+        <item name="android:textColor">@color/mument_color_black1</item>
+    </style>
+
+    <style name="TextView.Mument_H2_B18.TextAppearance" parent="">
+        <item name="android:fontFamily">@font/notosans_bold</item>
+        <item name="android:textSize">@dimen/font_size_18</item>
+    </style>
+
+    <style name="TextView.Mument_H3_B16.TextAppearance" parent="">
+        <item name="android:fontFamily">@font/notosans_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/mument_color_black2</item>
+    </style>
+
+
+    <style name="TextView.Mument_B1_B15.TextAppearance" parent="">
+        <item name="android:fontFamily">@font/notosans_bold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TextView.Mument_B4_M14.TextAppearance" parent="">
+        <item name="android:fontFamily">@font/notosans_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextView.Mument_B5_M13.TextAppearance" parent="">
+        <item name="android:fontFamily">@font/notosans_medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/mument_color_black2</item>
+    </style>
+
+    <style name="TextView.Mument_B7_M12.TextAppearance" parent="">
+        <item name="android:fontFamily">@font/notosans_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/mument_color_gray1</item>
+    </style>
+
+    <style name="TextView.Mument_B8_M12.TextAppearance" parent="">
+        <item name="android:fontFamily">@font/notosans_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/mument_color_gray2</item>
+    </style>
+
+    <style name="TextView.Mument_B7_B12.TextAppearance" parent="">
+        <item name="android:fontFamily">@font/notosans_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/mument_color_gray2</item>
+    </style>
+
+    <!-- case : to use Bottom Sheet -->
+    <!--
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">true</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+    -->
+</resources>

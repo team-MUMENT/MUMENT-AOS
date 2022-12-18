@@ -34,5 +34,9 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="DialogExposeAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_dialog</item>
+    </style>
 
 </resources>

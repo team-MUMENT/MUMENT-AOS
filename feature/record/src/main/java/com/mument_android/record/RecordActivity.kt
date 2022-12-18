@@ -4,96 +4,49 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.mument_android.domain.entity.detail.MumentDetailEntity
-import com.mument_android.domain.entity.home.RecentSearchData
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core.model.TagEntity
-import com.mument_android.core.model.TagEntity.Companion.TAG_EMOTIONAL
-import com.mument_android.core.model.TagEntity.Companion.TAG_IMPRESSIVE
-import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.ImpressiveTag
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
-import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
-import com.mument_android.record.R
-import com.mument_android.record.databinding.FragmentRecordBinding
+import com.mument_android.domain.entity.home.RecentSearchData
+import com.mument_android.record.databinding.ActivityRecordBinding
 import com.mument_android.record.viewmodels.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RecordFragment : Fragment() {
-    private var binding by AutoClearedValue<FragmentRecordBinding>()
-    private val recordViewModel: RecordViewModel by activityViewModels()
+class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_record) {
+    private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter
 
-     @Inject
-     lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = FragmentRecordBinding.inflate(inflater, container, false).run {
-        binding = this
-        this.root
-    }
+    @Inject
+    lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
 
-    override fun onResume() {
-        super.onResume()
-        arguments?.getParcelable<Music>("music")?.let {
-            recordViewModel.changeSelectedMusic(
-                RecentSearchData(
-                    it._id,
-                    it.artist,
-                    it.image,
-                    it.name,
-                    null
-                )
-            )
-            recordViewModel.findIsFirst()
-        }
 
-        arguments?.getString(MUMENT_ID_FOR_EDIT)?.let {
-            recordViewModel.mumentId.value = it
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        (arguments?.getSerializable(MUMENT_DETAIL_ENTITY)?.let { it as MumentDetailEntity })?.let {
-            recordViewModel.mumentData.value = it
-            if (it.mument.isFirst.tagIdx == 1) {
-                recordViewModel.changeIsFirst(true)
-            } else {
-                recordViewModel.findIsFirst()
-            }
-        }
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = this
         binding.recordViewModel = recordViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+
         setTagRecyclerView()
         countText()
 
-        resetRvImpressionTags()
         firstListenClickEvent()
         secondListenClickEvent()
 
@@ -105,13 +58,14 @@ class RecordFragment : Fragment() {
         isClickDelete()
         observingListen()
 
-        modifyRevoke()
+        deleteBtnEvent()
     }
+
 
     //태그들 추가, 삭제 -> 5개 판별
     private fun setTagRecyclerView() {
         rvImpressionTagsAdapter = RecordTagAdapter(
-            requireContext(),
+            this,
             false,
             object : RecordTagAdapter.RecordTagCheckListener {
                 override fun addCheckedTag(tag: TagEntity) {
@@ -125,16 +79,16 @@ class RecordFragment : Fragment() {
                 }
 
                 override fun alertMaxCount() {
-                    requireContext().snackBar(
+                    this@RecordActivity.snackBar(
                         binding.clRecordRoot,
-                        requireContext().getString(R.string.record_snackbar_tag_info)
+                        this@RecordActivity.getString(R.string.record_snackbar_tag_info)
                     )
                 }
             }
         )
 
         rvEmotionalTagsAdapter = RecordTagAdapter(
-            requireContext(),
+            this,
             false,
             object : RecordTagAdapter.RecordTagCheckListener {
                 override fun addCheckedTag(tag: TagEntity) {
@@ -148,9 +102,9 @@ class RecordFragment : Fragment() {
                 }
 
                 override fun alertMaxCount() {
-                    requireContext().snackBar(
+                    this@RecordActivity.snackBar(
                         binding.clRecordRoot,
-                        requireContext().getString(R.string.record_snackbar_tag_info)
+                        this@RecordActivity.getString(R.string.record_snackbar_tag_info)
                     )
                 }
             }
@@ -170,9 +124,9 @@ class RecordFragment : Fragment() {
     private fun setItemDecoration(recyclerView: RecyclerView) {
         recyclerView.addItemDecoration(
             RecyclerviewItemDivider(
-                10.dpToPx(requireContext()),
-                10.dpToPx(requireContext()),
-                IS_GRIDLAYOUT
+                10.dpToPx(this),
+                10.dpToPx(this),
+                RecyclerviewItemDivider.IS_GRIDLAYOUT
             )
         )
     }
@@ -188,7 +142,8 @@ class RecordFragment : Fragment() {
                 adapter = rvImpressionTagsAdapter
             }
             rvImpressionTagsAdapter.submitList(
-                ImpressiveTag.values().map { TagEntity(TAG_IMPRESSIVE, it.tag, it.tagIndex) }
+                ImpressiveTag.values()
+                    .map { TagEntity(TagEntity.TAG_IMPRESSIVE, it.tag, it.tagIndex) }
             )
         }
     }
@@ -203,11 +158,13 @@ class RecordFragment : Fragment() {
                 adapter = rvEmotionalTagsAdapter
             }
             rvEmotionalTagsAdapter.submitList(
-                EmotionalTag.values().map { TagEntity(TAG_EMOTIONAL, it.tag, it.tagIndex) }
+                EmotionalTag.values()
+                    .map { TagEntity(TagEntity.TAG_EMOTIONAL, it.tag, it.tagIndex) }
             )
         }
     }
 
+    //처음들었어요 버튼 눌렀을 때
     @SuppressLint("ClickableViewAccessibility")
     private fun firstListenClickEvent() {
         with(binding) {
@@ -217,7 +174,7 @@ class RecordFragment : Fragment() {
             }
             btnRecordFirst.setOnTouchListener { view, _ ->
                 if (!binding.btnRecordFirst.isClickable) {
-                    requireContext().snackBar(
+                    this@RecordActivity.snackBar(
                         binding.clRecordRoot,
                         getString(R.string.record_snackbar_first_info)
                     )
@@ -227,31 +184,25 @@ class RecordFragment : Fragment() {
         }
     }
 
+
     //바텀시트 올라오면서 처리
     private fun initBottomSheet() {
         binding.btnRecordSearch.setOnClickListener {
             BottomSheetSearchFragment.newInstance {
                 recordViewModel.changeSelectedMusic(it)
                 recordViewModel.findIsFirst()
-            }.show(parentFragmentManager, "bottom sheet")
+            }.show(supportFragmentManager, "bottom sheet")
         }
-        recordViewModel.selectedMusic.observe(viewLifecycleOwner) {
+        recordViewModel.selectedMusic.observe(this) {
             recordViewModel.checkSelectedMusic(it != null)
-            binding.btnRecordFinish.isEnabled = recordViewModel.isSelectedMusic.value == true
-            binding.btnRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
-        }
-    }
-
-    //reset버튼 클릭 리스너
-    private fun resetRvImpressionTags() {
-        binding.btnRecordReset.setOnClickListener {
-            resetButtonClickEvent()
+            binding.tvRecordFinish.isEnabled = recordViewModel.isSelectedMusic.value == true
+            binding.tvRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
         }
     }
 
     //처음 들었어요 다시들었어요 처리
     private fun observingListen() {
-        recordViewModel.isFirst.observe(viewLifecycleOwner) {
+        recordViewModel.isFirst.observe(this) {
             if (it != null) {
                 if (recordViewModel.mumentData.value != null) {
                     if (recordViewModel.mumentData.value!!.mument.isFirst.tagIdx == 0) {
@@ -283,7 +234,7 @@ class RecordFragment : Fragment() {
             }
         }
 
-        recordViewModel.mumentData.observe(viewLifecycleOwner) {
+        recordViewModel.mumentData.observe(this) {
             if (it != null) {
                 recordViewModel.selectedMusic.value = RecentSearchData(
                     it.mument.musicInfo.id,
@@ -317,30 +268,19 @@ class RecordFragment : Fragment() {
         }
     }
 
-    //비밀글 공개글 버튼 리스너
-    private fun switchClickEvent() {
-        binding.switchRecordSecret.setOnClickListener {
-            if (binding.switchRecordSecret.isChecked) {
-                binding.tvRecordSecret.setText(R.string.record_secret)
-            } else {
-                binding.tvRecordSecret.setText(R.string.record_open)
-            }
-        }
-    }
-
     // length에 대한 조절
     private fun countText() {
-        recordViewModel.mumentContent.observe(viewLifecycleOwner) {
+        recordViewModel.mumentContent.observe(this) {
             if (it.length >= 1000) {
                 binding.tvRecordTextNum.isChangeRedLine()
             } else {
                 binding.tvRecordTextNum.isChangeBlack()
             }
         }
-        recordViewModel.createdMumentId.observe(viewLifecycleOwner) {
+        recordViewModel.createdMumentId.observe(this) {
             if (it != null) {
                 if (recordViewModel.mumentData.value != null) {
-                    findNavController().popBackStack()
+                    onBackPressed()
                     recordViewModel.mumentData.value = null
                 } else {
                     recordViewModel.selectedMusic.value?.let { it1 ->
@@ -351,7 +291,7 @@ class RecordFragment : Fragment() {
                 }
             }
         }
-        recordViewModel.modifyMumentId.observe(viewLifecycleOwner) {
+        recordViewModel.modifyMumentId.observe(this) {
 
         }
     }
@@ -368,50 +308,22 @@ class RecordFragment : Fragment() {
         }
     }
 
-    //리셋버튼 클릭 및 알럿
-    private fun resetButtonClickEvent() {
-        MumentDialogBuilder()
-            .setHeader(getString(R.string.record_reset_header))
-            .setBody(getString(R.string.record_reset_body))
-            .setOption(true)
-            .setAllowListener {
-                resetRecord()
-                resetRecordTags()
+    //비밀글 공개글 버튼 리스너
+    private fun switchClickEvent() {
+        binding.switchRecordSecret.setOnClickListener {
+            if (binding.switchRecordSecret.isChecked) {
+                binding.tvRecordSecret.setText(R.string.record_secret)
+            } else {
+                binding.tvRecordSecret.setText(R.string.record_open)
             }
-            .setCancelListener {}
-            .build()
-            .show(childFragmentManager, this.tag)
-    }
-
-    //reset 처리
-    private fun resetRecord() {
-        binding.btnRecordFirst.isChangeButtonFont(false)
-        binding.btnRecordSecond.isChangeButtonFont(false)
-        binding.btnRecordFirst.isClickable = true
-        recordViewModel.removeSelectedMusic()
-        binding.svRecord.scrollTo(0, 0)
-        binding.etRecordWrite.text.clear()
-        binding.tvRecordSecret.setText(R.string.record_open)
-        binding.switchRecordSecret.isChecked = false
-        binding.btnRecordFinish.isEnabled = false
-        recordViewModel.mumentData.value = null
-
-    }
-
-    //tag 라셋
-    private fun resetRecordTags() {
-        binding.rvRecordImpressiveTags.resetCheckedTags(rvImpressionTagsAdapter)
-        binding.rvRecordEmotionalTags.resetCheckedTags(rvEmotionalTagsAdapter)
-        rvEmotionalTagsAdapter.selectedTags.clear()
-        rvImpressionTagsAdapter.selectedTags.clear()
-        recordViewModel.resetCheckedList()
+        }
     }
 
     //완료버튼 눌렀을 때
     private fun getAllData() {
-        binding.btnRecordFinish.setOnClickListener {
+        binding.tvRecordFinish.setOnClickListener {
             if (recordViewModel.mumentId.value == "") {
-                requireContext().snackBar(
+                this.snackBar(
                     binding.clRecordRoot,
                     getString(R.string.record_finish_record)
                 )
@@ -419,7 +331,7 @@ class RecordFragment : Fragment() {
                 recordViewModel.postMument()
 
             } else {
-                requireContext().snackBar(
+                this.snackBar(
                     binding.clRecordRoot,
                     getString(R.string.modify_record)
                 )
@@ -429,20 +341,36 @@ class RecordFragment : Fragment() {
         }
     }
 
-    private fun modifyRevoke() {
-        binding.btnModifyDelete.setOnClickListener {
-            MumentDialogBuilder()
-                .setHeader(getString(R.string.modify_header))
-                .setBody(getString(R.string.modify_body))
-                .setOption(true)
-                .setAllowListener {
-                    //곡 상세보기로 이동
-                }
-                .setCancelListener {
-                    //그대로
-                }
-                .build()
-                .show(childFragmentManager, this.tag)
+    //x 버튼 눌렀을 때 (기록하기/수정하기)
+    private fun deleteBtnEvent() {
+        binding.btnRecordDelete.setOnClickListener {
+            if (recordViewModel.mumentId.value?.isEmpty() == true) {
+                MumentDialogBuilder()
+                    .setHeader(getString(R.string.record_delete_header))
+                    .setBody(getString(R.string.record_delete_body))
+                    .setOption(true)
+                    .setAllowListener {
+                        onBackPressed()
+                    }
+                    .setCancelListener {}
+                    .build()
+                    .show(supportFragmentManager, attributionTag)
+
+            } else {
+                MumentDialogBuilder()
+                    .setHeader(getString(R.string.modify_header))
+                    .setBody(getString(R.string.modify_body))
+                    .setOption(true)
+                    .setAllowListener {
+                        //곡 상세보기로 이동
+                    }
+                    .setCancelListener {
+                        //그대로
+                    }
+                    .build()
+                    .show(supportFragmentManager, attributionTag)
+
+            }
         }
     }
 
@@ -451,14 +379,14 @@ class RecordFragment : Fragment() {
         binding.ivDelete.setOnClickListener {
             recordViewModel.removeSelectedMusic()
             binding.btnRecordFirst.isClickable = true
-            binding.btnRecordFinish.isEnabled = false
+            binding.tvRecordFinish.isEnabled = false
             binding.btnRecordFirst.isChangeButtonFont(false)
             binding.btnRecordSecond.isChangeButtonFont(false)
         }
     }
 
     // Extension Function
-//버튼 폰트 지정
+    //버튼 폰트 지정
     private fun Button.isChangeButtonFont(selected: Boolean) {
         isSelected = selected
         typeface = ResourcesCompat.getFont(
@@ -492,14 +420,11 @@ class RecordFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         recordViewModel.mumentId.value = ""
-        resetRecord()
-//        resetRecordTags()
     }
 
     companion object {
         const val MUMENT_ID_FOR_EDIT = "MUMENT_ID_FOR_EDIT"
         const val MUMENT_DETAIL_ENTITY = "MUMENT_DETAIL_ENTITY"
     }
+
 }
-
-
