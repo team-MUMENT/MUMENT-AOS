@@ -2,6 +2,9 @@ package com.mument_android.home.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core_dependent.util.collectEvent
+import com.mument_android.core_dependent.util.emitEffect
+import com.mument_android.core_dependent.util.emitEvent
 import com.mument_android.core_dependent.util.setState
 import com.mument_android.domain.entity.home.AgainMumentEntity
 import com.mument_android.domain.entity.home.BannerEntity
@@ -17,19 +20,34 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import android.R
+
+import android.widget.TextView
+
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     val useCase: WhenHomeEnterUseCase,
     val localUseCase: SaveTodayMumentUseCase
 ) : ViewModel() {
-    val mument = listOf<com.mument_android.domain.entity.MumentCard>()
-    val bannerData = MutableStateFlow<List<BannerEntity>?>(listOf())
-    val todayMument = MutableStateFlow<TodayMumentEntity?>(null)
-    val randomMument = MutableStateFlow<RandomMumentEntity?>(null)
-    val knownMument = MutableStateFlow<List<AgainMumentEntity>?>(listOf())
     private val _homeViewState = MutableStateFlow(HomeViewState())
     val homeViewState get() = _homeViewState.asStateFlow()
+
+    val homeViewStateEnabled = flow {
+        _homeViewState.value.run {
+            emit(
+                nullCheck(
+                    bannerEntity,
+                    todayMumentEntity,
+                    heardMumentEntity,
+                    emotionMumentEntity
+                )
+            )
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3000), false)
+
+    private fun nullCheck(vararg list: Any?): Boolean = list.all { it != null }
+
 
     private val _homeEffect: Channel<HomeSideEffect> = Channel()
     val effect = _homeEffect.receiveAsFlow()
@@ -46,6 +64,8 @@ class HomeViewModel @Inject constructor(
 
 
     init {
+
+        collectEvent()
         viewModelScope.launch {
             localUseCase.getTodayMument(BuildConfig.USER_ID).onEach { result ->
                 /*}.catch { e ->
@@ -77,7 +97,6 @@ class HomeViewModel @Inject constructor(
                     _homeViewState.setState {
                         copy(bannerEntity = banners)
                     }
-                    bannerData.value = banners
                 }
             }
             useCase.getKnownMument().catch {
@@ -87,16 +106,36 @@ class HomeViewModel @Inject constructor(
                     _homeViewState.setState {
                         copy(heardMumentEntity = heards)
                     }
-                    knownMument.value = heards
                 }
             }
             useCase.getRandomMument().catch {
                 //Todo exception handling
             }.collect { random ->
-                randomMument.value = random
                 _homeViewState.setState { copy(emotionMumentEntity = random) }
             }
         }
+    }
+
+    private fun collectEvent() {
+        _homeEvent.asSharedFlow().collectEvent(viewModelScope) { event ->
+            when (event) {
+                HomeEvent.OnClickSearch -> emitEffect(HomeSideEffect.GoToSearchActivity)
+                HomeEvent.OnClickNotification -> emitEffect(HomeSideEffect.GoToNotification)
+                is HomeEvent.CallBackSearchResult -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicId))
+                is HomeEvent.OnClickBanner -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicId))
+                is HomeEvent.OnClickTodayMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument))
+                is HomeEvent.OnClickHeardMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument))
+                is HomeEvent.OnClickRandomMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument))
+            }
+        }
+    }
+
+    fun emitEvent(event: HomeEvent) {
+        _homeEvent.emitEvent(viewModelScope, event)
+    }
+
+    private fun emitEffect(effect: HomeSideEffect) {
+        _homeEffect.emitEffect(viewModelScope) { effect }
     }
 
     fun bannerIndexChange(position: Int) {

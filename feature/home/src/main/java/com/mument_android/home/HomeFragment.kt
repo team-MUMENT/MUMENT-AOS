@@ -19,8 +19,11 @@ import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.ImpressiveTag
+import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.home.HomeContract.HomeEvent
+import com.mument_android.home.HomeContract.HomeSideEffect
 import com.mument_android.home.adapters.BannerListAdapter
 import com.mument_android.home.adapters.HeardMumentListAdapter
 import com.mument_android.home.adapters.ImpressiveEmotionListAdapter
@@ -35,7 +38,6 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
-    private lateinit var bannerAdapter: BannerListAdapter
 
     @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
@@ -67,72 +69,28 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-        binding.clCard.root.setOnClickListener {
-            viewModel.todayMument.value?.mumentId?.let { showMumentDetail(it) }
-        }
     }
 
     private fun bindData() {
         setAdapter()
         setRecyclerView()
         setListData()
-
+        receiveEffect()
         binding.tvSearch.setOnClickListener {
-            getResultText.launch(Intent(requireActivity(), SearchActivity::class.java))
-            //findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+            viewModel.emitEvent(HomeEvent.OnClickSearch)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
 
-//        val homeFrame = requireParentFragment().requireParentFragment()
-        //TODO Navi
-        /*(homeFra
-
-@BindingAdapter("app:ui_state_search_result")
-fun RecyclerView.bindUiStateSearchResultList(uiState: UiState){
-    val boundAdapter = this.adapter
-    visibility = if (boundAdapter is SearchListAdapter && uiState is UiState.Success<*>) {
-        (uiState.data as List<RecentSearchData>).run {
-            boundAdapter.submitList(this)
-        }
-        View.VISIBLE
-    } else {
-        View.GONE
-    }
-}
-me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
-            if (musicId.isNotEmpty()) {
-                val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_musicDetailFragment,
-                    bundle
-                )
-            }
-        }*/
-    }
-
-    // TODO NAVI
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { mument ->
-            mumentDetailNavigatorProvider.moveMumentDetail(mument.mumentId)
-            /*findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
+            viewModel.emitEvent(HomeEvent.OnClickHeardMument(mument._id))
         }
-
-        binding.rcHeard.adapter = heardAdapter
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { mument ->
-            mumentDetailNavigatorProvider.moveMumentDetail(mument._id)
-            /*findNavController().navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)*/
+            viewModel.emitEvent(HomeEvent.OnClickRandomMument(mument._id))
         }
-        bannerAdapter =
-            viewModel.bannerData.value?.toMutableList()?.let {
-                BannerListAdapter(it) { musicId ->
-                    musicDetailNavigatorProvider.moveMusicDetail(musicId)
-                    /*findNavController().navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)*/
-                }
-            }!!
-        binding.vpBanner.adapter = bannerAdapter
+        binding.rcHeard.adapter = heardAdapter
+        binding.rcImpressive.adapter = impressiveAdapter
     }
 
     private fun setRecyclerView() {
@@ -153,12 +111,10 @@ me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
             with(homeViewState) {
                 emotionMumentEntity?.let {
                     impressiveAdapter.submitList(it.mumentList)
-                    binding.rcImpressive.adapter = impressiveAdapter
                     binding.tvImpressive.text = it.title
                 }
-
                 todayMumentEntity?.let { today ->
-                    val data = today.cardTag.map { tag ->
+                    val data = today.cardTag.map { tag -> // 로직 개선 필요 ( 다른곳에서 해야함 )
                         if (tag < 200) TagEntity(
                             TagEntity.TAG_IMPRESSIVE,
                             ImpressiveTag.findImpressiveStringTag(tag),
@@ -177,63 +133,61 @@ me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
                     heardAdapter.submitList(heard)
                 }
                 bannerEntity?.let { banner ->
-                    bannerAdapter.data = banner.map {
+                    binding.vpBanner.adapter = BannerListAdapter(banner.map {
                         BannerEntity(
                             it._id,
                             it.displayDate,
                             Music(it.music._id, it.music.name, it.music.artist, it.music.image),
                             it.tagTitle.replace("\\n", "\n")
                         )
+                    }) { musicId ->
+                        viewModel.emitEvent(HomeEvent.OnClickBanner(musicId))
                     }
-                    bannerAdapter.notifyDataSetChanged()
                 }
             }
         }
-    /*
-        collectFlowWhenStarted(viewModel.randomMument) {
-            if (it != null) {
-                impressiveAdapter.submitList(it.mumentList)
-                binding.rcImpressive.adapter = impressiveAdapter
-                binding.tvImpressive.text = it.title
-            }
-        }
-        collectFlowWhenStarted(viewModel.knownMument) {
-            heardAdapter.submitList(it)
-        }
-        collectFlowWhenStarted(viewModel.bannerData) { banner ->
-            bannerAdapter.data = banner?.map {
-                BannerEntity(
-                    it._id,
-                    it.displayDate,
-                    Music(it.music._id, it.music.name, it.music.artist, it.music.image),
-                    it.tagTitle.replace("\\n", "\n")
-                )
-            }!!
-            bannerAdapter.notifyDataSetChanged()
-        }
-        collectFlowWhenStarted(viewModel.todayMument) { today ->
-            if (today != null) {
-                val data = today.cardTag.map { tag ->
-                    if (tag < 200) TagEntity(
-                        TagEntity.TAG_IMPRESSIVE,
-                        ImpressiveTag.findImpressiveStringTag(tag),
-                        tag
-                    )
-                    else TagEntity(
-                        TagEntity.TAG_EMOTIONAL,
-                        EmotionalTag.findEmotionalStringTag(tag),
-                        tag
-                    )
+        collectFlowWhenStarted(viewModel.homeViewStateEnabled) { /*전체 데이터가 다 불러와졌는지 */ }
+    }
+
+    private fun receiveEffect() {
+        collectFlowWhenStarted(viewModel.effect) { effect ->
+            when (effect) {
+                HomeSideEffect.GoToNotification -> {
+                    /* TODO NAVI */
                 }
-                binding.clCard.rvTags.adapter = MumentTagListAdapter()
-                (binding.clCard.rvTags.adapter as MumentTagListAdapter).submitList(data)
+                HomeSideEffect.GoToSearchActivity -> {
+                    getResultText.launch(Intent(requireActivity(), SearchActivity::class.java))
+                }
+                is HomeSideEffect.NavToMusicDetail -> {
+                    musicDetailNavigatorProvider.moveMusicDetail(effect.musicId)
+                }
+                is HomeSideEffect.NavToMumentDetail -> {
+                    mumentDetailNavigatorProvider.moveMumentDetail(effect.mumentId)
+                }
+                is HomeSideEffect.Toast -> requireContext().showToast(effect.message)
             }
-        }*/
+        }
     }
 
     // TODO NAVI
     private fun showMumentDetail(mumentId: String) {
         mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+/*
+        val homeFrame = requireParentFragment().requireParentFragment()
+        //TODO Navi
+        (homeFrame as HomeFragment).arguments?.getString("musicId")?.let { musicId ->
+            if (musicId.isNotEmpty()) {
+                val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_musicDetailFragment,
+                    bundle
+                )
+            }
+        }*/
     }
 
     companion object {

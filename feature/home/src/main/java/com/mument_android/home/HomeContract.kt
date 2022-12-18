@@ -24,14 +24,17 @@ class HomeContract {
         data class OnClickTodayMument(val mument: String) : HomeEvent()//하나로만 해도 되는데 이벤트 수집 할 수도 있으니 분기처리 하였음.
         data class OnClickHeardMument(val mument: String) : HomeEvent()
         data class OnClickRandomMument(val mument: String) : HomeEvent()
+        data class CallBackSearchResult(val musicId: String) : HomeEvent()
         object OnClickSearch : HomeEvent()
         object OnClickNotification : HomeEvent()
     }
 
     sealed class HomeSideEffect : SideEffect {
-        object PopBackStack : HomeSideEffect()
+        object GoToSearchActivity : HomeSideEffect()
+        object GoToNotification : HomeSideEffect()
         data class Toast(val message: String) : HomeSideEffect()
         data class NavToMusicDetail(val musicId: String) : HomeSideEffect()
-        data class NavToMumentDetail(val musicId: String) : HomeSideEffect()
+        data class NavToMumentDetail(val mumentId: String) : HomeSideEffect()
+
     }
 }
