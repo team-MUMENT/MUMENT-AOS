@@ -1,5 +1,6 @@
 package com.mument_android.data.datasource.home
 
+import com.mument_android.core.network.ApiResult
 import com.mument_android.data.dto.home.BannerMumentDto
 import com.mument_android.data.dto.home.KnownMumentDto
 import com.mument_android.data.dto.home.RandomMumentDto
@@ -12,8 +13,14 @@ class HomeDataSourceImpl @Inject constructor(val service: HomeService) : HomeDat
     override suspend fun getBannerMument(): BaseResponse<BannerMumentDto> =
         service.getBannerMument()
 
-    override suspend fun getTodayMument(userId: String): BaseResponse<TodayMumentDto>? =
-        service.getTodayMument(userId)
+    override suspend fun getTodayMument(userId: String): ApiResult<TodayMumentDto?> {
+        val data = service.getTodayMument(userId)
+        return if (data.body() != null && data.isSuccessful) {
+            ApiResult.Success(data.body())
+        } else {
+            ApiResult.Failure(throwable = Throwable(data.message()))
+        }
+    }
 
     override suspend fun getKnownMument(): BaseResponse<KnownMumentDto> =
         service.getKnownMument()
