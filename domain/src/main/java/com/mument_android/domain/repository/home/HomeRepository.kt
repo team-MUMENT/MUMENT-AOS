@@ -22,13 +22,11 @@ interface HomeRepository {
 
     suspend fun getRecentSearchList(): List<RecentSearchData>?
 
-    suspend fun getLocalTodayMument(userId: String): TodayMumentEntity?
-
     suspend fun searchList(keyword: String): List<RecentSearchData>?
 
     suspend fun getMumentHistory(userId: String, musicId: String): MumentHistoryEntity?
 
-    suspend fun getRemoteTodayMument(userId: String): TodayMumentEntity?
+    suspend fun getTodayMument(userId: String): TodayMumentEntity?
 
     suspend fun getBannerMument(): List<BannerEntity>?
 

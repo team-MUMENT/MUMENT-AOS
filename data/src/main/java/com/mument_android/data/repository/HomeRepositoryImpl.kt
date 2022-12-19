@@ -1,5 +1,7 @@
 package com.mument_android.data.repository
 
+import android.util.Log
+import com.mument_android.core.network.ApiResult
 import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.datasource.home.*
 import com.mument_android.domain.entity.history.MumentHistoryEntity
@@ -9,6 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
+import java.time.LocalDate
 import java.util.Date
 import javax.inject.Inject
 
@@ -47,12 +51,31 @@ class HomeRepositoryImpl @Inject constructor(
     override suspend fun getRandomMument(): RandomMumentEntity? =
         homeDataSource.getRandomMument().data?.let { randomMumentMapper.map(it) }
 
-    override suspend fun getRemoteTodayMument(userId: String): TodayMumentEntity? =
-        homeDataSource.getTodayMument(userId)?.data?.todayMument
-
-    // Local
-    override suspend fun getLocalTodayMument(userId: String): TodayMumentEntity? =
-        localTodayMumentDataSource.getTodayMument(userId)
+    override suspend fun getTodayMument(userId: String): TodayMumentEntity? {
+        localTodayMumentDataSource.getTodayMument(userId).getOrNull().let { todayMument ->
+            if (todayMument == null || todayMument.todayDate != LocalDate.now().toString()) {
+                when (val remoteData = homeDataSource.getTodayMument(userId)) {
+                    is ApiResult.Success -> {
+                        if (remoteData.datas?.todayMument != null) {
+                            localTodayMumentDataSource.updateMument(remoteData.datas!!.todayMument)
+                            return remoteData.datas!!.todayMument
+                        } else {
+                            return null
+                        }
+                    }
+                    is ApiResult.Failure -> {
+                        Timber.e(remoteData.throwable?.message)
+                        return null
+                    }
+                    else -> {
+                        return null
+                    }
+                }
+            } else {
+                return todayMument
+            }
+        }
+    }
 
     override suspend fun updateTodayMument(mument: TodayMumentEntity) {
         localTodayMumentDataSource.updateMument(mument)
@@ -66,7 +89,11 @@ class HomeRepositoryImpl @Inject constructor(
         localTodayMumentDataSource.deleteMument(mument)
     }
 
-    override suspend fun getRecentSearchList(): List<RecentSearchData> = localRecentSearchListDataSource.getAllRecentSearchList()
+    override suspend fun getRecentSearchList(): List<RecentSearchData> {
+        localRecentSearchListDataSource.getAllRecentSearchList().getOrThrow().let {
+            return it
+        }
+    }
 
     override suspend fun insertRecentSearchList(data: RecentSearchData) {
         localRecentSearchListDataSource.insertRecentSearchList(data)
