@@ -47,7 +47,7 @@
     <string name="unregister_reason_fifth">앱 장애가 많아요</string>
     <string name="unregister_reason_sixth">기타</string>
     <string name="unregister_hint">계정을 삭제하는 이유를 알려주세요.</string>
-    <string name="unregister_reason_num">%d/100</string>
+    <string name="unregister_reason_num">/100</string>
     <string name="unregister_agree">안내사항을 모두 확인했으며, 탈퇴를 신청합니다.</string>
     <string name="unregister_finish">탈퇴하기</string>
 
