@@ -1,13 +1,11 @@
 package com.mument_android.home.viewmodels
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.domain.entity.home.AgainMumentEntity
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.home.RandomMumentEntity
 import com.mument_android.domain.entity.home.TodayMumentEntity
-import com.mument_android.domain.usecase.home.SaveTodayMumentUseCase
 import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
 import com.mument_android.home.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     val useCase: WhenHomeEnterUseCase,
-    val localUseCase: SaveTodayMumentUseCase
 ) : ViewModel() {
     val mument = listOf<com.mument_android.domain.entity.MumentCard>()
     val bannerData = MutableStateFlow<List<BannerEntity>>(listOf())
@@ -38,7 +35,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            localUseCase.getTodayMument(BuildConfig.USER_ID).onEach { result ->
+            useCase.getTodayMument(BuildConfig.USER_ID).onEach { result ->
                 /*}.catch { e ->
                     useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
                         //Todo exception handling
