@@ -6,7 +6,10 @@ import javax.inject.Inject
 
 class LocalTodayMumentDataSourceImpl @Inject constructor(private val dao: TodayMumentDAO) :
     LocalTodayMumentDataSource {
-    override suspend fun getTodayMument(userId:String): TodayMumentEntity? = dao.getTodayMument(userId)
+    override suspend fun getTodayMument(userId: String): Result<TodayMumentEntity?> =
+        kotlin.runCatching { dao.getTodayMument(userId) }.onFailure {
+            /* TODO Error Handling*/
+        }
 
 
     override suspend fun updateMument(mument: TodayMumentEntity) {
