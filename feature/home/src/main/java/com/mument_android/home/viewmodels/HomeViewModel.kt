@@ -5,9 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.mument_android.domain.entity.home.AgainMumentEntity
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.home.RandomMumentEntity
-import com.mument_android.domain.entity.home.TodayMumentEntity
 import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
 import com.mument_android.home.BuildConfig
+import com.mument_android.home.mappers.HomeTodayMumentMapper
+import com.mument_android.home.models.TodayMument
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -17,10 +18,11 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     val useCase: WhenHomeEnterUseCase,
+    val homeTodayMumentMapper: HomeTodayMumentMapper
 ) : ViewModel() {
     val mument = listOf<com.mument_android.domain.entity.MumentCard>()
     val bannerData = MutableStateFlow<List<BannerEntity>>(listOf())
-    val todayMument = MutableStateFlow<TodayMumentEntity?>(null)
+    val todayMument = MutableStateFlow<TodayMument?>(null)
     val randomMument = MutableStateFlow<RandomMumentEntity?>(null)
     val knownMument = MutableStateFlow<List<AgainMumentEntity>>(listOf())
     private var bannerNum = 0
@@ -54,6 +56,9 @@ class HomeViewModel @Inject constructor(
                 } else {
                     todayMument.value = it
                 }*/
+                if (it != null) {
+                    todayMument.value = homeTodayMumentMapper.map(it)
+                }
             }
             useCase.getBannerMument().catch {
                 //Todo exception handling
@@ -73,11 +78,6 @@ class HomeViewModel @Inject constructor(
                 //Todo exception handling
             }.collect {
                 randomMument.value = it
-            }
-            useCase.getTodayMument(BuildConfig.USER_ID).catch {
-                //Todo exception handling
-            }.collect {
-                todayMument.value = it
             }
         }
     }

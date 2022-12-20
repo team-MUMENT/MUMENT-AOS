@@ -13,14 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
-import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
-import com.mument_android.core_dependent.util.EmotionalTag
-import com.mument_android.core_dependent.util.ImpressiveTag
-import com.mument_android.domain.entity.home.BannerEntity
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.home.adapters.BannerListAdapter
 import com.mument_android.home.adapters.HeardMumentListAdapter
 import com.mument_android.home.adapters.ImpressiveEmotionListAdapter
@@ -156,32 +151,13 @@ me as HomeFrameFragment).arguments?.getString("musicId")?.let { musicId ->
             binding.rcHeard.adapter = heardAdapter
         }
         collectFlowWhenStarted(viewModel.bannerData) { banner ->
-            bannerAdapter.data = banner.map {
-                BannerEntity(
-                    it._id,
-                    it.displayDate,
-                    Music(it.music._id, it.music.name, it.music.artist, it.music.image),
-                    it.tagTitle.replace("\\n", "\n")
-                )
-            }
+            bannerAdapter.data = banner
             bannerAdapter.notifyDataSetChanged()
         }
         collectFlowWhenStarted(viewModel.todayMument) { today ->
             if (today != null) {
-                val data = today.cardTag.map { tag ->
-                    if (tag < 200) TagEntity(
-                        TagEntity.TAG_IMPRESSIVE,
-                        ImpressiveTag.findImpressiveStringTag(tag),
-                        tag
-                    )
-                    else TagEntity(
-                        TagEntity.TAG_EMOTIONAL,
-                        EmotionalTag.findEmotionalStringTag(tag),
-                        tag
-                    )
-                }
                 binding.clCard.rvTags.adapter = MumentTagListAdapter()
-                (binding.clCard.rvTags.adapter as MumentTagListAdapter).submitList(data)
+                (binding.clCard.rvTags.adapter as MumentTagListAdapter).submitList(today.cardTag)
             }
         }
     }
