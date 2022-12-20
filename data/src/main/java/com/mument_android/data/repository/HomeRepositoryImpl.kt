@@ -1,19 +1,15 @@
 package com.mument_android.data.repository
 
-import android.util.Log
 import com.mument_android.core.network.ApiResult
-import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.datasource.home.*
+import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.domain.entity.history.MumentHistoryEntity
 import com.mument_android.domain.entity.home.*
+import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.domain.repository.home.HomeRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 import java.time.LocalDate
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(
@@ -42,7 +38,14 @@ class HomeRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getBannerMument(): List<BannerEntity>? =
-        homeDataSource.getBannerMument().data?.bannerList
+        homeDataSource.getBannerMument().data?.bannerList?.map {
+            BannerEntity(
+                it._id,
+                it.displayDate,
+                Music(it.music._id, it.music.name, it.music.artist, it.music.image),
+                it.tagTitle.replace("\\n", "\n")
+            )
+        }
 
 
     override suspend fun getKnownMument(): List<AgainMumentEntity>? =

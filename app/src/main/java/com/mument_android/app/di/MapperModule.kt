@@ -15,6 +15,7 @@ import com.mument_android.data.mapper.main.IsFirstTagMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.mapper.user.UserMapper
+import com.mument_android.home.mappers.HomeTodayMumentMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,13 +56,23 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideHomeTodayMumentMapper(): HomeTodayMumentMapper = HomeTodayMumentMapper()
+
+    @Provides
+    @Singleton
     fun provideMumentDetailMapper(
         userMapper: UserMapper,
         musicInfoMapper: MusicInfoMapper,
         impressiveTagMapper: ImpressiveTagMapper,
         emotionalTagMapper: EmotionalTagMapper,
         isFirstTagMapper: IsFirstTagMapper
-    ): MumentDetailMapper = MumentDetailMapper(userMapper, musicInfoMapper, impressiveTagMapper, emotionalTagMapper, isFirstTagMapper)
+    ): MumentDetailMapper = MumentDetailMapper(
+        userMapper,
+        musicInfoMapper,
+        impressiveTagMapper,
+        emotionalTagMapper,
+        isFirstTagMapper
+    )
 
     @Provides
     @Singleton
@@ -90,7 +101,13 @@ object MapperModule {
         impressiveTagMapper: ImpressiveTagMapper,
         emotionalTagMapper: EmotionalTagMapper
     ): MumentSummaryDtoMapper =
-        MumentSummaryDtoMapper(userMapper, musicInfoMapper, isFirstTagMapper, impressiveTagMapper, emotionalTagMapper)
+        MumentSummaryDtoMapper(
+            userMapper,
+            musicInfoMapper,
+            isFirstTagMapper,
+            impressiveTagMapper,
+            emotionalTagMapper
+        )
 
     @Provides
     @Singleton
