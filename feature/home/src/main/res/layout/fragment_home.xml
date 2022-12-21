@@ -21,7 +21,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFFFF"
+            android:background="@color/mument_color_bgwhite"
             app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -85,7 +85,7 @@
                         android:background="@drawable/rectangle_fill_gray5_11dp"
                         android:paddingVertical="9dp"
                         android:paddingStart="40dp"
-                        android:text="어떤 노래가 궁금하신가요?"
+                        android:text="@string/home_search_preview_hint"
                         android:textColor="@color/mument_color_gray1"
                         app:layout_constraintEnd_toEndOf="@id/gl_inner_right"
                         app:layout_constraintStart_toStartOf="@id/gl_inner_left"
@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="50dp"
-                    android:text="오늘의 뮤멘트"
+                    android:text="@string/home_today_mument_title"
                     android:textColor="@color/mument_color_black1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/vp_banner" />
@@ -158,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="50dp"
-                    android:text="다시 들은 곡의 뮤멘트"
+                    android:text="@string/home_again_mument_title"
                     android:textColor="@color/mument_color_black1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_card" />
@@ -181,16 +181,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="45dp"
-                    android:text="설렘을 느낀 순간"
                     android:textColor="@color/mument_color_black1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rc_heard" />
+                    app:layout_constraintTop_toBottomOf="@id/rc_heard"
+                    tools:text="설렘을 느낀 순간" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_impressive"
                     android:layout_width="match_parent"
                     android:layout_height="210dp"
                     android:layout_marginTop="13dp"
+                    android:layout_marginBottom="48dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -199,7 +200,6 @@
                     tools:listitem="@layout/item_impressive_emotion_mument_layout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
