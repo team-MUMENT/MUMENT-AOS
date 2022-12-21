@@ -194,7 +194,7 @@ class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_rec
             }.show(supportFragmentManager, "bottom sheet")
         }
         recordViewModel.selectedMusic.observe(this) {
-            recordViewModel.checkSelectedMusic(it != null)
+            recordViewModel.checkSelectedMusic( it != null)
             binding.tvRecordFinish.isEnabled = recordViewModel.isSelectedMusic.value == true
             binding.tvRecordFinish.isSelected = (recordViewModel.isSelectedMusic.value == true)
         }

@@ -14,14 +14,23 @@ class MyPageViewModel : ViewModel() {
 
     //Profile
     private val _userId = MutableLiveData<String>()
-    val userId : LiveData<String> get() = _userId
+    val userId: LiveData<String> get() = _userId
     val userImg = MutableLiveData<Int>()
-     val userNickNameContent = MutableLiveData("")
+    val userNickNameContent = MutableLiveData("")
 
     //Notice
     private val _noticeList = MutableLiveData<List<NoticeData>>()
     val noticeList: LiveData<List<NoticeData>> get() = _noticeList
 
+    //Unregister
+    private val _isClickReasonChoose = MutableLiveData(false)
+    val isClickReasonChoose: LiveData<Boolean> get() = _isClickReasonChoose
+
+    private val _isSelectSixthReason = MutableLiveData(false)
+    val isSelectSixthReason =  _isSelectSixthReason
+
+    private val _unregisterReasonContent = MutableLiveData("")
+    val unregisterReasonContent = _unregisterReasonContent
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
         _isBtnClick.value = isBtnClick
@@ -34,6 +43,13 @@ class MyPageViewModel : ViewModel() {
             userImg = userImg.value ?: 0
         )
     }
+
+    //이유선택 박스 눌렀을 때
+    fun clickReasonChoose(){
+        _isClickReasonChoose.value = _isClickReasonChoose.value != true
+    }
+
+
 }
 
 

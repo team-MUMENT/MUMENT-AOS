@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="myPageViewModel"
             type="com.mument_android.mypage.MyPageViewModel" />
@@ -82,6 +84,7 @@
                     android:layout_marginTop="10dp"
                     android:paddingHorizontal="16dp"
                     android:text="@string/unregister_content"
+                    android:textColor="@color/mument_color_black2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_unregister_really_gone" />
@@ -104,7 +107,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="46dp"
                     android:background="@drawable/rectangle_fill_gray5_11dp"
-                    android:visibility="gone"
+                    android:visibility="@{myPageViewModel.isClickReasonChoose() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/cl_reason">
@@ -115,6 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="13dp"
                         android:layout_marginVertical="15dp"
+                        android:checkedButton="@null"
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +134,8 @@
                             android:button="@null"
                             android:drawableEnd="@drawable/selector_unregister_radio_btn"
                             android:paddingVertical="12dp"
-                            android:text="@string/unregister_reason_first" />
+                            android:text="@string/unregister_reason_first"
+                            android:textColor="@color/mument_color_black1" />
 
                         <RadioButton
                             android:id="@+id/unregister_reason_second"
@@ -141,7 +146,8 @@
                             android:button="@null"
                             android:drawableEnd="@drawable/selector_unregister_radio_btn"
                             android:paddingVertical="12dp"
-                            android:text="@string/unregister_reason_second" />
+                            android:text="@string/unregister_reason_second"
+                            android:textColor="@color/mument_color_black1" />
 
                         <RadioButton
                             android:id="@+id/unregister_reason_third"
@@ -152,7 +158,8 @@
                             android:button="@null"
                             android:drawableEnd="@drawable/selector_unregister_radio_btn"
                             android:paddingVertical="12dp"
-                            android:text="@string/unregister_reason_third" />
+                            android:text="@string/unregister_reason_third"
+                            android:textColor="@color/mument_color_black1" />
 
                         <RadioButton
                             android:id="@+id/unregister_reason_fourth"
@@ -163,7 +170,8 @@
                             android:button="@null"
                             android:drawableEnd="@drawable/selector_unregister_radio_btn"
                             android:paddingVertical="12dp"
-                            android:text="@string/unregister_reason_fourth" />
+                            android:text="@string/unregister_reason_fourth"
+                            android:textColor="@color/mument_color_black1" />
 
                         <RadioButton
                             android:id="@+id/unregister_reason_fifth"
@@ -174,7 +182,8 @@
                             android:button="@null"
                             android:drawableEnd="@drawable/selector_unregister_radio_btn"
                             android:paddingVertical="12dp"
-                            android:text="@string/unregister_reason_fifth" />
+                            android:text="@string/unregister_reason_fifth"
+                            android:textColor="@color/mument_color_black1" />
 
                         <RadioButton
                             android:id="@+id/unregister_reason_sixth"
@@ -186,7 +195,8 @@
                             android:button="@null"
                             android:drawableEnd="@drawable/selector_unregister_radio_btn"
                             android:paddingVertical="12dp"
-                            android:text="@string/unregister_reason_sixth" />
+                            android:text="@string/unregister_reason_sixth"
+                            android:textColor="@color/mument_color_black1" />
                     </RadioGroup>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -211,11 +221,13 @@
 
                     <TextView
                         android:id="@+id/tv_choose_reason"
+                        style="@style/TextView.Mument_B3_M14.Style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:paddingVertical="13dp"
                         android:text="@string/unregister_choose_reason"
+                        android:textColor="@color/mument_color_gray1"
                         app:layout_constraintBottom_toBottomOf="@+id/iv_choose_reason"
                         app:layout_constraintStart_toStartOf="@+id/iv_choose_reason"
                         app:layout_constraintTop_toTopOf="@+id/iv_choose_reason" />
@@ -239,7 +251,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/rectangle_fill_gray5_7dp"
-                    android:visibility="visible"
+                    android:visibility="@{myPageViewModel.isSelectSixthReason() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toBottomOf="@id/cl_reason">
 
                     <EditText
@@ -249,6 +261,7 @@
                         android:layout_height="110dp"
                         android:background="@drawable/rectangle_fill_gray5_7dp"
                         android:gravity="top"
+                        android:text="@={myPageViewModel.unregisterReasonContent}"
                         android:hint="@string/unregister_hint"
                         android:padding="12dp"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -260,10 +273,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="2dp"
                         android:layout_marginBottom="15dp"
+                        android:text="@{myPageViewModel.userNickNameContent.length()}"
                         android:textColor="@color/mument_color_purple1"
-                        tools:text="0"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/tv_unregister_reason_num" />
+                        app:layout_constraintEnd_toStartOf="@id/tv_unregister_reason_num"
+                        tools:text="0" />
+
                     <TextView
                         android:id="@+id/tv_unregister_reason_num"
                         android:layout_width="wrap_content"
