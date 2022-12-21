@@ -10,8 +10,14 @@ import com.mument_android.data.util.BaseResponse
 import javax.inject.Inject
 
 class HomeDataSourceImpl @Inject constructor(val service: HomeService) : HomeDataSource {
-    override suspend fun getBannerMument(): BaseResponse<BannerMumentDto> =
-        service.getBannerMument()
+    override suspend fun getBannerMument(): ApiResult<BannerMumentDto?> {
+        val data = service.getBannerMument()
+        return if (data.success && data.data != null) {
+            ApiResult.Success(data.data)
+        } else {
+            ApiResult.Failure(throwable = Throwable(data.message))
+        }
+    }
 
     override suspend fun getTodayMument(userId: String): ApiResult<TodayMumentDto?> {
         val data = service.getTodayMument(userId)
@@ -22,9 +28,21 @@ class HomeDataSourceImpl @Inject constructor(val service: HomeService) : HomeDat
         }
     }
 
-    override suspend fun getKnownMument(): BaseResponse<KnownMumentDto> =
-        service.getKnownMument()
+    override suspend fun getKnownMument(): ApiResult<KnownMumentDto?> {
+        val data = service.getKnownMument()
+        return if (data.success && data.data != null) {
+            ApiResult.Success(data.data)
+        } else {
+            ApiResult.Failure(throwable = Throwable(data.message))
+        }
+    }
 
-    override suspend fun getRandomMument(): BaseResponse<RandomMumentDto> =
-        service.getRandomMument()
+    override suspend fun getRandomMument(): ApiResult<RandomMumentDto?> {
+        val data = service.getRandomMument()
+        return if (data.success && data.data != null) {
+            ApiResult.Success(data.data)
+        } else {
+            ApiResult.Failure(throwable = Throwable(data.message))
+        }
+    }
 }
