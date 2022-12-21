@@ -38,47 +38,83 @@ class HomeRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getBannerMument(): List<BannerEntity>? =
-        homeDataSource.getBannerMument().data?.bannerList?.map {
-            BannerEntity(
-                it._id,
-                it.displayDate,
-                Music(it.music._id, it.music.name, it.music.artist, it.music.image),
-                it.tagTitle.replace("\\n", "\n")
-            )
+        homeDataSource.getBannerMument().let { result ->
+            when (result) {
+                is ApiResult.Success -> {
+                    result.datas?.bannerList?.map {
+                        BannerEntity(
+                            it._id,
+                            it.displayDate,
+                            Music(it.music._id, it.music.name, it.music.artist, it.music.image),
+                            it.tagTitle.replace("\\n", "\n")
+                        )
+                    }
+                }
+                is ApiResult.Failure -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
         }
 
-
     override suspend fun getKnownMument(): List<AgainMumentEntity>? =
-        homeDataSource.getKnownMument().data?.againMumentEntity
+        homeDataSource.getKnownMument().let { result ->
+            when (result) {
+                is ApiResult.Success -> {
+                    result.datas?.againMumentEntity
+                }
+                is ApiResult.Failure -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
 
     override suspend fun getRandomMument(): RandomMumentEntity? =
-        homeDataSource.getRandomMument().data?.let { randomMumentMapper.map(it) }
+        homeDataSource.getRandomMument().let { result ->
+            when (result) {
+                is ApiResult.Success -> {
+                    result.datas?.let {
+                        randomMumentMapper.map(it)
+                    }
+                }
+                is ApiResult.Failure -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
 
-    override suspend fun getTodayMument(userId: String): TodayMumentEntity? {
+    override suspend fun getTodayMument(userId: String): TodayMumentEntity? =
         localTodayMumentDataSource.getTodayMument(userId).getOrNull().let { todayMument ->
             if (todayMument == null || todayMument.todayDate != LocalDate.now().toString()) {
                 when (val remoteData = homeDataSource.getTodayMument(userId)) {
                     is ApiResult.Success -> {
                         if (remoteData.datas?.todayMument != null) {
                             localTodayMumentDataSource.updateMument(remoteData.datas!!.todayMument)
-                            return remoteData.datas!!.todayMument
+                            remoteData.datas!!.todayMument
                         } else {
-                            return null
+                            null
                         }
                     }
                     is ApiResult.Failure -> {
                         Timber.e(remoteData.throwable?.message)
-                        return null
+                        null
                     }
                     else -> {
-                        return null
+                        null
                     }
                 }
             } else {
-                return todayMument
+                todayMument
             }
         }
-    }
 
     override suspend fun updateTodayMument(mument: TodayMumentEntity) {
         localTodayMumentDataSource.updateMument(mument)
@@ -121,5 +157,5 @@ class HomeRepositoryImpl @Inject constructor(
     override suspend fun deleteAllRecentSearchList() {
         localRecentSearchListDataSource.deleteAllRecentSearchList()
     }
-
 }
+
