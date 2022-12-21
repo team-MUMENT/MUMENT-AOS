@@ -261,6 +261,9 @@
                         android:layout_height="110dp"
                         android:background="@drawable/rectangle_fill_gray5_7dp"
                         android:gravity="top"
+                        android:maxLength="100"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
                         android:text="@={myPageViewModel.unregisterReasonContent}"
                         android:hint="@string/unregister_hint"
                         android:padding="12dp"
@@ -273,7 +276,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="2dp"
                         android:layout_marginBottom="15dp"
-                        android:text="@{myPageViewModel.userNickNameContent.length()}"
+                        android:text="@{Integer.toString(myPageViewModel.unregisterReasonContent.length())}"
                         android:textColor="@color/mument_color_purple1"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/tv_unregister_reason_num"
@@ -312,7 +315,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btn_unregister_agree"
                     app:layout_constraintTop_toTopOf="@id/btn_unregister_agree" />
-
 
                 <Button
                     android:id="@+id/btn_unregister_finish"
