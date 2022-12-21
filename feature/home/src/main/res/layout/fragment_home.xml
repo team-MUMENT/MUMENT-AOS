@@ -149,7 +149,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_today"
-                    app:mument="@{homeViewModel.todayMument}" />
+                    app:mument="@{homeViewModel.homeViewState.todayMumentEntity}" />
 
                 <TextView
                     android:id="@+id/tv_heard"
