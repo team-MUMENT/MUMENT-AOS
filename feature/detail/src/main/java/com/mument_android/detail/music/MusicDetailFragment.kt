@@ -17,9 +17,9 @@ import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
-import com.mument_android.detail.databinding.FragmentBaseMusicDetailBinding
 import com.mument_android.detail.mument.MumentClickListener
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
+import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.viewmodels.MusicDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -27,7 +27,7 @@ import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 
 @AndroidEntryPoint
 class MusicDetailFragment(): Fragment() {
-    private var binding by AutoClearedValue<FragmentBaseMusicDetailBinding>()
+    private var binding by AutoClearedValue<FragmentMusicDetailBinding>()
     private val musicDetailViewModel: MusicDetailViewModel by viewModels()
     @Inject
     lateinit var recordProvider: MoveRecordProvider
@@ -39,7 +39,7 @@ class MusicDetailFragment(): Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentBaseMusicDetailBinding.inflate(inflater, container, false).let {
+    ): View = FragmentMusicDetailBinding.inflate(inflater, container, false).let {
         binding = it
         it.root
     }
@@ -60,11 +60,11 @@ class MusicDetailFragment(): Fragment() {
     }
 
     private fun recordMument() {
-        binding.tvRecordMument.click {
-            musicDetailViewModel.musicInfo.value?.let { musicInfo ->
-                recordProvider.recordMusic(Music(musicInfo.id, musicInfo.name, musicInfo.artist, musicInfo.thumbnail))
-            }
-        }
+//        binding.tvRecordMument.click {
+//            musicDetailViewModel.musicInfo.value?.let { musicInfo ->
+//                recordProvider.recordMusic(Music(musicInfo.id, musicInfo.name, musicInfo.artist, musicInfo.thumbnail))
+//            }
+//        }
     }
 
     private fun fetchMusicDetailContents() {

@@ -88,23 +88,6 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_album_name"
                         tools:text="혁오" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_record_mument"
-                        style="@style/TextView.Mument_B7_M12.Style"
-                        drawableIcon="@{@drawable/ic_btn_record_icon}"
-                        stringRes="@{@string/record_mument}"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/rectangle_fill_purple_11dp"
-                        android:gravity="center"
-                        android:paddingVertical="12dp"
-                        android:textColor="@color/white"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/iv_album_profile" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.appbar.MaterialToolbar
@@ -200,7 +183,7 @@
                             android:id="@+id/iv_empty_mument"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/empty_mument"
+                            android:background="@drawable/emptyview_first"
                             android:visibility="@{musicDetailViewModel.myMument == null &amp;&amp; musicDetailViewModel.mumentList.empty ? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toTopOf="@id/tv_empty_header"
                             app:layout_constraintEnd_toEndOf="parent"
