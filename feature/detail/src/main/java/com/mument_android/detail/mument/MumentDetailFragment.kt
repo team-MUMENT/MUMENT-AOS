@@ -211,7 +211,7 @@ class MumentDetailFragment : Fragment() {
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
                 is MumentDetailSideEffect.EditMument -> { /** Todo: Navigate To Edit Mument **/ }
-                is MumentDetailSideEffect.NavToMusicDetail -> { /** Todo: Navigate To MusicDetail **/ }
+                is MumentDetailSideEffect.NavToMusicDetail -> { musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.musicId) }
                 is MumentDetailSideEffect.NavToMumentHistory -> { /** Todo: Navigate To MumentHistory **/ }
                 is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
                 is MumentDetailSideEffect.OpenShareMumentDialog -> { openShareMumentDialog(effect.mument) }
