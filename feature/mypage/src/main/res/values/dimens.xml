@@ -3,5 +3,8 @@
     <!-- Font Size-->
     <dimen name="font_size_25">25sp</dimen>
     <dimen name="font_size_18">18sp</dimen>
+    
+    <dimen name="choose_reason_box">320dp</dimen>
+    <dimen name="not_choose_reason_box">224dp</dimen>
 
 </resources>
