@@ -1,9 +1,13 @@
 package com.mument_android.app.application
 
 import android.app.Application
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.preferencesDataStore
 import com.mument_android.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import java.util.prefs.Preferences
 
 @HiltAndroidApp
 class MumentApplication: Application() {
@@ -19,4 +23,6 @@ class MumentApplication: Application() {
 //        val config = FontRequestEmojiCompatConfig(this, fontRequest)
 //        EmojiCompat.init(config)
     }
+
+
 }

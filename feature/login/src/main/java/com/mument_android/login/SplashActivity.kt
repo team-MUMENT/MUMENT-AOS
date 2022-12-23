@@ -7,6 +7,9 @@ import android.os.Handler
 import android.os.Looper
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.login.databinding.ActivitySplashBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +25,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             startActivity(intent)
             finish()
         },DURATION)
+
+
     }
+
+
 
     companion object {
         private const val DURATION : Long = 2000

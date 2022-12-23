@@ -57,6 +57,7 @@ dependencies {
     addLifecycleDependencies()
 
     implementation(ThirdPartyDependencies.timber)
+    implementation(project(Modules.DATA_MODULE))
     implementation(project(Modules.DOMAIN_MODULE))
     implementation(project(Modules.CORE_MODULE))
     implementation(project(Modules.CORE_DEPENDENT_MODULE))
