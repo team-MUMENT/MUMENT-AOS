@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.HistoryNavigatorProvider
 import com.angdroid.navigation.MoveRecordProvider
 import com.angdroid.navigation.MumentDetailNavigatorProvider
+import com.mument_android.core.util.SideEffect
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
@@ -21,6 +22,7 @@ import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.mument.listener.MumentClickListener
 import com.mument_android.detail.music.MusicDetailContract.*
+import com.mument_android.detail.util.SortTypeEnum
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -50,11 +52,12 @@ class MusicDetailFragment(): Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.ivBack.click { findNavController().popBackStack() }
 
-        updateView()
-        receiveMusicId()
-        changeMumentSort()
         setMyMumentTagList()
         setEntireMumentListAdapter()
+        updateView()
+        collectEffect()
+        receiveMusicId()
+        changeMumentSortType()
         moveToHistoryFragment()
     }
 
@@ -67,10 +70,21 @@ class MusicDetailFragment(): Fragment() {
     private fun updateView() {
         collectFlowWhenStarted(musicDetailViewModel.viewState) { state ->
             with(binding) {
-                (layoutMyMument.rvMumentTags.adapter as MumentTagListAdapter).submitList(musicDetailViewModel?.mapTagList())
+                (layoutMyMument.rvMumentTags.adapter as MumentTagListAdapter).submitList(state.myMumentInfo?.tags)
                 (rvEveryMuments.adapter as MusicDetailMumentListAdapter).submitList(state.mumentList)
-                tvSortLatest.changeSelectedSortTheme(state.mumentSortType.sort)
-                tvSortLikeCount.changeSelectedSortTheme(state.mumentSortType.sort)
+                changeSortTypeSelectedTheme(state.mumentSortType.sort)
+            }
+        }
+    }
+
+    private fun collectEffect() {
+        collectFlowWhenStarted(musicDetailViewModel.effect) { effect ->
+            when(effect) {
+                MusicDetailEffect.PopBackStack -> TODO()
+                MusicDetailEffect.ShowToast -> TODO()
+                MusicDetailEffect.FailureChangeMumentLikeStatus -> {
+                    val status = musicDetailViewModel.viewState.value.mumentSortType
+                }
             }
         }
     }
@@ -85,24 +99,20 @@ class MusicDetailFragment(): Fragment() {
             adapter = MusicDetailMumentListAdapter(object : MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
                     mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
-                    /*Bundle().also {
-                        it.putString(MumentDetailFragment.MUMENT_ID, mumentId)
-                        findNavController().navigate(R.id.action_homeMusicDetailFragment_to_mumentDetailFragment, it)
-                    }*/
                 }
 
                 override fun likeMument(mumentId: String) {
-                    musicDetailViewModel.likeMument(mumentId)
+                    musicDetailViewModel.emitEvent(MusicDetailEvent.CheckLikeMument(mumentId))
                 }
 
                 override fun cancelLikeMument(mumentId: String) {
-                    musicDetailViewModel.cancelLikeMument(mumentId)
+                    musicDetailViewModel.emitEvent(MusicDetailEvent.UnCheckLikeMument(mumentId))
                 }
             })
         }
     }
 
-    private fun changeMumentSort() {
+    private fun changeMumentSortType() {
         binding.tvSortLikeCount.setOnClickListener {
             musicDetailViewModel.emitEvent(MusicDetailEvent.ClickSortByLikeCount)
         }
@@ -111,24 +121,16 @@ class MusicDetailFragment(): Fragment() {
         }
     }
 
-    private fun moveToHistoryFragment() {
-        binding.tvShowMyHistory.click {
-            musicDetailViewModel.viewState.value.musicInfo?.id?.let { historyNavigatorProvider.moveHistory(it) }
-            /*Bundle().also {
-                it.putString(MUSIC_ID, musicDetailViewModel.musicId.value ?: "")
-                findNavController().navigate(R.id.action_musicDetailFragment_to_historyFragment, it)
-            }*/
-        }
+    private fun changeSortTypeSelectedTheme(sort: String) {
+        binding.tvSortLatest.changeSelectedSortTheme(sort)
+        binding.tvSortLikeCount.changeSelectedSortTheme(sort)
+    }
 
-        /*binding.layoutMyMument.root.setOnClickListener { //이 이동은 안쓰는듯?
-            musicDetailViewModel.myMument.value?.let {
-                musicDetailViewModel.musicId.value?.let { historyNavigatorProvider.moveHistory(it) }
-                *//*Bundle().also {
-                    it.putString(MUSIC_ID, musicDetailViewModel.musicId.value ?: "")
-                    findNavController().navigate(R.id.action_musicDetailFragment_to_historyFragment, it)
-                } *//*
-            }
-        }*/
+    private fun moveToHistoryFragment() {
+        binding.tvShowMyHistory.setOnClickListener {
+            musicDetailViewModel.viewState.value.musicInfo?.id
+                ?.let { historyNavigatorProvider.moveHistory(it) }
+        }
     }
 
     private fun AppCompatTextView.changeSelectedSortTheme(selectedSort: String) {

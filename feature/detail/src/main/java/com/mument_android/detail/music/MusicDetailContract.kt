@@ -22,9 +22,13 @@ sealed class MusicDetailContract {
         data class ReceiveRequestMusicId(val musicId: String): MusicDetailEvent()
         object ClickSortByLikeCount: MusicDetailEvent()
         object ClickSortByLatest: MusicDetailEvent()
+        data class CheckLikeMument(val mumentId: String): MusicDetailEvent()
+        data class UnCheckLikeMument(val mumentId: String): MusicDetailEvent()
     }
 
     sealed class MusicDetailEffect: SideEffect {
-
+        object PopBackStack: MusicDetailEffect()
+        object ShowToast: MusicDetailEffect()
+        object FailureChangeMumentLikeStatus: MusicDetailEffect()
     }
 }

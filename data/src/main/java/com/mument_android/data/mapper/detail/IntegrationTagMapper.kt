@@ -1,4 +1,4 @@
-package com.mument_android.detail.util
+package com.mument_android.data.mapper.detail
 
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core.base.BaseMapper

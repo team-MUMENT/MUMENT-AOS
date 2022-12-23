@@ -62,29 +62,10 @@ class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickL
 
     private fun setMumentTagList(holder: MusicDetailMumentListViewHolder) {
         val mument = getItem(holder.absoluteAdapterPosition)
-        CoroutineScope(Dispatchers.Default).launch {
-            val tags = mapTagList(mument)
-            withContext(Dispatchers.Main) {
-                holder.binding.rvMumentTags.run {
-                    adapter = MumentTagListAdapter()
-                    (adapter as MumentTagListAdapter).submitList(tags)
-                }
-            }
+        holder.binding.rvMumentTags.run {
+            adapter = MumentTagListAdapter()
+            (adapter as MumentTagListAdapter).submitList(mument.tags)
         }
-    }
-
-    private fun mapTagList(mument: MumentSummaryEntity): List<TagEntity> {
-        val cardTags = mutableListOf<TagEntity>()
-        val isFirst = if (mument.isFirst) R.string.tag_is_first else R.string.tag_has_heard
-        cardTags.add( TagEntity(TAG_IS_FIRST, isFirst,  if (mument.isFirst) 1 else 0) )
-        cardTags.addAll(
-            mument.cardTag.map { tagIdx ->
-                val type = if (tagIdx < 200) TAG_IMPRESSIVE else TAG_EMOTIONAL
-                val tag = if (tagIdx < 200) findImpressiveStringTag(tagIdx) else findEmotionalStringTag(tagIdx)
-                TagEntity(type, tag, tagIdx)
-            }
-        )
-        return cardTags
     }
 
     class MusicDetailMumentListViewHolder(val binding: ItemMusicDetailListBinding): RecyclerView.ViewHolder(binding.root)
