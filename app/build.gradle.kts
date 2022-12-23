@@ -68,7 +68,7 @@ dependencies {
     implementation(ThirdPartyDependencies.gson)
     implementation(ThirdPartyDependencies.timber)
     implementation(AndroidXDependencies.dataStore)
-
+    implementation(AndroidXDependencies.dataStorePreference)
     implementation(project(Modules.CORE_MODULE))
     implementation(project(Modules.CORE_DEPENDENT_MODULE))
     implementation(project(Modules.DOMAIN_MODULE))

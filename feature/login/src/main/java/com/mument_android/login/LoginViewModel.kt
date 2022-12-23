@@ -9,7 +9,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor(
+) : ViewModel() {
 
     private fun isFirstCheck() {
         CoroutineScope(Dispatchers.Default).launch {

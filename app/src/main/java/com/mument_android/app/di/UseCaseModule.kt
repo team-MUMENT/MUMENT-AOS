@@ -1,5 +1,11 @@
 package com.mument_android.app.di
 
+import android.content.Context
+import android.provider.Settings
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
+import androidx.datastore.dataStoreFile
+import androidx.datastore.preferences.preferencesDataStore
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
 import com.mument_android.domain.repository.detail.MusicDetailRepository
@@ -21,7 +27,10 @@ import com.mument_android.domain.usecase.record.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import net.bytebuddy.implementation.Implementation
+import java.util.prefs.Preferences
 import javax.inject.Singleton
 
 @Module
@@ -117,4 +126,5 @@ object UseCaseModule {
     @Singleton
     fun proivdeDeleteMumentUseCase(mumentDetailRepository: MumentDetailRepository): DeleteMumentUseCase =
         DeleteMumentUseCaseImpl(mumentDetailRepository)
+
 }

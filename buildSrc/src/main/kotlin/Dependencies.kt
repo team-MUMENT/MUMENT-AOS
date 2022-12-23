@@ -32,7 +32,7 @@ object AndroidXDependencies {
     const val emoji = "androidx.emoji:emoji:${Versions.emoji}"
     const val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
     const val protoDataStore = "androidx.datastore:datastore:${Versions.protoDataStore}"
-    const val dataStorePreference = "androidx.datastore:datastore-core:${Versions.datastorePreferences}"
+    const val dataStorePreference = "androidx.datastore:datastore-preferences-core:${Versions.datastorePreferences}"
     const val protoBuf = "com.google.protobuf:protobuf-javalite:${Versions.protoBuf}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
     const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
