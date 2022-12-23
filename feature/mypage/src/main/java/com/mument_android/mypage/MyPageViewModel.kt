@@ -23,14 +23,21 @@ class MyPageViewModel : ViewModel() {
     val noticeList: LiveData<List<NoticeData>> get() = _noticeList
 
     //Unregister
+    private val _isClickReasonChooseBox = MutableLiveData(false)
+    val isClickReasonChooseBox: LiveData<Boolean> get() = _isClickReasonChooseBox
+
     private val _isClickReasonChoose = MutableLiveData(false)
     val isClickReasonChoose: LiveData<Boolean> get() = _isClickReasonChoose
 
     private val _isSelectSixthReason = MutableLiveData(false)
-    val isSelectSixthReason =  _isSelectSixthReason
+    val isSelectSixthReason = _isSelectSixthReason
 
     private val _unregisterReasonContent = MutableLiveData("")
     val unregisterReasonContent = _unregisterReasonContent
+
+    private val _isUnregisterAgree = MutableLiveData(false)
+    val isUnregisterAgree =_isUnregisterAgree
+
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
         _isBtnClick.value = isBtnClick
@@ -45,11 +52,18 @@ class MyPageViewModel : ViewModel() {
     }
 
     //이유선택 박스 눌렀을 때
-    fun clickReasonChoose(){
-        _isClickReasonChoose.value = _isClickReasonChoose.value != true
+    fun clickReasonChooseBox() {
+        _isClickReasonChooseBox.value = _isClickReasonChooseBox.value != true
     }
 
+    fun clickReasonChoose() {
+        _isClickReasonChoose.value = true
+    }
 
+    fun clickUnregisterAgree(){
+        _isUnregisterAgree.value = _isUnregisterAgree.value != true
+
+    }
 }
 
 
