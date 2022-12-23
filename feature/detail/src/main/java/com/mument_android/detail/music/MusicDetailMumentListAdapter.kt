@@ -14,7 +14,7 @@ import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.ImpressiveTag.Companion.findImpressiveStringTag
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.ItemMusicDetailListBinding
-import com.mument_android.detail.mument.MumentClickListener
+import com.mument_android.detail.mument.listener.MumentClickListener
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

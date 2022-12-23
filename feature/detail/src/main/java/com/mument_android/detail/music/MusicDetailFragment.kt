@@ -17,13 +17,12 @@ import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
-import com.mument_android.detail.mument.MumentClickListener
+import com.mument_android.detail.mument.listener.MumentClickListener
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.viewmodels.MusicDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 
 @AndroidEntryPoint
 class MusicDetailFragment(): Fragment() {

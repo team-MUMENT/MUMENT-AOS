@@ -51,7 +51,7 @@
         </fragment>
         <fragment
             android:id="@+id/mumentDetailFragment"
-            android:name="com.mument_android.detail.mument.MumentDetailFragment"
+            android:name="com.mument_android.detail.mument.fragment.MumentDetailFragment"
             android:label="MumentDetailFragment"
             tools:layout="@layout/fragment_mument_detail">
             <action
@@ -90,7 +90,7 @@
         </fragment>
         <fragment
             android:id="@+id/mumentDetailFragment"
-            android:name="com.mument_android.detail.mument.MumentDetailFragment"
+            android:name="com.mument_android.detail.mument.fragment.MumentDetailFragment"
             android:label="MumentDetailFragment"
             tools:layout="@layout/fragment_mument_detail">
             <action

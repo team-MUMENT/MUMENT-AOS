@@ -1,10 +1,9 @@
-package com.mument_android.detail.mument
+package com.mument_android.detail.mument.fragment
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
@@ -27,7 +26,8 @@ import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.getDeviceSize
 import com.mument_android.core_dependent.util.checkIsViewLoaded
 import com.mument_android.detail.databinding.FragmentMumentToShareDialogBinding
-import com.mument_android.detail.viewmodels.MumentDetailViewModel
+import com.mument_android.detail.mument.contract.MumentDetailContract
+import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -87,7 +87,11 @@ class MumentToShareDialogFragment(
     private fun getMumentArgs() {
         arguments?.getString(KEY_PASS_MUMENT)?.let {
             val mument = Gson().fromJson(it, MumentEntity::class.java)
-            viewModel.emitEvent(MumentDetailContract.MumentDetailEvent.UpdateMumentToShareInstagram(mument))
+            viewModel.emitEvent(
+                MumentDetailContract.MumentDetailEvent.UpdateMumentToShareInstagram(
+                    mument
+                )
+            )
         }
     }
 

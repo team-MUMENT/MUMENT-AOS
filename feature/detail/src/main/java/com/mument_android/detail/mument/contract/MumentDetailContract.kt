@@ -1,4 +1,4 @@
-package com.mument_android.detail.mument
+package com.mument_android.detail.mument.contract
 
 import android.net.Uri
 import androidx.annotation.StringRes
