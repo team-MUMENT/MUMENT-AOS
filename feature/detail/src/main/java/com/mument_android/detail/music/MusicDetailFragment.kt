@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.HistoryNavigatorProvider
 import com.angdroid.navigation.MoveRecordProvider
@@ -51,27 +50,33 @@ class MusicDetailFragment(): Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.ivBack.click { findNavController().popBackStack() }
 
-        receiveRequestMusicId()
+        updateView()
+        receiveMusicId()
         changeMumentSort()
-        updateEveryMuments()
         setMyMumentTagList()
         setEntireMumentListAdapter()
         moveToHistoryFragment()
     }
 
-    private fun receiveRequestMusicId() {
+    private fun receiveMusicId() {
         arguments?.getString(MUSIC_ID)?.let {
             musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicId(it))
         }
     }
 
-    private fun changeMumentSort() {
-        binding.tvSortLikeCount.click { musicDetailViewModel.changeSelectedSort(binding.tvSortLikeCount.text.toString()) }
-        binding.tvSortLatest.click { musicDetailViewModel.changeSelectedSort(binding.tvSortLatest.text.toString()) }
-        collectFlowWhenStarted(musicDetailViewModel.selectedSort) {
-            binding.tvSortLatest.changeSelectedSortTheme(it)
-            binding.tvSortLikeCount.changeSelectedSortTheme(it)
+    private fun updateView() {
+        collectFlowWhenStarted(musicDetailViewModel.viewState) { state ->
+            with(binding) {
+                (layoutMyMument.rvMumentTags.adapter as MumentTagListAdapter).submitList(musicDetailViewModel?.mapTagList())
+                (rvEveryMuments.adapter as MusicDetailMumentListAdapter).submitList(state.mumentList)
+                tvSortLatest.changeSelectedSortTheme(state.mumentSortType.sort)
+                tvSortLikeCount.changeSelectedSortTheme(state.mumentSortType.sort)
+            }
         }
+    }
+
+    private fun setMyMumentTagList() {
+        binding.layoutMyMument.rvMumentTags.adapter = MumentTagListAdapter()
     }
 
     private fun setEntireMumentListAdapter() {
@@ -97,16 +102,12 @@ class MusicDetailFragment(): Fragment() {
         }
     }
 
-    private fun updateEveryMuments() {
-        collectFlowWhenStarted(musicDetailViewModel.mumentList) {
-            (binding.rvEveryMuments.adapter as MusicDetailMumentListAdapter).submitList(it)
+    private fun changeMumentSort() {
+        binding.tvSortLikeCount.setOnClickListener {
+            musicDetailViewModel.emitEvent(MusicDetailEvent.ClickSortByLikeCount)
         }
-    }
-
-    private fun setMyMumentTagList() {
-        binding.layoutMyMument.rvMumentTags.adapter = MumentTagListAdapter()
-        collectFlowWhenStarted(musicDetailViewModel.myMument) { mumentSummary ->
-            (binding.layoutMyMument.rvMumentTags.adapter as MumentTagListAdapter).submitList(musicDetailViewModel.mapTagList())
+        binding.tvSortLatest.setOnClickListener {
+            musicDetailViewModel.emitEvent(MusicDetailEvent.ClickSortByLatest)
         }
     }
 

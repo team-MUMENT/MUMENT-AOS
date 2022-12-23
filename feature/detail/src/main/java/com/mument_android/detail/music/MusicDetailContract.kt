@@ -20,6 +20,8 @@ sealed class MusicDetailContract {
 
     sealed class MusicDetailEvent: Event {
         data class ReceiveRequestMusicId(val musicId: String): MusicDetailEvent()
+        object ClickSortByLikeCount: MusicDetailEvent()
+        object ClickSortByLatest: MusicDetailEvent()
     }
 
     sealed class MusicDetailEffect: SideEffect {

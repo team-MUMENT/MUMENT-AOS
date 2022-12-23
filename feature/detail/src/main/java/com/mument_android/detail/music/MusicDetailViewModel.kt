@@ -38,72 +38,61 @@ class MusicDetailViewModel @Inject constructor(
     override fun handleEvents(event: MusicDetailEvent) {
         when(event) {
             is MusicDetailEvent.ReceiveRequestMusicId -> {
+                updateRequestMusicId(event.musicId)
                 fetchMusicDetail(event.musicId)
                 fetchMumentList(event.musicId)
+            }
+            MusicDetailEvent.ClickSortByLatest -> {
+                setState { copy(mumentSortType = SortTypeEnum.SORT_LATEST) }
+                fetchMumentList(viewState.value.requestMusicId)
+            }
+            MusicDetailEvent.ClickSortByLikeCount -> {
+                setState { copy(mumentSortType = SortTypeEnum.SORT_LIKE_COUNT) }
+                fetchMumentList(viewState.value.requestMusicId)
             }
         }
     }
 
-    private val _musicInfo = MutableLiveData<MusicInfoEntity>()
-    val musicInfo = _musicInfo
-
-    private val _myMument = MutableStateFlow<MumentSummaryEntity?>(null)
-    val myMument = _myMument.asStateFlow()
-
-    private val _mumentList = MutableStateFlow<List<MumentSummaryEntity>>(listOf())
-    val mumentList = _mumentList.asStateFlow()
-
-    private val _selectedSort = MutableStateFlow(SortTypeEnum.SORT_LIKE_COUNT.sort)
-    val selectedSort = _selectedSort.asStateFlow()
-
-    fun changeSelectedSort(sort: String) {
-        _selectedSort.value = sort
-        fetchMumentList(viewState.value.requestMusicId)
-    }
-
-    fun updateRequestMusicId(id: String) {
+    private fun updateRequestMusicId(id: String) {
         setState { copy(requestMusicId = id) }
     }
 
-    suspend fun mapTagList(): List<TagEntity> {
+    fun mapTagList(): List<TagEntity> {
         val cardTags = mutableListOf<TagEntity>()
-        myMument.value?.let { mument ->
-            withContext(Dispatchers.Default) {
-                val isFirst = if (mument.isFirst) R.string.tag_is_first else R.string.tag_has_heard
-                cardTags.add(
-                    TagEntity(
-                        TagEntity.TAG_IS_FIRST,
-                        isFirst,
-                        if (mument.isFirst) 1 else 0
+        viewState.value.myMumentInfo?.let { mument ->
+            viewModelScope.launch {
+                withContext(Dispatchers.Default) {
+                    val isFirst = if (mument.isFirst) R.string.tag_is_first else R.string.tag_has_heard
+                    cardTags.add(
+                        TagEntity(TagEntity.TAG_IS_FIRST, isFirst, if (mument.isFirst) 1 else 0)
                     )
-                )
-                cardTags.addAll(mument.cardTag.map { tagIdx -> integrationTagMapper.map(tagIdx) })
+                    cardTags.addAll(mument.cardTag.map { tagIdx -> integrationTagMapper.map(tagIdx) })
+                }
             }
         }
         return cardTags
     }
 
-    fun fetchMusicDetail(musicId: String) {
+    private fun fetchMusicDetail(musicId: String) {
         viewModelScope.launch {
             fetchMusicDetailUseCase(musicId, BuildConfig.USER_ID).catch { e ->
                 //Todo exception handling
             }.collect {
-                _musicInfo.value = it.music
-                _myMument.value = it.myMument
+                setState { copy(musicInfo = it.music, myMumentInfo = it.myMument) }
             }
         }
     }
 
-    fun fetchMumentList(musicId: String) {
+    private fun fetchMumentList(musicId: String) {
         viewModelScope.launch {
             fetchMumentListUseCase(
                 musicId,
                 BuildConfig.USER_ID,
-                findSortTypeTag(selectedSort.value)
+                viewState.value.mumentSortType.tag
             ).catch { e ->
                 //Todo exception handling
             }.collect { muments ->
-                _mumentList.value = muments
+                setState { copy(mumentList = muments) }
             }
         }
     }
