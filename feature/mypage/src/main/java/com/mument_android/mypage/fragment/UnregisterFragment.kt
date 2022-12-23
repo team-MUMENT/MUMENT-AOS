@@ -37,6 +37,7 @@ class UnregisterFragment : Fragment() {
         reasonBtnEvent()
         reasonChooseBtnEvent()
         isAgreeBtnEvent()
+        unregisterFinish()
     }
 
     //이유 선택 박스 눌렀을 때
@@ -99,6 +100,14 @@ class UnregisterFragment : Fragment() {
         binding.btnUnregisterAgree.setOnClickListener {
             myPageViewModel.clickUnregisterAgree()
             binding.btnUnregisterAgree.isSelected = !binding.btnUnregisterAgree.isSelected
+        }
+    }
+
+    private fun unregisterFinish() {
+        binding.btnUnregisterFinish.setOnClickListener {
+            //TODO  서버연결하기
+            val intent = Intent(activity, LogInActivity::class.java)
+            startActivity(intent)
         }
     }
 }
