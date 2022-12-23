@@ -3,11 +3,13 @@ package com.mument_android.mypage.fragment
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.Transformation
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -36,9 +38,11 @@ class UnregisterFragment : Fragment() {
 
         reasonBtnEvent()
         reasonChooseBtnEvent()
+
         isAgreeBtnEvent()
         unregisterFinish()
     }
+
 
     //이유 선택 박스 눌렀을 때
     private fun reasonChooseBtnEvent() {
@@ -49,6 +53,7 @@ class UnregisterFragment : Fragment() {
             }
             binding.clReason.isSelected = !binding.clReason.isSelected
             myPageViewModel.clickReasonChooseBox()
+            setAnimationReason()
             myPageViewModel.isSelectSixthReason.value = false
         }
     }
@@ -56,9 +61,9 @@ class UnregisterFragment : Fragment() {
     // 이유 선택 했을 때
     private fun reasonBtnEvent() {
         binding.rgChooseReason.setOnCheckedChangeListener { _, checkedID ->
-
             myPageViewModel.clickReasonChooseBox()
             myPageViewModel.clickReasonChoose()
+            setAnimationReason()
             binding.tvChooseReason.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
@@ -96,6 +101,14 @@ class UnregisterFragment : Fragment() {
         }
     }
 
+    //이유 선택 박스 눌렀을 때 애니메이션 적용
+    private fun setAnimationReason() {
+        val animUpToDown = AnimationUtils.loadAnimation(requireContext(),R.anim.move_up_to_down)
+        if (myPageViewModel.isClickReasonChooseBox.value == true)
+            binding.rgChooseReason.startAnimation(animUpToDown)
+    }
+
+    //동의 버튼 눌렀을 때
     private fun isAgreeBtnEvent() {
         binding.btnUnregisterAgree.setOnClickListener {
             myPageViewModel.clickUnregisterAgree()
@@ -103,6 +116,7 @@ class UnregisterFragment : Fragment() {
         }
     }
 
+    //회원탈퇴 버튼 눌렀을 때
     private fun unregisterFinish() {
         binding.btnUnregisterFinish.setOnClickListener {
             //TODO  서버연결하기
@@ -110,4 +124,39 @@ class UnregisterFragment : Fragment() {
             startActivity(intent)
         }
     }
+
+    private fun expandAction(view: View) {
+        view.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val actualHeight = view.measuredHeight
+
+        val animation = object : Animation() {
+            override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
+                if (interpolatedTime >= 0.5F) {
+                    view.visibility = View.VISIBLE
+                } else view.layoutParams.height =
+                    (actualHeight + (actualHeight * interpolatedTime)).toInt()
+                view.requestLayout()
+            }
+        }
+        animation.duration = (actualHeight / view.context.resources.displayMetrics.density).toLong()
+        view.startAnimation(animation)
+    }
+
+    private fun collapse(view: View) {
+        val actualHeight = view.measuredHeight
+        val animation = object : Animation() {
+            override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
+                if (interpolatedTime >= 0.99F) {
+                    view.visibility = View.GONE
+                } else {
+                    view.layoutParams.height =
+                        (actualHeight - (actualHeight * interpolatedTime)).toInt()
+                    view.requestLayout()
+                }
+            }
+        }
+        animation.duration = (actualHeight / view.context.resources.displayMetrics.density).toLong()
+        view.startAnimation(animation)
+    }
 }
+
