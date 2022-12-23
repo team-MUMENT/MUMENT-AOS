@@ -1,5 +1,6 @@
 package com.mument_android.mypage
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,7 +37,7 @@ class MyPageViewModel : ViewModel() {
     val unregisterReasonContent = _unregisterReasonContent
 
     private val _isUnregisterAgree = MutableLiveData(false)
-    val isUnregisterAgree =_isUnregisterAgree
+    val isUnregisterAgree = _isUnregisterAgree
 
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
@@ -51,18 +52,25 @@ class MyPageViewModel : ViewModel() {
         )
     }
 
-    //이유선택 박스 눌렀을 때
+    //이유 선택 박스 눌렀을 때
     fun clickReasonChooseBox() {
         _isClickReasonChooseBox.value = _isClickReasonChooseBox.value != true
     }
 
+    //이유 선택 하기
     fun clickReasonChoose() {
         _isClickReasonChoose.value = true
     }
 
-    fun clickUnregisterAgree(){
+    //탈퇴 동의
+    fun clickUnregisterAgree() {
         _isUnregisterAgree.value = _isUnregisterAgree.value != true
 
+    }
+
+    //이유선택박스 초기화
+    fun initReasonChooseBox() {
+        _isClickReasonChooseBox.value = false
     }
 }
 

@@ -39,10 +39,12 @@ class UnregisterFragment : Fragment() {
         reasonBtnEvent()
         reasonChooseBtnEvent()
 
+        reasonChooseTouchEvent()
+
         isAgreeBtnEvent()
         unregisterFinish()
-    }
 
+    }
 
     //이유 선택 박스 눌렀을 때
     private fun reasonChooseBtnEvent() {
@@ -103,10 +105,19 @@ class UnregisterFragment : Fragment() {
 
     //이유 선택 박스 눌렀을 때 애니메이션 적용
     private fun setAnimationReason() {
-        val animUpToDown = AnimationUtils.loadAnimation(requireContext(),R.anim.move_up_to_down)
+        val animUpToDown = AnimationUtils.loadAnimation(requireContext(), R.anim.move_up_to_down)
         if (myPageViewModel.isClickReasonChooseBox.value == true)
             binding.rgChooseReason.startAnimation(animUpToDown)
     }
+
+    //이유 선택 외의 영역을 터치했을 때
+    private fun reasonChooseTouchEvent() {
+        binding.clUnregister.setOnClickListener {
+            myPageViewModel.initReasonChooseBox()
+            binding.clReason.isSelected = false
+        }
+    }
+
 
     //동의 버튼 눌렀을 때
     private fun isAgreeBtnEvent() {
