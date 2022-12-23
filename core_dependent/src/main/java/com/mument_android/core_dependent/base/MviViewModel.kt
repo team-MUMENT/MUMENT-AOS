@@ -18,7 +18,7 @@ abstract class MviViewModel<E: Event, S: ViewState, SE: SideEffect>: ViewModel()
     private val _viewState = MutableStateFlow(this.setInitialState())
     val viewState: StateFlow<S> = _viewState.asStateFlow()
 
-    private val event: MutableSharedFlow<E> = MutableSharedFlow<E>()
+    private val _event: MutableSharedFlow<E> = MutableSharedFlow<E>()
 
     private val _effect: Channel<SE> = Channel()
     val effect = _effect.receiveAsFlow()
@@ -38,9 +38,15 @@ abstract class MviViewModel<E: Event, S: ViewState, SE: SideEffect>: ViewModel()
         }
     }
 
+    fun emitEvent(event: E) {
+        viewModelScope.launch {
+            _event.emit(event)
+        }
+    }
+
     private fun collectEvents() {
         viewModelScope.launch {
-            event.collect { handleEvents(it) }
+            _event.collect { handleEvents(it) }
         }
     }
 }

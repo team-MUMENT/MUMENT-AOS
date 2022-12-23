@@ -7,22 +7,24 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.HistoryNavigatorProvider
 import com.angdroid.navigation.MoveRecordProvider
 import com.angdroid.navigation.MumentDetailNavigatorProvider
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.click
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
-import com.mument_android.detail.mument.listener.MumentClickListener
-import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
-import com.mument_android.detail.viewmodels.MusicDetailViewModel
+import com.mument_android.detail.mument.listener.MumentClickListener
+import com.mument_android.detail.music.MusicDetailContract.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MusicDetailFragment(): Fragment() {
@@ -49,8 +51,7 @@ class MusicDetailFragment(): Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.ivBack.click { findNavController().popBackStack() }
 
-        recordMument()
-        fetchMusicDetailContents()
+        receiveRequestMusicId()
         changeMumentSort()
         updateEveryMuments()
         setMyMumentTagList()
@@ -58,20 +59,10 @@ class MusicDetailFragment(): Fragment() {
         moveToHistoryFragment()
     }
 
-    private fun recordMument() {
-//        binding.tvRecordMument.click {
-//            musicDetailViewModel.musicInfo.value?.let { musicInfo ->
-//                recordProvider.recordMusic(Music(musicInfo.id, musicInfo.name, musicInfo.artist, musicInfo.thumbnail))
-//            }
-//        }
-    }
-
-    private fun fetchMusicDetailContents() {
-        musicDetailViewModel.musicId.observe(viewLifecycleOwner) {
-            musicDetailViewModel.fetchMusicDetail(it)
-            musicDetailViewModel.fetchMumentList(it)
+    private fun receiveRequestMusicId() {
+        arguments?.getString(MUSIC_ID)?.let {
+            musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicId(it))
         }
-        arguments?.getString(MUSIC_ID)?.let { musicDetailViewModel.changeMusicId(it) }
     }
 
     private fun changeMumentSort() {
@@ -121,7 +112,7 @@ class MusicDetailFragment(): Fragment() {
 
     private fun moveToHistoryFragment() {
         binding.tvShowMyHistory.click {
-            musicDetailViewModel.musicId.value?.let { historyNavigatorProvider.moveHistory(it) }
+            musicDetailViewModel.viewState.value.musicInfo?.id?.let { historyNavigatorProvider.moveHistory(it) }
             /*Bundle().also {
                 it.putString(MUSIC_ID, musicDetailViewModel.musicId.value ?: "")
                 findNavController().navigate(R.id.action_musicDetailFragment_to_historyFragment, it)

@@ -1,27 +1,26 @@
-package com.mument_android.detail.viewmodels
+package com.mument_android.detail.music
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.model.TagEntity
+import com.mument_android.core_dependent.base.MviViewModel
+import com.mument_android.detail.BuildConfig
+import com.mument_android.detail.R
+import com.mument_android.detail.music.MusicDetailContract.*
+import com.mument_android.detail.util.IntegrationTagMapper
+import com.mument_android.detail.util.SortTypeEnum
+import com.mument_android.detail.util.SortTypeEnum.Companion.findSortTypeTag
 import com.mument_android.domain.entity.detail.MumentSummaryEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.domain.usecase.detail.FetchMusicDetailUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
-import com.mument_android.detail.util.SortTypeEnum
-import com.mument_android.detail.util.SortTypeEnum.Companion.findSortTypeTag
-import com.mument_android.detail.BuildConfig
-import com.mument_android.detail.util.IntegrationTagMapper
-import com.mument_android.detail.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -33,9 +32,17 @@ class MusicDetailViewModel @Inject constructor(
     private val fetchMusicDetailUseCase: FetchMusicDetailUseCase,
     private val likeMumentUseCase: LikeMumentUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase
-) : ViewModel() {
-    private val _musicId = MutableLiveData<String>()
-    val musicId: LiveData<String> = _musicId
+) : MviViewModel<MusicDetailEvent, MusicDetailViewState, MusicDetailEffect>() {
+    override fun setInitialState(): MusicDetailViewState = MusicDetailViewState()
+
+    override fun handleEvents(event: MusicDetailEvent) {
+        when(event) {
+            is MusicDetailEvent.ReceiveRequestMusicId -> {
+                fetchMusicDetail(event.musicId)
+                fetchMumentList(event.musicId)
+            }
+        }
+    }
 
     private val _musicInfo = MutableLiveData<MusicInfoEntity>()
     val musicInfo = _musicInfo
@@ -51,11 +58,11 @@ class MusicDetailViewModel @Inject constructor(
 
     fun changeSelectedSort(sort: String) {
         _selectedSort.value = sort
-        fetchMumentList(musicId.value ?: "")
+        fetchMumentList(viewState.value.requestMusicId)
     }
 
-    fun changeMusicId(id: String) {
-        _musicId.value = id
+    fun updateRequestMusicId(id: String) {
+        setState { copy(requestMusicId = id) }
     }
 
     suspend fun mapTagList(): List<TagEntity> {
