@@ -3,6 +3,7 @@ package com.mument_android.data.repository
 import com.mument_android.core.network.ApiResult
 import com.mument_android.data.datasource.home.*
 import com.mument_android.data.mapper.home.RandomMumentMapper
+import com.mument_android.data.util.ResultWrapper
 import com.mument_android.domain.entity.history.MumentHistoryEntity
 import com.mument_android.domain.entity.home.*
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
@@ -95,19 +96,21 @@ class HomeRepositoryImpl @Inject constructor(
         localTodayMumentDataSource.getTodayMument(userId).getOrNull().let { todayMument ->
             if (todayMument == null || todayMument.todayDate != LocalDate.now().toString()) {
                 when (val remoteData = homeDataSource.getTodayMument(userId)) {
-                    is ApiResult.Success -> {
-                        if (remoteData.datas?.todayMument != null) {
-                            localTodayMumentDataSource.updateMument(remoteData.datas!!.todayMument)
-                            remoteData.datas!!.todayMument
+                    is ResultWrapper.Success -> {
+                        if (remoteData.data != null) {
+                            localTodayMumentDataSource.updateMument(remoteData.data.todayMument)
+                            remoteData.data.todayMument
                         } else {
+                            Timber.e("Null Data Error")
                             null
                         }
                     }
-                    is ApiResult.Failure -> {
-                        Timber.e(remoteData.throwable?.message)
+                    is ResultWrapper.GenericError -> {
+                        Timber.e("GenericError -> code ${remoteData.code}: message: ${remoteData.message}")
                         null
                     }
-                    else -> {
+                    is ResultWrapper.NetworkError -> {
+                        Timber.e("NetworkError")
                         null
                     }
                 }

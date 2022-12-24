@@ -5,11 +5,11 @@ import com.mument_android.data.dto.home.BannerMumentDto
 import com.mument_android.data.dto.home.KnownMumentDto
 import com.mument_android.data.dto.home.RandomMumentDto
 import com.mument_android.data.dto.home.TodayMumentDto
-import com.mument_android.data.util.BaseResponse
+import com.mument_android.data.util.ResultWrapper
 
 interface HomeDataSource {
     suspend fun getBannerMument(): ApiResult<BannerMumentDto?>
-    suspend fun getTodayMument(userId:String): ApiResult<TodayMumentDto?>
+    suspend fun getTodayMument(userId:String): ResultWrapper<TodayMumentDto?>
     suspend fun getKnownMument(): ApiResult<KnownMumentDto?>
     suspend fun getRandomMument(): ApiResult<RandomMumentDto?>
 }
