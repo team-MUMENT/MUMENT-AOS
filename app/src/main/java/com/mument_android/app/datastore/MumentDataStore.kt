@@ -10,7 +10,14 @@ import kotlinx.coroutines.flow.map
 import java.io.IOException
 
 class MumentDataStore(private val context: Context) {
-    private val settingsDataStore = context.createDataStore("settings")
+   // private val Context.dataStore by preferencesDataStore("settings")
+    //private val settingsDataStore = context.createDataStore("settings")
+    /*
+    val dataStore : DataStore<Preferences> = context.createData(
+        name = "settings"
+    )
+
+     */
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     val EXAMPLE_COUNTER = booleanPreferencesKey("example_counter")

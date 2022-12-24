@@ -20,7 +20,7 @@ import javax.inject.Singleton
 object DataStoreModule {
     @Provides
     @Singleton
-    fun provideDataStore(@ApplicationContext context: Context) : DataStore<Preferences> = context.createDataStore("settings")
+    private val Context.dataStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(name = "settings")
 }
 
 
