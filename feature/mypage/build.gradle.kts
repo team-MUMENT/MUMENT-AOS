@@ -51,6 +51,7 @@ dependencies {
     implementation(project(Modules.CORE_DEPENDENT_MODULE))
     implementation(project(Modules.DOMAIN_MODULE))
     implementation(project(Modules.CORE_MODULE))
+    implementation(project(Modules.FEATURE_LOGIN_MODULE))
 
     addAndroidXDependencies()
     addTestDependencies()
