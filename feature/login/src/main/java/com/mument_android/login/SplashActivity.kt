@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.login.databinding.ActivitySplashBinding
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
-    private val loginViewModel: LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
     private fun isFirst() {
+        lifecycleScope.launch {
+            Log.e("TEST", viewModel.isFirstLaunch.toString())
+        }
         //Log.e("Test" , loginViewModel.isFirstLaunch.toString())
 
     }

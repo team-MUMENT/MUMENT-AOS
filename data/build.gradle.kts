@@ -55,7 +55,8 @@ dependencies {
     addRoomDependencies()
     addNetworkDependencies()
     addLifecycleDependencies()
-
+    implementation(AndroidXDependencies.dataStore)
+    implementation(AndroidXDependencies.dataStorePreference)
     implementation(ThirdPartyDependencies.timber)
     implementation(project(Modules.DOMAIN_MODULE))
     implementation(project(Modules.CORE_MODULE))

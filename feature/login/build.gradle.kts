@@ -44,6 +44,7 @@ android {
 
 dependencies {
     implementation(project(Modules.CORE_DEPENDENT_MODULE))
+    implementation(project(mapOf("path" to ":domain")))
     addAndroidXDependencies()
     addTestDependencies()
     addNavigationDependencies()
