@@ -5,10 +5,10 @@
     <application>
         <activity
             android:name=".onboarding.OnBoardingActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".SplashActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".LogInActivity"
             android:exported="false" />
