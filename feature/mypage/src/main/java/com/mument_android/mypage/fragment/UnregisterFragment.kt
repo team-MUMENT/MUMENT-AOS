@@ -1,5 +1,6 @@
 package com.mument_android.mypage.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -54,6 +56,7 @@ class UnregisterFragment : Fragment() {
             binding.clReason.isSelected = !binding.clReason.isSelected
             myPageViewModel.clickReasonChooseBox()
             setAnimationReason()
+            hideKeyboard()
             myPageViewModel.isSelectSixthReason.value = false
         }
     }
@@ -64,6 +67,8 @@ class UnregisterFragment : Fragment() {
             myPageViewModel.clickReasonChooseBox()
             myPageViewModel.clickReasonChoose()
             setAnimationReason()
+
+            //이유선택했을 때 이유선택박스 text color 변경
             binding.tvChooseReason.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
@@ -113,6 +118,7 @@ class UnregisterFragment : Fragment() {
         binding.clUnregister.setOnClickListener {
             myPageViewModel.initReasonChooseBox()
             binding.clReason.isSelected = false
+            hideKeyboard()
         }
     }
 
@@ -131,6 +137,18 @@ class UnregisterFragment : Fragment() {
             //TODO  서버연결하기
             val intent = Intent(activity, LogInActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    //키보드 내려가게 하기
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            val inputManager: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus?.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
         }
     }
 }
