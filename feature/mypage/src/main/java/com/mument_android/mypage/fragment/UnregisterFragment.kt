@@ -7,9 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.animation.Transformation
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -134,40 +132,6 @@ class UnregisterFragment : Fragment() {
             val intent = Intent(activity, LogInActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun expandAction(view: View) {
-        view.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        val actualHeight = view.measuredHeight
-
-        val animation = object : Animation() {
-            override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
-                if (interpolatedTime >= 0.5F) {
-                    view.visibility = View.VISIBLE
-                } else view.layoutParams.height =
-                    (actualHeight + (actualHeight * interpolatedTime)).toInt()
-                view.requestLayout()
-            }
-        }
-        animation.duration = (actualHeight / view.context.resources.displayMetrics.density).toLong()
-        view.startAnimation(animation)
-    }
-
-    private fun collapse(view: View) {
-        val actualHeight = view.measuredHeight
-        val animation = object : Animation() {
-            override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
-                if (interpolatedTime >= 0.99F) {
-                    view.visibility = View.GONE
-                } else {
-                    view.layoutParams.height =
-                        (actualHeight - (actualHeight * interpolatedTime)).toInt()
-                    view.requestLayout()
-                }
-            }
-        }
-        animation.duration = (actualHeight / view.context.resources.displayMetrics.density).toLong()
-        view.startAnimation(animation)
     }
 }
 
