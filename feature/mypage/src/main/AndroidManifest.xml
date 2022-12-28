@@ -5,7 +5,9 @@
     <application>
         <activity
             android:name="com.mument_android.mypage.MyPageActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
+
     </application>
 
 </manifest>
