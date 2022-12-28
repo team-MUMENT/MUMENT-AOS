@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:paddingHorizontal="16dp"
-                android:text="@string/unregister_content"
+                android:text="@{myPageViewModel.userId != null  ? @string/unregister_content(myPageViewModel.userId) :@string/unregister_content(@string/unregister_loading_id)}"
                 android:textColor="@color/mument_color_black2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
