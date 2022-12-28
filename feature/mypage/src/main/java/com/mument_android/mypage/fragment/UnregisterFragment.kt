@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
+import androidx.core.view.isEmpty
 import androidx.fragment.app.viewModels
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.login.LogInActivity
@@ -49,9 +50,16 @@ class UnregisterFragment : Fragment() {
     //이유 선택 박스 눌렀을 때
     private fun reasonChooseBtnEvent() {
         binding.clReason.setOnClickListener {
-            binding.tvChooseReason.let {
-                it.setText(R.string.unregister_choose_reason)
-                it.setTextColor(Color.GRAY)
+            if (binding.rgChooseReason.isEmpty()) {
+                binding.tvChooseReason.let {
+                    it.setText(R.string.unregister_choose_reason)
+                    it.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.mument_color_gray1
+                        )
+                    )
+                }
             }
             binding.clReason.isSelected = !binding.clReason.isSelected
             myPageViewModel.clickReasonChooseBox()
