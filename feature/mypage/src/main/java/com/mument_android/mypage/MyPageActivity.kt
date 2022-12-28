@@ -46,7 +46,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_
     }
 
     private fun moveUnregister() {
-        binding.tvMyPageWithdrawal.setOnClickListener {
+        binding.tvMyPageUnregister.setOnClickListener {
             supportFragmentManager.commit() {
                 replace(R.id.fc_my_page, UnregisterFragment())
             }
