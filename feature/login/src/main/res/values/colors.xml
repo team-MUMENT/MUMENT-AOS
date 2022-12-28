@@ -7,6 +7,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <!--mument color-->
+    <color name="mument_color_red">#FF0000</color>
     <color name="mument_color_purple1">#872CFE</color>
     <color name="mument_color_black1">#222222</color>
     <color name="mument_color_black1_transparent_27">#45222222</color>
