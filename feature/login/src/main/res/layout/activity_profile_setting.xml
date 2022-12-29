@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
             name="viewModel"
             type="com.mument_android.login.LogInViewModel" />
@@ -13,6 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <ImageView
             android:id="@+id/iv_profile_back"
@@ -82,9 +85,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="65dp"
+            android:maxLength="15"
             android:background="@drawable/rectangle_fill_gray4_11dp"
             android:hint="@string/login_profile_nickname"
             android:paddingHorizontal="17dp"
+            android:text="@={viewModel.mumentNickName}"
             android:paddingVertical="17dp"
             android:textColor="@color/mument_color_black2"
             android:textColorHint="@color/mument_color_gray1"
@@ -92,18 +97,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/mument_delete_2"
+            android:background="@drawable/mument_delete_2"
             android:layout_marginEnd="10dp"
-            android:visibility="gone"
+            android:visibility="@{viewModel.mumentNickName.length() > 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/et_nickname"
             app:layout_constraintEnd_toEndOf="@+id/et_nickname"
             app:layout_constraintTop_toTopOf="@+id/et_nickname" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tv_pattern"
             style="@style/TextView.Mument_B8_M12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,9 +128,9 @@
             android:text="/15"
             android:textColor="@color/mument_color_gray1"
             android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_pattern"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView4" />
+            app:layout_constraintTop_toTopOf="@+id/tv_pattern" />
 
         <TextView
             android:id="@+id/tv_recent_length"
@@ -134,6 +139,7 @@
             android:fontFamily="@font/notosans_medium"
             android:textColor="@color/mument_color_purple1"
             android:textSize="12dp"
+            android:text="@{Integer.toString(viewModel.mumentNickName.length())}"
             app:layout_constraintBottom_toBottomOf="@+id/tv_max_length"
             app:layout_constraintEnd_toStartOf="@+id/tv_max_length" />
 
