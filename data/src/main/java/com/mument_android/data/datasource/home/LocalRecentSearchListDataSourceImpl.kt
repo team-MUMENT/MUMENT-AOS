@@ -8,11 +8,10 @@ import javax.inject.Inject
 class LocalRecentSearchListDataSourceImpl @Inject constructor(private val dao: RecentSearchDAO) :
     LocalRecentSearchListDataSource {
     override suspend fun getAllRecentSearchList(): Result<List<RecentSearchData>> =
-        kotlin.runCatching { dao.getAllRecentList() }.onFailure {
+        runCatching { dao.getAllRecentList() }.onFailure {
             /* TODO ERROR Handing */
             Timber.e("Local Error ${it.message}")
         }
-
 
     override suspend fun updateRecentSearchList(data: RecentSearchData) {
         dao.updateRecentSearch(data)

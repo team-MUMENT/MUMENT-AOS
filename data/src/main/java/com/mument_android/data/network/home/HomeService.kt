@@ -16,16 +16,16 @@ interface HomeService {
     @GET("/music/search")
     suspend fun searchMusicList(
         @Query("keyword") keyword: String
-    ): BaseResponse<List<RecentSearchData>>
+    ): Response<List<RecentSearchData>>
 
     @GET("mument/{userId}/{musicId}/history?default=Y")
     suspend fun getMumentHistory(
         @Path("userId") userId: String,
         @Path("musicId") musicId: String,
-    ): BaseResponse<MumentHistoryDto>
+    ): Response<MumentHistoryDto>
 
     @GET("/mument/banner")
-    suspend fun getBannerMument(): BaseResponse<BannerMumentDto>
+    suspend fun getBannerMument(): Response<BannerMumentDto>
 
     @GET("/mument/today")
     suspend fun getTodayMument(
@@ -33,8 +33,8 @@ interface HomeService {
     ): Response<TodayMumentDto>
 
     @GET("/mument/again")
-    suspend fun getKnownMument(): BaseResponse<KnownMumentDto>
+    suspend fun getKnownMument(): Response<KnownMumentDto>
 
     @GET("/mument/random")
-    suspend fun getRandomMument(): BaseResponse<RandomMumentDto>
+    suspend fun getRandomMument(): Response<RandomMumentDto>
 }
