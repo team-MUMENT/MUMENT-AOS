@@ -11,9 +11,7 @@ suspend inline fun <T> catchingApiCall(crossinline apiCall: suspend () -> Respon
         when (throwable) {
             is IOException -> ResultWrapper.NetworkError
             is HttpException -> {
-                val code = throwable.code()
-                val message = throwable.message
-                ResultWrapper.GenericError(code, message)
+                ResultWrapper.GenericError(throwable.code(), throwable.message)
             }
             else -> ResultWrapper.GenericError(null, null)
         }
