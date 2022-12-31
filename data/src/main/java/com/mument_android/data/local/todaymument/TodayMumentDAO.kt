@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Update
 import androidx.room.Query
 import com.mument_android.domain.entity.home.TodayMumentEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodayMumentDAO {

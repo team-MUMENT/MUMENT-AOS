@@ -43,7 +43,6 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
