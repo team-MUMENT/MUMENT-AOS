@@ -20,7 +20,7 @@ class HomeDataSourceImpl @Inject constructor(val service: HomeService) : HomeDat
 
     override suspend fun getTodayMument(userId: String): Flow<ResultWrapper<TodayMumentDto?>> =
         flow {
-            emit(catchingApiCall { service.getTodayMument(userId) })
+            emit(ResultWrapper.Success(service.getTodayMument(userId).body()))
         }.catch { throwable ->
             when (throwable) {
                 is IOException -> ResultWrapper.NetworkError

@@ -26,7 +26,7 @@ interface HomeRepository {
 
     suspend fun getMumentHistory(userId: String, musicId: String): MumentHistoryEntity?
 
-    suspend fun getTodayMument(userId: String): TodayMumentEntity?
+    suspend fun getTodayMument(userId: String): Flow<TodayMumentEntity>
 
     suspend fun getBannerMument(): List<BannerEntity>?
 
