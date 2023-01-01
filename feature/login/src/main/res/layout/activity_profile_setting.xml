@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -19,9 +20,9 @@
 
         <ImageView
             android:id="@+id/iv_profile_back"
-            android:layout_marginTop="52dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
             android:src="@drawable/mument_icon_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -70,6 +71,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_profile_setting" />
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:src="@drawable/ic_camera"
@@ -85,12 +87,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="65dp"
-            android:maxLength="15"
             android:background="@drawable/rectangle_fill_gray4_11dp"
             android:hint="@string/login_profile_nickname"
+            android:maxLength="15"
             android:paddingHorizontal="17dp"
-            android:text="@={viewModel.mumentNickName}"
             android:paddingVertical="17dp"
+            android:text="@={viewModel.mumentNickName}"
             android:textColor="@color/mument_color_black2"
             android:textColorHint="@color/mument_color_gray1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,8 +102,8 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/mument_delete_2"
             android:layout_marginEnd="10dp"
+            android:background="@drawable/mument_delete_2"
             android:visibility="@{viewModel.mumentNickName.length() > 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/et_nickname"
             app:layout_constraintEnd_toEndOf="@+id/et_nickname"
@@ -137,11 +139,73 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/notosans_medium"
+            android:text="@{Integer.toString(viewModel.mumentNickName.length())}"
             android:textColor="@color/mument_color_purple1"
             android:textSize="12dp"
-            android:text="@{Integer.toString(viewModel.mumentNickName.length())}"
             app:layout_constraintBottom_toBottomOf="@+id/tv_max_length"
             app:layout_constraintEnd_toStartOf="@+id/tv_max_length" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_select_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/dialog_background"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_profile_cancel"
+                style="@style/TextView.Mument_H4_M16.Style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/rectangle_fill_white_11dp"
+                android:gravity="center"
+                android:paddingVertical="16dp"
+                android:text="@string/profile_cancel"
+                android:textColor="@color/mument_color_black2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/rectangle_fill_white_11dp"
+                android:paddingVertical="12dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_profile_cancel"
+                app:layout_constraintEnd_toEndOf="@+id/tv_profile_cancel"
+                app:layout_constraintStart_toStartOf="@+id/tv_profile_cancel">
+
+                <TextView
+                    android:id="@+id/tv_delete_profile"
+                    style="@style/TextView.Mument_H4_M16.Style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:text="@string/profile_delete_img"
+                    android:textColor="@color/mument_color_black2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_select_library"
+                    style="@style/TextView.Mument_H4_M16.Style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:text="@string/profile_select_library"
+                    android:textColor="@color/mument_color_black2"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_delete_profile"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
