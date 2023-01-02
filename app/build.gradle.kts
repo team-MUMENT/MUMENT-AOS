@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.konan.properties.Properties
-import java.io.FileInputStream
 
 plugins {
     id("com.android.application")
@@ -65,6 +64,8 @@ dependencies {
     addLifecycleDependencies()
     addTestDependencies()
     addNetworkDependencies()
+    implementation(platform(ThirdPartyDependencies.fireBaseBom))
+    implementation(ThirdPartyDependencies.fireBaseCloudMessaging)
     implementation(ThirdPartyDependencies.gson)
     implementation(ThirdPartyDependencies.timber)
     implementation(project(Modules.CORE_MODULE))
