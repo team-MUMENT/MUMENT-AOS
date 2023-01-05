@@ -346,18 +346,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="@string/my_page_log_out"
-                    app:layout_constraintEnd_toStartOf="@id/tv_my_page_withdrawal"
+                    app:layout_constraintEnd_toStartOf="@id/tv_my_page_unregister"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_my_page_version_info" />
 
                 <TextView
-                    android:id="@+id/tv_my_page_withdrawal"
+                    android:id="@+id/tv_my_page_unregister"
                     android:layout_width="61dp"
                     android:layout_height="19dp"
                     android:layout_marginTop="13dp"
                     android:layout_marginBottom="38dp"
-                    android:text="@string/my_page_withdrawal"
+                    android:text="@string/my_page_unregister"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_my_page_logout"
@@ -374,6 +374,7 @@
             android:visibility="@{myPageViewModel.isBtnClick() ?View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="-16dp" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
