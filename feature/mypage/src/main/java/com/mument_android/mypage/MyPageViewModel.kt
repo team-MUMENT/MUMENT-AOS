@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mument_android.mypage.data.NoticeData
 import com.mument_android.mypage.data.UserData
+import javax.annotation.concurrent.Immutable
 
 class MyPageViewModel : ViewModel() {
 
@@ -16,8 +17,12 @@ class MyPageViewModel : ViewModel() {
     //Profile
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> get() = _userId
-    val userImg = MutableLiveData<Int>()
-    val userNickNameContent = MutableLiveData("")
+
+    private val _userImg = MutableLiveData<Int>()
+    val userImg: LiveData<Int> get() = _userImg
+
+    private val _userNickNameContent = MutableLiveData("")
+    val userNickNameContent = _userNickNameContent
 
     //Notice
     private val _noticeList = MutableLiveData<List<NoticeData>>()
@@ -31,13 +36,13 @@ class MyPageViewModel : ViewModel() {
     val isClickReasonChoose: LiveData<Boolean> get() = _isClickReasonChoose
 
     private val _isSelectSixthReason = MutableLiveData(false)
-    val isSelectSixthReason = _isSelectSixthReason
+    val isSelectSixthReason: LiveData<Boolean> get() = _isSelectSixthReason
 
     private val _unregisterReasonContent = MutableLiveData("")
     val unregisterReasonContent = _unregisterReasonContent
 
     private val _isUnregisterAgree = MutableLiveData(false)
-    val isUnregisterAgree = _isUnregisterAgree
+    val isUnregisterAgree: LiveData<Boolean> get() = _isUnregisterAgree
 
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
@@ -52,9 +57,9 @@ class MyPageViewModel : ViewModel() {
         )
     }
 
-    //이유 선택 박스 눌렀을 때
+    //이유 선택 박스 눌렀을 때 라디오 그룹 visibility 조절
     fun clickReasonChooseBox() {
-        _isClickReasonChooseBox.value = _isClickReasonChooseBox.value != true
+        _isClickReasonChooseBox.value = !(_isClickReasonChooseBox.value!!)
     }
 
     //이유 선택 하기
@@ -62,10 +67,14 @@ class MyPageViewModel : ViewModel() {
         _isClickReasonChoose.value = true
     }
 
+    //이유 중 '기타' 를 눌렀을 때 boolean 값
+    fun clickSixthReason(checkedID: Boolean) {
+        _isSelectSixthReason.value = checkedID
+    }
+
     //탈퇴 동의
     fun clickUnregisterAgree() {
-        _isUnregisterAgree.value = _isUnregisterAgree.value != true
-
+        _isUnregisterAgree.value = !(_isUnregisterAgree.value!!)
     }
 
     //이유선택박스 초기화

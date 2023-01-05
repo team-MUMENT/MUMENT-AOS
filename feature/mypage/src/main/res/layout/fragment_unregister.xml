@@ -312,7 +312,7 @@
                     android:layout_marginStart="12dp"
                     android:paddingVertical="13dp"
                     android:text="@string/unregister_choose_reason"
-                    android:textColor="@color/mument_color_gray1"
+                    android:textColor="@{myPageViewModel.isClickReasonChoose() ? @color/mument_color_black1 : @color/mument_color_gray2 }"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_choose_reason"
                     app:layout_constraintStart_toStartOf="@+id/iv_choose_reason"
                     app:layout_constraintTop_toTopOf="@+id/iv_choose_reason" />

@@ -13,6 +13,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
@@ -53,7 +54,8 @@ object ViewUtils {
         snackBarText.textAlignment = View.TEXT_ALIGNMENT_CENTER // 안내 텍스트 위치 조정
         snackBarText.textSize = 12.0F
         snackBarText.typeface = ResourcesCompat.getFont(
-            this,  R.font.notosans_medium)
+            this, R.font.notosans_medium
+        )
         snack.show()
     }
 
@@ -79,14 +81,19 @@ object ViewUtils {
         return listOf(deviceWidth, deviceHeight)
     }
 
-    fun View.applyVisibilityAnimation(isUpward: Boolean, reveal: Boolean, durationTime: Long, delay: Long? = null) {
+    fun View.applyVisibilityAnimation(
+        isUpward: Boolean,
+        reveal: Boolean,
+        durationTime: Long,
+        delay: Long? = null
+    ) {
         val animationSet = AnimationSet(true)
         val alphaAnimation = if (reveal) AlphaAnimation(0f, 1f) else AlphaAnimation(1f, 0f)
         val translateAnimation = when {
             isUpward && reveal -> TranslateAnimation(0f, 0f, 70f, 0f)
             isUpward && !reveal -> TranslateAnimation(0f, 0f, 0f, -height.toFloat())
-            !isUpward && reveal -> TranslateAnimation(0f, 0f,  -height.toFloat(),0f)
-            else -> TranslateAnimation(0f, 0f,  0f, height.toFloat())
+            !isUpward && reveal -> TranslateAnimation(0f, 0f, -height.toFloat(), 0f)
+            else -> TranslateAnimation(0f, 0f, 0f, height.toFloat())
         }
 
         alphaAnimation.duration = durationTime
@@ -100,25 +107,41 @@ object ViewUtils {
 
         animationSet.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(p0: Animation?) {
-                if (reveal) {visibility = View.VISIBLE}
+                if (reveal) {
+                    visibility = View.VISIBLE
+                }
             }
+
             override fun onAnimationEnd(p0: Animation?) {
-                visibility = if(reveal) View.VISIBLE else View.GONE
+                visibility = if (reveal) View.VISIBLE else View.GONE
             }
+
             override fun onAnimationRepeat(p0: Animation?) {}
         })
         startAnimation(animationSet)
+    }
+
+    fun View.hideKeyboard() {
+        val inputManager: InputMethodManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(
+            windowToken,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
     }
 }
 
 fun ViewGroup.showProgress() {
     val size = 50.dpToPx(context)
-    if (!children.any { it is ProgressBar}) {
-        viewTreeObserver.addOnGlobalLayoutListener(object: OnGlobalLayoutListener {
+    if (!children.any { it is ProgressBar }) {
+        viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 ProgressBar(context)
                     .also {
-                        it.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).also {
+                        it.layoutParams = ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        ).also {
                             it.width = size
                             it.height = size
                         }
@@ -136,7 +159,7 @@ fun ViewGroup.removeProgress() {
     removeView(progress)
 }
 
-inline fun <T: View> T.checkIsViewLoaded(crossinline callback: T.() -> Unit) {
+inline fun <T : View> T.checkIsViewLoaded(crossinline callback: T.() -> Unit) {
     viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             if (measuredWidth > 0 && measuredHeight > 0) {
