@@ -78,7 +78,7 @@ object ThirdPartyDependencies {
     const val gsonConverter =
         "com.squareup.retrofit2:converter-gson:${Versions.gsonConverterVersion}"
     const val flexBox = "com.google.android.flexbox:flexbox:${Versions.flexBoxVersion}"
-
+    const val tedImagePicker = "io.github.ParkSangGwon:tedimagepicker:${Versions.tedImagePicker}"
 }
 
 

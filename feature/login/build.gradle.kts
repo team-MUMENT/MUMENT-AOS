@@ -43,16 +43,15 @@ android {
 }
 
 dependencies {
-    implementation(project(Modules.CORE_DEPENDENT_MODULE))
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     addAndroidXDependencies()
     addTestDependencies()
     addNavigationDependencies()
     addDaggerHiltDependencies()
     addLifecycleDependencies()
+    implementation(project(Modules.CORE_DEPENDENT_MODULE))
     implementation(ThirdPartyDependencies.coil)
+
     implementation(AndroidXDependencies.coroutines)
     implementation(project(Modules.NAVIGATION_MODULE))
+    implementation(project(Modules.CORE_DEPENDENT_MODULE))
 }
