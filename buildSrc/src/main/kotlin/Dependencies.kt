@@ -78,11 +78,14 @@ object ThirdPartyDependencies {
     const val gsonConverter =
         "com.squareup.retrofit2:converter-gson:${Versions.gsonConverterVersion}"
     const val flexBox = "com.google.android.flexbox:flexbox:${Versions.flexBoxVersion}"
-    const val tedImagePicker = "io.github.ParkSangGwon:tedimagepicker:${Versions.tedImagePicker}"
+    const val fireBaseBom = "com.google.firebase:firebase-bom:${Versions.bomVersion}"
+    const val fireBaseCloudMessaging = "com.google.firebase:firebase-messaging"
+    const val fireBaseGA = "com.google.firebase:firebase-analytics"
 }
 
 
 object Plugins {
     const val HILT_PLUGIN = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltVersion}"
     const val SAFE_ARGS_PLUGIN = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navVersion}"
+    const val GOOGLE_SERVICE = "com.google.gms:google-services:${Versions.googleServiceVersion}"
 }

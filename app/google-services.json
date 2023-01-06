@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "934317325666",
+    "project_id": "mument-81153",
+    "storage_bucket": "mument-81153.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934317325666:android:a9130b8de228a09643003b",
+        "android_client_info": {
+          "package_name": "com.mument_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "934317325666-q5vhp6j52na3u6spcoqhbc1s9ofpd4re.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mument_android",
+            "certificate_hash": "06da7c34083416a31578df6473bbf118c3d61538"
+          }
+        },
+        {
+          "client_id": "934317325666-i0iv5c0j5nci2jpc0qbabqfom1r5d0b5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkUWy7-G03aIpDALwTNtp7b71y4bYSTkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "934317325666-i0iv5c0j5nci2jpc0qbabqfom1r5d0b5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
