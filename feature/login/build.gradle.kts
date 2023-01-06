@@ -48,7 +48,6 @@ dependencies {
     addNavigationDependencies()
     addDaggerHiltDependencies()
     addLifecycleDependencies()
-    implementation(project(Modules.CORE_DEPENDENT_MODULE))
     implementation(ThirdPartyDependencies.coil)
     implementation(AndroidXDependencies.coroutines)
     implementation(project(Modules.NAVIGATION_MODULE))

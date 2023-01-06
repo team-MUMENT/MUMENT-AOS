@@ -5,7 +5,7 @@
     <application>
         <activity
             android:name=".mument.DeclarMumentActivity"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>

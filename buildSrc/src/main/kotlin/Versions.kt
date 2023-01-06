@@ -20,7 +20,6 @@ object Versions {
     const val emoji = "1.1.0"
     const val flexBoxVersion = "3.0.0"
     const val window = "1.0.0"
-    const val tedImagePicker = "1.1.10"
 
     const val lottieVersion = "3.6.0"
     const val glideVersion = "4.13.0"
