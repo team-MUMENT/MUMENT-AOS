@@ -41,7 +41,6 @@ class MyMumentFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
 
-        emptyBtnClick()
         settingRecyclerView()
         listBtnClickListener()
         gridBtnClickListener()
@@ -110,11 +109,6 @@ class MyMumentFragment : Fragment() {
         }
     }
 
-    private fun emptyBtnClick() {
-        binding.clEmptyRecord.setOnClickListener {
-            //TODO: 기록하기 뷰로 이동 -> 데모데이 때 X
-        }
-    }
 
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
