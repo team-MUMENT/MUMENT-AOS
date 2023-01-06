@@ -1,56 +1,63 @@
 package com.mument_android.login
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.content.pm.PackageManager
-import android.net.Uri
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import coil.load
 import coil.transform.CircleCropTransformation
-
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
+import com.mument_android.login.util.GalleryUtil
+import com.mument_android.login.util.shortToast
 import java.util.regex.Pattern
 
 class ProfileSettingActivity :
     BaseActivity<ActivityProfileSettingBinding>(R.layout.activity_profile_setting) {
+    private lateinit var intentLauncher: ActivityResultLauncher<Intent>
+    private lateinit var inputMethodManager: InputMethodManager
 
     private val viewModel: LogInViewModel by viewModels()
-    private val finalNickname = ""
+
+    //이미지 접근 권한여부 설정
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                uploadImageListener()
+            } else
+                shortToast("권한요청이 거절되었습니다.")
+        }
+
+    private val galleryUtil = GalleryUtil(this, requestPermissionLauncher)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        viewModel.isImageSelected.value = false
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        isSpace()
+        isRightPattern()
         cancelBtnListener()
         isActiveBtn()
         deleteText()
-        imageClickListener()
+        uploadImageCallbackListener()
+        isImageExist()
+        backBtnListener()
     }
 
+
+    //edittext에 작성한 텍스트 삭제 버튼 클릭 리스너
     private fun deleteText() {
         binding.ivDelete.setOnClickListener {
             binding.etNickname.setText("")
         }
     }
 
-    private fun imageClickListener() {
-        binding.ivProfile.setOnClickListener {
-            isImageExist()
-        }
-    }
-
-    private fun isSpace() {
+    //닉네임 정규식 확인
+    private fun isRightPattern() {
         viewModel.mumentNickName.observe(this) {
             if (!Pattern.matches("^[ㄱ-ㅎ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
                 viewModel.isRightPattern.value = false
@@ -65,6 +72,7 @@ class ProfileSettingActivity :
         }
     }
 
+    //버튼 활성화
     private fun isActiveBtn() {
         viewModel.isActive.observe(this) {
             binding.tvProfileFinish.isSelected = it
@@ -72,30 +80,27 @@ class ProfileSettingActivity :
     }
 
 
+    //이미지 여부 확인 후 없다면 => 갤러리로 바로 이동, 있다면 -> 삭제 or 변경 여부 선택
     private fun isImageExist() {
-        if (viewModel.isImageSelected.value == false) {
-            aboutPermission()
-        } else {
-            binding.clSelectImg.visibility = View.VISIBLE
-            binding.tvSelectLibrary.setOnClickListener {
-                aboutPermission()
-                binding.clSelectImg.visibility = View.GONE
-            }
-            binding.tvDeleteProfile.setOnClickListener {
-                binding.ivProfile.setImageResource(R.drawable.circle_fill_default)
-                viewModel.isImageSelected.value = false
-                binding.clSelectImg.visibility = View.GONE
+        binding.ivProfile.setOnClickListener {
+            if (viewModel.imageUri.value == null) {
+                uploadPhotoClickListener(galleryUtil)
+            } else {
+                binding.clSelectImg.visibility = View.VISIBLE
+                binding.tvSelectLibrary.setOnClickListener {
+                    uploadPhotoClickListener(galleryUtil)
+                    binding.clSelectImg.visibility = View.GONE
+                }
+                binding.tvDeleteProfile.setOnClickListener {
+                    binding.ivProfile.setImageResource(R.drawable.circle_fill_default)
+                    viewModel.imageUri.value = null
+                    binding.clSelectImg.visibility = View.GONE
+                }
             }
         }
     }
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                selectImage()
-            }
-        }
-
+    //취소 버튼 클릭 리스너
     private fun cancelBtnListener() {
         binding.tvProfileCancel.setOnClickListener {
             binding.clSelectImg.visibility = View.GONE
@@ -106,39 +111,51 @@ class ProfileSettingActivity :
         }
     }
 
+    private fun uploadImageListener() {
+        Intent(Intent.ACTION_PICK).apply {
+            type = MediaStore.Images.Media.CONTENT_TYPE
+            data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+            setResult(RESULT_OK)
+            intentLauncher.launch(this)
+        }
+    }
 
-    private val getContent =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            binding.ivProfile.load(uri) {
-                crossfade(true)
-                placeholder(R.drawable.circle_fill_default)
-                transformations(CircleCropTransformation())
+    //갤러리 접근 권한 있다면 갤러리로 이동
+    private fun uploadPhotoClickListener(galleryUtil: GalleryUtil) {
+        if (galleryUtil.aboutPermission()) {
+            uploadImageListener()
+        }
+    }
+
+    //이미지 선택 시, 적용
+    private fun uploadImageCallbackListener() {
+        inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        intentLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == RESULT_OK) {
+                it.data?.data?.let { uri ->
+                    val imageUri = it.data?.data
+                    binding.ivProfile.load(uri) {
+                        viewModel.imageUri.value = uri
+                        crossfade(true)
+                        placeholder(R.drawable.circle_fill_default)
+                        transformations(CircleCropTransformation())
+                    }
+                    if (imageUri != null) {
+                        viewModel.imageUri.value = uri
+                    }
+                }
             }
         }
+    }
 
-
-    private fun aboutPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            selectImage()
-        } else if (ContextCompat.checkSelfPermission(
-                this,
-                READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_DENIED
-        ) {
-
-            requestPermissionLauncher.launch(READ_EXTERNAL_STORAGE)
+    //뒤로가기 클릭 리스너
+    private fun backBtnListener() {
+        binding.ivProfileBack.setOnClickListener {
+            startActivity(Intent(this, LogInActivity::class.java))
+            finish()
         }
-
     }
-
-
-    private fun selectImage() {
-        getContent.launch("image/*")
-    }
-
-
 }
