@@ -28,7 +28,6 @@ sealed class MusicDetailContract {
 
     sealed class MusicDetailEffect: SideEffect {
         object PopBackStack: MusicDetailEffect()
-        object ShowToast: MusicDetailEffect()
-        object FailureChangeMumentLikeStatus: MusicDetailEffect()
+        data class ShowToast(val msg: String): MusicDetailEffect()
     }
 }

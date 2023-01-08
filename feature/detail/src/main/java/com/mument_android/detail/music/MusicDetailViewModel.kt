@@ -60,7 +60,7 @@ class MusicDetailViewModel @Inject constructor(
     private fun fetchMusicDetail(musicId: String) {
         viewModelScope.launch {
             fetchMusicDetailUseCase(musicId, BuildConfig.USER_ID).catch { e ->
-                //Todo exception handling
+                setState { copy(hasError = true) }
             }.collect {
                 setState { copy(musicInfo = it.music, myMumentInfo = it.myMument) }
             }
@@ -74,7 +74,7 @@ class MusicDetailViewModel @Inject constructor(
                 BuildConfig.USER_ID,
                 viewState.value.mumentSortType.tag
             ).catch { e ->
-                //Todo exception handling
+                setState { copy(hasError = true, mumentList = emptyList()) }
             }.collect { muments ->
                 setState { copy(mumentList = muments) }
             }
@@ -86,13 +86,11 @@ class MusicDetailViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.Default) {
                 val sortedMuments = if(sort == SortTypeEnum.SORT_LATEST) {
-                    muments.sortedBy {
-                        dateFormatter.parseDate(it.createdAt)
-                    }.reversed()
+                    muments.sortedBy { dateFormatter.parseDate(it.createdAt) }
+                        .reversed()
                 } else {
-                    muments.sortedBy {
-                        it.likeCount
-                    }.reversed()
+                    muments.sortedBy { it.likeCount }
+                        .reversed()
                 }
                 setState { copy(mumentList = sortedMuments) }
             }
@@ -102,17 +100,16 @@ class MusicDetailViewModel @Inject constructor(
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId, BuildConfig.USER_ID)
-                .catch { e -> //Todo exception handling
-                }.collect {}
+                .catch { }
+                .collect { }
         }
     }
 
     fun cancelLikeMument(mumentId: String) {
         viewModelScope.launch {
             cancelLikeMumentUseCase(mumentId, BuildConfig.USER_ID)
-                .catch { e ->
-                    //Todo exception handling
-                }.collect {}
+                .catch { }
+                .collect { }
         }
     }
 }

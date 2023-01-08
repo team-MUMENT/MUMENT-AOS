@@ -19,6 +19,7 @@ import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
+import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.mument.listener.MumentClickListener
 import com.mument_android.detail.music.MusicDetailContract.*
@@ -50,7 +51,7 @@ class MusicDetailFragment(): Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.musicDetailViewModel = musicDetailViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.ivBack.click { findNavController().popBackStack() }
+        binding.ivBack.setOnClickListener { findNavController().popBackStack() }
 
         setMyMumentTagList()
         setEntireMumentListAdapter()
@@ -80,11 +81,8 @@ class MusicDetailFragment(): Fragment() {
     private fun collectEffect() {
         collectFlowWhenStarted(musicDetailViewModel.effect) { effect ->
             when(effect) {
-                MusicDetailEffect.PopBackStack -> TODO()
-                MusicDetailEffect.ShowToast -> TODO()
-                MusicDetailEffect.FailureChangeMumentLikeStatus -> {
-                    val status = musicDetailViewModel.viewState.value.mumentSortType
-                }
+                is MusicDetailEffect.ShowToast -> requireContext().showToast(effect.msg)
+                MusicDetailEffect.PopBackStack -> { }
             }
         }
     }

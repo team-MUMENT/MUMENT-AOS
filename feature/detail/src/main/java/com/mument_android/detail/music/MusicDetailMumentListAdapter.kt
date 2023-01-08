@@ -43,16 +43,16 @@ class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickL
     }
 
     private fun checkLikeMument(holder: MusicDetailMumentListViewHolder) {
-        val musicDetail = getItem(holder.absoluteAdapterPosition)
+        val mument = getItem(holder.absoluteAdapterPosition)
         holder.binding.run {
             cbHeart.setOnClickListener {
-                val likeCount = musicDetail.likeCount
-                if (cbHeart.isChecked) mumentClickListener.likeMument(musicDetail.mumentId) else mumentClickListener.cancelLikeMument(musicDetail.mumentId)
+                val likeCount = mument.likeCount
+                if (cbHeart.isChecked) mumentClickListener.likeMument(mument.mumentId) else mumentClickListener.cancelLikeMument(mument.mumentId)
                 val updatedLikeCount = when {
-                    musicDetail.isLiked && cbHeart.isChecked -> likeCount
-                    musicDetail.isLiked && !cbHeart.isChecked -> likeCount-1
-                    !musicDetail.isLiked && cbHeart.isChecked -> likeCount+1
-                    !musicDetail.isLiked && !cbHeart.isChecked -> likeCount
+                    mument.isLiked && cbHeart.isChecked -> likeCount
+                    mument.isLiked && !cbHeart.isChecked -> likeCount-1
+                    !mument.isLiked && cbHeart.isChecked -> likeCount+1
+                    !mument.isLiked && !cbHeart.isChecked -> likeCount
                     else -> likeCount
                 }
                 tvLikeCount.text = updatedLikeCount.toString()
