@@ -5,4 +5,13 @@
     <string name="login_subtitle2">과</string>
     <string name="login_privacy_policy"><u>개인정보처리방침</u></string>
     <string name="login_subtitle3">에 동의하게 됩니다.</string>
+
+    <string name="login_profile_setting">프로필 설정</string>
+    <string name="login_profile_finish">완료</string>
+    <string name="login_profile_nickname">닉네임을 입력해주세요.(필수)</string>
+    <string name="login_profile_regular_expression">특수문자 제외 2-15자</string>
+
+    <string name="profile_cancel">취소</string>
+    <string name="profile_select_library">라이브러리에서 선택</string>
+    <string name="profile_delete_img">프로필 사진 삭제</string>
 </resources>

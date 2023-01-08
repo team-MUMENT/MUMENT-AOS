@@ -43,7 +43,6 @@ android {
 }
 
 dependencies {
-    implementation(project(Modules.CORE_DEPENDENT_MODULE))
     addAndroidXDependencies()
     addTestDependencies()
     addNavigationDependencies()
@@ -52,4 +51,5 @@ dependencies {
     implementation(ThirdPartyDependencies.coil)
     implementation(AndroidXDependencies.coroutines)
     implementation(project(Modules.NAVIGATION_MODULE))
+    implementation(project(Modules.CORE_DEPENDENT_MODULE))
 }
