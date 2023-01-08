@@ -140,6 +140,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/muments_recorded_by_me"
                         android:textColor="@color/mument_color_black2"
+                        android:textSize="15dp"
+                        android:fontFamily="@font/notosans_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -227,8 +229,9 @@
                         android:id="@+id/tv_every_muments"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
                         android:text="@string/every_mument"
+                        android:textSize="15dp"
+                        android:fontFamily="@font/notosans_bold"
                         android:textColor="@color/mument_color_black2"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/csl_empty_view" />
