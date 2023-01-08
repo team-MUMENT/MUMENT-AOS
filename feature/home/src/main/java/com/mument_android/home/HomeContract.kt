@@ -6,14 +6,14 @@ import com.mument_android.core.util.ViewState
 import com.mument_android.domain.entity.home.AgainMumentEntity
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.home.RandomMumentEntity
-import com.mument_android.domain.entity.home.TodayMumentEntity
+import com.mument_android.home.models.TodayMument
 
 class HomeContract {
     data class HomeViewState(
         override val hasError: Boolean = false,
         override val onNetwork: Boolean = false,
         val bannerEntity: List<BannerEntity>? = null,
-        val todayMumentEntity: TodayMumentEntity? = null,
+        val todayMumentEntity: TodayMument? = null,
         val heardMumentEntity: List<AgainMumentEntity>? = null,
         val emotionMumentEntity: RandomMumentEntity? = null,
         val notificationStatus: Boolean = false,

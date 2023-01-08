@@ -82,11 +82,6 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideTodayMumentUseCase(homeRepository: HomeRepository): SaveTodayMumentUseCase =
-        SaveTodayMumentUseCaseImpl(homeRepository)
-
-    @Provides
-    @Singleton
     fun provideRecordMumentUseCase(
         recordRepository: RecordRepository
     ): RecordMumentUseCase = RecordMumentUseCaseImpl(recordRepository)

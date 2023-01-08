@@ -12,8 +12,12 @@ import javax.inject.Inject
 class WhenHomeEnterUseCaseImpl @Inject constructor(
     val homeRepository: HomeRepository
 ) : WhenHomeEnterUseCase {
-    override suspend fun getTodayMument(userId: String): Flow<TodayMumentEntity?> = flow {
-        emit(homeRepository.getRemoteTodayMument(userId))
+    override suspend fun getTodayMument(userId: String): Flow<TodayMumentEntity> =
+        homeRepository.getTodayMument(userId)
+
+
+    override suspend fun updateLocalTodayMument(mument: TodayMumentEntity) {
+        homeRepository.insertTodayMument(mument)
     }
 
     override suspend fun getBannerMument(): Flow<List<BannerEntity>?> = flow {

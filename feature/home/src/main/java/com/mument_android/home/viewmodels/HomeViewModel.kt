@@ -1,15 +1,16 @@
 package com.mument_android.home.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core_dependent.util.collectEvent
 import com.mument_android.core_dependent.util.emitEffect
 import com.mument_android.core_dependent.util.emitEvent
 import com.mument_android.core_dependent.util.setState
-import com.mument_android.domain.usecase.home.SaveTodayMumentUseCase
 import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
 import com.mument_android.home.BuildConfig
 import com.mument_android.home.HomeContract.*
+import com.mument_android.home.mappers.HomeTodayMumentMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -21,11 +22,13 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     val useCase: WhenHomeEnterUseCase,
-    val localUseCase: SaveTodayMumentUseCase
+    val homeTodayMumentMapper: HomeTodayMumentMapper
 ) : ViewModel() {
     private val _homeViewState = MutableStateFlow(HomeViewState())
     val homeViewState get() = _homeViewState.asStateFlow()
-
+    private val _homeEffect: Channel<HomeSideEffect> = Channel()
+    val effect = _homeEffect.receiveAsFlow()
+    private val _homeEvent: MutableSharedFlow<HomeEvent> = MutableSharedFlow()
     val homeViewStateEnabled = flow {
         _homeViewState.value.run {//테스트 못함,, 데이터가 없어서
             emit(
@@ -38,14 +41,7 @@ class HomeViewModel @Inject constructor(
             )
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3000), false)
-
     private fun nullCheck(vararg list: Any?): Boolean = list.all { it != null }
-
-
-    private val _homeEffect: Channel<HomeSideEffect> = Channel()
-    val effect = _homeEffect.receiveAsFlow()
-
-    private val _homeEvent: MutableSharedFlow<HomeEvent> = MutableSharedFlow()
     var num = 0
 
     val bannerNumIncrease = flow {
@@ -59,28 +55,12 @@ class HomeViewModel @Inject constructor(
     init {
         collectEvent()
         viewModelScope.launch {
-            localUseCase.getTodayMument(BuildConfig.USER_ID).onEach { result ->
-                /*}.catch { e -> Data Layer로 이동
-                    useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
-                        //Todo exception handling
-                    }?.collect {
-                        todayMument.value = it?.todayMument
-                        it.let { localUseCase.saveTodayMument(it.todayMument) }
-                    }*/
+            useCase.getTodayMument(BuildConfig.USER_ID).map { today ->
+                homeTodayMumentMapper.map(today)
             }.collect { today ->
                 _homeViewState.setState {
                     copy(todayMumentEntity = today)
                 }
-                /*if (it.todayDate != LocalDate.now().toString()) { Data Layer로 이동
-                    useCase.getTodayMument(BuildConfig.USER_ID)?.catch {
-                        //Todo exception handling
-                    }?.collect { collect ->
-                        todayMument.value = collect.todayMument
-                        localUseCase.saveTodayMument(collect.todayMument)
-                    }
-                } else {
-                    todayMument.value = it
-                }*/
             }
             useCase.getBannerMument().catch {
                 //Todo exception handling
@@ -103,6 +83,7 @@ class HomeViewModel @Inject constructor(
             useCase.getRandomMument().catch {
                 //Todo exception handling
             }.collect { random ->
+                Log.e("Random Collect!!", random.toString())
                 if (random != null) {
                     _homeViewState.setState { copy(emotionMumentEntity = random) }
                 }
