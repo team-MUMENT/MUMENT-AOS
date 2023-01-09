@@ -6,10 +6,14 @@
     <dimen name="app_space_25">25dp</dimen>
     <dimen name="app_space_12">12dp</dimen>
     <dimen name="app_space_15">15dp</dimen>
+    <dimen name="app_space_16">16dp</dimen>
     <dimen name="app_space_18">18dp</dimen>
     <dimen name="app_space_20">20dp</dimen>
     <dimen name="app_space_8">8dp</dimen>
-    <dimen name="app_space_48dp">48dp</dimen>
-    <dimen name="app_space_14dp">14dp</dimen>
+    <dimen name="app_space_48">48dp</dimen>
+    <dimen name="app_space_14">14dp</dimen>
+    <dimen name="app_space_13">13dp</dimen>
+    <dimen name="app_space_5">5dp</dimen>
+    <dimen name="app_space_10">10dp</dimen>
 
 </resources>
