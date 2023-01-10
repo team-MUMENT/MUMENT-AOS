@@ -3,13 +3,8 @@
     package="com.mument_android.home">
 
     <application>
-        <activity
-            android:name=".SearchActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+        <activity android:name=".SearchActivity"/>
+        <activity android:name=".NotifyActivity"/>
     </application>
 
 </manifest>
