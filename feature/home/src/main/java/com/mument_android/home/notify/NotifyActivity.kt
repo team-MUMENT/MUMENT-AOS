@@ -1,7 +1,8 @@
-package com.mument_android.home
+package com.mument_android.home.notify
 
 import android.os.Bundle
 import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.home.R
 import com.mument_android.home.databinding.ActivityNotifyBinding
 
 class NotifyActivity : BaseActivity<ActivityNotifyBinding>(R.layout.activity_notify) {

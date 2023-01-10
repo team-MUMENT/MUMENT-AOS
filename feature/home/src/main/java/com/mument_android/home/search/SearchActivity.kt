@@ -1,4 +1,4 @@
-package com.mument_android.home
+package com.mument_android.home.search
 
 import android.os.Bundle
 import android.view.View
@@ -9,6 +9,7 @@ import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
+import com.mument_android.home.R
 import com.mument_android.home.adapters.SearchListAdapter
 import com.mument_android.home.databinding.ShareSearchLayoutBinding
 import com.mument_android.home.viewmodels.SearchViewModel

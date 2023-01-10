@@ -3,8 +3,8 @@
     package="com.mument_android.home">
 
     <application>
-        <activity android:name=".SearchActivity"/>
-        <activity android:name=".NotifyActivity"/>
+        <activity android:name=".search.SearchActivity"/>
+        <activity android:name=".notify.NotifyActivity"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.mument_android.home
+package com.mument_android.home.main
 
 import com.mument_android.core.util.Event
 import com.mument_android.core.util.SideEffect
