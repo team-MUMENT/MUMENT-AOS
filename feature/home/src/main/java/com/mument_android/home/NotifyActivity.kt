@@ -10,7 +10,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(R.layout.activity_not
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appBarClickListener()
-        binding.tvHi.post {
+        /*binding.tvHi.post {
             if (binding.tvHi.layout.getEllipsisStart(2) != 0) {
                 val newText = binding.tvHi.text.removeRange(
                     binding.tvHi.text.length - (binding.tvHi.layout.getEllipsisCount(2) + (suffix.length)),
@@ -18,7 +18,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(R.layout.activity_not
                 )
                 binding.tvHi.text = String.format("%s%s", newText, suffix)
             }
-        }
+        }*/
     }
 
     private fun appBarClickListener() {
