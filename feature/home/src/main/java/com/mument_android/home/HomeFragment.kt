@@ -75,6 +75,9 @@ class HomeFragment : Fragment() {
         binding.tvSearch.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickSearch)
         }
+        binding.ivNotify.setOnClickListener {
+            startActivity(Intent(requireActivity(), NotifyActivity::class.java))
+        }
     }
 
     private fun setAdapter() {
