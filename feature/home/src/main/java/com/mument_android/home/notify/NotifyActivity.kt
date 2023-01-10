@@ -3,23 +3,40 @@ package com.mument_android.home.notify
 import android.os.Bundle
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.home.R
+import com.mument_android.home.adapters.NotifyAdapter
 import com.mument_android.home.databinding.ActivityNotifyBinding
+import com.mument_android.home.models.Notify
 
 class NotifyActivity : BaseActivity<ActivityNotifyBinding>(R.layout.activity_notify) {
 
-    private val suffix = "...에 쓴 뮤멘트를 좋아합니다"
+    lateinit var notifyAdapter: NotifyAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.lifecycleOwner = this
         appBarClickListener()
-        /*binding.tvHi.post {
-            if (binding.tvHi.layout.getEllipsisStart(2) != 0) {
-                val newText = binding.tvHi.text.removeRange(
-                    binding.tvHi.text.length - (binding.tvHi.layout.getEllipsisCount(2) + (suffix.length)),
-                    binding.tvHi.text.length
-                )
-                binding.tvHi.text = String.format("%s%s", newText, suffix)
-            }
-        }*/
+        notifyAdapter = NotifyAdapter()
+        binding.rvNotifyList.adapter = notifyAdapter
+        notifyAdapter.submitList(
+            listOf(
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+                Notify("가나다라마나암ㅇㅁㄴ아ㅣㅁ너아ㅣㄴ어ㅇ녀로ㅓㅇㄴㅁㄹ언모리ㅏㅁ노ㅓㅏ흔들리는 ㄱ꽃들 속에서~~ 내 샴푸향이 느껴진거일겨~~~가나다라마바사아자차카내 샴푸향이 느껴진거일겨내 샴푸향이 느껴진거일겨"),
+            )
+        )
+
     }
 
     private fun appBarClickListener() {

@@ -24,13 +24,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <com.mument_android.home.notify.NotifyEllipsizeCustomTextView
             android:id="@+id/tv_notify_title"
             style="@style/TextView.Mument_B6_M13.Style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/app_space_12"
             android:ellipsize="end"
+            android:text="@{notify.title}"
             android:maxLines="3"
             android:textColor="@color/mument_color_black1"
             app:layout_constraintEnd_toStartOf="@id/iv_notify_delete"

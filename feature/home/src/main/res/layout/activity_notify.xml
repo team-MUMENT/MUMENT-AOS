@@ -23,7 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:clipToPadding="false"
+            android:orientation="vertical"
             android:paddingTop="@dimen/app_space_14"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appbar_notify"
             tools:listitem="@layout/item_notify_list" />
