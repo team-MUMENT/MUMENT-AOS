@@ -1,8 +1,8 @@
 package com.mument_android.mypage.data
 
-import java.sql.Date
-
 data class NoticeData(
+    val id: Int,
     val title: String,
-    val date: Date
+    val content: String,
+    val created_at: String,
 )

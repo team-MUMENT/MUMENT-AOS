@@ -11,11 +11,21 @@ import com.mument_android.mypage.databinding.ItemNoticeBinding
 class NoticeAdapter :
     ListAdapter<NoticeData, NoticeAdapter.NoticeViewHolder>(GlobalDiffCallBack<NoticeData>()) {
 
+    private var itemClickListener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onClick(data: NoticeData)
+    }
+
+    fun setItemClickListener(itemClickListener: OnItemClickListener) {
+        this.itemClickListener = itemClickListener
+    }
+
     class NoticeViewHolder(private var binding: ItemNoticeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(noticeData: NoticeData) {
             binding.tvNoticeItemTitle.text = noticeData.title
-            binding.tvNoticeItemDate.text = noticeData.date.toString()
+            binding.tvNoticeItemDate.text = noticeData.created_at
         }
     }
 
@@ -27,7 +37,8 @@ class NoticeAdapter :
 
     override fun onBindViewHolder(holder: NoticeViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            itemClickListener?.onClick(getItem(position))
+        }
     }
-
-
 }
