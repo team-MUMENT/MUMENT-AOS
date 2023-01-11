@@ -74,6 +74,11 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(R.layout.activity_not
                     Music("sad", "asdsad", "sadsadas", "image"),
                     NotifyType.LIKE
                 ),
+                Notify(
+                    "ajadsklf;jasjlfkh",
+                    Music("sad", "asdsad", "sadsadas", "image"),
+                    NotifyType.NOTICE
+                ),
             )
         )
     }

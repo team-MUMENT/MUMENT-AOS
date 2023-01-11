@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="notifyViewModel"
+            type="com.mument_android.home.viewmodels.NotifyViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

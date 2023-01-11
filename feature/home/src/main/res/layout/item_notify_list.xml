@@ -21,6 +21,7 @@
             android:layout_height="24dp"
             android:layout_marginStart="@dimen/app_space_13"
             android:contentDescription="@string/notify_icon_description"
+            android:src="@{context.getDrawable(notify.notifyType.res)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,8 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/app_space_12"
             android:ellipsize="end"
-            android:text="@{notify.title}"
             android:maxLines="3"
+            android:text="@{notify.title}"
             android:textColor="@color/mument_color_black1"
             app:layout_constraintEnd_toStartOf="@id/iv_notify_delete"
             app:layout_constraintStart_toEndOf="@id/iv_icon"
