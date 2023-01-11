@@ -17,11 +17,14 @@ class NotifyContract {
         object OnClickBackBtn : NotifyEvent()
         object OnClickSettingBtn : NotifyEvent()
         data class OnClickNotify(val notify: Notify) : NotifyEvent()
+        data class OnDeleteNotify(val notify: Notify) : NotifyEvent()
     }
 
     sealed class NotifySideEffect : SideEffect {
         object PopBackStack : NotifySideEffect()
+        object NavToSetting : NotifySideEffect()
         data class Toast(val message: String) : NotifySideEffect()
-        data class NavToMumentDetail(val mumentId: String) : NotifySideEffect()
+        data class DeleteNotify(val notify: Notify) : NotifySideEffect()
+        data class NavToMumentDetail(val notify: Notify) : NotifySideEffect()
     }
 }
