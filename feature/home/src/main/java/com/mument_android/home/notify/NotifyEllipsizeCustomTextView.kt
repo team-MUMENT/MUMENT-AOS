@@ -8,7 +8,7 @@ import androidx.appcompat.widget.AppCompatTextView
 class NotifyEllipsizeCustomTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatTextView(context, attrs) {
-    private val suffix = "...에 쓴 뮤멘트를 좋아합니다."
+    private val suffix = "에 쓴 뮤멘트를 좋아합니다."//No-break space Symbol
     private val matcher = "[ㄱ-ㅎ가-힣]".toRegex()
 
     override fun onDraw(canvas: Canvas?) {             //부모의 onDraw()가 호출 되기 전에 text를 수정해야함(그래야 그리는 동작을 하기 전에 text를 박아놓으니)
@@ -23,10 +23,10 @@ class NotifyEllipsizeCustomTextView @JvmOverloads constructor(
             val newText = text.removeRange(
                 text.length - (ellipsize +
                         suffix.length +                 //suffix의 글자수
-                        if (removeLength.length - (suffix.length * 0.4) > 0) { //suffix가 들어갈 영역의 문자열의 한글을 제외한 문자열의 길이가 suffix의 한글을 제외한 문자열의 길이보다 클 때
-                            ((removeLength.length - (suffix.length * 0.4)) * 0.6).toInt()  //더 큰 만큼이 한글이 그만큼 있는 것이니 대충 한글 : 영어 = 1.6 : 1 비율로 0.6 곱한만큼을 더 더해주었음
+                        if (removeLength.length - (suffix.length * 0.3) > 0) { //suffix가 들어갈 영역의 문자열의 한글을 제외한 문자열의 길이가 suffix의 한글을 제외한 문자열의 길이보다 클 때
+                            ((removeLength.length - (suffix.length * 0.3)) * 0.6).toInt()  //더 큰 만큼이 한글이 그만큼 있는 것이니 대충 한글 : 영어 = 1.6 : 1 비율로 0.6 곱한만큼을 더 더해주었음
                         } else {
-                            -((suffix.length * 0.4 - removeLength.length) * 0.6).toInt()   //얘는 반대로 한글이 더 적다는거니깐 덜 빼게 해준다.
+                            -((suffix.length * 0.3 - removeLength.length) * 0.6).toInt()   //얘는 반대로 한글이 더 적다는거니깐 덜 빼게 해준다.
                         }),
                 text.length
             )

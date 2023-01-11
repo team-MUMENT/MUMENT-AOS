@@ -70,7 +70,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(R.layout.activity_not
         notifyAdapter.submitList(
             listOf(
                 Notify(
-                    "ajadsklf;jasjlfkhasljksfdjsagfahjgdsajhfgsdasdsadaskldjalkdjalksajdlkasjdklsajdklasjdkl가",
+                    "ajadsk lf;jasjlfkhasl jksfdjsagfahjgdsa jhfgsdasdsa daskldjalk djalksajdlka sjdklsajdklasjdkl 가난다나ㅏㄴ암나이니asjdkl가sjdklsajdklasjdkl가sjdklsajdklasjdkl가sjdklsajdklasjdkl가".replace(" ".toRegex(), "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경, 나중에 전반적으로 수정할 예정
                     Music("sad", "asdsad", "sadsadas", "image"),
                     NotifyType.LIKE
                 ),
