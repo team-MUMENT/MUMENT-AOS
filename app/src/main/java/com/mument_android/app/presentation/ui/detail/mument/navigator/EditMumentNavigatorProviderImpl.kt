@@ -13,7 +13,7 @@ class EditMumentNavigatorProviderImpl @Inject constructor(
     override fun editMument(mumentId: String, mumentDetailEntity: MumentDetailEntity) {
         with(activity as MainActivity) {
             editMument(mumentId, mumentDetailEntity)
-            binding.navBar.selectedItemId = R.id.fragment_record
+            /*binding.navBar.selectedItemId = R.id.fragment_record*/
         }
     }
 }
