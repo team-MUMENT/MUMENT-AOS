@@ -55,14 +55,20 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(R.layout.activity_not
                 is NotifySideEffect.Toast -> {
                     showToast(notifySideEffect.message)
                 }
+                is NotifySideEffect.NavToNotice -> {
+                    moveToNoticeView(notifySideEffect.notify)
+                }
             }
         }
     }
 
-    fun moveToMumentDetail(notify: Notify) {
+    private fun moveToMumentDetail(notify: Notify) {
         //Move MumentDetail
     }
 
+    private fun moveToNoticeView(notify: Notify) {
+        //Move Notice
+    }
 
     private fun adapterSetting() {
         notifyAdapter = NotifyAdapter { notifyViewModel.emitEvent(NotifyEvent.OnClickNotify(it)) }
