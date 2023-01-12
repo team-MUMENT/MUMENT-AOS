@@ -15,7 +15,7 @@ class MumentDialogBuilder {
             allowButtonText = allowButtonText,
             allowListener = allowListener,
             cancelListener = cancelListener,
-            cancelButtonText = cancelButtonText
+            cancelButtonText = cancelButtonText,
         )
     }
 
@@ -40,5 +40,4 @@ class MumentDialogBuilder {
         cancelListener = listener
         return this
     }
-
 }
