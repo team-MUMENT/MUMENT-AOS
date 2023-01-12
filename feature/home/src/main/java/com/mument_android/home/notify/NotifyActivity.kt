@@ -4,17 +4,20 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.util.TransitionMode
 import com.mument_android.core_dependent.util.ViewUtils.showToast
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.home.R
 import com.mument_android.home.adapters.NotifyAdapter
 import com.mument_android.home.databinding.ActivityNotifyBinding
 import com.mument_android.home.models.Notify
 import com.mument_android.home.notify.NotifyContract.*
-import com.mument_android.home.util.NotifyType
 import com.mument_android.home.viewmodels.NotifyViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class NotifyActivity : BaseActivity<ActivityNotifyBinding>(R.layout.activity_notify) {
+@AndroidEntryPoint
+class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
+    layoutResId = R.layout.activity_notify, mode = TransitionMode.HORIZONTAL
+) {
 
     private lateinit var notifyAdapter: NotifyAdapter
     private val notifyViewModel by viewModels<NotifyViewModel>()
@@ -75,16 +78,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(R.layout.activity_not
         binding.rvNotifyList.adapter = notifyAdapter
         notifyAdapter.submitList(
             listOf(
-                Notify(
-                    "ajadsk lf;jasjlfkhasl jksfdjsagfahjgdsa jhfgsdasdsa daskldjalk djalksajdlka sjdklsajdklasjdkl 가난다나ㅏㄴ암나이니asjdkl가sjdklsajdklasjdkl가sjdklsajdklasjdkl가sjdklsajdklasjdkl가".replace(" ".toRegex(), "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경, 나중에 전반적으로 수정할 예정
-                    Music("sad", "asdsad", "sadsadas", "image"),
-                    NotifyType.LIKE
-                ),
-                Notify(
-                    "ajadsklf;jasjlfkh",
-                    Music("sad", "asdsad", "sadsadas", "image"),
-                    NotifyType.NOTICE
-                ),
+
             )
         )
     }
