@@ -9,7 +9,7 @@ import com.mument_android.home.BR
 import com.mument_android.home.databinding.ItemNotifyListBinding
 import com.mument_android.home.models.Notify
 
-class NotifyAdapter(val onDeleteClick: (Notify) -> Unit) :
+class NotifyAdapter(val onNotifyClick: (Notify) -> Unit, val onDeleteClick: (Notify) -> Unit) :
     ListAdapter<Notify, NotifyAdapter.NotifyViewHolder>(GlobalDiffCallBack<Notify>()) {
 
     lateinit var inflater: LayoutInflater
@@ -23,11 +23,19 @@ class NotifyAdapter(val onDeleteClick: (Notify) -> Unit) :
     override fun onBindViewHolder(holder: NotifyViewHolder, position: Int) {
         val data = getItem(position)
         holder.binding.setVariable(BR.notify, data)
+        holder.binding.root.setOnClickListener {
+            onNotifyClick(data)
+        }
         holder.binding.ivNotifyDelete.setOnClickListener {
             onDeleteClick(data)
         }
         //Holder에서 Ellipsize 커스텀시에 Post 안 넣으면 getEllipsisCount 자체를 받아올수가 없음, post로 사용하는건 별로 코루틴 써도 별로임
         //NullPointerException: Attempt to invoke virtual method 'int android.text.Layout.getEllipsisCount(int)' on a null object reference
+    }
+
+    override fun onViewRecycled(holder: NotifyViewHolder) {
+        holder.binding.tvNotifyTitle.isApplySpan = 0
+        super.onViewRecycled(holder)
     }
 
     class NotifyViewHolder(val binding: ItemNotifyListBinding) : ViewHolder(binding.root)

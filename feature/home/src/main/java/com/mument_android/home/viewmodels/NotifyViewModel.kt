@@ -48,7 +48,6 @@ class NotifyViewModel @Inject constructor() : ViewModel() {
                             //Nav to Some View
                         }
                     }
-
                 }
                 is NotifyEvent.OnDeleteNotify -> {
                     emitEffect(NotifySideEffect.DeleteNotify(event.notify))
