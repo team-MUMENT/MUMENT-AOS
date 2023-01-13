@@ -9,6 +9,7 @@ import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
+import com.mument_android.core_dependent.util.TransitionMode
 import com.mument_android.home.R
 import com.mument_android.home.adapters.SearchListAdapter
 import com.mument_android.home.databinding.ShareSearchLayoutBinding
@@ -17,8 +18,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_search_layout) {
-
+class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
+    R.layout.share_search_layout,
+    TransitionMode.HORIZONTAL
+) {
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
@@ -62,7 +65,8 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
                 .show(supportFragmentManager, "")
         }
     }
-    private fun callSearch(){
+
+    private fun callSearch() {
         viewmodel.searchMusic(binding.etSearch.text.toString())
         binding.rcSearch.adapter = searchResultAdapter
     }
@@ -73,8 +77,8 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    searchResultAdapter.submitList(result.data)
                     viewmodel.searchSwitch(true)
+                    searchResultAdapter.submitList(result.data)
                 }
                 else -> {}
             }
@@ -103,7 +107,6 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
             },
             itemClickListener = { data -> viewmodel.deleteRecentList(data) }
         )
-        searchAdapter.option = true
         searchResultAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
@@ -112,6 +115,5 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(R.layout.share_sea
             itemClickListener = {}
         )
         binding.rcSearch.adapter = searchAdapter
-        searchResultAdapter.option = false
     }
 }
