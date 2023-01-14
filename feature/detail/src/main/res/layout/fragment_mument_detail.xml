@@ -6,7 +6,7 @@
     <data>
         <variable
             name="mumentDetailViewModel"
-            type="com.mument_android.detail.viewmodels.MumentDetailViewModel" />
+            type="com.mument_android.detail.mument.viewmodel.MumentDetailViewModel" />
         <import type="android.view.View"/>
     </data>
 

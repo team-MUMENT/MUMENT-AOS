@@ -1,25 +1,12 @@
-package com.mument_android.detail.mument
+package com.mument_android.detail.mument.fragment
 
-import android.app.Activity
-import android.app.Activity.RESULT_OK
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.registerForActivityResult
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet.Constraint
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -40,10 +27,10 @@ import com.mument_android.core_dependent.util.ViewUtils.applyVisibilityAnimation
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentMumentDetailBinding
-import com.mument_android.detail.mument.MumentDetailContract.MumentDetailEvent
-import com.mument_android.detail.mument.MumentDetailContract.MumentDetailSideEffect
-import com.mument_android.detail.mument.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
-import com.mument_android.detail.viewmodels.MumentDetailViewModel
+import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailEvent
+import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailSideEffect
+import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
+import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -211,7 +198,7 @@ class MumentDetailFragment : Fragment() {
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
                 is MumentDetailSideEffect.EditMument -> { /** Todo: Navigate To Edit Mument **/ }
-                is MumentDetailSideEffect.NavToMusicDetail -> { /** Todo: Navigate To MusicDetail **/ }
+                is MumentDetailSideEffect.NavToMusicDetail -> { musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.musicId) }
                 is MumentDetailSideEffect.NavToMumentHistory -> { /** Todo: Navigate To MumentHistory **/ }
                 is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
                 is MumentDetailSideEffect.OpenShareMumentDialog -> { openShareMumentDialog(effect.mument) }

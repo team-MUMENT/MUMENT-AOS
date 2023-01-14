@@ -2,10 +2,7 @@ package com.mument_android.app.di
 
 import com.mument_android.data.mapper.album.MusicInfoMapper
 import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
-import com.mument_android.data.mapper.detail.MumentCardMapper
-import com.mument_android.data.mapper.detail.MumentDetailMapper
-import com.mument_android.data.mapper.detail.MumentSummaryDtoMapper
-import com.mument_android.data.mapper.detail.MumentSummaryMapper
+import com.mument_android.data.mapper.detail.*
 import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.mapper.locker.LockerMapper
 import com.mument_android.data.mapper.locker.MumentLockerCardMapper
@@ -111,8 +108,12 @@ object MapperModule {
 
     @Provides
     @Singleton
-    fun provideMumentSummaryMapper(userMapper: UserMapper): MumentSummaryMapper =
-        MumentSummaryMapper(userMapper)
+    fun provideIntegrationTagMapper(): IntegrationTagMapper = IntegrationTagMapper()
+
+    @Provides
+    @Singleton
+    fun provideMumentSummaryMapper(userMapper: UserMapper, integrationTagMapper: IntegrationTagMapper): MumentSummaryMapper =
+        MumentSummaryMapper(userMapper, integrationTagMapper)
 
     @Provides
     @Singleton
