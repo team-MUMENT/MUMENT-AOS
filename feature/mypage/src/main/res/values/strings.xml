@@ -33,6 +33,8 @@
 
     <!-- block user management view-->
     <string name="unblocking">해제</string>
+    <string name="unblock_title">차단해제하시겠습니까?</string>
+    <string name="unblock_body">해당 사용자의 뮤멘트를\n다시 볼 수 있습니다.</string>
 
     <!-- unregister view-->
     <string name="unregister_title">회원탈퇴</string>
@@ -51,6 +53,9 @@
     <string name="unregister_agree">안내사항을 모두 확인했으며, 탈퇴를 신청합니다.</string>
     <string name="unregister_finish">탈퇴하기</string>
     <string name="unregister_loading_id">회원</string>
+
+    <!-- logout -->
+    <string name="logout_header">로그아웃하시겠어요?</string>
 
 
 
