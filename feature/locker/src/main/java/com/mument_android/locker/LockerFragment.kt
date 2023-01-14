@@ -1,5 +1,6 @@
 package com.mument_android.locker
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.mument_android.locker.adapters.LockerTabAdapter
 import com.mument_android.locker.viewmodels.LockerViewModel
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.locker.databinding.FragmentLockerBinding
+import com.mument_android.mypage.MyPageActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,11 +35,12 @@ class LockerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.vpLocker.isUserInputEnabled = false
+        //binding.vpLocker.isUserInputEnabled = false
         binding.lifecycleOwner = viewLifecycleOwner
         initAdapter()
         initTab()
         imageSet()
+        navToMyPage()
     }
 
 
@@ -61,6 +64,14 @@ class LockerFragment : Fragment() {
         binding.ivProfile.load("https://mument.s3.ap-northeast-2.amazonaws.com/user/angdroid/%EC%95%88%EB%93%9C.png") {
             crossfade(true)
             this.transformations(CircleCropTransformation())
+        }
+    }
+
+    //마이페이지 이동
+    private fun navToMyPage() {
+        binding.ivProfile.setOnClickListener {
+            val intent = Intent(context, MyPageActivity::class.java)
+            startActivity(intent)
         }
     }
 }
