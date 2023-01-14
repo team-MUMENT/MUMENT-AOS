@@ -1,29 +1,29 @@
 package com.mument_android.core_dependent.base
 
 import android.os.Bundle
-import androidx.annotation.LayoutRes
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.mument_android.core_dependent.R
 import com.mument_android.core_dependent.util.TransitionMode
 
 abstract class BaseActivity<T : ViewDataBinding>(
-    @LayoutRes private val layoutResId: Int
+    private val inflate: (LayoutInflater) -> T
 ) : AppCompatActivity() {
     constructor(
-        layoutResId: Int,
+        inflate: (LayoutInflater) -> T,
         mode: TransitionMode
-    ) : this(layoutResId) {
+    ) : this(inflate) {
         this.mode = mode
     }
 
     private var mode = TransitionMode.NONE
-    private var _binding: T? = null
-    val binding get() = _binding!!
+    private val _binding: T? by lazy { inflate.invoke(layoutInflater) }
+    val binding get() = _binding ?: throw NullPointerException("Binding is Null")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = DataBindingUtil.setContentView(this, layoutResId)
+        setContentView(binding.root)
         when (mode) {
             TransitionMode.HORIZONTAL -> overridePendingTransition(
                 R.anim.horizontal_enter,

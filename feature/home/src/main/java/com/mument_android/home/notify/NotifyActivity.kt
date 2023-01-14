@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
-    layoutResId = R.layout.activity_notify, mode = TransitionMode.HORIZONTAL
+    inflate = ActivityNotifyBinding::inflate, mode = TransitionMode.HORIZONTAL
 ) {
 
     private lateinit var notifyAdapter: NotifyAdapter

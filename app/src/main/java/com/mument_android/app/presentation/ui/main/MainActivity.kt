@@ -22,9 +22,8 @@ import com.mument_android.record.RecordActivity.Companion.MUMENT_DETAIL_ENTITY
 import com.mument_android.record.RecordActivity.Companion.MUMENT_ID_FOR_EDIT
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate),
     EditMumentNavigator {
     lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
@@ -117,6 +116,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     override fun recordMusic(music: Music) {
         viewModel.changeMusic(music)
     }
+
     companion object {
         const val MUMENT_ID = "MUMENT_ID"
         const val MUSIC_ID = "MUSIC_ID"

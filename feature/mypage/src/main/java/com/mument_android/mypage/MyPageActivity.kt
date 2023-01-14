@@ -1,18 +1,13 @@
 package com.mument_android.mypage
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.commitNow
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.mypage.databinding.ActivityMyPageBinding
 import com.mument_android.mypage.fragment.*
 
-class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_page) {
+class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding::inflate) {
 
     private val myPageViewModel: MyPageViewModel by viewModels()
 
@@ -20,7 +15,6 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_
         super.onCreate(savedInstanceState)
         binding.lifecycleOwner = this
         binding.myPageViewModel = myPageViewModel
-
         transactionBtnEvent()
         moveUnregister()
     }

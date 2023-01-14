@@ -19,12 +19,13 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
-    R.layout.share_search_layout,
-    TransitionMode.HORIZONTAL
+    inflate = ShareSearchLayoutBinding::inflate,
+    mode = TransitionMode.HORIZONTAL
 ) {
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
+
     @Inject
     lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
 

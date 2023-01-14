@@ -12,7 +12,7 @@ import com.mument_android.home.models.Notify
 class NotifyAdapter(val onNotifyClick: (Notify) -> Unit, val onDeleteClick: (Notify) -> Unit) :
     ListAdapter<Notify, NotifyAdapter.NotifyViewHolder>(GlobalDiffCallBack<Notify>()) {
 
-    lateinit var inflater: LayoutInflater
+    private lateinit var inflater: LayoutInflater
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotifyViewHolder {
         if (!::inflater.isInitialized) {
             inflater = LayoutInflater.from(parent.context)
@@ -29,8 +29,6 @@ class NotifyAdapter(val onNotifyClick: (Notify) -> Unit, val onDeleteClick: (Not
         holder.binding.ivNotifyDelete.setOnClickListener {
             onDeleteClick(data)
         }
-        //Holder에서 Ellipsize 커스텀시에 Post 안 넣으면 getEllipsisCount 자체를 받아올수가 없음, post로 사용하는건 별로 코루틴 써도 별로임
-        //NullPointerException: Attempt to invoke virtual method 'int android.text.Layout.getEllipsisCount(int)' on a null object reference
     }
 
     override fun onViewRecycled(holder: NotifyViewHolder) {
