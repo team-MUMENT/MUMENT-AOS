@@ -49,22 +49,22 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_
     }
 
     //각 웹뷰로 이동
-    private fun clickListenerWebView(){
-        with(binding){
+    private fun clickListenerWebView() {
+        with(binding) {
             //자주묻는질문
             btnMyPageGoFAQ.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
             //문의하기
-            btnMyPageGoInquiry.setOnClickListener{
+            btnMyPageGoInquiry.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
             //앱정보
-            btnMyPageGoAppInfo.setOnClickListener{
+            btnMyPageGoAppInfo.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
             //뮤멘트 소개
-            btnMyPageGoIntroduceMument.setOnClickListener{
+            btnMyPageGoIntroduceMument.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
         }
@@ -73,7 +73,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(R.layout.activity_my_
     private fun initIntent(url: String) {
         val intent = Intent(this, WebViewActivity::class.java)
         intent.putExtra("url", url)
-        ContextCompat.startActivity(this, intent, null)
+        startActivity(intent)
     }
 
     //회원탈퇴뷰 이동

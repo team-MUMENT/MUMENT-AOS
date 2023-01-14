@@ -11,7 +11,7 @@ import com.mument_android.mypage.databinding.ItemNoticeBinding
 class NoticeAdapter :
     ListAdapter<NoticeData, NoticeAdapter.NoticeViewHolder>(GlobalDiffCallBack<NoticeData>()) {
 
-    private var itemClickListener: OnItemClickListener? = null
+    private lateinit var itemClickListener: OnItemClickListener
 
     interface OnItemClickListener {
         fun onClick(data: NoticeData)

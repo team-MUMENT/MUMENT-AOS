@@ -63,13 +63,8 @@ class NoticeFragment : Fragment() {
     private fun itemClickEvent() {
         noticeAdapter.setItemClickListener(object : NoticeAdapter.OnItemClickListener {
             override fun onClick(data: NoticeData) {
-                val title = data.title
-                val createdDate = data.created_at
-                val content = data.content
-                val intent = Intent(context, NoticeDetailActivity::class.java).apply {
-                    putExtra("title", title)
-                    putExtra("createdDate", createdDate)
-                    putExtra("content", content)
+                val intent = Intent(requireContext(), NoticeDetailActivity::class.java).apply {
+                    putExtra("NoticeData", data)
                 }
                 startActivity(intent)
             }
