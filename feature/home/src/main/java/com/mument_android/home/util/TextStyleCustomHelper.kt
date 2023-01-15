@@ -37,35 +37,52 @@ class TextStyleCustomHelper constructor(val text: CharSequence) {
         }
     }
 
-    fun applySuffixsToSpans(
+    fun applySuffixesToSpans(
         text: SpannableStringBuilder,
         vararg suffixToStyleToOption: SpanInfo
-    ) {
-        val foundStartIndexs = suffixToStyleToOption.forEach { spanInfo ->
-            when (spanInfo.spanType) {
-                SpanType.RANGE -> {
-
-                }
-                SpanType.MATCH -> {
-
-                }
+    ): Boolean {
+        var isClear = true
+        suffixToStyleToOption.forEach { spanInfo ->
+            val matchStart = text.indexOf(spanInfo.suffix.first())
+            if (matchStart == -1) {
+                isClear = false
+                return@forEach
+            }
+            with(spanInfo) {
+                setSpanToMatch(
+                    text,
+                    suffix.length,
+                    matchStart,
+                    styleSpan
+                )
             }
         }
+        return isClear
     }
 
-    fun setSpanToMatch(text: SpannableStringBuilder, suffix: String, style: CharacterStyle) {
+    private fun setSpanToMatch(
+        text: SpannableStringBuilder,
+        suffixSize: Int,
+        startIndex: Int,
+        style: CharacterStyle
+    ) {
         when (style) {
             is StyleSpan -> {
-                text.setSpan(style, 1, 2, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+                text.setSpan(
+                    style,
+                    startIndex,
+                    startIndex + suffixSize,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+                )
             }
             is ForegroundColorSpan -> {
-
+                text.setSpan(
+                    style,
+                    startIndex,
+                    startIndex + suffixSize,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+                )
             }
         }
     }
-
-    fun setSpanToRange(text: SpannableStringBuilder, startSuffix: String, endSuffix: String) {
-
-    }
-
 }
