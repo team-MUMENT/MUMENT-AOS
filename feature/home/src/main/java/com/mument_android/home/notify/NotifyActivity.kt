@@ -89,7 +89,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
                     createdAt = "02/05 09:10",
                     "",
                     1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.", //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경, 나중에 전반적으로 수정할 예정,
+                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
                     NotifyType.LIKE
                 ),
                 Notify(
@@ -97,7 +97,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
                     createdAt = "02/05 09:10",
                     "",
                     1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.",
+                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
                     NotifyType.LIKE
                 ),
             )

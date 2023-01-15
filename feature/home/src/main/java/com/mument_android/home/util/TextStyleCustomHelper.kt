@@ -11,7 +11,7 @@ import androidx.annotation.ColorInt
 
 class TextStyleCustomHelper constructor(val text: CharSequence) {
     private val nameNextSuffix = "님이"
-    private val musicNextSuffix = "에 쓴 뮤멘트를 좋아합니다."
+    private val musicNextSuffix = "에 쓴 뮤멘트를 좋아합니다."
 
     fun setEllipsizeMusic(layout: Layout): SpannableStringBuilder? {
         val matcher = "[ㄱ-ㅎ가-힣]".toRegex()
@@ -45,7 +45,7 @@ class TextStyleCustomHelper constructor(val text: CharSequence) {
         text: SpannableStringBuilder, @ColorInt nameColor: Int
     ): Boolean {
         val nameEnd = text.indexOf(nameNextSuffix)
-        val musicEnd = text.indexOf(nameNextSuffix)
+        val musicEnd = text.indexOf(musicNextSuffix)
         return if (nameEnd != -1 && musicEnd != -1) {
             text.setSpan(StyleSpan(Typeface.BOLD), 0, nameEnd, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
             text.setSpan(
