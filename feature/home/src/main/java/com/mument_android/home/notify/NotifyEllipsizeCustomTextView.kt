@@ -18,8 +18,8 @@ class NotifyEllipsizeCustomTextView @JvmOverloads constructor(
 ) : AppCompatTextView(context, attrs) {
     private lateinit var textStyleCustomHelper: TextStyleCustomHelper
     private var isApplySpanLimit = 0
-    fun spanCountIncrease(){
-        isApplySpanLimit++
+    fun clearSpanCount(){
+        isApplySpanLimit = 0
     }
     override fun draw(canvas: Canvas?) {
         if (text != null) {

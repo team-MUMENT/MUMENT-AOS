@@ -32,7 +32,7 @@ class NotifyAdapter(val onNotifyClick: (Notify) -> Unit, val onDeleteClick: (Not
     }
 
     override fun onViewRecycled(holder: NotifyViewHolder) {
-        holder.binding.tvNotifyTitle.spanCountIncrease()
+        holder.binding.tvNotifyTitle.clearSpanCount()
         super.onViewRecycled(holder)
     }
 
