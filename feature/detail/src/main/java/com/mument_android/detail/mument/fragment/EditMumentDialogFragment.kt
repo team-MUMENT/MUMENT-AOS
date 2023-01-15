@@ -1,4 +1,4 @@
-package com.mument_android.detail.mument
+package com.mument_android.detail.mument.fragment
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

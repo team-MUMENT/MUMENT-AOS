@@ -1,8 +1,12 @@
 package com.mument_android.mypage.data
 
-import java.sql.Date
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class NoticeData(
+    val id: Int,
     val title: String,
-    val date: Date
-)
+    val content: String,
+    val created_at: String,
+) : Parcelable

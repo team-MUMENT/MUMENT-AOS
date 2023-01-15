@@ -1,4 +1,4 @@
-package com.mument_android.detail.viewmodels
+package com.mument_android.detail.mument.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +15,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.mument_android.detail.mument.MumentDetailContract.*
+import com.mument_android.detail.mument.contract.MumentDetailContract.*
 
 @HiltViewModel
 class MumentDetailViewModel @Inject constructor(

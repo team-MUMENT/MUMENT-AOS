@@ -28,6 +28,11 @@ class MyPageViewModel : ViewModel() {
     private val _noticeList = MutableLiveData<List<NoticeData>>()
     val noticeList: LiveData<List<NoticeData>> get() = _noticeList
 
+    val noticeId = MutableLiveData<Int>()
+    val noticeTitle = MutableLiveData<String>()
+    val noticeDate = MutableLiveData<String>()
+    val noticeContent = MutableLiveData<String>()
+
     //Unregister
     private val _isClickReasonChooseBox = MutableLiveData(false)
     val isClickReasonChooseBox: LiveData<Boolean> get() = _isClickReasonChooseBox
@@ -56,6 +61,17 @@ class MyPageViewModel : ViewModel() {
             userImg = userImg.value ?: 0
         )
     }
+
+    //공지사항
+    fun fetchNoticeDetail() {
+        val noticeData = NoticeData(
+            id = noticeId.value ?: 0,
+            title = noticeTitle.value.orEmpty(),
+            created_at = noticeDate.value.orEmpty(),
+            content = noticeContent.value.orEmpty(),
+        )
+    }
+
 
     //이유 선택 박스 눌렀을 때 라디오 그룹 visibility 조절
     fun clickReasonChooseBox() {

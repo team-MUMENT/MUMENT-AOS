@@ -7,14 +7,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.mument_android.detail.viewmodels.MumentDetailViewModel" />
+            type="com.mument_android.detail.mument.viewmodel.MumentDetailViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".mument.DeclarMumentActivity">
+        tools:context=".mument.activity.DeclarMumentActivity">
 
         <ScrollView
             android:id="@+id/sv_mypage_modify"

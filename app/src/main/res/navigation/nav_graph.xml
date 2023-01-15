@@ -28,7 +28,7 @@
             android:id="@+id/musicDetailFragment"
             android:name="com.mument_android.detail.music.MusicDetailFragment"
             android:label="MusicDetailFragment"
-            tools:layout="@layout/fragment_base_music_detail">
+            tools:layout="@layout/fragment_music_detail">
 
             <action
                 android:id="@+id/action_homeMusicDetailFragment_to_mumentDetailFragment"
@@ -51,7 +51,7 @@
         </fragment>
         <fragment
             android:id="@+id/mumentDetailFragment"
-            android:name="com.mument_android.detail.mument.MumentDetailFragment"
+            android:name="com.mument_android.detail.mument.fragment.MumentDetailFragment"
             android:label="MumentDetailFragment"
             tools:layout="@layout/fragment_mument_detail">
             <action
@@ -78,7 +78,7 @@
         </fragment>
         <fragment
             android:id="@+id/mumentDetailFragment"
-            android:name="com.mument_android.detail.mument.MumentDetailFragment"
+            android:name="com.mument_android.detail.mument.fragment.MumentDetailFragment"
             android:label="MumentDetailFragment"
             tools:layout="@layout/fragment_mument_detail">
             <action
@@ -93,7 +93,7 @@
             android:id="@+id/musicDetailFragment"
             android:name="com.mument_android.detail.music.MusicDetailFragment"
             android:label="MusicDetailFragment"
-            tools:layout="@layout/fragment_base_music_detail">
+            tools:layout="@layout/fragment_music_detail">
             <action
                 android:id="@+id/action_musicDetailFragment_to_historyFragment"
                 app:destination="@id/historyFragment" />
