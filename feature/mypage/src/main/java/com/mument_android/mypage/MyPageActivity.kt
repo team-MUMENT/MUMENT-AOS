@@ -6,6 +6,9 @@ import android.content.Intent
 import androidx.fragment.app.commit
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
+import com.mument_android.core_dependent.ui.MumentDialog
+import com.mument_android.core_dependent.ui.MumentDialogBuilder
+import com.mument_android.login.LogInActivity
 import com.mument_android.mypage.databinding.ActivityMyPageBinding
 import com.mument_android.mypage.fragment.*
 
@@ -19,6 +22,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         binding.myPageViewModel = myPageViewModel
         transactionBtnEvent()
         clickListenerWebView()
+        logoutBtnListener()
         moveUnregister()
     }
 
@@ -68,6 +72,23 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         val intent = Intent(this, WebViewActivity::class.java)
         intent.putExtra("url", url)
         startActivity(intent)
+    }
+
+    private fun logoutBtnListener() {
+        binding.tvMyPageLogout.setOnClickListener {
+            MumentDialogBuilder()
+                .setHeader(getString(R.string.logout_header))
+                .setBody("")
+                .setOption(MumentDialog.DIALOG_LOGOUT)
+                .setAllowListener {
+                    finish()
+                    val intent = Intent(this, LogInActivity::class.java)
+                    startActivity(intent)
+                }
+                .setCancelListener {}
+                .build()
+                .show(supportFragmentManager, attributionTag)
+        }
     }
 
     //회원탈퇴뷰 이동
