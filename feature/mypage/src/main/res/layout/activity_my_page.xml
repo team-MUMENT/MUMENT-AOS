@@ -370,7 +370,9 @@
                     android:id="@+id/fc_my_page"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:visibility="@{myPageViewModel.isBtnClick() ?View.VISIBLE : View.GONE}" />
+                    android:visibility="@{myPageViewModel.isBtnClick() ?View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
