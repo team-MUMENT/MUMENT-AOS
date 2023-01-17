@@ -5,15 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mument_android.core_dependent.ui.MumentDialog
+import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.mypage.adapters.BlockUserManagementAdapter
 import com.mument_android.mypage.data.UserData
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.mypage.R
 import com.mument_android.mypage.databinding.FragmentBlockUserManagementBinding
 
 class BlockUserManagementFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentBlockUserManagementBinding>()
     private lateinit var blockUserManagementAdapter: BlockUserManagementAdapter
     private var blockUserList = mutableListOf<UserData>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,10 +34,34 @@ class BlockUserManagementFragment : Fragment() {
     }
 
     private fun setBlockUserRecyclerView() {
-        blockUserManagementAdapter = BlockUserManagementAdapter()
+        blockUserManagementAdapter =
+            BlockUserManagementAdapter(blockUserList, onClickDeleteUserItem = { deleteItem(it) })
         binding.rvBlockUser.adapter = blockUserManagementAdapter
-        blockUserList.add(UserData(3,"jinsil"))
+        blockUserList.addAll(
+            listOf(
+                UserData(R.drawable.mument_profile_love_60, "진실"),
+                UserData(R.drawable.mument_profile_love_60, "heaven00"),
+                UserData(R.drawable.mument_profile_love_60, "SonPyeongHwa"),
+                UserData(R.drawable.mument_profile_love_60, "mino")
+            )
+        )
         blockUserManagementAdapter.submitList(blockUserList)
     }
+
+    private fun deleteItem(blockUserItem: UserData) {
+        MumentDialogBuilder()
+            .setHeader(getString(R.string.unblock_title))
+            .setBody(getString(R.string.unblock_body))
+            .setOption(MumentDialog.DIALOG_UNBLOCK)
+            .setAllowListener {
+                val currentList = blockUserManagementAdapter.currentList.toMutableList()
+                currentList.remove(blockUserItem)
+                blockUserManagementAdapter.submitList(currentList)
+            }
+            .setCancelListener {}
+            .build()
+            .show(childFragmentManager, this.tag)
+    }
+
 
 }
