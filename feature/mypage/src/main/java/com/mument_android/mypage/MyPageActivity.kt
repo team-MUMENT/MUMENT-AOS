@@ -30,10 +30,10 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     private fun transactionBtnEvent() {
 
         val goNextPageBtn = mutableMapOf(
-            binding.btnMyPageGoProfile to ProfileSettingFragment(),
-            binding.btnMyPageGoAlarmSetting to AlarmSettingFragment(),
-            binding.btnMyPageGoBlockUserManagement to BlockUserManagementFragment(),
-            binding.btnMyPageGoNotice to NoticeFragment()
+            binding.clProfile to ProfileSettingFragment(),
+            binding.clAlarmSetting to AlarmSettingFragment(),
+            binding.clBlockUserManagement to BlockUserManagementFragment(),
+            binding.clNotice to NoticeFragment()
         )
 
         goNextPageBtn.forEach { (btn, view) ->
@@ -52,19 +52,19 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     private fun clickListenerWebView() {
         with(binding) {
             //자주묻는질문
-            btnMyPageGoFAQ.setOnClickListener {
+            clFAQ.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
             //문의하기
-            btnMyPageGoInquiry.setOnClickListener {
+            clInquiry.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
             //앱정보
-            btnMyPageGoAppInfo.setOnClickListener {
+            clAppInfo.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
             //뮤멘트 소개
-            btnMyPageGoIntroduceMument.setOnClickListener {
+            clIntroduceMument.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
         }
