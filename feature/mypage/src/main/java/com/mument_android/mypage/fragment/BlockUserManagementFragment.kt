@@ -31,6 +31,8 @@ class BlockUserManagementFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setBlockUserRecyclerView()
+
+        backBtnListener()
     }
 
     private fun setBlockUserRecyclerView() {
@@ -63,5 +65,10 @@ class BlockUserManagementFragment : Fragment() {
             .show(childFragmentManager, this.tag)
     }
 
+    private fun backBtnListener() {
+        binding.btnBlockUserManagementBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+    }
 
 }

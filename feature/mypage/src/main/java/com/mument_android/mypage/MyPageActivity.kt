@@ -39,8 +39,10 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         goNextPageBtn.forEach { (btn, view) ->
             btn.setOnClickListener {
                 supportFragmentManager.commit() {
-                    replace(R.id.fc_my_page, view)
+                    replace(R.id.fc_my_page, view, "view")
+                    addToBackStack("view")
                 }
+
             }
             myPageViewModel.isClickBtnEvent(true)
         }
@@ -95,7 +97,8 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     private fun moveUnregister() {
         binding.tvMyPageUnregister.setOnClickListener {
             supportFragmentManager.commit() {
-                replace(R.id.fc_my_page, UnregisterFragment())
+                replace(R.id.fc_my_page, UnregisterFragment(), "unregister")
+                addToBackStack("unregister")
             }
         }
     }

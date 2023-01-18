@@ -48,6 +48,8 @@ class UnregisterFragment : Fragment() {
         isAgreeBtnEvent()
         unregisterFinish()
 
+        backBtnListener()
+
     }
 
     //이유 선택 박스 눌렀을 때
@@ -144,16 +146,10 @@ class UnregisterFragment : Fragment() {
         }
     }
 
-//    //키보드 내려가게 하기
-//    private fun hideKeyboard() {
-//        if (activity != null && requireActivity().currentFocus != null) {
-//            val inputManager: InputMethodManager =
-//                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//            inputManager.hideSoftInputFromWindow(
-//                requireActivity().currentFocus?.windowToken,
-//                InputMethodManager.HIDE_NOT_ALWAYS
-//            )
-//        }
-//    }
+    private fun backBtnListener() {
+        binding.btnUnregisterBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+    }
 }
 
