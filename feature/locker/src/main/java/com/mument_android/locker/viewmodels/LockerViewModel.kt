@@ -89,7 +89,6 @@ class LockerViewModel @Inject constructor(
             }
 
             fetchMyMumentListUseCase(
-                userId = BuildConfig.USER_ID,
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag
@@ -131,7 +130,6 @@ class LockerViewModel @Inject constructor(
             }
 
             fetchMyLikeListUseCase(
-                userId = BuildConfig.USER_ID,
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag

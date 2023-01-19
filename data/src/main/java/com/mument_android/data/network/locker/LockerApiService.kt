@@ -7,17 +7,15 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface LockerApiService {
-    @GET("/user/my/{userId}/list")
+    @GET("/user/my/list")
     suspend fun lockerMumentList(
-        @Path("userId") userId : String,
         @Query("tag1") tag1: Int?,
         @Query("tag2") tag2: Int?,
         @Query("tag3") tag3: Int?
     ): BaseResponse<LockerMyMumentDto>
 
-    @GET("/user/like/{userId}/list")
+    @GET("/user/like/list")
     suspend fun lockerLikeList(
-        @Path("userId") userId : String,
         @Query("tag1") tag1: Int?,
         @Query("tag2") tag2: Int?,
         @Query("tag3") tag3: Int?

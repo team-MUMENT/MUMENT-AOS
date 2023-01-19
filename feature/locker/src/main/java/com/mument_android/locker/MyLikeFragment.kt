@@ -81,7 +81,7 @@ class MyLikeFragment : Fragment() {
     }
 
     private fun setMyMumentListAdapter() {
-        // setGridServerConnection()
+        //setGridServerConnection()
         lockerViewModel.myLikeMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
             when (it) {
                 is ApiResult.Loading -> {}
