@@ -32,8 +32,24 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideAuthInterceptor(): Interceptor = Interceptor { chain ->
-        val request = chain.request().newBuilder().addHeaders(BuildConfig.USER_ID).build()
-        chain.proceed(request)
+        with(chain) {
+            val request = request()
+                .newBuilder()
+                .addHeader(
+                    "Authorization",
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInByb2ZpbGVJZCI6IuyViOuTnO2FjOyKpO2KuOyaqSIsImltYWdlIjpudWxsLCJpYXQiOjE2NzMxMjYzNzgsImV4cCI6MTY3NTcxODM3OCwiaXNzIjoiTXVtZW50In0.PG_Cubw4nv9USBiKKMVaAxS-Ggl6ByqOKusmyK4tp18"
+                )
+                .addHeader("Content-Type", "application/json")
+                .addHeader(
+                    "refreshToken",
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInByb2ZpbGVJZCI6IuyViOuTnO2FjOyKpO2KuOyaqSIsImltYWdlIjpudWxsLCJpYXQiOjE2NzMxMjYzNzgsIm5iZiI6MTY3NTcxODM3OCwiZXhwIjoxNjc4MzEwMzc4LCJpc3MiOiJNdW1lbnQifQ.hx2qgOWQTnlaLpC8AclA3PO1W89VgVpvSCrIcq171zU"
+                )
+                .build()
+            proceed(request)
+
+        }
+        //val request = chain.request().newBuilder().addHeaders(BuildConfig.USER_ID).build()
+        //chain.proceed(request)
     }
 
     /** Header에 Token값을 포함하는 OkHttpClient, Retrofit **/
@@ -41,7 +57,10 @@ object NetworkModule {
     @Provides
     @Singleton
     @AuthOkHttpClient
-    fun provideAuthOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, authInterceptor: Interceptor): OkHttpClient =
+    fun provideAuthOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: Interceptor
+    ): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
@@ -71,6 +90,7 @@ object NetworkModule {
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(provideAuthInterceptor())
             .build()
 
     @Provides
@@ -105,7 +125,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providehomeNetwork(@UnAuthRetrofit retrofit: Retrofit): HomeService = retrofit.create(HomeService::class.java)
+    fun providehomeNetwork(@UnAuthRetrofit retrofit: Retrofit): HomeService =
+        retrofit.create(HomeService::class.java)
 
 
     private fun Request.Builder.addHeaders(token: String) = this.apply { header(BEARER, token) }
