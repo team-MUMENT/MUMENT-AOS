@@ -46,12 +46,13 @@ class MyMumentFragment : Fragment() {
         gridBtnClickListener()
         filterBtnClickListener()
         fetchMuments()
+        setMyMumentListAdapter()
 
     }
 
     override fun onResume() {
         super.onResume()
-        setMyMumentListAdapter()
+
     }
 
     private fun setGridServerConnection() {

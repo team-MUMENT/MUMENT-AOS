@@ -46,12 +46,13 @@ class MyLikeFragment : Fragment() {
         gridBtnClickListener()
         filterBtnClickListener()
         fetchLikes()
+        setMyMumentListAdapter()
     }
 
     override fun onResume() {
         super.onResume()
 
-        setMyMumentListAdapter()
+
 
     }
 
