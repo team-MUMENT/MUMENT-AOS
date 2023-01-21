@@ -21,10 +21,13 @@ import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
-import com.mument_android.core_dependent.util.*
+import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
 import com.mument_android.core_dependent.util.ViewUtils.applyVisibilityAnimation
 import com.mument_android.core_dependent.util.ViewUtils.showToast
+import com.mument_android.core_dependent.util.removeProgress
+import com.mument_android.core_dependent.util.showProgress
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentMumentDetailBinding
 import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailEvent
@@ -32,6 +35,7 @@ import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDeta
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
 import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
+import com.mument_android.report.ReportTypeBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -66,6 +70,11 @@ class MumentDetailFragment : Fragment() {
         goToMusicDetail()
         goToHistory()
         shareMumentOnInstagram()
+
+
+        binding.root.setOnClickListener {
+            ReportTypeBottomSheetFragment().show(childFragmentManager, "")
+        }
     }
 
     private fun receiveMumentID() {
