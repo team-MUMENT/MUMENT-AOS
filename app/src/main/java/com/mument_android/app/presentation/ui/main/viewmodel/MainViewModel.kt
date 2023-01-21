@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class MainViewModel : ViewModel() {
     private val _mumentId = MutableLiveData<String>("")
@@ -43,4 +45,5 @@ class MainViewModel : ViewModel() {
         _music.value = null
         _mumentDetailContents.value = null
     }
+
 }

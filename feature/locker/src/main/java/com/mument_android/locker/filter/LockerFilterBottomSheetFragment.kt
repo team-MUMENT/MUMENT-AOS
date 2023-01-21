@@ -16,7 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.core.model.TagEntity
 import com.mument_android.locker.adapters.FilterBottomSheetAdapter
 import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
-import com.mument_android.locker.viewmodels.LockerFilterViewModel
+import com.mument_android.app.presentation.ui.main.viewmodel.LockerFilterViewModel
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
@@ -33,7 +33,7 @@ class LockerFilterBottomSheetFragment(
     private lateinit var filterBottomSheetAdapterImpress: FilterBottomSheetAdapter
     private lateinit var filterBottomSheetAdpaterEmotion: FilterBottomSheetAdapter
     private lateinit var completeSelectListener: (List<TagEntity>) -> Unit
-    private val lockerFilterViewModel: LockerFilterViewModel by viewModels()
+    private val lockerFilterViewModel: com.mument_android.app.presentation.ui.main.viewmodel.LockerFilterViewModel by viewModels()
 
     companion object {
         @JvmStatic

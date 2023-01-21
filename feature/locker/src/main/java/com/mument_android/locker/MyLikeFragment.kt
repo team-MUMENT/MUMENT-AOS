@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.angdroid.navigation.MumentDetailNavigatorProvider
@@ -23,7 +24,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MyLikeFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyLikeBinding>()
-    private val lockerViewModel: LockerViewModel by viewModels()
+    private val lockerViewModel: LockerViewModel by activityViewModels()
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
 
