@@ -1,6 +1,6 @@
 object DefaultConfig {
     const val APPLICATION_ID = "com.mument_android"
-    const val MIN_SDK = 26
+    const val MIN_SDK = 27
     const val TARGET_SDK = 32
     const val COMPILE_SDK = 32
     const val VERSION_CODE = 1

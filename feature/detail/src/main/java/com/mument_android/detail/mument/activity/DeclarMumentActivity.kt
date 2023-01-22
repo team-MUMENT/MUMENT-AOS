@@ -1,4 +1,4 @@
-package com.mument_android.detail.mument
+package com.mument_android.detail.mument.activity
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.ActivityDeclarMumentBinding
-import com.mument_android.detail.viewmodels.MumentDetailViewModel
+import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

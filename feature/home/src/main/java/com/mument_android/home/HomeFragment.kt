@@ -13,12 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
-import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
-import com.mument_android.core_dependent.util.EmotionalTag
-import com.mument_android.core_dependent.util.ImpressiveTag
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
@@ -45,7 +42,6 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -113,20 +109,8 @@ class HomeFragment : Fragment() {
                     binding.tvImpressive.text = it.title
                 }
                 todayMumentEntity?.let { today ->
-                    val data = today.cardTag.map { tag -> // 로직 개선 필요 ( 다른곳에서 해야함 )
-                        if (tag < 200) TagEntity(
-                            TagEntity.TAG_IMPRESSIVE,
-                            ImpressiveTag.findImpressiveStringTag(tag),
-                            tag
-                        )
-                        else TagEntity(
-                            TagEntity.TAG_EMOTIONAL,
-                            EmotionalTag.findEmotionalStringTag(tag),
-                            tag
-                        )
-                    }
                     binding.clCard.rvTags.adapter = MumentTagListAdapter()
-                    (binding.clCard.rvTags.adapter as MumentTagListAdapter).submitList(data)
+                    (binding.clCard.rvTags.adapter as MumentTagListAdapter).submitList(today.cardTag)
                 }
                 heardMumentEntity?.let { heard ->
                     heardAdapter.submitList(heard)

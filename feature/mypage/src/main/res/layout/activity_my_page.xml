@@ -23,7 +23,7 @@
             android:id="@+id/btn_my_page_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="18dp"
             android:background="@drawable/mument_icon_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_my_page_title" />
@@ -56,7 +56,7 @@
                     android:id="@+id/iv_my_page_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="14dp"
                     android:layout_marginTop="46dp"
                     android:src="@drawable/mument_profile_smile_60"
                     app:layout_constraintStart_toStartOf="parent"
@@ -127,6 +127,7 @@
                     android:id="@+id/tv_my_page_alarm_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
                     android:layout_marginTop="21dp"
                     android:fontFamily="@font/notosans_medium"
                     android:text="@string/my_page_alarm_setting"
@@ -154,7 +155,7 @@
                     android:text="@string/my_page_block_user_management"
                     android:textColor="@color/mument_color_black1"
                     android:textSize="16dp"
-                    app:layout_constraintStart_toStartOf="@+id/tv_my_page_setting"
+                    app:layout_constraintStart_toStartOf="@+id/tv_my_page_alarm_setting"
                     app:layout_constraintTop_toBottomOf="@+id/tv_my_page_alarm_setting" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
@@ -195,6 +196,7 @@
                     android:id="@+id/tv_my_page_notice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
                     android:layout_marginTop="21dp"
                     android:fontFamily="@font/notosans_medium"
                     android:text="@string/my_page_notice"
@@ -223,7 +225,7 @@
                     android:text="@string/my_page_FAQ"
                     android:textColor="@color/mument_color_black1"
                     android:textSize="16dp"
-                    app:layout_constraintStart_toStartOf="@+id/tv_my_page_service"
+                    app:layout_constraintStart_toStartOf="@+id/tv_my_page_notice"
                     app:layout_constraintTop_toBottomOf="@+id/tv_my_page_notice" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
@@ -245,7 +247,7 @@
                     android:text="@string/my_page_inquiry"
                     android:textColor="@color/mument_color_black1"
                     android:textSize="16dp"
-                    app:layout_constraintStart_toStartOf="@+id/tv_my_page_service"
+                    app:layout_constraintStart_toStartOf="@+id/tv_my_page_notice"
                     app:layout_constraintTop_toBottomOf="@+id/tv_my_page_FAQ" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
@@ -286,6 +288,7 @@
                     android:id="@+id/tv_my_page_app_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
                     android:layout_marginTop="21dp"
                     android:fontFamily="@font/notosans_medium"
                     android:text="@string/my_page_app_info"
@@ -314,7 +317,7 @@
                     android:text="@string/my_page_introduce_mument"
                     android:textColor="@color/mument_color_black1"
                     android:textSize="16dp"
-                    app:layout_constraintStart_toStartOf="@+id/tv_my_page_info"
+                    app:layout_constraintStart_toStartOf="@+id/tv_my_page_app_info"
                     app:layout_constraintTop_toBottomOf="@+id/tv_my_page_app_info" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
@@ -363,18 +366,15 @@
                     app:layout_constraintStart_toEndOf="@+id/tv_my_page_logout"
                     app:layout_constraintTop_toBottomOf="@id/tv_my_page_version_info" />
 
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fc_my_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="@{myPageViewModel.isBtnClick() ?View.VISIBLE : View.GONE}" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fc_my_page"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:visibility="@{myPageViewModel.isBtnClick() ?View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="0dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

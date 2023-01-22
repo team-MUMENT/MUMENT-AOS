@@ -2,10 +2,7 @@ package com.mument_android.app.di
 
 import com.mument_android.data.mapper.album.MusicInfoMapper
 import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
-import com.mument_android.data.mapper.detail.MumentCardMapper
-import com.mument_android.data.mapper.detail.MumentDetailMapper
-import com.mument_android.data.mapper.detail.MumentSummaryDtoMapper
-import com.mument_android.data.mapper.detail.MumentSummaryMapper
+import com.mument_android.data.mapper.detail.*
 import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.mapper.locker.LockerMapper
 import com.mument_android.data.mapper.locker.MumentLockerCardMapper
@@ -15,6 +12,7 @@ import com.mument_android.data.mapper.main.IsFirstTagMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.mapper.user.UserMapper
+import com.mument_android.home.mappers.HomeTodayMumentMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,13 +53,23 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideHomeTodayMumentMapper(): HomeTodayMumentMapper = HomeTodayMumentMapper()
+
+    @Provides
+    @Singleton
     fun provideMumentDetailMapper(
         userMapper: UserMapper,
         musicInfoMapper: MusicInfoMapper,
         impressiveTagMapper: ImpressiveTagMapper,
         emotionalTagMapper: EmotionalTagMapper,
         isFirstTagMapper: IsFirstTagMapper
-    ): MumentDetailMapper = MumentDetailMapper(userMapper, musicInfoMapper, impressiveTagMapper, emotionalTagMapper, isFirstTagMapper)
+    ): MumentDetailMapper = MumentDetailMapper(
+        userMapper,
+        musicInfoMapper,
+        impressiveTagMapper,
+        emotionalTagMapper,
+        isFirstTagMapper
+    )
 
     @Provides
     @Singleton
@@ -90,12 +98,22 @@ object MapperModule {
         impressiveTagMapper: ImpressiveTagMapper,
         emotionalTagMapper: EmotionalTagMapper
     ): MumentSummaryDtoMapper =
-        MumentSummaryDtoMapper(userMapper, musicInfoMapper, isFirstTagMapper, impressiveTagMapper, emotionalTagMapper)
+        MumentSummaryDtoMapper(
+            userMapper,
+            musicInfoMapper,
+            isFirstTagMapper,
+            impressiveTagMapper,
+            emotionalTagMapper
+        )
 
     @Provides
     @Singleton
-    fun provideMumentSummaryMapper(userMapper: UserMapper): MumentSummaryMapper =
-        MumentSummaryMapper(userMapper)
+    fun provideIntegrationTagMapper(): IntegrationTagMapper = IntegrationTagMapper()
+
+    @Provides
+    @Singleton
+    fun provideMumentSummaryMapper(userMapper: UserMapper, integrationTagMapper: IntegrationTagMapper): MumentSummaryMapper =
+        MumentSummaryMapper(userMapper, integrationTagMapper)
 
     @Provides
     @Singleton
