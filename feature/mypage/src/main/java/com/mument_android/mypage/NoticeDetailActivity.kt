@@ -1,6 +1,5 @@
 package com.mument_android.mypage
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.mument_android.core_dependent.base.BaseActivity
@@ -8,7 +7,7 @@ import com.mument_android.mypage.data.NoticeData
 import com.mument_android.mypage.databinding.ActivityNoticeDetailBinding
 
 class NoticeDetailActivity :
-    BaseActivity<ActivityNoticeDetailBinding>(R.layout.activity_notice_detail) {
+    BaseActivity<ActivityNoticeDetailBinding>(ActivityNoticeDetailBinding::inflate) {
 
     private val myPageViewModel: MyPageViewModel by viewModels()
 

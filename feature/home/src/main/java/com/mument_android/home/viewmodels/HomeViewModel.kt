@@ -9,7 +9,7 @@ import com.mument_android.core_dependent.util.emitEvent
 import com.mument_android.core_dependent.util.setState
 import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
 import com.mument_android.home.BuildConfig
-import com.mument_android.home.HomeContract.*
+import com.mument_android.home.main.HomeContract.*
 import com.mument_android.home.mappers.HomeTodayMumentMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

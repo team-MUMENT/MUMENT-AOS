@@ -106,5 +106,9 @@
     <string name="home_again_mument_title">다시 들은 곡의 뮤멘트</string>
     <string name="home_today_mument_title">오늘의 뮤멘트</string>
     <string name="home_search_preview_hint">어떤 노래가 궁금하신가요?</string>
+    <string name="notify_back_button_description">Notify Back Button</string>
+    <string name="appbar_notify_title">소식</string>
+    <string name="notify_icon_description">notify icon</string>
+    <string name="notify_delete_description">notify_delete</string>
 
 </resources>

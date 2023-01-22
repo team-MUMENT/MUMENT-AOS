@@ -13,7 +13,4 @@ data class RecentSearchData(
     val image: String,
     val name: String,
     val createAt: Date?,
-){
-    @Ignore
-    val optional: Boolean = true
-}
+)

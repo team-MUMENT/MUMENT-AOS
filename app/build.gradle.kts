@@ -7,6 +7,7 @@ plugins {
     id("androidx.navigation.safeargs")
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    id("com.google.gms.google-services")
 }
 
 val properties = Properties()
@@ -64,7 +65,6 @@ dependencies {
     addLifecycleDependencies()
     addTestDependencies()
     addNetworkDependencies()
-    implementation(platform(ThirdPartyDependencies.fireBaseBom))
     implementation(ThirdPartyDependencies.fireBaseCloudMessaging)
     implementation(ThirdPartyDependencies.gson)
     implementation(ThirdPartyDependencies.timber)

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/gallery_tool_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="50dp"
+    app:contentInsetStart="0dp">
+
+    <ImageView
+        android:id="@+id/iv_notify_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:contentDescription="@string/notify_back_button_description"
+        android:paddingVertical="@dimen/app_space_12"
+        android:paddingStart="@dimen/app_space_15"
+        android:paddingEnd="@dimen/app_space_18"
+        android:src="@drawable/ic_back" />
+
+    <TextView
+        style="@style/TextView.Mument_H2_B18.Style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/appbar_notify_title"
+        android:textColor="@color/mument_color_black1" />
+
+    <ImageView
+        android:id="@+id/iv_notify_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center"
+        android:layout_marginEnd="@dimen/app_space_14"
+        android:src="@drawable/ic_settting_icon" />
+
+</androidx.appcompat.widget.Toolbar>

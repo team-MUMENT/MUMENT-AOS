@@ -29,7 +29,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RecordActivity : BaseActivity<ActivityRecordBinding>(R.layout.activity_record) {
+class RecordActivity :
+    BaseActivity<ActivityRecordBinding>(inflate = ActivityRecordBinding::inflate) {
     private val recordViewModel: RecordViewModel by viewModels()
     private lateinit var rvImpressionTagsAdapter: RecordTagAdapter
     private lateinit var rvEmotionalTagsAdapter: RecordTagAdapter

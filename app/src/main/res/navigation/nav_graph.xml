@@ -10,7 +10,7 @@
         app:startDestination="@id/homeFragment">
         <fragment
             android:id="@+id/homeFragment"
-            android:name="com.mument_android.home.HomeFragment"
+            android:name="com.mument_android.home.main.HomeFragment"
             android:label="HomeFragment"
             tools:layout="@layout/fragment_home">
             <action
@@ -63,22 +63,10 @@
         </fragment>
 
     </navigation>
-    <fragment
-        android:id="@+id/fragment_record"
-        android:name="com.mument_android.record.RecordFragment"
-        android:label="fragment_second"
-        tools:layout="@layout/fragment_record">
-        <argument
-            android:name="mumment_id_for_edit"
-            app:argType="string"
-            app:nullable="true" />
-    </fragment>
-
 
     <navigation
         android:id="@+id/fragment_locker"
         app:startDestination="@id/lockerFragment">
-
         <fragment
             android:id="@+id/lockerFragment"
             android:name="com.mument_android.locker.LockerFragment"

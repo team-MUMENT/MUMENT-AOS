@@ -10,10 +10,8 @@ suspend inline fun <T> catchingApiCall(crossinline apiCall: suspend () -> Respon
     }.getOrElse { throwable ->
         when (throwable) {
             is IOException -> ResultWrapper.NetworkError
-            is HttpException -> {
-                ResultWrapper.GenericError(throwable.code(), throwable.message)
-            }
-            else -> ResultWrapper.GenericError(null, null)
+            is HttpException -> ResultWrapper.GenericError(throwable.code(), throwable.message)
+            else -> ResultWrapper.GenericError(null, throwable.message!!)
         }
     }
 }

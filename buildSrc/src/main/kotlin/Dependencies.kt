@@ -23,7 +23,7 @@ object AndroidXDependencies {
         "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycleVersion}"
 
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycleVersion}"
-    const val liveData =  "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleVersion}"
+    const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleVersion}"
     const val legacy = "androidx.legacy:legacy-support-v4:${Versions.legacySupportVersion}"
     const val security = "androidx.security:security-crypto:${Versions.securityVersion}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
@@ -78,14 +78,15 @@ object ThirdPartyDependencies {
     const val gsonConverter =
         "com.squareup.retrofit2:converter-gson:${Versions.gsonConverterVersion}"
     const val flexBox = "com.google.android.flexbox:flexbox:${Versions.flexBoxVersion}"
-    const val fireBaseBom = "com.google.firebase:firebase-bom:${Versions.bomVersion}"
-    const val fireBaseCloudMessaging = "com.google.firebase:firebase-messaging"
+    const val fireBaseCloudMessaging =
+        "com.google.firebase:firebase-messaging-ktx:${Versions.fcmVersion}"
     const val fireBaseGA = "com.google.firebase:firebase-analytics"
 }
 
 
 object Plugins {
     const val HILT_PLUGIN = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hiltVersion}"
-    const val SAFE_ARGS_PLUGIN = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navVersion}"
+    const val SAFE_ARGS_PLUGIN =
+        "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navVersion}"
     const val GOOGLE_SERVICE = "com.google.gms:google-services:${Versions.googleServiceVersion}"
 }
