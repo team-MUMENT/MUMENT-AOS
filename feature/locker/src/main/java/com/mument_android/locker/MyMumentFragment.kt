@@ -24,7 +24,6 @@ import javax.inject.Inject
 class MyMumentFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyMumentBinding>()
     private val lockerViewModel: LockerViewModel by activityViewModels()
-    private val mainViewModel :
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
 
@@ -48,12 +47,17 @@ class MyMumentFragment : Fragment() {
         filterBtnClickListener()
         fetchMuments()
         setMyMumentListAdapter()
-
     }
 
     override fun onResume() {
         super.onResume()
 
+        if(lockerViewModel.isGridLayout.value) {
+            binding.ivLockerList.isSelected = false
+            binding.ivLockerGrid.isSelected = true
+        }
+
+        lockerViewModel.isMument = true
     }
 
     private fun setGridServerConnection() {
@@ -72,17 +76,16 @@ class MyMumentFragment : Fragment() {
                 (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
             }
         }
+        binding.ivLockerList.isSelected = false
+        binding.ivLockerGrid.isSelected = true
     }
 
     private fun setMyMumentListAdapter() {
-        //setGridServerConnection()
         lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope){
             when(it){
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-
-                    //binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value)
                     binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value, showDetailListener = { showMumentDetail(it) }, object :
                         LikeMumentListener {
                         override fun likeMument(mumetId: String) {
@@ -100,6 +103,8 @@ class MyMumentFragment : Fragment() {
                 else -> {}
             }
         }
+        binding.ivLockerList.isSelected = true
+        binding.ivLockerGrid.isSelected = false
     }
 
     //TODO: 필터 및 아이콘들 비활성화
@@ -116,8 +121,6 @@ class MyMumentFragment : Fragment() {
         binding.ivLockerList.setOnClickListener {
             lockerViewModel.changeIsGridLayout(false)
             setMyMumentListAdapter()
-            binding.ivLockerList.isSelected = true
-            binding.ivLockerGrid.isSelected = false
 
         }
     }
@@ -126,8 +129,6 @@ class MyMumentFragment : Fragment() {
         binding.ivLockerGrid.setOnClickListener {
             lockerViewModel.changeIsGridLayout(true)
             setGridServerConnection()
-            binding.ivLockerList.isSelected = false
-            binding.ivLockerGrid.isSelected = true
 
         }
     }

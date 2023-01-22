@@ -2,9 +2,11 @@ package com.mument_android.locker
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -35,22 +37,30 @@ class LockerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //binding.vpLocker.isUserInputEnabled = false
         binding.lifecycleOwner = viewLifecycleOwner
-        initAdapter()
-        initTab()
+
+
         imageSet()
         navToMyPage()
+        initAdapter()
+        initTab()
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.e("Test",viewModel.isMument.toString())
+        if(!viewModel.isMument) {
+            binding.vpLocker.doOnPreDraw {
+                binding.vpLocker.currentItem = 1
+            }
+        }
+    }
 
     private fun initAdapter() {
         val fragmentList = listOf(MyMumentFragment(), MyLikeFragment())
         lockerTabAdapter = LockerTabAdapter(this)
         lockerTabAdapter.fragment.addAll(fragmentList)
         binding.vpLocker.adapter = lockerTabAdapter
-
-
     }
 
     private fun initTab() {
@@ -58,6 +68,7 @@ class LockerFragment : Fragment() {
         TabLayoutMediator(binding.tlLocker, binding.vpLocker) { tab, position ->
             tab.text = tabLabel[position]
         }.attach()
+
     }
 
     private fun imageSet() {

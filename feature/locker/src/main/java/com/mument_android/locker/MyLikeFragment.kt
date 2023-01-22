@@ -54,16 +54,16 @@ class MyLikeFragment : Fragment() {
         super.onResume()
 
 
+        if(lockerViewModel.isLikeGridLayout.value) {
+            binding.ivLockerList.isSelected = false
+            binding.ivLockerGrid.isSelected = true
+        }
 
+        lockerViewModel.isMument = false
     }
 
     private fun setGridServerConnection() {
         binding.rvLikeLinear.run {
-//            lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
-//                adapter = LockerTimeAdapter(isGridLayout)
-//                (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
-
-
             lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isLikeGridLayout ->
                 adapter = LockerTimeAdapter(isLikeGridLayout, showDetailListener = {
                     showMumentDetail(it)
