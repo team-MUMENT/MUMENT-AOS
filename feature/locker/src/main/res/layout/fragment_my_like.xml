@@ -61,7 +61,6 @@
             android:background="@color/mument_color_gray5"
             android:orientation="horizontal"
             android:paddingStart="16dp"
-            android:paddingTop="7dp"
             android:paddingEnd="7dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
