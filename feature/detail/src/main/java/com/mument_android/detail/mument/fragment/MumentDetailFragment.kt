@@ -35,7 +35,7 @@ import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDeta
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
 import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
-import com.mument_android.report.ReportTypeBottomSheetFragment
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -60,7 +60,7 @@ class MumentDetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mumentDetailViewModel = viewModel
 
-        receiveMumentID()
+        receiveMumentInfo()
         updateMumentDetail()
         popBackStack()
         receiveEffect()
@@ -72,14 +72,32 @@ class MumentDetailFragment : Fragment() {
         shareMumentOnInstagram()
 
 
-        binding.root.setOnClickListener {
-            ReportTypeBottomSheetFragment().show(childFragmentManager, "")
+//        binding.root.setOnClickListener {
+//            showBlockUserDialog()
+//        }
+    }
+
+    private fun showBlockUserDialog() {
+        with(requireContext()) {
+            MumentDialogBuilder()
+                .setHeader(getString(R.string.block_user_header))
+                .setBody(getString(R.string.block_user_body))
+                .setAllowListener(getString(R.string.notify_block)) {
+                    viewModel.blockUser()
+                }.setCancelListener(getString(com.mument_android.core_dependent.R.string.cancel)) {
+
+                }.build()
+                .show(childFragmentManager, null)
         }
     }
 
-    private fun receiveMumentID() {
+    private fun receiveMumentInfo() {
         arguments?.getString(MUMENT_ID)?.let {
             viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(it))
+        }
+        arguments?.getString(MUSIC_INFO)?.let {
+            val musicInfo = Gson().fromJson(it, MusicInfoEntity::class.java)
+            viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(musicInfo))
         }
     }
 
@@ -144,7 +162,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToMusicDetail() {
         binding.viewAlbumClickArea.setOnClickListener {
-            viewModel.viewState.value.mument?.musicInfo?.id?.let { musicId ->
+            viewModel.viewState.value.musicInfo?.id?.let { musicId ->
                 viewModel.emitEvent(MumentDetailEvent.OnClickAlum(musicId))
             }
         }
@@ -152,7 +170,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToHistory() {
         binding.tvGoToHistory.setOnClickListener {
-            viewModel.viewState.value.mument?.musicInfo?.id?.let { musicId ->
+            viewModel.viewState.value.musicInfo?.id?.let { musicId ->
                 viewModel.emitEvent(MumentDetailEvent.OnClickHistory(musicId))
             }
         }
@@ -226,6 +244,7 @@ class MumentDetailFragment : Fragment() {
         private const val STORY_BACKGROUND_COLOR_VALUE = "#989898"
         const val INSTA_STORY_BACKGROUND_COLOR = "#989898"
         const val MUMENT_ID = "MUMENT_ID"
+        const val MUSIC_INFO = "MUSIC_INFO"
         private const val TYPE_IMAGE = "image/*"
     }
 }

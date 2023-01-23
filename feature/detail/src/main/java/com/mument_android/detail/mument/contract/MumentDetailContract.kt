@@ -6,6 +6,7 @@ import com.mument_android.core.util.SideEffect
 import com.mument_android.core.util.Event
 import com.mument_android.core.util.ViewState
 import com.mument_android.domain.entity.detail.MumentEntity
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import java.io.File
 
 class MumentDetailContract {
@@ -13,6 +14,7 @@ class MumentDetailContract {
         override val hasError: Boolean = false,
         override val onNetwork: Boolean = false,
         val requestMumentId: String = "",
+        val musicInfo: MusicInfoEntity? = null,
         val isWriter: Boolean = false,
         val mument: MumentEntity? = null,
         val isLikedMument: Boolean = false,
@@ -27,6 +29,7 @@ class MumentDetailContract {
 
     sealed class MumentDetailEvent: Event {
         data class ReceiveMumentId(val mumentId: String): MumentDetailEvent()
+        data class ReceiveMusicInfo(val musicInfoEntity: MusicInfoEntity): MumentDetailEvent()
         data class OnClickAlum(val musicId: String): MumentDetailEvent()
         data class OnClickHistory (val musicId: String): MumentDetailEvent()
         data class OnClickEditMument (val mument: String): MumentDetailEvent()

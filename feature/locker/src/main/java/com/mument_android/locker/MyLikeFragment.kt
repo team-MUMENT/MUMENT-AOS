@@ -11,6 +11,7 @@ import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
 import com.mument_android.locker.adapters.LockerTimeAdapter
 import com.mument_android.locker.databinding.FragmentMyLikeBinding
@@ -63,8 +64,8 @@ class MyLikeFragment : Fragment() {
 
 
             lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isLikeGridLayout ->
-                adapter = LockerTimeAdapter(isLikeGridLayout, showDetailListener = {
-                    showMumentDetail(it)
+                adapter = LockerTimeAdapter(isLikeGridLayout, showDetailListener = { mumentId, musicInfo ->
+                    showMumentDetail(mumentId, musicInfo)
                 }, object: LikeMumentListener {
                     override fun likeMument(mumetId: String) {
                         lockerViewModel.likeMument(mumetId)
@@ -89,8 +90,8 @@ class MyLikeFragment : Fragment() {
                 is ApiResult.Success -> {
                     binding.rvLikeLinear.adapter =
                         LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value,
-                            showDetailListener =  {
-                                showMumentDetail(it)
+                            showDetailListener =  { mumentId, musicInfo ->
+                                showMumentDetail(mumentId, musicInfo)
                         },object: LikeMumentListener {
                             override fun likeMument(mumetId: String) {
                                 lockerViewModel.likeMument(mumetId)
@@ -190,8 +191,8 @@ class MyLikeFragment : Fragment() {
     }
 
 
-    private fun showMumentDetail(mumentId: String) {
-        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
+    private fun showMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
+        mumentDetailNavigatorProvider.moveMumentDetail(mumentId, musicInfo)
     }
 
     companion object {

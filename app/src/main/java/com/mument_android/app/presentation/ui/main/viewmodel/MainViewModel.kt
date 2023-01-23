@@ -1,12 +1,20 @@
 package com.mument_android.app.presentation.ui.main.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
+import com.mument_android.BuildConfig
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val dataStoreManager: DataStoreManager
+): ViewModel() {
     private val _mumentId = MutableLiveData<String>("")
     val mumentId: LiveData<String> = _mumentId
     private val _musicId = MutableLiveData<String>("")
@@ -42,5 +50,23 @@ class MainViewModel : ViewModel() {
         _musicId.value = ""
         _music.value = null
         _mumentDetailContents.value = null
+    }
+
+    fun saveTestRefreshToken() {
+        viewModelScope.launch {
+            dataStoreManager.writeRefreshToken(BuildConfig.TEST_REFRESH_TOKEN)
+        }
+    }
+
+    fun saveTestAccessToken() {
+        viewModelScope.launch {
+            dataStoreManager.writeAccessToken(BuildConfig.TEST_ACCESS_TOKEN)
+        }
+    }
+
+    fun saveTestUserId() {
+        viewModelScope.launch {
+            dataStoreManager.writeUserId("30")
+        }
     }
 }

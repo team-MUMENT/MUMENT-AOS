@@ -10,6 +10,5 @@ class MusicDetailDataSourceImpl @Inject constructor(
 ): MusicDetailDataSource {
     override suspend fun fetchMusicDetailInfo(
         musicId: String,
-        userId: String
-    ): BaseResponse<MusicDetailDto> = detailApiService.fetchMusicDetailInfo(musicId, userId)
+    ): BaseResponse<MusicDetailDto> = detailApiService.fetchMusicDetailInfo(musicId)
 }

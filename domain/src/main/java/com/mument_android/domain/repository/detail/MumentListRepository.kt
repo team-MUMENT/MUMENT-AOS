@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface MumentListRepository {
     suspend fun fetchMumentList(
         musicId: String,
-        userId: String,
         default: String
     ): Flow<List<MumentSummaryEntity>>
 }

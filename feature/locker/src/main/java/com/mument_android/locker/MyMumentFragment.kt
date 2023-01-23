@@ -15,6 +15,7 @@ import com.mument_android.locker.viewmodels.LockerViewModel
 import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.MyLikeFragment.Companion.MUMENT_ID
 import com.mument_android.locker.databinding.FragmentMyMumentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,16 +59,21 @@ class MyMumentFragment : Fragment() {
     private fun setGridServerConnection() {
         binding.rvMumentLinear.run {
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
-                adapter = LockerTimeAdapter(isGridLayout, showDetailListener = { showMumentDetail(it) }, object :
-                    LikeMumentListener {
-                    override fun likeMument(mumetId: String) {
-                        lockerViewModel.likeMument(mumetId)
-                    }
+                adapter = LockerTimeAdapter(
+                    isGridLayout,
+                    showDetailListener = { mumentId, musicInfo ->
+                        showMumentDetail(mumentId, musicInfo)
+                                         },
+                    likeMumentListener = object : LikeMumentListener {
+                        override fun likeMument(mumetId: String) {
+                            lockerViewModel.likeMument(mumetId)
+                        }
 
-                    override fun cancelLikeMument(mumetId: String) {
-                        cancelLikeMument(mumetId)
+                        override fun cancelLikeMument(mumetId: String) {
+                            cancelLikeMument(mumetId)
+                        }
                     }
-                })
+                )
                 (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
             }
         }
@@ -82,16 +88,21 @@ class MyMumentFragment : Fragment() {
                 is ApiResult.Success -> {
 
                     //binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value)
-                    binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value, showDetailListener = { showMumentDetail(it) }, object :
-                        LikeMumentListener {
-                        override fun likeMument(mumetId: String) {
-                            lockerViewModel.likeMument(mumetId)
-                        }
+                    binding.rvMumentLinear.adapter = LockerTimeAdapter(
+                        lockerViewModel.isGridLayout.value,
+                        showDetailListener = { mumentId, musicInfo ->
+                            showMumentDetail(mumentId, musicInfo)
+                                             },
+                        likeMumentListener = object : LikeMumentListener {
+                            override fun likeMument(mumetId: String) {
+                                lockerViewModel.likeMument(mumetId)
+                            }
 
-                        override fun cancelLikeMument(mumetId: String) {
-                            lockerViewModel.cancelLikeMument(mumetId)
+                            override fun cancelLikeMument(mumetId: String) {
+                                lockerViewModel.cancelLikeMument(mumetId)
+                            }
                         }
-                    })
+                    )
 
                     initMumentEmpty(it.data?.size ?: 0)
                     (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
@@ -184,9 +195,9 @@ class MyMumentFragment : Fragment() {
         }
     }
 
-    private fun showMumentDetail(mumentId: String) {
+    private fun showMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
         //val bundle = Bundle().also { it.putString(MUMENT_ID, mumentId) }
-        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
+        mumentDetailNavigatorProvider.moveMumentDetail(mumentId, musicInfo)
         //findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment, bundle)
     }
 }

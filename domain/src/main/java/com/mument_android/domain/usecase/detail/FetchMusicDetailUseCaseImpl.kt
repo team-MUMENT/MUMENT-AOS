@@ -8,6 +8,6 @@ import javax.inject.Inject
 class FetchMusicDetailUseCaseImpl @Inject constructor(
     private val musicDetailRepository: MusicDetailRepository
 ): FetchMusicDetailUseCase {
-    override suspend operator fun invoke(musicId: String, userId: String): Flow<MusicWithMyMumentEntity> =
-        musicDetailRepository.fetchMusicDetailInfo(musicId, userId)
+    override suspend operator fun invoke(musicId: String): Flow<MusicWithMyMumentEntity> =
+        musicDetailRepository.fetchMusicDetailInfo(musicId)
 }

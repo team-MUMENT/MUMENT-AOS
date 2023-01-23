@@ -13,9 +13,10 @@ import com.mument_android.core_dependent.databinding.FragmentMumentDialogBinding
 class MumentDialog(
     private val header: String?,
     private val body: String?,
+    private val allowButtonText: String? = null,
     private val allowListener: (() -> Unit)?,
+    private val cancelButtonText: String? = null,
     private val cancelListener: (() -> Unit)?,
-    private val option: Boolean
 ): DialogFragment() {
     private var binding by AutoClearedValue<FragmentMumentDialogBinding>()
 
@@ -39,7 +40,7 @@ class MumentDialog(
         super.onViewCreated(view, savedInstanceState)
         binding.tvHeader.setContent(header)
         binding.tvBody.setContent(body)
-        binding.tvAllow.text = if(option) "확인" else "삭제"
+        binding.tvAllow.text = allowButtonText ?: "삭제"
         setClickListener()
     }
 
