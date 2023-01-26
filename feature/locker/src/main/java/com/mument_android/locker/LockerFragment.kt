@@ -48,7 +48,10 @@ class LockerFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.e("Test",viewModel.isMument.toString())
+        isMumentView()
+    }
+
+    private fun isMumentView() {
         if(!viewModel.isMument) {
             binding.vpLocker.doOnPreDraw {
                 binding.vpLocker.currentItem = 1

@@ -18,10 +18,10 @@ class LockerRepositoryImpl @Inject constructor(
         lockerDataSource.fetchLockerMumumentList(tag1, tag2,tag3).data?.let {
             emit(lockerMapper.map(it))
         }
-    }.flowOn(Dispatchers.IO)
+    }
 
 
     override suspend fun fetchLockerLikeList(tag1: Int?, tag2: Int?, tag3: Int?): Flow<List<LockerMumentEntity>> = flow {
         lockerDataSource.fetchLockerLikeList(tag1, tag2, tag3).data?.let { emit(lockerMapper.map(it)) }
-    }.flowOn(Dispatchers.IO)
+    }
 }
