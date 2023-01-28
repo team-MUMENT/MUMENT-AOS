@@ -2,15 +2,10 @@ package com.mument_android.home.notify
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Typeface
 import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.res.ComplexColorCompat
 import com.mument_android.home.R
-import com.mument_android.home.util.SpanInfo
 import com.mument_android.home.util.TextStyleCustomHelper
 
 class NotifyEllipsizeCustomTextView @JvmOverloads constructor(
