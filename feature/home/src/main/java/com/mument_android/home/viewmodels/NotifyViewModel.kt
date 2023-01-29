@@ -37,7 +37,7 @@ class NotifyViewModel @Inject constructor() : ViewModel() {
                 NotifyEvent.OnClickBackBtn -> emitEffect(NotifySideEffect.PopBackStack)
                 NotifyEvent.OnClickSettingBtn -> emitEffect(NotifySideEffect.NavToSetting)
                 is NotifyEvent.OnClickNotify -> {
-                    when (event.notify.notifyType) {
+                    when (event.notify.type) {
                         NotifyType.LIKE -> {
                             emitEffect(NotifySideEffect.NavToMumentDetail(event.notify))
                         }
