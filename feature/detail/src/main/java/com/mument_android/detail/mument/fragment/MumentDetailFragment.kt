@@ -157,21 +157,22 @@ class MumentDetailFragment : Fragment() {
 
     private fun showEditBottomSheet() {
         binding.ivKebab.click {
-            EditMumentDialogFragment(object : EditMumentDialogFragment.EditListener {
-                override fun edit() {
-                    viewModel.viewState.value.mument?.content?.let { mument ->
-                        viewModel.emitEvent(MumentDetailEvent.OnClickEditMument(mument))
+            EditMumentDialogFragment()
+                .setEditListener(object : EditMumentDialogFragment.EditListener {
+                    override fun edit() {
+                        viewModel.viewState.value.mument?.content?.let { mument ->
+                            viewModel.emitEvent(MumentDetailEvent.OnClickEditMument(mument))
+                        }
                     }
-                }
 
-                override fun delete() {
-                    MumentDialogBuilder()
-                        .setHeader("삭제하시겠어요?")
-                        .setAllowListener { viewModel.emitEvent(MumentDetailEvent.OnClickDeleteMument) }
-                        .build()
-                        .show(childFragmentManager, this@MumentDetailFragment.tag)
-                }
-            }).show(childFragmentManager, this.tag)
+                    override fun delete() {
+                        MumentDialogBuilder()
+                            .setHeader("삭제하시겠어요?")
+                            .setAllowListener { viewModel.emitEvent(MumentDetailEvent.OnClickDeleteMument) }
+                            .build()
+                            .show(childFragmentManager, this@MumentDetailFragment.tag)
+                    }
+                }).show(childFragmentManager, this.tag)
         }
     }
 

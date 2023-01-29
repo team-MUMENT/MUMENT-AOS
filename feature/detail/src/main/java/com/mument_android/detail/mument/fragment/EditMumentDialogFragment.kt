@@ -11,7 +11,9 @@ import androidx.fragment.app.DialogFragment
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.detail.databinding.FragmentEditMumentDialogBinding
 
-class EditMumentDialogFragment(private val editListener: EditListener): DialogFragment() {
+class EditMumentDialogFragment(): DialogFragment() {
+    private var editListener: EditListener? = null
+
     interface EditListener {
         fun edit()
         fun delete()
@@ -43,14 +45,19 @@ class EditMumentDialogFragment(private val editListener: EditListener): DialogFr
             tvCancel.setOnClickListener { dismiss() }
             root.setOnClickListener { dismiss() }
             tvEdit.setOnClickListener {
-                editListener.edit()
+                editListener?.edit()
                 dismiss()
             }
             tvDelete.setOnClickListener {
-                editListener.delete()
+                editListener?.delete()
                 dismiss()
             }
 
         }
+    }
+
+    fun setEditListener(editListener: EditListener): EditMumentDialogFragment {
+        this.editListener = editListener
+        return this
     }
 }
