@@ -18,7 +18,6 @@ class DeclarMumentActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
         backBtnListener()
         checkBoxListener()
         with(binding) {

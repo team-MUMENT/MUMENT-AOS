@@ -42,7 +42,6 @@ class RecordActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.lifecycleOwner = this
         binding.recordViewModel = recordViewModel
 
         setTagRecyclerView()

@@ -15,7 +15,6 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.lifecycleOwner = this
         binding.myPageViewModel = myPageViewModel
         transactionBtnEvent()
         clickListenerWebView()

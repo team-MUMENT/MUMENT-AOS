@@ -99,7 +99,6 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
     }
 
     private fun settingAdapterAndDatabinding() {
-        binding.lifecycleOwner = this
         binding.viewmodel = viewmodel
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->

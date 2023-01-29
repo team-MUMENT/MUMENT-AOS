@@ -26,7 +26,6 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
     private val notifyViewModel by viewModels<NotifyViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.lifecycleOwner = this
         appBarClickListener()
         adapterSetting()
         receiveEffect()
