@@ -11,12 +11,13 @@ import com.mument_android.domain.entity.locker.LockerMumentEntity
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.ImpressiveTag
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.LikeMumentListener
 import com.mument_android.locker.databinding.ItemLockerCardBinding
 
 //자식어뎁터
 class LockerMumentLinearAdapter(
-    private val showDetailListener: (String) -> Unit,
+    private val showDetailListener: (String, MusicInfoEntity) -> Unit,
     private val likeMumentListener: LikeMumentListener
 ) : ListAdapter<LockerMumentEntity.MumentLockerCard, LockerMumentLinearAdapter.MumentViewHolder>(
     GlobalDiffCallBack<LockerMumentEntity.MumentLockerCard>()
@@ -43,7 +44,17 @@ class LockerMumentLinearAdapter(
 
         likeMument(holder)
         holder.binding.root.setOnClickListener {
-            getItem(position)._id?.let { name -> showDetailListener(name) }
+            getItem(position)?.let { data ->
+                showDetailListener(
+                    data._id ?: "",
+                    MusicInfoEntity(
+                        id = data.music_Id ?: "",
+                        name = data.musicName ?: "",
+                        thumbnail = data.musicImage ?: "",
+                        artist = data.musicArtist ?: ""
+                    )
+                )
+            }
         }
     }
 

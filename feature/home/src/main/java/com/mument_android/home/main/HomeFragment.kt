@@ -149,7 +149,7 @@ class HomeFragment : Fragment() {
                     musicDetailNavigatorProvider.moveMusicDetail(effect.musicId)
                 }
                 is HomeSideEffect.NavToMumentDetail -> {
-                    mumentDetailNavigatorProvider.moveMumentDetail(effect.mumentId)
+//                    mumentDetailNavigatorProvider.moveMumentDetail(effect.mumentId)
                 }
                 is HomeSideEffect.Toast -> requireContext().showToast(effect.message)
             }
@@ -158,7 +158,7 @@ class HomeFragment : Fragment() {
 
     // TODO NAVI
     private fun showMumentDetail(mumentId: String) {
-        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
+//        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
     }
 
     override fun onResume() {

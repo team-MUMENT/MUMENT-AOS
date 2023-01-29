@@ -1,7 +1,9 @@
 package com.mument_android.detail.mument.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.util.*
 import com.mument_android.detail.BuildConfig
 import com.mument_android.detail.R
@@ -16,6 +18,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.mument_android.detail.mument.contract.MumentDetailContract.*
+import com.mument_android.domain.usecase.detail.BlockUserUseCase
+import kotlinx.coroutines.runBlocking
 
 @HiltViewModel
 class MumentDetailViewModel @Inject constructor(
@@ -24,6 +28,8 @@ class MumentDetailViewModel @Inject constructor(
     private val likeMumentUseCase: LikeMumentUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
     private val deleteMumentUseCase: DeleteMumentUseCase,
+    private val blockUserUseCase: BlockUserUseCase,
+    private val dataStoreManager: DataStoreManager,
     private val mediaUtils: MediaUtils
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(MumentDetailViewState())
@@ -70,7 +76,11 @@ class MumentDetailViewModel @Inject constructor(
                 is MumentDetailEvent.OnClickEditMument -> emitEffect(MumentDetailSideEffect.EditMument(event.mument))
                 is MumentDetailEvent.ReceiveMumentId -> {
                     _viewState.setState { copy(requestMumentId = event.mumentId) }
-                    updateRequestMumentId(event.mumentId)
+                    fetchMumentDetailContent(event.mumentId)
+                }
+                is MumentDetailEvent.ReceiveMusicInfo -> {
+                    _viewState.setState { copy(musicInfo = event.musicInfoEntity) }
+                    fetchMumentList(event.musicInfoEntity.id)
                 }
                 is MumentDetailEvent.OnClickShareMument -> {
                     event.mumentEntity?.let { mument ->
@@ -85,10 +95,6 @@ class MumentDetailViewModel @Inject constructor(
                 MumentDetailEvent.EntryFromInstagram -> deleteSharedImageFile()
             }
         }
-    }
-
-    private fun updateRequestMumentId(id: String) {
-        fetchMumentDetailContent(id)
     }
 
     private fun likeMument() {
@@ -121,11 +127,13 @@ class MumentDetailViewModel @Inject constructor(
                 _viewState.setState { copy(hasError= true, onNetwork = false) }
                 emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_load_data))
             }.collect { mumentDetail ->
+                val userId = runBlocking {
+                    dataStoreManager.userIdFlow.first() ?: ""
+                }
                 mumentDetail?.let {
-                    fetchMumentList(mumentDetail.mument.musicInfo.id)
                     _viewState.setState {
                         copy(
-                            isWriter = mumentDetail.mument.writerInfo.userId == BuildConfig.USER_ID,
+                            isWriter = mumentDetail.mument.writerInfo.userId == userId,
                             mument = mumentDetail.mument,
                             isLikedMument = mumentDetail.isLiked,
                             likeCount = mumentDetail.likeCount,
@@ -145,7 +153,7 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun fetchMumentList(musicId: String) {
         viewModelScope.launch {
-            fetchMumentListUseCase(musicId, BuildConfig.USER_ID, "Y")
+            fetchMumentListUseCase(musicId, "Y")
                 .catch { e ->  }
                 .collect {
                     _viewState.setState {
@@ -162,6 +170,15 @@ class MumentDetailViewModel @Inject constructor(
                     emitEffect(MumentDetailSideEffect.Toast(R.string.fail_to_delete_mument))
                 }.collect {
                     emitEffect(MumentDetailSideEffect.SuccessMumentDeletion)
+                }
+        }
+    }
+
+    fun blockUser() {
+        viewModelScope.launch {
+            blockUserUseCase(viewState.value.requestMumentId)
+                .also {
+                    Log.e("status", "${it}")
                 }
         }
     }

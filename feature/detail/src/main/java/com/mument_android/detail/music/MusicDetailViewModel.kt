@@ -59,9 +59,12 @@ class MusicDetailViewModel @Inject constructor(
 
     private fun fetchMusicDetail(musicId: String) {
         viewModelScope.launch {
-            fetchMusicDetailUseCase(musicId, BuildConfig.USER_ID).catch { e ->
+            fetchMusicDetailUseCase(musicId).catch { e ->
                 setState { copy(hasError = true) }
+                Log.e("errorororor", "${e.message}")
+
             }.collect {
+                Log.e("success music", "${it.music}")
                 setState { copy(musicInfo = it.music, myMumentInfo = it.myMument) }
             }
         }
@@ -71,7 +74,6 @@ class MusicDetailViewModel @Inject constructor(
         viewModelScope.launch {
             fetchMumentListUseCase(
                 musicId,
-                BuildConfig.USER_ID,
                 viewState.value.mumentSortType.tag
             ).catch { e ->
                 setState { copy(hasError = true, mumentList = emptyList()) }

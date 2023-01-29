@@ -30,7 +30,7 @@ object AndroidXDependencies {
     const val junit = "androidx.test.ext:junit-ktx:${Versions.junit}"
     const val cardview = "androidx.cardview:cardview:${Versions.cardviewVersion}"
     const val emoji = "androidx.emoji:emoji:${Versions.emoji}"
-    const val dataStore = "androidx.datastore:datastore-core:${Versions.dataStore}"
+    const val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
     const val protoBuf = "com.google.protobuf:protobuf-javalite:${Versions.protoBuf}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
     const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"

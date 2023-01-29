@@ -48,7 +48,6 @@ android {
 }
 
 dependencies {
-
     addTestDependencies()
     addNetworkDependencies()
     addDaggerHiltDependencies()

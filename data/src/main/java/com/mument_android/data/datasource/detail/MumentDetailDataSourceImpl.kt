@@ -12,6 +12,6 @@ class MumentDetailDataSourceImpl @Inject constructor(
     private val mumentDetailApiService: DetailApiService
 ): MumentDetailDataSource {
     override suspend fun fetchMumentDetail(mumentId: String): Flow<BaseResponse<MumentDetailDto>> = flow {
-        emit(mumentDetailApiService.fetchMumentDetail(mumentId, BuildConfig.USER_ID))
+        emit(mumentDetailApiService.fetchMumentDetail(mumentId))
     }
 }

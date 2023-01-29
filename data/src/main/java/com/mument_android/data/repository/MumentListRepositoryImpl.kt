@@ -17,10 +17,9 @@ class MumentListRepositoryImpl @Inject constructor(
 ): MumentListRepository {
     override suspend fun fetchMumentList(
         musicId: String,
-        userId: String,
         default: String
     ): Flow<List<MumentSummaryEntity>> = flow {
-        val mumentList = mumentListDataSource.fetchMumentList(musicId, userId, default).data?.mumentList
+        val mumentList = mumentListDataSource.fetchMumentList(musicId, default).data?.mumentList
         val publicMuments = mumentList?.filter { !it.isPrivate }?.map { mumentSummaryMapper.map(it) }
         val filteredList = mutableListOf<MumentSummaryEntity>()
         mumentList?.filter { it.isPrivate }?.onEach {

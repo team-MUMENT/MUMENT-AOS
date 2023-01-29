@@ -237,13 +237,13 @@ class RecordActivity :
 
         recordViewModel.mumentData.observe(this) {
             if (it != null) {
-                recordViewModel.selectedMusic.value = RecentSearchData(
-                    it.mument.musicInfo.id,
-                    it.mument.musicInfo.artist,
-                    it.mument.musicInfo.thumbnail,
-                    it.mument.musicInfo.name,
-                    null
-                )
+//                recordViewModel.selectedMusic.value = RecentSearchData(
+//                    it.mument.musicInfo.id,
+//                    it.mument.musicInfo.artist,
+//                    it.mument.musicInfo.thumbnail,
+//                    it.mument.musicInfo.name,
+//                    null
+//                )
                 recordViewModel.setCheckTaglist(it.mument.impressionTags ?: listOf())
                 recordViewModel.setCheckTaglist(it.mument.emotionalTags ?: listOf())
                 recordViewModel.findIsFirst()
@@ -349,8 +349,7 @@ class RecordActivity :
                 MumentDialogBuilder()
                     .setHeader(getString(R.string.record_delete_header))
                     .setBody(getString(R.string.record_delete_body))
-                    .setOption(true)
-                    .setAllowListener {
+                    .setAllowListener("확인") {
                         onBackPressed()
                     }
                     .setCancelListener {}
@@ -361,8 +360,7 @@ class RecordActivity :
                 MumentDialogBuilder()
                     .setHeader(getString(R.string.modify_header))
                     .setBody(getString(R.string.modify_body))
-                    .setOption(true)
-                    .setAllowListener {
+                    .setAllowListener("확인") {
                         //곡 상세보기로 이동
                     }
                     .setCancelListener {

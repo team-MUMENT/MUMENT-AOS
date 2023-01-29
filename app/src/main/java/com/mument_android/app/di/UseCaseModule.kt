@@ -1,5 +1,6 @@
 package com.mument_android.app.di
 
+import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
 import com.mument_android.domain.repository.detail.MusicDetailRepository
@@ -112,4 +113,9 @@ object UseCaseModule {
     @Singleton
     fun proivdeDeleteMumentUseCase(mumentDetailRepository: MumentDetailRepository): DeleteMumentUseCase =
         DeleteMumentUseCaseImpl(mumentDetailRepository)
+
+    @Provides
+    @Singleton
+    fun provideBlockUserUseCase(blockUserRepository: BlockUserRepository): BlockUserUseCase =
+        BlockUserUseCaseImpl(blockUserRepository)
 }
