@@ -2,7 +2,7 @@ package com.mument_android.data.datasource.detail
 
 import com.mument_android.data.dto.detail.MusicDetailDto
 import com.mument_android.data.network.detail.DetailApiService
-import com.mument_android.data.util.BaseResponse
+import retrofit2.Response
 import javax.inject.Inject
 
 class MusicDetailDataSourceImpl @Inject constructor(
@@ -10,5 +10,7 @@ class MusicDetailDataSourceImpl @Inject constructor(
 ): MusicDetailDataSource {
     override suspend fun fetchMusicDetailInfo(
         musicId: String,
-    ): BaseResponse<MusicDetailDto> = detailApiService.fetchMusicDetailInfo(musicId)
+    ): Response<MusicDetailDto> {
+        return detailApiService.fetchMusicDetailInfo(musicId)
+    }
 }

@@ -2,6 +2,7 @@ package com.mument_android.detail.music
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core.network.ApiStatus
 import com.mument_android.core.util.DateFormatter
 import com.mument_android.core_dependent.base.MviViewModel
 import com.mument_android.detail.BuildConfig
@@ -58,14 +59,19 @@ class MusicDetailViewModel @Inject constructor(
     }
 
     private fun fetchMusicDetail(musicId: String) {
-        viewModelScope.launch {
-            fetchMusicDetailUseCase(musicId).catch { e ->
-                setState { copy(hasError = true) }
-                Log.e("errorororor", "${e.message}")
 
-            }.collect {
-                Log.e("success music", "${it.music}")
-                setState { copy(musicInfo = it.music, myMumentInfo = it.myMument) }
+        viewModelScope.launch {
+            fetchMusicDetailUseCase(musicId).catch {
+                setState { copy(hasError = true) }
+            }.collect { result ->
+                when(result) {
+                    is ApiStatus.Success -> {
+                        setState { copy(musicInfo = result.data?.music, myMumentInfo = result.data?.myMument) }
+                    }
+                    is ApiStatus.Failure -> {
+                        setState { copy(hasError = true) }
+                    }
+                }
             }
         }
     }

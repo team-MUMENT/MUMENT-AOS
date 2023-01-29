@@ -5,13 +5,13 @@ import com.mument_android.core_dependent.util.EmotionalTag.Companion.findEmotion
 import com.mument_android.core_dependent.util.ImpressiveTag.Companion.findImpressiveTagEnum
 import com.mument_android.data.dto.detail.MusicDetailDto
 
-class MumentCardMapper: BaseMapper<MusicDetailDto, com.mument_android.domain.entity.MumentCard?> {
-    override fun map(from: MusicDetailDto): com.mument_android.domain.entity.MumentCard? {
+class MumentCardMapper: BaseMapper<MusicDetailDto, MumentCard?> {
+    override fun map(from: MusicDetailDto): MumentCard? {
         val tagIdx = if (from.myMument?.cardTag?.isNotEmpty() == true) from.myMument.cardTag.first() else 100
         return if(from.myMument == null) {
             null
         } else {
-            com.mument_android.domain.entity.MumentCard(
+            MumentCard(
                 from.myMument.id,
                 from.myMument.content ?: "",
                 from.myMument.createdAt,
