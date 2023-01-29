@@ -83,9 +83,9 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                 .setBody("")
                 .setOption(MumentDialog.DIALOG_LOGOUT)
                 .setAllowListener {
-                    finish()
                     val intent = Intent(this, LogInActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
                 .setCancelListener {}
                 .build()

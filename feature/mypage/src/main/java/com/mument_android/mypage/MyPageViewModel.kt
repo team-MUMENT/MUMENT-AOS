@@ -24,6 +24,10 @@ class MyPageViewModel : ViewModel() {
     private val _userNickNameContent = MutableLiveData("")
     val userNickNameContent = _userNickNameContent
 
+    //BlockUserManagement
+    private val _userList = MutableLiveData<List<UserData>>()
+    val userList: LiveData<List<UserData>> get() = _userList
+
     //Notice
     private val _noticeList = MutableLiveData<List<NoticeData>>()
     val noticeList: LiveData<List<NoticeData>> get() = _noticeList
@@ -62,6 +66,13 @@ class MyPageViewModel : ViewModel() {
         )
     }
 
+    //차단유저관리
+    fun unblockUser(element: UserData) {
+        val currentList = userList.value!!.toMutableList()
+        currentList.remove(element)
+        _userList.value = currentList
+    }
+
     //공지사항
     fun fetchNoticeDetail() {
         val noticeData = NoticeData(
@@ -71,7 +82,6 @@ class MyPageViewModel : ViewModel() {
             content = noticeContent.value.orEmpty(),
         )
     }
-
 
     //이유 선택 박스 눌렀을 때 라디오 그룹 visibility 조절
     fun clickReasonChooseBox() {
