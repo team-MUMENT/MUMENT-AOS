@@ -171,7 +171,7 @@ class LockerViewModel @Inject constructor(
             cancelLikeMumentUseCase(
                 mumentId,
                 BuildConfig.USER_ID
-            ).collect {}
+            ).collect()
         }
     }
 
@@ -180,7 +180,7 @@ class LockerViewModel @Inject constructor(
             likeMumentUseCase(
                 mumentId,
                 BuildConfig.USER_ID
-            ).collect {}
+            ).collect()
         }
     }
 

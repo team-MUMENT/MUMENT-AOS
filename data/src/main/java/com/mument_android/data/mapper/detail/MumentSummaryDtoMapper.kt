@@ -24,7 +24,6 @@ class MumentSummaryDtoMapper @Inject constructor(
         return MumentDetailEntity(
             mument = MumentEntity(
                 writerInfo = userMapper.map(from.user),
-                musicInfo = musicInfoMapper.map(musicDto),
                 isFirst = isFirstTagMapper.map(from.isFirst),
                 impressionTags = from.impressionTag?.map { impressiveTagMapper.map(it) },
                 emotionalTags = from.feelingTag?.map { emotionalTagMapper.map(it) },

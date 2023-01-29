@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 class MumentDetailMapper @Inject constructor(
     private val userMapper: UserMapper,
-    private val musicInfoMapper: MusicInfoMapper,
     private val impressiveTagMapper: ImpressiveTagMapper,
     private val emotionalTagMapper: EmotionalTagMapper,
     private val isFirstTagMapper: IsFirstTagMapper
@@ -25,7 +24,6 @@ class MumentDetailMapper @Inject constructor(
         return MumentDetailEntity(
             mument = MumentEntity(
                 writerInfo = userMapper.map(from.user),
-                musicInfo = musicInfoMapper.map(from.music),
                 isFirst = isFirstTagMapper.map(from.isFirst),
                 impressionTags = from.impressionTag?.map { impressiveTagMapper.map(it) },
                 emotionalTags = from.feelingTag?.map { emotionalTagMapper.map(it) },

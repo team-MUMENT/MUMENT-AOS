@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core.network.ApiResult
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
 import com.mument_android.locker.adapters.LockerTimeAdapter
 import com.mument_android.locker.databinding.FragmentMyMumentBinding
@@ -21,17 +20,19 @@ import com.mument_android.locker.viewmodels.LockerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class MyMumentFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyMumentBinding>()
     private val lockerViewModel: LockerViewModel by activityViewModels()
+
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentMyMumentBinding.inflate(inflater, container, false). run {
+    ): View = FragmentMyMumentBinding.inflate(inflater, container, false).run {
         binding = this
         this.root
     }
@@ -53,7 +54,7 @@ class MyMumentFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if(lockerViewModel.isGridLayout.value) {
+        if (lockerViewModel.isGridLayout.value) {
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
         }
@@ -64,16 +65,21 @@ class MyMumentFragment : Fragment() {
     private fun setGridServerConnection() {
         binding.rvMumentLinear.run {
             lockerViewModel.isGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
-                adapter = LockerTimeAdapter(isGridLayout, showDetailListener = { showMumentDetail(it) }, object :
-                    LikeMumentListener {
-                    override fun likeMument(mumetId: String) {
-                        lockerViewModel.likeMument(mumetId)
-                    }
+                adapter = LockerTimeAdapter(
+                    isGridLayout,
+                    showDetailListener = { mumentId, musicInfo ->
+                        showMumentDetail(mumentId, musicInfo)
+                    },
+                    likeMumentListener = object : LikeMumentListener {
+                        override fun likeMument(mumetId: String) {
+                            lockerViewModel.likeMument(mumetId)
+                        }
 
-                    override fun cancelLikeMument(mumetId: String) {
-                        cancelLikeMument(mumetId)
+                        override fun cancelLikeMument(mumetId: String) {
+                            cancelLikeMument(mumetId)
+                        }
                     }
-                })
+                )
                 (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
             }
         }
@@ -82,35 +88,61 @@ class MyMumentFragment : Fragment() {
     }
 
     private fun setMyMumentListAdapter() {
-        lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope){
-            when(it){
+        lockerViewModel.myMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
+            when (it) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
-                    binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value, showDetailListener = { showMumentDetail(it) }, object :
-                        LikeMumentListener {
-                        override fun likeMument(mumetId: String) {
-                            lockerViewModel.likeMument(mumetId)
-                        }
+                    binding.rvMumentLinear.adapter = LockerTimeAdapter(
+                        lockerViewModel.isGridLayout.value,
+                        showDetailListener = { mumentId, musicInfo ->
+                            showMumentDetail(mumentId, musicInfo)
+                        },
+                        likeMumentListener = object : LikeMumentListener {
+                            override fun likeMument(mumetId: String) {
+                                lockerViewModel.likeMument(mumetId)
+                            }
 
-                        override fun cancelLikeMument(mumetId: String) {
-                            lockerViewModel.cancelLikeMument(mumetId)
+                            override fun cancelLikeMument(mumetId: String) {
+                                lockerViewModel.cancelLikeMument(mumetId)
+                            }
                         }
-                    })
+                    )
+
+                    //binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value)
+                    binding.rvMumentLinear.adapter = LockerTimeAdapter(
+                        lockerViewModel.isGridLayout.value,
+                        showDetailListener = { mumentId, musicInfo ->
+                            showMumentDetail(mumentId, musicInfo)
+                        },
+                        likeMumentListener = object : LikeMumentListener {
+                            override fun likeMument(mumetId: String) {
+                                lockerViewModel.likeMument(mumetId)
+                            }
+
+                            override fun cancelLikeMument(mumetId: String) {
+                                lockerViewModel.cancelLikeMument(mumetId)
+                            }
+                        }
+                    )
 
                     initMumentEmpty(it.data?.size ?: 0)
-                    (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
+                    (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(
+                        lockerViewModel.myMuments.value?.data
+                    )
                 }
                 else -> {}
             }
+
+            binding.ivLockerList.isSelected = true
+            binding.ivLockerGrid.isSelected = false
         }
-        binding.ivLockerList.isSelected = true
-        binding.ivLockerGrid.isSelected = false
     }
 
+
     //TODO: 필터 및 아이콘들 비활성화
-    private fun initMumentEmpty(size : Int) {
-        if(size == 0) {
+    private fun initMumentEmpty(size: Int) {
+        if (size == 0) {
             binding.clFilterResultNull.visibility = View.VISIBLE
         } else {
             binding.clFilterResultNull.visibility = View.GONE
@@ -182,9 +214,10 @@ class MyMumentFragment : Fragment() {
         }
     }
 
-    private fun showMumentDetail(mumentId: String) {
+    private fun showMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
         //val bundle = Bundle().also { it.putString(MUMENT_ID, mumentId) }
-        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
+        mumentDetailNavigatorProvider.moveMumentDetail(mumentId, musicInfo)
         //findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment, bundle)
     }
+
 }

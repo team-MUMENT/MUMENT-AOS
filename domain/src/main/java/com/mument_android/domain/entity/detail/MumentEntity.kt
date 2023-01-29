@@ -8,7 +8,6 @@ import kotlinx.android.parcel.Parcelize
 
 data class MumentEntity(
     val writerInfo: UserEntity,
-    val musicInfo: MusicInfoEntity,
     val isFirst: TagEntity,
     val impressionTags: List<TagEntity>?,
     val emotionalTags: List<TagEntity>?,

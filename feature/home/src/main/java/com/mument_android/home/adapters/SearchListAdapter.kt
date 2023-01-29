@@ -14,7 +14,6 @@ class SearchListAdapter(
     private val contentClickListener: (RecentSearchData) -> Unit,
     private val itemClickListener: (RecentSearchData) -> Unit
 ) : ListAdapter<RecentSearchData, SearchListAdapter.SearchViewHolder>(SearchDiffUtil) {
-    var option = true
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
             ItemSearchListBinding.inflate(
@@ -34,7 +33,7 @@ class SearchListAdapter(
         holder.binding.ivDelete.setOnClickListener {
             itemClickListener(searchData)
         }
-        if (option) {
+        if (searchData.createAt != null) {
             holder.binding.ivDelete.visibility = View.VISIBLE
         } else {
             holder.binding.ivDelete.visibility = View.GONE

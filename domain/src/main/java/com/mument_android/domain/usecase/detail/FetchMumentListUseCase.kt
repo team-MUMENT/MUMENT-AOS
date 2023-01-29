@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface FetchMumentListUseCase {
-    suspend operator fun invoke(musicId: String, userId: String, default: String): Flow<List<MumentSummaryEntity>>
+    suspend operator fun invoke(musicId: String, default: String): Flow<List<MumentSummaryEntity>>
 }

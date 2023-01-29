@@ -4,5 +4,5 @@ import com.mument_android.data.dto.detail.MusicDetailDto
 import com.mument_android.data.util.BaseResponse
 
 interface MusicDetailDataSource {
-    suspend fun fetchMusicDetailInfo(musicId: String, userId: String): BaseResponse<MusicDetailDto>
+    suspend fun fetchMusicDetailInfo(musicId: String): BaseResponse<MusicDetailDto>
 }

@@ -1,4 +1,4 @@
-package com.mument_android.home
+package com.mument_android.home.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -19,12 +19,14 @@ import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.home.HomeContract.HomeEvent
-import com.mument_android.home.HomeContract.HomeSideEffect
 import com.mument_android.home.adapters.BannerListAdapter
 import com.mument_android.home.adapters.HeardMumentListAdapter
 import com.mument_android.home.adapters.ImpressiveEmotionListAdapter
 import com.mument_android.home.databinding.FragmentHomeBinding
+import com.mument_android.home.main.HomeContract.HomeEvent
+import com.mument_android.home.main.HomeContract.HomeSideEffect
+import com.mument_android.home.notify.NotifyActivity
+import com.mument_android.home.search.SearchActivity
 import com.mument_android.home.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -56,7 +58,6 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
         bindData()
-
         getResultText =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == AppCompatActivity.RESULT_OK) {
@@ -74,6 +75,9 @@ class HomeFragment : Fragment() {
         receiveEffect()
         binding.tvSearch.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickSearch)
+        }
+        binding.ivNotify.setOnClickListener {
+            viewModel.emitEvent(HomeEvent.OnClickNotification)
         }
     }
 
@@ -136,7 +140,7 @@ class HomeFragment : Fragment() {
         collectFlowWhenStarted(viewModel.effect) { effect ->
             when (effect) {
                 HomeSideEffect.GoToNotification -> {
-                    /* TODO NAVI */
+                    startActivity(Intent(requireActivity(), NotifyActivity::class.java))
                 }
                 HomeSideEffect.GoToSearchActivity -> {
                     getResultText.launch(Intent(requireActivity(), SearchActivity::class.java))
@@ -145,7 +149,7 @@ class HomeFragment : Fragment() {
                     musicDetailNavigatorProvider.moveMusicDetail(effect.musicId)
                 }
                 is HomeSideEffect.NavToMumentDetail -> {
-                    mumentDetailNavigatorProvider.moveMumentDetail(effect.mumentId)
+//                    mumentDetailNavigatorProvider.moveMumentDetail(effect.mumentId)
                 }
                 is HomeSideEffect.Toast -> requireContext().showToast(effect.message)
             }
@@ -154,7 +158,7 @@ class HomeFragment : Fragment() {
 
     // TODO NAVI
     private fun showMumentDetail(mumentId: String) {
-        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
+//        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
     }
 
     override fun onResume() {

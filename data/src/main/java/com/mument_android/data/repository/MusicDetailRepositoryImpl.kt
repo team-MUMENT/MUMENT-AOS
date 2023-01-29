@@ -14,8 +14,8 @@ class MusicDetailRepositoryImpl @Inject constructor(
     private val musicWithMyMumentMapper: MusicWithMyMumentMapper,
     private val musicDetailDataSource: MusicDetailDataSource
 ): MusicDetailRepository {
-    override suspend fun fetchMusicDetailInfo(musicId: String, userId: String): Flow<MusicWithMyMumentEntity> = flow {
-        musicDetailDataSource.fetchMusicDetailInfo(musicId, userId).data?.let {
+    override suspend fun fetchMusicDetailInfo(musicId: String): Flow<MusicWithMyMumentEntity> = flow {
+        musicDetailDataSource.fetchMusicDetailInfo(musicId).data?.let {
             emit(musicWithMyMumentMapper.map(it))
         }
     }.flowOn(Dispatchers.IO)

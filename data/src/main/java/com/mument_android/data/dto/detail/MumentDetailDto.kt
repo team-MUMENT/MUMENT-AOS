@@ -12,6 +12,5 @@ data class MumentDetailDto(
     val impressionTag: List<Int>?,
     val isLiked: Boolean,
     val likeCount: Int,
-    val music: MusicDto,
     val user: UserDto
 )

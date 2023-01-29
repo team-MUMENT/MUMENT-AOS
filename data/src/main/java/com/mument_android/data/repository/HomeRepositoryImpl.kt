@@ -28,14 +28,14 @@ class HomeRepositoryImpl @Inject constructor(
         remoteSearchListDataSource.searchMusicList(keyword).let { result ->
             when (result) {
                 is ResultWrapper.Success -> {
-                    result.data
+                    result.data?.list
                 }
                 is ResultWrapper.GenericError -> {
-                    Timber.e("GenericError -> code ${result.code}: message: ${result.message}")
+                    Log.e("GenericError", "GenericError -> code ${result.code}: message: ${result.message}")
                     null
                 }
                 is ResultWrapper.NetworkError -> {
-                    Timber.e("NetworkError")
+                    Log.e("NetworkError", "$result")
                     null
                 }
                 else -> {

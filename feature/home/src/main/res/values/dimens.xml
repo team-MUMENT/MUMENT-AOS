@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Font Size-->
-    <dimen name="font_size_25">25sp</dimen>
-    <dimen name="font_size_18">18sp</dimen>
+    <dimen name="font_size_25">25dp</dimen>
+    <dimen name="font_size_18">18dp</dimen>
     <dimen name="app_space_25">25dp</dimen>
-    <dimen name="app_space_12">120dp</dimen>
+    <dimen name="app_space_12">12dp</dimen>
+    <dimen name="app_space_15">15dp</dimen>
+    <dimen name="app_space_16">16dp</dimen>
+    <dimen name="app_space_18">18dp</dimen>
     <dimen name="app_space_20">20dp</dimen>
     <dimen name="app_space_8">8dp</dimen>
+    <dimen name="app_space_48">48dp</dimen>
+    <dimen name="app_space_14">14dp</dimen>
+    <dimen name="app_space_13">13dp</dimen>
+    <dimen name="app_space_5">5dp</dimen>
+    <dimen name="app_space_10">10dp</dimen>
 
 </resources>
