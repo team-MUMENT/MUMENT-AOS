@@ -7,6 +7,7 @@ import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
 import com.mument_android.domain.repository.record.RecordRepository
+import com.mument_android.domain.repository.sign.SignRepository
 import com.mument_android.domain.usecase.detail.*
 import com.mument_android.domain.usecase.home.*
 import com.mument_android.domain.usecase.locker.FetchMyLikeListUseCase
@@ -18,6 +19,8 @@ import com.mument_android.domain.usecase.main.CancelLikeMumentUseCaseImpl
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCaseImpl
 import com.mument_android.domain.usecase.record.*
+import com.mument_android.domain.usecase.sign.SignDulCheckUseCase
+import com.mument_android.domain.usecase.sign.SignDulCheckUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -112,4 +115,9 @@ object UseCaseModule {
     @Singleton
     fun proivdeDeleteMumentUseCase(mumentDetailRepository: MumentDetailRepository): DeleteMumentUseCase =
         DeleteMumentUseCaseImpl(mumentDetailRepository)
+
+    @Provides
+    @Singleton
+    fun provideSignDulCheck(signRepository: SignRepository) : SignDulCheckUseCase =
+        SignDulCheckUseCaseImpl(signRepository)
 }

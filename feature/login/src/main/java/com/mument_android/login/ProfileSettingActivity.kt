@@ -4,14 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.GalleryUtil
 import com.mument_android.login.util.shortToast
@@ -46,6 +50,8 @@ class ProfileSettingActivity :
         uploadImageCallbackListener()
         isImageExist()
         backBtnListener()
+        setNickNameDup()
+        nickNameDupCheck()
     }
 
 
@@ -156,6 +162,25 @@ class ProfileSettingActivity :
         binding.ivProfileBack.setOnClickListener {
             startActivity(Intent(this, LogInActivity::class.java))
             finish()
+        }
+    }
+
+    private fun setNickNameDup() {
+        val nickname = viewModel.mumentNickName
+        viewModel.nickNameDupCheck(nickname.value.toString())
+
+    }
+
+    private fun nickNameDupCheck() {
+        viewModel.isDuplicate.launchWhenCreated(this.lifecycleScope) {
+            when(it) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    Log.e("뭐지 ㅠ", it.toString())
+                }
+                else -> {}
+            }
         }
     }
 }

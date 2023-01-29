@@ -50,6 +50,8 @@ dependencies {
     addLifecycleDependencies()
     implementation(ThirdPartyDependencies.coil)
     implementation(AndroidXDependencies.coroutines)
+    implementation(project(Modules.DOMAIN_MODULE))
+    implementation(project(Modules.CORE_MODULE))
     implementation(project(Modules.NAVIGATION_MODULE))
     implementation(project(Modules.CORE_DEPENDENT_MODULE))
 }

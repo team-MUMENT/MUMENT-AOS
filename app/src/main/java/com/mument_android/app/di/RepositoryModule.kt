@@ -17,6 +17,8 @@ import com.mument_android.data.mapper.locker.LockerMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.datasource.home.*
+import com.mument_android.data.datasource.sign.SignDataSource
+import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.repository.*
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
@@ -25,6 +27,7 @@ import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
 import com.mument_android.domain.repository.record.RecordRepository
+import com.mument_android.domain.repository.sign.SignRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -111,4 +114,11 @@ object RepositoryModule {
         mumentSummaryMapper: MumentSummaryMapper,
         mumentListDataSource: MumentListDataSource
     ): MumentListRepository = MumentListRepositoryImpl(mumentSummaryMapper, mumentListDataSource)
+
+    @Provides
+    @Singleton
+    fun provideSignRepository(
+        signMapper : SignMapper,
+        signDataSource: SignDataSource
+    ): SignRepository = SignRepositoryImpl(signMapper, signDataSource)
 }

@@ -5,7 +5,7 @@ import com.mument_android.data.util.BaseResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface SignNetwork {
+interface SignApiService {
     @GET("/user/profile/check/{profileId}")
     suspend fun signDuplicationCheck(
         @Path("profileId") profileId: String
