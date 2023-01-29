@@ -9,7 +9,7 @@ import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.home.R
 import com.mument_android.home.databinding.FragmentSuggestionNotifyAccessBinding
 
-class SuggestionNotifyAccessDialogFragment(val result: (Boolean) -> Unit) :
+class SuggestionNotifyAccessDialogFragment :
     BottomSheetDialogFragment() {
 
     private var binding by AutoClearedValue<FragmentSuggestionNotifyAccessBinding>()
@@ -17,11 +17,13 @@ class SuggestionNotifyAccessDialogFragment(val result: (Boolean) -> Unit) :
     companion object {
         @JvmStatic
         private var INSTANCE: SuggestionNotifyAccessDialogFragment? = null
+        private lateinit var RESULT_CALLBACK: (Boolean) -> Unit
 
         @JvmStatic
         fun newInstance(suggestionResult: (Boolean) -> Unit): SuggestionNotifyAccessDialogFragment {
             return INSTANCE
-                ?: SuggestionNotifyAccessDialogFragment(result = suggestionResult).apply {
+                ?: SuggestionNotifyAccessDialogFragment().apply {
+                    RESULT_CALLBACK = suggestionResult
                     INSTANCE = this
                 }
         }
@@ -39,15 +41,15 @@ class SuggestionNotifyAccessDialogFragment(val result: (Boolean) -> Unit) :
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.btnYes.setOnClickListener {
-            result(true)
+            RESULT_CALLBACK(true)
             dismiss()
         }
         binding.ivCancel.setOnClickListener {
-            result(false)
+            RESULT_CALLBACK(false)
             dismiss()
         }
         binding.btnCancel.setOnClickListener {
-            result(false)
+            RESULT_CALLBACK(false)
             dismiss()
         }
     }
