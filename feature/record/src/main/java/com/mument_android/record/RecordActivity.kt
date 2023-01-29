@@ -361,7 +361,7 @@ class RecordActivity :
                     .setHeader(getString(R.string.modify_header))
                     .setBody(getString(R.string.modify_body))
                     .setAllowListener("확인") {
-                        //곡 상세보기로 이동
+                     //곡 상세보기로 이동
                     }
                     .setCancelListener {
                         //그대로

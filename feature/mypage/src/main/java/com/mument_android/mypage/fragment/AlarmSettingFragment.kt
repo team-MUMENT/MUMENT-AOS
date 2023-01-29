@@ -1,4 +1,5 @@
 package com.mument_android.mypage.fragment
+
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -30,7 +31,9 @@ class AlarmSettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.myPageViewModel = myPageViewModel
+
         openAppAlarmSetting()
+        backBtnListener()
     }
 
     override fun onResume() {
@@ -42,7 +45,7 @@ class AlarmSettingFragment : Fragment() {
     //앱 내의 알림설정 화면 띄우기
     private fun openAppAlarmSetting() {
         binding.btnAlarmSettingSwitch.setOnClickListener {
-                startActivity(alarmSetting())
+            startActivity(alarmSetting())
         }
     }
 
@@ -56,7 +59,7 @@ class AlarmSettingFragment : Fragment() {
 
             //버전에 따른 알림 설정
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                putExtra(Settings.EXTRA_APP_PACKAGE,  activity?.packageName)
+                putExtra(Settings.EXTRA_APP_PACKAGE, activity?.packageName)
             } else {
                 putExtra("app_package", activity?.packageName)
                 putExtra("app_uid", activity?.applicationInfo?.uid)
@@ -69,6 +72,12 @@ class AlarmSettingFragment : Fragment() {
     private fun checkAlarmSetting() {
         binding.btnAlarmSettingSwitch.isSelected =
             NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
+    }
+
+    private fun backBtnListener() {
+        binding.btnAlarmSettingBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }
 

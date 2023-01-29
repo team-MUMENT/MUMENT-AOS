@@ -17,7 +17,7 @@ class MumentDialog(
     private val allowListener: (() -> Unit)?,
     private val cancelButtonText: String? = null,
     private val cancelListener: (() -> Unit)?,
-): DialogFragment() {
+) : DialogFragment() {
     private var binding by AutoClearedValue<FragmentMumentDialogBinding>()
 
     override fun onResume() {
@@ -48,8 +48,8 @@ class MumentDialog(
         val deviceSize = requireActivity().getDeviceSize()
         val deviceWidth = deviceSize[0]
         val params = dialog?.window?.attributes
-        params?.width = (deviceWidth*0.75).toInt()
-        params?.height = (deviceWidth*0.75*0.65).toInt()
+        params?.width = (deviceWidth * 0.75).toInt()
+        params?.height = (deviceWidth * 0.75 * 0.65).toInt()
         dialog?.window?.attributes = params as WindowManager.LayoutParams
     }
 

@@ -40,6 +40,8 @@ class NoticeFragment : Fragment() {
 
         setNoticeRecyclerView()
         itemClickEvent()
+
+        backBtnListener()
     }
 
 
@@ -63,11 +65,17 @@ class NoticeFragment : Fragment() {
     private fun itemClickEvent() {
         noticeAdapter.setItemClickListener(object : NoticeAdapter.OnItemClickListener {
             override fun onClick(data: NoticeData) {
-                val intent = Intent(requireContext(), NoticeDetailActivity::class.java).apply {
+                val intent = Intent(requireActivity(), NoticeDetailActivity::class.java).apply {
                     putExtra("NoticeData", data)
                 }
                 startActivity(intent)
             }
         })
+    }
+
+    private fun backBtnListener() {
+        binding.btnNoticeBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }

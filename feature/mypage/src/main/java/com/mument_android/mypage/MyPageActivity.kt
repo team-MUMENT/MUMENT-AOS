@@ -6,6 +6,9 @@ import android.content.Intent
 import androidx.fragment.app.commit
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
+import com.mument_android.core_dependent.ui.MumentDialog
+import com.mument_android.core_dependent.ui.MumentDialogBuilder
+import com.mument_android.login.LogInActivity
 import com.mument_android.mypage.databinding.ActivityMyPageBinding
 import com.mument_android.mypage.fragment.*
 
@@ -19,6 +22,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         binding.myPageViewModel = myPageViewModel
         transactionBtnEvent()
         clickListenerWebView()
+        logoutBtnListener()
         moveUnregister()
     }
 
@@ -26,17 +30,19 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     private fun transactionBtnEvent() {
 
         val goNextPageBtn = mutableMapOf(
-            binding.btnMyPageGoProfile to ProfileSettingFragment(),
-            binding.btnMyPageGoAlarmSetting to AlarmSettingFragment(),
-            binding.btnMyPageGoBlockUserManagement to BlockUserManagementFragment(),
-            binding.btnMyPageGoNotice to NoticeFragment()
+            binding.clProfile to ProfileSettingFragment(),
+            binding.clAlarmSetting to AlarmSettingFragment(),
+            binding.clBlockUserManagement to BlockUserManagementFragment(),
+            binding.clNotice to NoticeFragment()
         )
 
         goNextPageBtn.forEach { (btn, view) ->
             btn.setOnClickListener {
                 supportFragmentManager.commit() {
-                    replace(R.id.fc_my_page, view)
+                    replace(R.id.fc_my_page, view, "view")
+                    addToBackStack("view")
                 }
+
             }
             myPageViewModel.isClickBtnEvent(true)
         }
@@ -46,19 +52,19 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     private fun clickListenerWebView() {
         with(binding) {
             //자주묻는질문
-            btnMyPageGoFAQ.setOnClickListener {
+            clFAQ.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
             //문의하기
-            btnMyPageGoInquiry.setOnClickListener {
+            clInquiry.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
             //앱정보
-            btnMyPageGoAppInfo.setOnClickListener {
+            clAppInfo.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
             //뮤멘트 소개
-            btnMyPageGoIntroduceMument.setOnClickListener {
+            clIntroduceMument.setOnClickListener {
                 initIntent("https://www.naver.com/")
             }
         }
@@ -70,11 +76,28 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         startActivity(intent)
     }
 
+    private fun logoutBtnListener() {
+        binding.tvMyPageLogout.setOnClickListener {
+            MumentDialogBuilder()
+                .setHeader(getString(R.string.logout_header))
+                .setBody("")
+                .setAllowListener("로그아웃") {
+                    val intent = Intent(this, LogInActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                .setCancelListener {}
+                .build()
+                .show(supportFragmentManager, attributionTag)
+        }
+    }
+
     //회원탈퇴뷰 이동
     private fun moveUnregister() {
         binding.tvMyPageUnregister.setOnClickListener {
             supportFragmentManager.commit() {
-                replace(R.id.fc_my_page, UnregisterFragment())
+                replace(R.id.fc_my_page, UnregisterFragment(), "unregister")
+                addToBackStack("unregister")
             }
         }
     }

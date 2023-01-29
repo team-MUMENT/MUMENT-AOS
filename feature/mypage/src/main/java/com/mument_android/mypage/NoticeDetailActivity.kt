@@ -17,6 +17,7 @@ class NoticeDetailActivity :
         binding.myPageViewModel = myPageViewModel
 
         getNoticeData()
+        backBtnListener()
     }
 
     //공지사항 데이터 받아오기
@@ -29,4 +30,11 @@ class NoticeDetailActivity :
             binding.tvNoticeDetailContent.text = noticeList.content
         }
     }
+
+    private fun backBtnListener() {
+        binding.btnNoticeDetailBack.setOnClickListener {
+            onBackPressed()
+        }
+    }
+
 }
