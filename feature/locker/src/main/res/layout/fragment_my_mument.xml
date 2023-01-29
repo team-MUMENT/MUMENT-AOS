@@ -62,7 +62,6 @@
             android:background="@color/mument_color_gray5"
             android:orientation="horizontal"
             android:paddingStart="16dp"
-            android:paddingTop="7dp"
             android:paddingEnd="7dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,16 +93,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/iv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_empty"
+                app:layout_constraintEnd_toEndOf="@+id/tv_like_empty_subtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/tv_like_empty_title"
                 style="@style/TextView.Mument_H3_B16.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="@string/locker_mument_empty_title"
                 android:textColor="@color/mument_color_gray1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
 
             <TextView
                 android:id="@+id/tv_like_empty_subtitle"
@@ -118,45 +127,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_like_empty_title" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_empty_record"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/rectangle_fill_purple_11dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_like_empty_subtitle">
-
-                <ImageView
-                    android:id="@+id/iv_empty_record"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="50dp"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:src="@drawable/record_icn"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_empty_record"
-                    style="@style/TextView.Mument_B7_M12.Style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="49dp"
-                    android:fontFamily="@font/notosans_bold"
-                    android:text="@string/locker_mument_empty_btn"
-                    android:textColor="@color/mument_color_purple2"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv_empty_record"
-                    app:layout_constraintTop_toTopOf="@+id/iv_empty_record" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

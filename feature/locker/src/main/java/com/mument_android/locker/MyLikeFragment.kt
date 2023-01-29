@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core.network.ApiResult
@@ -24,7 +24,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MyLikeFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyLikeBinding>()
-    private val lockerViewModel: LockerViewModel by viewModels()
+    private val lockerViewModel: LockerViewModel by activityViewModels()
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
 
@@ -47,22 +47,23 @@ class MyLikeFragment : Fragment() {
         gridBtnClickListener()
         filterBtnClickListener()
         fetchLikes()
+        setMyMumentListAdapter()
     }
 
     override fun onResume() {
         super.onResume()
 
-        setMyMumentListAdapter()
 
+        if(lockerViewModel.isLikeGridLayout.value) {
+            binding.ivLockerList.isSelected = false
+            binding.ivLockerGrid.isSelected = true
+        }
+
+        lockerViewModel.isMument = false
     }
 
     private fun setGridServerConnection() {
         binding.rvLikeLinear.run {
-//            lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isGridLayout ->
-//                adapter = LockerTimeAdapter(isGridLayout)
-//                (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
-
-
             lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isLikeGridLayout ->
                 adapter = LockerTimeAdapter(isLikeGridLayout, showDetailListener = { mumentId, musicInfo ->
                     showMumentDetail(mumentId, musicInfo)
@@ -82,7 +83,7 @@ class MyLikeFragment : Fragment() {
     }
 
     private fun setMyMumentListAdapter() {
-        // setGridServerConnection()
+        //setGridServerConnection()
         lockerViewModel.myLikeMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
             when (it) {
                 is ApiResult.Loading -> {}

@@ -80,7 +80,7 @@
 
 
     <string name="locker_like_empty_title">아직 좋아요한 뮤멘트가 없어요.</string>
-    <string name="locker_like_empty_sub_title">좋아요를 눌러 마음에 든 뮤멘트를 언제든 꺼내보세요</string>
+    <string name="locker_like_empty_sub_title">좋아요를 눌러 마음에 든 뮤멘트를 언제든 꺼내보세요.</string>
     <string name="locker_mument_empty_title">아직 기록한 뮤멘트가 없어요.</string>
     <string name="locker_mument_empty_sub_title">뮤멘트를 남겨 나만의 감상을 언제든 꺼내보세요.</string>
     <string name="locker_mument_empty_btn">뮤멘트 기록하기</string>

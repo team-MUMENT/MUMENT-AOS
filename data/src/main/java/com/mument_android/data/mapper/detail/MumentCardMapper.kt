@@ -1,10 +1,9 @@
 package com.mument_android.data.mapper.detail
 
-import com.mument_android.data.dto.detail.MusicDetailDto
-import com.mument_android.domain.entity.MumentCard
 import com.mument_android.core.base.BaseMapper
 import com.mument_android.core_dependent.util.EmotionalTag.Companion.findEmotionalTagEnum
 import com.mument_android.core_dependent.util.ImpressiveTag.Companion.findImpressiveTagEnum
+import com.mument_android.data.dto.detail.MusicDetailDto
 
 class MumentCardMapper: BaseMapper<MusicDetailDto, com.mument_android.domain.entity.MumentCard?> {
     override fun map(from: MusicDetailDto): com.mument_android.domain.entity.MumentCard? {
@@ -26,7 +25,7 @@ class MumentCardMapper: BaseMapper<MusicDetailDto, com.mument_android.domain.ent
                 from.myMument.likeCount,
                 from.myMument.isLiked,
                 from.myMument.isPrivate,
-                from.myMument.isFirst == 1,
+                from.myMument.isFirst,
                 if (tagIdx < 200) findImpressiveTagEnum(tagIdx).tag else findEmotionalTagEnum(tagIdx).tag,
                 if (tagIdx < 200) findImpressiveTagEnum(tagIdx).tag else findEmotionalTagEnum(tagIdx).tag
             )

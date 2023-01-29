@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.mument_android.locker.viewmodels.LockerViewModel
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.locker.databinding.FragmentLockerFrameBinding
+import com.mument_android.locker.viewmodels.LockerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

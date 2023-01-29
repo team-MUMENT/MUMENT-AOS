@@ -1,10 +1,8 @@
 package com.mument_android.core_dependent.network
 
-import android.util.Log
 import com.mument_android.core_dependent.BuildConfig
 import com.mument_android.core_dependent.ext.DataStoreManager
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request

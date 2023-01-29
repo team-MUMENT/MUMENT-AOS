@@ -20,8 +20,8 @@ import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.mument.listener.MumentClickListener
-import com.mument_android.detail.music.MusicDetailContract.*
-import com.mument_android.domain.entity.music.MusicInfoEntity
+import com.mument_android.detail.music.MusicDetailContract.MusicDetailEffect
+import com.mument_android.detail.music.MusicDetailContract.MusicDetailEvent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

@@ -65,4 +65,5 @@ dependencies {
     implementation(project(Modules.CORE_DEPENDENT_MODULE))
     implementation(project(Modules.NAVIGATION_MODULE))
     implementation(project(Modules.FEATURE_DETAIL_MODULE))
+    implementation(project(Modules.FEATURE_MY_PAGE_MODULE))
 }

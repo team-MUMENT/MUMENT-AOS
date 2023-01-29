@@ -1,15 +1,14 @@
 package com.mument_android.app.presentation.ui.main.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.mument_android.BuildConfig
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -52,6 +51,7 @@ class MainViewModel @Inject constructor(
         _mumentDetailContents.value = null
     }
 
+
     fun saveTestRefreshToken() {
         viewModelScope.launch {
             dataStoreManager.writeRefreshToken(BuildConfig.TEST_REFRESH_TOKEN)
@@ -69,4 +69,5 @@ class MainViewModel @Inject constructor(
             dataStoreManager.writeUserId("30")
         }
     }
+
 }
