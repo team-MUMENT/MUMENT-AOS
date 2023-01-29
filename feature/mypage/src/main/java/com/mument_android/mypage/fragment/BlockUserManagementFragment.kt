@@ -57,8 +57,7 @@ class BlockUserManagementFragment : Fragment() {
         MumentDialogBuilder()
             .setHeader(getString(R.string.unblock_title))
             .setBody(getString(R.string.unblock_body))
-            .setOption(MumentDialog.DIALOG_UNBLOCK)
-            .setAllowListener {
+            .setAllowListener("차단해제") {
                 myPageViewModel.userList.observe(viewLifecycleOwner) { list ->
                     blockUserManagementAdapter.submitList(list)
                 }

@@ -9,7 +9,6 @@ import coil.transform.CircleCropTransformation
 import com.mument_android.mypage.data.UserData
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.mypage.databinding.ItemBlockUserBinding
-import com.mument_android.mypage.fragment.BlockUserManagementFragment
 
 class BlockUserManagementAdapter(
     val onClickDeleteUserItem: (userData: UserData) -> Unit
