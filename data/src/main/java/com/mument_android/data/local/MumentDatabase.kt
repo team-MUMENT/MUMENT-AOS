@@ -6,11 +6,11 @@ import androidx.room.TypeConverters
 import com.mument_android.data.local.converter.DateTypeConverter
 import com.mument_android.data.local.converter.IntListTypeConverter
 import com.mument_android.data.local.recentlist.RecentSearchDAO
+import com.mument_android.data.local.recentlist.RecentSearchDataEntity
 import com.mument_android.data.local.todaymument.TodayMumentDAO
-import com.mument_android.domain.entity.home.RecentSearchData
-import com.mument_android.domain.entity.home.TodayMumentEntity
+import com.mument_android.data.local.todaymument.TodayMumentEntity
 
-@Database(entities = [TodayMumentEntity::class, RecentSearchData::class], version = 1)
+@Database(entities = [TodayMumentEntity::class, RecentSearchDataEntity::class], version = 1)
 @TypeConverters(
     value = [
         IntListTypeConverter::class,

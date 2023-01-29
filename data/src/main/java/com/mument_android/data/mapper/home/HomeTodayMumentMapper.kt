@@ -1,11 +1,11 @@
-package com.mument_android.home.mappers
+package com.mument_android.data.mapper.home
 
 import com.mument_android.core.base.BaseMapper
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.ImpressiveTag
-import com.mument_android.domain.entity.home.TodayMumentEntity
-import com.mument_android.home.models.TodayMument
+import com.mument_android.data.local.todaymument.TodayMumentEntity
+import com.mument_android.domain.entity.home.TodayMument
 
 class HomeTodayMumentMapper : BaseMapper<TodayMumentEntity, TodayMument> {
     override fun map(from: TodayMumentEntity): TodayMument = TodayMument(
@@ -38,5 +38,28 @@ class HomeTodayMumentMapper : BaseMapper<TodayMumentEntity, TodayMument> {
         userId = from.userId,
         userImage = from.userImage,
         userName = from.userName
+    )
+
+    fun mapReverse(from: TodayMument): TodayMumentEntity = TodayMumentEntity(
+        from.userId,
+        from.userName,
+        from.userImage,
+        from.cardTag.map {
+            it.tagIdx
+        },
+        from._id,
+        from.content,
+        from.createdAt,
+        from.feelingTag,
+        from.impressionTag,
+        from.displayDate,
+        from.isFirst,
+        from.date,
+        from.mumentId,
+        from.musicId,
+        from.musicName,
+        from.musicArtist,
+        from.musicImage,
+        from.todayDate,
     )
 }

@@ -6,7 +6,7 @@ import com.mument_android.core.util.ViewState
 import com.mument_android.domain.entity.home.AgainMumentEntity
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.home.RandomMumentEntity
-import com.mument_android.home.models.TodayMument
+import com.mument_android.domain.entity.home.TodayMument
 
 class HomeContract {
     data class HomeViewState(

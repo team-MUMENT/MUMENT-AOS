@@ -11,17 +11,17 @@ import com.mument_android.domain.entity.home.RecentSearchData
 @Dao
 interface RecentSearchDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRecentSearch(data: RecentSearchData)
+    suspend fun insertRecentSearch(data: RecentSearchDataEntity)
 
     @Delete
-    suspend fun deleteRecentSearch(data: RecentSearchData)
+    suspend fun deleteRecentSearch(data: RecentSearchDataEntity)
 
     @Update
-    suspend fun updateRecentSearch(data: RecentSearchData)
+    suspend fun updateRecentSearch(data: RecentSearchDataEntity)
 
     @Query("delete from recent_table")
     suspend fun deleteAllRecentSearchList()
 
     @Query("select * from recent_table order by createAt desc")
-    suspend fun getAllRecentList(): List<RecentSearchData>
+    suspend fun getAllRecentList(): List<RecentSearchDataEntity>
 }

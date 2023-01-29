@@ -2,7 +2,10 @@ package com.mument_android.data.repository
 
 import android.util.Log
 import com.mument_android.data.datasource.home.*
+import com.mument_android.data.local.recentlist.RecentSearchDataEntity
+import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RandomMumentMapper
+import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.util.ResultWrapper
 import com.mument_android.domain.entity.history.MumentHistoryEntity
 import com.mument_android.domain.entity.home.*
@@ -21,17 +24,22 @@ class HomeRepositoryImpl @Inject constructor(
     private val remoteMumentHistoryDataSource: RemoteMumentHistoryDataSource,
     private val remoteSearchListDataSource: RemoteSearchListDataSource,
     private val homeDataSource: HomeDataSource,
-    private val randomMumentMapper: RandomMumentMapper
+    private val randomMumentMapper: RandomMumentMapper,
+    private val todayMumentMapper: HomeTodayMumentMapper,
+    private val recentSearchDataMapper: RecentSearchDataMapper
 ) : HomeRepository {
     // Remote
     override suspend fun searchList(keyword: String): List<RecentSearchData>? =
         remoteSearchListDataSource.searchMusicList(keyword).let { result ->
             when (result) {
                 is ResultWrapper.Success -> {
-                    result.data?.list
+                    result.data?.list?.let { recentSearchDataMapper.map(it) }
                 }
                 is ResultWrapper.GenericError -> {
-                    Log.e("GenericError", "GenericError -> code ${result.code}: message: ${result.message}")
+                    Log.e(
+                        "GenericError",
+                        "GenericError -> code ${result.code}: message: ${result.message}"
+                    )
                     null
                 }
                 is ResultWrapper.NetworkError -> {
@@ -142,11 +150,11 @@ class HomeRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getTodayMument(userId: String): Flow<TodayMumentEntity> = flow {
+    override suspend fun getTodayMument(userId: String): Flow<TodayMument> = flow {
         localTodayMumentDataSource.getTodayMument(userId).run {
             when (this) { //홈 먼저 검사.
                 is ResultWrapper.Success -> {  //제대로 넘어왔을 때 분기처리, null X, 오늘
-                    emit(data)
+                    emit(todayMumentMapper.map(data))
                 }
                 is ResultWrapper.LocalError -> {
                     Log.e("Locall Error", message.toString())
@@ -155,7 +163,7 @@ class HomeRepositoryImpl @Inject constructor(
                             is ResultWrapper.Success -> {
                                 collectRemote.data?.todayMument?.let { today ->
                                     localTodayMumentDataSource.updateMument(today) // 로컬에 업데이트
-                                    emit(today)  //방출
+                                    emit(todayMumentMapper.map(today))  //방출
                                 }
                             }
                             is ResultWrapper.GenericError -> {
@@ -176,31 +184,35 @@ class HomeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateTodayMument(mument: TodayMumentEntity) {
-        localTodayMumentDataSource.updateMument(mument)
+    override suspend fun updateTodayMument(mument: TodayMument) {
+        localTodayMumentDataSource.updateMument(todayMumentMapper.mapReverse(mument))
     }
 
-    override suspend fun insertTodayMument(mument: TodayMumentEntity) {
-        localTodayMumentDataSource.insertMument(mument)
+    override suspend fun insertTodayMument(mument: TodayMument) {
+        localTodayMumentDataSource.insertMument(todayMumentMapper.mapReverse(mument))
     }
 
-    override suspend fun deleteTodayMument(mument: TodayMumentEntity) {
-        localTodayMumentDataSource.deleteMument(mument)
+    override suspend fun deleteTodayMument(mument: TodayMument) {
+        localTodayMumentDataSource.deleteMument(todayMumentMapper.mapReverse(mument))
     }
 
     override suspend fun getRecentSearchList(): List<RecentSearchData> {
         localRecentSearchListDataSource.getAllRecentSearchList().getOrThrow().let {
-            return it
+            return recentSearchDataMapper.map(it)
         }
     }
 
     override suspend fun insertRecentSearchList(data: RecentSearchData) {
-        localRecentSearchListDataSource.insertRecentSearchList(data)
+        localRecentSearchListDataSource.insertRecentSearchList(
+            recentSearchDataMapper.mapReverse(
+                data
+            )
+        )
     }
 
     override suspend fun updateRecentSearchList(data: RecentSearchData) {
         localRecentSearchListDataSource.updateRecentSearchList(
-            RecentSearchData(
+            RecentSearchDataEntity(
                 data._id,
                 data.artist,
                 data.image,
@@ -211,7 +223,11 @@ class HomeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteRecentSearchList(data: RecentSearchData) {
-        localRecentSearchListDataSource.deleteRecentSearchList(data)
+        localRecentSearchListDataSource.deleteRecentSearchList(
+            recentSearchDataMapper.mapReverse(
+                data
+            )
+        )
     }
 
     override suspend fun deleteAllRecentSearchList() {

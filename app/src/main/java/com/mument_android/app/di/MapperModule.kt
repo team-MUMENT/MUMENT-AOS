@@ -12,7 +12,8 @@ import com.mument_android.data.mapper.main.IsFirstTagMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.mapper.user.UserMapper
-import com.mument_android.home.mappers.HomeTodayMumentMapper
+import com.mument_android.data.mapper.home.HomeTodayMumentMapper
+import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,6 +55,10 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideHomeTodayMumentMapper(): HomeTodayMumentMapper = HomeTodayMumentMapper()
+
+    @Provides
+    @Singleton
+    fun provideRecentSearchDataMapper(): RecentSearchDataMapper = RecentSearchDataMapper()
 
     @Provides
     @Singleton
