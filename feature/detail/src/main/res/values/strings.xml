@@ -33,6 +33,8 @@
     <string name="notify_etc">기타</string>
     <string name="notify_write_content">신고 내용을 작성해주세요.</string>
     <string name="notify_block">차단하기</string>
+    <string name="block_user_header">이 유저를 차단하시겠어요?</string>
+    <string name="block_user_body">이 유저의 뮤멘트가 목록에서\n더는 보이지 않아요.</string>
     <string name="notify_block_reference">신고하는 사용자의 뮤멘트를 더 이상 보고 싶지 않아요.</string>
     <string name="notify_text_num">%d/100</string>
 

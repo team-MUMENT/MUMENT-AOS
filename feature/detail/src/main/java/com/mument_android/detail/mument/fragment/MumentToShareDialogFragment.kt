@@ -29,6 +29,7 @@ import com.mument_android.detail.databinding.FragmentMumentToShareDialogBinding
 import com.mument_android.detail.mument.contract.MumentDetailContract
 import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -98,14 +99,14 @@ class MumentToShareDialogFragment(
     private fun renderView() {
         collectFlowWhenStarted(viewModel.viewState) { state ->
             checkImagesRendered(state)
-            state.mument?.let { mument ->
+            if (state.mument != null && state.musicInfo != null) {
+                binding.tvMusicName.text = state.musicInfo.name
                 with(binding) {
                     tvWriterName.text = state.mument.writerInfo.name
-                    tvMument.text = mument.content
-                    tvMusicName.text = mument.musicInfo.name
-                    tvDate.text = mument.createdDate
-                    (rvTags.adapter as MumentTagListAdapter).submitList(mument.combineTags())
-                    checkAllViewsRendered(mument)
+                    tvMument.text = state.mument.content
+                    tvDate.text = state.mument.createdDate
+                    (rvTags.adapter as MumentTagListAdapter).submitList(state.mument.combineTags())
+                    checkAllViewsRendered(state.mument, state.musicInfo)
                 }
             }
         }
@@ -142,11 +143,11 @@ class MumentToShareDialogFragment(
         }
     }
 
-    private fun checkAllViewsRendered(mument: MumentEntity) {
+    private fun checkAllViewsRendered(mument: MumentEntity, musicInfo: MusicInfoEntity) {
         with(binding) {
             rvTags.checkIsViewLoaded { viewModel?.updateRenderedTags(true) }
             ivProfileImage.checkIfImageLoaded(mument.writerInfo.profileImage?: "") { viewModel?.updateRenderedProfileImage(true) }
-            ivAlbumCover.checkIfImageLoaded(mument.musicInfo.thumbnail) { viewModel?.updateRenderedAlbumCover(true) }
+            ivAlbumCover.checkIfImageLoaded(musicInfo.thumbnail) { viewModel?.updateRenderedAlbumCover(true) }
         }
     }
 

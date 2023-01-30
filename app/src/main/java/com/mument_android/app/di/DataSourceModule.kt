@@ -105,4 +105,9 @@ object DataSourceModule {
     @Singleton
     fun provideMumentListDataSource(detailApiService: DetailApiService): MumentListDataSource =
         MumentListDataSourceImpl(detailApiService)
+
+    @Provides
+    @Singleton
+    fun provideBlockUserDataSource(detailApiService: DetailApiService): BlockUserDataSource =
+        BlockUserDataSourceImpl(detailApiService)
 }

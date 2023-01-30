@@ -10,14 +10,16 @@ import com.mument_android.mypage.data.UserData
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.mypage.databinding.ItemBlockUserBinding
 
-class BlockUserManagementAdapter:
-        ListAdapter<UserData, BlockUserManagementAdapter.BlockUserViewHolder>(GlobalDiffCallBack<UserData>()) {
+class BlockUserManagementAdapter(
+    val onClickDeleteUserItem: (userData: UserData) -> Unit
+) :
+    ListAdapter<UserData, BlockUserManagementAdapter.BlockUserViewHolder>(GlobalDiffCallBack<UserData>()) {
 
-    class BlockUserViewHolder(private val binding: ItemBlockUserBinding) :
+    class BlockUserViewHolder(val binding: ItemBlockUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(userData: UserData) {
             binding.tvUserName.text = userData.userID
-            binding.ivBlockUser.load(userData.userImg){
+            binding.ivBlockUser.load(userData.userImg) {
                 crossfade(true)
                 placeholder(userData.userImg)
                 transformations(CircleCropTransformation())
@@ -32,7 +34,11 @@ class BlockUserManagementAdapter:
     }
 
     override fun onBindViewHolder(holder: BlockUserViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val userListPosition = getItem(position)
+        holder.binding.btnUnblock.setOnClickListener {
+            onClickDeleteUserItem.invoke(userListPosition)
+        }
+        holder.bind(userListPosition)
     }
 
 

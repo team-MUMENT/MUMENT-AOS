@@ -64,13 +64,11 @@ object MapperModule {
     @Singleton
     fun provideMumentDetailMapper(
         userMapper: UserMapper,
-        musicInfoMapper: MusicInfoMapper,
         impressiveTagMapper: ImpressiveTagMapper,
         emotionalTagMapper: EmotionalTagMapper,
         isFirstTagMapper: IsFirstTagMapper
     ): MumentDetailMapper = MumentDetailMapper(
         userMapper,
-        musicInfoMapper,
         impressiveTagMapper,
         emotionalTagMapper,
         isFirstTagMapper
@@ -127,5 +125,9 @@ object MapperModule {
         mumentSummaryMapper: MumentSummaryMapper
     ): MusicWithMyMumentMapper =
         MusicWithMyMumentMapper(musicInfoMapper, mumentSummaryMapper)
+
+    @Provides
+    @Singleton
+    fun provideBlockUserMapper(): BlockUserMapper = BlockUserMapper()
 
 }

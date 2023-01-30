@@ -4,20 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.model.TagEntity
+import com.mument_android.core.network.ApiResult
 import com.mument_android.domain.entity.locker.LockerMumentEntity
 import com.mument_android.domain.usecase.locker.FetchMyLikeListUseCase
 import com.mument_android.domain.usecase.locker.FetchMyMumentListUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
-import com.mument_android.core.network.ApiResult
 import com.mument_android.locker.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,6 +43,8 @@ class LockerViewModel @Inject constructor(
     private val _isLikeGridLayout = MutableStateFlow(false)
     val isLikeGridLayout = _isLikeGridLayout.asStateFlow()
 
+
+    var isMument : Boolean = true
     var firstTag: Int? = 0
     var secondTag: Int? = 0
     var thirdTag: Int? = 0
@@ -89,7 +86,6 @@ class LockerViewModel @Inject constructor(
             }
 
             fetchMyMumentListUseCase(
-                userId = BuildConfig.USER_ID,
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag
@@ -131,7 +127,6 @@ class LockerViewModel @Inject constructor(
             }
 
             fetchMyLikeListUseCase(
-                userId = BuildConfig.USER_ID,
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag
@@ -176,7 +171,7 @@ class LockerViewModel @Inject constructor(
             cancelLikeMumentUseCase(
                 mumentId,
                 BuildConfig.USER_ID
-            ).collect {}
+            ).collect()
         }
     }
 
@@ -185,7 +180,7 @@ class LockerViewModel @Inject constructor(
             likeMumentUseCase(
                 mumentId,
                 BuildConfig.USER_ID
-            ).collect {}
+            ).collect()
         }
     }
 

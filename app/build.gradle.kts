@@ -26,6 +26,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
         buildConfigField("String", "USER_ID", properties["USER_ID"] as String)
+        buildConfigField("String", "TEST_ACCESS_TOKEN", properties["TEST_ACCESS_TOKEN"] as String)
+        buildConfigField("String", "TEST_REFRESH_TOKEN", properties["TEST_REFRESH_TOKEN"] as String)
+
     }
 
     buildTypes {
@@ -68,6 +71,7 @@ dependencies {
     implementation(ThirdPartyDependencies.fireBaseCloudMessaging)
     implementation(ThirdPartyDependencies.gson)
     implementation(ThirdPartyDependencies.timber)
+    implementation(AndroidXDependencies.dataStore)
     implementation(project(Modules.CORE_MODULE))
     implementation(project(Modules.CORE_DEPENDENT_MODULE))
     implementation(project(Modules.DOMAIN_MODULE))
@@ -79,4 +83,5 @@ dependencies {
     implementation(project(Modules.FEATURE_RECORD_MODULE))
     implementation(project(Modules.FEATURE_DETAIL_MODULE))
     implementation(project(Modules.FEATURE_MY_PAGE_MODULE))
+    implementation(project(Modules.FEATURE_REPORT_MODULE))
 }

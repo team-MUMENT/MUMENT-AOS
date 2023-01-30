@@ -14,14 +14,20 @@ class LockerRepositoryImpl @Inject constructor(
     private val lockerMapper: LockerMapper,
     private val lockerDataSource: LockerDataSource
 ): LockerRepository {
-    override suspend fun fetchLockerMumentList(userId: String, tag1: Int?, tag2: Int?, tag3: Int?): Flow<List<LockerMumentEntity>> = flow {
-        lockerDataSource.fetchLockerMumumentList(userId, tag1, tag2,tag3).data?.let {
+
+    override suspend fun fetchLockerMumentList(tag1: Int?, tag2: Int?, tag3: Int?): Flow<List<LockerMumentEntity>> = flow {
+        lockerDataSource.fetchLockerMumumentList(tag1, tag2,tag3).data?.let {
             emit(lockerMapper.map(it))
         }
-    }.flowOn(Dispatchers.IO)
+    }
 
 
-    override suspend fun fetchLockerLikeList(userId: String, tag1: Int?, tag2: Int?, tag3: Int?): Flow<List<LockerMumentEntity>> = flow {
-        lockerDataSource.fetchLockerLikeList(userId, tag1, tag2, tag3).data?.let { emit(lockerMapper.map(it)) }
-    }.flowOn(Dispatchers.IO)
+    override suspend fun fetchLockerLikeList(tag1: Int?, tag2: Int?, tag3: Int?): Flow<List<LockerMumentEntity>> = flow {
+        lockerDataSource.fetchLockerLikeList(
+            tag1,
+            tag2,
+            tag3
+        ).data?.let { emit(lockerMapper.map(it)) }
+    }
+    //}.flowOn(Dispatchers.IO)
 }
