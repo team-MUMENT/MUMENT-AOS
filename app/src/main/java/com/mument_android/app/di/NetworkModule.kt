@@ -5,6 +5,7 @@ import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.network.AuthInterceptor
 import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.network.home.HomeService
+import com.mument_android.data.network.home.NotifyService
 import com.mument_android.data.network.locker.LockerApiService
 import com.mument_android.data.network.main.MainApiService
 import com.mument_android.data.network.record.RecordApiService
@@ -41,7 +42,10 @@ object NetworkModule {
     @Provides
     @Singleton
     @AuthOkHttpClient
-    fun provideAuthOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, authInterceptor: AuthInterceptor): OkHttpClient =
+    fun provideAuthOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor
+    ): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
@@ -108,9 +112,17 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providehomeNetwork(@AuthRetrofit retrofit: Retrofit): HomeService = retrofit.create(HomeService::class.java)
+    fun provideNotifyNetwork(@AuthRetrofit retrofit: Retrofit): NotifyService =
+        retrofit.create(NotifyService::class.java)
+
+    @Provides
+    @Singleton
+    fun providehomeNetwork(@AuthRetrofit retrofit: Retrofit): HomeService =
+        retrofit.create(HomeService::class.java)
 
 
-    private fun Request.Builder.addHeaders(token: String) = this.apply { header("Authorization", "Bearer $token") }
+    private fun Request.Builder.addHeaders(token: String) =
+        this.apply { header("Authorization", "Bearer $token") }
+
     private const val BEARER = "Bearer"
 }

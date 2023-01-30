@@ -9,6 +9,8 @@ import com.mument_android.data.datasource.record.RecordDataSource
 import com.mument_android.data.datasource.record.RecordDataSourceImpl
 import com.mument_android.data.datasource.detail.*
 import com.mument_android.data.datasource.home.*
+import com.mument_android.data.datasource.notify.NotifyDataSource
+import com.mument_android.data.datasource.notify.NotifyDataSourceImpl
 import com.mument_android.data.local.MumentDatabase
 import com.mument_android.data.local.converter.DateTypeConverter
 import com.mument_android.data.local.converter.IntListTypeConverter
@@ -16,6 +18,7 @@ import com.mument_android.data.local.recentlist.RecentSearchDAO
 import com.mument_android.data.local.todaymument.TodayMumentDAO
 import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.network.home.HomeService
+import com.mument_android.data.network.home.NotifyService
 import com.mument_android.data.network.locker.LockerApiService
 import com.mument_android.data.network.record.RecordApiService
 import dagger.Module
@@ -89,6 +92,11 @@ object DataSourceModule {
     @Singleton
     fun provideMumentHistoryDataSource(service: HomeService): RemoteMumentHistoryDataSource =
         RemoteMumentHistoryDataSourceImpl(service)
+
+    @Provides
+    @Singleton
+    fun provideNotifyDataSource(service: NotifyService): NotifyDataSource =
+        NotifyDataSourceImpl(service)
 
     @Provides
     @Singleton

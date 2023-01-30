@@ -18,9 +18,11 @@ import com.mument_android.data.mapper.locker.LockerMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.datasource.home.*
+import com.mument_android.data.datasource.notify.NotifyDataSource
 import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
+import com.mument_android.data.mapper.notify.NotifyMapper
 import com.mument_android.data.repository.*
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
@@ -29,6 +31,7 @@ import com.mument_android.domain.repository.detail.MusicDetailRepository
 import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
+import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import dagger.Module
 import dagger.Provides
@@ -107,6 +110,13 @@ object RepositoryModule {
         homeTodayMumentMapper,
         recentSearchDataMapper
     )
+
+    @Provides
+    @Singleton
+    fun provideNotifyRepository(
+        notifyDataSource: NotifyDataSource,
+        notifyMapper: NotifyMapper
+    ): NotifyRepository = NotifyRepositoryImpl(notifyDataSource, notifyMapper)
 
     @Provides
     @Singleton
