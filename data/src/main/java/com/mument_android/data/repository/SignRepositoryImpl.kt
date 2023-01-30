@@ -11,7 +11,7 @@ class SignRepositoryImpl @Inject constructor(
 ): SignRepository {
 
     override suspend fun signDupCheck(profileId: String) {
-        signDataSource.signDupCheck(profileId).data?.let {
+        signDataSource.signDupCheck(profileId).let {
             signMapper.map(it)
         }
     }

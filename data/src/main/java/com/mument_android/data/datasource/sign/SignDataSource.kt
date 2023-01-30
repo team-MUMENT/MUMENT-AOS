@@ -1,7 +1,8 @@
 package com.mument_android.data.datasource.sign
 
-import com.mument_android.data.util.BaseResponse
+import retrofit2.Response
+
 
 interface SignDataSource {
-    suspend fun signDupCheck(profileId: String) : BaseResponse<Any?>
+    suspend fun signDupCheck(profileId: String) : Response<Any?>
 }
