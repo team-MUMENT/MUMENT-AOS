@@ -12,7 +12,9 @@ import androidx.databinding.DataBindingUtil.setContentView
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
 import com.mument_android.login.databinding.ActivityLogInBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LogInActivity : BaseActivity<ActivityLogInBinding>(R.layout.activity_log_in) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

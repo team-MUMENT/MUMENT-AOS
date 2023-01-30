@@ -1,6 +1,5 @@
 package com.mument_android.app.di
 
-import com.google.gson.Gson
 import com.mument_android.core.util.DateFormatter
 import dagger.Module
 import dagger.Provides

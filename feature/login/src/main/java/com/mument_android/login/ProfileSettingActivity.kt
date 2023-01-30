@@ -19,8 +19,10 @@ import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.GalleryUtil
 import com.mument_android.login.util.shortToast
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class ProfileSettingActivity :
     BaseActivity<ActivityProfileSettingBinding>(R.layout.activity_profile_setting) {
     private lateinit var intentLauncher: ActivityResultLauncher<Intent>
@@ -167,7 +169,8 @@ class ProfileSettingActivity :
 
     private fun setNickNameDup() {
         val nickname = viewModel.mumentNickName
-        viewModel.nickNameDupCheck(nickname.value.toString())
+        //viewModel.nickNameDupCheck(nickname.value.toString())
+        viewModel.nickNameDupCheck("제발유")
 
     }
 

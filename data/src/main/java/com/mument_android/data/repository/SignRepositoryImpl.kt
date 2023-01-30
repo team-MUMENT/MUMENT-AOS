@@ -2,9 +2,7 @@ package com.mument_android.data.repository
 
 import com.mument_android.data.datasource.sign.SignDataSource
 import com.mument_android.data.mapper.sign.SignMapper
-import com.mument_android.domain.entity.user.SignDupCheck
 import com.mument_android.domain.repository.sign.SignRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SignRepositoryImpl @Inject constructor(
@@ -13,6 +11,8 @@ class SignRepositoryImpl @Inject constructor(
 ): SignRepository {
 
     override suspend fun signDupCheck(profileId: String) {
-        signDataSource.signDupCheck(profileId)
+        signDataSource.signDupCheck(profileId).data?.let {
+            signMapper.map(it)
+        }
     }
 }

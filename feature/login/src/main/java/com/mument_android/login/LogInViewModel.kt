@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiResult
-import com.mument_android.domain.entity.user.SignDupCheck
 import com.mument_android.domain.usecase.sign.SignDulCheckUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,11 +21,11 @@ class LogInViewModel @Inject constructor(
     val isActive = MutableLiveData<Boolean>()
     val imageUri = MutableLiveData<Uri?>()
 
-    val isDuplicate = MutableStateFlow<ApiResult<SignDupCheck>?>(null)
+    val isDuplicate = MutableStateFlow<ApiResult<Any>?>(null)
 
-    fun nickNameDupCheck(nickname: String) {
+    fun nickNameDupCheck(nickname: String ) {
         viewModelScope.launch {
-            dupCheckUseCase.invoke(nickname)
+            dupCheckUseCase.invoke(nickname ?: "")
             /*
             dupCheckUseCase(nickname){
                 isDuplicate.value = ApiResult.Success(it)

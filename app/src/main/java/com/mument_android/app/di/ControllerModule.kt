@@ -4,6 +4,7 @@ import com.mument_android.data.controller.*
 import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.network.main.MainApiService
 import com.mument_android.data.network.record.RecordApiService
+import com.mument_android.data.network.sign.SignApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +37,4 @@ object ControllerModule {
     fun provideDeleteMumentController(
         detailApiService: DetailApiService
     ): DeleteMumentController = DeleteMumentControllerImpl(detailApiService)
-
 }

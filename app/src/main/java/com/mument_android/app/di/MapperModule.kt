@@ -11,6 +11,7 @@ import com.mument_android.data.mapper.main.ImpressiveTagMapper
 import com.mument_android.data.mapper.main.IsFirstTagMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
+import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.home.mappers.HomeTodayMumentMapper
 import dagger.Module
@@ -122,5 +123,10 @@ object MapperModule {
         mumentSummaryMapper: MumentSummaryMapper
     ): MusicWithMyMumentMapper =
         MusicWithMyMumentMapper(musicInfoMapper, mumentSummaryMapper)
+
+    @Provides
+    @Singleton
+    fun provideSignIdDupCheckMapper(): SignMapper = SignMapper()
+
 
 }
