@@ -11,14 +11,13 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DeclarMumentActivity :
-    BaseActivity<ActivityDeclarMumentBinding>(R.layout.activity_declar_mument) {
+    BaseActivity<ActivityDeclarMumentBinding>(inflate = ActivityDeclarMumentBinding::inflate) {
 
     private val viewModel: MumentDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
         backBtnListener()
         checkBoxListener()
         with(binding) {

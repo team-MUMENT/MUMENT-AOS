@@ -1,6 +1,8 @@
 package com.mument_android.app.di
 
 import com.mument_android.BuildConfig
+import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.network.AuthInterceptor
 import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.network.home.HomeService
 import com.mument_android.data.network.locker.LockerApiService
@@ -32,36 +34,15 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthInterceptor(): Interceptor = Interceptor { chain ->
-        with(chain) {
-            val request = request()
-                .newBuilder()
-                .addHeader(
-                    "Authorization",
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInByb2ZpbGVJZCI6IuyViOuTnO2FjOyKpO2KuOyaqSIsImltYWdlIjpudWxsLCJpYXQiOjE2NzMxMjYzNzgsImV4cCI6MTY3NTcxODM3OCwiaXNzIjoiTXVtZW50In0.PG_Cubw4nv9USBiKKMVaAxS-Ggl6ByqOKusmyK4tp18"
-                )
-                .addHeader("Content-Type", "application/json")
-                .addHeader(
-                    "refreshToken",
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInByb2ZpbGVJZCI6IuyViOuTnO2FjOyKpO2KuOyaqSIsImltYWdlIjpudWxsLCJpYXQiOjE2NzMxMjYzNzgsIm5iZiI6MTY3NTcxODM3OCwiZXhwIjoxNjc4MzEwMzc4LCJpc3MiOiJNdW1lbnQifQ.hx2qgOWQTnlaLpC8AclA3PO1W89VgVpvSCrIcq171zU"
-                )
-                .build()
-            proceed(request)
-
-        }
-        //val request = chain.request().newBuilder().addHeaders(BuildConfig.USER_ID).build()
-        //chain.proceed(request)
-    }
+    fun provideAuthInterceptor(dataStoreManager: DataStoreManager): AuthInterceptor =
+        AuthInterceptor(dataStoreManager)
 
     /** Header에 Token값을 포함하는 OkHttpClient, Retrofit **/
 
     @Provides
     @Singleton
     @AuthOkHttpClient
-    fun provideAuthOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: Interceptor
-    ): OkHttpClient =
+    fun provideAuthOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, authInterceptor: AuthInterceptor): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
@@ -91,7 +72,6 @@ object NetworkModule {
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(provideAuthInterceptor())
             .build()
 
     @Provides
@@ -104,30 +84,32 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+
+    /** Api Interface **/
+
     @Provides
     @Singleton
-    fun provideDetailApiService(@UnAuthRetrofit retrofit: Retrofit): DetailApiService =
+    fun provideDetailApiService(@AuthRetrofit retrofit: Retrofit): DetailApiService =
         retrofit.create(DetailApiService::class.java)
 
     @Provides
     @Singleton
-    fun provideMainApiService(@UnAuthRetrofit retrofit: Retrofit): MainApiService =
+    fun provideMainApiService(@AuthRetrofit retrofit: Retrofit): MainApiService =
         retrofit.create(MainApiService::class.java)
 
     @Provides
     @Singleton
-    fun provideRecordApiService(@UnAuthRetrofit retrofit: Retrofit): RecordApiService =
+    fun provideRecordApiService(@AuthRetrofit retrofit: Retrofit): RecordApiService =
         retrofit.create(RecordApiService::class.java)
 
     @Provides
     @Singleton
-    fun provideLockerNetwork(@UnAuthRetrofit retrofit: Retrofit): LockerApiService =
+    fun provideLockerNetwork(@AuthRetrofit retrofit: Retrofit): LockerApiService =
         retrofit.create(LockerApiService::class.java)
 
     @Provides
     @Singleton
-    fun providehomeNetwork(@UnAuthRetrofit retrofit: Retrofit): HomeService =
-        retrofit.create(HomeService::class.java)
+    fun providehomeNetwork(@AuthRetrofit retrofit: Retrofit): HomeService = retrofit.create(HomeService::class.java)
 
     @Provides
     @Singleton
@@ -135,6 +117,6 @@ object NetworkModule {
         retrofit.create(SignApiService::class.java)
 
 
-    private fun Request.Builder.addHeaders(token: String) = this.apply { header(BEARER, token) }
+    private fun Request.Builder.addHeaders(token: String) = this.apply { header("Authorization", "Bearer $token") }
     private const val BEARER = "Bearer"
 }

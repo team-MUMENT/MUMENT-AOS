@@ -7,11 +7,12 @@ import com.mument_android.locker.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.domain.entity.locker.LockerMumentEntity
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.databinding.ItemMumentImageBinding
 
 //자식어뎁터
 class LockerMumentGridAdapter(
-    private val showDetailListener: (String) -> Unit
+    private val showDetailListener: (String, MusicInfoEntity) -> Unit
 ) :
     ListAdapter<LockerMumentEntity.MumentLockerCard, LockerMumentGridAdapter.MumentViewHolder>(
         GlobalDiffCallBack<LockerMumentEntity.MumentLockerCard>()
@@ -29,7 +30,17 @@ class LockerMumentGridAdapter(
     override fun onBindViewHolder(holder: MumentViewHolder, position: Int) {
         holder.binding.setVariable(BR.mument, getItem(position))
         holder.binding.root.setOnClickListener {
-            getItem(position)._id?.let { name -> showDetailListener(name) }
+            getItem(position)?.let { data ->
+                showDetailListener(
+                    data._id ?: "",
+                    MusicInfoEntity(
+                        id = data.music_Id ?: "",
+                        name = data.musicName ?: "",
+                        thumbnail = data.musicImage ?: "",
+                        artist = data.musicArtist ?: ""
+                    )
+                )
+            }
         }
     }
 

@@ -25,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> Unit) :
+class BottomSheetSearchFragment :
     BottomSheetDialogFragment() {
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var adapter: SearchListAdapter
@@ -37,10 +37,13 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
         @JvmStatic
         private var INSTANCE: BottomSheetSearchFragment? = null
 
+        private lateinit var CONTENT_CLICK_CALLBACK: (RecentSearchData) -> Unit
+
         @JvmStatic
         fun newInstance(contentClick: (RecentSearchData) -> Unit): BottomSheetSearchFragment {
             return INSTANCE
-                ?: BottomSheetSearchFragment(contentClick = { contentClick(it) }).apply {
+                ?: BottomSheetSearchFragment().apply {
+                    CONTENT_CLICK_CALLBACK = contentClick
                     INSTANCE = this
                 }
         }
@@ -95,7 +98,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
         adapter = SearchListAdapter({ data ->
             viewmodel.selectContent(data)
             viewmodel.setRecentData(lifecycleScope)
-            contentClick(data)
+            CONTENT_CLICK_CALLBACK(data)
             dismiss()
         }, { data ->
             viewmodel.deleteRecentList(data)
@@ -104,7 +107,7 @@ class BottomSheetSearchFragment(private val contentClick: (RecentSearchData) -> 
         searchResultAdapter = SearchListAdapter({ data ->
             viewmodel.selectContent(data)
             viewmodel.setRecentData(lifecycleScope)
-            contentClick(data)
+            CONTENT_CLICK_CALLBACK(data)
             binding.searchOption = false
             dismiss()
         }, {})

@@ -12,7 +12,7 @@ class MoveRecordProviderImpl @Inject constructor(private val activity: Activity)
     override fun recordMusic(music: Music) {
         with(activity as MainActivity) {
             recordMusic(music)
-            binding.navBar.selectedItemId = R.id.fragment_record
+            /*binding.navBar.selectedItemId = R.id.fragment_record*/
         }
     }
 }

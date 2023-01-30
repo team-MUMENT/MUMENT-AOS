@@ -3,7 +3,7 @@ package com.mument_android.domain.usecase.home
 import com.mument_android.domain.entity.home.AgainMumentEntity
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.home.RandomMumentEntity
-import com.mument_android.domain.entity.home.TodayMumentEntity
+import com.mument_android.domain.entity.home.TodayMument
 import com.mument_android.domain.repository.home.HomeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,11 +12,11 @@ import javax.inject.Inject
 class WhenHomeEnterUseCaseImpl @Inject constructor(
     val homeRepository: HomeRepository
 ) : WhenHomeEnterUseCase {
-    override suspend fun getTodayMument(userId: String): Flow<TodayMumentEntity> =
+    override suspend fun getTodayMument(userId: String): Flow<TodayMument> =
         homeRepository.getTodayMument(userId)
 
 
-    override suspend fun updateLocalTodayMument(mument: TodayMumentEntity) {
+    override suspend fun updateLocalTodayMument(mument: TodayMument) {
         homeRepository.insertTodayMument(mument)
     }
 

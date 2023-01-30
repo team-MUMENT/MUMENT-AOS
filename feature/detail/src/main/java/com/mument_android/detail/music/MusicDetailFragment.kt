@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.HistoryNavigatorProvider
 import com.angdroid.navigation.MoveRecordProvider
 import com.angdroid.navigation.MumentDetailNavigatorProvider
-import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -21,8 +20,8 @@ import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.mument.listener.MumentClickListener
-import com.mument_android.detail.music.MusicDetailContract.*
-import com.mument_android.detail.util.SortTypeEnum
+import com.mument_android.detail.music.MusicDetailContract.MusicDetailEffect
+import com.mument_android.detail.music.MusicDetailContract.MusicDetailEvent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -95,7 +94,10 @@ class MusicDetailFragment(): Fragment() {
             addItemDecoration(RecyclerviewItemDivider(0, 15.dpToPx(requireContext()), IS_VERTICAL))
             adapter = MusicDetailMumentListAdapter(object : MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
-                    mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
+                    musicDetailViewModel.viewState.value.musicInfo?.let { musicInfo ->
+                        mumentDetailNavigatorProvider.moveMumentDetail(mumentId, musicInfo)
+
+                    }
                 }
 
                 override fun likeMument(mumentId: String) {

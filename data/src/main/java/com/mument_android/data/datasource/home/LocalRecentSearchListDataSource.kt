@@ -1,11 +1,11 @@
 package com.mument_android.data.datasource.home
 
-import com.mument_android.domain.entity.home.RecentSearchData
+import com.mument_android.data.local.recentlist.RecentSearchDataEntity
 
 interface LocalRecentSearchListDataSource {
-    suspend fun getAllRecentSearchList(): Result<List<RecentSearchData>>
-    suspend fun updateRecentSearchList(data: RecentSearchData)
-    suspend fun insertRecentSearchList(data: RecentSearchData)
-    suspend fun deleteRecentSearchList(data: RecentSearchData)
+    suspend fun getAllRecentSearchList(): Result<List<RecentSearchDataEntity>>
+    suspend fun updateRecentSearchList(data: RecentSearchDataEntity)
+    suspend fun insertRecentSearchList(data: RecentSearchDataEntity)
+    suspend fun deleteRecentSearchList(data: RecentSearchDataEntity)
     suspend fun deleteAllRecentSearchList()
 }

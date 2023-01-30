@@ -2,39 +2,59 @@ package com.mument_android.app.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.mument_android.BuildConfig
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.record.RecordActivity
-import com.mument_android.record.RecordActivity.Companion.MUMENT_DETAIL_ENTITY
-import com.mument_android.record.RecordActivity.Companion.MUMENT_ID_FOR_EDIT
 import dagger.hilt.android.AndroidEntryPoint
-
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate),
     EditMumentNavigator {
     lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
+    @Inject lateinit var dataStoreManager: DataStoreManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        saveTestToken()
         initNavigation()
         floatingBtnListener()
         customAppBar()
     }
+
+    private fun saveTestToken() {
+        collectFlowWhenStarted(dataStoreManager.accessTokenFlow) {
+            if (it.isNullOrEmpty()) viewModel.saveTestAccessToken()
+        }
+
+        collectFlowWhenStarted(dataStoreManager.refreshTokenFlow) {
+            if (it.isNullOrEmpty()) viewModel.saveTestRefreshToken()
+        }
+        collectFlowWhenStarted(dataStoreManager.userIdFlow) {
+            if (it.isNullOrEmpty()) viewModel.saveTestUserId()
+        }
+    }
+
 
     //TODO : 아이콘 변경
 
@@ -117,6 +137,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     override fun recordMusic(music: Music) {
         viewModel.changeMusic(music)
     }
+
     companion object {
         const val MUMENT_ID = "MUMENT_ID"
         const val MUSIC_ID = "MUSIC_ID"

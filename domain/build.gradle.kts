@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id("kotlin-kapt")
 }
@@ -38,8 +37,7 @@ android {
 dependencies {
     addTestDependencies()
     addDaggerHiltDependencies()
-    addRoomDependencies()
     implementation(KotlinDependencies.kotlinxSerialization)
-    implementation(AndroidXDependencies.coroutines)
+    implementation(KotlinDependencies.coroutines)
     implementation(project(Modules.CORE_MODULE))
 }

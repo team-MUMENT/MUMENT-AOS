@@ -14,8 +14,9 @@ import com.mument_android.core_dependent.base.WebViewActivity
 import com.mument_android.login.databinding.ActivityLogInBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
-class LogInActivity : BaseActivity<ActivityLogInBinding>(R.layout.activity_log_in) {
+class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         clickListener()

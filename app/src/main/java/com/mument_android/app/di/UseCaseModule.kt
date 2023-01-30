@@ -1,5 +1,6 @@
 package com.mument_android.app.di
 
+import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
 import com.mument_android.domain.repository.detail.MusicDetailRepository
@@ -120,4 +121,10 @@ object UseCaseModule {
     @Singleton
     fun provideSignDulCheck(signRepository: SignRepository) : SignDulCheckUseCase =
         SignDulCheckUseCaseImpl(signRepository)
+
+    @Provides
+    @Singleton
+    fun provideBlockUserUseCase(blockUserRepository: BlockUserRepository): BlockUserUseCase =
+        BlockUserUseCaseImpl(blockUserRepository)
+
 }

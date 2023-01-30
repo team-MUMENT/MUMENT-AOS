@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.mument_android.home.SearchActivity
+import com.mument_android.home.search.SearchActivity
 import javax.inject.Inject
 
 class MoveMusicDetailNavigatorProviderImpl @Inject constructor(private val activity: Activity) :

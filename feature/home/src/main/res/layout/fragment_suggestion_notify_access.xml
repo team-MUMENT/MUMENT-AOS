@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/app_space_22"
+        tools:context="">
+
+        <ImageView
+            android:id="@+id/iv_cancel"
+            android:layout_width="@dimen/app_space_24"
+            android:layout_height="@dimen/app_space_24"
+            android:layout_marginTop="@dimen/app_space_17"
+            android:layout_marginEnd="@dimen/app_space_14"
+            android:src="@drawable/ic_delete_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_alert_notify_title"
+            style="@style/TextView.Mument_H3_B16.Style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/app_space_32"
+            android:gravity="center"
+            android:text="@string/alert_notify_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_alert_notify_subtitle"
+            style="@style/TextView.Mument_B8_M12.Style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/app_space_8"
+            android:gravity="center"
+            android:text="@string/alert_notify_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alert_notify_title" />
+
+        <ImageView
+            android:id="@+id/iv_alert_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/app_space_11"
+            android:src="@drawable/mument_notification"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alert_notify_subtitle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/app_space_16"
+            android:layout_marginTop="@dimen/app_space_22"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/iv_alert_icon">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/app_space_45"
+                android:layout_marginEnd="@dimen/app_space_5"
+                android:layout_weight="1"
+                android:background="@drawable/rectangle_fill_not_mument_color_white_11dp"
+                android:gravity="center"
+                android:stateListAnimator="@null"
+                android:text="@string/alert_btn_noti_no"
+                android:textAppearance="@style/TextView.Mument_B4_M14.TextAppearance"
+                android:textColor="@color/mument_not_color_gray" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_yes"
+                style="@style/TextView.Mument_B2_B14.Style"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/app_space_45"
+                android:layout_marginStart="@dimen/app_space_5"
+                android:layout_weight="1"
+                android:background="@drawable/retangle_fill_purple1_11dp"
+                android:gravity="center"
+                android:stateListAnimator="@null"
+                android:text="@string/alert_btn_noti_yes"
+                android:textColor="@color/mument_color_white" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

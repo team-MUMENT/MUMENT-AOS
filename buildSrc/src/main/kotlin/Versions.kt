@@ -31,7 +31,7 @@ object Versions {
     const val espressoVersion = "3.4.0"
     const val androidTestVersion = "1.1.3"
     const val timberVersion = "4.7.1"
-    const val kotlinxSerializationJsonVersion = "1.2.2"
+    const val kotlinxSerializationJsonVersion = "1.3.2"
     const val gsonVersion = "2.8.9"
     const val gsonConverterVersion = "2.9.0"
     const val dataStore = "1.0.0"
@@ -43,5 +43,5 @@ object Versions {
     const val mockitoCoreVersion = "2.28.2"
     const val mockitoAndroidVersion = "2.24.5"
     const val googleServiceVersion = "4.3.13"
-    const val bomVersion = "31.1.1"
+    const val fcmVersion = "23.1.1"
 }

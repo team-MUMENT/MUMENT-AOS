@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.angdroid.navigation.HistoryNavigatorProvider
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.mument_android.home.HomeFragment
+import com.mument_android.home.main.HomeFragment
 import javax.inject.Inject
 
 class HistoryNavigatorProviderImpl @Inject constructor(private val activity : Activity):

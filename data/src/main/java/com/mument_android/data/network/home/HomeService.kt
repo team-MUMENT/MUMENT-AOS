@@ -1,12 +1,7 @@
 package com.mument_android.data.network.home
 
-import com.mument_android.domain.entity.home.RecentSearchData
-import com.mument_android.data.util.BaseResponse
 import com.mument_android.data.dto.history.MumentHistoryDto
-import com.mument_android.data.dto.home.BannerMumentDto
-import com.mument_android.data.dto.home.KnownMumentDto
-import com.mument_android.data.dto.home.RandomMumentDto
-import com.mument_android.data.dto.home.TodayMumentDto
+import com.mument_android.data.dto.home.*
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,7 +11,7 @@ interface HomeService {
     @GET("/music/search")
     suspend fun searchMusicList(
         @Query("keyword") keyword: String
-    ): Response<List<RecentSearchData>>
+    ): Response<RecentSearchDataDto>
 
     @GET("mument/{userId}/{musicId}/history?default=Y")
     suspend fun getMumentHistory(
@@ -37,4 +32,11 @@ interface HomeService {
 
     @GET("/mument/random")
     suspend fun getRandomMument(): Response<RandomMumentDto>
+
+    @GET("/user/profile/check")
+    suspend fun checkProfileSetting(): Response<Void>
+
+    @GET("/user/news/exist")
+    suspend fun checkNewNotify():Response<Boolean>
+
 }

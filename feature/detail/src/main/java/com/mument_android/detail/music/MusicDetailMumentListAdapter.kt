@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.mument_android.detail.BR
+import com.mument_android.domain.entity.music.MusicInfoEntity
 
 class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickListener): ListAdapter<MumentSummaryEntity, MusicDetailMumentListAdapter.MusicDetailMumentListViewHolder>(
     GlobalDiffCallBack<MumentSummaryEntity>()
@@ -35,8 +36,11 @@ class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickL
 
     override fun onBindViewHolder(holder: MusicDetailMumentListViewHolder, position: Int) {
         holder.binding.apply {
-            setVariable(BR.mumentSummary, getItem(position))
-            viewClickable.setOnClickListener { mumentClickListener.showMumentDetail(getItem(position).mumentId) }
+            val data = getItem(position)
+            setVariable(BR.mumentSummary, data)
+            viewClickable.setOnClickListener {
+                mumentClickListener.showMumentDetail(data.mumentId)
+            }
             checkLikeMument(holder)
             setMumentTagList(holder)
         }

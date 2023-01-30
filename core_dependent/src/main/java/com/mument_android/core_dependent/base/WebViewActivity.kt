@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mument_android.core_dependent.R
 import com.mument_android.core_dependent.databinding.ActivityWebViewBinding
 
-class WebViewActivity : BaseActivity<ActivityWebViewBinding>(R.layout.activity_web_view) {
+class WebViewActivity : BaseActivity<ActivityWebViewBinding>(ActivityWebViewBinding::inflate) {
 
     private var url: String? = null
 

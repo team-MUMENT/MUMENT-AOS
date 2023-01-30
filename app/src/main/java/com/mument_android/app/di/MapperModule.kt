@@ -13,7 +13,8 @@ import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.mapper.user.UserMapper
-import com.mument_android.home.mappers.HomeTodayMumentMapper
+import com.mument_android.data.mapper.home.HomeTodayMumentMapper
+import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,15 +59,17 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideRecentSearchDataMapper(): RecentSearchDataMapper = RecentSearchDataMapper()
+
+    @Provides
+    @Singleton
     fun provideMumentDetailMapper(
         userMapper: UserMapper,
-        musicInfoMapper: MusicInfoMapper,
         impressiveTagMapper: ImpressiveTagMapper,
         emotionalTagMapper: EmotionalTagMapper,
         isFirstTagMapper: IsFirstTagMapper
     ): MumentDetailMapper = MumentDetailMapper(
         userMapper,
-        musicInfoMapper,
         impressiveTagMapper,
         emotionalTagMapper,
         isFirstTagMapper
@@ -128,5 +131,8 @@ object MapperModule {
     @Singleton
     fun provideSignIdDupCheckMapper(): SignMapper = SignMapper()
 
+    @Provides
+    @Singleton
+    fun provideBlockUserMapper(): BlockUserMapper = BlockUserMapper()
 
 }

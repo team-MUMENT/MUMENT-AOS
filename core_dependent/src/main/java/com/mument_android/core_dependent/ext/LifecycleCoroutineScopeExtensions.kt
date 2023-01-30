@@ -31,8 +31,12 @@ inline fun <T, R> R.collectFlow(
 
 inline fun <T, R> R.collectFlowWhenStarted(
     flow: Flow<T>, crossinline block: suspend (T) -> Unit
+<<<<<<< HEAD
 ) = collectFlow(
     flow, block) // Lifecycle.State.STARTED는 Default로 들어감
+=======
+) = collectFlow(flow, block) // Lifecycle.State.STARTED는 Default로 들어감
+>>>>>>> 26dd82acb1850fcb4438100828600158a594261c
 
 inline fun <T, R> R.collectFlowWhenCreated(
     flow: Flow<T>, crossinline block: suspend (T) -> Unit

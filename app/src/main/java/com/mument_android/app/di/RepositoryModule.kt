@@ -4,6 +4,7 @@ import com.mument_android.data.controller.DeleteMumentController
 import com.mument_android.data.controller.LikeMumentController
 import com.mument_android.data.controller.RecordController
 import com.mument_android.data.controller.RecordModifyController
+import com.mument_android.data.datasource.detail.BlockUserDataSource
 import com.mument_android.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.data.datasource.detail.MumentListDataSource
 import com.mument_android.data.datasource.detail.MusicDetailDataSource
@@ -19,7 +20,11 @@ import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.datasource.home.*
 import com.mument_android.data.datasource.sign.SignDataSource
 import com.mument_android.data.mapper.sign.SignMapper
+import com.mument_android.data.mapper.detail.BlockUserMapper
+import com.mument_android.data.mapper.home.HomeTodayMumentMapper
+import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.repository.*
+import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
 import com.mument_android.domain.repository.detail.MusicDetailRepository
@@ -92,12 +97,18 @@ object RepositoryModule {
         mumentHistoryDataSource: RemoteMumentHistoryDataSource,
         searchListDataSource: RemoteSearchListDataSource,
         homeDataSource: HomeDataSource,
-        randomMumentMapper: RandomMumentMapper
+        randomMumentMapper: RandomMumentMapper,
+        homeTodayMumentMapper: HomeTodayMumentMapper,
+        recentSearchDataMapper: RecentSearchDataMapper
     ): HomeRepository = HomeRepositoryImpl(
         todayMumentDataSource,
         recentSearchListDataSource,
         mumentHistoryDataSource,
-        searchListDataSource, homeDataSource, randomMumentMapper
+        searchListDataSource,
+        homeDataSource,
+        randomMumentMapper,
+        homeTodayMumentMapper,
+        recentSearchDataMapper
     )
 
     @Provides
@@ -121,4 +132,11 @@ object RepositoryModule {
         signMapper : SignMapper,
         signDataSource: SignDataSource
     ): SignRepository = SignRepositoryImpl(signMapper, signDataSource)
+
+    @Provides
+    @Singleton
+    fun provideBlockUserRepository(
+        blockUserDataSource: BlockUserDataSource,
+        blockUserMapper: BlockUserMapper
+    ): BlockUserRepository = BlockUserRepositoryImpl(blockUserDataSource, blockUserMapper)
 }

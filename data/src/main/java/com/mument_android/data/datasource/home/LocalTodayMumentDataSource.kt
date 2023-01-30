@@ -1,8 +1,7 @@
 package com.mument_android.data.datasource.home
 
+import com.mument_android.data.local.todaymument.TodayMumentEntity
 import com.mument_android.data.util.ResultWrapper
-import com.mument_android.domain.entity.home.TodayMumentEntity
-import kotlinx.coroutines.flow.Flow
 
 interface LocalTodayMumentDataSource {
     suspend fun getTodayMument(userId: String): ResultWrapper<TodayMumentEntity>

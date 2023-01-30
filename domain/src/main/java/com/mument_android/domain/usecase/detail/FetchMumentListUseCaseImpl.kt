@@ -10,8 +10,7 @@ class FetchMumentListUseCaseImpl @Inject constructor(
 ): FetchMumentListUseCase {
     override suspend fun invoke(
         musicId: String,
-        userId: String,
         default: String
     ): Flow<List<MumentSummaryEntity>> =
-        mumentListRepository.fetchMumentList(musicId, userId, default)
+        mumentListRepository.fetchMumentList(musicId, default)
 }

@@ -24,7 +24,7 @@ import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class ProfileSettingActivity :
-    BaseActivity<ActivityProfileSettingBinding>(R.layout.activity_profile_setting) {
+    BaseActivity<ActivityProfileSettingBinding>(inflate = ActivityProfileSettingBinding::inflate) {
     private lateinit var intentLauncher: ActivityResultLauncher<Intent>
     private lateinit var inputMethodManager: InputMethodManager
 
@@ -44,7 +44,6 @@ class ProfileSettingActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
         isRightPattern()
         cancelBtnListener()
         isActiveBtn()
@@ -55,7 +54,6 @@ class ProfileSettingActivity :
         setNickNameDup()
         nickNameDupCheck()
     }
-
 
     //edittext에 작성한 텍스트 삭제 버튼 클릭 리스너
     private fun deleteText() {
@@ -86,7 +84,6 @@ class ProfileSettingActivity :
             binding.tvProfileFinish.isSelected = it
         }
     }
-
 
     //이미지 여부 확인 후 없다면 => 갤러리로 바로 이동, 있다면 -> 삭제 or 변경 여부 선택
     private fun isImageExist() {

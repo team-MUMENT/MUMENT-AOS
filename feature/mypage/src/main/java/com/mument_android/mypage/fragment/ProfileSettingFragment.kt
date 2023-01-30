@@ -1,5 +1,6 @@
 package com.mument_android.mypage.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.mypage.MyPageActivity
 import com.mument_android.mypage.MyPageViewModel
+import com.mument_android.mypage.NoticeDetailActivity
 import com.mument_android.mypage.databinding.FragmentProfileSettingBinding
 
 class ProfileSettingFragment : Fragment() {
@@ -28,6 +31,14 @@ class ProfileSettingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.myPageViewModel = myPageViewModel
+
+        backBtnListener()
+    }
+
+    private fun backBtnListener() {
+        binding.btnProfileSettingBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
 
