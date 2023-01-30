@@ -21,7 +21,7 @@
             android:layout_height="24dp"
             android:layout_marginStart="@dimen/app_space_13"
             android:contentDescription="@string/notify_icon_description"
-            android:src="@{context.getDrawable(notify.notifyType.res)}"
+            android:src="@{context.getDrawable(notify.type.res)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,11 +33,12 @@
             android:layout_marginHorizontal="@dimen/app_space_12"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="@{notify.title}"
+            android:text="@{notify.type.name()==`LIKE`?notify.likeProfileId+`님이 `+notify.likeMusicTitle+`에 쓴 뮤멘트를 좋아합니다.`:notify.noticePoint+` `+notify.noticeTitle}"
             android:textColor="@color/mument_color_black1"
             app:layout_constraintEnd_toStartOf="@id/iv_notify_delete"
             app:layout_constraintStart_toEndOf="@id/iv_icon"
             app:layout_constraintTop_toTopOf="parent"
+            app:typeOfNotify="@{notify.type}"
             tools:text="가나다라" />
 
         <TextView

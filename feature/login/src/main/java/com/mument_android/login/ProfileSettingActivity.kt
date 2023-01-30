@@ -38,7 +38,6 @@ class ProfileSettingActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
         isRightPattern()
         cancelBtnListener()
         isActiveBtn()

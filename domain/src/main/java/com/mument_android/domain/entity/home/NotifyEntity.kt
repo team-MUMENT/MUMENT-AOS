@@ -1,12 +1,15 @@
 package com.mument_android.domain.entity.home
 
-import java.time.LocalDate
-
 data class NotifyEntity(
     val id: String,
-    val createdAt: LocalDate,
-    val image: String,
-    val newsId: Int,
-    val title: String,
-    val type: String
+    val type: String,
+    val userId: Int,
+    val isDeleted: Boolean,
+    val isRead: Boolean,
+    val createdAt: String,
+    val linkId: Int,
+    val noticePoint: String?,
+    val noticeTitle: String?,
+    val likeMusicTitle: String?,
+    val likeProfileId: String?,
 )

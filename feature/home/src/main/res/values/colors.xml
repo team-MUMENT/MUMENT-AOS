@@ -18,6 +18,8 @@
     <color name="mument_color_gray4">#E8E8E8</color>
     <color name="mument_color_gray5">#F0F0F0</color>
     <color name="mument_color_bgwhite">#FAFAFA</color>
+    <color name="mument_not_color_gray">#FF807F82</color>
+    <color name="mument_not_color_white">#FFEDEBEB</color>
     <color name="transparent">#00000000</color>
 
 

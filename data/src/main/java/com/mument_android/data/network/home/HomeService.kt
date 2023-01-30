@@ -32,4 +32,11 @@ interface HomeService {
 
     @GET("/mument/random")
     suspend fun getRandomMument(): Response<RandomMumentDto>
+
+    @GET("/user/profile/check")
+    suspend fun checkProfileSetting(): Response<Void>
+
+    @GET("/user/news/exist")
+    suspend fun checkNewNotify():Response<Boolean>
+
 }

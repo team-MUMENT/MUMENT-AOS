@@ -1,4 +1,4 @@
 package com.mument_android.data.dto.home
-import com.mument_android.domain.entity.home.RecentSearchData
+import com.mument_android.data.local.recentlist.RecentSearchDataEntity
 
-data class RecentSearchDataDto(val list: List<RecentSearchData>)
+data class RecentSearchDataDto(val list: List<RecentSearchDataEntity>)

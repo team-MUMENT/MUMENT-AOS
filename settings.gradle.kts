@@ -26,5 +26,6 @@ include(
     ":feature:record",
     ":feature:home",
     ":feature:detail",
-    ":feature:mypage"
+    ":feature:mypage",
+    ":feature:report"
 )

@@ -19,6 +19,8 @@ import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.datasource.home.*
 import com.mument_android.data.mapper.detail.BlockUserMapper
+import com.mument_android.data.mapper.home.HomeTodayMumentMapper
+import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.repository.*
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
@@ -92,12 +94,18 @@ object RepositoryModule {
         mumentHistoryDataSource: RemoteMumentHistoryDataSource,
         searchListDataSource: RemoteSearchListDataSource,
         homeDataSource: HomeDataSource,
-        randomMumentMapper: RandomMumentMapper
+        randomMumentMapper: RandomMumentMapper,
+        homeTodayMumentMapper: HomeTodayMumentMapper,
+        recentSearchDataMapper: RecentSearchDataMapper
     ): HomeRepository = HomeRepositoryImpl(
         todayMumentDataSource,
         recentSearchListDataSource,
         mumentHistoryDataSource,
-        searchListDataSource, homeDataSource, randomMumentMapper
+        searchListDataSource,
+        homeDataSource,
+        randomMumentMapper,
+        homeTodayMumentMapper,
+        recentSearchDataMapper
     )
 
     @Provides

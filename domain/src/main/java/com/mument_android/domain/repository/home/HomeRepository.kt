@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
 
-    suspend fun updateTodayMument(mument: TodayMumentEntity)
+    suspend fun updateTodayMument(mument: TodayMument)
 
-    suspend fun insertTodayMument(mument: TodayMumentEntity)
+    suspend fun insertTodayMument(mument: TodayMument)
 
-    suspend fun deleteTodayMument(mument: TodayMumentEntity)
+    suspend fun deleteTodayMument(mument: TodayMument)
 
     suspend fun insertRecentSearchList(data: RecentSearchData)
 
@@ -26,7 +26,7 @@ interface HomeRepository {
 
     suspend fun getMumentHistory(userId: String, musicId: String): MumentHistoryEntity?
 
-    suspend fun getTodayMument(userId: String): Flow<TodayMumentEntity>
+    suspend fun getTodayMument(userId: String): Flow<TodayMument>
 
     suspend fun getBannerMument(): List<BannerEntity>?
 

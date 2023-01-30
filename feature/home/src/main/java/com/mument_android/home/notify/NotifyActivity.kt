@@ -7,11 +7,11 @@ import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.TransitionMode
 import com.mument_android.core_dependent.util.ViewUtils.showToast
-import com.mument_android.home.R
 import com.mument_android.home.adapters.NotifyAdapter
 import com.mument_android.home.databinding.ActivityNotifyBinding
 import com.mument_android.home.models.Notify
-import com.mument_android.home.notify.NotifyContract.*
+import com.mument_android.home.notify.NotifyContract.NotifyEvent
+import com.mument_android.home.notify.NotifyContract.NotifySideEffect
 import com.mument_android.home.search.SearchActivity
 import com.mument_android.home.util.NotifyType
 import com.mument_android.home.viewmodels.NotifyViewModel
@@ -26,7 +26,6 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
     private val notifyViewModel by viewModels<NotifyViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.lifecycleOwner = this
         appBarClickListener()
         adapterSetting()
         receiveEffect()
@@ -86,259 +85,491 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
             listOf(
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.NOTICE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = "1.1.1",
+                    noticeTitle = "버전 업데이트 공지사항입니다.",
+                    likeMusicTitle = null,
+                    likeProfileId = null,
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.NOTICE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = "1.1.1",
+                    noticeTitle = "버전 업데이트 공지사항입니다.",
+                    likeMusicTitle = null,
+                    likeProfileId = null,
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.NOTICE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = "1.1.1",
+                    noticeTitle = "버전 업데이트 공지사항입니다.",
+                    likeMusicTitle = null,
+                    likeProfileId = null,
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.NOTICE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = "1.1.1",
+                    noticeTitle = "버전 업데이트 공지사항입니다.",
+                    likeMusicTitle = null,
+                    likeProfileId = null,
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.NOTICE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = "1.1.1",
+                    noticeTitle = "버전 업데이트 공지사항입니다.",
+                    likeMusicTitle = null,
+                    likeProfileId = null,
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.NOTICE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = "1.1.1",
+                    noticeTitle = "버전 업데이트 공지사항입니다.",
+                    likeMusicTitle = null,
+                    likeProfileId = null,
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.NOTICE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = "1.1.1",
+                    noticeTitle = "버전 업데이트 공지사항입니다.",
+                    likeMusicTitle = null,
+                    likeProfileId = null,
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.LIKE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPOPOPOP OPOPOPO POPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"), //단어가 길면 자동 줄바꿈이 일어나므로 유니코드 변경 이제 적용 가능!,
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = null,
+                    noticeTitle = null,
+                    likeMusicTitle = "POPPOPOPOPOPOPOP POPOPOPOPOPPOPP OPOPOPOPOPOPPOPO POPOPOPOPOPOPOPOPOPOPOPOP".replace(
+                        " ",
+                        "\u00A0"
+                    ),
+                    likeProfileId = "예진",
                 ),
                 Notify(
                     id = "",
+                    type = NotifyType.NOTICE,
+                    userId = 1,
+                    isDeleted = true,
+                    isRead = true,
                     createdAt = "02/05 09:10",
-                    "",
-                    1,
-                    "예진님이 POPPOPOPOPOPOPOPOPOPOPOPOPOPPOPPOPOPOPOPOPOPOPOPO POPOPOP OPOPOPOPO POPPOPOPOPOPOPOPOPOPOPOPOPOP에 쓴 뮤멘트를 좋아합니다.".replace(" ", "\u00A0"),
-                    NotifyType.LIKE
+                    linkId = 1,
+                    noticePoint = "1.1.1",
+                    noticeTitle = "버전 업데이트 공지사항입니다.",
+                    likeMusicTitle = null,
+                    likeProfileId = null,
                 ),
             )
         )

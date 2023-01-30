@@ -10,7 +10,6 @@ import com.mument_android.core_dependent.util.setState
 import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
 import com.mument_android.home.BuildConfig
 import com.mument_android.home.main.HomeContract.*
-import com.mument_android.home.mappers.HomeTodayMumentMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -22,7 +21,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     val useCase: WhenHomeEnterUseCase,
-    val homeTodayMumentMapper: HomeTodayMumentMapper
 ) : ViewModel() {
     private val _homeViewState = MutableStateFlow(HomeViewState())
     val homeViewState get() = _homeViewState.asStateFlow()
@@ -56,7 +54,7 @@ class HomeViewModel @Inject constructor(
         collectEvent()
         viewModelScope.launch {
             useCase.getTodayMument(BuildConfig.USER_ID).map { today ->
-                homeTodayMumentMapper.map(today)
+                today
             }.collect { today ->
                 _homeViewState.setState {
                     copy(todayMumentEntity = today)

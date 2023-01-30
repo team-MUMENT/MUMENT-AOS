@@ -24,6 +24,7 @@ abstract class BaseActivity<T : ViewDataBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.lifecycleOwner = this
         when (mode) {
             TransitionMode.HORIZONTAL -> overridePendingTransition(
                 R.anim.horizontal_enter,

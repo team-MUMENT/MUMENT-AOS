@@ -54,7 +54,6 @@ dependencies {
     addRoomDependencies()
     addNetworkDependencies()
     addLifecycleDependencies()
-
     implementation(ThirdPartyDependencies.timber)
     implementation(project(Modules.DOMAIN_MODULE))
     implementation(project(Modules.CORE_MODULE))

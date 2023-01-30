@@ -9,7 +9,7 @@
         <import type="com.mument_android.home.R" />
         <variable
             name="mument"
-            type="com.mument_android.home.models.TodayMument" />
+            type="com.mument_android.domain.entity.home.TodayMument" />
 
     </data>
 

@@ -1,8 +1,8 @@
 package com.mument_android.data.datasource.home
 
 import com.mument_android.data.local.todaymument.TodayMumentDAO
+import com.mument_android.data.local.todaymument.TodayMumentEntity
 import com.mument_android.data.util.ResultWrapper
-import com.mument_android.domain.entity.home.TodayMumentEntity
 import java.time.LocalDate
 import javax.inject.Inject
 
