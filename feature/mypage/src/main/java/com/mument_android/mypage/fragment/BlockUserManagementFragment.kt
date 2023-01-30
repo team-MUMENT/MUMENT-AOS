@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.mument_android.core.network.ApiResult
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.mypage.adapters.BlockUserManagementAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -43,25 +45,33 @@ class BlockUserManagementFragment : Fragment() {
         binding.rvBlockUser.adapter = blockUserManagementAdapter
         myPageViewModel.fetchBlockUserList()
 
-        myPageViewModel.blockUserList.observe(viewLifecycleOwner) { blockUserList ->
-            if (blockUserList != null) {
-                blockUserManagementAdapter.submitList(blockUserList)
+        collectFlowWhenStarted(myPageViewModel.blockUserList) {
+            when (it) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    blockUserManagementAdapter.submitList(it.data)
+                }
+                else -> {}
             }
+
         }
+
+
     }
 
     private fun deleteItem(userData: BlockUserEntity) {
-        MumentDialogBuilder()
-            .setHeader(getString(R.string.unblock_title))
-            .setBody(getString(R.string.unblock_body))
-            .setAllowListener("차단해제") {
-                myPageViewModel.blockUserList.observe(viewLifecycleOwner) { list ->
-                    blockUserManagementAdapter.submitList(list)
-                }
-            }
-            .setCancelListener {}
-            .build()
-            .show(childFragmentManager, this.tag)
+//        MumentDialogBuilder()
+//            .setHeader(getString(R.string.unblock_title))
+//            .setBody(getString(R.string.unblock_body))
+//            .setAllowListener("차단해제") {
+//                myPageViewModel.blockUserList.observe(viewLifecycleOwner) { list ->
+//                    blockUserManagementAdapter.submitList(list)
+//                }
+//            }
+//            .setCancelListener {}
+//            .build()
+//            .show(childFragmentManager, this.tag)
     }
 
     private fun backBtnListener() {

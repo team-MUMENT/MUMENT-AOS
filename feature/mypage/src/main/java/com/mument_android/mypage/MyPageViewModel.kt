@@ -4,11 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core.network.ApiResult
+import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
 import com.mument_android.mypage.data.NoticeData
 import com.mument_android.mypage.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,8 +39,8 @@ class MyPageViewModel @Inject constructor(
     val userNickNameContent = _userNickNameContent
 
     //BlockUserManagement
-    private val _blockUserList = MutableLiveData<List<BlockUserEntity>>()
-    val blockUserList: LiveData<List<BlockUserEntity>> get() = _blockUserList
+    private val _blockUserList = MutableStateFlow<ApiResult<List<BlockUserEntity>>?>(null)
+    val blockUserList get() = _blockUserList.asStateFlow()
 
     //Notice
     private val _noticeList = MutableLiveData<List<NoticeData>>()
@@ -86,9 +91,10 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             blockUserList.value.let {
                 fetchBlockUserUseCase.invoke().onStart {
-                }.collect {
-                    _blockUserList.value = it
-                }
+                }.catch { _blockUserList.value = ApiResult.Failure(null) }
+                    .collect {
+                        _blockUserList.value = ApiResult.Success(it)
+                    }
             }
         }
     }
