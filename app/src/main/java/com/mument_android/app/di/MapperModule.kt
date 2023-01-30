@@ -14,6 +14,7 @@ import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
+import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -129,5 +130,11 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideBlockUserMapper(): BlockUserMapper = BlockUserMapper()
+
+
+    @Provides
+    @Singleton
+    fun provideBlockUserListMapper(): BlockUserListMapper = BlockUserListMapper()
+
 
 }

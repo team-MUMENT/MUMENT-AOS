@@ -18,10 +18,13 @@ import com.mument_android.data.mapper.locker.LockerMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.datasource.home.*
+import com.mument_android.data.datasource.mypage.BlockUserListDataSource
 import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
+import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.repository.*
+import com.mument_android.domain.repository.BlockUserListRepository
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
@@ -129,4 +132,11 @@ object RepositoryModule {
         blockUserDataSource: BlockUserDataSource,
         blockUserMapper: BlockUserMapper
     ): BlockUserRepository = BlockUserRepositoryImpl(blockUserDataSource, blockUserMapper)
+
+    @Provides
+    @Singleton
+    fun provideBlockUserListRepository(
+        blockUserListDataSource: BlockUserListDataSource,
+        blockUserListMapper: BlockUserListMapper
+    ): BlockUserListRepository = BlockUserListRepositoryImpl(blockUserListDataSource,blockUserListMapper)
 }

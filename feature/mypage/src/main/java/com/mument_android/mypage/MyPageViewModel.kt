@@ -1,14 +1,23 @@
 package com.mument_android.mypage
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.mument_android.domain.entity.mypage.BlockUserEntity
+import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
 import com.mument_android.mypage.data.NoticeData
 import com.mument_android.mypage.data.UserData
-import javax.annotation.concurrent.Immutable
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MyPageViewModel : ViewModel() {
+@HiltViewModel
+class MyPageViewModel @Inject constructor(
+    private val fetchBlockUserUseCase: FetchBlockUserUseCase
+) : ViewModel() {
+
 
     //myPage
     private val _isBtnClick = MutableLiveData(false)
@@ -18,15 +27,15 @@ class MyPageViewModel : ViewModel() {
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> get() = _userId
 
-    private val _userImg = MutableLiveData<Int>()
-    val userImg: LiveData<Int> get() = _userImg
+    private val _userImg = MutableLiveData<String>()
+    val userImg: LiveData<String> get() = _userImg
 
     private val _userNickNameContent = MutableLiveData("")
     val userNickNameContent = _userNickNameContent
 
     //BlockUserManagement
-    private val _userList = MutableLiveData<List<UserData>>()
-    val userList: LiveData<List<UserData>> get() = _userList
+    private val _blockUserList = MutableLiveData<List<BlockUserEntity>>()
+    val blockUserList: LiveData<List<BlockUserEntity>> get() = _blockUserList
 
     //Notice
     private val _noticeList = MutableLiveData<List<NoticeData>>()
@@ -62,16 +71,28 @@ class MyPageViewModel : ViewModel() {
     fun fetchUserInfo() {
         val userData = UserData(
             userID = userId.value ?: "",
-            userImg = userImg.value ?: 0
+            userImg = userImg.value ?: ""
         )
     }
 
     //차단유저관리
-    fun unblockUser(element: UserData) {
-        val currentList = userList.value!!.toMutableList()
-        currentList.remove(element)
-        _userList.value = currentList
+//    fun unblockUser(element: UserData) {
+//        val currentList = blockUserList.value!!.toMutableList()
+//        currentList.remove(element)
+//        _blockUserList.value = currentList
+//    }
+
+    fun fetchBlockUserList() {
+        viewModelScope.launch {
+            blockUserList.value.let {
+                fetchBlockUserUseCase.invoke().onStart {
+                }.collect {
+                    _blockUserList.value = it
+                }
+            }
+        }
     }
+
 
     //공지사항
     fun fetchNoticeDetail() {

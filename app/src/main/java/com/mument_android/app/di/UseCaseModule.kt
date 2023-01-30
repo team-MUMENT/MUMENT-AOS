@@ -1,5 +1,6 @@
 package com.mument_android.app.di
 
+import com.mument_android.domain.repository.BlockUserListRepository
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
@@ -18,6 +19,8 @@ import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCaseImpl
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCaseImpl
+import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
+import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCaseImpl
 import com.mument_android.domain.usecase.record.*
 import dagger.Module
 import dagger.Provides
@@ -118,4 +121,9 @@ object UseCaseModule {
     @Singleton
     fun provideBlockUserUseCase(blockUserRepository: BlockUserRepository): BlockUserUseCase =
         BlockUserUseCaseImpl(blockUserRepository)
+
+    @Provides
+    @Singleton
+    fun provideFetchBlockUserListUseCase(blockUserListRepository: BlockUserListRepository) : FetchBlockUserUseCase =
+        FetchBlockUserUseCaseImpl(blockUserListRepository)
 }
