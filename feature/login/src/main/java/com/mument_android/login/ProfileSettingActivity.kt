@@ -2,25 +2,32 @@ package com.mument_android.login
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.android.material.snackbar.Snackbar
 import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
+import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
+
 
 @AndroidEntryPoint
 class ProfileSettingActivity :
@@ -165,9 +172,9 @@ class ProfileSettingActivity :
     }
 
     private fun setNickNameDup() {
-        val nickname = viewModel.mumentNickName
-        //viewModel.nickNameDupCheck(nickname.value.toString())
-        viewModel.nickNameDupCheck("제발유")
+        val nickname = viewModel.mumentNickName.toString()
+        //viewModel.nickNameDupCheck(nickname)
+        viewModel.nickNameDupCheck("안드테스트용")
 
     }
 
@@ -182,8 +189,8 @@ class ProfileSettingActivity :
                     Log.e("뭐지 ㅠ", it.toString())
                 }
                 else -> {
-                    Log.e("test2", it.toString())
-
+                   //스낵바 호출
+                    CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
                 }
             }
         }
