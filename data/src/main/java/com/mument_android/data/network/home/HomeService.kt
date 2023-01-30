@@ -13,10 +13,13 @@ interface HomeService {
         @Query("keyword") keyword: String
     ): Response<RecentSearchDataDto>
 
-    @GET("mument/{userId}/{musicId}/history?default=Y")
+    @GET("mument/{userId}/{musicId}/history?")
     suspend fun getMumentHistory(
         @Path("userId") userId: String,
         @Path("musicId") musicId: String,
+        @Query("default") default:String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
     ): Response<MumentHistoryDto>
 
     @GET("/mument/banner")
