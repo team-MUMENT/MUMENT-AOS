@@ -178,11 +178,16 @@ class ProfileSettingActivity :
         viewModel.isDuplicate.launchWhenCreated(this.lifecycleScope) {
             when(it) {
                 is ApiResult.Loading -> {}
-                is ApiResult.Failure -> {}
+                is ApiResult.Failure -> {
+                    Log.e("test1", it.toString())
+                }
                 is ApiResult.Success -> {
                     Log.e("뭐지 ㅠ", it.toString())
                 }
-                else -> {}
+                else -> {
+                    Log.e("test2", it.toString())
+
+                }
             }
         }
     }
