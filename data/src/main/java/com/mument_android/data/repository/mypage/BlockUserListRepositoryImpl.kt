@@ -1,9 +1,9 @@
-package com.mument_android.data.repository
+package com.mument_android.data.repository.mypage
 
 import com.mument_android.data.datasource.mypage.BlockUserListDataSource
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.domain.entity.mypage.BlockUserEntity
-import com.mument_android.domain.repository.BlockUserListRepository
+import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
