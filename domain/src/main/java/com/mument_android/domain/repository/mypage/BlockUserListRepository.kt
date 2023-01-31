@@ -4,5 +4,6 @@ import com.mument_android.domain.entity.mypage.BlockUserEntity
 import kotlinx.coroutines.flow.Flow
 
 interface BlockUserListRepository {
-    suspend fun fetchBlockUserList() : Flow<List<BlockUserEntity>>
+    suspend fun fetchBlockUserList(): Flow<List<BlockUserEntity>>
+    suspend fun deleteBlockUser(blockedUserId: String): Flow<Unit>
 }

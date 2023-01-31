@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiResult
 import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.domain.entity.mypage.NoticeListEntity
+import com.mument_android.domain.usecase.mypage.DeleteBlockUserUseCase
 import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
 import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
 import com.mument_android.mypage.data.UserData
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val fetchBlockUserUseCase: FetchBlockUserUseCase,
+    private val deleteBlockUserUseCase: DeleteBlockUserUseCase,
     private val fetchNoticeListUseCase: FetchNoticeListUseCase
 ) : ViewModel() {
 
@@ -39,6 +41,10 @@ class MyPageViewModel @Inject constructor(
     //BlockUserManagement
     private val _blockUserList = MutableStateFlow<ApiResult<List<BlockUserEntity>>?>(null)
     val blockUserList get() = _blockUserList.asStateFlow()
+
+    private val _blockedUserId = MutableStateFlow<ApiResult<String>?>(null)
+    val blockedUserId = _blockedUserId
+
 
     //Notice
     private val _noticeList = MutableStateFlow<ApiResult<List<NoticeListEntity>>?>(null)
@@ -87,6 +93,18 @@ class MyPageViewModel @Inject constructor(
                 }.catch { _blockUserList.value = ApiResult.Failure(null) }
                     .collect {
                         _blockUserList.value = ApiResult.Success(it)
+                    }
+            }
+        }
+    }
+
+    fun deleteBlockUser() {
+        viewModelScope.launch {
+            blockUserList.value.let {
+                deleteBlockUserUseCase(blockedUserId = blockedUserId.toString())
+                    .catch {
+                    }.collect {
+                        _blockedUserId.value = ApiResult.Success(it.toString())
                     }
             }
         }

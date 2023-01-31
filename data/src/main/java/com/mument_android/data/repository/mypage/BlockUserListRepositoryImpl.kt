@@ -1,5 +1,6 @@
 package com.mument_android.data.repository.mypage
 
+import com.mument_android.data.controller.DeleteBlockUserController
 import com.mument_android.data.datasource.mypage.BlockUserListDataSource
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.domain.entity.mypage.BlockUserEntity
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 class BlockUserListRepositoryImpl @Inject constructor(
     private val blockUserListDataSource: BlockUserListDataSource,
-    private val blockUserListMapper: BlockUserListMapper
+    private val blockUserListMapper: BlockUserListMapper,
+    private val deleteBlockUserController: DeleteBlockUserController
 ) : BlockUserListRepository {
     override suspend fun fetchBlockUserList(
 
@@ -22,4 +24,6 @@ class BlockUserListRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
+    override suspend fun deleteBlockUser(blockedUserId: String): Flow<Unit> =
+        deleteBlockUserController.deleteBlockUser(blockedUserId)
 }

@@ -20,10 +20,7 @@ import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCaseImpl
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCaseImpl
-import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
-import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCaseImpl
-import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
-import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCaseImpl
+import com.mument_android.domain.usecase.mypage.*
 import com.mument_android.domain.usecase.record.*
 import dagger.Module
 import dagger.Provides
@@ -132,6 +129,12 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideDeleteBlockUserUseCase(blockUserListRepository: BlockUserListRepository): DeleteBlockUserUseCase =
+        DeleteBlockUserUseCaseImpl(blockUserListRepository)
+
+    @Provides
+    @Singleton
     fun provideFetchNoticeListUseCase(noticeListRepository: NoticeListRepository): FetchNoticeListUseCase =
         FetchNoticeListUseCaseImpl(noticeListRepository)
+
 }

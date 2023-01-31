@@ -1,9 +1,6 @@
 package com.mument_android.app.di
 
-import com.mument_android.data.controller.DeleteMumentController
-import com.mument_android.data.controller.LikeMumentController
-import com.mument_android.data.controller.RecordController
-import com.mument_android.data.controller.RecordModifyController
+import com.mument_android.data.controller.*
 import com.mument_android.data.datasource.detail.BlockUserDataSource
 import com.mument_android.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.data.datasource.detail.MumentListDataSource
@@ -143,9 +140,14 @@ object RepositoryModule {
     @Singleton
     fun provideBlockUserListRepository(
         blockUserListDataSource: BlockUserListDataSource,
-        blockUserListMapper: BlockUserListMapper
+        blockUserListMapper: BlockUserListMapper,
+        deleteBlockUserController: DeleteBlockUserController
     ): BlockUserListRepository =
-        BlockUserListRepositoryImpl(blockUserListDataSource, blockUserListMapper)
+        BlockUserListRepositoryImpl(
+            blockUserListDataSource,
+            blockUserListMapper,
+            deleteBlockUserController
+        )
 
     @Provides
     @Singleton
