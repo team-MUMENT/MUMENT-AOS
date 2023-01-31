@@ -15,7 +15,9 @@ import com.mument_android.mypage.MyPageViewModel
 import com.mument_android.mypage.NoticeDetailActivity
 import com.mument_android.mypage.adapters.NoticeAdapter
 import com.mument_android.mypage.databinding.FragmentNoticeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NoticeFragment : Fragment() {
 
     private lateinit var noticeAdapter: NoticeAdapter
