@@ -68,7 +68,7 @@ class ProfileSettingActivity :
             if (!Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
                 viewModel.isRightPattern.value = false
                 binding.tvPattern.isSelected = true
-            } else if (it == "" || Pattern.matches("^[ㄱ-ㅎ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
+            } else if (it == "" || Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
                 viewModel.isRightPattern.value = true
                 binding.tvPattern.isSelected = false
             }
