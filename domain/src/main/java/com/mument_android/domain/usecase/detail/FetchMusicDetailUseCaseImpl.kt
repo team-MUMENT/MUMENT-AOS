@@ -10,7 +10,6 @@ import javax.inject.Inject
 class FetchMusicDetailUseCaseImpl @Inject constructor(
     private val musicDetailRepository: MusicDetailRepository
 ): FetchMusicDetailUseCase {
-    override suspend operator fun invoke(musicId: String): Flow<ApiStatus<MusicWithMyMumentEntity>> = flow {
-        emit(musicDetailRepository.fetchMusicDetailInfo(musicId))
-    }
+    override suspend operator fun invoke(musicId: String): Flow<ApiStatus<MusicWithMyMumentEntity>> =
+        musicDetailRepository.fetchMusicDetailInfo(musicId)
 }

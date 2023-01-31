@@ -81,9 +81,9 @@ class MumentDetailFragment : Fragment() {
         shareMumentOnInstagram()
 
 
-//        binding.root.setOnClickListener {
-//            showBlockUserDialog()
-//        }
+        binding.root.setOnClickListener {
+            showBlockUserDialog()
+        }
     }
 
     private fun showBlockUserDialog() {

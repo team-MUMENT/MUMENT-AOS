@@ -5,7 +5,6 @@ import com.mument_android.data.dto.MumentListDto
 import com.mument_android.data.dto.detail.MumentDetailDto
 import com.mument_android.data.dto.detail.MusicDetailDto
 import com.mument_android.data.dto.detail.ResponseBlockUserDto
-import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -21,7 +20,7 @@ interface DetailApiService {
     @GET("/music/{musicId}")
     suspend fun fetchMusicDetailInfo(
         @Path("musicId") musicId: String,
-    ): Response<MusicDetailDto>
+    ): BaseResponse<MusicDetailDto>
 
     @GET("/music/{musicId}/order")
     suspend fun fetchMumentList(
@@ -36,8 +35,8 @@ interface DetailApiService {
         @Path("mumentId") mumentId: String
     )
 
-    @POST("/block/{mumentId}")
+    @POST("/user/block/{mumentId}")
     suspend fun blockUser(
         @Path("mumentId") mumentId: String
-    ): Response<ResponseBlockUserDto>
+    ): BaseResponse<ResponseBlockUserDto>
 }

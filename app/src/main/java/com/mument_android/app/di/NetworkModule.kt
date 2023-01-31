@@ -13,6 +13,8 @@ import com.mument_android.data.network.main.MainApiService
 import com.mument_android.data.network.mypage.MyPageApiService
 import com.mument_android.data.network.record.RecordApiService
 import com.mument_android.data.network.sign.SignApiService
+import com.mument_android.data.util.ErrorHandlerImpl
+import com.mument_android.domain.util.ErrorHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +31,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideErrorHandler(): ErrorHandler = ErrorHandlerImpl()
+
+
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =

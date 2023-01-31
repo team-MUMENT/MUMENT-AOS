@@ -3,10 +3,13 @@ package com.mument_android.detail.mument.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core.network.ApiStatus
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.util.*
 import com.mument_android.detail.BuildConfig
 import com.mument_android.detail.R
+import com.mument_android.detail.mument.contract.MumentDetailContract.*
+import com.mument_android.domain.usecase.detail.BlockUserUseCase
 import com.mument_android.domain.usecase.detail.DeleteMumentUseCase
 import com.mument_android.domain.usecase.detail.FetchMumentDetailContentUseCase
 import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
@@ -16,10 +19,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import com.mument_android.detail.mument.contract.MumentDetailContract.*
-import com.mument_android.domain.usecase.detail.BlockUserUseCase
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @HiltViewModel
 class MumentDetailViewModel @Inject constructor(
@@ -139,27 +140,31 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun fetchMumentDetailContent(mumentId: String) {
         viewModelScope.launch {
-            fetchMumentDetailContentUseCase(mumentId).onStart {
-                _viewState.setState { copy(onNetwork = true) }
-            }.catch { e ->
-                _viewState.setState { copy(hasError = true, onNetwork = false) }
-                emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_load_data))
-            }.collect { mumentDetail ->
-                val userId = runBlocking {
-                    dataStoreManager.userIdFlow.first() ?: ""
-                }
-                mumentDetail?.let {
-                    _viewState.setState {
-                        copy(
-                            isWriter = mumentDetail.mument.writerInfo.userId == userId,
-                            mument = mumentDetail.mument,
-                            isLikedMument = mumentDetail.isLiked,
-                            likeCount = mumentDetail.likeCount,
-                            historyCount = mumentDetail.mumentHistoryCount,
-                            onNetwork = false
-                        )
+            fetchMumentDetailContentUseCase(mumentId).collect { status ->
+                when(status) {
+                    is ApiStatus.Success -> {
+                        val userId = runBlocking { dataStoreManager.userIdFlow.first() ?: "" }
+                        status.data.let { mumentDetail ->
+                            _viewState.setState {
+                                copy(
+                                    isWriter = mumentDetail.mument.writerInfo.userId == userId,
+                                    mument = mumentDetail.mument,
+                                    isLikedMument = mumentDetail.isLiked,
+                                    likeCount = mumentDetail.likeCount,
+                                    historyCount = mumentDetail.mumentHistoryCount,
+                                    onNetwork = false
+                                )
+                            }
+                        }
                     }
-                } ?: disableFetchData()
+
+                    is ApiStatus.Failure -> {
+                        disableFetchData()
+                    }
+                    ApiStatus.Loading -> {
+                        _viewState.setState { copy(onNetwork = true) }
+                    }
+                }
             }
         }
     }
@@ -196,9 +201,20 @@ class MumentDetailViewModel @Inject constructor(
     fun blockUser() {
         viewModelScope.launch {
             blockUserUseCase(viewState.value.requestMumentId)
-                .also {
+                .catch {
+                    Log.e("dfsafd", "fasdf")
+                }
+                .collect {
                     Log.e("status", "${it}")
                 }
+//                .collectResult(
+//                    onSuccess = {
+//                        Log.e("success", "${it}")
+//                    },
+//                    onFailure = {
+//                        Log.e("failure", "${it}")
+//                    }
+//                )
         }
     }
 

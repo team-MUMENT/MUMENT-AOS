@@ -59,18 +59,16 @@ class MusicDetailViewModel @Inject constructor(
     }
 
     private fun fetchMusicDetail(musicId: String) {
-
         viewModelScope.launch {
-            fetchMusicDetailUseCase(musicId).catch {
-                setState { copy(hasError = true) }
-            }.collect { result ->
+            fetchMusicDetailUseCase(musicId).collect { result ->
                 when(result) {
                     is ApiStatus.Success -> {
-                        setState { copy(musicInfo = result.data?.music, myMumentInfo = result.data?.myMument) }
+                        setState { copy(musicInfo = result.data.music, myMumentInfo = result.data.myMument) }
                     }
                     is ApiStatus.Failure -> {
                         setState { copy(hasError = true) }
                     }
+                    ApiStatus.Loading -> {}
                 }
             }
         }

@@ -4,6 +4,7 @@ import com.mument_android.core.base.BaseMapper
 import com.mument_android.core_dependent.util.EmotionalTag.Companion.findEmotionalTagEnum
 import com.mument_android.core_dependent.util.ImpressiveTag.Companion.findImpressiveTagEnum
 import com.mument_android.data.dto.detail.MusicDetailDto
+import com.mument_android.domain.entity.MumentCard
 
 class MumentCardMapper: BaseMapper<MusicDetailDto, MumentCard?> {
     override fun map(from: MusicDetailDto): MumentCard? {

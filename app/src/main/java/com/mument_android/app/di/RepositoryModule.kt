@@ -53,6 +53,7 @@ import com.mument_android.domain.repository.mypage.UserInfoRepository
 import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
+import com.mument_android.domain.util.ErrorHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -78,13 +79,15 @@ object RepositoryModule {
         mumentDetailDataSource: MumentDetailDataSource,
         mumentDetailMapper: MumentDetailMapper,
         deleteMumentController: DeleteMumentController,
-        historyService: HistoryService
+        historyService: HistoryService,
+        errorHandler: ErrorHandler,
     ): MumentDetailRepository =
         MumentDetailRepositoryImpl(
             mumentDetailDataSource,
             mumentDetailMapper,
             deleteMumentController,
-            historyService
+            historyService,
+            errorHandler
         )
 
     @Provides
@@ -142,9 +145,10 @@ object RepositoryModule {
     @Singleton
     fun provideMusicDetailRepository(
         musicWithMyMumentMapper: MusicWithMyMumentMapper,
+        errorHandler: ErrorHandler,
         musicDetailDataSource: MusicDetailDataSource
     ): MusicDetailRepository =
-        MusicDetailRepositoryImpl(musicWithMyMumentMapper, musicDetailDataSource)
+        MusicDetailRepositoryImpl(musicWithMyMumentMapper, errorHandler, musicDetailDataSource)
 
     @Provides
     @Singleton
@@ -169,11 +173,11 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideBlockUserRepository(
-        blockUserDataSource: BlockUserDataSource,
-        blockUserMapper: BlockUserMapper
-    ): BlockUserRepository = BlockUserRepositoryImpl(blockUserDataSource, blockUserMapper)
+        errorHandler: ErrorHandler,
+        blockUserDataSource: BlockUserDataSource
+    ): BlockUserRepository = BlockUserRepositoryImpl(blockUserDataSource, errorHandler)
 
-    @Provides
+@Provides
     @Singleton
     fun provideBlockUserListRepository(
         blockUserListDataSource: BlockUserListDataSource,
