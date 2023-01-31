@@ -19,6 +19,8 @@ import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
@@ -169,11 +171,12 @@ class ProfileSettingActivity :
         viewModel.nickNameDupCheck(nickname)
     }
 
-    private fun nickNameDupCheck() {
+    private suspend fun nickNameDupCheck() {
+        delay(100)
         viewModel.isDuplicate.observe(this) {
-            if(viewModel.isDuplicate.value?.toInt() == 200) {
+            if(it == 200) {
                 CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
-            } else if (viewModel.isDuplicate.value?.toInt() == 204) {
+            } else if (it == 204) {
                 //TODO 프로필 서버통신
                 finish()
             } else {
@@ -187,6 +190,7 @@ class ProfileSettingActivity :
             viewModel.viewModelScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
+
             }
         }
     }

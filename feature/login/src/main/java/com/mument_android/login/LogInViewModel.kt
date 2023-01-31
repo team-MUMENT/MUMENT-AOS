@@ -28,7 +28,6 @@ class LogInViewModel @Inject constructor(
     fun nickNameDupCheck(nickname: String) {
         viewModelScope.launch {
             dupCheckUseCase.dupCheckNickname(nickname).let {
-                Log.d("호출", "$it")
                 isDuplicate.value = it
             }
         }
