@@ -30,11 +30,10 @@ class CustomSnackBar(view: View, private val message: String) {
     init {
         initView()
         initData()
+        setLocation()
     }
 
     private fun initView() {
-
-
         with(snackbarLayout) {
             removeAllViews()
             setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
@@ -47,7 +46,7 @@ class CustomSnackBar(view: View, private val message: String) {
         snackbarBinding.tvSample.text = message
     }
 
-    fun show() {
+    private fun setLocation() {
         val snackBarView = snackbar.view
         val params = ConstraintLayout.LayoutParams(
             ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -57,6 +56,9 @@ class CustomSnackBar(view: View, private val message: String) {
         params.setMargins(0, marginHeight.toInt(), 0, 0)
 
         snackBarView.layoutParams = params
+    }
+
+    fun show() {
 
         snackbar.show()
     }
