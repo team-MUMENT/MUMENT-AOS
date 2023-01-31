@@ -5,22 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiResult
-import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.entity.mypage.BlockUserEntity
+import com.mument_android.domain.entity.mypage.NoticeListEntity
 import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
-import com.mument_android.mypage.data.NoticeData
+import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
 import com.mument_android.mypage.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    private val fetchBlockUserUseCase: FetchBlockUserUseCase
+    private val fetchBlockUserUseCase: FetchBlockUserUseCase,
+    private val fetchNoticeListUseCase: FetchNoticeListUseCase
 ) : ViewModel() {
 
 
@@ -43,13 +41,8 @@ class MyPageViewModel @Inject constructor(
     val blockUserList get() = _blockUserList.asStateFlow()
 
     //Notice
-    private val _noticeList = MutableLiveData<List<NoticeData>>()
-    val noticeList: LiveData<List<NoticeData>> get() = _noticeList
-
-    val noticeId = MutableLiveData<Int>()
-    val noticeTitle = MutableLiveData<String>()
-    val noticeDate = MutableLiveData<String>()
-    val noticeContent = MutableLiveData<String>()
+    private val _noticeList = MutableStateFlow<ApiResult<List<NoticeListEntity>>?>(null)
+    val noticeList get() = _noticeList.asStateFlow()
 
     //Unregister
     private val _isClickReasonChooseBox = MutableLiveData(false)
@@ -101,13 +94,17 @@ class MyPageViewModel @Inject constructor(
 
 
     //공지사항
-    fun fetchNoticeDetail() {
-        val noticeData = NoticeData(
-            id = noticeId.value ?: 0,
-            title = noticeTitle.value.orEmpty(),
-            created_at = noticeDate.value.orEmpty(),
-            content = noticeContent.value.orEmpty(),
-        )
+    fun fetchNoticeList() {
+        viewModelScope.launch {
+            noticeList.value.let {
+                fetchNoticeListUseCase.invoke().onStart {
+                }.catch {
+                    _noticeList.value = ApiResult.Failure(null)
+                }.collect {
+                    _noticeList.value = ApiResult.Success(it)
+                }
+            }
+        }
     }
 
     //이유 선택 박스 눌렀을 때 라디오 그룹 visibility 조절

@@ -11,6 +11,8 @@ import com.mument_android.data.datasource.detail.*
 import com.mument_android.data.datasource.home.*
 import com.mument_android.data.datasource.mypage.BlockUserListDataSource
 import com.mument_android.data.datasource.mypage.BlockUserListDataSourceImpl
+import com.mument_android.data.datasource.mypage.NoticeListDataSource
+import com.mument_android.data.datasource.mypage.NoticeListDataSourceImpl
 import com.mument_android.data.local.MumentDatabase
 import com.mument_android.data.local.converter.DateTypeConverter
 import com.mument_android.data.local.converter.IntListTypeConverter
@@ -116,6 +118,11 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideBlockUserIstDataSource(myPageApiService: MyPageApiService) : BlockUserListDataSource =
+    fun provideBlockUserIstDataSource(myPageApiService: MyPageApiService): BlockUserListDataSource =
         BlockUserListDataSourceImpl(myPageApiService)
+
+    @Provides
+    @Singleton
+    fun provideNoticeListDataSource(myPageApiService: MyPageApiService): NoticeListDataSource =
+        NoticeListDataSourceImpl(myPageApiService)
 }

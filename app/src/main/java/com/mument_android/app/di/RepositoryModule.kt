@@ -19,12 +19,17 @@ import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.datasource.home.*
 import com.mument_android.data.datasource.mypage.BlockUserListDataSource
+import com.mument_android.data.datasource.mypage.NoticeListDataSource
 import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
+import com.mument_android.data.mapper.mypage.NoticeListMapper
 import com.mument_android.data.repository.*
-import com.mument_android.domain.repository.BlockUserListRepository
+import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
+import com.mument_android.data.repository.mypage.NoticeListRepositoryImpl
+import com.mument_android.domain.entity.mypage.NoticeListEntity
+import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
@@ -32,6 +37,7 @@ import com.mument_android.domain.repository.detail.MusicDetailRepository
 import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
+import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import dagger.Module
 import dagger.Provides
@@ -138,5 +144,14 @@ object RepositoryModule {
     fun provideBlockUserListRepository(
         blockUserListDataSource: BlockUserListDataSource,
         blockUserListMapper: BlockUserListMapper
-    ): BlockUserListRepository = BlockUserListRepositoryImpl(blockUserListDataSource,blockUserListMapper)
+    ): BlockUserListRepository =
+        BlockUserListRepositoryImpl(blockUserListDataSource, blockUserListMapper)
+
+    @Provides
+    @Singleton
+    fun provideNoticeListRepository(
+        noticeListDataSource: NoticeListDataSource,
+        noticeListMapper: NoticeListMapper
+    ): NoticeListRepository = NoticeListRepositoryImpl(noticeListDataSource, noticeListMapper)
+
 }

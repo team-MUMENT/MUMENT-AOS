@@ -1,6 +1,6 @@
 package com.mument_android.app.di
 
-import com.mument_android.domain.repository.BlockUserListRepository
+import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
@@ -8,6 +8,7 @@ import com.mument_android.domain.repository.detail.MusicDetailRepository
 import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
+import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.usecase.detail.*
 import com.mument_android.domain.usecase.home.*
@@ -21,6 +22,8 @@ import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCaseImpl
 import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
 import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCaseImpl
+import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
+import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCaseImpl
 import com.mument_android.domain.usecase.record.*
 import dagger.Module
 import dagger.Provides
@@ -53,7 +56,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun proivdeFetchLockerLikeListUseCase(lockerRepository: LockerRepository) : FetchMyLikeListUseCase =
+    fun proivdeFetchLockerLikeListUseCase(lockerRepository: LockerRepository): FetchMyLikeListUseCase =
         FetchMyLikeListUseCaseImpl(lockerRepository)
 
 
@@ -94,8 +97,8 @@ object UseCaseModule {
     @Singleton
     fun provideRecordModifyMumentUseCase(
         recordRepository: RecordRepository
-    ):RecordModifyMumentUseCase = RecordModifyMumentUseCaseImpl(recordRepository)
-    
+    ): RecordModifyMumentUseCase = RecordModifyMumentUseCaseImpl(recordRepository)
+
     @Provides
     @Singleton
     fun provideWhenHomeEnterUseCase(
@@ -124,6 +127,11 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideFetchBlockUserListUseCase(blockUserListRepository: BlockUserListRepository) : FetchBlockUserUseCase =
+    fun provideFetchBlockUserListUseCase(blockUserListRepository: BlockUserListRepository): FetchBlockUserUseCase =
         FetchBlockUserUseCaseImpl(blockUserListRepository)
+
+    @Provides
+    @Singleton
+    fun provideFetchNoticeListUseCase(noticeListRepository: NoticeListRepository): FetchNoticeListUseCase =
+        FetchNoticeListUseCaseImpl(noticeListRepository)
 }
