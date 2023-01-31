@@ -2,33 +2,24 @@ package com.mument_android.login
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.google.android.material.snackbar.Snackbar
-import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.base.BaseActivity
-import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
-import okhttp3.Response
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
 
@@ -178,8 +169,7 @@ class ProfileSettingActivity :
         viewModel.nickNameDupCheck(nickname)
     }
 
-    private suspend fun nickNameDupCheck() {
-        delay(2500)
+    private fun nickNameDupCheck() {
         viewModel.isDuplicate.observe(this) {
             if(viewModel.isDuplicate.value?.toInt() == 200) {
                 CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
