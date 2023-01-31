@@ -1,7 +1,7 @@
 package com.mument_android.domain.usecase.mypage
 
 import com.mument_android.domain.entity.mypage.BlockUserEntity
-import com.mument_android.domain.repository.BlockUserListRepository
+import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
