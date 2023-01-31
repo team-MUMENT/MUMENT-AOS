@@ -1,5 +1,5 @@
 package com.mument_android.domain.usecase.sign
 
 interface SignDulCheckUseCase {
-    suspend operator fun invoke(userId: String) : Any
+    suspend fun dupCheckNickname(userId: String) : Int
 }

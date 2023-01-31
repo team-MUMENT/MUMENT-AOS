@@ -2,5 +2,5 @@ package com.mument_android.domain.repository.sign
 
 
 interface SignRepository {
-    suspend fun signDupCheck(profileId: String) : Any
+    suspend fun signDupCheck(profileId: String) : Int
 }

@@ -15,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
@@ -26,6 +27,8 @@ import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
+import okhttp3.Response
 import java.util.regex.Pattern
 
 
@@ -170,34 +173,31 @@ class ProfileSettingActivity :
         }
     }
 
-    private fun setNickNameDup() {
+    private fun nickNameDupNetwork() {
         val nickname = binding.etNickname.text.toString()
         viewModel.nickNameDupCheck(nickname)
     }
 
-    private fun nickNameDupCheck() {
-        viewModel.isDuplicate.launchWhenCreated(this.lifecycleScope) {
-            when(it) {
-                is ApiResult.Loading -> {}
-                is ApiResult.Failure -> {
-                }
-                is ApiResult.Success -> {
-                }
-                else -> {
-
-                   //스낵바 호출
-                    CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
-                    Log.d("HI1234", "${it?.data}")
-
-                }
+    private suspend fun nickNameDupCheck() {
+        delay(2500)
+        viewModel.isDuplicate.observe(this) {
+            if(viewModel.isDuplicate.value?.toInt() == 200) {
+                CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
+            } else if (viewModel.isDuplicate.value?.toInt() == 204) {
+                //TODO 프로필 서버통신
+                finish()
+            } else {
+                Log.e("닉네임 중복확인","서버통신 실패")
             }
         }
     }
 
     private fun dulCheckListener() {
         binding.tvProfileFinish.setOnClickListener {
-            setNickNameDup()
-            nickNameDupCheck()
+            viewModel.viewModelScope.launch {
+                nickNameDupNetwork()
+                nickNameDupCheck()
+            }
         }
     }
 }
