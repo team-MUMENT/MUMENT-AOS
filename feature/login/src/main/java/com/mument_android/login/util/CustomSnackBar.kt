@@ -1,15 +1,10 @@
 package com.mument_android.login.util
 
-import android.app.Activity
-import android.content.res.Resources
-import android.graphics.Point
-import android.graphics.Rect
-import android.util.Size
+import android.app.ActionBar
 import android.util.TypedValue
-import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
@@ -25,11 +20,12 @@ class CustomSnackBar(view: View, private val message: String) {
     }
 
     private val context = view.context
-    private val snackbar = Snackbar.make(view, "", 2500)
+    private val snackbar = Snackbar.make(view, "", 2000)
     private val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
 
     private val inflater = LayoutInflater.from(context)
-    private val snackbarBinding: CustomSnackbarBinding = DataBindingUtil.inflate(inflater, R.layout.custom_snackbar, null, false)
+    private val snackbarBinding: CustomSnackbarBinding = DataBindingUtil.inflate(inflater, R.layout.custom_snackbar, null, true)
+
 
     init {
         initView()
@@ -37,10 +33,10 @@ class CustomSnackBar(view: View, private val message: String) {
     }
 
     private fun initView() {
-        val marginHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 107F, context.resources.displayMetrics)
+
+
         with(snackbarLayout) {
             removeAllViews()
-            setPadding(20, marginHeight.toInt(), 20, 0)
             setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
             addView(snackbarBinding.root, 0)
 
@@ -52,6 +48,16 @@ class CustomSnackBar(view: View, private val message: String) {
     }
 
     fun show() {
+        val snackBarView = snackbar.view
+        val params = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.WRAP_CONTENT
+        )
+        val marginHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 117F, context.resources.displayMetrics)
+        params.setMargins(0, marginHeight.toInt(), 0, 0)
+
+        snackBarView.layoutParams = params
+
         snackbar.show()
     }
 }
