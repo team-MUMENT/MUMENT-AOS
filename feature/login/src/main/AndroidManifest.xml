@@ -7,7 +7,7 @@
     <application>
         <activity
             android:name=".ProfileSettingActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".LogInActivity"
             android:exported="false" />
