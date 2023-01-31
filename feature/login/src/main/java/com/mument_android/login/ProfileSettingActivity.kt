@@ -58,8 +58,7 @@ class ProfileSettingActivity :
         uploadImageCallbackListener()
         isImageExist()
         backBtnListener()
-        setNickNameDup()
-        nickNameDupCheck()
+        dulCheckListener()
     }
 
     //edittext에 작성한 텍스트 삭제 버튼 클릭 리스너
@@ -72,7 +71,7 @@ class ProfileSettingActivity :
     //닉네임 정규식 확인
     private fun isRightPattern() {
         viewModel.mumentNickName.observe(this) {
-            if (!Pattern.matches("^[ㄱ-ㅎ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
+            if (!Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
                 viewModel.isRightPattern.value = false
                 binding.tvPattern.isSelected = true
             } else if (it == "" || Pattern.matches("^[ㄱ-ㅎ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
@@ -172,10 +171,8 @@ class ProfileSettingActivity :
     }
 
     private fun setNickNameDup() {
-        val nickname = viewModel.mumentNickName.toString()
-        //viewModel.nickNameDupCheck(nickname)
-        viewModel.nickNameDupCheck("안드테스트용")
-
+        val nickname = binding.etNickname.text.toString()
+        viewModel.nickNameDupCheck(nickname)
     }
 
     private fun nickNameDupCheck() {
@@ -183,16 +180,24 @@ class ProfileSettingActivity :
             when(it) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {
-                    Log.e("test1", it.toString())
                 }
                 is ApiResult.Success -> {
-                    Log.e("뭐지 ㅠ", it.toString())
                 }
                 else -> {
+
                    //스낵바 호출
                     CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
+                    Log.d("HI1234", "${it?.data}")
+
                 }
             }
+        }
+    }
+
+    private fun dulCheckListener() {
+        binding.tvProfileFinish.setOnClickListener {
+            setNickNameDup()
+            nickNameDupCheck()
         }
     }
 }
