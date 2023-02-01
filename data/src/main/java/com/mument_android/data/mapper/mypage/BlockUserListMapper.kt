@@ -8,6 +8,7 @@ class BlockUserListMapper : BaseMapper<List<BlockUserDto>, List<BlockUserEntity>
     override fun map(from: List<BlockUserDto>): List<BlockUserEntity> =
         from.map { element ->
             BlockUserEntity(
+                element.id,
                 element.profileId,
                 element.image
             )

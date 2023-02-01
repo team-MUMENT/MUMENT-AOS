@@ -27,11 +27,11 @@ class BlockUserManagementAdapter(
     }
 
     override fun onBindViewHolder(holder: BlockUserViewHolder, position: Int) {
-        val userListPosition = getItem(position)
+        val userData = getItem(position)
         holder.binding.btnUnblock.setOnClickListener {
-            onClickDeleteUserItem.invoke(userListPosition)
+            onClickDeleteUserItem.invoke(userData)
         }
-        holder.bind(userListPosition)
+        holder.bind(userData)
     }
 
 

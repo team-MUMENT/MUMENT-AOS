@@ -60,18 +60,16 @@ class BlockUserManagementFragment : Fragment() {
 
     }
 
-    private fun deleteItem(userData: BlockUserEntity) {
-//        MumentDialogBuilder()
-//            .setHeader(getString(R.string.unblock_title))
-//            .setBody(getString(R.string.unblock_body))
-//            .setAllowListener("차단해제") {
-//                myPageViewModel.blockUserList.observe(viewLifecycleOwner) { list ->
-//                    blockUserManagementAdapter.submitList(list)
-//                }
-//            }
-//            .setCancelListener {}
-//            .build()
-//            .show(childFragmentManager, this.tag)
+    private fun deleteItem(data:BlockUserEntity) {
+        MumentDialogBuilder()
+            .setHeader(getString(R.string.unblock_title))
+            .setBody(getString(R.string.unblock_body))
+            .setAllowListener("차단해제") {
+                myPageViewModel.deleteBlockUser(data.id)
+            }
+            .setCancelListener {}
+            .build()
+            .show(childFragmentManager, this.tag)
     }
 
     private fun backBtnListener() {

@@ -1,7 +1,8 @@
 package com.mument_android.data.controller
 
-import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
+
 
 interface DeleteBlockUserController {
-    suspend fun deleteBlockUser(blockedUserId: String): Flow<Unit>
+    suspend fun deleteBlockUser(blockedUserId: Int): Response<Unit>
 }

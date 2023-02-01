@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface BlockUserListRepository {
     suspend fun fetchBlockUserList(): Flow<List<BlockUserEntity>>
-    suspend fun deleteBlockUser(blockedUserId: String): Flow<Unit>
+    suspend fun deleteBlockUser(blockedUserId: Int): Flow<Unit>
 }

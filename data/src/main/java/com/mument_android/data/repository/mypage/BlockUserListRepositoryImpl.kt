@@ -24,6 +24,9 @@ class BlockUserListRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun deleteBlockUser(blockedUserId: String): Flow<Unit> =
-        deleteBlockUserController.deleteBlockUser(blockedUserId)
+    override suspend fun deleteBlockUser(blockedUserId: Int): Flow<Unit> = flow {
+        deleteBlockUserController.deleteBlockUser(blockedUserId).let {
+            emit(kotlin.run {  })
+        }
+    }
 }

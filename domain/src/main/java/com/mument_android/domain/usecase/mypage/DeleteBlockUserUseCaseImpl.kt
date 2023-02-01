@@ -7,6 +7,7 @@ import javax.inject.Inject
 class DeleteBlockUserUseCaseImpl @Inject constructor(
     private val blockUserListRepository: BlockUserListRepository
 ) : DeleteBlockUserUseCase {
-    override suspend fun invoke(blockedUserId: String): Flow<Unit> =
-        blockUserListRepository.deleteBlockUser(blockedUserId)
+    override suspend fun invoke(blockedUserId: Int): Flow<Unit> {
+        return blockUserListRepository.deleteBlockUser(blockedUserId)
+    }
 }

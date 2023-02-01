@@ -42,10 +42,6 @@ class MyPageViewModel @Inject constructor(
     private val _blockUserList = MutableStateFlow<ApiResult<List<BlockUserEntity>>?>(null)
     val blockUserList get() = _blockUserList.asStateFlow()
 
-    private val _blockedUserId = MutableStateFlow<ApiResult<String>?>(null)
-    val blockedUserId = _blockedUserId
-
-
     //Notice
     private val _noticeList = MutableStateFlow<ApiResult<List<NoticeListEntity>>?>(null)
     val noticeList get() = _noticeList.asStateFlow()
@@ -80,12 +76,6 @@ class MyPageViewModel @Inject constructor(
     }
 
     //차단유저관리
-//    fun unblockUser(element: UserData) {
-//        val currentList = blockUserList.value!!.toMutableList()
-//        currentList.remove(element)
-//        _blockUserList.value = currentList
-//    }
-
     fun fetchBlockUserList() {
         viewModelScope.launch {
             blockUserList.value.let {
@@ -98,15 +88,14 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun deleteBlockUser() {
+    //차단 유저 해제
+    fun deleteBlockUser(userId: Int) {
         viewModelScope.launch {
-            blockUserList.value.let {
-                deleteBlockUserUseCase(blockedUserId = blockedUserId.toString())
-                    .catch {
-                    }.collect {
-                        _blockedUserId.value = ApiResult.Success(it.toString())
-                    }
-            }
+            deleteBlockUserUseCase(blockedUserId = userId)
+                .catch { }
+                .collect {
+                    fetchBlockUserList()
+                }
         }
     }
 
