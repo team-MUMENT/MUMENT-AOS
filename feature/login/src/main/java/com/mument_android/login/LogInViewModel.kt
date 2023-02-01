@@ -1,19 +1,14 @@
 package com.mument_android.login
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.core.network.ApiResult
-import com.mument_android.domain.entity.sign.SetProfileData
 import com.mument_android.domain.entity.sign.SetProfileEntity
 import com.mument_android.domain.usecase.sign.SignDulCheckUseCase
 import com.mument_android.domain.usecase.sign.SignPutProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

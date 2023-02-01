@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
@@ -20,7 +19,6 @@ import com.mument_android.login.util.GalleryUtil
 import com.mument_android.login.util.MultipartResolver
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -159,7 +157,6 @@ class ProfileSettingActivity :
                     if (imageUri != null) {
                         viewModel.imageUri.value = uri
                     }
-                    Log.e("ImageUri", "${viewModel.imageUri.value}")
                 }
             }
         }
@@ -184,6 +181,13 @@ class ProfileSettingActivity :
         requestBodyMap["profileId"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
         viewModel.putProfile(multipart, requestBodyMap)
+
+        /*
+        //MainActivity로 이동하려면 어떻게 해야하는거죠...? MainActivity는 App모듈이자나여....
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+         */
     }
 
     private suspend fun nickNameDupCheck() {
