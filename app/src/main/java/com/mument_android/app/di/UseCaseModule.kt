@@ -22,6 +22,8 @@ import com.mument_android.domain.usecase.main.LikeMumentUseCaseImpl
 import com.mument_android.domain.usecase.record.*
 import com.mument_android.domain.usecase.sign.SignDulCheckUseCase
 import com.mument_android.domain.usecase.sign.SignDulCheckUseCaseImpl
+import com.mument_android.domain.usecase.sign.SignPutProfileUseCase
+import com.mument_android.domain.usecase.sign.SignPutProfileUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -127,4 +129,8 @@ object UseCaseModule {
     fun provideBlockUserUseCase(blockUserRepository: BlockUserRepository): BlockUserUseCase =
         BlockUserUseCaseImpl(blockUserRepository)
 
+    @Provides
+    @Singleton
+    fun provideSignPutProfileUseCase(signRepository: SignRepository) : SignPutProfileUseCase =
+        SignPutProfileUseCaseImpl(signRepository)
 }
