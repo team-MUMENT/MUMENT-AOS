@@ -1,12 +1,15 @@
 package com.mument_android.domain.repository.sign
 
-import com.mument_android.domain.entity.sign.SetProfileData
 import com.mument_android.domain.entity.sign.SetProfileEntity
-import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 
 interface SignRepository {
     suspend fun signDupCheck(profileId: String) : Int
 
-    suspend fun signSetProfile(data: SetProfileData) : Flow<SetProfileEntity>
+    suspend fun signSetProfile(
+        image: MultipartBody.Part?,
+        body: HashMap<String, RequestBody>
+    ) : SetProfileEntity
 }

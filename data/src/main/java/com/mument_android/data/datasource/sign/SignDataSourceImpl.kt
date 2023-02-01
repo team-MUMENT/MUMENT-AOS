@@ -1,9 +1,10 @@
 package com.mument_android.data.datasource.sign
 
-import com.mument_android.data.dto.sign.RequestSetProfileDto
 import com.mument_android.data.dto.sign.SetProfileDto
 import com.mument_android.data.network.sign.SignApiService
 import com.mument_android.data.util.BaseResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -14,7 +15,11 @@ class SignDataSourceImpl @Inject constructor(
         return signApiService.signDuplicationCheck(profileId)
     }
 
-    override suspend fun signPutProfile(requestSetProfileDto: RequestSetProfileDto): BaseResponse<SetProfileDto> {
-        return signApiService.putProfile(requestSetProfileDto)
+    override suspend fun signPutProfile(
+        image: MultipartBody.Part?,
+        body: HashMap<String, RequestBody>
+    ): BaseResponse<SetProfileDto> {
+        return signApiService.putProfile(image,body)
     }
+
 }

@@ -1,9 +1,10 @@
 package com.mument_android.domain.usecase.sign
 
-import com.mument_android.domain.entity.sign.SetProfileData
 import com.mument_android.domain.entity.sign.SetProfileEntity
-import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface SignPutProfileUseCase {
-    suspend fun putProfile(data: SetProfileData) : Flow<SetProfileEntity>
+    suspend operator fun invoke(image: MultipartBody.Part?, body: HashMap<String, RequestBody>) : SetProfileEntity
+
 }

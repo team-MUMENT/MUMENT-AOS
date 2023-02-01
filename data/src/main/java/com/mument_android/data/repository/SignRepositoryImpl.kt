@@ -4,13 +4,10 @@ import com.mument_android.data.datasource.sign.SignDataSource
 import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.sign.SignMapper
-import com.mument_android.domain.entity.sign.SetProfileData
 import com.mument_android.domain.entity.sign.SetProfileEntity
 import com.mument_android.domain.repository.sign.SignRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class SignRepositoryImpl @Inject constructor(
@@ -26,9 +23,13 @@ class SignRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun signSetProfile(data: SetProfileData): Flow<SetProfileEntity> = flow {
-        signDataSource.signPutProfile(requestSetProfileMapper.map(data))?.let {
-            emit(setProfileMapper.map(it.data!!))
+    override suspend fun signSetProfile(
+        image: MultipartBody.Part?,
+        body: HashMap<String, RequestBody>
+    ): SetProfileEntity {
+        signDataSource.signPutProfile(image,body).let {
+            return setProfileMapper.map(it.data!!)
         }
     }
+
 }

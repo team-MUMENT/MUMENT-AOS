@@ -1,16 +1,20 @@
 package com.mument_android.domain.usecase.sign
 
-import com.mument_android.domain.entity.sign.SetProfileData
 import com.mument_android.domain.entity.sign.SetProfileEntity
 import com.mument_android.domain.repository.sign.SignRepository
-import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class SignPutProfileUseCaseImpl @Inject constructor(
     private val signRepository : SignRepository
 ): SignPutProfileUseCase {
-    override suspend fun putProfile(data: SetProfileData): Flow<SetProfileEntity> {
-        return signRepository.signSetProfile(data)
+    override suspend fun invoke(
+        image: MultipartBody.Part?,
+        body: HashMap<String, RequestBody>
+    ): SetProfileEntity {
+        return signRepository.signSetProfile(image, body)
     }
+
 }
 

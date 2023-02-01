@@ -153,6 +153,7 @@ class ProfileSettingActivity :
                     if (imageUri != null) {
                         viewModel.imageUri.value = uri
                     }
+                    Log.e("ImageUri2", "${viewModel.imageUri.value}")
                 }
             }
         }
@@ -171,6 +172,13 @@ class ProfileSettingActivity :
         viewModel.nickNameDupCheck(nickname)
     }
 
+    private fun putProfileNetwork() {
+        val nickname = binding.etNickname.text.toString()
+        viewModel.mumentNickName.value = nickname
+        //viewModel.image.value
+        viewModel.putProfile()
+    }
+
     private suspend fun nickNameDupCheck() {
         delay(100)
         viewModel.isDuplicate.observe(this) {
@@ -178,6 +186,8 @@ class ProfileSettingActivity :
                 CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
             } else if (it == 204) {
                 //TODO 프로필 서버통신
+                putProfileNetwork()
+
                 finish()
             } else {
                 Log.e("닉네임 중복확인","서버통신 실패")
