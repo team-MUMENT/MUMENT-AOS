@@ -44,4 +44,5 @@ object Versions {
     const val mockitoAndroidVersion = "2.24.5"
     const val googleServiceVersion = "4.3.13"
     const val fcmVersion = "23.1.1"
+    const val kakaoVersion = "2.12.1"
 }

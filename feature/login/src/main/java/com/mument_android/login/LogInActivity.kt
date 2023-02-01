@@ -2,10 +2,18 @@ package com.mument_android.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.common.model.AuthErrorCause
+import com.kakao.sdk.common.util.Utility
+import com.kakao.sdk.user.UserApiClient
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
 import com.mument_android.login.databinding.ActivityLogInBinding
+import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -13,7 +21,19 @@ import dagger.hilt.android.AndroidEntryPoint
 class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        var keyHash = Utility.getKeyHash(this)
+        Log.e("kkkkkkkkkk:","$keyHash")
+//        initView()
+        initKakaoLogin()
         clickListener()
+        btnKakaoListener()
+
+    }
+
+    private fun initKakaoLogin() {
+        val kakaoAppKey = "91f18886d3b19ea17119a59af77780ea"
+        KakaoSdk.init(this, kakaoAppKey)
     }
 
     private fun clickListener() {
@@ -25,9 +45,87 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         }
     }
 
-    fun initIntent(url: String) {
+    private fun btnKakaoListener() {
+        binding.ivKakao.setOnClickListener {
+            setKakaoBtnListener()
+        }
+    }
+
+
+
+    private fun setKakaoBtnListener() {
+        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+            if (error != null) {
+                shortToast("로그인 실패")
+                getErrorLog(error)
+            } else if (token != null) {
+                UserApiClient.instance.me { _, error ->
+                    //PlayTogetherRepository.kakaoAccessToken = token.accessToken
+                    Log.e("kakao access token :", token.accessToken)
+                    /*
+                    with(signViewModel) {
+                        kakaoLogin()
+                        isLogin.observe(this) { success ->
+                            if (success) {
+                                signupChecker()
+                            }
+                        }
+                    }
+
+                     */
+                }
+            } else {
+                shortToast("else")
+            }
+        }
+
+
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
+        } else {
+            UserApiClient.instance.loginWithKakaoAccount(
+                this,
+                callback = callback
+            )
+        }
+    }
+
+    private fun getErrorLog(error: Throwable) {
+        when {
+            error.toString() == AuthErrorCause.AccessDenied.toString() -> {
+                Log.e("접근이 거부 됨(동의 취소)", "")
+            }
+            error.toString() == AuthErrorCause.InvalidClient.toString() -> {
+                Log.e("유효하지 않은 앱","")
+            }
+            error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
+                Log.e("인증 수단이 유효하지 않아 인증할 수 없는 상태","")
+            }
+            error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
+                Log.e("요청 파라미터 오류","")
+            }
+            error.toString() == AuthErrorCause.InvalidScope.toString() -> {
+                Log.e("유효하지 않은 scope ID","")
+            }
+            error.toString() == AuthErrorCause.Misconfigured.toString() -> {
+                Log.e("설정이 올바르지 않음(android key hash)","")
+            }
+            error.toString() == AuthErrorCause.ServerError.toString() -> {
+                Log.e("서버 내부 에러","")
+            }
+            error.toString() == AuthErrorCause.Unauthorized.toString() -> {
+                Log.e("앱이 요청 권한이 없음","")
+            }
+            else -> { // Unknown
+                Log.e("기타 에러","")
+            }
+        }
+    }
+
+    private fun initIntent(url: String) {
         val intent = Intent(this, WebViewActivity::class.java)
         intent.putExtra("url", url)
         ContextCompat.startActivity(this, intent, null)
     }
+
 }

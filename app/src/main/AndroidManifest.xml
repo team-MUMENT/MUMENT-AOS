@@ -9,6 +9,8 @@
         <package android:name="com.instagram.android" />
     </queries>
 
+
+
     <application
         android:name=".app.application.MumentApplication"
         android:allowBackup="true"
