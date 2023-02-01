@@ -15,6 +15,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,13 +44,14 @@ class LogInViewModel @Inject constructor(
         }
     }
 
-    fun putProfile() {
-        val setProfileData = SetProfileData(image.value, mumentNickName.value ?: "")
+    fun putProfile(image: MultipartBody.Part?, body: HashMap<String, RequestBody>) {
         viewModelScope.launch {
-            putProfileUseCase.invoke(setProfileData).onStart {
-            }.collect{
-                _putProfile.value = it
+            kotlin.runCatching {
+                putProfileUseCase(image, body).let {
+                    _putProfile.value = it
+                }
             }
+
         }
     }
 }
