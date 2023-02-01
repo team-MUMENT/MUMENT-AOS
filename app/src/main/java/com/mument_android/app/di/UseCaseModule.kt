@@ -137,4 +137,9 @@ object UseCaseModule {
     fun provideFetchNoticeListUseCase(noticeListRepository: NoticeListRepository): FetchNoticeListUseCase =
         FetchNoticeListUseCaseImpl(noticeListRepository)
 
+    @Provides
+    @Singleton
+    fun provideFetchNoticeDetailUseCase(noticeListRepository: NoticeListRepository): FetchNoticeDetailUseCase =
+        FetchNoticeDetailUseCaseImpl(noticeListRepository)
+
 }

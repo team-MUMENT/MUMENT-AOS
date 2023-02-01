@@ -68,6 +68,7 @@ class NoticeFragment : Fragment() {
         noticeAdapter.setItemClickListener(object : NoticeAdapter.OnItemClickListener {
             override fun onClick(data: NoticeListEntity) {
                 val intent = Intent(requireActivity(), NoticeDetailActivity::class.java).apply {
+                    putExtra("id",data.id)
                 }
                 startActivity(intent)
             }

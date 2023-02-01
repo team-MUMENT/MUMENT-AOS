@@ -7,6 +7,7 @@ import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MyPageApiService {
     @GET("/user/block")
@@ -21,5 +22,10 @@ interface MyPageApiService {
     @GET("/mument/notice")
     suspend fun fetchNoticeList(
     ):BaseResponse<List<NoticeListDto>>
+
+    @GET("/mument/notice/{noticeId}")
+    suspend fun fetchNoticeDetail(
+        @Path("noticeId") noticeId : Int
+    ):BaseResponse<NoticeListDto>
 
 }

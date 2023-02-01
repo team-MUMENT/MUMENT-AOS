@@ -1,5 +1,6 @@
 package com.mument_android.mypage
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.domain.entity.mypage.NoticeListEntity
 import com.mument_android.domain.usecase.mypage.DeleteBlockUserUseCase
 import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
+import com.mument_android.domain.usecase.mypage.FetchNoticeDetailUseCase
 import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
 import com.mument_android.mypage.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +22,8 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
     private val fetchBlockUserUseCase: FetchBlockUserUseCase,
     private val deleteBlockUserUseCase: DeleteBlockUserUseCase,
-    private val fetchNoticeListUseCase: FetchNoticeListUseCase
+    private val fetchNoticeListUseCase: FetchNoticeListUseCase,
+    private val fetchNoticeDetailUseCase: FetchNoticeDetailUseCase
 ) : ViewModel() {
 
 
@@ -45,6 +48,12 @@ class MyPageViewModel @Inject constructor(
     //Notice
     private val _noticeList = MutableStateFlow<ApiResult<List<NoticeListEntity>>?>(null)
     val noticeList get() = _noticeList.asStateFlow()
+
+    private val _noticeDetail = MutableStateFlow<ApiResult<NoticeListEntity>?>(null)
+    val noticeDetail get() = _noticeDetail.asStateFlow()
+
+    private val _noticeId = MutableLiveData<Int>()
+    val noticeId = _noticeId
 
     //Unregister
     private val _isClickReasonChooseBox = MutableLiveData(false)
@@ -109,6 +118,19 @@ class MyPageViewModel @Inject constructor(
                     _noticeList.value = ApiResult.Failure(null)
                 }.collect {
                     _noticeList.value = ApiResult.Success(it)
+                }
+            }
+        }
+    }
+
+    fun fetchNoticeDetail(noticeId: Int) {
+        viewModelScope.launch {
+            noticeDetail.value.let {
+                fetchNoticeDetailUseCase.invoke(noticeId).onStart {
+                }.catch {
+                    _noticeDetail.value = ApiResult.Failure(null)
+                }.collect {
+                    _noticeDetail.value = ApiResult.Success(it)
                 }
             }
         }

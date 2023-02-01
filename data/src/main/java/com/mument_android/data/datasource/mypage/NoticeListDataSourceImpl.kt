@@ -8,4 +8,5 @@ class NoticeListDataSourceImpl @Inject constructor(private val myPageApiService:
     NoticeListDataSource {
     override suspend fun fetchNoticeList(): List<NoticeListDto>? =
         myPageApiService.fetchNoticeList().data
+
 }

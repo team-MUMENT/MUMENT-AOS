@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface NoticeListRepository {
     suspend fun fetchNoticeList(): Flow<List<NoticeListEntity>>
+    suspend fun fetchNoticeDetail(noticeId: Int): Flow<NoticeListEntity>
 }

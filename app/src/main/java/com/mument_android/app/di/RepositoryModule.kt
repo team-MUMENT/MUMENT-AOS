@@ -16,6 +16,7 @@ import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.datasource.home.*
 import com.mument_android.data.datasource.mypage.BlockUserListDataSource
+import com.mument_android.data.datasource.mypage.NoticeDetailDataSource
 import com.mument_android.data.datasource.mypage.NoticeListDataSource
 import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
@@ -152,8 +153,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideNoticeListRepository(
+        noticeDetailDataSource: NoticeDetailDataSource,
         noticeListDataSource: NoticeListDataSource,
         noticeListMapper: NoticeListMapper
-    ): NoticeListRepository = NoticeListRepositoryImpl(noticeListDataSource, noticeListMapper)
+    ): NoticeListRepository = NoticeListRepositoryImpl(noticeDetailDataSource,noticeListDataSource, noticeListMapper)
 
 }
