@@ -19,7 +19,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.Gson
-import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
@@ -37,6 +36,9 @@ import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDeta
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUSIC
 import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
+import com.mument_android.detail.report.SelectReportTypeDialogFragment
+import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion.SELECT_BLOCK_USER
+import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion.SELECT_REPORT_MUMENT
 import com.mument_android.domain.entity.detail.MumentEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import dagger.hilt.android.AndroidEntryPoint
@@ -75,29 +77,11 @@ class MumentDetailFragment : Fragment() {
         receiveEffect()
         setMumentTags()
         changeLikeStatus()
-        showEditBottomSheet()
+        clickOptionButton()
         goToMusicDetail()
         goToHistory()
         shareMumentOnInstagram()
 
-
-        binding.root.setOnClickListener {
-            showBlockUserDialog()
-        }
-    }
-
-    private fun showBlockUserDialog() {
-        with(requireContext()) {
-            MumentDialogBuilder()
-                .setHeader(getString(R.string.block_user_header))
-                .setBody(getString(R.string.block_user_body))
-                .setAllowListener(getString(R.string.notify_block)) {
-                    viewModel.blockUser()
-                }.setCancelListener(getString(com.mument_android.core_dependent.R.string.cancel)) {
-
-                }.build()
-                .show(childFragmentManager, null)
-        }
     }
 
     private fun receiveMumentInfo() {
@@ -112,7 +96,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun popBackStack() {
         binding.ivBackButton.setOnClickListener {
-            viewModel.emitEvent(MumentDetailEvent.OnClickBackIcon)
+            viewModel.emitEvent(MumentDetailEvent.OnClickBackButton)
         }
     }
 
@@ -148,31 +132,62 @@ class MumentDetailFragment : Fragment() {
     }
 
     private fun changeLikeStatus() {
-        binding.cbHeart.click {
-            val event =
-                if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
+        binding.cbHeart.setOnClickListener {
+            val event = if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
             viewModel.emitEvent(event)
         }
     }
 
-    private fun showEditBottomSheet() {
-        binding.ivKebab.click {
-            EditMumentDialogFragment()
-                .setEditListener(object : EditMumentDialogFragment.EditListener {
-                    override fun edit() {
-                        viewModel.viewState.value.mument?.content?.let { mument ->
-                            viewModel.emitEvent(MumentDetailEvent.OnClickEditMument(mument))
-                        }
-                    }
+    private fun clickOptionButton() {
+        binding.ivKebab.setOnClickListener {
+            viewModel.emitEvent(MumentDetailEvent.OnClickOptionButton)
+        }
+    }
 
-                    override fun delete() {
-                        MumentDialogBuilder()
-                            .setHeader("삭제하시겠어요?")
-                            .setAllowListener { viewModel.emitEvent(MumentDetailEvent.OnClickDeleteMument) }
-                            .build()
-                            .show(childFragmentManager, this@MumentDetailFragment.tag)
+    private fun showEditOrDeleteMumentDialog() {
+        SelectMumentEditTypeDialogFragment()
+            .setEditListener(object : SelectMumentEditTypeDialogFragment.EditListener {
+                override fun edit() {
+                    viewModel.viewState.value.mument?.content?.let { mument ->
+                        viewModel.emitEvent(MumentDetailEvent.SelectMumentEditType(mument))
                     }
-                }).show(childFragmentManager, this.tag)
+                }
+
+                override fun delete() {
+                    viewModel.emitEvent(MumentDetailEvent.SelectMumentDeletionType)
+                }
+            }).show(childFragmentManager, this.tag)
+    }
+
+    private fun showMumentDeletionDialog() {
+        MumentDialogBuilder()
+            .setHeader("삭제하시겠어요?")
+            .setAllowListener { viewModel.emitEvent(MumentDetailEvent.OnClickDeleteMument) }
+            .build()
+            .show(childFragmentManager, this@MumentDetailFragment.tag)
+    }
+
+    private fun showBlockOrReportBottomSheet() {
+        SelectReportTypeDialogFragment()
+            .attachSelectListener { type ->
+                when(type) {
+                    SELECT_REPORT_MUMENT -> viewModel.emitEvent(MumentDetailEvent.SelectReportMumentType)
+                    SELECT_BLOCK_USER -> viewModel.emitEvent(MumentDetailEvent.SelectBlockUserType)
+                }
+            }.show(childFragmentManager, null)
+    }
+
+    private fun showBlockUserDialog() {
+        with(requireContext()) {
+            MumentDialogBuilder()
+                .setHeader(getString(R.string.block_user_header))
+                .setBody(getString(R.string.block_user_body))
+                .setAllowListener(getString(R.string.notify_block)) {
+                    viewModel.emitEvent(MumentDetailEvent.OnClickBlockUser)
+                }.setCancelListener(getString(com.mument_android.core_dependent.R.string.cancel)) {
+
+                }.build()
+                .show(childFragmentManager, null)
         }
     }
 
@@ -248,26 +263,20 @@ class MumentDetailFragment : Fragment() {
             when (effect) {
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
-                is MumentDetailSideEffect.EditMument -> {
-                    /** Todo: Navigate To Edit Mument **/
-                }
-                is MumentDetailSideEffect.NavToMusicDetail -> {
-                    musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.musicId)
-                }
-                is MumentDetailSideEffect.NavToMumentHistory -> {
-                    /** Todo: Navigate To MumentHistory **/
-                }
-                is MumentDetailSideEffect.Toast -> requireContext().showToast(
-                    resources.getString(
-                        effect.message
-                    )
-                )
-                is MumentDetailSideEffect.OpenShareMumentDialog -> {
-                    openShareMumentDialog(effect.mument, effect.musicInfo)
-                }
-                is MumentDetailSideEffect.NavToInstagram -> {
-                    navToInstagram(effect.imageUri)
-                }
+
+                MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> { showEditOrDeleteMumentDialog() }
+                is MumentDetailSideEffect.NavToEditMument -> { /** Todo: Navigate To Edit Mument **/ }
+                MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
+
+                MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> { showBlockOrReportBottomSheet() }
+                MumentDetailSideEffect.NavToReportMument -> { /** Todo: Navigate To Report Mument **/ }
+                MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
+
+                is MumentDetailSideEffect.NavToMusicDetail -> { musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.musicId) }
+                is MumentDetailSideEffect.NavToMumentHistory -> { /** Todo: Navigate To MumentHistory **/ }
+                is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
+                is MumentDetailSideEffect.OpenShareMumentDialog -> { openShareMumentDialog(effect.mument,  effect.musicInfo) }
+                is MumentDetailSideEffect.NavToInstagram -> { navToInstagram(effect.imageUri) }
             }
         }
     }

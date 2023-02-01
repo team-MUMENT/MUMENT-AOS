@@ -19,9 +19,10 @@ sealed class MusicDetailContract {
     ): ViewState
 
     sealed class MusicDetailEvent: Event {
-        data class ReceiveRequestMusicId(val musicId: String): MusicDetailEvent()
         object ClickSortByLikeCount: MusicDetailEvent()
         object ClickSortByLatest: MusicDetailEvent()
+        object OnClickBackButton: MusicDetailEvent()
+        data class ReceiveRequestMusicId(val musicId: String): MusicDetailEvent()
         data class CheckLikeMument(val mumentId: String): MusicDetailEvent()
         data class UnCheckLikeMument(val mumentId: String): MusicDetailEvent()
     }

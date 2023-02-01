@@ -14,7 +14,7 @@ import com.mument_android.domain.entity.history.HistoryRequestParams
 import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.util.ErrorHandler
-import com.mument_android.domain.util.NetworkExtensions.toApiStatus
+import com.mument_android.domain.util.ApiStatusExtensions.toApiStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -31,8 +31,10 @@ class MumentDetailRepositoryImpl @Inject constructor(
             .map { it.data?.let { it -> mumentDetailMapper.map(it) } ?: throw NullPointerException("Can't Receive Data") }
             .toApiStatus(errorHandler)
 
-    override suspend fun deleteMument(mumentId: String): Flow<Unit> =
+    override suspend fun deleteMument(mumentId: String): Flow<ApiStatus<Unit>> =
         deleteMumentController.deleteMument(mumentId)
+            .map {  }
+            .toApiStatus(errorHandler)
 
     override suspend fun fetchMumentHistory(mumentHistoryRequestParams: HistoryRequestParams): Flow<PagingData<MumentHistory>> =
         Pager(

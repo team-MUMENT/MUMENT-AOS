@@ -51,6 +51,9 @@ class MusicDetailViewModel @Inject constructor(
             is MusicDetailEvent.UnCheckLikeMument -> {
                 cancelLikeMument(event.mumentId)
             }
+            is MusicDetailEvent.OnClickBackButton -> {
+                setEffect { MusicDetailEffect.PopBackStack }
+            }
         }
     }
 

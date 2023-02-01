@@ -83,7 +83,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_kebab"
-                android:visibility="@{mumentDetailViewModel.viewState.writer ? View.VISIBLE : View.GONE}"
                 android:layout_marginEnd="13dp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_profile"
                 app:layout_constraintEnd_toEndOf="parent"

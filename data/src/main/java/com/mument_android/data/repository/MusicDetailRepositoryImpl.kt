@@ -6,7 +6,7 @@ import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
 import com.mument_android.domain.entity.detail.MusicWithMyMumentEntity
 import com.mument_android.domain.repository.detail.MusicDetailRepository
 import com.mument_android.domain.util.ErrorHandler
-import com.mument_android.domain.util.NetworkExtensions.toApiStatus
+import com.mument_android.domain.util.ApiStatusExtensions.toApiStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
