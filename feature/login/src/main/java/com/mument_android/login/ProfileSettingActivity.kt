@@ -17,11 +17,15 @@ import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
+import com.mument_android.login.util.MultipartResolver
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.regex.Pattern
 
 
@@ -30,6 +34,8 @@ class ProfileSettingActivity :
     BaseActivity<ActivityProfileSettingBinding>(inflate = ActivityProfileSettingBinding::inflate) {
     private lateinit var intentLauncher: ActivityResultLauncher<Intent>
     private lateinit var inputMethodManager: InputMethodManager
+    private val multiPartResolver = MultipartResolver(this)
+
 
     private val viewModel: LogInViewModel by viewModels()
 
@@ -153,7 +159,7 @@ class ProfileSettingActivity :
                     if (imageUri != null) {
                         viewModel.imageUri.value = uri
                     }
-                    Log.e("ImageUri2", "${viewModel.imageUri.value}")
+                    Log.e("ImageUri", "${viewModel.imageUri.value}")
                 }
             }
         }
@@ -173,10 +179,13 @@ class ProfileSettingActivity :
     }
 
     private fun putProfileNetwork() {
+        val requestBodyMap = HashMap<String, RequestBody>()
+        val item = ""
+        //requestBodyMap["profileId"] = item.toRequestBody("text/plain".toMediaTypeOrNull())
         val nickname = binding.etNickname.text.toString()
-        viewModel.mumentNickName.value = nickname
-        //viewModel.image.value
-        viewModel.putProfile()
+        requestBodyMap["profileId"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
+        val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
+        viewModel.putProfile(multipart, requestBodyMap)
     }
 
     private suspend fun nickNameDupCheck() {
@@ -185,12 +194,8 @@ class ProfileSettingActivity :
             if(it == 200) {
                 CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
             } else if (it == 204) {
-                //TODO 프로필 서버통신
                 putProfileNetwork()
-
-                finish()
             } else {
-                Log.e("닉네임 중복확인","서버통신 실패")
             }
         }
     }
@@ -200,7 +205,6 @@ class ProfileSettingActivity :
             viewModel.viewModelScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
-
             }
         }
     }

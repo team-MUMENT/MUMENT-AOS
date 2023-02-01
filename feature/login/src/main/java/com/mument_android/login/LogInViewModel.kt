@@ -28,7 +28,7 @@ class LogInViewModel @Inject constructor(
     val mumentNickName = MutableLiveData<String>()
     val isRightPattern = MutableLiveData<Boolean>()
     val isActive = MutableLiveData<Boolean>()
-    val imageUri = MutableLiveData<Uri?>()
+    val imageUri = MutableLiveData<Uri?>(null)
 
     val isDuplicate = MutableLiveData<Int>(null)
     val image = MutableLiveData<String>(null)
@@ -49,9 +49,9 @@ class LogInViewModel @Inject constructor(
             kotlin.runCatching {
                 putProfileUseCase(image, body).let {
                     _putProfile.value = it
+                    Log.e("제발", "떠라")
                 }
             }
-
         }
     }
 }
