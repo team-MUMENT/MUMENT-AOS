@@ -180,8 +180,6 @@ class ProfileSettingActivity :
 
     private fun putProfileNetwork() {
         val requestBodyMap = HashMap<String, RequestBody>()
-        val item = ""
-        //requestBodyMap["profileId"] = item.toRequestBody("text/plain".toMediaTypeOrNull())
         val nickname = binding.etNickname.text.toString()
         requestBodyMap["profileId"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }

@@ -49,7 +49,6 @@ class LogInViewModel @Inject constructor(
             kotlin.runCatching {
                 putProfileUseCase(image, body).let {
                     _putProfile.value = it
-                    Log.e("제발", "떠라")
                 }
             }
         }
