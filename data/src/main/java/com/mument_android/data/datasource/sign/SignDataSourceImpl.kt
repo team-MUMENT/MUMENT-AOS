@@ -1,5 +1,7 @@
 package com.mument_android.data.datasource.sign
 
+import com.mument_android.data.dto.sign.KakaoDto
+import com.mument_android.data.dto.sign.RequestKakaoDto
 import com.mument_android.data.dto.sign.SetProfileDto
 import com.mument_android.data.network.sign.SignApiService
 import com.mument_android.data.util.BaseResponse
@@ -20,6 +22,10 @@ class SignDataSourceImpl @Inject constructor(
         body: HashMap<String, RequestBody>
     ): BaseResponse<SetProfileDto> {
         return signApiService.putProfile(image,body)
+    }
+
+    override suspend fun signKakao(requestKakaoDto: RequestKakaoDto): BaseResponse<KakaoDto> {
+        return signApiService.postLogin(requestKakaoDto)
     }
 
 }

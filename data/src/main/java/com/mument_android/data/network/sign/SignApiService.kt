@@ -1,5 +1,7 @@
 package com.mument_android.data.network.sign
 
+import com.mument_android.data.dto.sign.KakaoDto
+import com.mument_android.data.dto.sign.RequestKakaoDto
 import com.mument_android.data.dto.sign.SetProfileDto
 import com.mument_android.data.util.BaseResponse
 import okhttp3.MultipartBody
@@ -19,4 +21,9 @@ interface SignApiService {
         @Part image : MultipartBody.Part?,
         @PartMap body: HashMap<String, RequestBody>
     ) : BaseResponse<SetProfileDto>
+
+    @POST("/auth/login")
+    suspend fun postLogin(
+        @Body requestKakaoDto : RequestKakaoDto
+    )  : BaseResponse<KakaoDto>
 }

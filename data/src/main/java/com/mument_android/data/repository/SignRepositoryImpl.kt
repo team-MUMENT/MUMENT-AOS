@@ -1,9 +1,9 @@
 package com.mument_android.data.repository
 
 import com.mument_android.data.datasource.sign.SignDataSource
-import com.mument_android.data.mapper.sign.RequestSetProfileMapper
-import com.mument_android.data.mapper.sign.SetProfileMapper
-import com.mument_android.data.mapper.sign.SignMapper
+import com.mument_android.data.mapper.sign.*
+import com.mument_android.domain.entity.sign.KakaoEntity
+import com.mument_android.domain.entity.sign.RequestKakaoData
 import com.mument_android.domain.entity.sign.SetProfileEntity
 import com.mument_android.domain.repository.sign.SignRepository
 import okhttp3.MultipartBody
@@ -12,9 +12,9 @@ import javax.inject.Inject
 
 class SignRepositoryImpl @Inject constructor(
     private val signDataSource: SignDataSource,
-    private val signMapper: SignMapper,
     private val setProfileMapper: SetProfileMapper,
-    private val requestSetProfileMapper: RequestSetProfileMapper
+    private val kakaoLoginMapper: KakaoLoginMapper,
+    private val requestKakaoLoginMapper: RequestKakaoLoginMapper
 ): SignRepository {
 
     override suspend fun signDupCheck(profileId: String) : Int {
@@ -29,6 +29,12 @@ class SignRepositoryImpl @Inject constructor(
     ): SetProfileEntity {
         signDataSource.signPutProfile(image,body).let {
             return setProfileMapper.map(it.data!!)
+        }
+    }
+
+    override suspend fun kakaoLogin(requestKakaoData: RequestKakaoData): KakaoEntity {
+        signDataSource.signKakao(requestKakaoLoginMapper.map(requestKakaoData)).let {
+            return kakaoLoginMapper.map(it.data!!)
         }
     }
 
