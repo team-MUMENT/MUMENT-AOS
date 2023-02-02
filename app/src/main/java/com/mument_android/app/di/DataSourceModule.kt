@@ -164,4 +164,9 @@ object DataSourceModule {
     @Singleton
     fun provideTokenDataSource(refreshTokenApiService: RefreshTokenApiService): TokenDataSource =
         TokenDataSourceImpl(refreshTokenApiService)
+
+    @Provides
+    @Singleton
+    fun provideUnregisterDataSource(myPageApiService: MyPageApiService): UnregisterDataSource =
+        UnregisterDataSourceImpl(myPageApiService)
 }

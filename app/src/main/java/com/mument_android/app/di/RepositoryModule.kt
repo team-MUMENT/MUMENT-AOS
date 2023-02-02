@@ -14,6 +14,8 @@ import com.mument_android.data.datasource.record.RecordDataSource
 import com.mument_android.data.datasource.sign.SignDataSource
 import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
 import com.mument_android.data.mapper.app.LimitUserMapper
+
+import com.mument_android.data.datasource.mypage.UnregisterDataSource
 import com.mument_android.data.mapper.detail.MumentDetailMapper
 import com.mument_android.data.mapper.detail.MumentSummaryMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
@@ -27,7 +29,6 @@ import com.mument_android.data.mapper.notify.NotifyMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.mapper.sign.*
-import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.data.network.detail.HistoryService
 import com.mument_android.data.repository.*
 import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
@@ -39,9 +40,16 @@ import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.LikeMumentRepository
 import com.mument_android.domain.repository.mypage.BlockUserListRepository
+import com.mument_android.data.mapper.mypage.UnregisterMapper
+import com.mument_android.data.repository.mypage.UnregisterRepositoryImpl
+import com.mument_android.domain.repository.detail.BlockUserRepository
+import com.mument_android.domain.repository.detail.MumentDetailRepository
+import com.mument_android.domain.repository.detail.MumentListRepository
+import com.mument_android.domain.repository.detail.MusicDetailRepository
 import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.mypage.UserInfoRepository
 import com.mument_android.domain.repository.notify.NotifyRepository
+import com.mument_android.domain.repository.mypage.UnregisterRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
 import com.mument_android.domain.util.ErrorHandler
@@ -158,8 +166,14 @@ object RepositoryModule {
         kakaoLoginMapper: KakaoLoginMapper,
         getWebViewMapper: GetWebViewMapper,
         newTokenMapper: NewTokenMapper
-    ): SignRepository = SignRepositoryImpl(signDataSource, setProfileMapper, kakaoLoginMapper, requestSetProfileMapper,getWebViewMapper, newTokenMapper)
-
+    ): SignRepository = SignRepositoryImpl(
+        signDataSource,
+        setProfileMapper,
+        kakaoLoginMapper,
+        requestSetProfileMapper,
+        getWebViewMapper,
+        newTokenMapper
+    )
 
     @Provides
     @Singleton
@@ -168,7 +182,7 @@ object RepositoryModule {
         blockUserDataSource: BlockUserDataSource
     ): BlockUserRepository = BlockUserRepositoryImpl(blockUserDataSource, errorHandler)
 
-@Provides
+    @Provides
     @Singleton
     fun provideBlockUserListRepository(
         blockUserListDataSource: BlockUserListDataSource,
@@ -195,7 +209,7 @@ object RepositoryModule {
     fun provideUserInfoRepository(
         userInfoDataSource: UserInfoDataSource,
         userInfoMapper: UserInfoMapper
-    ) : UserInfoRepository = UserInfoRepositoryImpl(userInfoDataSource, userInfoMapper)
+    ): UserInfoRepository = UserInfoRepositoryImpl(userInfoDataSource, userInfoMapper)
 
 
     @Provides
@@ -203,7 +217,7 @@ object RepositoryModule {
     fun provideLimitUserRepository(
         limitUserDataSource: LimitUserDataSource,
         limitUserMapper: LimitUserMapper
-    ) : LimitUserRepository =
+    ): LimitUserRepository =
         LimitUserRepositoryImpl(
             limitUserDataSource,
             limitUserMapper
@@ -215,4 +229,13 @@ object RepositoryModule {
         usersWhoLikeMumentDataSource: UsersWhoLikeMumentDataSource,
         errorHandler: ErrorHandler
     ): UsersRepository = UsersRepositoryImpl(usersWhoLikeMumentDataSource, errorHandler)
+
+    @Provides
+    @Singleton
+    fun provideUnregisterRepository(
+        unregisterDataSource: UnregisterDataSource,
+        unregisterMapper: UnregisterMapper
+    ): UnregisterRepository = UnregisterRepositoryImpl(
+        unregisterDataSource, unregisterMapper
+    )
 }

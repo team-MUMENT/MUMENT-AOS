@@ -9,6 +9,7 @@ import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.mypage.UserInfoRepository
 import com.mument_android.domain.repository.notify.NotifyRepository
+import com.mument_android.domain.repository.mypage.UnregisterRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
 import com.mument_android.domain.usecase.app.LimitUserUseCase
@@ -182,29 +183,29 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideKaKaoLoginUseCase(signRepository: SignRepository) : SignKaKaoUseCase =
+    fun provideKaKaoLoginUseCase(signRepository: SignRepository): SignKaKaoUseCase =
         SignKaKaoUseCaseImpl(signRepository)
 
     @Provides
     @Singleton
-    fun provideUserInfoUseCase(userInfoRepository: UserInfoRepository) : UserInfoUseCase =
+    fun provideUserInfoUseCase(userInfoRepository: UserInfoRepository): UserInfoUseCase =
         UserInfoUseCaseImpl(userInfoRepository)
 
 
     @Provides
     @Singleton
-    fun provideGetWebViewUseCase(signRepository: SignRepository) : GetWebViewUseCase =
+    fun provideGetWebViewUseCase(signRepository: SignRepository): GetWebViewUseCase =
         GetWebViewUseCaseImpl(signRepository)
 
 
     @Provides
     @Singleton
-    fun provideLimitUserUseCase(limitUserRepository: LimitUserRepository) : LimitUserUseCase =
+    fun provideLimitUserUseCase(limitUserRepository: LimitUserRepository): LimitUserUseCase =
         LimitUserUseCaseImpl(limitUserRepository)
 
     @Provides
     @Singleton
-    fun provideNewTokenUseCase(signRepository: SignRepository) : NewTokenUseCase =
+    fun provideNewTokenUseCase(signRepository: SignRepository): NewTokenUseCase =
         NewTokenUseCaseImpl(signRepository)
 
 
@@ -212,4 +213,9 @@ object UseCaseModule {
     @Singleton
     fun provideFetchUsersLikeMumentUseCase(usersLikeMumentRepository: UsersRepository): FetchUsersLikeMumentUseCase =
         FetchUsersLikeMumentUseCaseImpl(usersLikeMumentRepository)
+
+    @Provides
+    @Singleton
+    fun provideFetchUnregisterInfoUseCase(unregisterRepository: UnregisterRepository): FetchUnregisterInfoUseCase =
+        FetchUnregisterInfoUseCaseImpl(unregisterRepository)
 }
