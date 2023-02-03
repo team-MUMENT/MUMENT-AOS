@@ -37,6 +37,7 @@ object Versions {
     const val dataStore = "1.0.0"
     const val protoBuf = "3.18.0"
     const val roomVersion = "2.4.2"
+    const val paging = "3.1.1"
 
     val javaVersion = JavaVersion.VERSION_11
 

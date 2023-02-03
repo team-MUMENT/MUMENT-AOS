@@ -39,5 +39,6 @@ dependencies {
     addDaggerHiltDependencies()
     implementation(KotlinDependencies.kotlinxSerialization)
     implementation(KotlinDependencies.coroutines)
+    implementation(AndroidXDependencies.pagingCommon)
     implementation(project(Modules.CORE_MODULE))
 }
