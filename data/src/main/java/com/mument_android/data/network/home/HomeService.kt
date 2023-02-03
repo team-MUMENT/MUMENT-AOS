@@ -1,6 +1,6 @@
 package com.mument_android.data.network.home
 
-import com.mument_android.data.dto.history.MumentHistoryDto
+import com.mument_android.data.dto.history.MumentHistoryItem
 import com.mument_android.data.dto.home.*
 import retrofit2.Response
 import retrofit2.http.GET
@@ -20,7 +20,7 @@ interface HomeService {
         @Query("default") default:String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
-    ): Response<MumentHistoryDto>
+    ): Response<MumentHistoryItem>
 
     @GET("/mument/banner")
     suspend fun getBannerMument(): Response<BannerMumentDto>
