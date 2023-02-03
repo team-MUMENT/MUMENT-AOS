@@ -1,7 +1,7 @@
 package com.mument_android.domain.entity
 
 data class User(
-    val _id: String,
-    val image: String,
-    val name: String
+    val _id: Int,
+    val name: String,
+    val image: String
 )

@@ -3,18 +3,19 @@ package com.mument_android.domain.entity.history
 import com.mument_android.domain.entity.User
 
 data class MumentHistory(
-    val _id: String,
-    val cardTag: List<Int>,
-    val content: String,
-    val date: String,
-    val feelingTag: List<Int>,
-    val impressionTag: List<Int>,
-    val isDeleted: Boolean,
+    val _id: Int,
+    val musicId: String,
+    val user: User,
     val isFirst: Boolean,
-    val isLiked: Boolean,
+    val impressionTag: List<Int>?,
+    val feelingTag: List<Int>?,
+    val cardTag: List<Int>?,
+    val content: String,
     val isPrivate: Boolean,
     val likeCount: Int,
-    val music: Music,
+    val isDeleted: Boolean,
+    val createAt: String,
     val updatedAt: String,
-    val user: User
+    val date: String,
+    val isLiked: Boolean,
 )
