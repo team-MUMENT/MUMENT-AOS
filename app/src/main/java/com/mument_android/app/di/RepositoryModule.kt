@@ -23,6 +23,7 @@ import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.mapper.notify.NotifyMapper
+import com.mument_android.data.network.detail.HistoryService
 import com.mument_android.data.repository.*
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
@@ -57,12 +58,14 @@ object RepositoryModule {
     fun provideMumentDetailUseCase(
         mumentDetailDataSource: MumentDetailDataSource,
         mumentDetailMapper: MumentDetailMapper,
-        deleteMumentController: DeleteMumentController
+        deleteMumentController: DeleteMumentController,
+        historyService: HistoryService
     ): MumentDetailRepository =
         MumentDetailRepositoryImpl(
             mumentDetailDataSource,
             mumentDetailMapper,
-            deleteMumentController
+            deleteMumentController,
+            historyService
         )
 
     @Provides
@@ -94,7 +97,6 @@ object RepositoryModule {
     fun provideHomeRepository(
         todayMumentDataSource: LocalTodayMumentDataSource,
         recentSearchListDataSource: LocalRecentSearchListDataSource,
-        mumentHistoryDataSource: RemoteMumentHistoryDataSource,
         searchListDataSource: RemoteSearchListDataSource,
         homeDataSource: HomeDataSource,
         randomMumentMapper: RandomMumentMapper,
@@ -103,7 +105,6 @@ object RepositoryModule {
     ): HomeRepository = HomeRepositoryImpl(
         todayMumentDataSource,
         recentSearchListDataSource,
-        mumentHistoryDataSource,
         searchListDataSource,
         homeDataSource,
         randomMumentMapper,

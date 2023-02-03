@@ -4,6 +4,7 @@ import com.mument_android.BuildConfig
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.network.AuthInterceptor
 import com.mument_android.data.network.detail.DetailApiService
+import com.mument_android.data.network.detail.HistoryService
 import com.mument_android.data.network.home.HomeService
 import com.mument_android.data.network.home.NotifyService
 import com.mument_android.data.network.locker.LockerApiService
@@ -13,7 +14,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
@@ -94,6 +94,11 @@ object NetworkModule {
     @Singleton
     fun provideDetailApiService(@AuthRetrofit retrofit: Retrofit): DetailApiService =
         retrofit.create(DetailApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideHistoryService(@AuthRetrofit retrofit: Retrofit): HistoryService =
+        retrofit.create(HistoryService::class.java)
 
     @Provides
     @Singleton

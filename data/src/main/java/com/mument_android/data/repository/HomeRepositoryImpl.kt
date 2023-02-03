@@ -7,7 +7,7 @@ import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.util.ResultWrapper
-import com.mument_android.domain.entity.history.MumentHistoryEntity
+import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.entity.home.*
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.domain.repository.home.HomeRepository
@@ -21,7 +21,6 @@ import javax.inject.Inject
 class HomeRepositoryImpl @Inject constructor(
     private val localTodayMumentDataSource: LocalTodayMumentDataSource,
     private val localRecentSearchListDataSource: LocalRecentSearchListDataSource,
-    private val remoteMumentHistoryDataSource: RemoteMumentHistoryDataSource,
     private val remoteSearchListDataSource: RemoteSearchListDataSource,
     private val homeDataSource: HomeDataSource,
     private val randomMumentMapper: RandomMumentMapper,
@@ -52,46 +51,19 @@ class HomeRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getMumentHistory(
-        userId: String,
-        musicId: String
-    ): MumentHistoryEntity? =
-        remoteMumentHistoryDataSource.getMumentHistory(userId, musicId).let { response ->
-            when (response) {
-                is ResultWrapper.Success -> {
-                    response.data?.let { history ->
-                        MumentHistoryEntity(
-                            history.mumentHistory,
-                            history.music
-                        )
-                    }
-                }
-                is ResultWrapper.GenericError -> {
-                    Timber.e("GenericError -> code ${response.code}: message: ${response.message}")
-                    null
-                }
-                is ResultWrapper.NetworkError -> {
-                    Timber.e("NetworkError")
-                    null
-                }
-                else -> {
-                    null
-                }
-            }
-        }
-
     override suspend fun getBannerMument(): List<BannerEntity>? =
         homeDataSource.getBannerMument().let { result ->
             when (result) {
                 is ResultWrapper.Success -> {
-                    result.data?.bannerList?.map {
+                    Log.e("Result", result.toString())
+                    result.data?.data?.bannerList?.map {
                         BannerEntity(
                             it._id,
                             it.displayDate,
                             Music(it.music._id, it.music.name, it.music.artist, it.music.image),
                             it.tagTitle.replace("\\n", "\n")
                         )
-                    }
+                    } ?: listOf()
                 }
                 is ResultWrapper.GenericError -> {
                     Timber.e("GenericError -> code ${result.code}: message: ${result.message}")
