@@ -1,15 +1,18 @@
 package com.mument_android.domain.usecase.home
 
-import com.mument_android.domain.entity.history.MumentHistoryEntity
-import com.mument_android.domain.repository.home.HomeRepository
+import androidx.paging.PagingData
+import com.mument_android.domain.entity.history.HistoryRequestParams
+import com.mument_android.domain.entity.history.MumentHistory
+import com.mument_android.domain.repository.detail.MumentDetailRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetMumentHistoryUseCaseImpl @Inject constructor(val homeRepository: HomeRepository) :
+class GetMumentHistoryUseCaseImpl @Inject constructor(val mumentDetailRepository: MumentDetailRepository) :
     GetMumentHistoryUseCase {
     override suspend fun getMumentHistory(
         userId: String,
-        musicId: String
-    ): Flow<MumentHistoryEntity> = flow { homeRepository.getMumentHistory(userId, musicId)?.let { emit(it) } }
+        musicId: String,
+        default: String,
+    ): Flow<PagingData<MumentHistory>> =
+        mumentDetailRepository.fetchMumentHistory(HistoryRequestParams(userId, musicId, default))
 }
