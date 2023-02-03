@@ -71,7 +71,6 @@ class HomeFragment : Fragment() {
 
     private fun bindData() {
         setAdapter()
-        setBannerCallBack()
         setListData()
         receiveEffect()
         binding.tvSearch.setOnClickListener {
@@ -109,6 +108,7 @@ class HomeFragment : Fragment() {
         }
         collectFlowWhenStarted(viewModel.homeViewState) { homeViewState ->
             with(homeViewState) {
+                Log.e("VIEWSTATE", this.toString())
                 emotionMumentEntity?.let {
                     impressiveAdapter.submitList(it.mumentList)
                     binding.tvImpressive.text = it.title
@@ -121,6 +121,7 @@ class HomeFragment : Fragment() {
                     heardAdapter.submitList(heard)
                 }
                 bannerEntity?.let { banner ->
+                    Log.e("?.let!!", banner.toString())
                     binding.vpBanner.adapter = BannerListAdapter(banner.map {
                         BannerEntity(
                             it._id,
@@ -131,6 +132,7 @@ class HomeFragment : Fragment() {
                     }) { musicId ->
                         viewModel.emitEvent(HomeEvent.OnClickBanner(musicId))
                     }
+                    setBannerCallBack()
                 }
             }
         }

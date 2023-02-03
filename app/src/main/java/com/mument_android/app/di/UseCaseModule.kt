@@ -79,8 +79,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetMumentHistoryUseCase(homeRepository: HomeRepository): GetMumentHistoryUseCase =
-        GetMumentHistoryUseCaseImpl(homeRepository)
+    fun provideGetMumentHistoryUseCase(mumentDetailRepository: MumentDetailRepository): GetMumentHistoryUseCase =
+        GetMumentHistoryUseCaseImpl(mumentDetailRepository)
 
 
     @Provides
