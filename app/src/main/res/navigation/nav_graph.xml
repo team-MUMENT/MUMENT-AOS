@@ -37,18 +37,18 @@
                 android:id="@+id/action_homeMusicDetailFragment_to_historyFragment"
                 app:destination="@id/historyFragment" />
         </fragment>
-        <fragment
+        <!--<fragment
             android:id="@+id/historyFragment"
-            android:name="com.mument_android.detail.history.HistoryFragment"
+            android:name="com.mument_android.detail.history.HistoryActivity"
             android:label="HistoryFragment"
-            tools:layout="@layout/fragment_history">
+            tools:layout="@layout/activity_history">
             <argument
                 android:name="musicId"
                 app:argType="string" />
             <action
                 android:id="@+id/action_homeHistoryFragment_to_mumentDetailFragment"
                 app:destination="@id/mumentDetailFragment" />
-        </fragment>
+        </fragment>-->
         <fragment
             android:id="@+id/mumentDetailFragment"
             android:name="com.mument_android.detail.mument.fragment.MumentDetailFragment"
@@ -102,10 +102,10 @@
                 app:destination="@id/mumentDetailFragment" />
 
         </fragment>
-        <fragment
+        <!--<fragment
             android:id="@+id/historyFragment"
-            android:name="com.mument_android.detail.history.HistoryFragment"
+            android:name="com.mument_android.detail.history.HistoryActivity"
             android:label="LockerHistoryFragment"
-            tools:layout="@layout/fragment_history"></fragment>
+            tools:layout="@layout/activity_history"></fragment>-->
     </navigation>
 </navigation>
