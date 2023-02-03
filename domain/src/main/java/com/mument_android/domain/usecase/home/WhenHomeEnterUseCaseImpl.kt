@@ -12,8 +12,8 @@ import javax.inject.Inject
 class WhenHomeEnterUseCaseImpl @Inject constructor(
     val homeRepository: HomeRepository
 ) : WhenHomeEnterUseCase {
-    override suspend fun getTodayMument(userId: String): Flow<TodayMument> =
-        homeRepository.getTodayMument(userId)
+    override suspend fun getTodayMument(): Flow<TodayMument?> =
+        homeRepository.getTodayMument()
 
 
     override suspend fun updateLocalTodayMument(mument: TodayMument) {

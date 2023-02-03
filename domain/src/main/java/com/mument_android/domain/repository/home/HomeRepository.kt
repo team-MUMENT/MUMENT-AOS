@@ -23,7 +23,7 @@ interface HomeRepository {
 
     suspend fun searchList(keyword: String): List<RecentSearchData>?
 
-    suspend fun getTodayMument(userId: String): Flow<TodayMument>
+    suspend fun getTodayMument(): Flow<TodayMument?>
 
     suspend fun getBannerMument(): List<BannerEntity>?
 

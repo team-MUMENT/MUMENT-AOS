@@ -27,18 +27,22 @@ class HomeViewModel @Inject constructor(
     private val _homeEffect: Channel<HomeSideEffect> = Channel()
     val effect = _homeEffect.receiveAsFlow()
     private val _homeEvent: MutableSharedFlow<HomeEvent> = MutableSharedFlow()
-    val homeViewStateEnabled = flow {
-        _homeViewState.value.run {//테스트 못함,, 데이터가 없어서
-            emit(
-                nullCheck(
-                    bannerEntity,
-                    todayMumentEntity,
-                    heardMumentEntity,
-                    emotionMumentEntity
-                )
-            )
+    val homeViewStateEnabled =
+        _homeViewState.flatMapLatest { //테스트 못함,, 데이터가 없어서
+            with(it) {
+                flow {
+                    emit(
+                        nullCheck(
+                            bannerEntity,
+                            todayMumentEntity,
+                            heardMumentEntity,
+                            emotionMumentEntity
+                        )
+                    )
+                }
+            }
         }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3000), false)
+
     private fun nullCheck(vararg list: Any?): Boolean = list.all { it != null }
     var num = 0
 
@@ -53,8 +57,8 @@ class HomeViewModel @Inject constructor(
     init {
         collectEvent()
         viewModelScope.launch {
-            useCase.getTodayMument(BuildConfig.USER_ID).map { today ->
-                today
+            useCase.getTodayMument().map {
+                it
             }.collect { today ->
                 _homeViewState.setState {
                     copy(todayMumentEntity = today)
@@ -64,6 +68,7 @@ class HomeViewModel @Inject constructor(
                 //Todo exception handling
             }.collect { banners ->
                 if (banners != null) {
+                    Log.e("Banner!!", banners.toString())
                     _homeViewState.setState {
                         copy(bannerEntity = banners)
                     }
@@ -73,6 +78,7 @@ class HomeViewModel @Inject constructor(
                 //Todo exception handling
             }.collect { heards ->
                 if (heards != null) {
+                    Log.e("Heard Collect!!", heards.toString())
                     _homeViewState.setState {
                         copy(heardMumentEntity = heards)
                     }

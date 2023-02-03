@@ -10,7 +10,6 @@ data class TodayMumentEntity(
     val userName: String,
     val userImage: String,
     val cardTag: List<Int>,
-    val _id: String,
     val content: String,
     val createdAt: String,
     val feelingTag: List<Int>,

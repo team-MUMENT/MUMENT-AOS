@@ -17,9 +17,7 @@ interface HomeService {
     suspend fun getBannerMument(): Response<BannerMumentDto>
 
     @GET("/mument/today")
-    suspend fun getTodayMument(
-        @Query("userId") userId: String
-    ): Response<TodayMumentDto>
+    suspend fun getTodayMument(): Response<TodayMumentDto>
 
     @GET("/mument/again")
     suspend fun getKnownMument(): Response<KnownMumentDto>
@@ -31,6 +29,6 @@ interface HomeService {
     suspend fun checkProfileSetting(): Response<Void>
 
     @GET("/user/news/exist")
-    suspend fun checkNewNotify():Response<Boolean>
+    suspend fun checkNewNotify(): Response<Boolean>
 
 }

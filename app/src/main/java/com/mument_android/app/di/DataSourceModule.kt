@@ -90,11 +90,6 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideMumentHistoryDataSource(service: HomeService): RemoteMumentHistoryDataSource =
-        RemoteMumentHistoryDataSourceImpl(service)
-
-    @Provides
-    @Singleton
     fun provideNotifyDataSource(service: NotifyService): NotifyDataSource =
         NotifyDataSourceImpl(service)
 

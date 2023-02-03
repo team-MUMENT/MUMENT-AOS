@@ -19,9 +19,7 @@
             <action
                 android:id="@+id/action_homeFragment_to_musicDetailFragment"
                 app:destination="@id/musicDetailFragment" />
-            <action
-                android:id="@+id/action_homeFragment_to_historyFragment"
-                app:destination="@id/historyFragment" />
+
         </fragment>
 
         <fragment
@@ -33,30 +31,12 @@
             <action
                 android:id="@+id/action_homeMusicDetailFragment_to_mumentDetailFragment"
                 app:destination="@id/mumentDetailFragment" />
-            <action
-                android:id="@+id/action_homeMusicDetailFragment_to_historyFragment"
-                app:destination="@id/historyFragment" />
         </fragment>
-        <!--<fragment
-            android:id="@+id/historyFragment"
-            android:name="com.mument_android.detail.history.HistoryActivity"
-            android:label="HistoryFragment"
-            tools:layout="@layout/activity_history">
-            <argument
-                android:name="musicId"
-                app:argType="string" />
-            <action
-                android:id="@+id/action_homeHistoryFragment_to_mumentDetailFragment"
-                app:destination="@id/mumentDetailFragment" />
-        </fragment>-->
         <fragment
             android:id="@+id/mumentDetailFragment"
             android:name="com.mument_android.detail.mument.fragment.MumentDetailFragment"
             android:label="MumentDetailFragment"
             tools:layout="@layout/fragment_mument_detail">
-            <action
-                android:id="@+id/action_mumentDetailFragment_to_historyFragment_home"
-                app:destination="@id/historyFragment" />
             <action
                 android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_home"
                 app:destination="@id/musicDetailFragment" />
@@ -84,9 +64,7 @@
             <action
                 android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_locker"
                 app:destination="@id/musicDetailFragment" />
-            <action
-                android:id="@+id/action_mumentDetailFragment_to_historyFragment_locker"
-                app:destination="@id/historyFragment" />
+
         </fragment>
 
         <fragment
@@ -95,17 +73,9 @@
             android:label="MusicDetailFragment"
             tools:layout="@layout/fragment_music_detail">
             <action
-                android:id="@+id/action_musicDetailFragment_to_historyFragment"
-                app:destination="@id/historyFragment" />
-            <action
                 android:id="@+id/action_musicDetailFragment_to_mumentDetailFragment"
                 app:destination="@id/mumentDetailFragment" />
 
         </fragment>
-        <!--<fragment
-            android:id="@+id/historyFragment"
-            android:name="com.mument_android.detail.history.HistoryActivity"
-            android:label="LockerHistoryFragment"
-            tools:layout="@layout/activity_history"></fragment>-->
     </navigation>
 </navigation>
