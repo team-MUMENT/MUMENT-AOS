@@ -16,6 +16,8 @@ import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
 import com.mument_android.domain.usecase.mypage.FetchNoticeDetailUseCase
 import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
 import com.mument_android.domain.usecase.sign.GetWebViewUseCase
+import com.mument_android.domain.entity.mypage.UnregisterEntity
+import com.mument_android.domain.usecase.mypage.*
 import com.mument_android.mypage.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -29,7 +31,8 @@ class MyPageViewModel @Inject constructor(
     private val fetchNoticeListUseCase: FetchNoticeListUseCase,
     private val fetchNoticeDetailUseCase: FetchNoticeDetailUseCase,
     private val userInfoUseCase: UserInfoUseCase,
-    private val getWebViewUseCase: GetWebViewUseCase
+    private val getWebViewUseCase: GetWebViewUseCase,
+    private val fetchUnregisterInfoUseCase: FetchUnregisterInfoUseCase
 ) : ViewModel() {
 
 
@@ -62,6 +65,9 @@ class MyPageViewModel @Inject constructor(
     val noticeId = _noticeId
 
     //Unregister
+    private val _unregisterInfo = MutableStateFlow<ApiResult<UnregisterEntity>?>(null)
+    val unregisterInfo get() = _unregisterInfo.asStateFlow()
+
     private val _isClickReasonChooseBox = MutableLiveData(false)
     val isClickReasonChooseBox: LiveData<Boolean> get() = _isClickReasonChooseBox
 
@@ -145,6 +151,21 @@ class MyPageViewModel @Inject constructor(
                     _noticeDetail.value = ApiResult.Failure(null)
                 }.collect {
                     _noticeDetail.value = ApiResult.Success(it)
+                }
+            }
+        }
+    }
+
+    //회원탈퇴
+    fun fetchUnregisterInfo() {
+        viewModelScope.launch {
+            unregisterInfo.value.let {
+                fetchUnregisterInfoUseCase.invoke().onStart {
+                }.catch {
+                    _unregisterInfo.value = ApiResult.Failure(null)
+                }.collect {
+                    _unregisterInfo.value = ApiResult.Success(it)
+
                 }
             }
         }

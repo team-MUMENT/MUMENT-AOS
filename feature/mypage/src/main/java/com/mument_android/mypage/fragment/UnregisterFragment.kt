@@ -1,27 +1,24 @@
 package com.mument_android.mypage.fragment
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.PixelCopy
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.isEmpty
 import androidx.fragment.app.viewModels
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.hideKeyboard
 import com.mument_android.login.LogInActivity
-import com.mument_android.mypage.MyPageActivity
 import com.mument_android.mypage.MyPageViewModel
 import com.mument_android.mypage.R
 import com.mument_android.mypage.databinding.FragmentUnregisterBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UnregisterFragment : Fragment() {
 
     private var binding by AutoClearedValue<FragmentUnregisterBinding>()
@@ -138,7 +135,9 @@ class UnregisterFragment : Fragment() {
     //회원탈퇴 버튼 눌렀을 때
     private fun unregisterFinish() {
         binding.btnUnregisterFinish.setOnClickListener {
-            //TODO  서버연결하기
+
+            myPageViewModel.fetchUnregisterInfo()
+
             this.activity?.finish()
 
             val intent = Intent(activity, LogInActivity::class.java)
