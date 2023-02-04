@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
@@ -25,6 +26,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -34,6 +36,8 @@ class ProfileSettingActivity :
     private lateinit var inputMethodManager: InputMethodManager
     private val multiPartResolver = MultipartResolver(this)
 
+    @Inject
+    lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
 
     private val viewModel: LogInViewModel by viewModels()
 
@@ -181,6 +185,8 @@ class ProfileSettingActivity :
         requestBodyMap["profileId"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
         viewModel.putProfile(multipart, requestBodyMap)
+        moveToMainActivity()
+
 
         /*
         //MainActivity로 이동하려면 어떻게 해야하는거죠...? MainActivity는 App모듈이자나여....
@@ -209,5 +215,10 @@ class ProfileSettingActivity :
                 nickNameDupCheck()
             }
         }
+    }
+
+    private fun moveToMainActivity() {
+        //mainActiviy로 이동하면서 필요한 value는 없는데 파라미터가 없으면 에러나서 우선 userId 넣어둠...
+        mainHomeNavigatorProvider.moveMain(-1)
     }
 }
