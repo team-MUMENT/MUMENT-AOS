@@ -9,6 +9,8 @@ import com.mument_android.data.datasource.record.RecordDataSource
 import com.mument_android.data.datasource.record.RecordDataSourceImpl
 import com.mument_android.data.datasource.detail.*
 import com.mument_android.data.datasource.home.*
+import com.mument_android.data.datasource.sign.SignDataSource
+import com.mument_android.data.datasource.sign.SignDataSourceImpl
 import com.mument_android.data.datasource.mypage.*
 import com.mument_android.data.local.MumentDatabase
 import com.mument_android.data.local.converter.DateTypeConverter
@@ -20,6 +22,7 @@ import com.mument_android.data.network.home.HomeService
 import com.mument_android.data.network.locker.LockerApiService
 import com.mument_android.data.network.mypage.MyPageApiService
 import com.mument_android.data.network.record.RecordApiService
+import com.mument_android.data.network.sign.SignApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,6 +51,11 @@ object DataSourceModule {
     @Singleton
     fun provideLockerDataSource(lockerNetwork: LockerApiService): LockerDataSource =
         LockerDataSourceImpl(lockerNetwork)
+
+    @Provides
+    @Singleton
+    fun provideSignDataSource(signApiService: SignApiService) : SignDataSource =
+        SignDataSourceImpl(signApiService)
 
     @Provides
     @Singleton

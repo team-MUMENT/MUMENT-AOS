@@ -9,6 +9,7 @@ import com.mument_android.data.network.locker.LockerApiService
 import com.mument_android.data.network.main.MainApiService
 import com.mument_android.data.network.mypage.MyPageApiService
 import com.mument_android.data.network.record.RecordApiService
+import com.mument_android.data.network.sign.SignApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -113,7 +114,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideSignNetwork(@UnAuthRetrofit retrofit: Retrofit) : SignApiService =
+        retrofit.create(SignApiService::class.java)
+
+    @Provides
+    @Singleton
     fun provideMyPageNetwork(@AuthRetrofit retrofit: Retrofit): MyPageApiService = retrofit.create(MyPageApiService::class.java)
+
 
     private fun Request.Builder.addHeaders(token: String) = this.apply { header("Authorization", "Bearer $token") }
     private const val BEARER = "Bearer"

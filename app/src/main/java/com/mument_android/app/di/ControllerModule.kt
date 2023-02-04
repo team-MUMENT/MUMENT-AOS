@@ -5,6 +5,7 @@ import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.network.main.MainApiService
 import com.mument_android.data.network.mypage.MyPageApiService
 import com.mument_android.data.network.record.RecordApiService
+import com.mument_android.data.network.sign.SignApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,5 +44,6 @@ object ControllerModule {
     fun provideDeleteBlockUserController(
         myPageApiService: MyPageApiService
     ): DeleteBlockUserController = DeleteBlockUserControllerImpl(myPageApiService)
+
 
 }

@@ -4,19 +4,28 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
+import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
 import com.mument_android.login.util.shortToast
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
+
+@AndroidEntryPoint
 class ProfileSettingActivity :
     BaseActivity<ActivityProfileSettingBinding>(inflate = ActivityProfileSettingBinding::inflate) {
     private lateinit var intentLauncher: ActivityResultLauncher<Intent>
@@ -45,6 +54,7 @@ class ProfileSettingActivity :
         uploadImageCallbackListener()
         isImageExist()
         backBtnListener()
+        dulCheckListener()
     }
 
     //edittext에 작성한 텍스트 삭제 버튼 클릭 리스너
@@ -57,10 +67,10 @@ class ProfileSettingActivity :
     //닉네임 정규식 확인
     private fun isRightPattern() {
         viewModel.mumentNickName.observe(this) {
-            if (!Pattern.matches("^[ㄱ-ㅎ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
+            if (!Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
                 viewModel.isRightPattern.value = false
                 binding.tvPattern.isSelected = true
-            } else if (it == "" || Pattern.matches("^[ㄱ-ㅎ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
+            } else if (it == "" || Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
                 viewModel.isRightPattern.value = true
                 binding.tvPattern.isSelected = false
             }
@@ -153,6 +163,35 @@ class ProfileSettingActivity :
         binding.ivProfileBack.setOnClickListener {
             startActivity(Intent(this, LogInActivity::class.java))
             finish()
+        }
+    }
+
+    private fun nickNameDupNetwork() {
+        val nickname = binding.etNickname.text.toString()
+        viewModel.nickNameDupCheck(nickname)
+    }
+
+    private suspend fun nickNameDupCheck() {
+        delay(100)
+        viewModel.isDuplicate.observe(this) {
+            if(it == 200) {
+                CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
+            } else if (it == 204) {
+                //TODO 프로필 서버통신
+                finish()
+            } else {
+                Log.e("닉네임 중복확인","서버통신 실패")
+            }
+        }
+    }
+
+    private fun dulCheckListener() {
+        binding.tvProfileFinish.setOnClickListener {
+            viewModel.viewModelScope.launch {
+                nickNameDupNetwork()
+                nickNameDupCheck()
+
+            }
         }
     }
 }
