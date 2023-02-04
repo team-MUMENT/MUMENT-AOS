@@ -1,14 +1,31 @@
 package com.mument_android.mypage
 
-import android.view.View
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mument_android.mypage.data.NoticeData
+import androidx.lifecycle.viewModelScope
+import com.mument_android.core.network.ApiResult
+import com.mument_android.domain.entity.mypage.BlockUserEntity
+import com.mument_android.domain.entity.mypage.NoticeListEntity
+import com.mument_android.domain.usecase.mypage.DeleteBlockUserUseCase
+import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
+import com.mument_android.domain.usecase.mypage.FetchNoticeDetailUseCase
+import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
 import com.mument_android.mypage.data.UserData
-import javax.annotation.concurrent.Immutable
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MyPageViewModel : ViewModel() {
+@HiltViewModel
+class MyPageViewModel @Inject constructor(
+    private val fetchBlockUserUseCase: FetchBlockUserUseCase,
+    private val deleteBlockUserUseCase: DeleteBlockUserUseCase,
+    private val fetchNoticeListUseCase: FetchNoticeListUseCase,
+    private val fetchNoticeDetailUseCase: FetchNoticeDetailUseCase
+) : ViewModel() {
+
 
     //myPage
     private val _isBtnClick = MutableLiveData(false)
@@ -18,24 +35,25 @@ class MyPageViewModel : ViewModel() {
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> get() = _userId
 
-    private val _userImg = MutableLiveData<Int>()
-    val userImg: LiveData<Int> get() = _userImg
+    private val _userImg = MutableLiveData<String>()
+    val userImg: LiveData<String> get() = _userImg
 
     private val _userNickNameContent = MutableLiveData("")
     val userNickNameContent = _userNickNameContent
 
     //BlockUserManagement
-    private val _userList = MutableLiveData<List<UserData>>()
-    val userList: LiveData<List<UserData>> get() = _userList
+    private val _blockUserList = MutableStateFlow<ApiResult<List<BlockUserEntity>>?>(null)
+    val blockUserList get() = _blockUserList.asStateFlow()
 
     //Notice
-    private val _noticeList = MutableLiveData<List<NoticeData>>()
-    val noticeList: LiveData<List<NoticeData>> get() = _noticeList
+    private val _noticeList = MutableStateFlow<ApiResult<List<NoticeListEntity>>?>(null)
+    val noticeList get() = _noticeList.asStateFlow()
 
-    val noticeId = MutableLiveData<Int>()
-    val noticeTitle = MutableLiveData<String>()
-    val noticeDate = MutableLiveData<String>()
-    val noticeContent = MutableLiveData<String>()
+    private val _noticeDetail = MutableStateFlow<ApiResult<NoticeListEntity>?>(null)
+    val noticeDetail get() = _noticeDetail.asStateFlow()
+
+    private val _noticeId = MutableLiveData<Int>()
+    val noticeId = _noticeId
 
     //Unregister
     private val _isClickReasonChooseBox = MutableLiveData(false)
@@ -62,25 +80,60 @@ class MyPageViewModel : ViewModel() {
     fun fetchUserInfo() {
         val userData = UserData(
             userID = userId.value ?: "",
-            userImg = userImg.value ?: 0
+            userImg = userImg.value ?: ""
         )
     }
 
     //차단유저관리
-    fun unblockUser(element: UserData) {
-        val currentList = userList.value!!.toMutableList()
-        currentList.remove(element)
-        _userList.value = currentList
+    fun fetchBlockUserList() {
+        viewModelScope.launch {
+            blockUserList.value.let {
+                fetchBlockUserUseCase.invoke().onStart {
+                }.catch { _blockUserList.value = ApiResult.Failure(null) }
+                    .collect {
+                        _blockUserList.value = ApiResult.Success(it)
+                    }
+            }
+        }
     }
 
+    //차단 유저 해제
+    fun deleteBlockUser(userId: Int) {
+        viewModelScope.launch {
+            deleteBlockUserUseCase(blockedUserId = userId)
+                .catch { }
+                .collect {
+                    fetchBlockUserList()
+                }
+        }
+    }
+
+
     //공지사항
-    fun fetchNoticeDetail() {
-        val noticeData = NoticeData(
-            id = noticeId.value ?: 0,
-            title = noticeTitle.value.orEmpty(),
-            created_at = noticeDate.value.orEmpty(),
-            content = noticeContent.value.orEmpty(),
-        )
+    fun fetchNoticeList() {
+        viewModelScope.launch {
+            noticeList.value.let {
+                fetchNoticeListUseCase.invoke().onStart {
+                }.catch {
+                    _noticeList.value = ApiResult.Failure(null)
+                }.collect {
+                    _noticeList.value = ApiResult.Success(it)
+                }
+            }
+        }
+    }
+
+    fun fetchNoticeDetail(noticeId: Int) {
+        viewModelScope.launch {
+            noticeDetail.value.let {
+                fetchNoticeDetailUseCase.invoke(noticeId).onStart {
+                }.catch {
+                    _noticeDetail.value = ApiResult.Failure(null)
+                }.collect {
+                    _noticeDetail.value = ApiResult.Success(it)
+                }
+            }
+        }
     }
 
     //이유 선택 박스 눌렀을 때 라디오 그룹 visibility 조절

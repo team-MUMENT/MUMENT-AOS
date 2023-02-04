@@ -6,12 +6,13 @@ import android.content.Intent
 import androidx.fragment.app.commit
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
-import com.mument_android.core_dependent.ui.MumentDialog
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.login.LogInActivity
 import com.mument_android.mypage.databinding.ActivityMyPageBinding
 import com.mument_android.mypage.fragment.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding::inflate) {
 
     private val myPageViewModel: MyPageViewModel by viewModels()

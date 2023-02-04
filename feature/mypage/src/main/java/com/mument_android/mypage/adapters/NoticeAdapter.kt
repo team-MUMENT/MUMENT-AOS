@@ -5,16 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
+import com.mument_android.domain.entity.mypage.NoticeListEntity
 import com.mument_android.mypage.data.NoticeData
 import com.mument_android.mypage.databinding.ItemNoticeBinding
 
 class NoticeAdapter :
-    ListAdapter<NoticeData, NoticeAdapter.NoticeViewHolder>(GlobalDiffCallBack<NoticeData>()) {
+    ListAdapter<NoticeListEntity, NoticeAdapter.NoticeViewHolder>(GlobalDiffCallBack<NoticeListEntity>()) {
 
     private lateinit var itemClickListener: OnItemClickListener
 
     interface OnItemClickListener {
-        fun onClick(data: NoticeData)
+        fun onClick(data: NoticeListEntity)
     }
 
     fun setItemClickListener(itemClickListener: OnItemClickListener) {
@@ -23,9 +24,9 @@ class NoticeAdapter :
 
     class NoticeViewHolder(private var binding: ItemNoticeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(noticeData: NoticeData) {
+        fun bind(noticeData: NoticeListEntity) {
             binding.tvNoticeItemTitle.text = noticeData.title
-            binding.tvNoticeItemDate.text = noticeData.created_at
+            binding.tvNoticeItemDate.text = noticeData.createAt
         }
     }
 
