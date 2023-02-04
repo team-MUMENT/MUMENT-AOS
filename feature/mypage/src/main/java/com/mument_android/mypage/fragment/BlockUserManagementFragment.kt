@@ -6,21 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.mument_android.core_dependent.ui.MumentDialog
+import com.mument_android.core.network.ApiResult
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.mypage.adapters.BlockUserManagementAdapter
-import com.mument_android.mypage.data.UserData
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.mypage.MyPageViewModel
 import com.mument_android.mypage.R
 import com.mument_android.mypage.databinding.FragmentBlockUserManagementBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BlockUserManagementFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentBlockUserManagementBinding>()
     private val myPageViewModel: MyPageViewModel by viewModels()
     private lateinit var blockUserManagementAdapter: BlockUserManagementAdapter
-    private var blockUserList = mutableListOf<UserData>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,27 +41,31 @@ class BlockUserManagementFragment : Fragment() {
 
     private fun setBlockUserRecyclerView() {
         blockUserManagementAdapter =
-            BlockUserManagementAdapter(onClickDeleteUserItem = { deleteItem() })
+            BlockUserManagementAdapter(onClickDeleteUserItem = { deleteItem(it) })
         binding.rvBlockUser.adapter = blockUserManagementAdapter
-        blockUserList.addAll(
-            listOf(
-                UserData(R.drawable.mument_profile_love_60, "진실"),
-                UserData(R.drawable.mument_profile_love_60, "heaven00"),
-                UserData(R.drawable.mument_profile_love_60, "SonPyeongHwa"),
-                UserData(R.drawable.mument_profile_love_60, "mino")
-            )
-        )
-        blockUserManagementAdapter.submitList(blockUserList)
+        myPageViewModel.fetchBlockUserList()
+
+        collectFlowWhenStarted(myPageViewModel.blockUserList) {
+            when (it) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    blockUserManagementAdapter.submitList(it.data)
+                }
+                else -> {}
+            }
+
+        }
+
+
     }
 
-    private fun deleteItem() {
+    private fun deleteItem(data:BlockUserEntity) {
         MumentDialogBuilder()
             .setHeader(getString(R.string.unblock_title))
             .setBody(getString(R.string.unblock_body))
             .setAllowListener("차단해제") {
-                myPageViewModel.userList.observe(viewLifecycleOwner) { list ->
-                    blockUserManagementAdapter.submitList(list)
-                }
+                myPageViewModel.deleteBlockUser(data.id)
             }
             .setCancelListener {}
             .build()

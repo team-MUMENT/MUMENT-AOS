@@ -31,8 +31,7 @@ inline fun <T, R> R.collectFlow(
 
 inline fun <T, R> R.collectFlowWhenStarted(
     flow: Flow<T>, crossinline block: suspend (T) -> Unit
-) = collectFlow(
-    flow, block) // Lifecycle.State.STARTED는 Default로 들어감
+) = collectFlow(flow, block) // Lifecycle.State.STARTED는 Default로 들어감
 
 inline fun <T, R> R.collectFlowWhenCreated(
     flow: Flow<T>, crossinline block: suspend (T) -> Unit

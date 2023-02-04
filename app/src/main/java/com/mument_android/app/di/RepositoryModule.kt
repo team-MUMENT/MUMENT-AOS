@@ -1,9 +1,6 @@
 package com.mument_android.app.di
 
-import com.mument_android.data.controller.DeleteMumentController
-import com.mument_android.data.controller.LikeMumentController
-import com.mument_android.data.controller.RecordController
-import com.mument_android.data.controller.RecordModifyController
+import com.mument_android.data.controller.*
 import com.mument_android.data.datasource.detail.BlockUserDataSource
 import com.mument_android.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.data.datasource.detail.MumentListDataSource
@@ -20,12 +17,20 @@ import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.datasource.home.*
 import com.mument_android.data.datasource.sign.SignDataSource
 import com.mument_android.data.mapper.sign.SignMapper
+import com.mument_android.data.datasource.mypage.BlockUserListDataSource
+import com.mument_android.data.datasource.mypage.NoticeDetailDataSource
+import com.mument_android.data.datasource.mypage.NoticeListDataSource
 import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
+import com.mument_android.data.mapper.mypage.BlockUserListMapper
+import com.mument_android.data.mapper.mypage.NoticeListMapper
 import com.mument_android.data.repository.*
+import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
+import com.mument_android.data.repository.mypage.NoticeListRepositoryImpl
+import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
@@ -33,6 +38,7 @@ import com.mument_android.domain.repository.detail.MusicDetailRepository
 import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
+import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
 import dagger.Module
@@ -143,4 +149,26 @@ object RepositoryModule {
         blockUserDataSource: BlockUserDataSource,
         blockUserMapper: BlockUserMapper
     ): BlockUserRepository = BlockUserRepositoryImpl(blockUserDataSource, blockUserMapper)
+
+    @Provides
+    @Singleton
+    fun provideBlockUserListRepository(
+        blockUserListDataSource: BlockUserListDataSource,
+        blockUserListMapper: BlockUserListMapper,
+        deleteBlockUserController: DeleteBlockUserController
+    ): BlockUserListRepository =
+        BlockUserListRepositoryImpl(
+            blockUserListDataSource,
+            blockUserListMapper,
+            deleteBlockUserController
+        )
+
+    @Provides
+    @Singleton
+    fun provideNoticeListRepository(
+        noticeDetailDataSource: NoticeDetailDataSource,
+        noticeListDataSource: NoticeListDataSource,
+        noticeListMapper: NoticeListMapper
+    ): NoticeListRepository = NoticeListRepositoryImpl(noticeDetailDataSource,noticeListDataSource, noticeListMapper)
+
 }
