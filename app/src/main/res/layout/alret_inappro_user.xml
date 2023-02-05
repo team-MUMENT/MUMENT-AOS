@@ -3,10 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.mument_android.domain.entity.LimitUserEntity" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_inappro"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rectangle_fill_white_11dp">
 
         <TextView
@@ -59,27 +69,60 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="60dp"
             android:textAlignment="center"
+            android:text="@{viewModel.reason}"
             android:textColor="@color/mument_color_black2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_limit_reason_title"
             tools:text="부적절한 홍보글 게시" />
 
-        <TextView
-            android:id="@+id/tv_limit_sing"
-            style="@style/TextView.Mument_B8_M12.Style"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_limit_sing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="60dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingHorizontal="20dp"
+
             android:textAlignment="center"
-            android:textColor="@color/mument_color_black2"
+            android:paddingHorizontal="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_limit_reason"
-            tools:text="백예린 - 아마 그건 너의 통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_limit_reason">
+
+            <TextView
+                android:id="@+id/tv_limit_singer"
+                style="@style/TextView.Mument_B8_M12.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.musicArtist}"
+                android:textColor="@color/mument_color_black2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="백예린" />
+
+            <TextView
+                android:id="@+id/tv_limit_sing_at"
+                style="@style/TextView.Mument_B8_M12.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="3dp"
+                android:text="@string/alert_singer_to_sing"
+                android:textColor="@color/mument_color_black2"
+                app:layout_constraintStart_toEndOf="@+id/tv_limit_singer"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_limit_sing"
+                style="@style/TextView.Mument_B8_M12.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@{viewModel.musicTitle}"
+                android:textColor="@color/mument_color_black2"
+                app:layout_constraintStart_toEndOf="@+id/tv_limit_sing_at"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="아마 그건 너의 통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통통" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tv_limit_period_title"
@@ -94,7 +137,7 @@
             android:textColor="@color/mument_color_black2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_limit_sing" />
+            app:layout_constraintTop_toBottomOf="@+id/cl_limit_sing" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
@@ -109,6 +152,7 @@
                 style="@style/TextView.Mument_B8_M12.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{viewModel.endDate}"
                 android:textColor="@color/mument_color_black2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -131,6 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
+                android:text="@{'(' + viewModel.period + ')'}"
                 android:textColor="@color/mument_color_black2"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_limit_period"
                 app:layout_constraintStart_toEndOf="@+id/tv_limit_period_at"
@@ -140,6 +185,7 @@
 
 
         <TextView
+            android:id="@+id/tv_ok"
             style="@style/TextView.Mument_B4_M14.Style"
             android:layout_width="270dp"
             android:layout_height="wrap_content"

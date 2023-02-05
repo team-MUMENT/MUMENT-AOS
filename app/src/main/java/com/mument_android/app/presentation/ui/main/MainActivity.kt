@@ -41,6 +41,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         floatingBtnListener()
         customAppBar()
         isLimitUserNetwork()
+        isRestrictUser()
     }
 
     private fun saveTestToken() {
@@ -128,6 +129,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             viewModel.clearBundle()
             false
         }
+    }
+
+    private fun isRestrictUser() {
+        viewModel.limitUser.observe(this) {
+            RestrictUserDialog(this).show(supportFragmentManager, "test")
+
+        }
+
     }
 
     override fun editMument(mumentId: String, mumentDetailEntity: MumentDetailEntity) {

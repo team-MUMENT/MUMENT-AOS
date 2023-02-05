@@ -11,5 +11,6 @@
     <string name="alert_limit_reason">제재이유</string>
     <string name="alert_limit_period">제재기간</string>
     <string name="alert_limit_period_at">까지</string>
+    <string name="alert_singer_to_sing">-</string>
     <string name="alert_ok">확인</string>
 </resources>

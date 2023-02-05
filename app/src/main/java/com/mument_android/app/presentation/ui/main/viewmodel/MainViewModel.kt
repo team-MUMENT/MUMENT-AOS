@@ -17,7 +17,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val dataStoreManager: DataStoreManager,
     private val limitUserUseCase: LimitUserUseCase
-): ViewModel() {
+) : ViewModel() {
     private val _mumentId = MutableLiveData<String>("")
     val mumentId: LiveData<String> = _mumentId
     private val _musicId = MutableLiveData<String>("")
@@ -26,7 +26,8 @@ class MainViewModel @Inject constructor(
     val music: LiveData<Music> = _music
 
     private val _limitUser = MutableLiveData<LimitUserEntity>()
-    val limitUser get() = _limitUser
+    val limitUser: LiveData<LimitUserEntity>
+        get() = _limitUser
 
     private val _mumentDetailContents = MutableLiveData<MumentDetailEntity>()
     val mumentDetailContents: LiveData<MumentDetailEntity> = _mumentDetailContents
@@ -79,11 +80,9 @@ class MainViewModel @Inject constructor(
 
     fun limitUser() {
         viewModelScope.launch {
-            limitUser.value.let {
-                limitUserUseCase.invoke()
-                Log.e("TEST", "${it}")
-            }
+            _limitUser.value = limitUserUseCase.invoke()
+            Log.e("TEST", "${_limitUser.value}")
         }
     }
-
 }
+
