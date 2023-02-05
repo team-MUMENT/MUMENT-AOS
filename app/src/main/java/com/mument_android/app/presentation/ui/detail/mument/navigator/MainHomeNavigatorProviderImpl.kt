@@ -1,7 +1,6 @@
 package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.mument_android.app.presentation.ui.main.MainActivity
