@@ -39,7 +39,7 @@ class MumentDetailViewModel @Inject constructor(
             is MumentDetailEvent.ReceiveMumentId -> {
                 setState { copy(requestMumentId = event.mumentId) }
                 fetchMumentDetailContent(event.mumentId)
-//                fetchLikeUsers(event.mumentId)
+                fetchLikeUserList(event.mumentId)
             }
             is MumentDetailEvent.ReceiveMusicInfo -> {
                 setState { copy(musicInfo = event.musicInfoEntity) }
@@ -189,9 +189,10 @@ class MumentDetailViewModel @Inject constructor(
         file?.delete()
     }
 
-    private fun fetchLikeUsers(mumentId: String) {
+    private fun fetchLikeUserList(mumentId: String) {
         viewModelScope.launch {
             fetchUsersLikeMumentUseCase(mumentId, 30, 0).collect { status ->
+                Log.e("status", "$status")
                 if (status is ApiStatus.Success) {
                     setState { copy(likeUsers = status.data) }
                 }
