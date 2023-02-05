@@ -108,7 +108,7 @@ class MusicDetailViewModel @Inject constructor(
 
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
-            likeMumentUseCase(mumentId, BuildConfig.USER_ID)
+            likeMumentUseCase(mumentId)
                 .catch { }
                 .collect { }
         }
@@ -116,7 +116,7 @@ class MusicDetailViewModel @Inject constructor(
 
     fun cancelLikeMument(mumentId: String) {
         viewModelScope.launch {
-            cancelLikeMumentUseCase(mumentId, BuildConfig.USER_ID)
+            cancelLikeMumentUseCase(mumentId)
                 .catch { }
                 .collect { }
         }

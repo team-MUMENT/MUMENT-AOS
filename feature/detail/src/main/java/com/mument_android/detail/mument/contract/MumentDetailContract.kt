@@ -7,6 +7,7 @@ import com.mument_android.core.util.Event
 import com.mument_android.core.util.ViewState
 import com.mument_android.domain.entity.detail.MumentEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
+import com.mument_android.domain.entity.user.UserEntity
 import java.io.File
 
 class MumentDetailContract {
@@ -19,6 +20,7 @@ class MumentDetailContract {
         val mument: MumentEntity? = null,
         val isLikedMument: Boolean = false,
         val likeCount: Int = 0,
+        val likeUsers: List<UserEntity> = emptyList(),
         val historyCount: Int = 0,
         val hasWrittenMument: Boolean = false,
         val renderedProfileImage: Boolean = false,

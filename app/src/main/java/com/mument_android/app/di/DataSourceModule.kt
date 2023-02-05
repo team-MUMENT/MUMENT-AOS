@@ -152,4 +152,8 @@ object DataSourceModule {
     fun provideLimitUserDataSource(appApiService: AppApiService) : LimitUserDataSource =
         LimitUserDataSourceImpl(appApiService)
 
+    @Provides
+    @Singleton
+    fun provideUsersLikeMumentDataSource(detailApiService: DetailApiService): UsersWhoLikeMumentDataSource =
+        UsersWhoLikeMumentDataSourceImpl(detailApiService)
 }

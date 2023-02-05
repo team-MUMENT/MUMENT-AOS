@@ -7,7 +7,6 @@ import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.detail.databinding.ActivityHistoryBinding
-import com.mument_android.detail.viewmodels.HistoryViewModel
 import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music

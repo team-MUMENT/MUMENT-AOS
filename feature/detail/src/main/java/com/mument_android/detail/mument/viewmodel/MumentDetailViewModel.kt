@@ -9,10 +9,7 @@ import com.mument_android.core_dependent.util.*
 import com.mument_android.detail.BuildConfig
 import com.mument_android.detail.R
 import com.mument_android.detail.mument.contract.MumentDetailContract.*
-import com.mument_android.domain.usecase.detail.BlockUserUseCase
-import com.mument_android.domain.usecase.detail.DeleteMumentUseCase
-import com.mument_android.domain.usecase.detail.FetchMumentDetailContentUseCase
-import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
+import com.mument_android.domain.usecase.detail.*
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,6 +24,7 @@ class MumentDetailViewModel @Inject constructor(
     private val fetchMumentListUseCase: FetchMumentListUseCase,
     private val likeMumentUseCase: LikeMumentUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
+    private val fetchUsersLikeMumentUseCase: FetchUsersLikeMumentUseCase,
     private val deleteMumentUseCase: DeleteMumentUseCase,
     private val blockUserUseCase: BlockUserUseCase,
     private val dataStoreManager: DataStoreManager,
@@ -41,6 +39,7 @@ class MumentDetailViewModel @Inject constructor(
             is MumentDetailEvent.ReceiveMumentId -> {
                 setState { copy(requestMumentId = event.mumentId) }
                 fetchMumentDetailContent(event.mumentId)
+//                fetchLikeUsers(event.mumentId)
             }
             is MumentDetailEvent.ReceiveMusicInfo -> {
                 setState { copy(musicInfo = event.musicInfoEntity) }
@@ -99,22 +98,24 @@ class MumentDetailViewModel @Inject constructor(
     private fun likeMument() {
         viewModelScope.launch {
             setState { copy(likeCount = likeCount + 1 ) }
-            likeMumentUseCase(viewState.value.requestMumentId, BuildConfig.USER_ID)
-                .catch { }
-                .collect {
-                    setState { copy(isLikedMument = true) }
-                }
+            setState { copy(isLikedMument = true) }
+            likeMumentUseCase(viewState.value.requestMumentId)
+                .catch {
+                    setState { copy(likeCount = likeCount - 1 ) }
+                    setState { copy(isLikedMument = false) }
+                }.collect {}
         }
     }
 
     private fun cancelLikeMument() {
         viewModelScope.launch {
             setState { copy(likeCount = likeCount - 1 ) }
-            cancelLikeMumentUseCase(viewState.value.requestMumentId, BuildConfig.USER_ID)
-                .catch { }
-                .collect {
-                    setState { copy(isLikedMument = false) }
-                }
+            setState { copy(isLikedMument = false) }
+            cancelLikeMumentUseCase(viewState.value.requestMumentId)
+                .catch {
+                    setState { copy(likeCount = likeCount + 1 ) }
+                    setState { copy(isLikedMument = true) }
+                }.collect {}
         }
     }
 
@@ -186,6 +187,16 @@ class MumentDetailViewModel @Inject constructor(
         val file = viewState.value.fileToShare
         setState { copy(fileToShare = null) }
         file?.delete()
+    }
+
+    private fun fetchLikeUsers(mumentId: String) {
+        viewModelScope.launch {
+            fetchUsersLikeMumentUseCase(mumentId, 30, 0).collect { status ->
+                if (status is ApiStatus.Success) {
+                    setState { copy(likeUsers = status.data) }
+                }
+            }
+        }
     }
 
     companion object {

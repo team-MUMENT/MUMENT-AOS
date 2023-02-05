@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.EditMumentNavigatorProvider
+import com.angdroid.navigation.LikeUsersNavigatorProvider
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.google.android.flexbox.FlexDirection
@@ -41,6 +42,7 @@ import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion
 import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion.SELECT_REPORT_MUMENT
 import com.mument_android.domain.entity.detail.MumentEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
+import com.mument_android.domain.entity.user.UserEntity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -48,15 +50,10 @@ import javax.inject.Inject
 class MumentDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
-
-    @Inject
-    lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
-
-    @Inject
-    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
-
-    @Inject
-    lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
+    @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
+    @Inject lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+    @Inject lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
+    @Inject lateinit var likeUsersNavigatorProvider: LikeUsersNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,7 +78,9 @@ class MumentDetailFragment : Fragment() {
         goToMusicDetail()
         goToHistory()
         shareMumentOnInstagram()
-
+        binding.tvLikeCount.setOnClickListener {
+            likeUsersNavigatorProvider.toLikeUsers(ArrayList(viewModel.viewState.value.likeUsers))
+        }
     }
 
     private fun receiveMumentInfo() {
@@ -133,8 +132,14 @@ class MumentDetailFragment : Fragment() {
 
     private fun changeLikeStatus() {
         binding.cbHeart.setOnClickListener {
-            val event = if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
-            viewModel.emitEvent(event)
+            val likeStatus = viewModel.viewState.value.isLikedMument
+            if(likeStatus) {
+                viewModel.emitEvent(MumentDetailEvent.OnClickUnLikeMument)
+            } else {
+                viewModel.emitEvent(MumentDetailEvent.OnClickLikeMument)
+            }
+//            val event = if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
+//            viewModel.emitEvent(event)
         }
     }
 
