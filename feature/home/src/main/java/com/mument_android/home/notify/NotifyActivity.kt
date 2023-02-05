@@ -2,6 +2,7 @@ package com.mument_android.home.notify
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
@@ -46,6 +47,9 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
             when (notifySideEffect) {
                 NotifySideEffect.PopBackStack -> {
                     finish()
+                }
+                NotifySideEffect.AllReadSuccess -> {
+                    Log.e("Success", "AllRead Success")
                 }
                 NotifySideEffect.NavToSetting -> {
                     //Nav to Setting
