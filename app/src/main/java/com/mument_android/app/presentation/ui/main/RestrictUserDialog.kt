@@ -43,9 +43,9 @@ class RestrictUserDialog(context: Context) :
         clickListener()
     }
 
-    @SuppressLint("ResourceType")
+
     override fun getTheme(): Int {
-        return com.mument_android.R.drawable.rectangle_fill_white_11dp
+        return com.mument_android.core_dependent.R.style.DialogTheme
     }
 
     private fun dataNetwork() {
