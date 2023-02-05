@@ -15,6 +15,8 @@ import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
+import com.mument_android.data.mapper.sign.RequestSetProfileMapper
+import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
 import dagger.Module
@@ -139,6 +141,14 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideBlockUserMapper(): BlockUserMapper = BlockUserMapper()
+
+    @Provides
+    @Singleton
+    fun provideSignPutProfile() : RequestSetProfileMapper = RequestSetProfileMapper()
+
+    @Provides
+    @Singleton
+    fun setProfileMapper() : SetProfileMapper = SetProfileMapper()
 
 
     @Provides

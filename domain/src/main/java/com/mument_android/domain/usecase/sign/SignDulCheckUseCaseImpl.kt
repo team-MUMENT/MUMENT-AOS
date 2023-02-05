@@ -6,13 +6,6 @@ import javax.inject.Inject
 class SignDulCheckUseCaseImpl @Inject constructor(
     private val signRepository : SignRepository
 ): SignDulCheckUseCase {
-    /*
-    override suspend fun invoke(userId: String)  {
-        signRepository.signDupCheck(userId)
-    }
-
-     */
-
     override suspend fun dupCheckNickname(userId: String): Int {
         return signRepository.signDupCheck(userId)
     }

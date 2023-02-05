@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
@@ -13,16 +12,21 @@ import androidx.activity.viewModels
 import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
+import com.mument_android.login.util.MultipartResolver
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -30,6 +34,10 @@ class ProfileSettingActivity :
     BaseActivity<ActivityProfileSettingBinding>(inflate = ActivityProfileSettingBinding::inflate) {
     private lateinit var intentLauncher: ActivityResultLauncher<Intent>
     private lateinit var inputMethodManager: InputMethodManager
+    private val multiPartResolver = MultipartResolver(this)
+
+    @Inject
+    lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
 
     private val viewModel: LogInViewModel by viewModels()
 
@@ -171,16 +179,31 @@ class ProfileSettingActivity :
         viewModel.nickNameDupCheck(nickname)
     }
 
+    private fun putProfileNetwork() {
+        val requestBodyMap = HashMap<String, RequestBody>()
+        val nickname = binding.etNickname.text.toString()
+        requestBodyMap["profileId"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
+        val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
+        viewModel.putProfile(multipart, requestBodyMap)
+        moveToMainActivity()
+
+
+        /*
+        //MainActivity로 이동하려면 어떻게 해야하는거죠...? MainActivity는 App모듈이자나여....
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+         */
+    }
+
     private suspend fun nickNameDupCheck() {
         delay(100)
         viewModel.isDuplicate.observe(this) {
             if(it == 200) {
                 CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
             } else if (it == 204) {
-                //TODO 프로필 서버통신
-                finish()
+                putProfileNetwork()
             } else {
-                Log.e("닉네임 중복확인","서버통신 실패")
             }
         }
     }
@@ -190,8 +213,11 @@ class ProfileSettingActivity :
             viewModel.viewModelScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
-
             }
         }
+    }
+
+    private fun moveToMainActivity() {
+        mainHomeNavigatorProvider.profileSettingToMain()
     }
 }

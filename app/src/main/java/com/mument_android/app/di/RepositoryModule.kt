@@ -23,6 +23,8 @@ import com.mument_android.data.datasource.mypage.NoticeListDataSource
 import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
+import com.mument_android.data.mapper.sign.RequestSetProfileMapper
+import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
 import com.mument_android.data.repository.*
@@ -136,8 +138,10 @@ object RepositoryModule {
     @Singleton
     fun provideSignRepository(
         signMapper : SignMapper,
-        signDataSource: SignDataSource
-    ): SignRepository = SignRepositoryImpl(signMapper, signDataSource)
+        signDataSource: SignDataSource,
+        requestSetProfileMapper: RequestSetProfileMapper,
+        setProfileMapper: SetProfileMapper
+    ): SignRepository = SignRepositoryImpl(signDataSource, signMapper, setProfileMapper, requestSetProfileMapper)
 
     @Provides
     @Singleton
