@@ -132,7 +132,7 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideBlockUserIstDataSource(myPageApiService: MyPageApiService): BlockUserListDataSource =
+    fun provideBlockUserListDataSource(myPageApiService: MyPageApiService): BlockUserListDataSource =
         BlockUserListDataSourceImpl(myPageApiService)
 
     @Provides
