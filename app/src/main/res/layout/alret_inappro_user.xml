@@ -71,6 +71,7 @@
             android:textAlignment="center"
             android:text="@{viewModel.reason}"
             android:maxLines="1"
+            android:paddingHorizontal="20dp"
             android:textColor="@color/mument_color_black2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
