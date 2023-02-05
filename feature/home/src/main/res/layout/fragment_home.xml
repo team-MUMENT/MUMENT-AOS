@@ -18,6 +18,7 @@
         android:background="@color/mument_color_bgwhite"
         tools:context=".app.presentation.ui.home.HomeFragment">
 
+
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -202,5 +203,12 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/pb_progress"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

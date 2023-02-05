@@ -8,10 +8,12 @@ import javax.inject.Inject
 
 class LocalTodayMumentDataSourceImpl @Inject constructor(private val dao: TodayMumentDAO) :
     LocalTodayMumentDataSource {
-    override suspend fun getTodayMument(userId: String): ResultWrapper<TodayMumentEntity> =
+    override suspend fun getTodayMument(): ResultWrapper<TodayMumentEntity> =
         runCatching {
-            dao.getTodayMument(userId).run {//DB에 없거나 오늘이 아닐 때
-                if (this == null || this.todayDate == LocalDate.now().toString()) { //여기서 처리하는게 좀 맘에 걸림
+            dao.getTodayMument().run {//DB에 없거나 오늘이 아닐 때
+                if (this == null || this.todayDate == LocalDate.now()
+                        .toString()
+                ) { //여기서 처리하는게 좀 맘에 걸림
                     ResultWrapper.LocalError("Empty")
                 } else {
                     ResultWrapper.Success(this)

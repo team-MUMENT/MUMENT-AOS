@@ -15,6 +15,8 @@ import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
+import com.mument_android.data.mapper.notify.NotifyMapper
+import com.mument_android.home.notify.NotifyItemMapper
 import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
@@ -64,6 +66,14 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideRecentSearchDataMapper(): RecentSearchDataMapper = RecentSearchDataMapper()
+
+    @Provides
+    @Singleton
+    fun provideNotifyMapper(): NotifyMapper = NotifyMapper()
+
+    @Provides
+    @Singleton
+    fun provideNotifyItemMapper(): NotifyItemMapper = NotifyItemMapper()
 
     @Provides
     @Singleton
@@ -120,10 +130,7 @@ object MapperModule {
 
     @Provides
     @Singleton
-    fun provideMumentSummaryMapper(
-        userMapper: UserMapper,
-        integrationTagMapper: IntegrationTagMapper
-    ): MumentSummaryMapper =
+    fun provideMumentSummaryMapper(userMapper: UserMapper, integrationTagMapper: IntegrationTagMapper): MumentSummaryMapper =
         MumentSummaryMapper(userMapper, integrationTagMapper)
 
     @Provides

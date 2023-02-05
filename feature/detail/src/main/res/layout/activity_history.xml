@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="historyviewmodel"
+            type="com.mument_android.detail.viewmodels.HistoryViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="34dp"
+                android:src="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_main_title"
+                style="@style/TextView.Mument_H2_B18.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:text="뮤멘트 히스토리"
+                android:textColor="@color/mument_color_black1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_toolbar">
+
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/mument_color_bgwhite"
+                app:elevation="0dp">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="12dp"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_main_title">
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/gl_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_begin="16dp" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/gl_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.96107054" />
+
+                        <ImageView
+                            android:id="@+id/iv_album"
+                            load_album_five="@{historyviewmodel.music.image}"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            app:layout_constraintStart_toStartOf="@id/gl_left"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:src="@drawable/ic_logo" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/cl_touch"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_album"
+                            app:layout_constraintEnd_toStartOf="@+id/gl_right"
+                            app:layout_constraintStart_toEndOf="@id/iv_album"
+                            app:layout_constraintTop_toTopOf="@id/iv_album">
+
+                            <TextView
+                                android:id="@+id/tv_title"
+                                style="@style/TextView.Mument_B3_B14.Style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="3dp"
+                                android:text="@{historyviewmodel.music.name}"
+                                android:textColor="@color/mument_color_black2"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="하늘나라" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/ic_back_right"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_title"
+                                app:layout_constraintStart_toEndOf="@id/tv_title"
+                                app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+                            <TextView
+                                android:id="@+id/textView7"
+                                style="@style/TextView.Mument_B5_M13.Style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{historyviewmodel.music.artist}"
+                                app:layout_constraintStart_toStartOf="@id/tv_title"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                                tools:text="혁오" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:id="@+id/tv_latest_order"
+                            style="@style/TextView.Mument_C1_R12.Style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:text="최신순"
+                            android:textColor="@color/selector_state_selected_gray1_purple1"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_oldest_order"
+                            app:layout_constraintTop_toTopOf="@id/tv_oldest_order" />
+
+                        <TextView
+                            android:id="@+id/tv_oldest_order"
+                            style="@style/TextView.Mument_C1_R12.Style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="27dp"
+                            android:text="오래된순"
+                            android:textColor="@color/selector_state_selected_gray1_purple1"
+                            app:layout_constraintEnd_toEndOf="@id/gl_right"
+                            app:layout_constraintTop_toBottomOf="@id/iv_album" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rc_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                tools:listitem="@layout/item_mument_layout" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

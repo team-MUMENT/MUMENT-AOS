@@ -33,7 +33,7 @@ class MumentDetailContract {
         data class OnClickAlum(val musicId: String): MumentDetailEvent()
         data class OnClickHistory (val musicId: String): MumentDetailEvent()
         data class OnClickEditMument (val mument: String): MumentDetailEvent()
-        data class OnClickShareMument(val mumentEntity: MumentEntity?): MumentDetailEvent()
+        data class OnClickShareMument(val mumentEntity: MumentEntity?, val musicInfo: MusicInfoEntity?): MumentDetailEvent()
         data class OnDismissShareMumentDialog(val imageFile: File, val imageUri: Uri): MumentDetailEvent()
         object OnClickBackIcon: MumentDetailEvent()
         object OnClickLikeMument: MumentDetailEvent()
@@ -42,7 +42,7 @@ class MumentDetailContract {
         object EntryFromInstagram: MumentDetailEvent()
 
         // Instagram 공유하기 전 노출되는 Dialog에 Mument 업데이트 하기 위한 Event
-        data class UpdateMumentToShareInstagram(val mument: MumentEntity): MumentDetailEvent()
+        data class UpdateMumentToShareInstagram(val mument: MumentEntity, val musicInfo: MusicInfoEntity?): MumentDetailEvent()
     }
 
     sealed class MumentDetailSideEffect: SideEffect {
@@ -52,7 +52,7 @@ class MumentDetailContract {
         data class NavToMusicDetail(val musicId: String): MumentDetailSideEffect()
         data class NavToMumentHistory(val musicId: String): MumentDetailSideEffect()
         data class EditMument(val mumentId: String): MumentDetailSideEffect()
-        data class OpenShareMumentDialog(val mument: MumentEntity): MumentDetailSideEffect()
+        data class OpenShareMumentDialog(val mument: MumentEntity, val musicInfo: MusicInfoEntity): MumentDetailSideEffect()
         data class NavToInstagram(val imageUri: Uri): MumentDetailSideEffect()
     }
 }

@@ -15,6 +15,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ext.setGone
+import com.mument_android.core_dependent.ext.setVisible
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
@@ -71,7 +73,6 @@ class HomeFragment : Fragment() {
 
     private fun bindData() {
         setAdapter()
-        setBannerCallBack()
         setListData()
         receiveEffect()
         binding.tvSearch.setOnClickListener {
@@ -84,7 +85,7 @@ class HomeFragment : Fragment() {
 
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { mument ->
-            viewModel.emitEvent(HomeEvent.OnClickHeardMument(mument._id))
+            viewModel.emitEvent(HomeEvent.OnClickHeardMument(mument.mumentId))
         }
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { mument ->
             viewModel.emitEvent(HomeEvent.OnClickRandomMument(mument._id))
@@ -104,6 +105,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setListData() {
+        binding.pbProgress.setVisible()
         collectFlowWhenStarted(viewModel.bannerNumIncrease) { index ->
             binding.vpBanner.setCurrentItem(index, true)
         }
@@ -123,7 +125,6 @@ class HomeFragment : Fragment() {
                 bannerEntity?.let { banner ->
                     binding.vpBanner.adapter = BannerListAdapter(banner.map {
                         BannerEntity(
-                            it._id,
                             it.displayDate,
                             Music(it.music._id, it.music.name, it.music.artist, it.music.image),
                             it.tagTitle.replace("\\n", "\n")
@@ -131,10 +132,15 @@ class HomeFragment : Fragment() {
                     }) { musicId ->
                         viewModel.emitEvent(HomeEvent.OnClickBanner(musicId))
                     }
+                    setBannerCallBack()
                 }
             }
         }
-        collectFlowWhenStarted(viewModel.homeViewStateEnabled) { /*전체 데이터가 다 불러와졌는지 */ }
+        collectFlowWhenStarted(viewModel.homeViewStateEnabled) { /*전체 데이터가 다 불러와졌는지 */
+            if (it) {
+                binding.pbProgress.setGone()
+            }
+        }
     }
 
     private fun receiveEffect() {

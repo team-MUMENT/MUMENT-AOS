@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
@@ -40,10 +41,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MumentToShareDialogFragment(
     val captureCallback: (File, Uri) -> Unit
-): DialogFragment() {
+) : DialogFragment() {
     private var binding by AutoClearedValue<FragmentMumentToShareDialogBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
-    @Inject lateinit var mediaUtils: MediaUtils
+
+    @Inject
+    lateinit var mediaUtils: MediaUtils
 
     override fun onStart() {
         super.onStart()
@@ -88,16 +91,20 @@ class MumentToShareDialogFragment(
     private fun getMumentArgs() {
         arguments?.getString(KEY_PASS_MUMENT)?.let {
             val mument = Gson().fromJson(it, MumentEntity::class.java)
-            viewModel.emitEvent(
-                MumentDetailContract.MumentDetailEvent.UpdateMumentToShareInstagram(
-                    mument
+            arguments?.getString(KEY_PASS_MUSIC)?.let {
+                val music = Gson().fromJson(it, MusicInfoEntity::class.java)
+                viewModel.emitEvent(
+                    MumentDetailContract.MumentDetailEvent.UpdateMumentToShareInstagram(
+                        mument, music
+                    )
                 )
-            )
+            }
         }
     }
 
     private fun renderView() {
         collectFlowWhenStarted(viewModel.viewState) { state ->
+            Log.e("STATE!!!", state.toString())
             checkImagesRendered(state)
             if (state.mument != null && state.musicInfo != null) {
                 binding.tvMusicName.text = state.musicInfo.name
@@ -109,12 +116,19 @@ class MumentToShareDialogFragment(
                     checkAllViewsRendered(state.mument, state.musicInfo)
                 }
             }
+
         }
     }
 
     private fun setUpMumentTagList() {
         binding.rvTags.run {
-            addItemDecoration(RecyclerviewItemDivider(0, 4.dpToPx(requireContext()), RecyclerviewItemDivider.IS_VERTICAL))
+            addItemDecoration(
+                RecyclerviewItemDivider(
+                    0,
+                    4.dpToPx(requireContext()),
+                    RecyclerviewItemDivider.IS_VERTICAL
+                )
+            )
             layoutManager = FlexboxLayoutManager(context).apply {
                 justifyContent = JustifyContent.CENTER
                 flexWrap = FlexWrap.WRAP
@@ -128,6 +142,7 @@ class MumentToShareDialogFragment(
         with(state) {
             if (renderedProfileImage && renderedTags && renderdAlbumCover) {
                 mediaUtils.getBitmapUri(binding.root.rootView, FILE_NAME).let { fileInfo ->
+                    Log.e("GET BITMAP", fileInfo.toString())
                     fileInfo?.let { dismissWithDelay(it.first, it.second) }
                         ?: dismiss()
                 }
@@ -146,15 +161,24 @@ class MumentToShareDialogFragment(
     private fun checkAllViewsRendered(mument: MumentEntity, musicInfo: MusicInfoEntity) {
         with(binding) {
             rvTags.checkIsViewLoaded { viewModel?.updateRenderedTags(true) }
-            ivProfileImage.checkIfImageLoaded(mument.writerInfo.profileImage?: "") { viewModel?.updateRenderedProfileImage(true) }
-            ivAlbumCover.checkIfImageLoaded(musicInfo.thumbnail) { viewModel?.updateRenderedAlbumCover(true) }
+            ivProfileImage.checkIfImageLoaded(
+                mument.writerInfo.profileImage ?: ""
+            ) { viewModel?.updateRenderedProfileImage(true) }
+            ivAlbumCover.checkIfImageLoaded(musicInfo.thumbnail) {
+                viewModel?.updateRenderedAlbumCover(
+                    true
+                )
+            }
         }
     }
 
-    private inline fun ImageView.checkIfImageLoaded(url: String, crossinline finishRenderCallback:() -> Unit) {
+    private inline fun ImageView.checkIfImageLoaded(
+        url: String,
+        crossinline finishRenderCallback: () -> Unit
+    ) {
         load(url) {
             allowHardware(false)
-            listener(object: ImageRequest.Listener {
+            listener(object : ImageRequest.Listener {
                 override fun onSuccess(request: ImageRequest, metadata: ImageResult.Metadata) {
                     super.onSuccess(request, metadata)
                     finishRenderCallback()
@@ -166,5 +190,6 @@ class MumentToShareDialogFragment(
     companion object {
         private const val FILE_NAME = "MumentShareImage"
         const val KEY_PASS_MUMENT = "KEY_PASS_MUMENT"
+        const val KEY_PASS_MUSIC = "KEY_PASS_MUSIC"
     }
 }

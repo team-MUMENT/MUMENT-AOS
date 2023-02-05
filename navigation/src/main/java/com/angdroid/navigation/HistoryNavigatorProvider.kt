@@ -1,5 +1,7 @@
 package com.angdroid.navigation
 
+import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+
 interface HistoryNavigatorProvider {
-    fun moveHistory(musicId:String)
+    fun moveHistory(music:Music, userId:Int)
 }

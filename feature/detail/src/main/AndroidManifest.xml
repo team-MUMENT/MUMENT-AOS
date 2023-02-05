@@ -6,6 +6,9 @@
         <activity
             android:name=".mument.activity.DeclarMumentActivity"
             android:exported="false" />
+        <activity
+            android:name=".history.HistoryActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
