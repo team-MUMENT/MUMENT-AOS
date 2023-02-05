@@ -3,6 +3,7 @@ package com.mument_android.core_dependent.ext
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -32,6 +33,10 @@ class DataStoreManager(
         }
     }
 
+    suspend fun writeIsFirst(isFirst : Boolean) {
+        writeData(IS_FIRST, isFirst)
+    }
+
     val accessTokenFlow: Flow<String?> = context.datastore.data.map {
         it[ACCESS_TOKEN_KEY]
     }
@@ -48,5 +53,6 @@ class DataStoreManager(
         val USER_ID = stringPreferencesKey("USER_ID")
         val ACCESS_TOKEN_KEY = stringPreferencesKey("ACCESS_TOKEN")
         val REFRESH_TOKEN_KEY = stringPreferencesKey("REFRESH_TOKEN")
+        val IS_FIRST = booleanPreferencesKey("IS_FIRST")
     }
 }

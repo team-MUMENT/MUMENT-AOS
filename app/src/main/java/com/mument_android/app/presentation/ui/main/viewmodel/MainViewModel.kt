@@ -78,6 +78,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun saveIsFirst() {
+        viewModelScope.launch {
+            dataStoreManager.writeIsFirst(false)
+        }
+    }
+
     fun limitUser() {
         viewModelScope.launch {
             _limitUser.value = limitUserUseCase.invoke()
