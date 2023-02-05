@@ -24,4 +24,15 @@ class HomeDataSourceImpl @Inject constructor(val service: HomeService) : HomeDat
     override suspend fun getRandomMument(): ResultWrapper<RandomMumentDto?> =
         catchingApiCall { service.getRandomMument() }
 
+    override suspend fun fetchExistNotifyList(): Boolean? =
+        kotlin.runCatching { service.checkNewNotify().body()?.data?.exist }.getOrElse {
+            null
+        }
+
+
+    override suspend fun fetchProfileExist(): Boolean? =
+        kotlin.runCatching { service.checkProfileSetting().code() == 200 }.getOrElse {
+            null
+        }
+
 }
