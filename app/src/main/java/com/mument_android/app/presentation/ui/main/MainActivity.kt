@@ -133,8 +133,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private fun isRestrictUser() {
         viewModel.limitUser.observe(this) {
-            RestrictUserDialog(this).show(supportFragmentManager, "test")
-
+            if(it.restricted == true) {
+                RestrictUserDialog(this).show(supportFragmentManager, "test")
+            }
         }
 
     }
