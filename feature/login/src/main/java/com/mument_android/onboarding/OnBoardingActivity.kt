@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlow
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.login.LogInViewModel
 import com.mument_android.login.databinding.ActivityOnBoardingBinding
@@ -27,9 +28,7 @@ class OnBoardingActivity :
         val pagerAdater = OnBoardingPagerAdapter(this)
         binding.vpOnboarding.adapter = pagerAdater
         binding.dotsIndicator.setViewPager2(binding.vpOnboarding)
-
-        //isFirstCheck()
-
+        isFirstCheck()
     }
 
     private inner class OnBoardingPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
@@ -45,14 +44,13 @@ class OnBoardingActivity :
         }
     }
 
-    /*
+
     private fun isFirstCheck() {
-        collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
-            if (it == null) viewModel.saveIsFirst()
+        collectFlow(dataStoreManager.isFirstFlow) {
+            if (it == null) {
+                viewModel.saveIsFirst()
+            }
         }
     }
-
-     */
-
 
 }

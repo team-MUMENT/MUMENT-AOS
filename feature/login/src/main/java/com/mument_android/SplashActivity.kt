@@ -4,15 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.activity.viewModels
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlow
+import com.mument_android.core_dependent.ext.collectFlowWhenCreated
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.login.LogInActivity
 import com.mument_android.login.LogInViewModel
 import com.mument_android.login.databinding.ActivitySplashBinding
 import com.mument_android.onboarding.OnBoardingActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -26,7 +30,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initSplash()
-        dataStoreManager = DataStoreManager(this)
+        //dataStoreManager = DataStoreManager(this)
 
     }
 
@@ -38,17 +42,19 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun isFirst() {
-        collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
+        collectFlow(dataStoreManager.isFirstFlow) {
+            Log.e("datastore", "$it")
+            delay(1000)
             if(it == null) {
                 val intent = Intent(this, OnBoardingActivity::class.java)
-                viewModel.saveIsFirst()
                 startActivity(intent)
             } else {
                 val intent = Intent(this, LogInActivity::class.java)
                 startActivity(intent)
             }
-            finish()
+
         }
+        finish()
     }
 
 
