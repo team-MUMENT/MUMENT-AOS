@@ -7,8 +7,6 @@ import javax.inject.Inject
 
 class BeforeWhenHomeEnterUseCaseImpl @Inject constructor(private val homeRepository: HomeRepository) :
     BeforeWhenHomeEnterUseCase {
-    override suspend fun checkNotifyExist(): Flow<Boolean?> =
-        flow { emit(homeRepository.fetchExistNotifyList()) }
 
     override suspend fun checkProfileExist(): Flow<Boolean?> =
         flow { emit(homeRepository.fetchProfileExist()) }

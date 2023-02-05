@@ -15,7 +15,6 @@ class WhenHomeEnterUseCaseImpl @Inject constructor(
     override suspend fun getTodayMument(): Flow<TodayMument?> =
         homeRepository.getTodayMument()
 
-
     override suspend fun updateLocalTodayMument(mument: TodayMument) {
         homeRepository.insertTodayMument(mument)
     }
@@ -31,5 +30,8 @@ class WhenHomeEnterUseCaseImpl @Inject constructor(
     override suspend fun getKnownMument(): Flow<List<AgainMumentEntity>?> = flow {
         emit(homeRepository.getKnownMument())
     }
+
+    override suspend fun checkNotifyExist(): Flow<Boolean?> =
+        flow { emit(homeRepository.fetchExistNotifyList()) }
 
 }
