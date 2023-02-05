@@ -40,6 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initNavigation()
         floatingBtnListener()
         customAppBar()
+        isLimitUserNetwork()
     }
 
     private fun saveTestToken() {
@@ -78,6 +79,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             startActivity(intent)
         }
 
+    }
+
+    private fun isLimitUserNetwork() {
+        viewModel.limitUser()
     }
 
     private fun initNavigation() {

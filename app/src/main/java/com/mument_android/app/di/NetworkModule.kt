@@ -3,6 +3,7 @@ package com.mument_android.app.di
 import com.mument_android.BuildConfig
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.network.AuthInterceptor
+import com.mument_android.data.network.app.AppApiService
 import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.network.home.HomeService
 import com.mument_android.data.network.locker.LockerApiService
@@ -20,6 +21,7 @@ import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -121,6 +123,9 @@ object NetworkModule {
     @Singleton
     fun provideMyPageNetwork(@AuthRetrofit retrofit: Retrofit): MyPageApiService = retrofit.create(MyPageApiService::class.java)
 
+    @Provides
+    @Singleton
+    fun provideAppNetwork(@AuthRetrofit retrofit: Retrofit) : AppApiService = retrofit.create(AppApiService::class.java)
 
     private fun Request.Builder.addHeaders(token: String) = this.apply { header("Authorization", "Bearer $token") }
     private const val BEARER = "Bearer"
