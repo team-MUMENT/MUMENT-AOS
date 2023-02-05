@@ -54,6 +54,7 @@ dependencies {
     addRoomDependencies()
     addNetworkDependencies()
     addLifecycleDependencies()
+    implementation(AndroidXDependencies.pagingRuntime)
     implementation(ThirdPartyDependencies.timber)
     implementation(project(Modules.DOMAIN_MODULE))
     implementation(project(Modules.CORE_MODULE))

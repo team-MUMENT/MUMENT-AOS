@@ -5,7 +5,9 @@ import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.network.AuthInterceptor
 import com.mument_android.data.network.app.AppApiService
 import com.mument_android.data.network.detail.DetailApiService
+import com.mument_android.data.network.detail.HistoryService
 import com.mument_android.data.network.home.HomeService
+import com.mument_android.data.network.home.NotifyService
 import com.mument_android.data.network.locker.LockerApiService
 import com.mument_android.data.network.main.MainApiService
 import com.mument_android.data.network.mypage.MyPageApiService
@@ -15,7 +17,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
@@ -45,7 +46,10 @@ object NetworkModule {
     @Provides
     @Singleton
     @AuthOkHttpClient
-    fun provideAuthOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, authInterceptor: AuthInterceptor): OkHttpClient =
+    fun provideAuthOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor
+    ): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
@@ -97,6 +101,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideHistoryService(@AuthRetrofit retrofit: Retrofit): HistoryService =
+        retrofit.create(HistoryService::class.java)
+
+    @Provides
+    @Singleton
     fun provideMainApiService(@AuthRetrofit retrofit: Retrofit): MainApiService =
         retrofit.create(MainApiService::class.java)
 
@@ -112,7 +121,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providehomeNetwork(@AuthRetrofit retrofit: Retrofit): HomeService = retrofit.create(HomeService::class.java)
+    fun provideNotifyNetwork(@AuthRetrofit retrofit: Retrofit): NotifyService =
+        retrofit.create(NotifyService::class.java)
+
+    @Provides
+    @Singleton
+    fun providehomeNetwork(@AuthRetrofit retrofit: Retrofit): HomeService =
+        retrofit.create(HomeService::class.java)
 
     @Provides
     @Singleton
@@ -127,6 +142,8 @@ object NetworkModule {
     @Singleton
     fun provideAppNetwork(@AuthRetrofit retrofit: Retrofit) : AppApiService = retrofit.create(AppApiService::class.java)
 
-    private fun Request.Builder.addHeaders(token: String) = this.apply { header("Authorization", "Bearer $token") }
+    private fun Request.Builder.addHeaders(token: String) =
+        this.apply { header("Authorization", "Bearer $token") }
+
     private const val BEARER = "Bearer"
 }

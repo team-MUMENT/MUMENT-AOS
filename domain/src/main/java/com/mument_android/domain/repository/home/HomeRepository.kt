@@ -1,6 +1,5 @@
 package com.mument_android.domain.repository.home
 
-import com.mument_android.domain.entity.history.MumentHistoryEntity
 import com.mument_android.domain.entity.home.*
 import kotlinx.coroutines.flow.Flow
 
@@ -24,9 +23,7 @@ interface HomeRepository {
 
     suspend fun searchList(keyword: String): List<RecentSearchData>?
 
-    suspend fun getMumentHistory(userId: String, musicId: String): MumentHistoryEntity?
-
-    suspend fun getTodayMument(userId: String): Flow<TodayMument>
+    suspend fun getTodayMument(): Flow<TodayMument?>
 
     suspend fun getBannerMument(): List<BannerEntity>?
 

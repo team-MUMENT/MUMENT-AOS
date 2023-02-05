@@ -22,18 +22,22 @@ import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.mument.listener.MumentClickListener
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEffect
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEvent
+import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MusicDetailFragment(): Fragment() {
+class MusicDetailFragment() : Fragment() {
     private var binding by AutoClearedValue<FragmentMusicDetailBinding>()
     private val musicDetailViewModel: MusicDetailViewModel by viewModels()
+
     @Inject
     lateinit var recordProvider: MoveRecordProvider
+
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+
     @Inject
     lateinit var historyNavigatorProvider: HistoryNavigatorProvider
 
@@ -78,9 +82,9 @@ class MusicDetailFragment(): Fragment() {
 
     private fun collectEffect() {
         collectFlowWhenStarted(musicDetailViewModel.effect) { effect ->
-            when(effect) {
+            when (effect) {
                 is MusicDetailEffect.ShowToast -> requireContext().showToast(effect.msg)
-                MusicDetailEffect.PopBackStack -> { }
+                MusicDetailEffect.PopBackStack -> {}
             }
         }
     }
@@ -127,8 +131,20 @@ class MusicDetailFragment(): Fragment() {
 
     private fun moveToHistoryFragment() {
         binding.tvShowMyHistory.setOnClickListener {
-            musicDetailViewModel.viewState.value.musicInfo?.id
-                ?.let { historyNavigatorProvider.moveHistory(it) }
+            musicDetailViewModel.viewState.value.musicInfo
+                ?.let {
+                    musicDetailViewModel.viewState.value.myMumentInfo?.user?.userId?.let { userId ->
+                        historyNavigatorProvider.moveHistory(
+                            Music(
+                                it.id,
+                                it.name,
+                                it.artist,
+                                it.thumbnail
+                            ),
+                            userId = userId.toInt()
+                        )
+                    }
+                }
         }
     }
 

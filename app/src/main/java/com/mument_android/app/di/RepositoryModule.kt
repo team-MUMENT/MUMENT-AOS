@@ -22,9 +22,12 @@ import com.mument_android.data.datasource.mypage.BlockUserListDataSource
 import com.mument_android.data.datasource.mypage.NoticeDetailDataSource
 import com.mument_android.data.datasource.mypage.NoticeListDataSource
 import com.mument_android.data.mapper.app.LimitUserMapper
+import com.mument_android.data.datasource.notify.NotifyDataSource
 import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
+import com.mument_android.data.mapper.notify.NotifyMapper
+import com.mument_android.data.network.detail.HistoryService
 import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
@@ -41,6 +44,7 @@ import com.mument_android.domain.repository.detail.MusicDetailRepository
 import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
+import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
@@ -68,12 +72,14 @@ object RepositoryModule {
     fun provideMumentDetailUseCase(
         mumentDetailDataSource: MumentDetailDataSource,
         mumentDetailMapper: MumentDetailMapper,
-        deleteMumentController: DeleteMumentController
+        deleteMumentController: DeleteMumentController,
+        historyService: HistoryService
     ): MumentDetailRepository =
         MumentDetailRepositoryImpl(
             mumentDetailDataSource,
             mumentDetailMapper,
-            deleteMumentController
+            deleteMumentController,
+            historyService
         )
 
     @Provides
@@ -105,7 +111,6 @@ object RepositoryModule {
     fun provideHomeRepository(
         todayMumentDataSource: LocalTodayMumentDataSource,
         recentSearchListDataSource: LocalRecentSearchListDataSource,
-        mumentHistoryDataSource: RemoteMumentHistoryDataSource,
         searchListDataSource: RemoteSearchListDataSource,
         homeDataSource: HomeDataSource,
         randomMumentMapper: RandomMumentMapper,
@@ -114,13 +119,19 @@ object RepositoryModule {
     ): HomeRepository = HomeRepositoryImpl(
         todayMumentDataSource,
         recentSearchListDataSource,
-        mumentHistoryDataSource,
         searchListDataSource,
         homeDataSource,
         randomMumentMapper,
         homeTodayMumentMapper,
         recentSearchDataMapper
     )
+
+    @Provides
+    @Singleton
+    fun provideNotifyRepository(
+        notifyDataSource: NotifyDataSource,
+        notifyMapper: NotifyMapper
+    ): NotifyRepository = NotifyRepositoryImpl(notifyDataSource, notifyMapper)
 
     @Provides
     @Singleton
@@ -140,11 +151,12 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideSignRepository(
-        signMapper : SignMapper,
+        signMapper: SignMapper,
         signDataSource: SignDataSource,
         requestSetProfileMapper: RequestSetProfileMapper,
         setProfileMapper: SetProfileMapper
-    ): SignRepository = SignRepositoryImpl(signDataSource, signMapper, setProfileMapper, requestSetProfileMapper)
+    ): SignRepository =
+        SignRepositoryImpl(signDataSource, signMapper, setProfileMapper, requestSetProfileMapper)
 
     @Provides
     @Singleton
@@ -184,5 +196,6 @@ object RepositoryModule {
             limitUserDataSource,
             limitUserMapper
         )
+
 
 }

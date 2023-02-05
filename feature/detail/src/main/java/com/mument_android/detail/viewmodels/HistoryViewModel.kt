@@ -1,41 +1,41 @@
 package com.mument_android.detail.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.detail.BuildConfig
-import com.mument_android.domain.entity.history.MumentHistoryEntity
+import androidx.paging.cachedIn
+import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.domain.usecase.home.GetMumentHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(val useCase: GetMumentHistoryUseCase) : ViewModel() {
-    private val _selectSortType = MutableStateFlow<Boolean>(true)
-    val selectSortType = _selectSortType.asStateFlow()
-    val musicDetailData = MutableLiveData<MumentHistoryEntity>()
+    val selectSortType = MutableStateFlow<String>("Y")
 
-    private val _musicId = MutableLiveData<String>()
-    val musicId: LiveData<String> = _musicId
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val fetchHistory =
+        selectSortType.flatMapLatest {
+            useCase.getMumentHistory(userId = userId.value.toString(), music.value._id, it)
+        }.cachedIn(viewModelScope)
 
-    fun changeMusicId(id: String) {
-        _musicId.value = id
+    private val _music = MutableStateFlow<Music>(
+        Music("", "", "", "")
+    )
+    val music: StateFlow<Music> = _music
+    val userId: MutableStateFlow<Int> = MutableStateFlow<Int>(0)
+
+    fun changeMusicId(music: Music) {
+        _music.value = music
     }
 
-    fun getHistory() {
-        viewModelScope.launch {
-            useCase.getMumentHistory(BuildConfig.USER_ID, musicId.value?:"").collect {
-                musicDetailData.value = it
-            }
-        }
+    fun setUserId(receiveUserId: Int) {
+        userId.value = receiveUserId
     }
 
-    fun changeSortType(type: Boolean) {
-        _selectSortType.value = type
+    fun changeSortType(type: String) {
+        selectSortType.value = type
     }
 }
