@@ -23,6 +23,7 @@ import com.mument_android.data.mapper.sign.*
 import com.mument_android.data.mapper.mypage.UserInfoMapper
 import com.mument_android.data.mapper.sign.GetWebViewMapper
 import com.mument_android.data.mapper.mypage.UnregisterMapper
+import com.mument_android.data.mapper.mypage.UnregisterReasonMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -132,7 +133,10 @@ object MapperModule {
 
     @Provides
     @Singleton
-    fun provideMumentSummaryMapper(userMapper: UserMapper, integrationTagMapper: IntegrationTagMapper): MumentSummaryMapper =
+    fun provideMumentSummaryMapper(
+        userMapper: UserMapper,
+        integrationTagMapper: IntegrationTagMapper
+    ): MumentSummaryMapper =
         MumentSummaryMapper(userMapper, integrationTagMapper)
 
     @Provides
@@ -153,7 +157,7 @@ object MapperModule {
 
     @Provides
     @Singleton
-    fun provideSignPutProfile() : RequestSetProfileMapper = RequestSetProfileMapper()
+    fun provideSignPutProfile(): RequestSetProfileMapper = RequestSetProfileMapper()
 
     @Provides
     @Singleton
@@ -191,5 +195,9 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideUnregisterMapper(): UnregisterMapper = UnregisterMapper()
+
+    @Provides
+    @Singleton
+    fun provideUnregisterReasonMapper(): UnregisterReasonMapper = UnregisterReasonMapper()
 
 }
