@@ -1,10 +1,8 @@
 package com.mument_android.data.network.home
 
-import com.mument_android.data.dto.history.MumentHistoryItem
 import com.mument_android.data.dto.home.*
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface HomeService {

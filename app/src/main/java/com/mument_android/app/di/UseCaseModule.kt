@@ -1,5 +1,6 @@
 package com.mument_android.app.di
 
+import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
@@ -8,7 +9,9 @@ import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
 import com.mument_android.domain.repository.notify.NotifyRepository
+import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.record.RecordRepository
+import com.mument_android.domain.repository.sign.SignRepository
 import com.mument_android.domain.usecase.detail.*
 import com.mument_android.domain.usecase.home.*
 import com.mument_android.domain.usecase.locker.FetchMyLikeListUseCase
@@ -20,7 +23,12 @@ import com.mument_android.domain.usecase.main.CancelLikeMumentUseCaseImpl
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCaseImpl
 import com.mument_android.domain.usecase.notify.*
+import com.mument_android.domain.usecase.mypage.*
 import com.mument_android.domain.usecase.record.*
+import com.mument_android.domain.usecase.sign.SignDulCheckUseCase
+import com.mument_android.domain.usecase.sign.SignDulCheckUseCaseImpl
+import com.mument_android.domain.usecase.sign.SignPutProfileUseCase
+import com.mument_android.domain.usecase.sign.SignPutProfileUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -133,6 +141,40 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideSignDulCheck(signRepository: SignRepository) : SignDulCheckUseCase =
+        SignDulCheckUseCaseImpl(signRepository)
+
+    @Provides
+    @Singleton
     fun provideBlockUserUseCase(blockUserRepository: BlockUserRepository): BlockUserUseCase =
         BlockUserUseCaseImpl(blockUserRepository)
+
+
+    @Provides
+    @Singleton
+    fun provideSignPutProfileUseCase(signRepository: SignRepository) : SignPutProfileUseCase =
+        SignPutProfileUseCaseImpl(signRepository)
+
+
+    @Provides
+    @Singleton
+    fun provideFetchBlockUserListUseCase(blockUserListRepository: BlockUserListRepository): FetchBlockUserUseCase =
+        FetchBlockUserUseCaseImpl(blockUserListRepository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteBlockUserUseCase(blockUserListRepository: BlockUserListRepository): DeleteBlockUserUseCase =
+        DeleteBlockUserUseCaseImpl(blockUserListRepository)
+
+    @Provides
+    @Singleton
+    fun provideFetchNoticeListUseCase(noticeListRepository: NoticeListRepository): FetchNoticeListUseCase =
+        FetchNoticeListUseCaseImpl(noticeListRepository)
+
+    @Provides
+    @Singleton
+    fun provideFetchNoticeDetailUseCase(noticeListRepository: NoticeListRepository): FetchNoticeDetailUseCase =
+        FetchNoticeDetailUseCaseImpl(noticeListRepository)
+
+
 }

@@ -6,24 +6,26 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.mument_android.mypage.data.UserData
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
+import com.mument_android.domain.entity.mypage.BlockUserEntity
+import com.mument_android.mypage.R
 import com.mument_android.mypage.databinding.ItemBlockUserBinding
 
 class BlockUserManagementAdapter(
-    val onClickDeleteUserItem: (userData: UserData) -> Unit
+    val onClickDeleteUserItem: (userData: BlockUserEntity) -> Unit
 ) :
-    ListAdapter<UserData, BlockUserManagementAdapter.BlockUserViewHolder>(GlobalDiffCallBack<UserData>()) {
+    ListAdapter<BlockUserEntity, BlockUserManagementAdapter.BlockUserViewHolder>(GlobalDiffCallBack<BlockUserEntity>()) {
 
     class BlockUserViewHolder(val binding: ItemBlockUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(userData: UserData) {
-            binding.tvUserName.text = userData.userID
-            binding.ivBlockUser.load(userData.userImg) {
+        fun bind(blockUserData: BlockUserEntity) {
+            binding.tvUserName.text = blockUserData.profileId
+            binding.ivBlockUser.load(blockUserData.image) {
                 crossfade(true)
-                placeholder(userData.userImg)
+                placeholder(R.drawable.mument_profile_sad_60_1)
                 transformations(CircleCropTransformation())
             }
+
         }
     }
 
@@ -34,11 +36,11 @@ class BlockUserManagementAdapter(
     }
 
     override fun onBindViewHolder(holder: BlockUserViewHolder, position: Int) {
-        val userListPosition = getItem(position)
+        val userData = getItem(position)
         holder.binding.btnUnblock.setOnClickListener {
-            onClickDeleteUserItem.invoke(userListPosition)
+            onClickDeleteUserItem.invoke(userData)
         }
-        holder.bind(userListPosition)
+        holder.bind(userData)
     }
 
 

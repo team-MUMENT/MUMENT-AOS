@@ -11,11 +11,16 @@ import com.mument_android.data.mapper.main.ImpressiveTagMapper
 import com.mument_android.data.mapper.main.IsFirstTagMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
+import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.mapper.notify.NotifyMapper
 import com.mument_android.home.notify.NotifyItemMapper
+import com.mument_android.data.mapper.sign.RequestSetProfileMapper
+import com.mument_android.data.mapper.sign.SetProfileMapper
+import com.mument_android.data.mapper.mypage.BlockUserListMapper
+import com.mument_android.data.mapper.mypage.NoticeListMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -125,10 +130,7 @@ object MapperModule {
 
     @Provides
     @Singleton
-    fun provideMumentSummaryMapper(
-        userMapper: UserMapper,
-        integrationTagMapper: IntegrationTagMapper
-    ): MumentSummaryMapper =
+    fun provideMumentSummaryMapper(userMapper: UserMapper, integrationTagMapper: IntegrationTagMapper): MumentSummaryMapper =
         MumentSummaryMapper(userMapper, integrationTagMapper)
 
     @Provides
@@ -141,6 +143,27 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideSignIdDupCheckMapper(): SignMapper = SignMapper()
+
+    @Provides
+    @Singleton
     fun provideBlockUserMapper(): BlockUserMapper = BlockUserMapper()
+
+    @Provides
+    @Singleton
+    fun provideSignPutProfile() : RequestSetProfileMapper = RequestSetProfileMapper()
+
+    @Provides
+    @Singleton
+    fun setProfileMapper() : SetProfileMapper = SetProfileMapper()
+
+
+    @Provides
+    @Singleton
+    fun provideBlockUserListMapper(): BlockUserListMapper = BlockUserListMapper()
+
+    @Provides
+    @Singleton
+    fun provideNoticeListMapper(): NoticeListMapper = NoticeListMapper()
 
 }

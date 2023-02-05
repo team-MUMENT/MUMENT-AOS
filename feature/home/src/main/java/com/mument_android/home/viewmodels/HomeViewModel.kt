@@ -87,7 +87,6 @@ class HomeViewModel @Inject constructor(
             useCase.getRandomMument().catch {
                 //Todo exception handling
             }.collect { random ->
-                Log.e("Random Collect!!", random.toString())
                 if (random != null) {
                     _homeViewState.setState { copy(emotionMumentEntity = random) }
                 }

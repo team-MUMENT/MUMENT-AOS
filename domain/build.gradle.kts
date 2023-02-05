@@ -36,6 +36,7 @@ android {
 
 dependencies {
     addTestDependencies()
+    addNetworkDependencies()
     addDaggerHiltDependencies()
     implementation(KotlinDependencies.kotlinxSerialization)
     implementation(KotlinDependencies.coroutines)

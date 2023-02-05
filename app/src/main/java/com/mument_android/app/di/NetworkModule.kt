@@ -9,7 +9,9 @@ import com.mument_android.data.network.home.HomeService
 import com.mument_android.data.network.home.NotifyService
 import com.mument_android.data.network.locker.LockerApiService
 import com.mument_android.data.network.main.MainApiService
+import com.mument_android.data.network.mypage.MyPageApiService
 import com.mument_android.data.network.record.RecordApiService
+import com.mument_android.data.network.sign.SignApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -124,6 +126,15 @@ object NetworkModule {
     @Singleton
     fun providehomeNetwork(@AuthRetrofit retrofit: Retrofit): HomeService =
         retrofit.create(HomeService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSignNetwork(@UnAuthRetrofit retrofit: Retrofit) : SignApiService =
+        retrofit.create(SignApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMyPageNetwork(@AuthRetrofit retrofit: Retrofit): MyPageApiService = retrofit.create(MyPageApiService::class.java)
 
 
     private fun Request.Builder.addHeaders(token: String) =

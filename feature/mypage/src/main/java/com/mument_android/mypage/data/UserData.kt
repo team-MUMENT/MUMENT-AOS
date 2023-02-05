@@ -1,6 +1,6 @@
 package com.mument_android.mypage.data
 
 data class UserData(
-    val userImg : Int,
+    val userImg : String,
     val userID : String
 )

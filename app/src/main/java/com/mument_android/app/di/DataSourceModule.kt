@@ -12,6 +12,9 @@ import com.mument_android.data.datasource.home.*
 import com.mument_android.data.datasource.notify.NotifyDataSource
 import com.mument_android.data.datasource.notify.NotifyDataSourceImpl
 import com.mument_android.data.local.MumentDatabase
+import com.mument_android.data.datasource.sign.SignDataSource
+import com.mument_android.data.datasource.sign.SignDataSourceImpl
+import com.mument_android.data.datasource.mypage.*
 import com.mument_android.data.local.converter.DateTypeConverter
 import com.mument_android.data.local.converter.IntListTypeConverter
 import com.mument_android.data.local.recentlist.RecentSearchDAO
@@ -20,7 +23,9 @@ import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.network.home.HomeService
 import com.mument_android.data.network.home.NotifyService
 import com.mument_android.data.network.locker.LockerApiService
+import com.mument_android.data.network.mypage.MyPageApiService
 import com.mument_android.data.network.record.RecordApiService
+import com.mument_android.data.network.sign.SignApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,6 +54,11 @@ object DataSourceModule {
     @Singleton
     fun provideLockerDataSource(lockerNetwork: LockerApiService): LockerDataSource =
         LockerDataSourceImpl(lockerNetwork)
+
+    @Provides
+    @Singleton
+    fun provideSignDataSource(signApiService: SignApiService) : SignDataSource =
+        SignDataSourceImpl(signApiService)
 
     @Provides
     @Singleton
@@ -113,4 +123,19 @@ object DataSourceModule {
     @Singleton
     fun provideBlockUserDataSource(detailApiService: DetailApiService): BlockUserDataSource =
         BlockUserDataSourceImpl(detailApiService)
+
+    @Provides
+    @Singleton
+    fun provideBlockUserIstDataSource(myPageApiService: MyPageApiService): BlockUserListDataSource =
+        BlockUserListDataSourceImpl(myPageApiService)
+
+    @Provides
+    @Singleton
+    fun provideNoticeListDataSource(myPageApiService: MyPageApiService): NoticeListDataSource =
+        NoticeListDataSourceImpl(myPageApiService)
+
+    @Provides
+    @Singleton
+    fun provideNoticeDetailDataSource(myPageApiService: MyPageApiService): NoticeDetailDataSource =
+        NoticeDetailDataSourceImpl(myPageApiService)
 }

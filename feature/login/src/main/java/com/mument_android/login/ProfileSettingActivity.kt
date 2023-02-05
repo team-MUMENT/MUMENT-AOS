@@ -9,18 +9,35 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
+import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
+import com.mument_android.login.util.MultipartResolver
 import com.mument_android.login.util.shortToast
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.regex.Pattern
+import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class ProfileSettingActivity :
     BaseActivity<ActivityProfileSettingBinding>(inflate = ActivityProfileSettingBinding::inflate) {
     private lateinit var intentLauncher: ActivityResultLauncher<Intent>
     private lateinit var inputMethodManager: InputMethodManager
+    private val multiPartResolver = MultipartResolver(this)
+
+    @Inject
+    lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
 
     private val viewModel: LogInViewModel by viewModels()
 
@@ -45,6 +62,7 @@ class ProfileSettingActivity :
         uploadImageCallbackListener()
         isImageExist()
         backBtnListener()
+        dulCheckListener()
     }
 
     //edittext에 작성한 텍스트 삭제 버튼 클릭 리스너
@@ -57,10 +75,10 @@ class ProfileSettingActivity :
     //닉네임 정규식 확인
     private fun isRightPattern() {
         viewModel.mumentNickName.observe(this) {
-            if (!Pattern.matches("^[ㄱ-ㅎ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
+            if (!Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
                 viewModel.isRightPattern.value = false
                 binding.tvPattern.isSelected = true
-            } else if (it == "" || Pattern.matches("^[ㄱ-ㅎ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
+            } else if (it == "" || Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
                 viewModel.isRightPattern.value = true
                 binding.tvPattern.isSelected = false
             }
@@ -154,5 +172,52 @@ class ProfileSettingActivity :
             startActivity(Intent(this, LogInActivity::class.java))
             finish()
         }
+    }
+
+    private fun nickNameDupNetwork() {
+        val nickname = binding.etNickname.text.toString()
+        viewModel.nickNameDupCheck(nickname)
+    }
+
+    private fun putProfileNetwork() {
+        val requestBodyMap = HashMap<String, RequestBody>()
+        val nickname = binding.etNickname.text.toString()
+        requestBodyMap["profileId"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
+        val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
+        viewModel.putProfile(multipart, requestBodyMap)
+        moveToMainActivity()
+
+
+        /*
+        //MainActivity로 이동하려면 어떻게 해야하는거죠...? MainActivity는 App모듈이자나여....
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+         */
+    }
+
+    private suspend fun nickNameDupCheck() {
+        delay(100)
+        viewModel.isDuplicate.observe(this) {
+            if(it == 200) {
+                CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
+            } else if (it == 204) {
+                putProfileNetwork()
+            } else {
+            }
+        }
+    }
+
+    private fun dulCheckListener() {
+        binding.tvProfileFinish.setOnClickListener {
+            viewModel.viewModelScope.launch {
+                nickNameDupNetwork()
+                nickNameDupCheck()
+            }
+        }
+    }
+
+    private fun moveToMainActivity() {
+        mainHomeNavigatorProvider.profileSettingToMain()
     }
 }

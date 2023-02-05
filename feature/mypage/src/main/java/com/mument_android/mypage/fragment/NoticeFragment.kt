@@ -6,24 +6,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import com.mument_android.core.network.ApiResult
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.domain.entity.mypage.NoticeListEntity
 import com.mument_android.mypage.MyPageViewModel
 import com.mument_android.mypage.NoticeDetailActivity
-import com.mument_android.mypage.R
-import com.mument_android.mypage.adapters.BlockUserManagementAdapter
 import com.mument_android.mypage.adapters.NoticeAdapter
-import com.mument_android.mypage.data.NoticeData
 import com.mument_android.mypage.databinding.FragmentNoticeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NoticeFragment : Fragment() {
 
     private lateinit var noticeAdapter: NoticeAdapter
     private var binding by AutoClearedValue<FragmentNoticeBinding>()
     private val myPageViewModel: MyPageViewModel by viewModels()
-    private var noticeList = mutableListOf<NoticeData>()
 
 
     override fun onCreateView(
@@ -49,24 +48,27 @@ class NoticeFragment : Fragment() {
     private fun setNoticeRecyclerView() {
         noticeAdapter = NoticeAdapter()
         binding.rvNotice.adapter = noticeAdapter
+        myPageViewModel.fetchNoticeList()
+        collectFlowWhenStarted(myPageViewModel.noticeList) {
+            when (it) {
+                is ApiResult.Loading -> {}
+                is ApiResult.Failure -> {}
+                is ApiResult.Success -> {
+                    noticeAdapter.submitList(it.data)
+                }
+                else -> {}
+            }
 
-        noticeList.add(
-            NoticeData(
-                0,
-                "공지사항1",
-                "공지사항 1 내용입니다.공지사항 1 내용입니다.공지사항 1 내용입니다.공지사항 1 내용입니다.공지사항 1 내용입니다.공지사항 1 내용입니다. \"https://www.naver.com/\"",
-                "2023-02-02"
-            )
-        )
-        noticeAdapter.submitList(noticeList)
+        }
+
     }
 
     //아이템 클릭 리스너
     private fun itemClickEvent() {
         noticeAdapter.setItemClickListener(object : NoticeAdapter.OnItemClickListener {
-            override fun onClick(data: NoticeData) {
+            override fun onClick(data: NoticeListEntity) {
                 val intent = Intent(requireActivity(), NoticeDetailActivity::class.java).apply {
-                    putExtra("NoticeData", data)
+                    putExtra("id",data.id)
                 }
                 startActivity(intent)
             }
