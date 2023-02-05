@@ -34,6 +34,7 @@ class OnBoardingThirdFragment : Fragment() {
         binding.btnFinish.setOnClickListener {
             val intent = Intent(activity, LogInActivity::class.java)
             startActivity(intent)
+            activity?.finish()
         }
     }
 

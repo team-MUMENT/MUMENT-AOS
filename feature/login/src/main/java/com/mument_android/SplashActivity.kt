@@ -52,9 +52,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                 val intent = Intent(this, LogInActivity::class.java)
                 startActivity(intent)
             }
-
+            finish()
         }
-        finish()
+
     }
 
 
