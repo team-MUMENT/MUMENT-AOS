@@ -11,10 +11,10 @@
             android:exported="false" />
         <activity
             android:name="com.mument_android.SplashActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".ProfileSettingActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".LogInActivity"
             android:exported="false" />
