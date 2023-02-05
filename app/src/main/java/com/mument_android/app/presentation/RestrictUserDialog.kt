@@ -1,4 +1,4 @@
-package com.mument_android.app.presentation.ui.main
+package com.mument_android.app.presentation
 
 import android.app.Dialog
 import android.content.Context
