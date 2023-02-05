@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.musicArtist}"
-                android:textColor="@color/mument_color_black2"
+                android:textColor="@color/mument_color_gray1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="백예린" />
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="3dp"
                 android:text="@string/alert_singer_to_sing"
-                android:textColor="@color/mument_color_black2"
+                android:textColor="@color/mument_color_gray1"
                 app:layout_constraintStart_toEndOf="@+id/tv_limit_singer"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,7 +119,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:text="@{viewModel.musicTitle}"
-                android:textColor="@color/mument_color_black2"
+                android:textColor="@color/mument_color_gray1"
                 app:layout_constraintStart_toEndOf="@+id/tv_limit_sing_at"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="아마 그건 너의 통통통통통통통통통" />
