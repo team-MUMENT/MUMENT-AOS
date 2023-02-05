@@ -1,17 +1,15 @@
 package com.mument_android.home.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core_dependent.util.collectEvent
 import com.mument_android.core_dependent.util.emitEffect
 import com.mument_android.core_dependent.util.emitEvent
 import com.mument_android.core_dependent.util.setState
-import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
 import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
-import com.mument_android.home.BuildConfig
 import com.mument_android.home.main.HomeContract.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -21,14 +19,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val useCase: WhenHomeEnterUseCase,
-    private val beforeWhenHomeEnterUseCase: BeforeWhenHomeEnterUseCase
+    private val useCase: WhenHomeEnterUseCase
 ) : ViewModel() {
     private val _homeViewState = MutableStateFlow(HomeViewState())
     val homeViewState get() = _homeViewState.asStateFlow()
     private val _homeEffect: Channel<HomeSideEffect> = Channel()
     val effect = _homeEffect.receiveAsFlow()
     private val _homeEvent: MutableSharedFlow<HomeEvent> = MutableSharedFlow()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     val homeViewStateEnabled =
         _homeViewState.flatMapLatest { //테스트 못함,, 데이터가 없어서
             with(it) {
@@ -43,7 +42,11 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             }
-        }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(2000),
+            initialValue = false
+        )
 
     private fun nullCheck(vararg list: Any?): Boolean = list.all { it != null }
     var num = 0
@@ -59,36 +62,26 @@ class HomeViewModel @Inject constructor(
     init {
         collectEvent()
         viewModelScope.launch {
-            beforeWhenHomeEnterUseCase.checkNotifyExist().catch { }.collect { result ->
+            useCase.checkNotifyExist().catch { }.collect { result ->
                 _homeViewState.setState { copy(notificationStatus = result ?: false) }
             }
-
-            beforeWhenHomeEnterUseCase.checkProfileExist().catch {
-            }.collect { result ->
-                _homeViewState.setState { copy(profileStatus = result ?: false) }
-            }
-            useCase.getTodayMument().map {
-                it
+            useCase.getTodayMument().catch {
             }.collect { today ->
                 _homeViewState.setState {
                     copy(todayMumentEntity = today)
                 }
             }
             useCase.getBannerMument().catch {
-                //Todo exception handling
             }.collect { banners ->
                 if (banners != null) {
-                    Log.e("Banner!!", banners.toString())
                     _homeViewState.setState {
                         copy(bannerEntity = banners)
                     }
                 }
             }
             useCase.getKnownMument().catch {
-                //Todo exception handling
             }.collect { heards ->
                 if (heards != null) {
-                    Log.e("Heard Collect!!", heards.toString())
                     _homeViewState.setState {
                         copy(heardMumentEntity = heards)
                     }
