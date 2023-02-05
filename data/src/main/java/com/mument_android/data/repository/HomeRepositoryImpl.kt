@@ -121,6 +121,10 @@ class HomeRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun fetchExistNotifyList(): Boolean? = homeDataSource.fetchExistNotifyList()
+
+    override suspend fun fetchProfileExist(): Boolean? = homeDataSource.fetchProfileExist()
+
     override suspend fun getTodayMument(): Flow<TodayMument?> =
         localTodayMumentDataSource.getTodayMument().run {
             when (this) { //홈 먼저 검사.
