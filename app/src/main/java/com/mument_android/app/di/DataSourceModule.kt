@@ -63,7 +63,7 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideSignDataSource(signApiService: SignApiService) : SignDataSource =
+    fun provideSignDataSource(signApiService: SignApiService): SignDataSource =
         SignDataSourceImpl(signApiService)
 
     @Provides
@@ -169,4 +169,9 @@ object DataSourceModule {
     @Singleton
     fun provideUnregisterDataSource(myPageApiService: MyPageApiService): UnregisterDataSource =
         UnregisterDataSourceImpl(myPageApiService)
+
+    @Provides
+    @Singleton
+    fun provideUnregisterReasonDataSource(myPageApiService: MyPageApiService): UnregisterReasonDataSource =
+        UnregisterReasonDataSourceImpl(myPageApiService)
 }
