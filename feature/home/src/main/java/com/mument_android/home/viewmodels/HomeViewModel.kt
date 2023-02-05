@@ -7,6 +7,7 @@ import com.mument_android.core_dependent.util.collectEvent
 import com.mument_android.core_dependent.util.emitEffect
 import com.mument_android.core_dependent.util.emitEvent
 import com.mument_android.core_dependent.util.setState
+import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
 import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
 import com.mument_android.home.BuildConfig
 import com.mument_android.home.main.HomeContract.*
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    val useCase: WhenHomeEnterUseCase,
+    private val useCase: WhenHomeEnterUseCase,
+    private val beforeWhenHomeEnterUseCase: BeforeWhenHomeEnterUseCase
 ) : ViewModel() {
     private val _homeViewState = MutableStateFlow(HomeViewState())
     val homeViewState get() = _homeViewState.asStateFlow()
@@ -57,6 +59,14 @@ class HomeViewModel @Inject constructor(
     init {
         collectEvent()
         viewModelScope.launch {
+            beforeWhenHomeEnterUseCase.checkNotifyExist().catch { }.collect { result ->
+                _homeViewState.setState { copy(notificationStatus = result ?: false) }
+            }
+
+            beforeWhenHomeEnterUseCase.checkProfileExist().catch {
+            }.collect { result ->
+                _homeViewState.setState { copy(profileStatus = result ?: false) }
+            }
             useCase.getTodayMument().map {
                 it
             }.collect { today ->

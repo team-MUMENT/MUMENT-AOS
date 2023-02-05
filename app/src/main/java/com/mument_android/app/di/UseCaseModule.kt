@@ -126,6 +126,13 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideBeforeWhenHomeEnterUseCase(
+        homeRepository: HomeRepository
+    ): BeforeWhenHomeEnterUseCase = BeforeWhenHomeEnterUseCaseImpl(homeRepository)
+
+
+    @Provides
+    @Singleton
     fun provideFetchMumentListUseCase(mumentListRepository: MumentListRepository): FetchMumentListUseCase =
         FetchMumentListUseCaseImpl(mumentListRepository)
 
@@ -141,7 +148,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideSignDulCheck(signRepository: SignRepository) : SignDulCheckUseCase =
+    fun provideSignDulCheck(signRepository: SignRepository): SignDulCheckUseCase =
         SignDulCheckUseCaseImpl(signRepository)
 
     @Provides
@@ -152,7 +159,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideSignPutProfileUseCase(signRepository: SignRepository) : SignPutProfileUseCase =
+    fun provideSignPutProfileUseCase(signRepository: SignRepository): SignPutProfileUseCase =
         SignPutProfileUseCaseImpl(signRepository)
 
 

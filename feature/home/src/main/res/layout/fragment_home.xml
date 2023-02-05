@@ -73,9 +73,10 @@
                         android:id="@+id/iv_notify"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_noti_off"
+                        android:layout_marginEnd="6dp"
+                        android:src="@{homeViewModel.homeViewState.notificationStatus?@drawable/ic_noti_on:@drawable/ic_noti_off}"
                         app:layout_constraintBottom_toBottomOf="@id/imageView3"
-                        app:layout_constraintEnd_toStartOf="@+id/gl_inner_right"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/imageView3" />
 
                     <TextView
@@ -207,8 +208,8 @@
         <ProgressBar
             android:id="@+id/pb_progress"
             android:layout_width="wrap_content"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
