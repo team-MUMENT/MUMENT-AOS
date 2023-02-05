@@ -27,6 +27,7 @@ import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
+import com.mument_android.data.mapper.sign.KakaoLoginMapper
 import com.mument_android.data.repository.*
 import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
 import com.mument_android.data.repository.mypage.NoticeListRepositoryImpl
@@ -140,8 +141,9 @@ object RepositoryModule {
         signMapper : SignMapper,
         signDataSource: SignDataSource,
         requestSetProfileMapper: RequestSetProfileMapper,
-        setProfileMapper: SetProfileMapper
-    ): SignRepository = SignRepositoryImpl(signDataSource, signMapper, setProfileMapper, requestSetProfileMapper)
+        setProfileMapper: SetProfileMapper,
+        kakaoLoginMapper: KakaoLoginMapper
+    ): SignRepository = SignRepositoryImpl(signDataSource, setProfileMapper, kakaoLoginMapper)
 
     @Provides
     @Singleton

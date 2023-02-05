@@ -14,7 +14,7 @@ class SignRepositoryImpl @Inject constructor(
     private val signDataSource: SignDataSource,
     private val setProfileMapper: SetProfileMapper,
     private val kakaoLoginMapper: KakaoLoginMapper,
-    private val requestKakaoLoginMapper: RequestKakaoLoginMapper
+
 ): SignRepository {
 
     override suspend fun signDupCheck(profileId: String) : Int {
@@ -32,9 +32,9 @@ class SignRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun kakaoLogin(requestKakaoData: RequestKakaoData): KakaoEntity {
-        signDataSource.signKakao(requestKakaoLoginMapper.map(requestKakaoData)).let {
-            return kakaoLoginMapper.map(it.data!!)
+    override suspend fun kakaoLogin(requestKakaoData: RequestKakaoData): KakaoEntity? {
+        signDataSource.signKakao(kakaoLoginMapper.requestMap(requestKakaoData)).let {
+            return kakaoLoginMapper.map(it.data)
         }
     }
 

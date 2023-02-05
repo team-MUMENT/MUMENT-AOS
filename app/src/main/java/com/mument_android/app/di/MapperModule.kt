@@ -19,6 +19,7 @@ import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
+import com.mument_android.data.mapper.sign.KakaoLoginMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -158,5 +159,9 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideNoticeListMapper(): NoticeListMapper = NoticeListMapper()
+
+    @Provides
+    @Singleton
+    fun provideKaKaoMapper() : KakaoLoginMapper = KakaoLoginMapper()
 
 }

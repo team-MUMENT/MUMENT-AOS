@@ -16,6 +16,6 @@ interface SignRepository {
     ) : SetProfileEntity
 
     suspend fun kakaoLogin(
-        requestKakaoData : RequestKakaoData
-    ) : KakaoEntity
+        requestKakaoData: RequestKakaoData
+    ) : KakaoEntity?
 }
