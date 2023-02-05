@@ -218,7 +218,6 @@ class ProfileSettingActivity :
     }
 
     private fun moveToMainActivity() {
-        //mainActiviy로 이동하면서 필요한 value는 없는데 파라미터가 없으면 에러나서 우선 userId 넣어둠...
-        mainHomeNavigatorProvider.moveMain(-1)
+        mainHomeNavigatorProvider.profileSettingToMain()
     }
 }
