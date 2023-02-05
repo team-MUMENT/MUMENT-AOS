@@ -7,11 +7,11 @@
 
     <application>
         <activity
-            android:name=".OnBoardingActivity"
+            android:name="com.mument_android.onboarding.OnBoardingActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
-            android:exported="false" />
+            android:name="com.mument_android.SplashActivity"
+            android:exported="true" />
         <activity
             android:name=".ProfileSettingActivity"
             android:exported="false" />

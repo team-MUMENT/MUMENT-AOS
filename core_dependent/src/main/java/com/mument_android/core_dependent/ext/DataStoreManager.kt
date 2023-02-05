@@ -49,6 +49,10 @@ class DataStoreManager(
         it[USER_ID]
     }
 
+    val isFirstFlow : Flow<Boolean?> = context.datastore.data.map {
+        it[IS_FIRST]
+    }
+
     companion object {
         val USER_ID = stringPreferencesKey("USER_ID")
         val ACCESS_TOKEN_KEY = stringPreferencesKey("ACCESS_TOKEN")
