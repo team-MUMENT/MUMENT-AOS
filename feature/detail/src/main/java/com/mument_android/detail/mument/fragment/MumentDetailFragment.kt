@@ -3,11 +3,13 @@ package com.mument_android.detail.mument.fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.EditMumentNavigatorProvider
@@ -33,6 +35,7 @@ import com.mument_android.detail.databinding.FragmentMumentDetailBinding
 import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailEvent
 import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailSideEffect
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
+import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUSIC
 import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import com.mument_android.domain.entity.detail.MumentEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
@@ -43,9 +46,15 @@ import javax.inject.Inject
 class MumentDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
-    @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
-    @Inject lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
-    @Inject lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
+
+    @Inject
+    lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
+
+    @Inject
+    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+
+    @Inject
+    lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -129,13 +138,19 @@ class MumentDetailFragment : Fragment() {
 
     private fun showMumentHistory(show: Boolean) {
         binding.tvGoToHistory.run {
-            if(show && visibility == View.GONE) applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
+            if (show && visibility == View.GONE) applyVisibilityAnimation(
+                isUpward = true,
+                reveal = true,
+                durationTime = 700,
+                delay = 150
+            )
         }
     }
 
     private fun changeLikeStatus() {
         binding.cbHeart.click {
-            val event = if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
+            val event =
+                if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
             viewModel.emitEvent(event)
         }
     }
@@ -178,18 +193,21 @@ class MumentDetailFragment : Fragment() {
 
     private fun shareMumentOnInstagram() {
         binding.ivShare.setOnClickListener {
-            val mument = if (checkIfAppInstalled(INSTAGRAM_PACKAGE_NAME)) viewModel.viewState.value.mument else null
-            viewModel.emitEvent(MumentDetailEvent.OnClickShareMument(mument))
+            val (mument, music) =
+                if (checkIfAppInstalled(INSTAGRAM_PACKAGE_NAME)) viewModel.viewState.value.mument to viewModel.viewState.value.musicInfo else null to null
+            viewModel.emitEvent(MumentDetailEvent.OnClickShareMument(mument, music))
         }
     }
 
-    private fun openShareMumentDialog(mument: MumentEntity) {
+    private fun openShareMumentDialog(mument: MumentEntity, musicInfoEntity: MusicInfoEntity) {
         MumentToShareDialogFragment { file, uri ->
             viewModel.emitEvent(MumentDetailEvent.OnDismissShareMumentDialog(file, uri))
         }.apply {
             Bundle().apply {
                 val mumentJson = Gson().toJson(mument)
+                val musicJson = Gson().toJson(musicInfoEntity)
                 putString(KEY_PASS_MUMENT, mumentJson)
+                putString(KEY_PASS_MUSIC, musicJson)
                 arguments = this
             }
         }.show(childFragmentManager, "")
@@ -202,7 +220,11 @@ class MumentDetailFragment : Fragment() {
             putExtra(STICKER_ASSET_KEY, uri)
             putExtra(STORY_TOP_BACKGROUND_COLOR_KEY, STORY_BACKGROUND_COLOR_VALUE)
             putExtra(STORY_BOTTOM_BACKGROUND_COLOR_KEY, STORY_BACKGROUND_COLOR_VALUE)
-            requireContext().grantUriPermission(INSTAGRAM_PACKAGE_NAME, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            requireContext().grantUriPermission(
+                INSTAGRAM_PACKAGE_NAME,
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
             kotlin.runCatching {
                 navInstagramLauncher.launch(this)
             }
@@ -215,21 +237,36 @@ class MumentDetailFragment : Fragment() {
         }.isSuccess
     }
 
-    private val navInstagramLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        viewModel.emitEvent(MumentDetailEvent.EntryFromInstagram)
-    }
+    private val navInstagramLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            viewModel.emitEvent(MumentDetailEvent.EntryFromInstagram)
+        }
 
     private fun receiveEffect() {
         collectFlowWhenStarted(viewModel.effect) { effect ->
-            when(effect) {
+            when (effect) {
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
-                is MumentDetailSideEffect.EditMument -> { /** Todo: Navigate To Edit Mument **/ }
-                is MumentDetailSideEffect.NavToMusicDetail -> { musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.musicId) }
-                is MumentDetailSideEffect.NavToMumentHistory -> { /** Todo: Navigate To MumentHistory **/ }
-                is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
-                is MumentDetailSideEffect.OpenShareMumentDialog -> { openShareMumentDialog(effect.mument) }
-                is MumentDetailSideEffect.NavToInstagram -> { navToInstagram(effect.imageUri) }
+                is MumentDetailSideEffect.EditMument -> {
+                    /** Todo: Navigate To Edit Mument **/
+                }
+                is MumentDetailSideEffect.NavToMusicDetail -> {
+                    musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.musicId)
+                }
+                is MumentDetailSideEffect.NavToMumentHistory -> {
+                    /** Todo: Navigate To MumentHistory **/
+                }
+                is MumentDetailSideEffect.Toast -> requireContext().showToast(
+                    resources.getString(
+                        effect.message
+                    )
+                )
+                is MumentDetailSideEffect.OpenShareMumentDialog -> {
+                    openShareMumentDialog(effect.mument, effect.musicInfo)
+                }
+                is MumentDetailSideEffect.NavToInstagram -> {
+                    navToInstagram(effect.imageUri)
+                }
             }
         }
     }
