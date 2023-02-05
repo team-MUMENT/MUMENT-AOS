@@ -108,10 +108,12 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nc_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
             android:overScrollMode="never"
+            android:visibility="@{homeViewModel.homeViewStateEnabled?View.VISIBLE:View.GONE}"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -210,6 +212,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone" />
+            android:visibility="@{homeViewModel.homeViewStateEnabled?View.GONE:View.VISIBLE}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

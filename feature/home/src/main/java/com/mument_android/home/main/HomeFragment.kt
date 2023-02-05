@@ -2,7 +2,6 @@ package com.mument_android.home.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.core_dependent.ext.setGone
-import com.mument_android.core_dependent.ext.setVisible
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
@@ -105,7 +102,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setListData() {
-        binding.pbProgress.setVisible()
         collectFlowWhenStarted(viewModel.bannerNumIncrease) { index ->
             binding.vpBanner.setCurrentItem(index, true)
         }
@@ -134,11 +130,6 @@ class HomeFragment : Fragment() {
                     }
                     setBannerCallBack()
                 }
-            }
-        }
-        collectFlowWhenStarted(viewModel.homeViewStateEnabled) { /*전체 데이터가 다 불러와졌는지 */
-            if (it) {
-                binding.pbProgress.setGone()
             }
         }
     }
