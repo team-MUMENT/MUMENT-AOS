@@ -1,20 +1,20 @@
 package com.mument_android.data.repository
 
 import android.util.Log
-import com.mument_android.data.datasource.home.*
+import com.mument_android.data.datasource.home.HomeDataSource
+import com.mument_android.data.datasource.home.LocalRecentSearchListDataSource
+import com.mument_android.data.datasource.home.LocalTodayMumentDataSource
+import com.mument_android.data.datasource.home.RemoteSearchListDataSource
 import com.mument_android.data.local.recentlist.RecentSearchDataEntity
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.util.ResultWrapper
-import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.entity.home.*
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.domain.repository.home.HomeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import java.time.LocalDate
 import java.util.*
@@ -34,7 +34,7 @@ class HomeRepositoryImpl @Inject constructor(
         remoteSearchListDataSource.searchMusicList(keyword).let { result ->
             when (result) {
                 is ResultWrapper.Success -> {
-                    result.data?.list?.let { recentSearchDataMapper.map(it) }
+                    result.data?.data?.let { recentSearchDataMapper.map(it) }
                 }
                 is ResultWrapper.GenericError -> {
                     Log.e(
