@@ -5,23 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiResult
-import com.mument_android.domain.entity.mypage.BlockUserEntity
-import com.mument_android.domain.entity.mypage.NoticeListEntity
-import com.mument_android.domain.entity.mypage.UserInfoEntity
-import com.mument_android.domain.usecase.mypage.*
-import com.mument_android.domain.entity.sign.WebViewEntity
-import com.mument_android.domain.usecase.mypage.DeleteBlockUserUseCase
-import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
-import com.mument_android.domain.usecase.mypage.FetchNoticeDetailUseCase
-import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
-import com.mument_android.domain.usecase.sign.GetWebViewUseCase
-import com.mument_android.domain.entity.mypage.UnregisterEntity
 import com.mument_android.domain.entity.mypage.*
+import com.mument_android.domain.entity.sign.WebViewEntity
 import com.mument_android.domain.usecase.mypage.*
+import com.mument_android.domain.usecase.sign.GetWebViewUseCase
 import com.mument_android.mypage.data.UserData
-import com.mument_android.mypage.util.UnregisterReason
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -91,6 +84,9 @@ class MyPageViewModel @Inject constructor(
     //userInfo
     private val _userInfo = MutableLiveData<UserInfoEntity>()
     val userInfo get(): LiveData<UserInfoEntity> = _userInfo
+    private val _unregisterReasonIndex = MutableLiveData(0)
+    val unregisterReasonIndex = _unregisterReasonIndex
+
 
     //web view link
     private val _getWebView = MutableLiveData<WebViewEntity>()
@@ -176,22 +172,22 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun postUnregisterReason(Index: Int) {
-//        viewModelScope.launch {
-//            val reasonEntity = RequestUnregisterReasonEntity(
-//                leaveCategoryId = UnregisterReason.findUnregisterReason(Index),
-//                reasonEtc = unregisterReasonContent.value ?: ""
-//            )
-//            unregisterReason.value.let {
-//                postUnregisterReasonUseCase.invoke(reasonEntity).onStart {
-//                }.catch {
-//
-//                }.collect {
-//                    _unregisterReason.value = ApiResult.Success(it)
-//                }
-//            }
-//
-//        }
+    fun postUnregisterReason() {
+        viewModelScope.launch {
+            val reasonEntity = RequestUnregisterReasonEntity(
+                leaveCategoryId = unregisterReasonIndex.value ?: 0,
+                reasonEtc = unregisterReasonContent.value ?: ""
+            )
+            unregisterReason.value.let {
+                postUnregisterReasonUseCase.invoke(reasonEntity).onStart {
+                }.catch {
+
+                }.collect {
+                    _unregisterReason.value = ApiResult.Success(it)
+                }
+            }
+
+        }
     }
 
 
@@ -229,15 +225,19 @@ class MyPageViewModel @Inject constructor(
                 }
             }
         }
-    }
+        //탈퇴 이유 번호 받기
+        fun getUnregisterReasonIndex(index: Int) {
+            _unregisterReasonIndex.value = index
+        }
 
 
-    //webview link
-    fun getWebView(page: String) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                getWebViewUseCase.getWebView(page).let {
-                    _getWebView.value = it
+        //webview link
+        fun getWebView(page: String) {
+            viewModelScope.launch {
+                kotlin.runCatching {
+                    getWebViewUseCase.getWebView(page).let {
+                        _getWebView.value = it
+                    }
                 }
             }
         }

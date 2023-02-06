@@ -24,7 +24,6 @@ class UnregisterFragment : Fragment() {
 
     private var binding by AutoClearedValue<FragmentUnregisterBinding>()
     private val myPageViewModel: MyPageViewModel by viewModels()
-    private var index: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,23 +86,28 @@ class UnregisterFragment : Fragment() {
 
             when (checkedID) {
                 R.id.unregister_reason_first -> {
-                    binding.tvChooseReason.text = UnregisterReason.ONE.reason.toString()
-                    index =2
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_first)
+                    myPageViewModel.getUnregisterReasonIndex(2)
                 }
                 R.id.unregister_reason_second -> {
-                    binding.tvChooseReason.text = UnregisterReason.TWO.reason.toString()
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_second)
+                    myPageViewModel.getUnregisterReasonIndex(3)
                 }
                 R.id.unregister_reason_third -> {
-                    binding.tvChooseReason.text = UnregisterReason.THREE.reason.toString()
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_third)
+                    myPageViewModel.getUnregisterReasonIndex(4)
                 }
                 R.id.unregister_reason_fourth -> {
-                    binding.tvChooseReason.text = UnregisterReason.FOUR.reason.toString()
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_fourth)
+                    myPageViewModel.getUnregisterReasonIndex(5)
                 }
                 R.id.unregister_reason_fifth -> {
-                    binding.tvChooseReason.text = UnregisterReason.FIVE.reason.toString()
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_fifth)
+                    myPageViewModel.getUnregisterReasonIndex(6)
                 }
                 R.id.unregister_reason_sixth -> {
-                    binding.tvChooseReason.text = UnregisterReason.SIX.reason.toString()
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_sixth)
+                    myPageViewModel.getUnregisterReasonIndex(7)
                 }
                 else -> {
                     ""
@@ -140,8 +144,7 @@ class UnregisterFragment : Fragment() {
     //회원탈퇴 버튼 눌렀을 때
     private fun unregisterFinish() {
         binding.btnUnregisterFinish.setOnClickListener {
-
-            myPageViewModel.postUnregisterReason(index)
+            myPageViewModel.postUnregisterReason()
             myPageViewModel.fetchUnregisterInfo()
 
             this.activity?.finish()
