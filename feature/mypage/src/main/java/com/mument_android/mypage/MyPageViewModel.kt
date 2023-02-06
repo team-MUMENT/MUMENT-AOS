@@ -1,6 +1,5 @@
 package com.mument_android.mypage
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,8 +16,10 @@ import com.mument_android.domain.usecase.mypage.FetchNoticeDetailUseCase
 import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
 import com.mument_android.domain.usecase.sign.GetWebViewUseCase
 import com.mument_android.domain.entity.mypage.UnregisterEntity
+import com.mument_android.domain.entity.mypage.*
 import com.mument_android.domain.usecase.mypage.*
 import com.mument_android.mypage.data.UserData
+import com.mument_android.mypage.util.UnregisterReason
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -32,9 +33,9 @@ class MyPageViewModel @Inject constructor(
     private val fetchNoticeDetailUseCase: FetchNoticeDetailUseCase,
     private val userInfoUseCase: UserInfoUseCase,
     private val getWebViewUseCase: GetWebViewUseCase,
-    private val fetchUnregisterInfoUseCase: FetchUnregisterInfoUseCase
+    private val fetchUnregisterInfoUseCase: FetchUnregisterInfoUseCase,
+    private val postUnregisterReasonUseCase: PostUnregisterReasonUseCase
 ) : ViewModel() {
-
 
     //myPage
     private val _isBtnClick = MutableLiveData(false)
@@ -67,6 +68,10 @@ class MyPageViewModel @Inject constructor(
     //Unregister
     private val _unregisterInfo = MutableStateFlow<ApiResult<UnregisterEntity>?>(null)
     val unregisterInfo get() = _unregisterInfo.asStateFlow()
+
+    private val _unregisterReason =
+        MutableStateFlow<ApiResult<UnregisterReasonEntity>?>(null)
+    val unregisterReason get() = _unregisterReason.asStateFlow()
 
     private val _isClickReasonChooseBox = MutableLiveData(false)
     val isClickReasonChooseBox: LiveData<Boolean> get() = _isClickReasonChooseBox
@@ -170,6 +175,25 @@ class MyPageViewModel @Inject constructor(
             }
         }
     }
+
+    fun postUnregisterReason(Index: Int) {
+//        viewModelScope.launch {
+//            val reasonEntity = RequestUnregisterReasonEntity(
+//                leaveCategoryId = UnregisterReason.findUnregisterReason(Index),
+//                reasonEtc = unregisterReasonContent.value ?: ""
+//            )
+//            unregisterReason.value.let {
+//                postUnregisterReasonUseCase.invoke(reasonEntity).onStart {
+//                }.catch {
+//
+//                }.collect {
+//                    _unregisterReason.value = ApiResult.Success(it)
+//                }
+//            }
+//
+//        }
+    }
+
 
     //이유 선택 박스 눌렀을 때 라디오 그룹 visibility 조절
     fun clickReasonChooseBox() {
