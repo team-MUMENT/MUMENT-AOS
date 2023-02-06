@@ -2,28 +2,25 @@ package com.mument_android.app.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
-import com.mument_android.BuildConfig
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.record.RecordActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -40,6 +37,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initNavigation()
         floatingBtnListener()
         customAppBar()
+        isLimitUserNetwork()
+        isRestrictUser()
     }
 
     private fun saveTestToken() {
@@ -74,10 +73,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     //floatingBtn 클릭 시 기록하기 뷰로 이동
     private fun floatingBtnListener() {
         binding.floatingActionButton.setOnClickListener {
-            val intent = Intent(this, RecordActivity::class.java)
-            startActivity(intent)
+            viewModel.limitUser.observe(this) {
+                if(it.restricted == true) {
+                    RestrictUserDialog(this).show(supportFragmentManager, "test")
+                } else {
+                    val intent = Intent(this, RecordActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+
         }
 
+    }
+
+    private fun isLimitUserNetwork() {
+        viewModel.limitUser()
     }
 
     private fun initNavigation() {
@@ -123,6 +133,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             viewModel.clearBundle()
             false
         }
+    }
+
+    private fun isRestrictUser() {
+        viewModel.limitUser.observe(this) {
+            if(it.restricted == true) {
+                RestrictUserDialog(this).show(supportFragmentManager, "test")
+            }
+        }
+
     }
 
     override fun editMument(mumentId: String, mumentDetailEntity: MumentDetailEntity) {

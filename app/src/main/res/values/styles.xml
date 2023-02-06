@@ -6,4 +6,5 @@
         <item name="itemPaddingBottom">4dp</item>
         <item name="fontFamily">@font/notosans_medium</item>
     </style>
+
 </resources>
