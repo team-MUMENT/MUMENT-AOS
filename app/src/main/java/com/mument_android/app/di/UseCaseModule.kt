@@ -9,6 +9,7 @@ import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.mypage.UserInfoRepository
 import com.mument_android.domain.repository.notify.NotifyRepository
+import com.mument_android.domain.repository.mypage.UnregisterReasonRepository
 import com.mument_android.domain.repository.mypage.UnregisterRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
@@ -218,4 +219,10 @@ object UseCaseModule {
     @Singleton
     fun provideFetchUnregisterInfoUseCase(unregisterRepository: UnregisterRepository): FetchUnregisterInfoUseCase =
         FetchUnregisterInfoUseCaseImpl(unregisterRepository)
+
+    @Provides
+    @Singleton
+    fun providePostUnregisterReasonUseCase(unregisterReasonRepository: UnregisterReasonRepository): PostUnregisterReasonUseCase =
+        PostUnregisterReasonUseCaseImpl(unregisterReasonRepository)
+
 }
