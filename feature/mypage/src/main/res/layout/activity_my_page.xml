@@ -11,6 +11,10 @@
             name="myPageViewModel"
             type="com.mument_android.mypage.MyPageViewModel" />
 
+        <variable
+            name="viewModel"
+            type="com.mument_android.domain.entity.mypage.UserInfoEntity" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,13 +64,14 @@
 
                     <ImageView
                         android:id="@+id/iv_my_page_profile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        load_profile="@{viewModel.image}"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_marginStart="14dp"
                         android:layout_marginTop="36dp"
-                        android:src="@drawable/mument_profile_smile_60"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/mument_profile_smile_60" />
 
                     <TextView
                         android:id="@+id/tv_my_page_profile"
@@ -87,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/notosans_medium"
-                        android:text="@{myPageViewModel.userId}"
+                        android:text="@{viewModel.userName}"
                         android:textColor="@color/mument_color_black1"
                         android:textSize="16dp"
                         app:layout_constraintBottom_toBottomOf="@+id/iv_my_page_profile"
