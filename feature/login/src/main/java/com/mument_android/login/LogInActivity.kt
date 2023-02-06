@@ -89,7 +89,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                 getErrorLog(error)
             } else if (token != null) {
                 UserApiClient.instance.me { _, error ->
-                    //PlayTogetherRepository.kakaoAccessToken = token.accessToken
                     Log.e("kakao access token :", token.accessToken)
                     val requestKakaoData = RequestKakaoData(
                         "kakao",
@@ -97,17 +96,12 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                         viewModel.fcmToken.value.toString()
                     )
                     viewModel.kakaoLogin(requestKakaoData)
-                    /*
-                    with(signViewModel) {
-                        kakaoLogin()
-                        isLogin.observe(this) { success ->
-                            if (success) {
-                                signupChecker()
-                            }
+                    viewModel.kakaoData.observe(this) {
+                        if(it.accessToken != null) {
+                            startActivity(Intent(this, ProfileSettingActivity::class.java))
+                            finish()
                         }
                     }
-
-                     */
                 }
             } else {
                 shortToast("else")
