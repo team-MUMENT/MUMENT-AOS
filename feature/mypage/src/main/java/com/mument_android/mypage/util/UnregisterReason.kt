@@ -1,6 +1,7 @@
-package com.mument_android.mypage
+package com.mument_android.mypage.util
 
 import androidx.annotation.StringRes
+import com.mument_android.mypage.R
 
 enum class UnregisterReason(val reasonIndex: Int, @StringRes val reason: Int) {
     ONE(2, R.id.unregister_reason_first),
