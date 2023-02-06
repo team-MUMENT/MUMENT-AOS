@@ -1,6 +1,7 @@
 package com.mument_android.data.network.sign
 
 import com.mument_android.data.dto.sign.SetProfileDto
+import com.mument_android.data.dto.sign.WebViewDto
 import com.mument_android.data.util.BaseResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -10,7 +11,7 @@ import retrofit2.http.*
 interface SignApiService {
     @GET("/user/profile/check/{profileId}")
     suspend fun signDuplicationCheck(
-        @Path("profileId") profileId: String
+        @Path("userName") userName: String
     ): Response<Any?>
 
     @Multipart
@@ -19,4 +20,9 @@ interface SignApiService {
         @Part image : MultipartBody.Part?,
         @PartMap body: HashMap<String, RequestBody>
     ) : BaseResponse<SetProfileDto>
+
+    @GET("/user/webview-link")
+    suspend fun getWebLink(
+        @Query("page") page: String
+    ) : BaseResponse<WebViewDto>
 }
