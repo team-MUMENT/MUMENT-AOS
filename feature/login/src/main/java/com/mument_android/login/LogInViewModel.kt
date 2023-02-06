@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.domain.entity.sign.SetProfileEntity
 import com.mument_android.domain.entity.sign.WebViewEntity
 import com.mument_android.domain.usecase.sign.GetWebViewUseCase
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LogInViewModel @Inject constructor(
+    private val dataStoreManager: DataStoreManager,
     private val dupCheckUseCase : SignDulCheckUseCase,
     private val putProfileUseCase: SignPutProfileUseCase,
     private val getWebViewUseCase: GetWebViewUseCase
@@ -35,8 +37,15 @@ class LogInViewModel @Inject constructor(
     private val _putProfile = MutableLiveData<SetProfileEntity>()
     val putProfile get() :LiveData<SetProfileEntity> = _putProfile
 
+
     private val _getWebView = MutableLiveData<WebViewEntity>()
     val getWebView get() :LiveData<WebViewEntity> = _getWebView
+
+    fun saveIsFirst() {
+        viewModelScope.launch {
+            dataStoreManager.writeIsFirst(true)
+        }
+    }
 
     fun nickNameDupCheck(nickname: String) {
         viewModelScope.launch {

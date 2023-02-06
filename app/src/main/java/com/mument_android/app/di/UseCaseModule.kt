@@ -1,5 +1,7 @@
 package com.mument_android.app.di
 
+import com.mument_android.data.repository.LimitUserRepositoryImpl
+import com.mument_android.domain.repository.app.LimitUserRepository
 import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
@@ -12,6 +14,8 @@ import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
+import com.mument_android.domain.usecase.app.LimitUserUseCase
+import com.mument_android.domain.usecase.app.LimitUserUseCaseImpl
 import com.mument_android.domain.usecase.detail.*
 import com.mument_android.domain.usecase.home.*
 import com.mument_android.domain.usecase.locker.FetchMyLikeListUseCase
@@ -177,5 +181,11 @@ object UseCaseModule {
     @Singleton
     fun provideGetWebViewUseCase(signRepository: SignRepository) : GetWebViewUseCase =
         GetWebViewUseCaseImpl(signRepository)
+
+
+    @Provides
+    @Singleton
+    fun provideLimitUserUseCase(limitUserRepository: LimitUserRepository) : LimitUserUseCase =
+        LimitUserUseCaseImpl(limitUserRepository)
 
 }

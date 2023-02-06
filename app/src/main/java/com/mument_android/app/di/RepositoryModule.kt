@@ -1,6 +1,7 @@
 package com.mument_android.app.di
 
 import com.mument_android.data.controller.*
+import com.mument_android.data.datasource.app.LimitUserDataSource
 import com.mument_android.data.datasource.detail.BlockUserDataSource
 import com.mument_android.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.data.datasource.detail.MumentListDataSource
@@ -20,6 +21,7 @@ import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.datasource.mypage.BlockUserListDataSource
 import com.mument_android.data.datasource.mypage.NoticeDetailDataSource
 import com.mument_android.data.datasource.mypage.NoticeListDataSource
+import com.mument_android.data.mapper.app.LimitUserMapper
 import com.mument_android.data.datasource.notify.NotifyDataSource
 import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
@@ -34,6 +36,7 @@ import com.mument_android.data.mapper.sign.GetWebViewMapper
 import com.mument_android.data.repository.*
 import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
 import com.mument_android.data.repository.mypage.NoticeListRepositoryImpl
+import com.mument_android.domain.repository.app.LimitUserRepository
 import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
@@ -183,6 +186,18 @@ object RepositoryModule {
         noticeDetailDataSource: NoticeDetailDataSource,
         noticeListDataSource: NoticeListDataSource,
         noticeListMapper: NoticeListMapper
-    ): NoticeListRepository =
-        NoticeListRepositoryImpl(noticeDetailDataSource, noticeListDataSource, noticeListMapper)
+    ): NoticeListRepository = NoticeListRepositoryImpl(noticeDetailDataSource,noticeListDataSource, noticeListMapper)
+
+    @Provides
+    @Singleton
+    fun provideLimitUserRepository(
+        limitUserDataSource: LimitUserDataSource,
+        limitUserMapper: LimitUserMapper
+    ) : LimitUserRepository =
+        LimitUserRepositoryImpl(
+            limitUserDataSource,
+            limitUserMapper
+        )
+
+
 }

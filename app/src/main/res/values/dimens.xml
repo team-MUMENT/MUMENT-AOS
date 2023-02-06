@@ -3,4 +3,6 @@
     <!-- Font Size-->
     <dimen name="design_fab_size_normal" tools:override = "true">50dp</dimen>
     <dimen name="design_fab_image_size" tools:override = "true">50dp</dimen>
+    <dimen name="design_alert_width" tools:override = "true">270dp</dimen>
+    <dimen name="design_alert_height" tools:override = "true">328dp</dimen>
 </resources>
