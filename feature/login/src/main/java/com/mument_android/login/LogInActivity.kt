@@ -52,7 +52,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     }
 
     private fun initKakaoLogin() {
-        val kakaoAppKey = "91f18886d3b19ea17119a59af77780ea"
+        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d"
         KakaoSdk.init(this, kakaoAppKey)
     }
 
