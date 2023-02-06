@@ -18,9 +18,7 @@ interface SignDataSource {
         body: HashMap<String, RequestBody>
     ) : BaseResponse<SetProfileDto>
 
-<<<<<<< HEAD
     suspend fun signKakao(requestKakaoDto: RequestKakaoDto) : BaseResponse<KakaoDto>
-=======
+
     suspend fun getWebView(page: String) : BaseResponse<WebViewDto>
->>>>>>> 77f8ea162ec61c1d4d5ae642ce91ac023a6855fe
 }

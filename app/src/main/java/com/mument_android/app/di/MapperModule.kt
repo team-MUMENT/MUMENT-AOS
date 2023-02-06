@@ -22,11 +22,8 @@ import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
-<<<<<<< HEAD
 import com.mument_android.data.mapper.sign.KakaoLoginMapper
-=======
 import com.mument_android.data.mapper.sign.GetWebViewMapper
->>>>>>> 77f8ea162ec61c1d4d5ae642ce91ac023a6855fe
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -178,10 +175,10 @@ object MapperModule {
 
     @Provides
     @Singleton
-<<<<<<< HEAD
     fun provideKaKaoMapper() : KakaoLoginMapper = KakaoLoginMapper()
-=======
+
+    @Provides
+    @Singleton
     fun provideLimitUserMapper() : LimitUserMapper = LimitUserMapper()
->>>>>>> 77f8ea162ec61c1d4d5ae642ce91ac023a6855fe
 
 }

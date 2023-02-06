@@ -25,13 +25,12 @@ class SignDataSourceImpl @Inject constructor(
         return signApiService.putProfile(image,body)
     }
 
-<<<<<<< HEAD
     override suspend fun signKakao(requestKakaoDto: RequestKakaoDto): BaseResponse<KakaoDto> {
         return signApiService.postLogin(requestKakaoDto)
-=======
+    }
+
     override suspend fun getWebView(page: String): BaseResponse<WebViewDto> {
         return signApiService.getWebLink(page)
->>>>>>> 77f8ea162ec61c1d4d5ae642ce91ac023a6855fe
     }
 
 }
