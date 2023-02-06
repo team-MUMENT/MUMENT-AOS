@@ -22,6 +22,7 @@ import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
+import com.mument_android.data.mapper.sign.GetWebViewMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -153,6 +154,10 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideSignPutProfile() : RequestSetProfileMapper = RequestSetProfileMapper()
+
+    @Provides
+    @Singleton
+    fun provideGetWebView() : GetWebViewMapper = GetWebViewMapper()
 
     @Provides
     @Singleton

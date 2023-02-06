@@ -29,10 +29,7 @@ import com.mument_android.domain.usecase.main.LikeMumentUseCaseImpl
 import com.mument_android.domain.usecase.notify.*
 import com.mument_android.domain.usecase.mypage.*
 import com.mument_android.domain.usecase.record.*
-import com.mument_android.domain.usecase.sign.SignDulCheckUseCase
-import com.mument_android.domain.usecase.sign.SignDulCheckUseCaseImpl
-import com.mument_android.domain.usecase.sign.SignPutProfileUseCase
-import com.mument_android.domain.usecase.sign.SignPutProfileUseCaseImpl
+import com.mument_android.domain.usecase.sign.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -179,6 +176,12 @@ object UseCaseModule {
     @Singleton
     fun provideFetchNoticeDetailUseCase(noticeListRepository: NoticeListRepository): FetchNoticeDetailUseCase =
         FetchNoticeDetailUseCaseImpl(noticeListRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetWebViewUseCase(signRepository: SignRepository) : GetWebViewUseCase =
+        GetWebViewUseCaseImpl(signRepository)
+
 
     @Provides
     @Singleton

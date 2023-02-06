@@ -1,6 +1,7 @@
 package com.mument_android.data.network.sign
 
 import com.mument_android.data.dto.sign.SetProfileDto
+import com.mument_android.data.dto.sign.WebViewDto
 import com.mument_android.data.util.BaseResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -13,7 +14,7 @@ interface SignApiService {
     @Headers("Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInByb2ZpbGVJZCI6IuyViOuTnO2FjOyKpO2KuOyaqSIsImltYWdlIjpudWxsLCJpYXQiOjE2NzMxMjYzNzgsImV4cCI6MTY3NTcxODM3OCwiaXNzIjoiTXVtZW50In0.PG_Cubw4nv9USBiKKMVaAxS-Ggl6ByqOKusmyK4tp18")
     @GET("/user/profile/check/{profileId}")
     suspend fun signDuplicationCheck(
-        @Path("profileId") profileId: String
+        @Path("userName") userName: String
     ): Response<Any?>
 
     @Headers("Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsInByb2ZpbGVJZCI6IuyViOuTnO2FjOyKpO2KuOyaqSIsImltYWdlIjpudWxsLCJpYXQiOjE2NzMxMjYzNzgsImV4cCI6MTY3NTcxODM3OCwiaXNzIjoiTXVtZW50In0.PG_Cubw4nv9USBiKKMVaAxS-Ggl6ByqOKusmyK4tp18")
@@ -23,4 +24,9 @@ interface SignApiService {
         @Part image : MultipartBody.Part?,
         @PartMap body: HashMap<String, RequestBody>
     ) : BaseResponse<SetProfileDto>
+
+    @GET("/user/webview-link")
+    suspend fun getWebLink(
+        @Query("page") page: String
+    ) : BaseResponse<WebViewDto>
 }
