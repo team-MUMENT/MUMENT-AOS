@@ -131,7 +131,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideSignNetwork(@UnAuthRetrofit retrofit: Retrofit) : SignApiService =
+    fun provideSignNetwork(@AuthRetrofit retrofit: Retrofit) : SignApiService =
         retrofit.create(SignApiService::class.java)
 
     @Provides

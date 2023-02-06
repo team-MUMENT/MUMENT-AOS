@@ -1,7 +1,9 @@
 package com.mument_android.core_dependent.network
 
+import android.util.Log
 import com.mument_android.core_dependent.BuildConfig
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -14,7 +16,10 @@ class AuthInterceptor @Inject constructor(
 ): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = runBlocking {
-            dataStoreManager.writeAccessToken(BuildConfig.TEST_ACCESS_TOKEN)
+            collectFlow(dataStoreManager.accessTokenFlow) {
+                dataStoreManager.writeAccessToken(it?:"")
+            }
+            //dataStoreManager.writeAccessToken(DataStoreManager.ACCESS_TOKEN_KEY.toString())
             dataStoreManager.accessTokenFlow.first()
         }
         val request = chain.request()

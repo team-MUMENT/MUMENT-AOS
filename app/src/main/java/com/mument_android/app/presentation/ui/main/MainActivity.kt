@@ -2,6 +2,7 @@ package com.mument_android.app.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -42,6 +43,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun saveTestToken() {
+        /*
         collectFlowWhenStarted(dataStoreManager.accessTokenFlow) {
             if (it.isNullOrEmpty()) viewModel.saveTestAccessToken()
         }
@@ -52,6 +54,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         collectFlowWhenStarted(dataStoreManager.userIdFlow) {
             if (it.isNullOrEmpty()) viewModel.saveTestUserId()
         }
+
+         */
     }
 
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
@@ -14,16 +15,22 @@ import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
+import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlow
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.domain.entity.sign.RequestKakaoData
 import com.mument_android.login.databinding.ActivityLogInBinding
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
     private val viewModel: LogInViewModel by viewModels()
-
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var keyHash = Utility.getKeyHash(this)
@@ -98,6 +105,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                     viewModel.kakaoLogin(requestKakaoData)
                     viewModel.kakaoData.observe(this) {
                         if(it.accessToken != null) {
+                            saveTestToken()
                             startActivity(Intent(this, ProfileSettingActivity::class.java))
                             finish()
                         }
@@ -106,6 +114,8 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
             } else {
                 shortToast("else")
             }
+
+
         }
 
 
@@ -117,6 +127,20 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                 callback = callback
             )
         }
+    }
+
+
+    private fun saveTestToken() {
+
+        collectFlow(dataStoreManager.accessTokenFlow) {
+            viewModel.saveTestAccessToken()
+        }
+
+        collectFlow(dataStoreManager.refreshTokenFlow) {
+            viewModel.saveTestRefreshToken()
+        }
+
+
     }
 
     private fun getErrorLog(error: Throwable) {

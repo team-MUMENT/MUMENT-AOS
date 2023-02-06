@@ -1,6 +1,7 @@
 package com.mument_android.login
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,6 +41,9 @@ class LogInViewModel @Inject constructor(
 
     val fcmToken = MutableLiveData<String?>(null)
 
+    val accessToken = MutableLiveData<String?>(null)
+    val refreshToken = MutableLiveData<String?>(null)
+
     private val _putProfile = MutableLiveData<SetProfileEntity>()
     val putProfile get() :LiveData<SetProfileEntity> = _putProfile
 
@@ -48,6 +52,7 @@ class LogInViewModel @Inject constructor(
 
     private val _getWebView = MutableLiveData<WebViewEntity>()
     val getWebView get() :LiveData<WebViewEntity> = _getWebView
+
 
     fun saveIsFirst() {
         viewModelScope.launch {
@@ -76,9 +81,28 @@ class LogInViewModel @Inject constructor(
             kotlin.runCatching {
                 kaKaoUseCase.kakaoLogin(requestKakaoData).let {
                     _kakaoData.value = it
+                    viewModelScope.launch {
+                        accessToken.value = it?.accessToken
+                        refreshToken.value = it?.refreshToken
+                    }
+
                 }
             }
         }
+    }
+
+    fun saveTestRefreshToken() {
+        viewModelScope.launch {
+            dataStoreManager.writeRefreshToken(refreshToken.value.toString())
+        }
+        Log.e("111111", "${refreshToken.value}")
+    }
+
+    fun saveTestAccessToken() {
+        viewModelScope.launch {
+            dataStoreManager.writeAccessToken(accessToken.value.toString())
+        }
+        Log.e("2222222", "${accessToken.value}")
     }
 
     fun getWebView(page: String) {
