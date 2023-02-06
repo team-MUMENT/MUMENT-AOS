@@ -35,7 +35,8 @@ object AndroidXDependencies {
     const val roomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
     const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
     const val room = "androidx.room:room-ktx:${Versions.roomVersion}"
-
+    const val pagingRuntime = "androidx.paging:paging-runtime:${Versions.paging}"
+    const val pagingCommon = "androidx.paging:paging-common:${Versions.paging}"
 }
 
 object HiltDependencies {
@@ -82,6 +83,7 @@ object ThirdPartyDependencies {
         "com.google.firebase:firebase-messaging-ktx:${Versions.fcmVersion}"
     const val fireBaseGA = "com.google.firebase:firebase-analytics"
     const val kakao = "com.kakao.sdk:v2-user:${Versions.kakaoVersion}"
+    const val indicator = "com.tbuonomo:dotsindicator:${Versions.dotsIndicator}"
 }
 
 

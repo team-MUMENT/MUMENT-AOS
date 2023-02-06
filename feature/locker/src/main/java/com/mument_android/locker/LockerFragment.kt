@@ -75,9 +75,11 @@ class LockerFragment : Fragment() {
     }
 
     private fun imageSet() {
-        binding.ivProfile.load("https://mument.s3.ap-northeast-2.amazonaws.com/user/angdroid/%EC%95%88%EB%93%9C.png") {
-            crossfade(true)
-            this.transformations(CircleCropTransformation())
+        viewModel.profileImage.observe(viewLifecycleOwner) {
+            binding.ivProfile.load(it) {
+                crossfade(true)
+                this.transformations(CircleCropTransformation())
+            }
         }
     }
 

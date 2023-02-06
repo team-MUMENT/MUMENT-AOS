@@ -1,7 +1,7 @@
 package com.mument_android.domain.entity.home
 
 data class NotifyEntity(
-    val id: String,
+    val id: Int,
     val type: String,
     val userId: Int,
     val isDeleted: Boolean,

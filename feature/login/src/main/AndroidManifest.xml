@@ -8,11 +8,18 @@
 
     <application>
         <activity
+            android:name="com.mument_android.onboarding.OnBoardingActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.mument_android.SplashActivity"
+            android:exported="true" />
+        <activity
             android:name=".ProfileSettingActivity"
             android:exported="false" />
         <activity
             android:name=".LogInActivity"
             android:exported="true" />
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -27,6 +34,7 @@
                     android:scheme="kakaodcf1de7e11089f484ac873f0e833427d" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

@@ -7,7 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.domain.entity.sign.KakaoEntity
 import com.mument_android.domain.entity.sign.RequestKakaoData
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.domain.entity.sign.SetProfileEntity
+import com.mument_android.domain.entity.sign.WebViewEntity
+import com.mument_android.domain.usecase.sign.GetWebViewUseCase
+import com.mument_android.domain.usecase.sign.GetWebViewUseCaseImpl
 import com.mument_android.domain.usecase.sign.SignDulCheckUseCase
 import com.mument_android.domain.usecase.sign.SignKaKaoUseCase
 import com.mument_android.domain.usecase.sign.SignPutProfileUseCase
@@ -19,9 +23,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LogInViewModel @Inject constructor(
+    private val dataStoreManager: DataStoreManager,
     private val dupCheckUseCase : SignDulCheckUseCase,
     private val putProfileUseCase: SignPutProfileUseCase,
-    private val kaKaoUseCase: SignKaKaoUseCase
+    private val kaKaoUseCase: SignKaKaoUseCase,
+    private val getWebViewUseCase: GetWebViewUseCase
 ): ViewModel() {
 
     val mumentNickName = MutableLiveData<String>()
@@ -39,6 +45,15 @@ class LogInViewModel @Inject constructor(
 
     private val _kakaoData = MutableLiveData<KakaoEntity>()
     val kakaoData get() : LiveData<KakaoEntity> = _kakaoData
+
+    private val _getWebView = MutableLiveData<WebViewEntity>()
+    val getWebView get() :LiveData<WebViewEntity> = _getWebView
+
+    fun saveIsFirst() {
+        viewModelScope.launch {
+            dataStoreManager.writeIsFirst(true)
+        }
+    }
 
     fun nickNameDupCheck(nickname: String) {
         viewModelScope.launch {
@@ -61,6 +76,16 @@ class LogInViewModel @Inject constructor(
             kotlin.runCatching {
                 kaKaoUseCase.kakaoLogin(requestKakaoData).let {
                     _kakaoData.value = it
+                }
+            }
+        }
+    }
+
+    fun getWebView(page: String) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                getWebViewUseCase.getWebView(page).let {
+                    _getWebView.value = it
                 }
             }
         }

@@ -66,28 +66,46 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun collectEvent() {
         _event.asSharedFlow().collectEvent(viewModelScope) { event ->
-            when(event) {
+            when (event) {
                 MumentDetailEvent.OnClickLikeMument -> likeMument()
                 MumentDetailEvent.OnClickUnLikeMument -> cancelLikeMument()
                 MumentDetailEvent.OnClickDeleteMument -> deleteMument()
                 MumentDetailEvent.OnClickBackIcon -> emitEffect(MumentDetailSideEffect.PopBackStack)
-                is MumentDetailEvent.OnClickAlum -> emitEffect(MumentDetailSideEffect.NavToMusicDetail(event.musicId))
-                is MumentDetailEvent.OnClickHistory -> emitEffect(MumentDetailSideEffect.NavToMumentHistory(event.musicId))
-                is MumentDetailEvent.OnClickEditMument -> emitEffect(MumentDetailSideEffect.EditMument(event.mument))
+                is MumentDetailEvent.OnClickAlum -> emitEffect(
+                    MumentDetailSideEffect.NavToMusicDetail(
+                        event.musicId
+                    )
+                )
+                is MumentDetailEvent.OnClickHistory -> emitEffect(
+                    MumentDetailSideEffect.NavToMumentHistory(
+                        event.musicId
+                    )
+                )
+                is MumentDetailEvent.OnClickEditMument -> emitEffect(
+                    MumentDetailSideEffect.EditMument(
+                        event.mument
+                    )
+                )
                 is MumentDetailEvent.ReceiveMumentId -> {
                     _viewState.setState { copy(requestMumentId = event.mumentId) }
                     fetchMumentDetailContent(event.mumentId)
                 }
                 is MumentDetailEvent.ReceiveMusicInfo -> {
+                    Log.e("MusicInfo", event.musicInfoEntity.toString())
                     _viewState.setState { copy(musicInfo = event.musicInfoEntity) }
+                    Log.e("MUSICINFO STATE", _viewState.value.musicInfo.toString())
                     fetchMumentList(event.musicInfoEntity.id)
                 }
                 is MumentDetailEvent.OnClickShareMument -> {
                     event.mumentEntity?.let { mument ->
-                        emitEffect(MumentDetailSideEffect.OpenShareMumentDialog(mument))
+                        event.musicInfo?.let { music ->
+                            emitEffect(MumentDetailSideEffect.OpenShareMumentDialog(mument, music))
+                        }
                     } ?: emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_access_insta))
                 }
-                is MumentDetailEvent.UpdateMumentToShareInstagram -> { _viewState.setState { copy(mument = event.mument) } }
+                is MumentDetailEvent.UpdateMumentToShareInstagram -> {
+                    _viewState.setState { copy(mument = event.mument, musicInfo = event.musicInfo) }
+                }
                 is MumentDetailEvent.OnDismissShareMumentDialog -> {
                     emitEffect(MumentDetailSideEffect.NavToInstagram(event.imageUri))
                     _viewState.setState { copy(fileToShare = event.imageFile) }
@@ -99,7 +117,7 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun likeMument() {
         viewModelScope.launch {
-            _viewState.setState { copy(likeCount = likeCount + 1 ) }
+            _viewState.setState { copy(likeCount = likeCount + 1) }
             likeMumentUseCase(viewState.value.requestMumentId, BuildConfig.USER_ID)
                 .catch { }
                 .collect {
@@ -110,7 +128,7 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun cancelLikeMument() {
         viewModelScope.launch {
-            _viewState.setState { copy(likeCount = likeCount - 1 ) }
+            _viewState.setState { copy(likeCount = likeCount - 1) }
             cancelLikeMumentUseCase(viewState.value.requestMumentId, BuildConfig.USER_ID)
                 .catch { }
                 .collect {
@@ -124,7 +142,7 @@ class MumentDetailViewModel @Inject constructor(
             fetchMumentDetailContentUseCase(mumentId).onStart {
                 _viewState.setState { copy(onNetwork = true) }
             }.catch { e ->
-                _viewState.setState { copy(hasError= true, onNetwork = false) }
+                _viewState.setState { copy(hasError = true, onNetwork = false) }
                 emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_load_data))
             }.collect { mumentDetail ->
                 val userId = runBlocking {
@@ -147,17 +165,18 @@ class MumentDetailViewModel @Inject constructor(
     }
 
     private fun disableFetchData() {
-        _viewState.setState { copy(hasError= true, onNetwork = false) }
+        _viewState.setState { copy(hasError = true, onNetwork = false) }
         emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_load_data))
     }
 
     private fun fetchMumentList(musicId: String) {
         viewModelScope.launch {
             fetchMumentListUseCase(musicId, "Y")
-                .catch { e ->  }
+                .catch { e -> }
                 .collect {
                     _viewState.setState {
-                        copy(hasWrittenMument = it.map { it.user.userId }.contains(BuildConfig.USER_ID))
+                        copy(hasWrittenMument = it.map { it.user.userId }
+                            .contains(BuildConfig.USER_ID))
                     }
                 }
         }
@@ -190,6 +209,6 @@ class MumentDetailViewModel @Inject constructor(
     }
 
     companion object {
-        private const val FILE_NAME_TO_SHARE= "MumentShareImage"
+        private const val FILE_NAME_TO_SHARE = "MumentShareImage"
     }
 }

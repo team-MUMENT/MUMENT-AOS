@@ -2,6 +2,7 @@ package com.mument_android.app.di
 
 import com.mument_android.data.mapper.album.MusicInfoMapper
 import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
+import com.mument_android.data.mapper.app.LimitUserMapper
 import com.mument_android.data.mapper.detail.*
 import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.mapper.locker.LockerMapper
@@ -15,11 +16,17 @@ import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
+import com.mument_android.data.mapper.notify.NotifyMapper
+import com.mument_android.home.notify.NotifyItemMapper
 import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
+<<<<<<< HEAD
 import com.mument_android.data.mapper.sign.KakaoLoginMapper
+=======
+import com.mument_android.data.mapper.sign.GetWebViewMapper
+>>>>>>> 77f8ea162ec61c1d4d5ae642ce91ac023a6855fe
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -65,6 +72,14 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideRecentSearchDataMapper(): RecentSearchDataMapper = RecentSearchDataMapper()
+
+    @Provides
+    @Singleton
+    fun provideNotifyMapper(): NotifyMapper = NotifyMapper()
+
+    @Provides
+    @Singleton
+    fun provideNotifyItemMapper(): NotifyItemMapper = NotifyItemMapper()
 
     @Provides
     @Singleton
@@ -121,10 +136,7 @@ object MapperModule {
 
     @Provides
     @Singleton
-    fun provideMumentSummaryMapper(
-        userMapper: UserMapper,
-        integrationTagMapper: IntegrationTagMapper
-    ): MumentSummaryMapper =
+    fun provideMumentSummaryMapper(userMapper: UserMapper, integrationTagMapper: IntegrationTagMapper): MumentSummaryMapper =
         MumentSummaryMapper(userMapper, integrationTagMapper)
 
     @Provides
@@ -149,6 +161,10 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideGetWebView() : GetWebViewMapper = GetWebViewMapper()
+
+    @Provides
+    @Singleton
     fun setProfileMapper() : SetProfileMapper = SetProfileMapper()
 
 
@@ -162,6 +178,10 @@ object MapperModule {
 
     @Provides
     @Singleton
+<<<<<<< HEAD
     fun provideKaKaoMapper() : KakaoLoginMapper = KakaoLoginMapper()
+=======
+    fun provideLimitUserMapper() : LimitUserMapper = LimitUserMapper()
+>>>>>>> 77f8ea162ec61c1d4d5ae642ce91ac023a6855fe
 
 }

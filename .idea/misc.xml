@@ -26,6 +26,7 @@
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_base_music_detail.xml" value="0.1" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_mument_detail.xml" value="0.22291666666666668" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/item_music_detail_mument.xml" value="0.23802083333333332" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_mument_detail.xml" value="0.2" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/home/src/main/res/drawable-hdpi/rectangle_fill_white_top_11dp.xml" value="0.242" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/locker/src/main/res/drawable-hdpi/rectangle_fill_white_top_11dp.xml" value="0.1" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/locker/src/main/res/drawable-v24/rectangle_fill_blue3_20dp.xml" value="0.1165" />
@@ -52,7 +53,24 @@
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/fragment_on_boarding_first.xml" value="0.176" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/fragment_on_boarding_second.xml" value="0.125" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/fragment_on_boarding_third.xml" value="0.2" />
+<<<<<<< HEAD
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/mypage/src/main/res/layout/activity_my_page.xml" value="0.1140625" />
+=======
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/mypage/src/main/res/layout/activity_my_page.xml" value="0.264" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/drawable-xxxhdpi/rectangle_fill_bgwhite_11dp.xml" value="0.1185" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/drawable-xxxhdpi/rectangle_fill_purple1_11dp.xml" value="0.1185" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/font/font.xml" value="0.1824074074074074" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/activity_log_in.xml" value="0.2" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/activity_on_boarding.xml" value="0.12578616352201258" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/activity_profile_setting.xml" value="0.264" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/activity_splash.xml" value="0.176" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/fragment_on_boarding_first.xml" value="0.1537037037037037" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/fragment_on_boarding_second.xml" value="0.136" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/fragment_on_boarding_third.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/fragment_one_boarding_first.xml" value="0.176" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/fragment_one_boarding_second.xml" value="0.2" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/login/src/main/res/layout/fragment_one_boarding_third.xml" value="0.2" />
+>>>>>>> 77f8ea162ec61c1d4d5ae642ce91ac023a6855fe
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/mypage/src/main/res/xml/setting_alarm_preference.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/record/src/main/res/drawable-hdpi/retangle_fill_purple1_11dp.xml" value="0.137" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/record/src/main/res/drawable/selector_rectagle_gray2_purple1_11dp.xml" value="0.196" />

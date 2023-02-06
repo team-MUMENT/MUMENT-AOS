@@ -18,6 +18,17 @@ inline fun View.click(crossinline block: () -> Unit) {
 fun TextView.changeTextColor(id: Int) {
     setTextColor(context.getColor(id))
 }
+
+
+fun View.setVisible() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.setGone() {
+    this.visibility = View.GONE
+}
+
+
 object BindingExtension{
 
 @JvmStatic

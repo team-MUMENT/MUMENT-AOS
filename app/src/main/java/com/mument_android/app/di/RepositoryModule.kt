@@ -1,6 +1,7 @@
 package com.mument_android.app.di
 
 import com.mument_android.data.controller.*
+import com.mument_android.data.datasource.app.LimitUserDataSource
 import com.mument_android.data.datasource.detail.BlockUserDataSource
 import com.mument_android.data.datasource.detail.MumentDetailDataSource
 import com.mument_android.data.datasource.detail.MumentListDataSource
@@ -20,17 +21,26 @@ import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.datasource.mypage.BlockUserListDataSource
 import com.mument_android.data.datasource.mypage.NoticeDetailDataSource
 import com.mument_android.data.datasource.mypage.NoticeListDataSource
+import com.mument_android.data.mapper.app.LimitUserMapper
+import com.mument_android.data.datasource.notify.NotifyDataSource
 import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
+import com.mument_android.data.mapper.notify.NotifyMapper
+import com.mument_android.data.network.detail.HistoryService
 import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
+<<<<<<< HEAD
 import com.mument_android.data.mapper.sign.KakaoLoginMapper
+=======
+import com.mument_android.data.mapper.sign.GetWebViewMapper
+>>>>>>> 77f8ea162ec61c1d4d5ae642ce91ac023a6855fe
 import com.mument_android.data.repository.*
 import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
 import com.mument_android.data.repository.mypage.NoticeListRepositoryImpl
+import com.mument_android.domain.repository.app.LimitUserRepository
 import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
@@ -39,6 +49,7 @@ import com.mument_android.domain.repository.detail.MusicDetailRepository
 import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
+import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
@@ -66,12 +77,14 @@ object RepositoryModule {
     fun provideMumentDetailUseCase(
         mumentDetailDataSource: MumentDetailDataSource,
         mumentDetailMapper: MumentDetailMapper,
-        deleteMumentController: DeleteMumentController
+        deleteMumentController: DeleteMumentController,
+        historyService: HistoryService
     ): MumentDetailRepository =
         MumentDetailRepositoryImpl(
             mumentDetailDataSource,
             mumentDetailMapper,
-            deleteMumentController
+            deleteMumentController,
+            historyService
         )
 
     @Provides
@@ -103,7 +116,6 @@ object RepositoryModule {
     fun provideHomeRepository(
         todayMumentDataSource: LocalTodayMumentDataSource,
         recentSearchListDataSource: LocalRecentSearchListDataSource,
-        mumentHistoryDataSource: RemoteMumentHistoryDataSource,
         searchListDataSource: RemoteSearchListDataSource,
         homeDataSource: HomeDataSource,
         randomMumentMapper: RandomMumentMapper,
@@ -112,13 +124,19 @@ object RepositoryModule {
     ): HomeRepository = HomeRepositoryImpl(
         todayMumentDataSource,
         recentSearchListDataSource,
-        mumentHistoryDataSource,
         searchListDataSource,
         homeDataSource,
         randomMumentMapper,
         homeTodayMumentMapper,
         recentSearchDataMapper
     )
+
+    @Provides
+    @Singleton
+    fun provideNotifyRepository(
+        notifyDataSource: NotifyDataSource,
+        notifyMapper: NotifyMapper
+    ): NotifyRepository = NotifyRepositoryImpl(notifyDataSource, notifyMapper)
 
     @Provides
     @Singleton
@@ -138,12 +156,18 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideSignRepository(
-        signMapper : SignMapper,
+        signMapper: SignMapper,
         signDataSource: SignDataSource,
         requestSetProfileMapper: RequestSetProfileMapper,
         setProfileMapper: SetProfileMapper,
+<<<<<<< HEAD
         kakaoLoginMapper: KakaoLoginMapper
     ): SignRepository = SignRepositoryImpl(signDataSource, setProfileMapper, kakaoLoginMapper)
+=======
+        getWebViewMapper: GetWebViewMapper
+    ): SignRepository =
+        SignRepositoryImpl(signDataSource, signMapper, setProfileMapper, requestSetProfileMapper,getWebViewMapper)
+>>>>>>> 77f8ea162ec61c1d4d5ae642ce91ac023a6855fe
 
     @Provides
     @Singleton
@@ -172,5 +196,17 @@ object RepositoryModule {
         noticeListDataSource: NoticeListDataSource,
         noticeListMapper: NoticeListMapper
     ): NoticeListRepository = NoticeListRepositoryImpl(noticeDetailDataSource,noticeListDataSource, noticeListMapper)
+
+    @Provides
+    @Singleton
+    fun provideLimitUserRepository(
+        limitUserDataSource: LimitUserDataSource,
+        limitUserMapper: LimitUserMapper
+    ) : LimitUserRepository =
+        LimitUserRepositoryImpl(
+            limitUserDataSource,
+            limitUserMapper
+        )
+
 
 }

@@ -49,6 +49,7 @@ dependencies {
     addDaggerHiltDependencies()
     addLifecycleDependencies()
     implementation(ThirdPartyDependencies.fireBaseCloudMessaging)
+    implementation(ThirdPartyDependencies.indicator)
     implementation(ThirdPartyDependencies.coil)
     implementation(AndroidXDependencies.coroutines)
     implementation(ThirdPartyDependencies.kakao)

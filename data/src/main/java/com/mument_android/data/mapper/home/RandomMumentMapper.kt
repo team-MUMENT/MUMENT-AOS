@@ -6,5 +6,5 @@ import com.mument_android.core.base.BaseMapper
 
 class RandomMumentMapper : BaseMapper<RandomMumentDto, RandomMumentEntity> {
     override fun map(from: RandomMumentDto): RandomMumentEntity =
-        RandomMumentEntity(from.mumentList, from.title)
+        RandomMumentEntity(from.data.mumentList, from.data.title)
 }

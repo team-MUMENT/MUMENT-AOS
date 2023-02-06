@@ -4,7 +4,12 @@ import com.mument_android.data.datasource.sign.SignDataSource
 import com.mument_android.data.mapper.sign.*
 import com.mument_android.domain.entity.sign.KakaoEntity
 import com.mument_android.domain.entity.sign.RequestKakaoData
+import com.mument_android.data.mapper.sign.GetWebViewMapper
+import com.mument_android.data.mapper.sign.RequestSetProfileMapper
+import com.mument_android.data.mapper.sign.SetProfileMapper
+import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.domain.entity.sign.SetProfileEntity
+import com.mument_android.domain.entity.sign.WebViewEntity
 import com.mument_android.domain.repository.sign.SignRepository
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -14,11 +19,13 @@ class SignRepositoryImpl @Inject constructor(
     private val signDataSource: SignDataSource,
     private val setProfileMapper: SetProfileMapper,
     private val kakaoLoginMapper: KakaoLoginMapper,
+    private val requestSetProfileMapper: RequestSetProfileMapper,
+    private val getWebViewMapper: GetWebViewMapper
 
 ): SignRepository {
 
-    override suspend fun signDupCheck(profileId: String) : Int {
-        signDataSource.signDupCheck(profileId).let {
+    override suspend fun signDupCheck(userName: String) : Int {
+        signDataSource.signDupCheck(userName).let {
            return it.code()
         }
     }
@@ -32,9 +39,16 @@ class SignRepositoryImpl @Inject constructor(
         }
     }
 
+
     override suspend fun kakaoLogin(requestKakaoData: RequestKakaoData): KakaoEntity? {
         signDataSource.signKakao(kakaoLoginMapper.requestMap(requestKakaoData)).let {
             return kakaoLoginMapper.map(it.data)
+        }
+    }
+
+    override suspend fun getViewView(page: String): WebViewEntity? {
+        signDataSource.getWebView(page).let {
+            return getWebViewMapper.map(it.data)
         }
     }
 

@@ -3,7 +3,6 @@ package com.mument_android.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
@@ -31,10 +30,12 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         Log.e("kkkkkkkkkk:","$keyHash")
 //        initView()
         initKakaoLogin()
-        clickListener()
         btnKakaoListener()
         getFcmToken()
+        webLinkNetwork()
     }
+
+
 
     private fun getFcmToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -54,15 +55,23 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     private fun initKakaoLogin() {
         val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d"
         KakaoSdk.init(this, kakaoAppKey)
+
     }
 
-    private fun clickListener() {
-        binding.tvTermsOfService.setOnClickListener {
-            initIntent("https://www.naver.com/")
+    private fun webLinkNetwork() {
+
+        viewModel.getWebView("login")
+        viewModel.getWebView.observe(this) {
+            val tosLink = it.tos.toString()
+            val privacyLink = it.privacy.toString()
+            binding.tvTermsOfService.setOnClickListener {
+                initIntent(tosLink)
+            }
+            binding.tvPrivacyPolicy.setOnClickListener {
+                initIntent(privacyLink)
+            }
         }
-        binding.tvPrivacyPolicy.setOnClickListener {
-            initIntent("https://www.naver.com/")
-        }
+
     }
 
     private fun btnKakaoListener() {

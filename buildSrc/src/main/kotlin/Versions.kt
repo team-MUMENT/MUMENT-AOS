@@ -37,6 +37,7 @@ object Versions {
     const val dataStore = "1.0.0"
     const val protoBuf = "3.18.0"
     const val roomVersion = "2.4.2"
+    const val paging = "3.1.1"
 
     val javaVersion = JavaVersion.VERSION_11
 
@@ -45,4 +46,5 @@ object Versions {
     const val googleServiceVersion = "4.3.13"
     const val fcmVersion = "23.1.1"
     const val kakaoVersion = "2.12.1"
+    const val dotsIndicator = "4.3"
 }

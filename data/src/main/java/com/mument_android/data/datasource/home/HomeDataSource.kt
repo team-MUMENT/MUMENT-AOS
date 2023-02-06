@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface HomeDataSource {
     suspend fun getBannerMument(): ResultWrapper<BannerMumentDto?>
-    suspend fun getTodayMument(userId: String): Flow<ResultWrapper<TodayMumentDto?>>
+    suspend fun getTodayMument(): ResultWrapper<TodayMumentDto?>
     suspend fun getKnownMument(): ResultWrapper<KnownMumentDto?>
     suspend fun getRandomMument(): ResultWrapper<RandomMumentDto?>
 }

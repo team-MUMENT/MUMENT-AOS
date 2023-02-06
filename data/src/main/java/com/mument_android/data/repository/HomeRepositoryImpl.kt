@@ -7,21 +7,22 @@ import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.util.ResultWrapper
-import com.mument_android.domain.entity.history.MumentHistoryEntity
+import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.entity.home.*
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.domain.repository.home.HomeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
+import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(
     private val localTodayMumentDataSource: LocalTodayMumentDataSource,
     private val localRecentSearchListDataSource: LocalRecentSearchListDataSource,
-    private val remoteMumentHistoryDataSource: RemoteMumentHistoryDataSource,
     private val remoteSearchListDataSource: RemoteSearchListDataSource,
     private val homeDataSource: HomeDataSource,
     private val randomMumentMapper: RandomMumentMapper,
@@ -52,46 +53,17 @@ class HomeRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getMumentHistory(
-        userId: String,
-        musicId: String
-    ): MumentHistoryEntity? =
-        remoteMumentHistoryDataSource.getMumentHistory(userId, musicId).let { response ->
-            when (response) {
-                is ResultWrapper.Success -> {
-                    response.data?.let { history ->
-                        MumentHistoryEntity(
-                            history.mumentHistory,
-                            history.music
-                        )
-                    }
-                }
-                is ResultWrapper.GenericError -> {
-                    Timber.e("GenericError -> code ${response.code}: message: ${response.message}")
-                    null
-                }
-                is ResultWrapper.NetworkError -> {
-                    Timber.e("NetworkError")
-                    null
-                }
-                else -> {
-                    null
-                }
-            }
-        }
-
     override suspend fun getBannerMument(): List<BannerEntity>? =
         homeDataSource.getBannerMument().let { result ->
             when (result) {
                 is ResultWrapper.Success -> {
-                    result.data?.bannerList?.map {
+                    result.data?.data?.bannerList?.map {
                         BannerEntity(
-                            it._id,
                             it.displayDate,
                             Music(it.music._id, it.music.name, it.music.artist, it.music.image),
                             it.tagTitle.replace("\\n", "\n")
                         )
-                    }
+                    } ?: listOf()
                 }
                 is ResultWrapper.GenericError -> {
                     Timber.e("GenericError -> code ${result.code}: message: ${result.message}")
@@ -111,7 +83,7 @@ class HomeRepositoryImpl @Inject constructor(
         homeDataSource.getKnownMument().let { result ->
             when (result) {
                 is ResultWrapper.Success -> {
-                    result.data?.againMumentEntity
+                    result.data?.data?.againMument
                 }
                 is ResultWrapper.GenericError -> {
                     Timber.e("GenericError -> code ${result.code}: message: ${result.message}")
@@ -130,8 +102,7 @@ class HomeRepositoryImpl @Inject constructor(
     override suspend fun getRandomMument(): RandomMumentEntity? =
         homeDataSource.getRandomMument().let { result ->
             when (result) {
-                is ResultWrapper.Success -> { //현재 데이터 타입 불일치 따라서 data class로 변환이 안 됨.
-                    Log.e("Success Collect!!!", result.data.toString())
+                is ResultWrapper.Success -> {
                     result.data?.let {
                         randomMumentMapper.map(it)
                     }
@@ -150,20 +121,42 @@ class HomeRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getTodayMument(userId: String): Flow<TodayMument> = flow {
-        localTodayMumentDataSource.getTodayMument(userId).run {
+    override suspend fun getTodayMument(): Flow<TodayMument?> =
+        localTodayMumentDataSource.getTodayMument().run {
             when (this) { //홈 먼저 검사.
                 is ResultWrapper.Success -> {  //제대로 넘어왔을 때 분기처리, null X, 오늘
-                    emit(todayMumentMapper.map(data))
+                    if (data.todayDate == LocalDate.now().toString()) {
+                        todayMumentMapper.map(data)
+                    } else {
+                        null
+                    }
                 }
                 is ResultWrapper.LocalError -> {
-                    Log.e("Locall Error", message.toString())
-                    homeDataSource.getTodayMument(userId).map { collectRemote -> // Remote 받아옴
+                    Log.e("Local Error", message.toString())
+                    null
+                }
+                else -> {
+                    null
+                }//네트워크쪽 Result, 따라서 이거는 나중에 Local, Remote로 분리해야 할 듯
+            }
+        }.let { todayLocal ->
+            flow {
+                if (todayLocal == null) {
+                    homeDataSource.getTodayMument().let { collectRemote -> // Remote 받아옴
+                        Log.e("TODAY REMOTE", collectRemote.toString())
                         when (collectRemote) {
                             is ResultWrapper.Success -> {
-                                collectRemote.data?.todayMument?.let { today ->
-                                    localTodayMumentDataSource.updateMument(today) // 로컬에 업데이트
-                                    emit(todayMumentMapper.map(today))  //방출
+
+                                collectRemote.data?.data?.let { today ->
+                                    Log.e("TODAY REMOTE TODAY", today.toString())
+                                    todayMumentMapper.mapObject(today).let {
+                                        localTodayMumentDataSource.insertMument(
+                                            todayMumentMapper.mapReverse(
+                                                it
+                                            )
+                                        ) // 로컬에 업데이트
+                                        emit(it)  //방출
+                                    }
                                 }
                             }
                             is ResultWrapper.GenericError -> {
@@ -175,14 +168,16 @@ class HomeRepositoryImpl @Inject constructor(
                             is ResultWrapper.NetworkError -> {
                                 Log.e("TodayMument", "NetworkError")
                             }
-                            else -> {}
+                            else -> {
+                            }
                         }
                     }
+                } else {
+                    Log.e("TODAY Local", todayLocal.toString())
+                    emit(todayLocal)
                 }
-                else -> {}//네트워크쪽 Result, 따라서 이거는 나중에 Local, Remote로 분리해야 할 듯
             }
         }
-    }
 
     override suspend fun updateTodayMument(mument: TodayMument) {
         localTodayMumentDataSource.updateMument(todayMumentMapper.mapReverse(mument))
