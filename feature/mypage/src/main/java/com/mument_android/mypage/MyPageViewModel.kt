@@ -10,6 +10,12 @@ import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.domain.entity.mypage.NoticeListEntity
 import com.mument_android.domain.entity.mypage.UserInfoEntity
 import com.mument_android.domain.usecase.mypage.*
+import com.mument_android.domain.entity.sign.WebViewEntity
+import com.mument_android.domain.usecase.mypage.DeleteBlockUserUseCase
+import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
+import com.mument_android.domain.usecase.mypage.FetchNoticeDetailUseCase
+import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
+import com.mument_android.domain.usecase.sign.GetWebViewUseCase
 import com.mument_android.mypage.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -22,7 +28,8 @@ class MyPageViewModel @Inject constructor(
     private val deleteBlockUserUseCase: DeleteBlockUserUseCase,
     private val fetchNoticeListUseCase: FetchNoticeListUseCase,
     private val fetchNoticeDetailUseCase: FetchNoticeDetailUseCase,
-    private val userInfoUseCase: UserInfoUseCase
+    private val userInfoUseCase: UserInfoUseCase,
+    private val getWebViewUseCase: GetWebViewUseCase
 ) : ViewModel() {
 
 
@@ -73,6 +80,10 @@ class MyPageViewModel @Inject constructor(
     //userInfo
     private val _userInfo = MutableLiveData<UserInfoEntity>()
     val userInfo get(): LiveData<UserInfoEntity> = _userInfo
+
+    //web view link
+    private val _getWebView = MutableLiveData<WebViewEntity>()
+    val getWebView get() :LiveData<WebViewEntity> = _getWebView
 
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
@@ -165,11 +176,23 @@ class MyPageViewModel @Inject constructor(
     }
 
     //유저 정보
-    fun userInfo(){
+    fun userInfo() {
         viewModelScope.launch {
             kotlin.runCatching {
                 userInfoUseCase.invoke().let {
                     _userInfo.value = it
+                }
+            }
+        }
+    }
+
+
+    //webview link
+    fun getWebView(page: String) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                getWebViewUseCase.getWebView(page).let {
+                    _getWebView.value = it
                 }
             }
         }

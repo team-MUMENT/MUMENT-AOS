@@ -4,13 +4,20 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application>
+        <activity
+            android:name="com.mument_android.onboarding.OnBoardingActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.mument_android.SplashActivity"
+            android:exported="true" />
         <activity
             android:name=".ProfileSettingActivity"
             android:exported="false" />
         <activity
             android:name=".LogInActivity"
-            android:exported="false" />
+            android:exported="true" />
     </application>
 
 </manifest>

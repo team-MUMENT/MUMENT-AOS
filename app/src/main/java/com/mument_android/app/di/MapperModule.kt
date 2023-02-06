@@ -2,6 +2,7 @@ package com.mument_android.app.di
 
 import com.mument_android.data.mapper.album.MusicInfoMapper
 import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
+import com.mument_android.data.mapper.app.LimitUserMapper
 import com.mument_android.data.mapper.detail.*
 import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.mapper.locker.LockerMapper
@@ -22,6 +23,7 @@ import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
 import com.mument_android.data.mapper.mypage.UserInfoMapper
+import com.mument_android.data.mapper.sign.GetWebViewMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -156,6 +158,10 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideGetWebView() : GetWebViewMapper = GetWebViewMapper()
+
+    @Provides
+    @Singleton
     fun setProfileMapper() : SetProfileMapper = SetProfileMapper()
 
 
@@ -170,5 +176,9 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideUserInfoMapper() : UserInfoMapper = UserInfoMapper()
+
+    @Provides
+    @Singleton
+    fun provideLimitUserMapper() : LimitUserMapper = LimitUserMapper()
 
 }
