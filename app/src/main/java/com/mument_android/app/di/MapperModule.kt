@@ -2,6 +2,7 @@ package com.mument_android.app.di
 
 import com.mument_android.data.mapper.album.MusicInfoMapper
 import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
+import com.mument_android.data.mapper.app.LimitUserMapper
 import com.mument_android.data.mapper.detail.*
 import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.mapper.locker.LockerMapper
@@ -165,5 +166,9 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideNoticeListMapper(): NoticeListMapper = NoticeListMapper()
+
+    @Provides
+    @Singleton
+    fun provideLimitUserMapper() : LimitUserMapper = LimitUserMapper()
 
 }

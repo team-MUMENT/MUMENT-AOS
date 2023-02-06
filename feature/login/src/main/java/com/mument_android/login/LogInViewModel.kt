@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.domain.entity.sign.SetProfileEntity
 import com.mument_android.domain.usecase.sign.SignDulCheckUseCase
 import com.mument_android.domain.usecase.sign.SignPutProfileUseCase
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LogInViewModel @Inject constructor(
+    private val dataStoreManager: DataStoreManager,
     private val dupCheckUseCase : SignDulCheckUseCase,
     private val putProfileUseCase: SignPutProfileUseCase
 ): ViewModel() {
@@ -30,6 +32,12 @@ class LogInViewModel @Inject constructor(
 
     private val _putProfile = MutableLiveData<SetProfileEntity>()
     val putProfile get() :LiveData<SetProfileEntity> = _putProfile
+
+    fun saveIsFirst() {
+        viewModelScope.launch {
+            dataStoreManager.writeIsFirst(true)
+        }
+    }
 
     fun nickNameDupCheck(nickname: String) {
         viewModelScope.launch {

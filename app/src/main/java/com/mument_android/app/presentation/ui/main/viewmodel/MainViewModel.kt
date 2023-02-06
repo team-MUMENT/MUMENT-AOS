@@ -1,10 +1,13 @@
 package com.mument_android.app.presentation.ui.main.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.mument_android.BuildConfig
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.domain.entity.LimitUserEntity
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.domain.usecase.app.LimitUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -12,14 +15,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val dataStoreManager: DataStoreManager
-): ViewModel() {
+    private val dataStoreManager: DataStoreManager,
+    private val limitUserUseCase: LimitUserUseCase
+) : ViewModel() {
     private val _mumentId = MutableLiveData<String>("")
     val mumentId: LiveData<String> = _mumentId
     private val _musicId = MutableLiveData<String>("")
     val musicId: LiveData<String> = _musicId
     private val _music = MutableLiveData<Music>()
     val music: LiveData<Music> = _music
+
+    private val _limitUser = MutableLiveData<LimitUserEntity>()
+    val limitUser: LiveData<LimitUserEntity>
+        get() = _limitUser
 
     private val _mumentDetailContents = MutableLiveData<MumentDetailEntity>()
     val mumentDetailContents: LiveData<MumentDetailEntity> = _mumentDetailContents
@@ -70,4 +78,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
+
+    fun limitUser() {
+        viewModelScope.launch {
+            _limitUser.value = limitUserUseCase.invoke()
+            Log.e("TEST", "${_limitUser.value}")
+        }
+    }
 }
+

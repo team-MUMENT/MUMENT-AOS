@@ -82,6 +82,7 @@ object ThirdPartyDependencies {
     const val fireBaseCloudMessaging =
         "com.google.firebase:firebase-messaging-ktx:${Versions.fcmVersion}"
     const val fireBaseGA = "com.google.firebase:firebase-analytics"
+    const val indicator = "com.tbuonomo:dotsindicator:${Versions.dotsIndicator}"
 }
 
 
