@@ -18,9 +18,9 @@ class UserInfoRepositoryImpl @Inject constructor(
     private val userInfoDataSource: UserInfoDataSource,
     private val userInfoMapper: UserInfoMapper
 ): UserInfoRepository {
-    override suspend fun fetchBlockUserList(): UserInfoEntity {
+    override suspend fun userInfo(): UserInfoEntity {
         userInfoDataSource.getUserInfo().let {
-            return userInfoMapper.map(it)
+            return userInfoMapper.map(it.data)
         }
     }
 
