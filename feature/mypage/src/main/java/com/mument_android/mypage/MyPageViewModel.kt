@@ -225,23 +225,25 @@ class MyPageViewModel @Inject constructor(
                 }
             }
         }
-        //탈퇴 이유 번호 받기
-        fun getUnregisterReasonIndex(index: Int) {
-            _unregisterReasonIndex.value = index
-        }
+    }
+
+    //탈퇴 이유 번호 받기
+    fun getUnregisterReasonIndex(index: Int) {
+        _unregisterReasonIndex.value = index
+    }
 
 
-        //webview link
-        fun getWebView(page: String) {
-            viewModelScope.launch {
-                kotlin.runCatching {
-                    getWebViewUseCase.getWebView(page).let {
-                        _getWebView.value = it
-                    }
+    //webview link
+    fun getWebView(page: String) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                getWebViewUseCase.getWebView(page).let {
+                    _getWebView.value = it
                 }
             }
         }
     }
+
 }
 
 

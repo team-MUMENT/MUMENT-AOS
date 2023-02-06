@@ -25,6 +25,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         logoutBtnListener()
         moveUnregister()
         userInfoNetwork()
+        backBtnEvent()
     }
 
     //각 카테고리 버튼 눌렀을 때 이동하는 함수
@@ -116,6 +117,12 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                 replace(R.id.fc_my_page, UnregisterFragment(), "unregister")
                 addToBackStack("unregister")
             }
+        }
+    }
+
+    private fun backBtnEvent(){
+        binding.btnMyPageBack.setOnClickListener{
+            onBackPressed()
         }
     }
 
