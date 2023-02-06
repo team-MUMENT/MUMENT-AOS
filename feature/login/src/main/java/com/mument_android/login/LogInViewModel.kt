@@ -32,6 +32,8 @@ class LogInViewModel @Inject constructor(
     val isDuplicate = MutableLiveData<Int>(null)
     val image = MutableLiveData<String>(null)
 
+    val fcmToken = MutableLiveData<String?>(null)
+
     private val _putProfile = MutableLiveData<SetProfileEntity>()
     val putProfile get() :LiveData<SetProfileEntity> = _putProfile
 

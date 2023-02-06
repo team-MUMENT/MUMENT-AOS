@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.AuthErrorCause
@@ -12,6 +15,7 @@ import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
+import com.mument_android.domain.entity.sign.RequestKakaoData
 import com.mument_android.login.databinding.ActivityLogInBinding
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,16 +23,32 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
+    private val viewModel: LogInViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         var keyHash = Utility.getKeyHash(this)
         Log.e("kkkkkkkkkk:","$keyHash")
 //        initView()
         initKakaoLogin()
         clickListener()
         btnKakaoListener()
+        getFcmToken()
+    }
 
+    private fun getFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {  //기기 토큰 얻어오는 코드
+                    Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+            // Get new FCM registration token
+            val token = task.result
+            val msg = token.toString()
+            Log.e("TAG", msg)
+
+            viewModel.fcmToken.value = token.toString()
+        })
     }
 
     private fun initKakaoLogin() {
@@ -62,6 +82,12 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                 UserApiClient.instance.me { _, error ->
                     //PlayTogetherRepository.kakaoAccessToken = token.accessToken
                     Log.e("kakao access token :", token.accessToken)
+                    val requestKakaoData = RequestKakaoData(
+                        "kakao",
+                        token.accessToken.toString(),
+                        viewModel.fcmToken.value.toString()
+                    )
+                    viewModel.kakaoLogin(requestKakaoData)
                     /*
                     with(signViewModel) {
                         kakaoLogin()
