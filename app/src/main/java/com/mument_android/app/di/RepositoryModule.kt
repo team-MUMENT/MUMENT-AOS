@@ -244,8 +244,9 @@ object RepositoryModule {
     @Singleton
     fun provideUnregisterReasonRepository(
         unregisterReasonDataSource: UnregisterReasonDataSource,
-        unregisterReasonMapper: UnregisterReasonMapper
-    ):UnregisterReasonRepository = UnregisterReasonRepositoryImpl(
-        unregisterReasonDataSource,unregisterReasonMapper
+        unregisterReasonMapper: UnregisterReasonMapper,
+        requestUnregisterReasonMapper: RequestUnregisterReasonMapper
+    ): UnregisterReasonRepository = UnregisterReasonRepositoryImpl(
+        unregisterReasonDataSource, unregisterReasonMapper, requestUnregisterReasonMapper
     )
 }

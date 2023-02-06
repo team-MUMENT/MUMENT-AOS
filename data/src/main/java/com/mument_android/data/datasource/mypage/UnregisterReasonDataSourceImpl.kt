@@ -9,11 +9,10 @@ class UnregisterReasonDataSourceImpl @Inject constructor(
     private val myPageApiService: MyPageApiService
 ) : UnregisterReasonDataSource {
     override suspend fun postUnregisterReason(
-        leaveCategoryId: Int,
-        reasonEtc: String
+        requestUnregisterReasonDto: RequestUnregisterReasonDto
     ): UnregisterReasonDto? =
         myPageApiService.postUnregisterReason(
-            RequestUnregisterReasonDto(leaveCategoryId, reasonEtc)
+            requestUnregisterReasonDto
         ).data
 
 }

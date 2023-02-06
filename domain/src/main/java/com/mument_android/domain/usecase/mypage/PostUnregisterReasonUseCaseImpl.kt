@@ -1,5 +1,6 @@
 package com.mument_android.domain.usecase.mypage
 
+import com.mument_android.domain.entity.mypage.RequestUnregisterReasonEntity
 import com.mument_android.domain.entity.mypage.UnregisterReasonEntity
 import com.mument_android.domain.repository.mypage.UnregisterReasonRepository
 import kotlinx.coroutines.flow.Flow
@@ -9,9 +10,8 @@ class PostUnregisterReasonUseCaseImpl @Inject constructor(
     private val unregisterReasonRepository: UnregisterReasonRepository
 ) : PostUnregisterReasonUseCase {
     override suspend fun invoke(
-        leaveCategoryId: Int,
-        reasonEtc: String
+        requestUnregisterReasonEntity: RequestUnregisterReasonEntity
     ): Flow<UnregisterReasonEntity> {
-        return unregisterReasonRepository.postUnregisterReason(leaveCategoryId, reasonEtc)
+        return unregisterReasonRepository.postUnregisterReason(requestUnregisterReasonEntity)
     }
 }
