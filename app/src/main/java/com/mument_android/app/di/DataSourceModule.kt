@@ -138,4 +138,5 @@ object DataSourceModule {
     @Singleton
     fun provideNoticeDetailDataSource(myPageApiService: MyPageApiService): NoticeDetailDataSource =
         NoticeDetailDataSourceImpl(myPageApiService)
+
 }

@@ -20,6 +20,7 @@ import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.datasource.mypage.BlockUserListDataSource
 import com.mument_android.data.datasource.mypage.NoticeDetailDataSource
 import com.mument_android.data.datasource.mypage.NoticeListDataSource
+import com.mument_android.data.datasource.mypage.UserInfoDataSource
 import com.mument_android.data.datasource.notify.NotifyDataSource
 import com.mument_android.data.mapper.detail.BlockUserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
@@ -30,9 +31,11 @@ import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
+import com.mument_android.data.mapper.mypage.UserInfoMapper
 import com.mument_android.data.repository.*
 import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
 import com.mument_android.data.repository.mypage.NoticeListRepositoryImpl
+import com.mument_android.data.repository.mypage.UserInfoRepositoryImpl
 import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
@@ -43,6 +46,7 @@ import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
 import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.mypage.NoticeListRepository
+import com.mument_android.domain.repository.mypage.UserInfoRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
 import dagger.Module
@@ -183,4 +187,11 @@ object RepositoryModule {
         noticeListMapper: NoticeListMapper
     ): NoticeListRepository =
         NoticeListRepositoryImpl(noticeDetailDataSource, noticeListDataSource, noticeListMapper)
+
+    @Provides
+    @Singleton
+    fun provideUserInfoRepository(
+        userInfoDataSource: UserInfoDataSource,
+        userInfoMapper: UserInfoMapper
+    ) : UserInfoRepository = UserInfoRepositoryImpl(userInfoDataSource, userInfoMapper)
 }

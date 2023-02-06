@@ -8,10 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiResult
 import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.domain.entity.mypage.NoticeListEntity
-import com.mument_android.domain.usecase.mypage.DeleteBlockUserUseCase
-import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
-import com.mument_android.domain.usecase.mypage.FetchNoticeDetailUseCase
-import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
+import com.mument_android.domain.entity.mypage.UserInfoEntity
+import com.mument_android.domain.usecase.mypage.*
 import com.mument_android.mypage.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -23,7 +21,8 @@ class MyPageViewModel @Inject constructor(
     private val fetchBlockUserUseCase: FetchBlockUserUseCase,
     private val deleteBlockUserUseCase: DeleteBlockUserUseCase,
     private val fetchNoticeListUseCase: FetchNoticeListUseCase,
-    private val fetchNoticeDetailUseCase: FetchNoticeDetailUseCase
+    private val fetchNoticeDetailUseCase: FetchNoticeDetailUseCase,
+    private val userInfoUseCase: UserInfoUseCase
 ) : ViewModel() {
 
 
@@ -70,6 +69,10 @@ class MyPageViewModel @Inject constructor(
 
     private val _isUnregisterAgree = MutableLiveData(false)
     val isUnregisterAgree: LiveData<Boolean> get() = _isUnregisterAgree
+
+    //userInfo
+    private val _userInfo = MutableLiveData<UserInfoEntity>()
+    val userInfo get(): LiveData<UserInfoEntity> = _userInfo
 
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
@@ -159,6 +162,17 @@ class MyPageViewModel @Inject constructor(
     //이유선택박스 초기화
     fun initReasonChooseBox() {
         _isClickReasonChooseBox.value = false
+    }
+
+    //유저 정보
+    fun userInfo(){
+        viewModelScope.launch {
+            kotlin.runCatching {
+                userInfoUseCase.invoke().let {
+                    _userInfo.value = it
+                }
+            }
+        }
     }
 }
 

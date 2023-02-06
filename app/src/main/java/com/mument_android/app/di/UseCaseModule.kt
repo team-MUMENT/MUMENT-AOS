@@ -10,6 +10,7 @@ import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.MainRepository
 import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.mypage.NoticeListRepository
+import com.mument_android.domain.repository.mypage.UserInfoRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
 import com.mument_android.domain.usecase.detail.*
@@ -176,5 +177,9 @@ object UseCaseModule {
     fun provideFetchNoticeDetailUseCase(noticeListRepository: NoticeListRepository): FetchNoticeDetailUseCase =
         FetchNoticeDetailUseCaseImpl(noticeListRepository)
 
+    @Provides
+    @Singleton
+    fun provideUserInfoUseCase(userInfoRepository: UserInfoRepository) : UserInfoUseCase =
+        UserInfoUseCaseImpl(userInfoRepository)
 
 }
