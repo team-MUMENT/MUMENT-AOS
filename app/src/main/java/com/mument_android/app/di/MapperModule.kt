@@ -15,6 +15,7 @@ import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
+import com.mument_android.data.mapper.mypage.*
 import com.mument_android.data.mapper.notify.NotifyMapper
 import com.mument_android.home.notify.NotifyItemMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
@@ -22,8 +23,6 @@ import com.mument_android.data.mapper.mypage.NoticeListMapper
 import com.mument_android.data.mapper.sign.*
 import com.mument_android.data.mapper.mypage.UserInfoMapper
 import com.mument_android.data.mapper.sign.GetWebViewMapper
-import com.mument_android.data.mapper.mypage.UnregisterMapper
-import com.mument_android.data.mapper.mypage.UnregisterReasonMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -161,11 +160,11 @@ object MapperModule {
 
     @Provides
     @Singleton
-    fun provideGetWebView() : GetWebViewMapper = GetWebViewMapper()
+    fun provideGetWebView(): GetWebViewMapper = GetWebViewMapper()
 
     @Provides
     @Singleton
-    fun setProfileMapper() : SetProfileMapper = SetProfileMapper()
+    fun setProfileMapper(): SetProfileMapper = SetProfileMapper()
 
 
     @Provides
@@ -199,5 +198,10 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideUnregisterReasonMapper(): UnregisterReasonMapper = UnregisterReasonMapper()
+
+    @Provides
+    @Singleton
+    fun provideRequestUnregisterReasonMapper(): RequestUnregisterReasonMapper =
+        RequestUnregisterReasonMapper()
 
 }
