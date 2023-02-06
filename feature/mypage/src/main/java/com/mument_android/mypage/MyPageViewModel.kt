@@ -97,14 +97,6 @@ class MyPageViewModel @Inject constructor(
         _isBtnClick.value = isBtnClick
     }
 
-    //프로필 유저 정보
-    fun fetchUserInfo() {
-        val userData = UserData(
-            userID = userId.value ?: "",
-            userImg = userImg.value ?: ""
-        )
-    }
-
     //차단유저관리
     fun fetchBlockUserList() {
         viewModelScope.launch {
