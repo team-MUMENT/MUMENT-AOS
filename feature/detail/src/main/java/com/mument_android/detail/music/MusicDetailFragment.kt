@@ -53,8 +53,8 @@ class MusicDetailFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.musicDetailViewModel = musicDetailViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.ivBack.setOnClickListener { findNavController().popBackStack() }
 
+        clickBackButton()
         setMyMumentTagList()
         setEntireMumentListAdapter()
         updateView()
@@ -62,6 +62,12 @@ class MusicDetailFragment() : Fragment() {
         receiveMusicId()
         changeMumentSortType()
         moveToHistoryFragment()
+    }
+
+    private fun clickBackButton() {
+        binding.ivBack.setOnClickListener {
+            musicDetailViewModel.emitEvent(MusicDetailEvent.OnClickBackButton)
+        }
     }
 
     private fun receiveMusicId() {
@@ -84,7 +90,7 @@ class MusicDetailFragment() : Fragment() {
         collectFlowWhenStarted(musicDetailViewModel.effect) { effect ->
             when (effect) {
                 is MusicDetailEffect.ShowToast -> requireContext().showToast(effect.msg)
-                MusicDetailEffect.PopBackStack -> {}
+                MusicDetailEffect.PopBackStack -> { findNavController().popBackStack() }
             }
         }
     }
@@ -100,7 +106,6 @@ class MusicDetailFragment() : Fragment() {
                 override fun showMumentDetail(mumentId: String) {
                     musicDetailViewModel.viewState.value.musicInfo?.let { musicInfo ->
                         mumentDetailNavigatorProvider.moveMumentDetail(mumentId, musicInfo)
-
                     }
                 }
 

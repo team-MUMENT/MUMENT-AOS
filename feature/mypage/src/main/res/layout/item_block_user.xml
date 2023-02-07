@@ -11,7 +11,7 @@
         android:layout_height="45dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/mument_profile_love_60"
+        android:src="@drawable/mument_default_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

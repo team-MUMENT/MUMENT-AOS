@@ -7,6 +7,6 @@ import com.mument_android.domain.entity.sign.SetProfileData
 class RequestSetProfileMapper : BaseMapper<SetProfileData, RequestSetProfileDto>{
     override fun map(from: SetProfileData): RequestSetProfileDto = RequestSetProfileDto(
         image = from.image,
-        profileId = from.profileId
+        userName = from.userName
     )
 }

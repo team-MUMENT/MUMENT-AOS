@@ -1,17 +1,18 @@
 package com.mument_android.app.di
 
-import com.mument_android.domain.repository.mypage.BlockUserListRepository
-import com.mument_android.domain.repository.detail.BlockUserRepository
-import com.mument_android.domain.repository.detail.MumentDetailRepository
-import com.mument_android.domain.repository.detail.MumentListRepository
-import com.mument_android.domain.repository.detail.MusicDetailRepository
+import com.mument_android.domain.repository.app.LimitUserRepository
+import com.mument_android.domain.repository.detail.*
 import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
-import com.mument_android.domain.repository.main.MainRepository
-import com.mument_android.domain.repository.notify.NotifyRepository
+import com.mument_android.domain.repository.main.LikeMumentRepository
+import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.mypage.NoticeListRepository
+import com.mument_android.domain.repository.mypage.UserInfoRepository
+import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
+import com.mument_android.domain.usecase.app.LimitUserUseCase
+import com.mument_android.domain.usecase.app.LimitUserUseCaseImpl
 import com.mument_android.domain.usecase.detail.*
 import com.mument_android.domain.usecase.home.*
 import com.mument_android.domain.usecase.locker.FetchMyLikeListUseCase
@@ -22,13 +23,10 @@ import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCaseImpl
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCaseImpl
-import com.mument_android.domain.usecase.notify.*
 import com.mument_android.domain.usecase.mypage.*
+import com.mument_android.domain.usecase.notify.*
 import com.mument_android.domain.usecase.record.*
-import com.mument_android.domain.usecase.sign.SignDulCheckUseCase
-import com.mument_android.domain.usecase.sign.SignDulCheckUseCaseImpl
-import com.mument_android.domain.usecase.sign.SignPutProfileUseCase
-import com.mument_android.domain.usecase.sign.SignPutProfileUseCaseImpl
+import com.mument_android.domain.usecase.sign.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,8 +48,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideLikeMumentUseCase(mainRepository: MainRepository): LikeMumentUseCase =
-        LikeMumentUseCaseImpl(mainRepository)
+    fun provideLikeMumentUseCase(likeMumentRepository: LikeMumentRepository): LikeMumentUseCase =
+        LikeMumentUseCaseImpl(likeMumentRepository)
 
     @Provides
     @Singleton
@@ -66,8 +64,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideCancelLikeMumentUseCase(mainRepository: MainRepository): CancelLikeMumentUseCase =
-        CancelLikeMumentUseCaseImpl(mainRepository)
+    fun provideCancelLikeMumentUseCase(likeMumentRepository: LikeMumentRepository): CancelLikeMumentUseCase =
+        CancelLikeMumentUseCaseImpl(likeMumentRepository)
 
 
     @Provides
@@ -156,7 +154,6 @@ object UseCaseModule {
     fun provideBlockUserUseCase(blockUserRepository: BlockUserRepository): BlockUserUseCase =
         BlockUserUseCaseImpl(blockUserRepository)
 
-
     @Provides
     @Singleton
     fun provideSignPutProfileUseCase(signRepository: SignRepository): SignPutProfileUseCase =
@@ -183,5 +180,36 @@ object UseCaseModule {
     fun provideFetchNoticeDetailUseCase(noticeListRepository: NoticeListRepository): FetchNoticeDetailUseCase =
         FetchNoticeDetailUseCaseImpl(noticeListRepository)
 
+    @Provides
+    @Singleton
+    fun provideKaKaoLoginUseCase(signRepository: SignRepository) : SignKaKaoUseCase =
+        SignKaKaoUseCaseImpl(signRepository)
 
+    @Provides
+    @Singleton
+    fun provideUserInfoUseCase(userInfoRepository: UserInfoRepository) : UserInfoUseCase =
+        UserInfoUseCaseImpl(userInfoRepository)
+
+
+    @Provides
+    @Singleton
+    fun provideGetWebViewUseCase(signRepository: SignRepository) : GetWebViewUseCase =
+        GetWebViewUseCaseImpl(signRepository)
+
+
+    @Provides
+    @Singleton
+    fun provideLimitUserUseCase(limitUserRepository: LimitUserRepository) : LimitUserUseCase =
+        LimitUserUseCaseImpl(limitUserRepository)
+
+    @Provides
+    @Singleton
+    fun provideNewTokenUseCase(signRepository: SignRepository) : NewTokenUseCase =
+        NewTokenUseCaseImpl(signRepository)
+
+
+    @Provides
+    @Singleton
+    fun provideFetchUsersLikeMumentUseCase(usersLikeMumentRepository: UsersRepository): FetchUsersLikeMumentUseCase =
+        FetchUsersLikeMumentUseCaseImpl(usersLikeMumentRepository)
 }

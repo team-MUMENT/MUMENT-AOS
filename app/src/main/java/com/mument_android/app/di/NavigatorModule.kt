@@ -28,7 +28,14 @@ abstract class NavigatorModule {
 
     @Binds
     abstract fun provideHistoryProvider(mument: HistoryNavigatorProviderImpl): HistoryNavigatorProvider
+    
+    @Binds
+    abstract fun bindLikeUsersNavigatorProvider(likeUsersNavigatorProviderImpl: LikeUsersNavigatorProviderImpl): LikeUsersNavigatorProvider
 
     @Binds
     abstract fun provideHomeProvider(userId : MainHomeNavigatorProviderImpl) : MainHomeNavigatorProvider
+
+    @Binds
+    abstract fun provideMumentHistoryProvider(mumentHistoryNavigatorProviderImpl: MumentHistoryNavigatorProviderImpl): MumentHistoryNavigatorProvider
+
 }

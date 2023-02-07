@@ -18,13 +18,14 @@
 
         <ImageView
             android:id="@+id/iv_back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="34dp"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/ic_back"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="13dp"
+            android:src="@drawable/ic_back"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@id/tv_headline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_headline" />
 
         <TextView
             android:id="@+id/tv_headline"
@@ -32,10 +33,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mument"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_back_button"
+            android:layout_marginTop="34dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_back_button" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/csl_mument_card"
@@ -80,11 +81,11 @@
 
             <ImageView
                 android:id="@+id/iv_kebab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_kebab"
-                android:visibility="@{mumentDetailViewModel.viewState.writer ? View.VISIBLE : View.GONE}"
-                android:layout_marginEnd="13dp"
+                android:layout_width="20dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_kebab"
                 app:layout_constraintBottom_toBottomOf="@id/iv_profile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/iv_profile" />
@@ -211,17 +212,20 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_contents"
                 tools:text="1 Sep, 2020"/>
 
-            <CheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_heart"
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:button="@null"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginStart="13dp"
-                android:checked="@{mumentDetailViewModel.viewState.likedMument}"
+                android:button="@null"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
                 android:background="@drawable/selector_heart_on_off"
+                android:checked="@{mumentDetailViewModel.viewState.likedMument}"
                 app:layout_constraintTop_toBottomOf="@id/tv_date"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/selector_heart_on_off"/>
 
             <TextView
                 android:id="@+id/tv_like_count"

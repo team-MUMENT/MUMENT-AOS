@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.BuildConfig
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.domain.entity.LimitUserEntity
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
+import com.mument_android.domain.usecase.app.LimitUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -19,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val dataStoreManager: DataStoreManager,
-    private val beforeWhenHomeEnterUseCase: BeforeWhenHomeEnterUseCase
+    private val beforeWhenHomeEnterUseCase: BeforeWhenHomeEnterUseCase,
+    private val limitUserUseCase: LimitUserUseCase
 ) : ViewModel() {
     private val _mumentId = MutableLiveData<String>("")
     val mumentId: LiveData<String> = _mumentId
@@ -28,6 +31,10 @@ class MainViewModel @Inject constructor(
     private val _music = MutableLiveData<Music>()
     val music: LiveData<Music> = _music
 
+
+    private val _limitUser = MutableLiveData<LimitUserEntity>()
+    val limitUser: LiveData<LimitUserEntity>
+        get() = _limitUser
 
     private val _mumentDetailContents = MutableLiveData<MumentDetailEntity>()
     val mumentDetailContents: LiveData<MumentDetailEntity> = _mumentDetailContents
@@ -70,7 +77,7 @@ class MainViewModel @Inject constructor(
 
     fun saveTestRefreshToken() {
         viewModelScope.launch {
-            dataStoreManager.writeRefreshToken(BuildConfig.TEST_REFRESH_TOKEN)
+            dataStoreManager.writeRefreshToken("dsfds")
         }
     }
 
@@ -80,10 +87,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun saveTestUserId() {
+
+    fun limitUser() {
         viewModelScope.launch {
-            dataStoreManager.writeUserId("30")
+            _limitUser.value = limitUserUseCase.invoke()
+            Log.e("TEST", "${_limitUser.value}")
         }
     }
-
 }
+

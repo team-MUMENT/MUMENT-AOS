@@ -14,4 +14,21 @@
     <string name="profile_cancel">취소</string>
     <string name="profile_select_library">라이브러리에서 선택</string>
     <string name="profile_delete_img">프로필 사진 삭제</string>
+
+    <string name="splash_mument">MUMENT</string>
+
+    <!--온보딩-->
+    <string name="first_onboarding_title1">음악 감상을</string>
+    <string name="first_onboarding_title2">손쉽게 기록해요!</string>
+    <string name="first_onboarding_subtitle">감상태그를 이용해 감정과\n인상적인 부분을 남겨보세요.</string>
+    <string name="second_onboarding_title1">다양한 감상을</string>
+    <string name="second_onboarding_title2">발견해요!</string>
+    <string name="second_onboarding_subtitle">노래에 담긴 다채로운 이야기를\n검색 또는 추천을 통해 만나보세요.</string>
+    <string name="third_onboarding_title1">나만의 추억을</string>
+    <string name="third_onboarding_title2">꺼내 봐요!</string>
+    <string name="third_onboarding_subtitle">내가 쌓은 감상과 인상 깊었던\n뮤멘트를 보관함에서 모아보세요.</string>
+    <string name="onboarding_start">시작하기</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

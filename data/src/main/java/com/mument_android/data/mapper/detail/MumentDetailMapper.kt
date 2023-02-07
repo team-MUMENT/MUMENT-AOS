@@ -28,7 +28,8 @@ class MumentDetailMapper @Inject constructor(
                 impressionTags = from.impressionTag?.map { impressiveTagMapper.map(it) },
                 emotionalTags = from.feelingTag?.map { emotionalTagMapper.map(it) },
                 content = from.content,
-                createdDate = from.createdAt
+                createdDate = from.createdAt,
+                isPrivate = from.isPrivate
             ),
             isLiked = from.isLiked,
             likeCount = from.likeCount,

@@ -5,6 +5,6 @@ data class SetProfileEntity(
     val id : Int,
     val accessToken : String,
     val refreshToken : String,
-    val profileId : String,
-    val image : String
+    val userName : String,
+    val image : String?
 )

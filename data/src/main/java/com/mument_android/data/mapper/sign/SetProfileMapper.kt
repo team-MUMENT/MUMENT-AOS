@@ -10,7 +10,7 @@ class SetProfileMapper : BaseMapper<SetProfileDto, SetProfileEntity> {
         id = from.id,
         accessToken = from.accessToken,
         refreshToken = from.refreshToken,
-        profileId = from.profileId,
+        userName = from.userName,
         image = from.image
     )
 }

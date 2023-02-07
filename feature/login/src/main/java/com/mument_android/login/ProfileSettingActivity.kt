@@ -1,5 +1,6 @@
 package com.mument_android.login
 
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -107,7 +108,7 @@ class ProfileSettingActivity :
                     binding.clSelectImg.visibility = View.GONE
                 }
                 binding.tvDeleteProfile.setOnClickListener {
-                    binding.ivProfile.setImageResource(R.drawable.circle_fill_default)
+                    binding.ivProfile.setImageResource(R.drawable.mument_profile_camera)
                     viewModel.imageUri.value = null
                     binding.clSelectImg.visibility = View.GONE
                 }
@@ -155,12 +156,22 @@ class ProfileSettingActivity :
                     binding.ivProfile.load(uri) {
                         viewModel.imageUri.value = uri
                         crossfade(true)
-                        placeholder(R.drawable.circle_fill_default)
+                        placeholder(R.drawable.mument_profile_camera)
                         transformations(CircleCropTransformation())
                     }
                     if (imageUri != null) {
                         viewModel.imageUri.value = uri
                     }
+                    //TODO 이미지 null인 경우 이미지 3개 중 임의로 하나 보내주기
+                    /*
+                    else {
+                        val drawable: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.mument_profile_love_45, null)
+                        val imageUri = "drawable://$drawable".toUri()
+                        viewModel.imageUri.value = imageUri
+                    }
+
+                     */
+
                 }
             }
         }
@@ -182,18 +193,10 @@ class ProfileSettingActivity :
     private fun putProfileNetwork() {
         val requestBodyMap = HashMap<String, RequestBody>()
         val nickname = binding.etNickname.text.toString()
-        requestBodyMap["profileId"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
+        requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
         viewModel.putProfile(multipart, requestBodyMap)
         moveToMainActivity()
-
-
-        /*
-        //MainActivity로 이동하려면 어떻게 해야하는거죠...? MainActivity는 App모듈이자나여....
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
-         */
     }
 
     private suspend fun nickNameDupCheck() {

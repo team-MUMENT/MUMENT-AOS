@@ -4,6 +4,7 @@ import com.mument_android.data.dto.MusicDto
 import com.mument_android.data.dto.UserDto
 
 data class MumentDetailDto(
+    val user: UserDto,
     val content: String?,
     val count: Int,
     val createdAt: String,
@@ -12,5 +13,5 @@ data class MumentDetailDto(
     val impressionTag: List<Int>?,
     val isLiked: Boolean,
     val likeCount: Int,
-    val user: UserDto
+    val isPrivate: Boolean
 )

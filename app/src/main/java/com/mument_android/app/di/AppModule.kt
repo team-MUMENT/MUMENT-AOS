@@ -2,6 +2,8 @@ package com.mument_android.app.di
 
 
 import android.content.Context
+import com.angdroid.navigation.LogInNavigatorProvider
+import com.mument_android.app.presentation.ui.detail.mument.navigator.LogInNavigatorProviderImpl
 import com.mument_android.core.util.DateFormatter
 import com.mument_android.core_dependent.ext.DataStoreManager
 import dagger.Module
@@ -24,4 +26,9 @@ object AppModule {
     @Provides
     fun provideDataStoreManager(@ApplicationContext context: Context): DataStoreManager =
         DataStoreManager(context)
+
+    @Singleton
+    @Provides
+    fun provideLoginNavigatorProvider(@ApplicationContext context: Context): LogInNavigatorProvider =
+        LogInNavigatorProviderImpl(context)
 }

@@ -2,6 +2,7 @@ package com.mument_android.detail.music
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core.network.ApiStatus
 import com.mument_android.core.util.DateFormatter
 import com.mument_android.core_dependent.base.MviViewModel
 import com.mument_android.detail.BuildConfig
@@ -50,6 +51,9 @@ class MusicDetailViewModel @Inject constructor(
             is MusicDetailEvent.UnCheckLikeMument -> {
                 cancelLikeMument(event.mumentId)
             }
+            is MusicDetailEvent.OnClickBackButton -> {
+                setEffect { MusicDetailEffect.PopBackStack }
+            }
         }
     }
 
@@ -59,13 +63,16 @@ class MusicDetailViewModel @Inject constructor(
 
     private fun fetchMusicDetail(musicId: String) {
         viewModelScope.launch {
-            fetchMusicDetailUseCase(musicId).catch { e ->
-                setState { copy(hasError = true) }
-                Log.e("errorororor", "${e.message}")
-
-            }.collect {
-                Log.e("success music", "${it.music}")
-                setState { copy(musicInfo = it.music, myMumentInfo = it.myMument) }
+            fetchMusicDetailUseCase(musicId).collect { result ->
+                when(result) {
+                    is ApiStatus.Success -> {
+                        setState { copy(musicInfo = result.data.music, myMumentInfo = result.data.myMument) }
+                    }
+                    is ApiStatus.Failure -> {
+                        setState { copy(hasError = true) }
+                    }
+                    ApiStatus.Loading -> {}
+                }
             }
         }
     }
@@ -101,7 +108,7 @@ class MusicDetailViewModel @Inject constructor(
 
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
-            likeMumentUseCase(mumentId, BuildConfig.USER_ID)
+            likeMumentUseCase(mumentId)
                 .catch { }
                 .collect { }
         }
@@ -109,7 +116,7 @@ class MusicDetailViewModel @Inject constructor(
 
     fun cancelLikeMument(mumentId: String) {
         viewModelScope.launch {
-            cancelLikeMumentUseCase(mumentId, BuildConfig.USER_ID)
+            cancelLikeMumentUseCase(mumentId)
                 .catch { }
                 .collect { }
         }

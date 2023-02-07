@@ -3,6 +3,11 @@ package com.mument_android.app.di
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
+import com.mument_android.data.datasource.app.LimitUserDataSource
+import com.mument_android.data.datasource.app.LimitUserDataSourceImpl
+import com.mument_android.core_dependent.network.RefreshTokenApiService
+import com.mument_android.core_dependent.network.TokenDataSource
+import com.mument_android.core_dependent.network.TokenDataSourceImpl
 import com.mument_android.data.datasource.locker.LockerDataSource
 import com.mument_android.data.datasource.locker.LockerDataSourceImpl
 import com.mument_android.data.datasource.record.RecordDataSource
@@ -19,6 +24,7 @@ import com.mument_android.data.local.converter.DateTypeConverter
 import com.mument_android.data.local.converter.IntListTypeConverter
 import com.mument_android.data.local.recentlist.RecentSearchDAO
 import com.mument_android.data.local.todaymument.TodayMumentDAO
+import com.mument_android.data.network.app.AppApiService
 import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.network.home.HomeService
 import com.mument_android.data.network.home.NotifyService
@@ -138,4 +144,24 @@ object DataSourceModule {
     @Singleton
     fun provideNoticeDetailDataSource(myPageApiService: MyPageApiService): NoticeDetailDataSource =
         NoticeDetailDataSourceImpl(myPageApiService)
+
+    @Provides
+    @Singleton
+    fun provideUserInfoDataSource(myPageApiService: MyPageApiService) : UserInfoDataSource =
+        UserInfoDataSourceImpl(myPageApiService)
+
+    @Provides
+    @Singleton
+    fun provideLimitUserDataSource(appApiService: AppApiService) : LimitUserDataSource =
+        LimitUserDataSourceImpl(appApiService)
+
+    @Provides
+    @Singleton
+    fun provideUsersLikeMumentDataSource(detailApiService: DetailApiService): UsersWhoLikeMumentDataSource =
+        UsersWhoLikeMumentDataSourceImpl(detailApiService)
+
+    @Provides
+    @Singleton
+    fun provideTokenDataSource(refreshTokenApiService: RefreshTokenApiService): TokenDataSource =
+        TokenDataSourceImpl(refreshTokenApiService)
 }

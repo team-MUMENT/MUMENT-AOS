@@ -24,6 +24,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         clickListenerWebView()
         logoutBtnListener()
         moveUnregister()
+        userInfoNetwork()
     }
 
     //각 카테고리 버튼 눌렀을 때 이동하는 함수
@@ -50,23 +51,39 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
 
     //각 웹뷰로 이동
     private fun clickListenerWebView() {
-        with(binding) {
-            //자주묻는질문
-            clFAQ.setOnClickListener {
-                initIntent("https://www.naver.com/")
+        myPageViewModel.getWebView("mypage")
+        myPageViewModel.getWebView.observe(this) {
+            val faq = it.faq.toString()
+            val contact = it.contact.toString()
+            val appInfo = it.appInfo.toString()
+            val introduction = it.introduction.toString()
+
+            with(binding) {
+                //자주묻는질문
+                clFAQ.setOnClickListener {
+                    initIntent(faq)
+                }
+                //문의하기
+                clInquiry.setOnClickListener {
+                    initIntent(contact)
+                }
+                //앱정보
+                clAppInfo.setOnClickListener {
+                    initIntent(appInfo)
+                }
+                //뮤멘트 소개
+                clIntroduceMument.setOnClickListener {
+                    initIntent(introduction)
+                }
             }
-            //문의하기
-            clInquiry.setOnClickListener {
-                initIntent("https://www.naver.com/")
-            }
-            //앱정보
-            clAppInfo.setOnClickListener {
-                initIntent("https://www.naver.com/")
-            }
-            //뮤멘트 소개
-            clIntroduceMument.setOnClickListener {
-                initIntent("https://www.naver.com/")
-            }
+        }
+
+    }
+
+    private fun userInfoNetwork() {
+        myPageViewModel.userInfo()
+        myPageViewModel.userInfo.observe(this) {
+            binding.viewModel = it
         }
     }
 

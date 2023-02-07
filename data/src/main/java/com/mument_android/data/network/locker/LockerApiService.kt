@@ -3,7 +3,6 @@ package com.mument_android.data.network.locker
 import com.mument_android.data.util.BaseResponse
 import com.mument_android.data.dto.locker.LockerMyMumentDto
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface LockerApiService {

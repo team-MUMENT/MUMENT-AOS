@@ -30,6 +30,9 @@ class LockerViewModel @Inject constructor(
     private val _checkedTagList = MutableLiveData<List<TagEntity>>(emptyList())
     val checkedTagList = _checkedTagList
 
+    private val _profileImage = MutableLiveData<String?>(null)
+    val profileImage = _profileImage
+
 
     //좋아요한 뮤멘트 실시간 태그 리스트
     private val _checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
@@ -58,6 +61,8 @@ class LockerViewModel @Inject constructor(
     fun changeLikeCheckedTagList(tags: List<TagEntity>) {
         _checkedLikeTagList.value = tags
     }
+
+
 
     fun fetchMyMumentList() {
         viewModelScope.launch {
@@ -91,11 +96,13 @@ class LockerViewModel @Inject constructor(
                 tag3 = thirdTag
             ).onStart {
                 myMuments.value = ApiResult.Loading(null)
+
             }.catch {
                 //Todo exception handling
                 myMuments.value = ApiResult.Failure(null)
             }.collectLatest {
                 myMuments.value = ApiResult.Success(it)
+                //_profileImage.value = it.get(0).mumentCard?.get(0)?.userImage ?: ""
             }
         }
     }
@@ -169,8 +176,7 @@ class LockerViewModel @Inject constructor(
     fun cancelLikeMument(mumentId: String) {
         viewModelScope.launch {
             cancelLikeMumentUseCase(
-                mumentId,
-                BuildConfig.USER_ID
+                mumentId
             ).collect()
         }
     }
@@ -178,8 +184,7 @@ class LockerViewModel @Inject constructor(
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
             likeMumentUseCase(
-                mumentId,
-                BuildConfig.USER_ID
+                mumentId
             ).collect()
         }
     }
