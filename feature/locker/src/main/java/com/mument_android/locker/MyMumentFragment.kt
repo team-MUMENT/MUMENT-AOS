@@ -143,9 +143,16 @@ class MyMumentFragment : Fragment() {
     //TODO: 필터 및 아이콘들 비활성화
     private fun initMumentEmpty(size: Int) {
         if (size == 0) {
-            binding.clFilterResultNull.visibility = View.VISIBLE
+            if(binding.ivLockerFilter.isSelected) {
+                binding.clFilterResultNull.visibility = View.VISIBLE
+                binding.clEmptyView.visibility = View.GONE
+            } else {
+                binding.clEmptyView.visibility = View.VISIBLE
+                binding.clFilterResultNull.visibility = View.GONE
+            }
         } else {
             binding.clFilterResultNull.visibility = View.GONE
+            binding.clEmptyView.visibility = View.GONE
         }
     }
 
