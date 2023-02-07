@@ -39,11 +39,11 @@ class LockerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
 
-
         imageSet()
         navToMyPage()
         initAdapter()
         initTab()
+        userInfoNetwork()
     }
 
     override fun onResume() {
@@ -56,6 +56,13 @@ class LockerFragment : Fragment() {
             binding.vpLocker.doOnPreDraw {
                 binding.vpLocker.currentItem = 1
             }
+        }
+    }
+
+    private fun userInfoNetwork() {
+        lockerViewModel.userInfo()
+        lockerViewModel.userInfo.observe(viewLifecycleOwner) {
+            binding.viewModel = it
         }
     }
 

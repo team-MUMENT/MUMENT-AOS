@@ -1,15 +1,18 @@
 package com.mument_android.locker.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core.network.ApiResult
 import com.mument_android.domain.entity.locker.LockerMumentEntity
+import com.mument_android.domain.entity.mypage.UserInfoEntity
 import com.mument_android.domain.usecase.locker.FetchMyLikeListUseCase
 import com.mument_android.domain.usecase.locker.FetchMyMumentListUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
+import com.mument_android.domain.usecase.mypage.UserInfoUseCase
 import com.mument_android.locker.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -21,7 +24,8 @@ class LockerViewModel @Inject constructor(
     private val fetchMyMumentListUseCase: FetchMyMumentListUseCase,
     private val fetchMyLikeListUseCase: FetchMyLikeListUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
-    private val likeMumentUseCase: LikeMumentUseCase
+    private val likeMumentUseCase: LikeMumentUseCase,
+    private val userInfoUseCase: UserInfoUseCase
 ) : ViewModel() {
     val myMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
 
@@ -33,6 +37,9 @@ class LockerViewModel @Inject constructor(
     private val _profileImage = MutableLiveData<String?>(null)
     val profileImage = _profileImage
 
+    //userInfo
+    private val _userInfo = MutableLiveData<UserInfoEntity>()
+    val userInfo get(): LiveData<UserInfoEntity> = _userInfo
 
     //좋아요한 뮤멘트 실시간 태그 리스트
     private val _checkedLikeTagList = MutableLiveData<List<TagEntity>>(emptyList())
@@ -47,7 +54,7 @@ class LockerViewModel @Inject constructor(
     val isLikeGridLayout = _isLikeGridLayout.asStateFlow()
 
 
-    var isMument : Boolean = true
+    var isMument: Boolean = true
     var firstTag: Int? = 0
     var secondTag: Int? = 0
     var thirdTag: Int? = 0
@@ -61,7 +68,6 @@ class LockerViewModel @Inject constructor(
     fun changeLikeCheckedTagList(tags: List<TagEntity>) {
         _checkedLikeTagList.value = tags
     }
-
 
 
     fun fetchMyMumentList() {
@@ -188,6 +194,17 @@ class LockerViewModel @Inject constructor(
                 mumentId,
                 BuildConfig.USER_ID
             ).collect()
+        }
+    }
+
+    //유저 정보
+    fun userInfo() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                userInfoUseCase.invoke().let {
+                    _userInfo.value = it
+                }
+            }
         }
     }
 
