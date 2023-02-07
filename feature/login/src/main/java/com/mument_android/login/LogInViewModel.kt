@@ -106,6 +106,7 @@ class LogInViewModel @Inject constructor(
                     Log.e("access token", "${it?.accessToken}")
                     saveRefreshToken(it?.refreshToken ?: "")
                     saveAccessToken(it?.accessToken ?: "")
+                    //saveTestUserId(it._id ?: 1)
                 }
             }
         }

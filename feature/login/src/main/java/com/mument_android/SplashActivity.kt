@@ -44,6 +44,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun isFirst() {
+        Log.e("12j4123", "${viewModel.isExist.value}")
         collectFlow(dataStoreManager.accessTokenFlow) {
             Log.e("bbbbbbbbbbb", "$it")
         }
@@ -56,6 +57,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
             } else {
                 if(viewModel.isExist.value == true) {
                     moveToMainActivity()
+                    Log.e("뭐지", "31324")
                 }
                 else {
                     val intent = Intent(this, LogInActivity::class.java)
