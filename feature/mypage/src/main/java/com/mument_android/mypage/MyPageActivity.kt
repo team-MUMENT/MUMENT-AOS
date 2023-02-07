@@ -47,6 +47,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
             val intent = Intent(this, ProfileSettingActivity::class.java)
             intent.putExtra("nickname", myPageViewModel.userInfo.value?.userName)
             intent.putExtra("img", myPageViewModel.userInfo.value?.image)
+            intent.putExtra("checkMyPage", 1)
             startActivity(intent)
         }
     }
