@@ -1,5 +1,6 @@
 package com.mument_android.mypage
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,12 +41,6 @@ class MyPageViewModel @Inject constructor(
     //Profile
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> get() = _userId
-
-    private val _userImg = MutableLiveData<String>()
-    val userImg: LiveData<String> get() = _userImg
-
-    private val _userNickNameContent = MutableLiveData("")
-    val userNickNameContent = _userNickNameContent
 
     //BlockUserManagement
     private val _blockUserList = MutableStateFlow<ApiResult<List<BlockUserEntity>>?>(null)
@@ -116,7 +111,10 @@ class MyPageViewModel @Inject constructor(
     }
 
     fun checkBlockUserEmpty(): Boolean {
-        return _blockUserList.value == null
+//        return _blockUserList.value == null
+        return _blockUserList.value?.data?.size == null
+        Log.e("TEST", "${_blockUserList.value?.data?.size}")
+        //return _blockUserList.value == null
     }
 
 

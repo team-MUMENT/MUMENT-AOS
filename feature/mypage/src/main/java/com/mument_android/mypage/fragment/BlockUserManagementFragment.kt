@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mument_android.core.network.ApiResult
+import com.mument_android.core_dependent.ext.collectFlow
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -37,8 +38,9 @@ class BlockUserManagementFragment : Fragment() {
 
         setBlockUserRecyclerView()
         backBtnListener()
-        myPageViewModel.checkBlockUserEmpty()
+        checkBlockUserEmpty()
     }
+
 
     private fun setBlockUserRecyclerView() {
         blockUserManagementAdapter =
@@ -61,7 +63,7 @@ class BlockUserManagementFragment : Fragment() {
 
     }
 
-    private fun deleteItem(data:BlockUserEntity) {
+    private fun deleteItem(data: BlockUserEntity) {
         MumentDialogBuilder()
             .setHeader(getString(R.string.unblock_title))
             .setBody(getString(R.string.unblock_body))
@@ -71,6 +73,15 @@ class BlockUserManagementFragment : Fragment() {
             .setCancelListener {}
             .build()
             .show(childFragmentManager, this.tag)
+    }
+
+    private fun checkBlockUserEmpty() {
+        collectFlow(myPageViewModel.blockUserList) {
+            if (myPageViewModel.blockUserList.value?.data?.size == 0)
+                binding.tvBlockUserEmpty.visibility = View.VISIBLE
+            else
+                binding.tvBlockUserEmpty.visibility = View.GONE
+        }
     }
 
     private fun backBtnListener() {
