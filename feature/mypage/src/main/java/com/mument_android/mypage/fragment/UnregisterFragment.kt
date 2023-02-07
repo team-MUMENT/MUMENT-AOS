@@ -2,6 +2,7 @@ package com.mument_android.mypage.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -145,12 +146,14 @@ class UnregisterFragment : Fragment() {
     private fun unregisterFinish() {
         binding.btnUnregisterFinish.setOnClickListener {
             myPageViewModel.postUnregisterReason()
-            myPageViewModel.fetchUnregisterInfo()
-
-            this.activity?.finish()
-
-            val intent = Intent(activity, LogInActivity::class.java)
-            startActivity(intent)
+        }
+        myPageViewModel.isUnregisterSuccess.observe(viewLifecycleOwner) {
+            if (it) {
+                startActivity(Intent(requireActivity(), LogInActivity::class.java))
+                requireActivity().finish()
+            } else {
+                Log.e("unregisterFinish()", "회원탈퇴 실패")
+            }
         }
     }
 

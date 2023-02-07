@@ -9,7 +9,9 @@ import com.mument_android.domain.entity.mypage.*
 import com.mument_android.domain.entity.sign.WebViewEntity
 import com.mument_android.domain.usecase.mypage.*
 import com.mument_android.domain.usecase.sign.GetWebViewUseCase
-import com.mument_android.mypage.data.UserData
+import com.mument_android.domain.entity.mypage.BlockUserEntity
+import com.mument_android.domain.entity.mypage.NoticeListEntity
+import com.mument_android.domain.entity.mypage.RequestUnregisterReasonEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -59,12 +61,7 @@ class MyPageViewModel @Inject constructor(
     val noticeId = _noticeId
 
     //Unregister
-    private val _unregisterInfo = MutableStateFlow<ApiResult<UnregisterEntity>?>(null)
-    val unregisterInfo get() = _unregisterInfo.asStateFlow()
-
-    private val _unregisterReason =
-        MutableStateFlow<ApiResult<UnregisterReasonEntity>?>(null)
-    val unregisterReason get() = _unregisterReason.asStateFlow()
+    val isUnregisterSuccess = MutableLiveData<Boolean>()
 
     private val _isClickReasonChooseBox = MutableLiveData(false)
     val isClickReasonChooseBox: LiveData<Boolean> get() = _isClickReasonChooseBox
@@ -86,6 +83,8 @@ class MyPageViewModel @Inject constructor(
     val userInfo get(): LiveData<UserInfoEntity> = _userInfo
     private val _unregisterReasonIndex = MutableLiveData(0)
     val unregisterReasonIndex = _unregisterReasonIndex
+
+    val checkUnregisterReason = MutableLiveData<Int>(null)
 
 
     //web view link
@@ -150,35 +149,23 @@ class MyPageViewModel @Inject constructor(
     }
 
     //회원탈퇴
-    fun fetchUnregisterInfo() {
-        viewModelScope.launch {
-            unregisterInfo.value.let {
-                fetchUnregisterInfoUseCase.invoke().onStart {
-                }.catch {
-                    _unregisterInfo.value = ApiResult.Failure(null)
-                }.collect {
-                    _unregisterInfo.value = ApiResult.Success(it)
-
-                }
-            }
-        }
-    }
-
     fun postUnregisterReason() {
         viewModelScope.launch {
             val reasonEntity = RequestUnregisterReasonEntity(
                 leaveCategoryId = unregisterReasonIndex.value ?: 0,
                 reasonEtc = unregisterReasonContent.value ?: ""
             )
-            unregisterReason.value.let {
-                postUnregisterReasonUseCase.invoke(reasonEntity).onStart {
-                }.catch {
-
-                }.collect {
-                    _unregisterReason.value = ApiResult.Success(it)
+            postUnregisterReasonUseCase.invoke(reasonEntity).catch {
+                isUnregisterSuccess.value = false
+            }.collect { apiResult ->
+                if (apiResult) {
+                    fetchUnregisterInfoUseCase.invoke().catch {
+                        isUnregisterSuccess.value = false
+                    }.collect {
+                        isUnregisterSuccess.value = it
+                    }
                 }
             }
-
         }
     }
 
@@ -224,6 +211,9 @@ class MyPageViewModel @Inject constructor(
         _unregisterReasonIndex.value = index
     }
 
+    fun checkUnregisterReasonApi(requestUnregisterReasonEntity: RequestUnregisterReasonEntity) {
+
+    }
 
     //webview link
     fun getWebView(page: String) {
