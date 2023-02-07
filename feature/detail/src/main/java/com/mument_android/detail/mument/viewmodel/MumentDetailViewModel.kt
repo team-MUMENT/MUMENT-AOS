@@ -32,8 +32,6 @@ class MumentDetailViewModel @Inject constructor(
     private val mediaUtils: MediaUtils
 ) : MviViewModel<MumentDetailEvent, MumentDetailViewState, MumentDetailSideEffect>() {
 
-    val reasonLength = MutableLiveData<String>()
-
     override fun setInitialState(): MumentDetailViewState  = MumentDetailViewState()
 
     override fun handleEvents(event: MumentDetailEvent) {

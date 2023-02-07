@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.mument_android.detail.mument.viewmodel.MumentDetailViewModel" />
+            type="com.mument_android.detail.mument.viewmodel.MumentReportViewModel" />
 
     </data>
 
@@ -394,7 +394,6 @@
                     android:fontFamily="@font/notosans_bold"
                     android:gravity="center"
                     android:text="@string/notify_title"
-                    android:enabled="false"
                     android:paddingVertical="12dp"
                     android:textColor="@color/mument_color_white"
                     android:textSize="18dp"
