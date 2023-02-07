@@ -211,14 +211,17 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_contents"
                 tools:text="1 Sep, 2020"/>
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_heart"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:scaleType="centerInside"
                 android:layout_marginTop="12dp"
                 android:layout_marginStart="13dp"
-                isLikeMument="@{mumentDetailViewModel.viewState.likedMument}"
+                android:button="@null"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:background="@drawable/selector_heart_on_off"
+                android:checked="@{mumentDetailViewModel.viewState.likedMument}"
                 app:layout_constraintTop_toBottomOf="@id/tv_date"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:src="@drawable/selector_heart_on_off"/>

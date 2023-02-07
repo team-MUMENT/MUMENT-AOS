@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 class UsersRepositoryImpl @Inject constructor(
     private val usersWhoLikeMumentDataSource: UsersWhoLikeMumentDataSource,
-    private val userMapper: UserMapper,
     private val errorHandler: ErrorHandler
 ): UsersRepository {
     override suspend fun fetchUsers(
@@ -22,6 +21,6 @@ class UsersRepositoryImpl @Inject constructor(
         offset: Int
     ): Flow<ApiStatus<List<UserEntity>>> =
         usersWhoLikeMumentDataSource.fetchUsers(mumentId, limit, offset)
-            .map { it?.map { userMapper.map(it) } ?: throw NullPointerException("Can't receive user data")}
+            .map { it?.map { it.toUserEntity() } ?: throw NullPointerException("Can't receive user data") }
             .toApiStatus(errorHandler)
 }

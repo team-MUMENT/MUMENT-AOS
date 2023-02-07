@@ -132,14 +132,9 @@ class MumentDetailFragment : Fragment() {
 
     private fun changeLikeStatus() {
         binding.cbHeart.setOnClickListener {
-            val likeStatus = viewModel.viewState.value.isLikedMument
-            if(likeStatus) {
-                viewModel.emitEvent(MumentDetailEvent.OnClickUnLikeMument)
-            } else {
-                viewModel.emitEvent(MumentDetailEvent.OnClickLikeMument)
-            }
-//            val event = if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
-//            viewModel.emitEvent(event)
+            viewModel.emitEvent(
+                if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
+            )
         }
     }
 

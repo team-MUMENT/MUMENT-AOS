@@ -213,8 +213,6 @@ object RepositoryModule {
     @Singleton
     fun provideUsersLikeMumentRepository(
         usersWhoLikeMumentDataSource: UsersWhoLikeMumentDataSource,
-        userMapper: UserMapper,
         errorHandler: ErrorHandler
-    ): UsersRepository = UsersRepositoryImpl(usersWhoLikeMumentDataSource, userMapper, errorHandler)
-
+    ): UsersRepository = UsersRepositoryImpl(usersWhoLikeMumentDataSource, errorHandler)
 }

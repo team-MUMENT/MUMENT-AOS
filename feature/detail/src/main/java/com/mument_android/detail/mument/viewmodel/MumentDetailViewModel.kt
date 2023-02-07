@@ -97,25 +97,31 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun likeMument() {
         viewModelScope.launch {
-            setState { copy(likeCount = likeCount + 1 ) }
-            setState { copy(isLikedMument = true) }
+            changeLikeStatus(true)
             likeMumentUseCase(viewState.value.requestMumentId)
                 .catch {
-                    setState { copy(likeCount = likeCount - 1 ) }
-                    setState { copy(isLikedMument = false) }
+                    changeLikeStatus(false)
                 }.collect {}
         }
     }
 
     private fun cancelLikeMument() {
         viewModelScope.launch {
-            setState { copy(likeCount = likeCount - 1 ) }
-            setState { copy(isLikedMument = false) }
+            changeLikeStatus(false)
             cancelLikeMumentUseCase(viewState.value.requestMumentId)
                 .catch {
-                    setState { copy(likeCount = likeCount + 1 ) }
-                    setState { copy(isLikedMument = true) }
+                    changeLikeStatus(true)
                 }.collect {}
+        }
+    }
+
+    private fun changeLikeStatus(like: Boolean) {
+        if (like) {
+            setState { copy(likeCount = likeCount + 1 ) }
+            setState { copy(isLikedMument = true) }
+        } else {
+            setState { copy(likeCount = likeCount - 1 ) }
+            setState { copy(isLikedMument = false) }
         }
     }
 

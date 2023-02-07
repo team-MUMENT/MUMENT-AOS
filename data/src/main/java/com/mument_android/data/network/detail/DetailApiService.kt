@@ -2,6 +2,7 @@ package com.mument_android.data.network.detail
 
 import com.mument_android.data.util.BaseResponse
 import com.mument_android.data.dto.MumentListDto
+import com.mument_android.data.dto.TempUserDto
 import com.mument_android.data.dto.UserDto
 import com.mument_android.data.dto.detail.MumentDetailDto
 import com.mument_android.data.dto.detail.MusicDetailDto
@@ -46,5 +47,5 @@ interface DetailApiService {
         @Path("mumentId") mumentId: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
-    ): BaseResponse<List<UserDto>>
+    ): BaseResponse<List<TempUserDto>>
 }
