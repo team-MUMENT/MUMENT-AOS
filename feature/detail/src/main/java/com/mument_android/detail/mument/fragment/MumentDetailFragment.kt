@@ -146,12 +146,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun showMumentHistory() {
         binding.tvGoToHistory.run {
-            if (visibility == View.GONE) applyVisibilityAnimation(
-                isUpward = true,
-                reveal = true,
-                durationTime = 700,
-                delay = 150
-            )
+            if (visibility == View.GONE) applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
         }
     }
 
