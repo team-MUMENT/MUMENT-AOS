@@ -105,7 +105,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                     viewModel.kakaoLogin(requestKakaoData)
                     viewModel.kakaoData.observe(this) {
                         if(it.accessToken != null) {
-                            saveTestToken()
                             startActivity(Intent(this, ProfileSettingActivity::class.java))
                             finish()
                         }
@@ -126,14 +125,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                 this,
                 callback = callback
             )
-        }
-    }
-
-
-    private fun saveTestToken() {
-
-        collectFlow(dataStoreManager.accessTokenFlow) {
-            viewModel.saveTestAccessToken()
         }
     }
 

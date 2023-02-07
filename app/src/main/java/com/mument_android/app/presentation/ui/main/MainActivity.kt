@@ -34,7 +34,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        saveTestToken()
         initNavigation()
         floatingBtnListener()
         customAppBar()
@@ -43,7 +42,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun saveTestToken() {
-        /*
         collectFlowWhenStarted(dataStoreManager.accessTokenFlow) {
             if (it.isNullOrEmpty()) viewModel.saveTestAccessToken()
         }
@@ -54,8 +52,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         collectFlowWhenStarted(dataStoreManager.userIdFlow) {
             if (it.isNullOrEmpty()) viewModel.saveTestUserId()
         }
-
-         */
     }
 
 

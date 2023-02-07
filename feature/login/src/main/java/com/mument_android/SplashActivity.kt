@@ -36,9 +36,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     //스플래시 -> 우선은 로그인으로 가는 로직 (후에 토큰 관리하다보면 login or main 분기처리)
     private fun initSplash() {
-        collectFlowWhenStarted(dataStoreManager.accessTokenFlow) {
-            if (it.isNullOrEmpty()) viewModel.saveTestRefreshToken()
-        }
+//        collectFlowWhenStarted(dataStoreManager.accessTokenFlow) {
+//            if (it.isNullOrEmpty()) viewModel.saveTestRefreshToken()
+//        }
         Handler(Looper.getMainLooper()).postDelayed({
             isFirst()
         }, DURATION)
@@ -63,8 +63,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     private fun newTokenNetwork() {
         viewModel.newToken()
-        collectFlow(dataStoreManager.refreshTokenFlow) {
-            viewModel.saveTestRefreshToken()
+//        collectFlow(dataStoreManager.refreshTokenFlow) {
+//            viewModel.saveTestRefreshToken()
+//        }
+        collectFlowWhenStarted(dataStoreManager.userIdFlow) {
+            if (it.isNullOrEmpty()) viewModel.saveTestUserId()
         }
     }
 

@@ -19,6 +19,7 @@ class AuthInterceptor @Inject constructor(
                 dataStoreManager.writeAccessToken(it?:"")
                 if(it==null){
                     dataStoreManager.writeRefreshToken(it?:"")
+                    dataStoreManager.refreshTokenFlow.first()
                 }
             }
             //dataStoreManager.writeAccessToken(DataStoreManager.ACCESS_TOKEN_KEY.toString())

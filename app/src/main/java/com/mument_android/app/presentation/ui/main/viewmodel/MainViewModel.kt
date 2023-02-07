@@ -60,7 +60,7 @@ class MainViewModel @Inject constructor(
     }
 
 
-    /*
+
     fun saveTestRefreshToken() {
         viewModelScope.launch {
             dataStoreManager.writeRefreshToken(BuildConfig.TEST_REFRESH_TOKEN)
@@ -81,7 +81,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-     */
+
 
 
     fun limitUser() {

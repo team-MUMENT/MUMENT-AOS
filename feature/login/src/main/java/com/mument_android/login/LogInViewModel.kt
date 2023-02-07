@@ -78,29 +78,27 @@ class LogInViewModel @Inject constructor(
             kotlin.runCatching {
                 kaKaoUseCase.kakaoLogin(requestKakaoData).let {
                     _kakaoData.value = it
-                    viewModelScope.launch {
-                        accessToken.value = it?.accessToken
-                        refreshToken.value = it?.refreshToken
-                        userId.value = it?._id
-                    }
-
+                    saveRefreshToken(it?.refreshToken ?: "")
+                    saveAccessToken(it?.accessToken ?: "")
                 }
             }
         }
     }
 
-    fun saveTestRefreshToken() {
-        viewModelScope.launch {
-            dataStoreManager.writeRefreshToken(refreshToken.value.toString())
-        }
-        Log.e("111111", "${refreshToken.value}")
+    suspend fun saveRefreshToken(refreshToken: String) {
+        dataStoreManager.writeRefreshToken(refreshToken)
+        Log.e("111111", "${refreshToken}")
     }
 
-    fun saveTestAccessToken() {
+    suspend fun saveAccessToken(accessToken: String) {
+        dataStoreManager.writeAccessToken(accessToken)
+
+    }
+
+    fun saveTestUserId() {
         viewModelScope.launch {
-            dataStoreManager.writeAccessToken(accessToken.value.toString())
+            dataStoreManager.writeUserId(userId.value.toString())
         }
-        Log.e("2222222", "${accessToken.value}")
     }
 
     fun getWebView(page: String) {
