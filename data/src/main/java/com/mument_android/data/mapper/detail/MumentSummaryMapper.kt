@@ -15,7 +15,7 @@ class MumentSummaryMapper @Inject constructor(
     override fun map(from: MumentSummaryDto): MumentSummaryEntity {
         return MumentSummaryEntity(
             from.id,
-            from.music.id,
+            from.musicId,
             userMapper.map(from.user),
             from.isFirst,
             mapTagList(from),

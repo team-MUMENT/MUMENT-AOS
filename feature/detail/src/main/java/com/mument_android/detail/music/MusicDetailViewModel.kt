@@ -8,6 +8,7 @@ import com.mument_android.core_dependent.base.MviViewModel
 import com.mument_android.detail.BuildConfig
 import com.mument_android.detail.music.MusicDetailContract.*
 import com.mument_android.detail.util.SortTypeEnum
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.domain.usecase.detail.FetchMusicDetailUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
@@ -32,10 +33,11 @@ class MusicDetailViewModel @Inject constructor(
 
     override fun handleEvents(event: MusicDetailEvent) {
         when(event) {
-            is MusicDetailEvent.ReceiveRequestMusicId -> {
-                updateRequestMusicId(event.musicId)
-                fetchMusicDetail(event.musicId)
-                fetchMumentList(event.musicId)
+            is MusicDetailEvent.ReceiveRequestMusicInfo -> {
+                setState { copy(musicInfo = event.music) }
+                updateRequestMusicId(event.music.id)
+                fetchMusicDetail(event.music.id, event.music)
+                fetchMumentList(event.music.id)
             }
             MusicDetailEvent.ClickSortByLatest -> {
                 setState { copy(mumentSortType = SortTypeEnum.SORT_LATEST) }
@@ -61,17 +63,19 @@ class MusicDetailViewModel @Inject constructor(
         setState { copy(requestMusicId = id) }
     }
 
-    private fun fetchMusicDetail(musicId: String) {
+    private fun fetchMusicDetail(musicId: String, music: MusicInfoEntity) {
         viewModelScope.launch {
-            fetchMusicDetailUseCase(musicId).collect { result ->
+            fetchMusicDetailUseCase(musicId, music.toMusicRequest()).collect { result ->
                 when(result) {
                     is ApiStatus.Success -> {
-                        setState { copy(musicInfo = result.data.music, myMumentInfo = result.data.myMument) }
+                        setState { copy(myMumentInfo = result.data.myMument) }
                     }
                     is ApiStatus.Failure -> {
                         setState { copy(hasError = true) }
                     }
-                    ApiStatus.Loading -> {}
+                    ApiStatus.Loading -> {
+
+                    }
                 }
             }
         }
@@ -83,8 +87,11 @@ class MusicDetailViewModel @Inject constructor(
                 musicId,
                 viewState.value.mumentSortType.tag
             ).catch { e ->
+                Log.e("error", "${e.message}")
+
                 setState { copy(hasError = true, mumentList = emptyList()) }
             }.collect { muments ->
+                Log.e("mument list", "${muments}")
                 setState { copy(mumentList = muments) }
             }
         }

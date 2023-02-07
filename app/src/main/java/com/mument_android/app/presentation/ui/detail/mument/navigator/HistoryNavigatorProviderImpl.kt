@@ -16,10 +16,10 @@ class HistoryNavigatorProviderImpl @Inject constructor(private val activity: Act
     override fun moveHistory(music: Music, userId:Int) {
         with(activity as MainActivity) {
             when (binding.navBar.selectedItemId) {
-                R.id.fragment_home -> {}
-                else -> {
-                    binding.navBar.selectedItemId = R.id.fragment_home
-                }
+//                R.id.fragment_home -> {}
+//                else -> {
+//                    binding.navBar.selectedItemId = R.id.fragment_home
+//                }
             }
             startActivity(Intent(this, HistoryActivity::class.java).apply {
                 putExtra("music", music)

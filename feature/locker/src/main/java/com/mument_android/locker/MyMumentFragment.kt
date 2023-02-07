@@ -215,9 +215,6 @@ class MyMumentFragment : Fragment() {
     }
 
     private fun showMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
-        //val bundle = Bundle().also { it.putString(MUMENT_ID, mumentId) }
-        mumentDetailNavigatorProvider.moveMumentDetail(mumentId, musicInfo)
-        //findNavController().navigate(R.id.action_lockerFragment_to_mumentDetailFragment, bundle)
+        mumentDetailNavigatorProvider.moveLockerToMumentDetail(mumentId, musicInfo)
     }
-
 }

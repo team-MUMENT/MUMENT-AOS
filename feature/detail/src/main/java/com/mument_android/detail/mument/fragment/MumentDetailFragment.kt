@@ -131,7 +131,9 @@ class MumentDetailFragment : Fragment() {
                 MumentDetailSideEffect.NavToReportMument -> { /** Todo: Navigate To Report Mument **/ }
                 MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
 
-                is MumentDetailSideEffect.NavToMusicDetail -> { musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.musicId) }
+                is MumentDetailSideEffect.NavToMusicDetail -> {
+                    musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.music)
+                }
                 is MumentDetailSideEffect.NavToMumentHistory -> {
                     viewModel.viewState.value.musicInfo?.toMusic()?.let {
                         mumentHistoryNavigatorProvider.mumentDetailToHistory(it, 0)
@@ -213,8 +215,8 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToMusicDetail() {
         binding.viewAlbumClickArea.setOnClickListener {
-            viewModel.viewState.value.musicInfo?.id?.let { musicId ->
-                viewModel.emitEvent(MumentDetailEvent.OnClickAlum(musicId))
+            viewModel.viewState.value.musicInfo?.let { music ->
+                viewModel.emitEvent(MumentDetailEvent.OnClickAlum(music))
             }
         }
     }

@@ -108,13 +108,9 @@ class HomeViewModel @Inject constructor(
                     )
                 )
                 is HomeEvent.OnClickBanner -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicId))
-                is HomeEvent.OnClickTodayMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument))
-                is HomeEvent.OnClickHeardMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument))
-                is HomeEvent.OnClickRandomMument -> emitEffect(
-                    HomeSideEffect.NavToMumentDetail(
-                        event.mument
-                    )
-                )
+                is HomeEvent.OnClickTodayMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo))
+                is HomeEvent.OnClickHeardMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo))
+                is HomeEvent.OnClickRandomMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo))
             }
         }
     }

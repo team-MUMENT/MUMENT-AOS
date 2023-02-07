@@ -22,7 +22,7 @@ sealed class MusicDetailContract {
         object ClickSortByLikeCount: MusicDetailEvent()
         object ClickSortByLatest: MusicDetailEvent()
         object OnClickBackButton: MusicDetailEvent()
-        data class ReceiveRequestMusicId(val musicId: String): MusicDetailEvent()
+        data class ReceiveRequestMusicInfo(val music: MusicInfoEntity): MusicDetailEvent()
         data class CheckLikeMument(val mumentId: String): MusicDetailEvent()
         data class UnCheckLikeMument(val mumentId: String): MusicDetailEvent()
     }

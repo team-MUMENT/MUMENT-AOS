@@ -18,6 +18,7 @@ import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.domain.entity.home.BannerEntity
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.home.adapters.BannerListAdapter
 import com.mument_android.home.adapters.HeardMumentListAdapter
@@ -78,14 +79,19 @@ class HomeFragment : Fragment() {
         binding.ivNotify.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickNotification)
         }
+        binding.clCard.root.setOnClickListener {
+            viewModel.homeViewState.value.todayMumentEntity?.let {
+                viewModel.emitEvent(HomeEvent.OnClickTodayMument(it.mumentId, it.extractMusicInfo()))
+            }
+        }
     }
 
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { mument ->
-            viewModel.emitEvent(HomeEvent.OnClickHeardMument(mument.mumentId))
+            viewModel.emitEvent(HomeEvent.OnClickHeardMument(mument.mumentId, mument.music.toMusicInfoEntity()))
         }
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { mument ->
-            viewModel.emitEvent(HomeEvent.OnClickRandomMument(mument._id))
+            viewModel.emitEvent(HomeEvent.OnClickRandomMument(mument._id, mument.music.toMusicInfoEntity()))
         }
         binding.rcHeard.adapter = heardAdapter
         binding.rcImpressive.adapter = impressiveAdapter
@@ -147,16 +153,11 @@ class HomeFragment : Fragment() {
                     musicDetailNavigatorProvider.moveMusicDetail(effect.musicId)
                 }
                 is HomeSideEffect.NavToMumentDetail -> {
-//                    mumentDetailNavigatorProvider.moveMumentDetail(effect.mumentId)
+                    mumentDetailNavigatorProvider.moveHomeToMumentDetail(effect.mumentId, effect.musicInfo)
                 }
                 is HomeSideEffect.Toast -> requireContext().showToast(effect.message)
             }
         }
-    }
-
-    // TODO NAVI
-    private fun showMumentDetail(mumentId: String) {
-//        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
     }
 
     override fun onResume() {

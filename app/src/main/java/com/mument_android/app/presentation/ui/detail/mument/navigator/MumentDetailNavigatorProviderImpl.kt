@@ -11,20 +11,27 @@ import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.home.main.HomeFragment
 import javax.inject.Inject
 
-class MumentDetailNavigatorProviderImpl @Inject constructor(private val activity: Activity) :
-    MumentDetailNavigatorProvider {
-    override fun moveMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
+class MumentDetailNavigatorProviderImpl @Inject constructor (
+    private val activity: Activity
+): MumentDetailNavigatorProvider {
+    override fun moveHomeToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
+        moveToMumentDetail(R.id.action_homeFragment_to_mumentDetailFragment, mumentId, musicInfo)
+    }
+
+    override fun moveLockerToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
+        moveToMumentDetail(R.id.action_lockerFragment_to_mumentDetailFragment, mumentId, musicInfo)
+    }
+
+    override fun musicDeatilToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
+        moveToMumentDetail(R.id.action_musicDetailFragment_to_mumentDetailFragment, mumentId, musicInfo)
+    }
+
+    private fun moveToMumentDetail(actionId: Int, mumentId: String, musicInfo: MusicInfoEntity) {
         with(activity as MainActivity) {
-            when (binding.navBar.selectedItemId) {
-                R.id.fragment_home -> {}
-                else -> {
-                    binding.navBar.selectedItemId = R.id.fragment_home
-                }
-            }
             val bundle = Bundle()
                 .also { it.putString(HomeFragment.MUMENT_ID, mumentId) }
                 .also { it.putString(MUSIC_INFO, Gson().toJson(musicInfo)) }
-            this.navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
+            this.navController.navigate(actionId, bundle)
         }
     }
 }

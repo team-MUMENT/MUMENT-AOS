@@ -83,6 +83,7 @@ class LogInViewModel @Inject constructor(
             kotlin.runCatching {
                 kaKaoUseCase.kakaoLogin(requestKakaoData).let {
                     _kakaoData.value = it
+                    Log.e("access token", "${it?.accessToken}")
                     saveRefreshToken(it?.refreshToken ?: "")
                     saveAccessToken(it?.accessToken ?: "")
                 }

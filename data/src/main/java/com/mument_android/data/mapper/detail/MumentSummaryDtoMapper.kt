@@ -20,7 +20,6 @@ class MumentSummaryDtoMapper @Inject constructor(
     private val emotionalTagMapper: EmotionalTagMapper
 ): BaseMapper<MumentSummaryDto, MumentDetailEntity> {
     override fun map(from: MumentSummaryDto): MumentDetailEntity {
-        val musicDto = MusicDto(from.music.id, "", "", "")
         return MumentDetailEntity(
             mument = MumentEntity(
                 writerInfo = userMapper.map(from.user),
