@@ -1,19 +1,20 @@
 package com.mument_android.mypage.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mument_android.core.network.ApiResult
+import com.mument_android.core_dependent.ext.collectFlow
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
-import com.mument_android.mypage.adapters.BlockUserManagementAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.mypage.MyPageViewModel
 import com.mument_android.mypage.R
+import com.mument_android.mypage.adapters.BlockUserManagementAdapter
 import com.mument_android.mypage.databinding.FragmentBlockUserManagementBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +38,9 @@ class BlockUserManagementFragment : Fragment() {
 
         setBlockUserRecyclerView()
         backBtnListener()
+        checkBlockUserEmpty()
     }
+
 
     private fun setBlockUserRecyclerView() {
         blockUserManagementAdapter =
@@ -60,7 +63,7 @@ class BlockUserManagementFragment : Fragment() {
 
     }
 
-    private fun deleteItem(data:BlockUserEntity) {
+    private fun deleteItem(data: BlockUserEntity) {
         MumentDialogBuilder()
             .setHeader(getString(R.string.unblock_title))
             .setBody(getString(R.string.unblock_body))
@@ -70,6 +73,15 @@ class BlockUserManagementFragment : Fragment() {
             .setCancelListener {}
             .build()
             .show(childFragmentManager, this.tag)
+    }
+
+    private fun checkBlockUserEmpty() {
+        collectFlow(myPageViewModel.blockUserList) {
+            if (myPageViewModel.blockUserList.value?.data?.size == 0)
+                binding.tvBlockUserEmpty.visibility = View.VISIBLE
+            else
+                binding.tvBlockUserEmpty.visibility = View.GONE
+        }
     }
 
     private fun backBtnListener() {

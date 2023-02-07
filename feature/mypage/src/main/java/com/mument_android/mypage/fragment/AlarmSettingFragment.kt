@@ -14,11 +14,12 @@ import androidx.fragment.app.viewModels
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.mypage.MyPageViewModel
 import com.mument_android.mypage.databinding.FragmentAlarmSettingBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AlarmSettingFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentAlarmSettingBinding>()
     private val myPageViewModel: MyPageViewModel by viewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +32,7 @@ class AlarmSettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.myPageViewModel = myPageViewModel
-
+        binding.lifecycleOwner = viewLifecycleOwner
         openAppAlarmSetting()
         backBtnListener()
     }
@@ -40,7 +41,6 @@ class AlarmSettingFragment : Fragment() {
         super.onResume()
         checkAlarmSetting()
     }
-
 
     //앱 내의 알림설정 화면 띄우기
     private fun openAppAlarmSetting() {
@@ -53,10 +53,8 @@ class AlarmSettingFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun alarmSetting(): Intent {
         val intent = with(Intent()) {
-
             action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
-
             //버전에 따른 알림 설정
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 putExtra(Settings.EXTRA_APP_PACKAGE, activity?.packageName)

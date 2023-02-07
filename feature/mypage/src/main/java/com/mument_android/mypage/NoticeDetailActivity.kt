@@ -14,11 +14,9 @@ class NoticeDetailActivity :
 
     private val myPageViewModel: MyPageViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.myPageViewModel = myPageViewModel
-
         getNoticeData()
         backBtnListener()
     }
@@ -30,8 +28,7 @@ class NoticeDetailActivity :
         collectFlowWhenStarted(myPageViewModel.noticeDetail) {
             when (it) {
                 is ApiResult.Loading -> {}
-                is ApiResult.Failure -> {
-                }
+                is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
                     binding.tvNoticeDetailItemTitle.text = it.datas.title
                     binding.tvNoticeDetailItemDate.text = it.datas.createAt
@@ -47,5 +44,4 @@ class NoticeDetailActivity :
             onBackPressed()
         }
     }
-
 }
