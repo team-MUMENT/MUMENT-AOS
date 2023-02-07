@@ -1,6 +1,7 @@
 package com.mument_android.detail.mument.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiStatus
 import com.mument_android.core_dependent.base.MviViewModel
@@ -30,6 +31,9 @@ class MumentDetailViewModel @Inject constructor(
     private val dataStoreManager: DataStoreManager,
     private val mediaUtils: MediaUtils
 ) : MviViewModel<MumentDetailEvent, MumentDetailViewState, MumentDetailSideEffect>() {
+
+    val reasonLength = MutableLiveData<String>()
+
     override fun setInitialState(): MumentDetailViewState  = MumentDetailViewState()
 
     override fun handleEvents(event: MumentDetailEvent) {

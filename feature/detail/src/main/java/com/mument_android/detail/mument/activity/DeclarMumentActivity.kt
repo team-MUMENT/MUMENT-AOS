@@ -20,18 +20,8 @@ class DeclarMumentActivity :
         binding.viewModel = viewModel
         backBtnListener()
         checkBoxListener()
-        with(binding) {
-            setRadioBtn(
-                clFirstReason,
-                clSecondReason,
-                clThirdReason,
-                clForthReason,
-                clFifthReason,
-                clSixthReason,
-                clSeventhReason
-            )
-        }
         nextBtnListener()
+        clickListener()
     }
 
     private fun backBtnListener() {
@@ -40,101 +30,36 @@ class DeclarMumentActivity :
         }
     }
 
-    private fun setRadioBtn(
-        view1: View,
-        view2: View,
-        view3: View,
-        view4: View,
-        view5: View,
-        view6: View,
-        view7: View
-    ) {
-        view1.setOnClickListener {
-            if (!view1.isSelected) {
-                view1.isSelected = true
-                view2.isSelected = false
-                view3.isSelected = false
-                view4.isSelected = false
-                view5.isSelected = false
-                view6.isSelected = false
-                view7.isSelected = false
-            }
-            binding.tvNotifyFinish.isEnabled = true
-        }
-        view2.setOnClickListener {
-            if (!view2.isSelected) {
-                view1.isSelected = false
-                view2.isSelected = true
-                view3.isSelected = false
-                view4.isSelected = false
-                view5.isSelected = false
-                view6.isSelected = false
-                view7.isSelected = false
-            }
-            binding.tvNotifyFinish.isEnabled = true
-        }
-        view3.setOnClickListener {
-            if (!view3.isSelected) {
-                view1.isSelected = false
-                view2.isSelected = false
-                view3.isSelected = true
-                view4.isSelected = false
-                view5.isSelected = false
-                view6.isSelected = false
-                view7.isSelected = false
-            }
-            binding.tvNotifyFinish.isEnabled = true
-        }
-        view4.setOnClickListener {
-            if (!view4.isSelected) {
-                view1.isSelected = false
-                view2.isSelected = false
-                view3.isSelected = false
-                view4.isSelected = true
-                view5.isSelected = false
-                view6.isSelected = false
-                view7.isSelected = false
-            }
-            binding.tvNotifyFinish.isEnabled = true
-        }
-        view5.setOnClickListener {
-            if (!view5.isSelected) {
-                view1.isSelected = false
-                view2.isSelected = false
-                view3.isSelected = false
-                view4.isSelected = false
-                view5.isSelected = true
-                view6.isSelected = false
-                view7.isSelected = false
-            }
-            binding.tvNotifyFinish.isEnabled = true
-        }
-        view6.setOnClickListener {
-            if (!view6.isSelected) {
-                view1.isSelected = false
-                view2.isSelected = false
-                view3.isSelected = false
-                view4.isSelected = false
-                view5.isSelected = false
-                view6.isSelected = true
-                view7.isSelected = false
-            }
-            binding.tvNotifyFinish.isEnabled = true
-        }
-        view7.setOnClickListener {
-            if (!view7.isSelected) {
-                view1.isSelected = false
-                view2.isSelected = false
-                view3.isSelected = false
-                view4.isSelected = false
-                view5.isSelected = false
-                view6.isSelected = false
-                view7.isSelected = true
-            }
-            binding.tvNotifyFinish.isEnabled = true
+    private fun clickListener() {
+        binding.clFirstReason.setOnClickListener {
+            binding.clFirstReason.isSelected = !binding.clFirstReason.isSelected
         }
 
+        binding.clSecondReason.setOnClickListener {
+            binding.clSecondReason.isSelected = !binding.clSecondReason.isSelected
+        }
+
+        binding.clThirdReason.setOnClickListener {
+            binding.clThirdReason.isSelected = !binding.clThirdReason.isSelected
+        }
+
+        binding.clForthReason.setOnClickListener {
+            binding.clForthReason.isSelected = !binding.clForthReason.isSelected
+        }
+
+        binding.clFifthReason.setOnClickListener {
+            binding.clFifthReason.isSelected = !binding.clFifthReason.isSelected
+        }
+
+        binding.clSixthReason.setOnClickListener {
+            binding.clSixthReason.isSelected = !binding.clSixthReason.isSelected
+        }
+
+        binding.clSeventhReason.setOnClickListener {
+            binding.clSeventhReason.isSelected = !binding.clSeventhReason.isSelected
+        }
     }
+
 
     private fun checkBoxListener() {
         binding.clBlock.setOnClickListener {
