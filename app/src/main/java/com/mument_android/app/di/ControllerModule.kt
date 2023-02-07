@@ -18,8 +18,8 @@ object ControllerModule {
 
     @Provides
     @Singleton
-    fun provideLikeMumentController(mainApiService: MainApiService): LikeMumentController =
-        LikeMumentControllerImpl(mainApiService)
+    fun provideLikeMumentController(mainApiService: MainApiService): LikeMumentDataSource =
+        LikeMumentDataSourceImpl(mainApiService)
 
     @Provides
     @Singleton

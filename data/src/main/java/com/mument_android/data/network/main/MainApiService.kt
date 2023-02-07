@@ -7,15 +7,13 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface MainApiService {
-    @POST("/mument/{mumentId}/{userId}/like")
+    @POST("/mument/{mumentId}/like")
     suspend fun likeMument(
-        @Path ("mumentId") mumentId: String,
-        @Path ("userId") userId: String
+        @Path ("mumentId") mumentId: String
     ): BaseResponse<LikeCountDto>
 
-    @DELETE("/mument/{mumentId}/{userId}/like")
+    @DELETE("/mument/{mumentId}/like")
     suspend fun cancelLikeMument(
-        @Path("mumentId") mumentId: String,
-        @Path("userId") userId: String
+        @Path("mumentId") mumentId: String
     ): BaseResponse<LikeCountDto>
 }

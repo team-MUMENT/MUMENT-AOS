@@ -43,14 +43,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private fun saveTestToken() {
         collectFlowWhenStarted(dataStoreManager.accessTokenFlow) {
-            if (it.isNullOrEmpty()) viewModel.saveTestAccessToken()
+            viewModel.saveTestAccessToken()
         }
 
         collectFlowWhenStarted(dataStoreManager.refreshTokenFlow) {
-            if (it.isNullOrEmpty()) viewModel.saveTestRefreshToken()
-        }
-        collectFlowWhenStarted(dataStoreManager.userIdFlow) {
-            if (it.isNullOrEmpty()) viewModel.saveTestUserId()
+            viewModel.saveTestRefreshToken()
         }
     }
 

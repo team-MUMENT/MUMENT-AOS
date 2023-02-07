@@ -40,6 +40,18 @@
             <action
                 android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_home"
                 app:destination="@id/musicDetailFragment" />
+            <action
+                android:id="@+id/action_mumentDetailFragment_to_mumentLikeListFragment"
+                app:destination="@id/mumentLikeListFragment" />
+        </fragment>
+
+
+        <fragment
+            android:id="@+id/mumentLikeListFragment"
+            android:name="com.mument_android.detail.mument.fragment.MumentLikeListFragment"
+            android:label="MumentLikeListFragment"
+            tools:layout="@layout/fragment_mument_like_list">
+
         </fragment>
 
     </navigation>
@@ -75,7 +87,9 @@
             <action
                 android:id="@+id/action_musicDetailFragment_to_mumentDetailFragment"
                 app:destination="@id/mumentDetailFragment" />
-
+            
         </fragment>
+
     </navigation>
+
 </navigation>
