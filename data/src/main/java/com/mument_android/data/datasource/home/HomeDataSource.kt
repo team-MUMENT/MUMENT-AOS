@@ -12,4 +12,6 @@ interface HomeDataSource {
     suspend fun getTodayMument(): ResultWrapper<TodayMumentDto?>
     suspend fun getKnownMument(): ResultWrapper<KnownMumentDto?>
     suspend fun getRandomMument(): ResultWrapper<RandomMumentDto?>
+    suspend fun fetchExistNotifyList(): Boolean?
+    suspend fun fetchProfileExist(): Boolean?
 }

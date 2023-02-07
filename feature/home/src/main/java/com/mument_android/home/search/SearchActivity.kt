@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.ConcatAdapter
 import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
-import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.TransitionMode
-import com.mument_android.home.R
+import com.mument_android.domain.entity.music.MusicInfoEntity
+import com.mument_android.home.adapters.SearchHeaderAdapter
 import com.mument_android.home.adapters.SearchListAdapter
 import com.mument_android.home.databinding.ShareSearchLayoutBinding
 import com.mument_android.home.viewmodels.SearchViewModel
@@ -24,6 +25,8 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
 ) {
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchListAdapter
+    private val headerAdapter = SearchHeaderAdapter(::allDelete)
+    private lateinit var searchConcatAdapter: ConcatAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
 
     @Inject
@@ -31,7 +34,6 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         settingAdapterAndDatabinding()
         collectingList()
         addClickListener()
@@ -48,23 +50,25 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
         binding.ivSearch.setOnClickListener {
             callSearch()
         }
+
         binding.etSearch.setOnFocusChangeListener { view, focused ->
             binding.ivDelete.visibility = if (focused) View.VISIBLE else View.GONE
         }
 
         binding.ivDelete.setOnClickListener {
             binding.etSearch.text = null
-            viewmodel.setRecentData()
-            binding.rcSearch.adapter = searchAdapter
-            viewmodel.searchSwitch(false)
+            if (viewmodel.searchOption.value) {
+                binding.rcSearch.adapter = searchConcatAdapter
+                viewmodel.searchSwitch(false)
+            }
         }
+    }
 
-        binding.etAllDelete.setOnClickListener {
-            MumentDialogBuilder().setAllowListener {
-                viewmodel.allListDelete()
-            }.setCancelListener { }.setBody("").setHeader("최근 검색한 내역을\n모두 삭제하시겠어요?").build()
-                .show(supportFragmentManager, "")
-        }
+    private fun allDelete() {
+        MumentDialogBuilder().setAllowListener {
+            viewmodel.allListDelete()
+        }.setCancelListener { }.setBody("").setHeader("최근 검색한 내역을\n모두 삭제하시겠어요?").build()
+            .show(supportFragmentManager, "")
     }
 
     private fun callSearch() {
@@ -74,27 +78,14 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
 
     private fun collectingList() {
         collectFlowWhenStarted(viewmodel.searchResultList) { result ->
-            when (result) {
-                is ApiResult.Loading -> {}
-                is ApiResult.Failure -> {}
-                is ApiResult.Success -> {
-                    viewmodel.searchSwitch(true)
-                    searchResultAdapter.submitList(result.data)
-                }
-                else -> {}
+            if (result != null) {
+                searchResultAdapter.submitList(result)
             }
         }
 
         collectFlowWhenStarted(viewmodel.searchList) { result ->
-            when (result) {
-                is ApiResult.Loading -> {}
-                is ApiResult.Failure -> {}
-                is ApiResult.Success -> {
-                    searchAdapter.submitList(result.data)
-                    binding.rcSearch.adapter = searchAdapter
-                }
-                else -> {}
-            }
+            searchAdapter.submitList(result)
+            binding.rcSearch.adapter = searchConcatAdapter
         }
     }
 
@@ -103,17 +94,20 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                moveMusicDetailNavigatorProvider.intentMusicDetail(data._id)
+                val music = MusicInfoEntity(data._id, data.name, data.image, data.artist)
+                moveMusicDetailNavigatorProvider.intentMusicDetail(music)
             },
             itemClickListener = { data -> viewmodel.deleteRecentList(data) }
         )
+        searchConcatAdapter = ConcatAdapter(headerAdapter, searchAdapter)
         searchResultAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                moveMusicDetailNavigatorProvider.intentMusicDetail(data._id)
+                val music = MusicInfoEntity(data._id, data.name, data.image, data.artist)
+                moveMusicDetailNavigatorProvider.intentMusicDetail(music)
             },
             itemClickListener = {}
         )
-        binding.rcSearch.adapter = searchAdapter
+        binding.rcSearch.adapter = searchConcatAdapter
     }
 }

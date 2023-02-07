@@ -23,6 +23,7 @@ class NotifyContract {
     sealed class NotifySideEffect : SideEffect {
         object PopBackStack : NotifySideEffect()
         object NavToSetting : NotifySideEffect()
+        object AllReadSuccess : NotifySideEffect()
         data class Toast(val message: String) : NotifySideEffect()
         data class DeleteNotify(val notify: Notify) : NotifySideEffect()
         data class NavToMumentDetail(val notify: Notify) : NotifySideEffect()

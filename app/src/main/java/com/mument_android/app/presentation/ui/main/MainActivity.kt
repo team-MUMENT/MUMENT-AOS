@@ -95,23 +95,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.navBar, navController)
         binding.navBar.setupWithNavController(navController)
-        binding.navBar.setOnItemSelectedListener { item ->
-            val bundle = Bundle()
-            when (item.itemId) {
-                R.id.fragment_home -> {
-                    if (viewModel.checkHasMusic()) {
-                        bundle.putString(MUSIC_ID, viewModel.musicId.value)
-                        navController.navigate(
-                            R.id.action_homeFragment_to_musicDetailFragment,
-                            bundle
-                        )
-                        viewModel.clearBundle()
-                    } else if (viewModel.checkMusic()) {
-                        viewModel.clearBundle()
-                    }
-                }
-                R.id.fragment_locker -> {}
-                R.id.activity_record -> {
+//        binding.navBar.setOnItemSelectedListener { item ->
+//            val bundle = Bundle()
+//            when (item.itemId) {
+//                R.id.fragment_home -> {
+//                    if (viewModel.checkHasMusic()) {
+//                        bundle.putString(MUSIC_ID, viewModel.musicId.value)
+//                        navController.navigate(
+//                            R.id.action_homeFragment_to_musicDetailFragment,
+//                            bundle
+//                        )
+//                        viewModel.clearBundle()
+//                    } else if (viewModel.checkMusic()) {
+//                        viewModel.clearBundle()
+//                    }
+//                }
+//                R.id.fragment_locker -> {}
+//                R.id.activity_record -> {
 //                    if (viewModel.checkHasMument()) {
 //                        bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
 //                        bundle.putSerializable(
@@ -121,15 +121,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 //                    } else if (viewModel.checkMusic()) {
 //                        bundle.putParcelable("music", viewModel.music.value)
 //                    }
-                }
-                else -> {}
-
-            }
-
-            navController.navigate(item.itemId, bundle)
-            viewModel.clearBundle()
-            false
-        }
+//                }
+//                else -> {}
+//
+//            }
+//
+//            navController.navigate(item.itemId, bundle)
+//            viewModel.clearBundle()
+//            false
+//        }
     }
 
     private fun isRestrictUser() {

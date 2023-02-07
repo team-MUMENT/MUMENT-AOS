@@ -2,7 +2,6 @@ package com.mument_android.home.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +14,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.core_dependent.ext.setGone
-import com.mument_android.core_dependent.ext.setVisible
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.domain.entity.home.BannerEntity
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.home.adapters.BannerListAdapter
 import com.mument_android.home.adapters.HeardMumentListAdapter
@@ -81,14 +79,19 @@ class HomeFragment : Fragment() {
         binding.ivNotify.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickNotification)
         }
+        binding.clCard.root.setOnClickListener {
+            viewModel.homeViewState.value.todayMumentEntity?.let {
+                viewModel.emitEvent(HomeEvent.OnClickTodayMument(it.mumentId, it.extractMusicInfo()))
+            }
+        }
     }
 
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { mument ->
-            viewModel.emitEvent(HomeEvent.OnClickHeardMument(mument.mumentId))
+            viewModel.emitEvent(HomeEvent.OnClickHeardMument(mument.mumentId, mument.music.toMusicInfoEntity()))
         }
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { mument ->
-            viewModel.emitEvent(HomeEvent.OnClickRandomMument(mument._id))
+            viewModel.emitEvent(HomeEvent.OnClickRandomMument(mument._id, mument.music.toMusicInfoEntity()))
         }
         binding.rcHeard.adapter = heardAdapter
         binding.rcImpressive.adapter = impressiveAdapter
@@ -105,7 +108,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setListData() {
-        binding.pbProgress.setVisible()
         collectFlowWhenStarted(viewModel.bannerNumIncrease) { index ->
             binding.vpBanner.setCurrentItem(index, true)
         }
@@ -136,11 +138,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        collectFlowWhenStarted(viewModel.homeViewStateEnabled) { /*전체 데이터가 다 불러와졌는지 */
-            if (it) {
-                binding.pbProgress.setGone()
-            }
-        }
     }
 
     private fun receiveEffect() {
@@ -156,16 +153,11 @@ class HomeFragment : Fragment() {
                     musicDetailNavigatorProvider.moveMusicDetail(effect.musicId)
                 }
                 is HomeSideEffect.NavToMumentDetail -> {
-//                    mumentDetailNavigatorProvider.moveMumentDetail(effect.mumentId)
+                    mumentDetailNavigatorProvider.moveHomeToMumentDetail(effect.mumentId, effect.musicInfo)
                 }
                 is HomeSideEffect.Toast -> requireContext().showToast(effect.message)
             }
         }
-    }
-
-    // TODO NAVI
-    private fun showMumentDetail(mumentId: String) {
-//        mumentDetailNavigatorProvider.moveMumentDetail(mumentId)
     }
 
     override fun onResume() {

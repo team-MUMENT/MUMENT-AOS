@@ -63,7 +63,7 @@ class MumentDetailViewModel @Inject constructor(
             MumentDetailEvent.OnClickLikeMument -> likeMument()
             MumentDetailEvent.OnClickUnLikeMument -> cancelLikeMument()
 
-            is MumentDetailEvent.OnClickAlum -> setEffect { MumentDetailSideEffect.NavToMusicDetail(event.musicId) }
+            is MumentDetailEvent.OnClickAlum -> setEffect { MumentDetailSideEffect.NavToMusicDetail(event.music) }
 
             is MumentDetailEvent.OnClickHistory -> setEffect { MumentDetailSideEffect.NavToMumentHistory(event.musicId) }
 

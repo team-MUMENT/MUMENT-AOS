@@ -1,5 +1,6 @@
 package com.mument_android.home.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,11 +25,10 @@ class SearchViewModel @Inject constructor(
     private val searchMusicUseCase: SearchMusicUseCase
 ) :
     ViewModel() {
-    private val _searchList = MutableStateFlow<ApiResult<List<RecentSearchData>>?>(null)
+    private val _searchList = MutableStateFlow<List<RecentSearchData>?>(null)
     val searchList get() = _searchList.asStateFlow()
     val searchText = MutableLiveData<String>("")
-    private val _searchContent = MutableStateFlow<RecentSearchData?>(null)
-    private val _searchResultList = MutableStateFlow<ApiResult<List<RecentSearchData>>?>(null)
+    private val _searchResultList = MutableStateFlow<List<RecentSearchData>?>(null)
     val searchResultList get() = _searchResultList.asStateFlow()
     val searchOption = MutableStateFlow(false)
 
@@ -37,7 +37,6 @@ class SearchViewModel @Inject constructor(
     }
 
     fun selectContent(data: RecentSearchData) {
-        _searchContent.value = data
         insertOrUpdateRecentItem(
             RecentSearchData(
                 data._id,
@@ -49,64 +48,55 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    fun setRecentData() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun setRecentData() {
+        viewModelScope.launch {
             cruRecentSearchListUseCase.getAllRecentSearchList().catch {
-                _searchList.value = ApiResult.Failure(null)
+                _searchList.value = null
             }.collect {
-                if (it != null) {
-                    _searchList.value = ApiResult.Success(it)
-                }
+                _searchList.value = it
             }
         }
     }
 
     fun searchSwitch(option: Boolean) {
-        if (!option) _searchResultList.value = ApiResult.Success(listOf())
+        if (!option) _searchResultList.value = listOf()
         searchOption.value = option
     }
 
     fun searchMusic(keyword: String) {
         viewModelScope.launch {
             searchMusicUseCase.searchMusic(keyword).catch {
-                _searchResultList.value = ApiResult.Failure(null)
+                _searchResultList.value = null
             }.collect {
-                if (it != null) {
-                    if (it.isEmpty()) {
-                        searchText.value = keyword
-                    }
-                    _searchResultList.value = ApiResult.Success(it)
-                } else {
-                    searchText.value = keyword
-                }
+                searchText.value = keyword
+                _searchResultList.value = it
+                searchOption.value = true
             }
         }
     }
 
     private fun insertOrUpdateRecentItem(data: RecentSearchData) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             cruRecentSearchListUseCase.insertOrUpdateRecentSearchItem(data)
         }
     }
 
     fun deleteRecentList(data: RecentSearchData) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             deleteRecentSearchListUseCase.deleteRecentSearchItem(data)
-            val temp = searchList.value?.data?.toMutableList()
+            val temp = searchList.value?.toMutableList()
             temp?.remove(data)
             temp?.let {
-                _searchList.value = ApiResult.Success(it)
+                _searchList.value = it
             }
-            // 깜빡 거리는 이슈 있음
-            //setRecentData()
         }
     }
 
     fun allListDelete() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             deleteRecentSearchListUseCase.deleteAllRecentSearchList()
             setRecentData()
         }
-        _searchList.value = ApiResult.Success(listOf())
+        _searchList.value = listOf()
     }
 }

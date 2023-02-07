@@ -201,7 +201,7 @@ class MyLikeFragment : Fragment() {
 
 
     private fun showMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
-        mumentDetailNavigatorProvider.moveMumentDetail(mumentId, musicInfo)
+        mumentDetailNavigatorProvider.moveLockerToMumentDetail(mumentId, musicInfo)
     }
 
     companion object {

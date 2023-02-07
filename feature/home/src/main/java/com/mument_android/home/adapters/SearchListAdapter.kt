@@ -49,11 +49,9 @@ class SearchListAdapter(
             newItem: RecentSearchData
         ): Boolean = oldItem._id == newItem._id
 
-
         override fun areContentsTheSame(
             oldItem: RecentSearchData,
             newItem: RecentSearchData
         ): Boolean = oldItem == newItem
-
     }
 }

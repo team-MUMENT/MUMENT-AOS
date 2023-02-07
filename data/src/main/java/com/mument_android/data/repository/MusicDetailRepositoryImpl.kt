@@ -2,6 +2,7 @@ package com.mument_android.data.repository
 
 import com.mument_android.core.network.ApiStatus
 import com.mument_android.data.datasource.detail.MusicDetailDataSource
+import com.mument_android.domain.entity.detail.MusicReqeust
 import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
 import com.mument_android.domain.entity.detail.MusicWithMyMumentEntity
 import com.mument_android.domain.repository.detail.MusicDetailRepository
@@ -16,8 +17,11 @@ class MusicDetailRepositoryImpl @Inject constructor(
     private val errorHandler: ErrorHandler,
     private val musicDetailDataSource: MusicDetailDataSource
 ): MusicDetailRepository {
-    override suspend fun fetchMusicDetailInfo(musicId: String): Flow<ApiStatus<MusicWithMyMumentEntity>> =
-        musicDetailDataSource.fetchMusicDetailInfo(musicId)
+    override suspend fun fetchMusicDetailInfo(
+        musicId: String,
+        musicInfo: MusicReqeust
+    ): Flow<ApiStatus<MusicWithMyMumentEntity>> =
+        musicDetailDataSource.fetchMusicDetailInfo(musicId, musicInfo)
             .map { musicWithMyMumentMapper.map(it ?: throw NullPointerException()) }
             .toApiStatus(errorHandler)
 }

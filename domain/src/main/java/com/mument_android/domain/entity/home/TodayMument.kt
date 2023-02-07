@@ -1,6 +1,7 @@
 package com.mument_android.domain.entity.home
 
 import com.mument_android.core.model.TagEntity
+import com.mument_android.domain.entity.music.MusicInfoEntity
 
 data class TodayMument(
     val userId: String,
@@ -20,4 +21,8 @@ data class TodayMument(
     val musicArtist: String,
     val musicImage: String,
     val todayDate: String
-)
+) {
+    fun extractMusicInfo(): MusicInfoEntity {
+        return MusicInfoEntity(musicId, musicName ?: "", musicImage, musicArtist)
+    }
+}
