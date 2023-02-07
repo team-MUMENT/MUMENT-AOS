@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.domain.entity.mypage.UserInfoEntity
 import com.mument_android.domain.entity.sign.*
+import com.mument_android.domain.entity.user.UserEntity
 import com.mument_android.domain.usecase.sign.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -41,6 +43,9 @@ class LogInViewModel @Inject constructor(
 
     private val _putProfile = MutableLiveData<SetProfileEntity>()
     val putProfile get() :LiveData<SetProfileEntity> = _putProfile
+
+    private val _userInfo = MutableLiveData<UserInfoEntity>()
+    val userInfo get() : LiveData<UserInfoEntity> = _userInfo
 
     private val _kakaoData = MutableLiveData<KakaoEntity>()
     val kakaoData get() : LiveData<KakaoEntity> = _kakaoData

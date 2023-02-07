@@ -23,8 +23,6 @@ class NoticeFragment : Fragment() {
     private lateinit var noticeAdapter: NoticeAdapter
     private var binding by AutoClearedValue<FragmentNoticeBinding>()
     private val myPageViewModel: MyPageViewModel by viewModels()
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,17 +34,13 @@ class NoticeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.myPageViewModel = myPageViewModel
-
         setNoticeRecyclerView()
-        itemClickEvent()
-
         backBtnListener()
     }
 
-
     //공지사항 리싸이클러뷰
     private fun setNoticeRecyclerView() {
-        noticeAdapter = NoticeAdapter()
+        noticeAdapter = NoticeAdapter(::itemClick)
         binding.rvNotice.adapter = noticeAdapter
         myPageViewModel.fetchNoticeList()
         collectFlowWhenStarted(myPageViewModel.noticeList) {
@@ -58,21 +52,13 @@ class NoticeFragment : Fragment() {
                 }
                 else -> {}
             }
-
         }
-
     }
-
-    //아이템 클릭 리스너
-    private fun itemClickEvent() {
-        noticeAdapter.setItemClickListener(object : NoticeAdapter.OnItemClickListener {
-            override fun onClick(data: NoticeListEntity) {
-                val intent = Intent(requireActivity(), NoticeDetailActivity::class.java).apply {
-                    putExtra("id",data.id)
-                }
-                startActivity(intent)
-            }
-        })
+    private fun itemClick(data:NoticeListEntity){
+        val intent = Intent(requireActivity(), NoticeDetailActivity::class.java).apply {
+            putExtra("id",data.id)
+        }
+        startActivity(intent)
     }
 
     private fun backBtnListener() {

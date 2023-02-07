@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_detail"
+    app:startDestination="@id/mumentDetailFragment">
+
+    <fragment
+        android:id="@+id/mumentDetailFragment"
+        android:name="com.mument_android.detail.mument.fragment.MumentDetailFragment"
+        android:label="MumentDetailFragment"
+        tools:layout="@layout/fragment_mument_detail">
+        <action
+            android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment"
+            app:destination="@id/musicDetailFragment" />
+        <action
+            android:id="@+id/action_mumentDetailFragment_to_mumentLikeListFragment"
+            app:destination="@id/mumentLikeListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/musicDetailFragment"
+        android:name="com.mument_android.detail.music.MusicDetailFragment"
+        android:label="MusicDetailFragment"
+        tools:layout="@layout/fragment_music_detail">
+        <action
+            android:id="@+id/action_musicDetailFragment_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mumentLikeListFragment"
+        android:name="com.mument_android.detail.mument.fragment.MumentLikeListFragment"
+        android:label="MumentLikeListFragment"
+        tools:layout="@layout/fragment_mument_like_list"/>
+</navigation>

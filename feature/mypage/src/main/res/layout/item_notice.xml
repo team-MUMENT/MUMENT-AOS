@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="noticeListEntity"
+            type="com.mument_android.domain.entity.mypage.NoticeListEntity" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tv_notice_item_title"
@@ -14,6 +20,7 @@
         android:fontFamily="@font/notosans_medium"
         android:textColor="@color/mument_color_black1"
         android:textSize="16dp"
+        android:text="@{noticeListEntity.title}"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="게시물 이름 1" />
@@ -26,6 +33,7 @@
         android:fontFamily="@font/notosans_regular"
         android:textColor="@color/mument_color_gray1"
         android:textSize="12dp"
+        android:text="@{noticeListEntity.createAt}"
         app:layout_constraintStart_toStartOf="@+id/tv_notice_item_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_notice_item_title"
         tools:text="2022. 10. 18" />
@@ -52,3 +60,4 @@
         app:layout_constraintTop_toBottomOf="@id/tv_notice_item_date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

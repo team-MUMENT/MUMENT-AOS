@@ -47,7 +47,7 @@ class LockerViewModel @Inject constructor(
     val isLikeGridLayout = _isLikeGridLayout.asStateFlow()
 
 
-    var isMument : Boolean = true
+    var isMument: Boolean = true
     var firstTag: Int? = 0
     var secondTag: Int? = 0
     var thirdTag: Int? = 0
@@ -61,7 +61,6 @@ class LockerViewModel @Inject constructor(
     fun changeLikeCheckedTagList(tags: List<TagEntity>) {
         _checkedLikeTagList.value = tags
     }
-
 
 
     fun fetchMyMumentList() {
@@ -103,6 +102,7 @@ class LockerViewModel @Inject constructor(
             }.collectLatest {
                 myMuments.value = ApiResult.Success(it)
                 //_profileImage.value = it.get(0).mumentCard?.get(0)?.userImage ?: ""
+
             }
         }
     }

@@ -1,27 +1,26 @@
 package com.mument_android.mypage.fragment
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.PixelCopy
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.isEmpty
 import androidx.fragment.app.viewModels
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.hideKeyboard
 import com.mument_android.login.LogInActivity
-import com.mument_android.mypage.MyPageActivity
 import com.mument_android.mypage.MyPageViewModel
 import com.mument_android.mypage.R
 import com.mument_android.mypage.databinding.FragmentUnregisterBinding
+import com.mument_android.mypage.util.UnregisterReason
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UnregisterFragment : Fragment() {
 
     private var binding by AutoClearedValue<FragmentUnregisterBinding>()
@@ -39,6 +38,7 @@ class UnregisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.myPageViewModel = myPageViewModel
+
 
         reasonBtnEvent()
         reasonChooseBtnEvent()
@@ -82,26 +82,33 @@ class UnregisterFragment : Fragment() {
             //이유 선택했을 때 이유선택박스 selector
             binding.clReason.isSelected = false
 
+
             myPageViewModel.clickSixthReason(checkedID == R.id.unregister_reason_sixth)
 
-            binding.tvChooseReason.text = when (checkedID) {
+            when (checkedID) {
                 R.id.unregister_reason_first -> {
-                    getString(R.string.unregister_reason_first)
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_first)
+                    myPageViewModel.getUnregisterReasonIndex(2)
                 }
                 R.id.unregister_reason_second -> {
-                    getString(R.string.unregister_reason_second)
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_second)
+                    myPageViewModel.getUnregisterReasonIndex(3)
                 }
                 R.id.unregister_reason_third -> {
-                    getString(R.string.unregister_reason_third)
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_third)
+                    myPageViewModel.getUnregisterReasonIndex(4)
                 }
                 R.id.unregister_reason_fourth -> {
-                    getString(R.string.unregister_reason_fourth)
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_fourth)
+                    myPageViewModel.getUnregisterReasonIndex(5)
                 }
                 R.id.unregister_reason_fifth -> {
-                    getString(R.string.unregister_reason_fifth)
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_fifth)
+                    myPageViewModel.getUnregisterReasonIndex(6)
                 }
                 R.id.unregister_reason_sixth -> {
-                    getString(R.string.unregister_reason_sixth)
+                    binding.tvChooseReason.text = getString(R.string.unregister_reason_sixth)
+                    myPageViewModel.getUnregisterReasonIndex(7)
                 }
                 else -> {
                     ""
@@ -138,11 +145,15 @@ class UnregisterFragment : Fragment() {
     //회원탈퇴 버튼 눌렀을 때
     private fun unregisterFinish() {
         binding.btnUnregisterFinish.setOnClickListener {
-            //TODO  서버연결하기
-            this.activity?.finish()
-
-            val intent = Intent(activity, LogInActivity::class.java)
-            startActivity(intent)
+            myPageViewModel.postUnregisterReason()
+        }
+        myPageViewModel.isUnregisterSuccess.observe(viewLifecycleOwner) {
+            if (it) {
+                startActivity(Intent(requireActivity(), LogInActivity::class.java))
+                requireActivity().finish()
+            } else {
+                Log.e("unregisterFinish()", "회원탈퇴 실패")
+            }
         }
     }
 
