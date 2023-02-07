@@ -15,11 +15,11 @@ class MumentDetailNavigatorProviderImpl @Inject constructor (
     private val activity: Activity
 ): MumentDetailNavigatorProvider {
     override fun moveHomeToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
-        moveToMumentDetail(R.id.action_homeFragment_to_mumentDetailFragment, mumentId, musicInfo)
+        moveToMumentDetail(R.id.action_homeFragment_to_nav_detail, mumentId, musicInfo)
     }
 
     override fun moveLockerToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
-        moveToMumentDetail(R.id.action_lockerFragment_to_mumentDetailFragment, mumentId, musicInfo)
+        moveToMumentDetail(R.id.action_lockerFragment_to_nav_detail, mumentId, musicInfo)
     }
 
     override fun musicDeatilToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {

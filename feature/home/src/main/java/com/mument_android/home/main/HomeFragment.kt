@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == AppCompatActivity.RESULT_OK) {
                     it.data?.getStringExtra(MUSIC_ID)?.apply {
-                        musicDetailNavigatorProvider.moveMusicDetail(this)
+                        musicDetailNavigatorProvider.fromHomeToMusicDetail(this)
                     }
                 }
             }
@@ -150,7 +150,7 @@ class HomeFragment : Fragment() {
                     getResultText.launch(Intent(requireActivity(), SearchActivity::class.java))
                 }
                 is HomeSideEffect.NavToMusicDetail -> {
-                    musicDetailNavigatorProvider.moveMusicDetail(effect.musicId)
+                    musicDetailNavigatorProvider.fromHomeToMusicDetail(effect.musicId)
                 }
                 is HomeSideEffect.NavToMumentDetail -> {
                     mumentDetailNavigatorProvider.moveHomeToMumentDetail(effect.mumentId, effect.musicInfo)
