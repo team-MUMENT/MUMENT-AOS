@@ -179,6 +179,11 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideKaKaoLoginUseCase(signRepository: SignRepository) : SignKaKaoUseCase =
+        SignKaKaoUseCaseImpl(signRepository)
+
+    @Provides
+    @Singleton
     fun provideUserInfoUseCase(userInfoRepository: UserInfoRepository) : UserInfoUseCase =
         UserInfoUseCaseImpl(userInfoRepository)
 
@@ -193,6 +198,11 @@ object UseCaseModule {
     @Singleton
     fun provideLimitUserUseCase(limitUserRepository: LimitUserRepository) : LimitUserUseCase =
         LimitUserUseCaseImpl(limitUserRepository)
+
+    @Provides
+    @Singleton
+    fun provideNewTokenUseCase(signRepository: SignRepository) : NewTokenUseCase =
+        NewTokenUseCaseImpl(signRepository)
 
 
 }

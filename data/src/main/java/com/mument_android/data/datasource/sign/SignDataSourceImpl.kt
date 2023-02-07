@@ -1,7 +1,6 @@
 package com.mument_android.data.datasource.sign
 
-import com.mument_android.data.dto.sign.SetProfileDto
-import com.mument_android.data.dto.sign.WebViewDto
+import com.mument_android.data.dto.sign.*
 import com.mument_android.data.network.sign.SignApiService
 import com.mument_android.data.util.BaseResponse
 import okhttp3.MultipartBody
@@ -23,8 +22,16 @@ class SignDataSourceImpl @Inject constructor(
         return signApiService.putProfile(image,body)
     }
 
+    override suspend fun signKakao(requestKakaoDto: RequestKakaoDto): BaseResponse<KakaoDto> {
+        return signApiService.postLogin(requestKakaoDto)
+    }
+
     override suspend fun getWebView(page: String): BaseResponse<WebViewDto> {
         return signApiService.getWebLink(page)
+    }
+
+    override suspend fun newToken(): BaseResponse<NewTokenDto> {
+        return signApiService.getNewToken()
     }
 
 }

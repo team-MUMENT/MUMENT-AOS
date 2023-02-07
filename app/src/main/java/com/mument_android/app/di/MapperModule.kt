@@ -12,16 +12,14 @@ import com.mument_android.data.mapper.main.ImpressiveTagMapper
 import com.mument_android.data.mapper.main.IsFirstTagMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
-import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.mapper.notify.NotifyMapper
 import com.mument_android.home.notify.NotifyItemMapper
-import com.mument_android.data.mapper.sign.RequestSetProfileMapper
-import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
+import com.mument_android.data.mapper.sign.*
 import com.mument_android.data.mapper.mypage.UserInfoMapper
 import com.mument_android.data.mapper.sign.GetWebViewMapper
 import dagger.Module
@@ -175,10 +173,18 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideKaKaoMapper() : KakaoLoginMapper = KakaoLoginMapper()
+
+    @Provides
+    @Singleton
     fun provideUserInfoMapper() : UserInfoMapper = UserInfoMapper()
 
     @Provides
     @Singleton
     fun provideLimitUserMapper() : LimitUserMapper = LimitUserMapper()
+
+    @Provides
+    @Singleton
+    fun provideNewTokenMapper() : NewTokenMapper = NewTokenMapper()
 
 }

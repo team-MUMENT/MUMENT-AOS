@@ -16,7 +16,7 @@ data class TodayMument(
     val date: String,
     val mumentId: String,
     val musicId: String,
-    val musicName: String,
+    val musicName: String?,
     val musicArtist: String,
     val musicImage: String,
     val todayDate: String
