@@ -17,7 +17,6 @@ import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.datasource.home.*
 import com.mument_android.data.datasource.sign.SignDataSource
-import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.data.datasource.mypage.BlockUserListDataSource
 import com.mument_android.data.datasource.mypage.NoticeDetailDataSource
 import com.mument_android.data.datasource.mypage.NoticeListDataSource
@@ -28,12 +27,9 @@ import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.mapper.notify.NotifyMapper
 import com.mument_android.data.network.detail.HistoryService
-import com.mument_android.data.mapper.sign.RequestSetProfileMapper
-import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
-import com.mument_android.data.mapper.sign.KakaoLoginMapper
-import com.mument_android.data.mapper.sign.GetWebViewMapper
+import com.mument_android.data.mapper.sign.*
 import com.mument_android.data.repository.*
 import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
 import com.mument_android.data.repository.mypage.NoticeListRepositoryImpl
@@ -158,8 +154,9 @@ object RepositoryModule {
         requestSetProfileMapper: RequestSetProfileMapper,
         setProfileMapper: SetProfileMapper,
         kakaoLoginMapper: KakaoLoginMapper,
-        getWebViewMapper: GetWebViewMapper
-    ): SignRepository = SignRepositoryImpl(signDataSource, setProfileMapper, kakaoLoginMapper, requestSetProfileMapper,getWebViewMapper)
+        getWebViewMapper: GetWebViewMapper,
+        newTokenMapper: NewTokenMapper
+    ): SignRepository = SignRepositoryImpl(signDataSource, setProfileMapper, kakaoLoginMapper, requestSetProfileMapper,getWebViewMapper, newTokenMapper)
 
 
     @Provides

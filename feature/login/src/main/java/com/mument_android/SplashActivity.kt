@@ -9,12 +9,14 @@ import androidx.activity.viewModels
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlow
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.login.LogInActivity
 import com.mument_android.login.LogInViewModel
 import com.mument_android.login.databinding.ActivitySplashBinding
 import com.mument_android.onboarding.OnBoardingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,12 +30,15 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initSplash()
-        //dataStoreManager = DataStoreManager(this)
+        newTokenNetwork()
 
     }
 
     //스플래시 -> 우선은 로그인으로 가는 로직 (후에 토큰 관리하다보면 login or main 분기처리)
     private fun initSplash() {
+        collectFlowWhenStarted(dataStoreManager.accessTokenFlow) {
+            if (it.isNullOrEmpty()) viewModel.saveTestRefreshToken()
+        }
         Handler(Looper.getMainLooper()).postDelayed({
             isFirst()
         }, DURATION)
@@ -53,6 +58,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
             finish()
         }
 
+    }
+
+
+    private fun newTokenNetwork() {
+        viewModel.newToken()
     }
 
 

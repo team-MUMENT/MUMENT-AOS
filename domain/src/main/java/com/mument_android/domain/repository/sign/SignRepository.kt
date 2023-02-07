@@ -1,9 +1,6 @@
 package com.mument_android.domain.repository.sign
 
-import com.mument_android.domain.entity.sign.KakaoEntity
-import com.mument_android.domain.entity.sign.RequestKakaoData
-import com.mument_android.domain.entity.sign.SetProfileEntity
-import com.mument_android.domain.entity.sign.WebViewEntity
+import com.mument_android.domain.entity.sign.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -24,4 +21,6 @@ interface SignRepository {
     suspend fun getViewView(
         page: String
     ) : WebViewEntity?
+
+    suspend fun newToken() : NewTokenEntity?
 }

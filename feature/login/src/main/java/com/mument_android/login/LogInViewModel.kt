@@ -6,16 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.domain.entity.sign.KakaoEntity
-import com.mument_android.domain.entity.sign.RequestKakaoData
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.domain.entity.sign.SetProfileEntity
-import com.mument_android.domain.entity.sign.WebViewEntity
-import com.mument_android.domain.usecase.sign.GetWebViewUseCase
-import com.mument_android.domain.usecase.sign.GetWebViewUseCaseImpl
-import com.mument_android.domain.usecase.sign.SignDulCheckUseCase
-import com.mument_android.domain.usecase.sign.SignKaKaoUseCase
-import com.mument_android.domain.usecase.sign.SignPutProfileUseCase
+import com.mument_android.domain.entity.sign.*
+import com.mument_android.domain.usecase.sign.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -28,7 +21,8 @@ class LogInViewModel @Inject constructor(
     private val dupCheckUseCase : SignDulCheckUseCase,
     private val putProfileUseCase: SignPutProfileUseCase,
     private val kaKaoUseCase: SignKaKaoUseCase,
-    private val getWebViewUseCase: GetWebViewUseCase
+    private val getWebViewUseCase: GetWebViewUseCase,
+    private val newTokenUseCase: NewTokenUseCase
 ): ViewModel() {
 
     val mumentNickName = MutableLiveData<String>()
@@ -53,6 +47,8 @@ class LogInViewModel @Inject constructor(
     private val _getWebView = MutableLiveData<WebViewEntity>()
     val getWebView get() :LiveData<WebViewEntity> = _getWebView
 
+    private val _newToken = MutableLiveData<NewTokenEntity>()
+    val newToken get() : LiveData<NewTokenEntity> = _newToken
 
     fun saveIsFirst() {
         viewModelScope.launch {
@@ -110,6 +106,16 @@ class LogInViewModel @Inject constructor(
             kotlin.runCatching {
                 getWebViewUseCase.getWebView(page).let {
                     _getWebView.value = it
+                }
+            }
+        }
+    }
+
+    fun newToken() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                newTokenUseCase.newToken().let {
+                    _newToken.value = it
                 }
             }
         }

@@ -193,5 +193,10 @@ object UseCaseModule {
     fun provideLimitUserUseCase(limitUserRepository: LimitUserRepository) : LimitUserUseCase =
         LimitUserUseCaseImpl(limitUserRepository)
 
+    @Provides
+    @Singleton
+    fun provideNewTokenUseCase(signRepository: SignRepository) : NewTokenUseCase =
+        NewTokenUseCaseImpl(signRepository)
+
 
 }

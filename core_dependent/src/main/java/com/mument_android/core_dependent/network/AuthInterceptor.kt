@@ -1,7 +1,5 @@
 package com.mument_android.core_dependent.network
 
-import android.util.Log
-import com.mument_android.core_dependent.BuildConfig
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlow
 import kotlinx.coroutines.flow.first
@@ -16,8 +14,12 @@ class AuthInterceptor @Inject constructor(
 ): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = runBlocking {
+
             collectFlow(dataStoreManager.accessTokenFlow) {
                 dataStoreManager.writeAccessToken(it?:"")
+                if(it==null){
+                    dataStoreManager.writeRefreshToken(it?:"")
+                }
             }
             //dataStoreManager.writeAccessToken(DataStoreManager.ACCESS_TOKEN_KEY.toString())
             dataStoreManager.accessTokenFlow.first()
