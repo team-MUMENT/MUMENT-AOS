@@ -27,10 +27,8 @@
         <activity
             android:name=".app.presentation.ui.main.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustNothing"/>
 
-
-        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
