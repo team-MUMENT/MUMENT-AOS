@@ -1,8 +1,8 @@
 package com.mument_android.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import android.content.Intent
 import androidx.fragment.app.commit
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
@@ -20,6 +20,14 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.myPageViewModel = myPageViewModel
+        intent.getBooleanExtra("alarm", false).let {
+            if (it) {
+                supportFragmentManager.commit() {
+                    replace(R.id.fc_my_page, AlarmSettingFragment(), "view")
+                    addToBackStack("view")
+                }
+            }
+        }
         transactionBtnEvent()
         clickListenerWebView()
         logoutBtnListener()
@@ -44,7 +52,6 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                     replace(R.id.fc_my_page, view, "view")
                     addToBackStack("view")
                 }
-
             }
             myPageViewModel.isClickBtnEvent(true)
         }
@@ -120,8 +127,8 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         }
     }
 
-    private fun backBtnEvent(){
-        binding.btnMyPageBack.setOnClickListener{
+    private fun backBtnEvent() {
+        binding.btnMyPageBack.setOnClickListener {
             onBackPressed()
         }
     }
