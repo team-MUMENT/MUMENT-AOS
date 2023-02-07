@@ -1,40 +1,54 @@
-package com.mument_android.core_dependent.network
+package com.mument_android.data.network
 
 import android.content.Context
 import android.widget.Toast
+import com.angdroid.navigation.LogInNavigatorProvider
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlow
-import kotlinx.coroutines.CoroutineScope
+import com.mument_android.core_dependent.network.TokenDataSource
+import dagger.Provides
+import dagger.hilt.EntryPoint
+import dagger.hilt.EntryPoints
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import java.net.HttpURLConnection
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class AuthInterceptor @Inject constructor(
     private val context: Context,
     private val dataStoreManager: DataStoreManager,
     private val tokenDataSource: TokenDataSource
 ): Interceptor {
-    private var countOfExpiresMessage = 0
+    private val entryPoint by lazy { EntryPoints.get(context, LoginModuleDependencies::class.java) }
+    private val loginNavigatorProvider = entryPoint.provideLoginNavigatorProvider()
+    private var countOfUnAuth = 0
+
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface LoginModuleDependencies {
+        fun provideLoginNavigatorProvider(): LogInNavigatorProvider
+    }
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = runBlocking {
-
             collectFlow(dataStoreManager.accessTokenFlow) {
                 dataStoreManager.writeAccessToken(it?:"")
-                if(it==null){
+                if(it == null){
                     dataStoreManager.writeRefreshToken(it?:"")
                     dataStoreManager.refreshTokenFlow.first()
                 }
             }
-            //dataStoreManager.writeAccessToken(DataStoreManager.ACCESS_TOKEN_KEY.toString())
             dataStoreManager.accessTokenFlow.first()
         }
+
         val request = chain.request()
             .newBuilder()
             .addHeaders(accessToken)
@@ -49,6 +63,37 @@ class AuthInterceptor @Inject constructor(
         }
     }
 
+    private fun retryConnection(chain: Interceptor.Chain, context: Context, previousResponse: Response): Response {
+        var response = previousResponse
+        var retryCount = 0
+        do {
+            response.close()
+            refreshAccessToken()
+            val token = runBlocking { dataStoreManager.refreshTokenFlow.first() }
+            val newRequest = chain.request().newBuilder()
+                .addHeaders(token)
+                .build()
+            response = chain.proceed(newRequest)
+            retryCount++
+        } while (response.code == HttpURLConnection.HTTP_UNAUTHORIZED && retryCount < MAX_RETRY_COUNT)
+
+        if(response.code == HttpURLConnection.HTTP_UNAUTHORIZED && retryCount == MAX_RETRY_COUNT) {
+            countOfUnAuth++
+            if (countOfUnAuth == 1) {
+                runBlocking(Dispatchers.Main) {
+                    Toast.makeText(context, "세션이 만료되었습니다. 다시 로그인해주세요:)", Toast.LENGTH_SHORT).show()
+                    loginNavigatorProvider.navToLogin()
+                }
+            }
+            runBlocking {
+                dataStoreManager.writeAccessToken("")
+                dataStoreManager.writeRefreshToken("")
+            }
+        }
+
+        return response
+    }
+
     private fun refreshAccessToken() {
         runBlocking {
             dataStoreManager.refreshTokenFlow.first()?.let {
@@ -61,37 +106,6 @@ class AuthInterceptor @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun retryConnection(chain: Interceptor.Chain, context: Context, previousResponse: Response): Response {
-        var response = previousResponse
-        var retryCount = 0
-        val responseCodes = mutableListOf(response.code)
-        do {
-            response.close()
-            refreshAccessToken()
-            val token = runBlocking { dataStoreManager.refreshTokenFlow.first() }
-            val newRequest = chain.request().newBuilder()
-                .addHeaders(token)
-                .build()
-            response = chain.proceed(newRequest)
-            responseCodes.add(response.code)
-            retryCount++
-        } while (response.code == HttpURLConnection.HTTP_UNAUTHORIZED && retryCount < MAX_RETRY_COUNT)
-
-        if(response.code == HttpURLConnection.HTTP_UNAUTHORIZED && retryCount == MAX_RETRY_COUNT) {
-            countOfExpiresMessage++
-            if (countOfExpiresMessage == 1) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(context, "세션이 만료되었습니다. 다시 로그인해주세요:)", Toast.LENGTH_SHORT).show()
-                }
-            }
-            runBlocking {
-                dataStoreManager.writeAccessToken("")
-                dataStoreManager.writeRefreshToken("")
-            }
-        }
-        return response
     }
 
     companion object {

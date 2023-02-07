@@ -37,4 +37,5 @@ abstract class NavigatorModule {
 
     @Binds
     abstract fun provideMumentHistoryProvider(mumentHistoryNavigatorProviderImpl: MumentHistoryNavigatorProviderImpl): MumentHistoryNavigatorProvider
+
 }
