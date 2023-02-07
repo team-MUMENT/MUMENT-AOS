@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -94,42 +96,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.navBar, navController)
-        binding.navBar.setupWithNavController(navController)
-//        binding.navBar.setOnItemSelectedListener { item ->
-//            val bundle = Bundle()
-//            when (item.itemId) {
-//                R.id.fragment_home -> {
-//                    if (viewModel.checkHasMusic()) {
-//                        bundle.putString(MUSIC_ID, viewModel.musicId.value)
-//                        navController.navigate(
-//                            R.id.action_homeFragment_to_musicDetailFragment,
-//                            bundle
-//                        )
-//                        viewModel.clearBundle()
-//                    } else if (viewModel.checkMusic()) {
-//                        viewModel.clearBundle()
-//                    }
-//                }
-//                R.id.fragment_locker -> {}
-//                R.id.activity_record -> {
-//                    if (viewModel.checkHasMument()) {
-//                        bundle.putString(MUMENT_ID_FOR_EDIT, viewModel.mumentId.value)
-//                        bundle.putSerializable(
-//                            MUMENT_DETAIL_ENTITY,
-//                            viewModel.mumentDetailContents.value
-//                        )
-//                    } else if (viewModel.checkMusic()) {
-//                        bundle.putParcelable("music", viewModel.music.value)
-//                    }
-//                }
-//                else -> {}
-//
-//            }
-//
-//            navController.navigate(item.itemId, bundle)
-//            viewModel.clearBundle()
-//            false
-//        }
+//        binding.navBar.setupWithNavController(navController)
+
+        binding.navBar.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment -> changeCurrentFragment(R.id.homeFragment)
+                R.id.lockerFragment -> changeCurrentFragment(R.id.lockerFragment)
+            }
+            false
+        }
+    }
+
+    private fun changeCurrentFragment(destinationId: Int) {
+        navController.navigate(
+            destinationId,
+            null,
+            NavOptions.Builder().setPopUpTo(destinationId, true).build()
+        )
     }
 
     private fun isRestrictUser() {
@@ -138,7 +121,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 RestrictUserDialog(this).show(supportFragmentManager, "test")
             }
         }
-
     }
 
     override fun editMument(mumentId: String, mumentDetailEntity: MumentDetailEntity) {

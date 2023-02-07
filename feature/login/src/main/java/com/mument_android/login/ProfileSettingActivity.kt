@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
@@ -19,6 +20,7 @@ import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.angdroid.navigation.MainHomeNavigatorProvider
+import com.angdroid.navigation.MypageNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
@@ -48,6 +50,9 @@ class ProfileSettingActivity :
     @Inject
     lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
 
+    @Inject
+    lateinit var mypageNavigatorProvider: MypageNavigatorProvider
+
     private val viewModel: LogInViewModel by viewModels()
 
     //이미지 접근 권한여부 설정
@@ -72,6 +77,7 @@ class ProfileSettingActivity :
         isImageExist()
         backBtnListener()
         dulCheckListener()
+        getUserInfo()
     }
 
     //edittext에 작성한 텍스트 삭제 버튼 클릭 리스너
@@ -178,8 +184,13 @@ class ProfileSettingActivity :
     //뒤로가기 클릭 리스너
     private fun backBtnListener() {
         binding.ivProfileBack.setOnClickListener {
-            startActivity(Intent(this, LogInActivity::class.java))
-            finish()
+            if (viewModel.mumentNickName.value == "null") {
+                startActivity(Intent(this, LogInActivity::class.java))
+                finish()
+            } else {
+                mypageNavigatorProvider.navToMyPage()
+            }
+
         }
     }
 
@@ -211,8 +222,9 @@ class ProfileSettingActivity :
             viewModel.putProfile(multipart, requestBodyMap)
         }
 
-
         moveToMainActivity()
+        val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
+        viewModel.putProfile(multipart, requestBodyMap)
     }
 
     private fun changeImageUri() {
@@ -242,10 +254,41 @@ class ProfileSettingActivity :
     }
 
     private fun dulCheckListener() {
+        val isCheckMypage = intent.getIntExtra("checkMyPage", 0)
         binding.tvProfileFinish.setOnClickListener {
             viewModel.viewModelScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
+                if (isCheckMypage == 1)
+                    moveToMypageActivity()
+                else
+                    moveToMainActivity()
+
+            }
+        }
+    }
+
+    private fun getUserInfo() {
+
+        val nickname = intent.getStringExtra("nickname")
+        nickname?.let {
+            viewModel.mumentNickName.value = nickname
+        }
+
+        val img = intent.getStringExtra("img")
+        img?.let {
+            viewModel.imageUri.value = Uri.parse(it)
+        }
+
+        if (viewModel.mumentNickName.value == "null" && viewModel.imageUri.value == null) {
+            viewModel.mumentNickName.value = ""
+            viewModel.imageUri.value = null
+        } else {
+            binding.etNickname.setText(viewModel.mumentNickName.value)
+            binding.ivProfile.load(viewModel.imageUri.value) {
+                crossfade(true)
+                placeholder(R.drawable.mument_profile_camera)
+                transformations(CircleCropTransformation())
             }
         }
     }
@@ -253,4 +296,9 @@ class ProfileSettingActivity :
     private fun moveToMainActivity() {
         mainHomeNavigatorProvider.profileSettingToMain()
     }
+
+    private fun moveToMypageActivity() {
+        mypageNavigatorProvider.navToMyPage()
+    }
+
 }

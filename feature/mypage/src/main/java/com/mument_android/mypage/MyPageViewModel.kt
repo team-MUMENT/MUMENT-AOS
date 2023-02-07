@@ -6,19 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiResult
+import com.mument_android.domain.entity.mypage.*
+import com.mument_android.domain.entity.sign.WebViewEntity
+import com.mument_android.domain.usecase.mypage.*
+import com.mument_android.domain.usecase.sign.GetWebViewUseCase
 import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.domain.entity.mypage.NoticeListEntity
-import com.mument_android.domain.entity.mypage.UserInfoEntity
-import com.mument_android.domain.usecase.mypage.*
-import com.mument_android.domain.entity.sign.WebViewEntity
-import com.mument_android.domain.usecase.mypage.DeleteBlockUserUseCase
-import com.mument_android.domain.usecase.mypage.FetchBlockUserUseCase
-import com.mument_android.domain.usecase.mypage.FetchNoticeDetailUseCase
-import com.mument_android.domain.usecase.mypage.FetchNoticeListUseCase
-import com.mument_android.domain.usecase.sign.GetWebViewUseCase
-import com.mument_android.mypage.data.UserData
+import com.mument_android.domain.entity.mypage.RequestUnregisterReasonEntity
+import com.mument_android.domain.entity.sign.SetProfileEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,9 +29,10 @@ class MyPageViewModel @Inject constructor(
     private val fetchNoticeListUseCase: FetchNoticeListUseCase,
     private val fetchNoticeDetailUseCase: FetchNoticeDetailUseCase,
     private val userInfoUseCase: UserInfoUseCase,
-    private val getWebViewUseCase: GetWebViewUseCase
+    private val getWebViewUseCase: GetWebViewUseCase,
+    private val fetchUnregisterInfoUseCase: FetchUnregisterInfoUseCase,
+    private val postUnregisterReasonUseCase: PostUnregisterReasonUseCase
 ) : ViewModel() {
-
 
     //myPage
     private val _isBtnClick = MutableLiveData(false)
@@ -40,12 +41,6 @@ class MyPageViewModel @Inject constructor(
     //Profile
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> get() = _userId
-
-    private val _userImg = MutableLiveData<String>()
-    val userImg: LiveData<String> get() = _userImg
-
-    private val _userNickNameContent = MutableLiveData("")
-    val userNickNameContent = _userNickNameContent
 
     //BlockUserManagement
     private val _blockUserList = MutableStateFlow<ApiResult<List<BlockUserEntity>>?>(null)
@@ -58,10 +53,9 @@ class MyPageViewModel @Inject constructor(
     private val _noticeDetail = MutableStateFlow<ApiResult<NoticeListEntity>?>(null)
     val noticeDetail get() = _noticeDetail.asStateFlow()
 
-    private val _noticeId = MutableLiveData<Int>()
-    val noticeId = _noticeId
-
     //Unregister
+    val isUnregisterSuccess = MutableLiveData<Boolean>()
+
     private val _isClickReasonChooseBox = MutableLiveData(false)
     val isClickReasonChooseBox: LiveData<Boolean> get() = _isClickReasonChooseBox
 
@@ -80,6 +74,8 @@ class MyPageViewModel @Inject constructor(
     //userInfo
     private val _userInfo = MutableLiveData<UserInfoEntity>()
     val userInfo get(): LiveData<UserInfoEntity> = _userInfo
+    private val _unregisterReasonIndex = MutableLiveData(0)
+    val unregisterReasonIndex = _unregisterReasonIndex
 
     //web view link
     private val _getWebView = MutableLiveData<WebViewEntity>()
@@ -88,14 +84,6 @@ class MyPageViewModel @Inject constructor(
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
         _isBtnClick.value = isBtnClick
-    }
-
-    //프로필 유저 정보
-    fun fetchUserInfo() {
-        val userData = UserData(
-            userID = userId.value ?: "",
-            userImg = userImg.value ?: ""
-        )
     }
 
     //차단유저관리
@@ -120,6 +108,13 @@ class MyPageViewModel @Inject constructor(
                     fetchBlockUserList()
                 }
         }
+    }
+
+    fun checkBlockUserEmpty(): Boolean {
+//        return _blockUserList.value == null
+        return _blockUserList.value?.data?.size == null
+        Log.e("TEST", "${_blockUserList.value?.data?.size}")
+        //return _blockUserList.value == null
     }
 
 
@@ -149,6 +144,28 @@ class MyPageViewModel @Inject constructor(
             }
         }
     }
+
+    //회원탈퇴
+    fun postUnregisterReason() {
+        viewModelScope.launch {
+            val reasonEntity = RequestUnregisterReasonEntity(
+                leaveCategoryId = unregisterReasonIndex.value ?: 0,
+                reasonEtc = unregisterReasonContent.value ?: ""
+            )
+            postUnregisterReasonUseCase.invoke(reasonEntity).catch {
+                isUnregisterSuccess.value = false
+            }.collect { apiResult ->
+                if (apiResult) {
+                    fetchUnregisterInfoUseCase.invoke().catch {
+                        isUnregisterSuccess.value = false
+                    }.collect {
+                        isUnregisterSuccess.value = it
+                    }
+                }
+            }
+        }
+    }
+
 
     //이유 선택 박스 눌렀을 때 라디오 그룹 visibility 조절
     fun clickReasonChooseBox() {
@@ -186,6 +203,10 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
+    //탈퇴 이유 번호 받기
+    fun getUnregisterReasonIndex(index: Int) {
+        _unregisterReasonIndex.value = index
+    }
 
     //webview link
     fun getWebView(page: String) {
@@ -197,6 +218,7 @@ class MyPageViewModel @Inject constructor(
             }
         }
     }
+
 }
 
 

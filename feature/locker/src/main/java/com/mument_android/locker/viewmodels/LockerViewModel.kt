@@ -109,6 +109,7 @@ class LockerViewModel @Inject constructor(
             }.collectLatest {
                 myMuments.value = ApiResult.Success(it)
                 //_profileImage.value = it.get(0).mumentCard?.get(0)?.userImage ?: ""
+
             }
         }
     }

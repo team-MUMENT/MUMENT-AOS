@@ -23,6 +23,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
     private val viewModel: LogInViewModel by viewModels()
+
     @Inject
     lateinit var dataStoreManager: DataStoreManager
 
@@ -33,7 +34,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         super.onCreate(savedInstanceState)
         initSplash()
         newTokenNetwork()
-
     }
 
     //스플래시 -> 우선은 로그인으로 가는 로직 (후에 토큰 관리하다보면 login or main 분기처리)
@@ -44,24 +44,23 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun isFirst() {
+        collectFlow(dataStoreManager.accessTokenFlow) {
+            Log.e("bbbbbbbbbbb", "$it")
+        }
         collectFlow(dataStoreManager.isFirstFlow) {
             Log.e("datastore", "$it")
             delay(1000)
-            if(it == null) {
+            if (it == null) {
                 val intent = Intent(this, OnBoardingActivity::class.java)
                 startActivity(intent)
             } else {
-                viewModel.isExist()
-                viewModel.isExist.observe(this) {
-                    Log.e("TEST?", "$it")
-                    if(it == true) {
-                        moveToMainActivity()
-                    } else {
-                        val intent = Intent(this, LogInActivity::class.java)
-                        startActivity(intent)
-                    }
+                if(viewModel.isExist.value == true) {
+                    moveToMainActivity()
                 }
-
+                else {
+                    val intent = Intent(this, LogInActivity::class.java)
+                    startActivity(intent)
+                }
             }
             finish()
         }
@@ -81,7 +80,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
 
     companion object {
-        private const val DURATION : Long = 2000
+        private const val DURATION: Long = 2000
     }
 
 }

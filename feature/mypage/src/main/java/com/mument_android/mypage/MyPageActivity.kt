@@ -1,13 +1,15 @@
 package com.mument_android.mypage
 
-import android.os.Bundle
-import androidx.activity.viewModels
 import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.login.LogInActivity
+import com.mument_android.login.ProfileSettingActivity
 import com.mument_android.mypage.databinding.ActivityMyPageBinding
 import com.mument_android.mypage.fragment.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,18 +22,39 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.myPageViewModel = myPageViewModel
+
+        intent.getBooleanExtra("alarm", false).let {
+            if (it) {
+                supportFragmentManager.commit() {
+                    replace(R.id.fc_my_page, AlarmSettingFragment(), "view")
+                    addToBackStack("view")
+                }
+            }
+        }
+
+        moveProfileSetting()
+
         transactionBtnEvent()
         clickListenerWebView()
         logoutBtnListener()
         moveUnregister()
         userInfoNetwork()
+        backBtnEvent()
+    }
+
+    private fun moveProfileSetting() {
+        binding.clProfile.setOnClickListener {
+            val intent = Intent(this, ProfileSettingActivity::class.java)
+            intent.putExtra("nickname", myPageViewModel.userInfo.value?.userName)
+            intent.putExtra("img", myPageViewModel.userInfo.value?.image)
+            intent.putExtra("checkMyPage", 1)
+            startActivity(intent)
+        }
     }
 
     //각 카테고리 버튼 눌렀을 때 이동하는 함수
     private fun transactionBtnEvent() {
-
         val goNextPageBtn = mutableMapOf(
-            binding.clProfile to ProfileSettingFragment(),
             binding.clAlarmSetting to AlarmSettingFragment(),
             binding.clBlockUserManagement to BlockUserManagementFragment(),
             binding.clNotice to NoticeFragment()
@@ -43,7 +66,6 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                     replace(R.id.fc_my_page, view, "view")
                     addToBackStack("view")
                 }
-
             }
             myPageViewModel.isClickBtnEvent(true)
         }
@@ -116,6 +138,12 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                 replace(R.id.fc_my_page, UnregisterFragment(), "unregister")
                 addToBackStack("unregister")
             }
+        }
+    }
+
+    private fun backBtnEvent() {
+        binding.btnMyPageBack.setOnClickListener {
+            onBackPressed()
         }
     }
 
