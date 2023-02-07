@@ -3,6 +3,7 @@ package com.mument_android.login
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -26,6 +27,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.InputStream
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -163,15 +165,12 @@ class ProfileSettingActivity :
                         viewModel.imageUri.value = uri
                     }
                     //TODO 이미지 null인 경우 이미지 3개 중 임의로 하나 보내주기
-                    /*
+
+
                     else {
-                        val drawable: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.mument_profile_love_45, null)
-                        val imageUri = "drawable://$drawable".toUri()
-                        viewModel.imageUri.value = imageUri
+                        val firstImage = Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_smile_45")
+                        viewModel.imageUri.value = firstImage
                     }
-
-                     */
-
                 }
             }
         }
@@ -197,6 +196,17 @@ class ProfileSettingActivity :
         val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
         viewModel.putProfile(multipart, requestBodyMap)
         moveToMainActivity()
+    }
+
+    private fun changeImageUri() {
+        val firstImage = Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_smile_45")
+        val firstImageStream = contentResolver.openInputStream(firstImage)
+
+        val secondImage = Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_love_45")
+        val secondImageStream = contentResolver.openInputStream(secondImage)
+
+        val thirdImage = Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_sleep_45")
+        val thirdImageStream = contentResolver.openInputStream(thirdImage)
     }
 
     private suspend fun nickNameDupCheck() {
