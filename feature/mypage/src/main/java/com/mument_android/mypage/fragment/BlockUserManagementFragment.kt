@@ -1,19 +1,19 @@
 package com.mument_android.mypage.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
-import com.mument_android.mypage.adapters.BlockUserManagementAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.mypage.MyPageViewModel
 import com.mument_android.mypage.R
+import com.mument_android.mypage.adapters.BlockUserManagementAdapter
 import com.mument_android.mypage.databinding.FragmentBlockUserManagementBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +37,7 @@ class BlockUserManagementFragment : Fragment() {
 
         setBlockUserRecyclerView()
         backBtnListener()
+        myPageViewModel.checkBlockUserEmpty()
     }
 
     private fun setBlockUserRecyclerView() {

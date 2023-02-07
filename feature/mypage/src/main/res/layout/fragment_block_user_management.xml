@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="myPageViewModel"
             type="com.mument_android.mypage.MyPageViewModel" />
@@ -22,12 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:background="@drawable/mument_icon_back"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_alarm_setting_title"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_block_user_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_alarm_setting_title" />
+            app:layout_constraintTop_toTopOf="@+id/tv_block_user_title" />
 
         <TextView
-            android:id="@+id/tv_alarm_setting_title"
+            android:id="@+id/tv_block_user_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
@@ -37,6 +39,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_block_user_empty"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="269dp"
+            android:text="@string/unblock_empty"
+            android:visibility="@{myPageViewModel.blockUserList ==null ? View.VISIBLE  : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rv_block_user" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_block_user"
             android:layout_width="match_parent"
@@ -44,7 +58,7 @@
             android:layout_marginTop="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_alarm_setting_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_block_user_title"
             tools:itemCount="4"
             tools:listitem="@layout/item_block_user" />
 

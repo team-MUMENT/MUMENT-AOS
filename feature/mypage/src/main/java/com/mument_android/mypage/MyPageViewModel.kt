@@ -84,9 +84,6 @@ class MyPageViewModel @Inject constructor(
     private val _unregisterReasonIndex = MutableLiveData(0)
     val unregisterReasonIndex = _unregisterReasonIndex
 
-    val checkUnregisterReason = MutableLiveData<Int>(null)
-
-
     //web view link
     private val _getWebView = MutableLiveData<WebViewEntity>()
     val getWebView get() :LiveData<WebViewEntity> = _getWebView
@@ -118,6 +115,10 @@ class MyPageViewModel @Inject constructor(
                     fetchBlockUserList()
                 }
         }
+    }
+
+    fun checkBlockUserEmpty(): Boolean {
+        return _blockUserList.value == null
     }
 
 
@@ -209,10 +210,6 @@ class MyPageViewModel @Inject constructor(
     //탈퇴 이유 번호 받기
     fun getUnregisterReasonIndex(index: Int) {
         _unregisterReasonIndex.value = index
-    }
-
-    fun checkUnregisterReasonApi(requestUnregisterReasonEntity: RequestUnregisterReasonEntity) {
-
     }
 
     //webview link

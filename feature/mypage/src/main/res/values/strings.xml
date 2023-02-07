@@ -35,6 +35,7 @@
     <string name="unblocking">해제</string>
     <string name="unblock_title">차단해제하시겠습니까?</string>
     <string name="unblock_body">해당 사용자의 뮤멘트를\n다시 볼 수 있습니다.</string>
+    <string name="unblock_empty">차단한 유저가 없어요.</string>
 
     <!-- unregister view-->
     <string name="unregister_title">회원탈퇴</string>
