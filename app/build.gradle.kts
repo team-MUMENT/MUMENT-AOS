@@ -44,6 +44,7 @@ android {
         getByName("debug") {
             buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
             buildConfigField("String", "USER_ID", properties["USER_ID"] as String)
+            buildConfigField("String","KAKAO_NATIVE_KEY", properties["KAKAO_NATIVE_KEY"] as String)
         }
     }
     compileOptions {

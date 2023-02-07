@@ -3,6 +3,8 @@ package com.mument_android.login
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import coil.load
@@ -26,8 +29,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -188,19 +193,17 @@ class ProfileSettingActivity :
         val nickname = binding.etNickname.text.toString()
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
 
-        if(viewModel.imageUri.value == null) {
-            // Uri.parse("drawable://" + R.drawable.mument_profile_love_45)
-            //val uri:Uri =  File("drawable://" + R.drawable.mument_profile_love_45).toUri()
-            //viewModel.imageUri.value = uri
-/*            val directory: File = File("drawable://" + R.drawable.mument_profile_love_45)
+        if (viewModel.imageUri.value == null) {
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.mument_profile_love_45)
+            val bos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+            val data = bos.toByteArray()
 
-            if (!directory.exists()) {       // 원하는 경로에 폴더가 있는지 확인
-                directory.mkdirs() // 하위폴더를 포함한 폴더를 전부 생성
-            }*/
-            val multipart =
-                multiPartResolver.createImageMultiPart(Uri.parse("file://" + R.drawable.mument_profile_love_45))
+            val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), data)
 
-            viewModel.putProfile(multipart, requestBodyMap)
+            val image = MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
+            viewModel.putProfile(image,requestBodyMap)
+
         } else {
             val multipart = viewModel.imageUri.value?.let {
                 multiPartResolver.createImageMultiPart(it)
