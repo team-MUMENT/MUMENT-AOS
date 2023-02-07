@@ -7,9 +7,8 @@ import com.mument_android.data.dto.record.ResponseRecordMumentDto
 import retrofit2.http.*
 
 interface RecordApiService {
-    @GET("/mument/{userId}/{musicId}/is-first")
+    @GET("/mument/{musicId}/is-first")
     suspend fun fetchMumentIsFirst(
-        @Path("userId") userId : String,
         @Path("musicId") musicId : String
     ) : BaseResponse<MumentIsFirstDto>
 

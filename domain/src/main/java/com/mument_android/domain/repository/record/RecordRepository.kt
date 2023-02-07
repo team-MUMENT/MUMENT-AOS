@@ -5,7 +5,7 @@ import com.mument_android.domain.entity.record.RecordIsFirstEntity
 import kotlinx.coroutines.flow.Flow
 
 interface RecordRepository {
-    suspend fun fetchMumentRecord(userId: String, musicId: String): Flow<RecordIsFirstEntity>
+    suspend fun fetchMumentRecord(musicId: String): Flow<RecordIsFirstEntity>
     suspend fun updateMumentRecord(
         mumentId: String,
         mumentRecordDto: MumentRecordEntity

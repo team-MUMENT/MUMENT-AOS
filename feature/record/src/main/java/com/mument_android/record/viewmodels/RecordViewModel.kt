@@ -56,7 +56,7 @@ class RecordViewModel @Inject constructor(
     fun findIsFirst() {
         viewModelScope.launch {
             selectedMusic.value?.let {
-                checkIsFirstRecordUseCase.invoke(BuildConfig.USER_ID, it._id).onStart {
+                checkIsFirstRecordUseCase.invoke(it._id).onStart {
                 }.collect {
                     _isFirst.value = it.isFirst
                 }

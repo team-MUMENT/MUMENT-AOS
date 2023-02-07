@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class RecordDataSourceImpl @Inject constructor(private val recordApiservice: RecordApiService) :
     RecordDataSource {
-    override suspend fun fetchMumentRecord(userId: String, musicId: String): MumentIsFirstDto? {
-        return recordApiservice.fetchMumentIsFirst(userId,musicId).data
+    override suspend fun fetchMumentRecord(musicId: String): MumentIsFirstDto? {
+        return recordApiservice.fetchMumentIsFirst(musicId).data
     }
 }

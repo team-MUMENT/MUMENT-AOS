@@ -22,10 +22,9 @@ class RecordRepositoryImpl @Inject constructor(
     private val mumentRecordMapper: MumentRecordMapper
 ) : RecordRepository {
     override suspend fun fetchMumentRecord(
-        userId: String,
         musicId: String
     ): Flow<RecordIsFirstEntity> = flow {
-        recordDataSource.fetchMumentRecord(userId, musicId)?.let {
+        recordDataSource.fetchMumentRecord(musicId)?.let {
             emit(recordMapper.map(it))
         }
     }.flowOn(Dispatchers.IO)
