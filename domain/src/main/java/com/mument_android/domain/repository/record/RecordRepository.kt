@@ -12,6 +12,5 @@ interface RecordRepository {
     ): Flow<String>
     suspend fun insertMumentRecord(
         musicId: String,
-        userId: String,
         mumentRecordDto: MumentRecordEntity):Flow<String>
 }

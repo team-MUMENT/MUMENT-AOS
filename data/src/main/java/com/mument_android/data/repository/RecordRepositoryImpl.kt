@@ -39,10 +39,9 @@ class RecordRepositoryImpl @Inject constructor(
 
     override suspend fun insertMumentRecord(
         musicId: String,
-        userId: String,
         entity: MumentRecordEntity
     ): Flow<String> = flow {
-        recordController.recordMument(musicId, userId, mumentRecordMapper.map(entity)).data?.let {
+        recordController.recordMument(musicId, mumentRecordMapper.map(entity)).data?.let {
             emit(it.id)
         }
     }.flowOn(Dispatchers.IO)

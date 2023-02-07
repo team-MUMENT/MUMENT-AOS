@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 class RecordControllerImpl @Inject constructor(
     private val recordApiService: RecordApiService
-): RecordController {
+) : RecordController {
     override suspend fun recordMument(
         musicId: String,
-        userId: String,
         mumentRecordDto: MumentRecordDto
-    ): BaseResponse<ResponseRecordMumentDto> = recordApiService.postMumentRecord(musicId, userId, mumentRecordDto)
+    ): BaseResponse<ResponseRecordMumentDto> =
+        recordApiService.postMumentRecord(musicId, mumentRecordDto)
 }

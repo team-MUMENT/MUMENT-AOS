@@ -12,10 +12,9 @@ interface RecordApiService {
         @Path("musicId") musicId : String
     ) : BaseResponse<MumentIsFirstDto>
 
-    @POST("/mument/{userId}/{musicId}")
+    @POST("/mument/{musicId}")
     suspend fun postMumentRecord(
         @Path("musicId") musicId : String,
-        @Path("userId") userId : String,
         @Body mumentRecordDto: MumentRecordDto
     ) : BaseResponse<ResponseRecordMumentDto>
 

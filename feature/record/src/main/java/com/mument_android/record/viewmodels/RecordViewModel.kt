@@ -78,12 +78,15 @@ class RecordViewModel @Inject constructor(
                     feelingTags,
                     impressionTags,
                     isFirst.value ?: true,
-                    isPrivate.value ?: false
+                    isPrivate.value ?: false,
+                    selectedMusic.value!!._id,
+                    selectedMusic.value!!.artist,
+                    selectedMusic.value!!.image,
+                    selectedMusic.value!!.name
                 )
                 selectedMusic.value?.let {
                     recordMumentUseCase(
                         musicId = it._id,
-                        userId = BuildConfig.USER_ID,
                         recordEntity
                     ).catch { e ->
                         //Todo exception handling
@@ -105,7 +108,12 @@ class RecordViewModel @Inject constructor(
                     feelingTags,
                     impressionTags,
                     isFirst.value ?: true,
-                    isPrivate.value ?: false
+                    isPrivate.value ?: false,
+                    selectedMusic.value!!._id,
+                    selectedMusic.value!!.artist,
+                    selectedMusic.value!!.image,
+                    selectedMusic.value!!.name
+
                 )
                 recordModifyMumentUseCase(mumentId = mumentId.value!!, recordEntity).catch { e ->
                     //Todo exception handling

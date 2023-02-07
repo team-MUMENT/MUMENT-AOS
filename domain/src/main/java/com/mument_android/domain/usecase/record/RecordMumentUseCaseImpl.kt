@@ -10,7 +10,6 @@ class RecordMumentUseCaseImpl @Inject constructor(
 ) : RecordMumentUseCase {
     override suspend fun invoke(
         musicId: String,
-        userId: String,
         mumentRecordEntity: MumentRecordEntity
-    ): Flow<String> = repository.insertMumentRecord(musicId, userId, mumentRecordEntity)
+    ): Flow<String> = repository.insertMumentRecord(musicId, mumentRecordEntity)
 }

@@ -4,5 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class ResponseRecordMumentDto(
     @SerializedName("_id")
-    val id: String
+    val id: String,
+    val count: Int
 )
