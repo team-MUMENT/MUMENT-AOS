@@ -144,6 +144,11 @@ object DataSourceModule {
 
     @Provides
     @Singleton
+    fun provideUserInfoDataSource(myPageApiService: MyPageApiService) : UserInfoDataSource =
+        UserInfoDataSourceImpl(myPageApiService)
+
+    @Provides
+    @Singleton
     fun provideLimitUserDataSource(appApiService: AppApiService) : LimitUserDataSource =
         LimitUserDataSourceImpl(appApiService)
 }

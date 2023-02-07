@@ -24,6 +24,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         clickListenerWebView()
         logoutBtnListener()
         moveUnregister()
+        userInfoNetwork()
     }
 
     //각 카테고리 버튼 눌렀을 때 이동하는 함수
@@ -77,6 +78,13 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
             }
         }
 
+    }
+
+    private fun userInfoNetwork() {
+        myPageViewModel.userInfo()
+        myPageViewModel.userInfo.observe(this) {
+            binding.viewModel = it
+        }
     }
 
     private fun initIntent(url: String) {

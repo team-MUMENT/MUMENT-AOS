@@ -8,7 +8,7 @@ data class TodayMumentEntity(
     @PrimaryKey
     val userId: String,
     val userName: String,
-    val userImage: String,
+    val userImage: String?,
     val cardTag: List<Int>,
     val content: String,
     val createdAt: String,

@@ -22,6 +22,7 @@ import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
+import com.mument_android.data.mapper.mypage.UserInfoMapper
 import com.mument_android.data.mapper.sign.GetWebViewMapper
 import dagger.Module
 import dagger.Provides
@@ -171,6 +172,10 @@ object MapperModule {
     @Provides
     @Singleton
     fun provideNoticeListMapper(): NoticeListMapper = NoticeListMapper()
+
+    @Provides
+    @Singleton
+    fun provideUserInfoMapper() : UserInfoMapper = UserInfoMapper()
 
     @Provides
     @Singleton
