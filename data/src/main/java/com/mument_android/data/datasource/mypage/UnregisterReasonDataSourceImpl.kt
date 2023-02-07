@@ -10,9 +10,10 @@ class UnregisterReasonDataSourceImpl @Inject constructor(
 ) : UnregisterReasonDataSource {
     override suspend fun postUnregisterReason(
         requestUnregisterReasonDto: RequestUnregisterReasonDto
-    ): UnregisterReasonDto? =
+    ): Boolean = kotlin.runCatching {
         myPageApiService.postUnregisterReason(
             requestUnregisterReasonDto
-        ).data
+        ).status == 201
+    }.getOrElse { false }
 
 }

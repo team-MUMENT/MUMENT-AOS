@@ -4,5 +4,5 @@ import com.mument_android.domain.entity.mypage.UnregisterEntity
 import kotlinx.coroutines.flow.Flow
 
 interface UnregisterRepository {
-    suspend fun fetchUnregisterInfo(): Flow<UnregisterEntity>
+    suspend fun fetchUnregisterInfo(): Flow<Boolean>
 }

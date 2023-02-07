@@ -19,13 +19,13 @@ class UnregisterReasonRepositoryImpl @Inject constructor(
 ) : UnregisterReasonRepository {
     override suspend fun postUnregisterReason(
         requestUnregisterReasonEntity: RequestUnregisterReasonEntity
-    ): Flow<UnregisterReasonEntity> = flow {
+    ): Flow<Boolean> = flow {
         unregisterReasonDataSource.postUnregisterReason(
             requestUnregisterReasonMapper.map(
                 requestUnregisterReasonEntity
             )
         )?.let {
-            emit(unregisterReasonMapper.map(it))
+            emit(it)
         }
     }.flowOn(Dispatchers.IO)
 }

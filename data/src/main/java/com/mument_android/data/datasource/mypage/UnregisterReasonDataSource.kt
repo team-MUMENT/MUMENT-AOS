@@ -4,5 +4,5 @@ import com.mument_android.data.dto.mypage.RequestUnregisterReasonDto
 import com.mument_android.data.dto.mypage.UnregisterReasonDto
 
 interface UnregisterReasonDataSource {
-    suspend fun postUnregisterReason(requestUnregisterReasonDto: RequestUnregisterReasonDto): UnregisterReasonDto?
+    suspend fun postUnregisterReason(requestUnregisterReasonDto: RequestUnregisterReasonDto): Boolean
 }

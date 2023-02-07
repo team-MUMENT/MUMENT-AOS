@@ -14,9 +14,9 @@ class UnregisterRepositoryImpl @Inject constructor(
     private val unregisterDataSource: UnregisterDataSource,
     private val unregisterMapper: UnregisterMapper
 ) : UnregisterRepository {
-    override suspend fun fetchUnregisterInfo(): Flow<UnregisterEntity> = flow {
+    override suspend fun fetchUnregisterInfo(): Flow<Boolean> = flow {
         unregisterDataSource.fetchUnregisterInfo()?.let {
-            emit(unregisterMapper.map(it))
+            emit(it)
         }
-    }.flowOn(Dispatchers.IO)
+    }
 }

@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface PostUnregisterReasonUseCase {
     suspend operator fun invoke(
         requestUnregisterReasonEntity: RequestUnregisterReasonEntity
-    ): Flow<UnregisterReasonEntity>
+    ): Flow<Boolean>
 }

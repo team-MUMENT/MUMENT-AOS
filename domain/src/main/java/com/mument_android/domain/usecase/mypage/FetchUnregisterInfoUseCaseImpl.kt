@@ -8,6 +8,6 @@ import javax.inject.Inject
 class FetchUnregisterInfoUseCaseImpl @Inject constructor(
     private val unregisterRepository: UnregisterRepository
 ) : FetchUnregisterInfoUseCase {
-    override suspend fun invoke(): Flow<UnregisterEntity> =
+    override suspend fun invoke(): Flow<Boolean> =
         unregisterRepository.fetchUnregisterInfo()
 }

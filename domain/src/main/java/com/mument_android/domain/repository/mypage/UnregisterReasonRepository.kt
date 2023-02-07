@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface UnregisterReasonRepository {
     suspend fun postUnregisterReason(
         requestUnregisterReasonEntity: RequestUnregisterReasonEntity
-    ): Flow<UnregisterReasonEntity>
+    ): Flow<Boolean>
 }

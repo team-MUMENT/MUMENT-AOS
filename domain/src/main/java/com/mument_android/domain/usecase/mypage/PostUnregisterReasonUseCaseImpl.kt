@@ -11,7 +11,7 @@ class PostUnregisterReasonUseCaseImpl @Inject constructor(
 ) : PostUnregisterReasonUseCase {
     override suspend fun invoke(
         requestUnregisterReasonEntity: RequestUnregisterReasonEntity
-    ): Flow<UnregisterReasonEntity> {
-        return unregisterReasonRepository.postUnregisterReason(requestUnregisterReasonEntity)
-    }
+    ): Flow<Boolean> =
+        unregisterReasonRepository.postUnregisterReason(requestUnregisterReasonEntity)
+
 }
