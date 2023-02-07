@@ -1,6 +1,8 @@
 package com.mument_android.mypage
 
+import android.app.appsearch.StorageInfo
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
@@ -8,6 +10,7 @@ import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.login.LogInActivity
+import com.mument_android.login.ProfileSettingActivity
 import com.mument_android.mypage.databinding.ActivityMyPageBinding
 import com.mument_android.mypage.fragment.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,11 +39,16 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         backBtnEvent()
     }
 
+    private fun moveProfileSetting() {
+        val intent = Intent(this, ProfileSettingActivity::class.java)
+        intent.getStringExtra("profileNickName")
+        intent.getStringExtra("profileImg")
+        startActivity(intent)
+    }
+
     //각 카테고리 버튼 눌렀을 때 이동하는 함수
     private fun transactionBtnEvent() {
-
         val goNextPageBtn = mutableMapOf(
-            binding.clProfile to ProfileSettingFragment(),
             binding.clAlarmSetting to AlarmSettingFragment(),
             binding.clBlockUserManagement to BlockUserManagementFragment(),
             binding.clNotice to NoticeFragment()
