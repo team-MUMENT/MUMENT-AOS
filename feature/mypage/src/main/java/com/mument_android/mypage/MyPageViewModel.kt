@@ -12,6 +12,7 @@ import com.mument_android.domain.usecase.sign.GetWebViewUseCase
 import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.domain.entity.mypage.NoticeListEntity
 import com.mument_android.domain.entity.mypage.RequestUnregisterReasonEntity
+import com.mument_android.domain.entity.sign.SetProfileEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -56,9 +57,6 @@ class MyPageViewModel @Inject constructor(
 
     private val _noticeDetail = MutableStateFlow<ApiResult<NoticeListEntity>?>(null)
     val noticeDetail get() = _noticeDetail.asStateFlow()
-
-    private val _noticeId = MutableLiveData<Int>()
-    val noticeId = _noticeId
 
     //Unregister
     val isUnregisterSuccess = MutableLiveData<Boolean>()

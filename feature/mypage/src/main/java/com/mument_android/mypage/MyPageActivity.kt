@@ -1,9 +1,8 @@
 package com.mument_android.mypage
 
-import android.app.appsearch.StorageInfo
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import com.mument_android.core_dependent.base.BaseActivity
@@ -23,6 +22,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.myPageViewModel = myPageViewModel
+
         intent.getBooleanExtra("alarm", false).let {
             if (it) {
                 supportFragmentManager.commit() {
@@ -31,6 +31,9 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                 }
             }
         }
+
+        moveProfileSetting()
+
         transactionBtnEvent()
         clickListenerWebView()
         logoutBtnListener()
@@ -40,10 +43,12 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     }
 
     private fun moveProfileSetting() {
-        val intent = Intent(this, ProfileSettingActivity::class.java)
-        intent.getStringExtra("profileNickName")
-        intent.getStringExtra("profileImg")
-        startActivity(intent)
+        binding.clProfile.setOnClickListener {
+            val intent = Intent(this, ProfileSettingActivity::class.java)
+            intent.putExtra("nickname", myPageViewModel.userInfo.value?.userName)
+            intent.putExtra("img", myPageViewModel.userInfo.value?.image)
+            startActivity(intent)
+        }
     }
 
     //각 카테고리 버튼 눌렀을 때 이동하는 함수

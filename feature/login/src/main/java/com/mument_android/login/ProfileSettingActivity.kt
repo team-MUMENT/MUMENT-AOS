@@ -3,8 +3,10 @@ package com.mument_android.login
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
@@ -64,6 +66,7 @@ class ProfileSettingActivity :
         isImageExist()
         backBtnListener()
         dulCheckListener()
+        getUserInfo()
     }
 
     //edittext에 작성한 텍스트 삭제 버튼 클릭 리스너
@@ -180,8 +183,13 @@ class ProfileSettingActivity :
     //뒤로가기 클릭 리스너
     private fun backBtnListener() {
         binding.ivProfileBack.setOnClickListener {
-            startActivity(Intent(this, LogInActivity::class.java))
-            finish()
+            if (viewModel.userInfo.value != null) {
+                startActivity(Intent(this, LogInActivity::class.java))
+                finish()
+            } else {
+
+            }
+
         }
     }
 
@@ -202,7 +210,7 @@ class ProfileSettingActivity :
     private suspend fun nickNameDupCheck() {
         delay(100)
         viewModel.isDuplicate.observe(this) {
-            if(it == 200) {
+            if (it == 200) {
                 CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
             } else if (it == 204) {
                 putProfileNetwork()
@@ -220,7 +228,33 @@ class ProfileSettingActivity :
         }
     }
 
+    private fun getUserInfo() {
+
+        val nickname = intent.getStringExtra("nickname")
+        nickname?.let {
+            viewModel.mumentNickName.value = nickname
+        }
+
+        val img = intent.getStringExtra("img")
+        img?.let {
+            viewModel.imageUri.value = Uri.parse(it)
+        }
+
+        if (viewModel.mumentNickName.value == "null" && viewModel.imageUri.value == null) {
+            viewModel.mumentNickName.value = ""
+            viewModel.imageUri.value = null
+        } else {
+            binding.etNickname.setText(viewModel.mumentNickName.value)
+            binding.ivProfile.load(viewModel.imageUri.value) {
+                crossfade(true)
+                placeholder(R.drawable.mument_profile_camera)
+                transformations(CircleCropTransformation())
+            }
+        }
+    }
+
     private fun moveToMainActivity() {
         mainHomeNavigatorProvider.profileSettingToMain()
     }
+
 }
