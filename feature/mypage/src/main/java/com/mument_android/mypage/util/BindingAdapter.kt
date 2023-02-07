@@ -15,7 +15,6 @@ object BindingAdapter {
         view.load(profileImage) {
             crossfade(true)
             this.transformations(CircleCropTransformation())
-            this.size(60)
         }
     }
 }

@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="mument"
-            type="com.mument_android.domain.entity.locker.LockerMumentEntity.MumentLockerCard" />
+            name="viewModel"
+            type="com.mument_android.domain.entity.mypage.UserInfoEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="16dp"
-            load_profile="@{mument.userImage}"
+            load_profile="@{viewModel.image}"
             app:layout_constraintBottom_toBottomOf="@+id/tv_locker_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_locker_title" />
