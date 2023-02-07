@@ -200,21 +200,18 @@ class ProfileSettingActivity :
     }
 
     private fun putProfileNetwork() {
-        val requestBodyMap = HashMap<String, RequestBody>()
         val nickname = binding.etNickname.text.toString()
+        val requestBodyMap = HashMap<String, RequestBody>()
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
-
+        val rnds = (0..2).random()
         if (viewModel.imageUri.value == null) {
-            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.mument_profile_love_45)
-            val bos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-            val data = bos.toByteArray()
-
-            val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), data)
-
-            val image = MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
-            viewModel.putProfile(image,requestBodyMap)
-
+            if(rnds == 0) {
+                changeImageUri(R.drawable.mument_profile_love_45)
+            } else if(rnds == 1) {
+                changeImageUri(R.drawable.mument_profile_smile_45)
+            } else {
+                changeImageUri(R.drawable.mument_profile_sleep_45)
+            }
         } else {
             val multipart = viewModel.imageUri.value?.let {
                 multiPartResolver.createImageMultiPart(it)
@@ -227,18 +224,17 @@ class ProfileSettingActivity :
         viewModel.putProfile(multipart, requestBodyMap)
     }
 
-    private fun changeImageUri() {
-        val firstImage =
-            Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_smile_45")
-        val firstImageStream = contentResolver.openInputStream(firstImage)
-
-        val secondImage =
-            Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_love_45")
-        val secondImageStream = contentResolver.openInputStream(secondImage)
-
-        val thirdImage =
-            Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_sleep_45")
-        val thirdImageStream = contentResolver.openInputStream(thirdImage)
+    private fun changeImageUri(img : Int) {
+        val requestBodyMap = HashMap<String, RequestBody>()
+        val nickname = binding.etNickname.text.toString()
+        requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
+        val bitmap = BitmapFactory.decodeResource(resources, img)
+        val bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        val data = bos.toByteArray()
+        val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), data)
+        val image = MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
+        viewModel.putProfile(image,requestBodyMap)
     }
 
     private suspend fun nickNameDupCheck() {
