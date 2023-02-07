@@ -12,10 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.angdroid.navigation.EditMumentNavigatorProvider
-import com.angdroid.navigation.LikeUsersNavigatorProvider
-import com.angdroid.navigation.MumentDetailNavigatorProvider
-import com.angdroid.navigation.MusicDetailNavigatorProvider
+import com.angdroid.navigation.*
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -54,6 +51,7 @@ class MumentDetailFragment : Fragment() {
     @Inject lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
     @Inject lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
     @Inject lateinit var likeUsersNavigatorProvider: LikeUsersNavigatorProvider
+    @Inject lateinit var mumentHistoryNavigatorProvider: MumentHistoryNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,13 +113,40 @@ class MumentDetailFragment : Fragment() {
             (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(it.mument?.combineTags())
             binding.cslRoot.run { if (it.onNetwork) showProgress() else removeProgress() }
             if (it.hasError) requireContext().showToast(resources.getString(R.string.cannot_load_data))
-            showMumentHistory(it.hasWrittenMument)
+            if (it.historyCount >0) showMumentHistory()
         }
     }
 
-    private fun showMumentHistory(show: Boolean) {
+    private fun receiveEffect() {
+        collectFlowWhenStarted(viewModel.effect) { effect ->
+            when (effect) {
+                MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
+                MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
+
+                MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> { showEditOrDeleteMumentDialog() }
+                is MumentDetailSideEffect.NavToEditMument -> { /** Todo: Navigate To Edit Mument **/ }
+                MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
+
+                MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> { showBlockOrReportBottomSheet() }
+                MumentDetailSideEffect.NavToReportMument -> { /** Todo: Navigate To Report Mument **/ }
+                MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
+
+                is MumentDetailSideEffect.NavToMusicDetail -> { musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.musicId) }
+                is MumentDetailSideEffect.NavToMumentHistory -> {
+                    viewModel.viewState.value.musicInfo?.toMusic()?.let {
+                        mumentHistoryNavigatorProvider.mumentDetailToHistory(it, 0)
+                    }
+                }
+                is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
+                is MumentDetailSideEffect.OpenShareMumentDialog -> { openShareMumentDialog(effect.mument,  effect.musicInfo) }
+                is MumentDetailSideEffect.NavToInstagram -> { navToInstagram(effect.imageUri) }
+            }
+        }
+    }
+
+    private fun showMumentHistory() {
         binding.tvGoToHistory.run {
-            if (show && visibility == View.GONE) applyVisibilityAnimation(
+            if (visibility == View.GONE) applyVisibilityAnimation(
                 isUpward = true,
                 reveal = true,
                 durationTime = 700,
@@ -257,29 +282,6 @@ class MumentDetailFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             viewModel.emitEvent(MumentDetailEvent.EntryFromInstagram)
         }
-
-    private fun receiveEffect() {
-        collectFlowWhenStarted(viewModel.effect) { effect ->
-            when (effect) {
-                MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
-                MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
-
-                MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> { showEditOrDeleteMumentDialog() }
-                is MumentDetailSideEffect.NavToEditMument -> { /** Todo: Navigate To Edit Mument **/ }
-                MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
-
-                MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> { showBlockOrReportBottomSheet() }
-                MumentDetailSideEffect.NavToReportMument -> { /** Todo: Navigate To Report Mument **/ }
-                MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
-
-                is MumentDetailSideEffect.NavToMusicDetail -> { musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.musicId) }
-                is MumentDetailSideEffect.NavToMumentHistory -> { /** Todo: Navigate To MumentHistory **/ }
-                is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
-                is MumentDetailSideEffect.OpenShareMumentDialog -> { openShareMumentDialog(effect.mument,  effect.musicInfo) }
-                is MumentDetailSideEffect.NavToInstagram -> { navToInstagram(effect.imageUri) }
-            }
-        }
-    }
 
     companion object {
         private const val INSTAGRAM_PACKAGE_NAME = "com.instagram.android"

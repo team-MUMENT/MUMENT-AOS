@@ -198,7 +198,6 @@ class MumentDetailViewModel @Inject constructor(
     private fun fetchLikeUserList(mumentId: String) {
         viewModelScope.launch {
             fetchUsersLikeMumentUseCase(mumentId, 30, 0).collect { status ->
-                Log.e("status", "$status")
                 if (status is ApiStatus.Success) {
                     setState { copy(likeUsers = status.data) }
                 }

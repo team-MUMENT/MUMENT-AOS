@@ -13,8 +13,7 @@ import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HistoryActivity :
-    BaseActivity<ActivityHistoryBinding>(inflate = ActivityHistoryBinding::inflate) {
+class HistoryActivity : BaseActivity<ActivityHistoryBinding>(inflate = ActivityHistoryBinding::inflate) {
     private val historyViewModel: HistoryViewModel by viewModels()
     private lateinit var adapter: HistoryListAdapter
 
@@ -22,11 +21,9 @@ class HistoryActivity :
         super.onCreate(savedInstanceState)
         binding.historyviewmodel = historyViewModel
         intent.getParcelableExtra<Music>("music")?.let {
-            Log.e("Music", it.toString())
             historyViewModel.changeMusicId(it)
         }
         intent.getIntExtra("userId", 0).let {
-            Log.e("userId", it.toString())
             historyViewModel.setUserId(it)
         }
         setListener()
