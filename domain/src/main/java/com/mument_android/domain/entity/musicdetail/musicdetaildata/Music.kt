@@ -1,6 +1,7 @@
 package com.mument_android.domain.entity.musicdetail.musicdetaildata
 
 import android.os.Parcelable
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -9,4 +10,8 @@ data class Music(
     val name: String,
     val artist: String,
     val image: String
-):Parcelable
+):Parcelable {
+    fun toMusicInfoEntity(): MusicInfoEntity {
+        return MusicInfoEntity(id = _id, name = name, thumbnail = image, artist = artist)
+    }
+}

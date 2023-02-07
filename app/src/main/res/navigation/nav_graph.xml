@@ -3,93 +3,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_home"
+    app:startDestination="@id/homeFragment"
     tools:layout="@layout/fragment_home">
-    <navigation
-        android:id="@+id/fragment_home"
-        app:startDestination="@id/homeFragment">
-        <fragment
-            android:id="@+id/homeFragment"
-            android:name="com.mument_android.home.main.HomeFragment"
-            android:label="HomeFragment"
-            tools:layout="@layout/fragment_home">
-            <action
-                android:id="@+id/action_homeFragment_to_mumentDetailFragment"
-                app:destination="@id/mumentDetailFragment" />
-            <action
-                android:id="@+id/action_homeFragment_to_musicDetailFragment"
-                app:destination="@id/musicDetailFragment" />
 
-        </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mument_android.home.main.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_musicDetailFragment"
+            app:destination="@id/musicDetailFragment" />
 
-        <fragment
-            android:id="@+id/musicDetailFragment"
-            android:name="com.mument_android.detail.music.MusicDetailFragment"
-            android:label="MusicDetailFragment"
-            tools:layout="@layout/fragment_music_detail">
+    </fragment>
 
-            <action
-                android:id="@+id/action_homeMusicDetailFragment_to_mumentDetailFragment"
-                app:destination="@id/mumentDetailFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/mumentDetailFragment"
-            android:name="com.mument_android.detail.mument.fragment.MumentDetailFragment"
-            android:label="MumentDetailFragment"
-            tools:layout="@layout/fragment_mument_detail">
-            <action
-                android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_home"
-                app:destination="@id/musicDetailFragment" />
-            <action
-                android:id="@+id/action_mumentDetailFragment_to_mumentLikeListFragment"
-                app:destination="@id/mumentLikeListFragment" />
-        </fragment>
+    <fragment
+        android:id="@+id/lockerFragment"
+        android:name="com.mument_android.locker.LockerFragment"
+        android:label="LockerFragment"
+        tools:layout="@layout/fragment_locker">
+        <action
+            android:id="@+id/action_lockerFragment_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/musicDetailFragment"
+        android:name="com.mument_android.detail.music.MusicDetailFragment"
+        android:label="MusicDetailFragment"
+        tools:layout="@layout/fragment_music_detail">
 
-        <fragment
-            android:id="@+id/mumentLikeListFragment"
-            android:name="com.mument_android.detail.mument.fragment.MumentLikeListFragment"
-            android:label="MumentLikeListFragment"
-            tools:layout="@layout/fragment_mument_like_list">
+        <action
+            android:id="@+id/action_musicDetailFragment_to_mumentDetailFragment"
+            app:destination="@id/mumentDetailFragment" />
+    </fragment>
 
-        </fragment>
+    <fragment
+        android:id="@+id/mumentDetailFragment"
+        android:name="com.mument_android.detail.mument.fragment.MumentDetailFragment"
+        android:label="MumentDetailFragment"
+        tools:layout="@layout/fragment_mument_detail">
+        <action
+            android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_home"
+            app:destination="@id/musicDetailFragment" />
+        <action
+            android:id="@+id/action_mumentDetailFragment_to_mumentLikeListFragment"
+            app:destination="@id/mumentLikeListFragment" />
+    </fragment>
 
-    </navigation>
+    <fragment
+        android:id="@+id/mumentLikeListFragment"
+        android:name="com.mument_android.detail.mument.fragment.MumentLikeListFragment"
+        android:label="MumentLikeListFragment"
+        tools:layout="@layout/fragment_mument_like_list">
 
-    <navigation
-        android:id="@+id/fragment_locker"
-        app:startDestination="@id/lockerFragment">
-        <fragment
-            android:id="@+id/lockerFragment"
-            android:name="com.mument_android.locker.LockerFragment"
-            android:label="LockerFragment"
-            tools:layout="@layout/fragment_locker">
-            <action
-                android:id="@+id/action_lockerFragment_to_mumentDetailFragment"
-                app:destination="@id/mumentDetailFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/mumentDetailFragment"
-            android:name="com.mument_android.detail.mument.fragment.MumentDetailFragment"
-            android:label="MumentDetailFragment"
-            tools:layout="@layout/fragment_mument_detail">
-            <action
-                android:id="@+id/action_mumentDetailFragment_to_musicDetailFragment_locker"
-                app:destination="@id/musicDetailFragment" />
-
-        </fragment>
-
-        <fragment
-            android:id="@+id/musicDetailFragment"
-            android:name="com.mument_android.detail.music.MusicDetailFragment"
-            android:label="MusicDetailFragment"
-            tools:layout="@layout/fragment_music_detail">
-            <action
-                android:id="@+id/action_musicDetailFragment_to_mumentDetailFragment"
-                app:destination="@id/mumentDetailFragment" />
-            
-        </fragment>
-
-    </navigation>
-
+    </fragment>
 </navigation>

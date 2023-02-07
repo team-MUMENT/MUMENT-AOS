@@ -105,7 +105,7 @@ class MusicDetailFragment() : Fragment() {
             adapter = MusicDetailMumentListAdapter(object : MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
                     musicDetailViewModel.viewState.value.musicInfo?.let { musicInfo ->
-                        mumentDetailNavigatorProvider.moveMumentDetail(mumentId, musicInfo)
+                        mumentDetailNavigatorProvider.musicDeatilToMumentDetail(mumentId, musicInfo)
                     }
                 }
 
