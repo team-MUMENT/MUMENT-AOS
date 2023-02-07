@@ -330,6 +330,7 @@ class RecordActivity :
                 recordViewModel.mumentId.value = ""
                 recordViewModel.postMument()
 
+
             } else {
                 this.snackBar(
                     binding.clRecordRoot,

@@ -1,5 +1,6 @@
 package com.mument_android.domain.usecase.record
 
+import com.mument_android.domain.entity.record.MumentModifyEntity
 import com.mument_android.domain.entity.record.MumentRecordEntity
 import com.mument_android.domain.repository.record.RecordRepository
 import kotlinx.coroutines.flow.Flow
@@ -10,6 +11,6 @@ class RecordModifyMumentUseCaseImpl @Inject constructor(
 ) : RecordModifyMumentUseCase {
     override suspend fun invoke(
         mumentId: String,
-        mumentRecordEntity: MumentRecordEntity
-    ): Flow<String> = repository.updateMumentRecord(mumentId, mumentRecordEntity)
+        mumentModifyEntity: MumentModifyEntity
+    ): Flow<String> = repository.updateMumentRecord(mumentId, mumentModifyEntity)
 }

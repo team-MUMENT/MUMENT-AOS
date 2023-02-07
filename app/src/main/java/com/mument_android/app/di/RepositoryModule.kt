@@ -53,6 +53,7 @@ import com.mument_android.data.mapper.sign.GetWebViewMapper
 import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.UnregisterReasonMapper
+import com.mument_android.data.mapper.record.MumentModifyMapper
 import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
 import com.mument_android.data.repository.mypage.NoticeListRepositoryImpl
 import com.mument_android.data.repository.mypage.UserInfoRepositoryImpl
@@ -109,13 +110,15 @@ object RepositoryModule {
         recordDataSource: RecordDataSource,
         recordModifyController: RecordModifyController,
         recordController: RecordController,
-        mumentRecordMapper: MumentRecordMapper
+        mumentRecordMapper: MumentRecordMapper,
+        mumentModifyMapper: MumentModifyMapper
     ): RecordRepository = RecordRepositoryImpl(
         recordDataSource,
         recordMapper,
         recordModifyController,
         recordController,
-        mumentRecordMapper
+        mumentRecordMapper,
+        mumentModifyMapper
     )
 
 

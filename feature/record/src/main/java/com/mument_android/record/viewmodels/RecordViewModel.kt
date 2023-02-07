@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.mument_android.core.model.TagEntity
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.home.RecentSearchData
+import com.mument_android.domain.entity.record.MumentModifyEntity
 import com.mument_android.domain.entity.record.MumentRecordEntity
 import com.mument_android.domain.usecase.record.IsFirstRecordMumentUseCase
 import com.mument_android.domain.usecase.record.RecordModifyMumentUseCase
@@ -103,19 +104,14 @@ class RecordViewModel @Inject constructor(
             checkedTagList.value?.let { tags ->
                 val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
                 val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
-                val recordEntity = MumentRecordEntity(
+                val modifyEntity = MumentModifyEntity(
                     content = mumentContent.value ?: "",
                     feelingTags,
                     impressionTags,
                     isFirst.value ?: true,
                     isPrivate.value ?: false,
-                    selectedMusic.value!!._id,
-                    selectedMusic.value!!.artist,
-                    selectedMusic.value!!.image,
-                    selectedMusic.value!!.name
-
                 )
-                recordModifyMumentUseCase(mumentId = mumentId.value!!, recordEntity).catch { e ->
+                recordModifyMumentUseCase(mumentId = mumentId.value!!, modifyEntity).catch { e ->
                     //Todo exception handling
                 }.collect {
                     _modifyMumentId.value = it
