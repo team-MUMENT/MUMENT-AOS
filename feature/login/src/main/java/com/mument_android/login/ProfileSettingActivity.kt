@@ -16,6 +16,7 @@ import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.angdroid.navigation.MainHomeNavigatorProvider
+import com.angdroid.navigation.MypageNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
@@ -41,6 +42,9 @@ class ProfileSettingActivity :
 
     @Inject
     lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
+
+    @Inject
+    lateinit var mypageNavigatorProvider: MypageNavigatorProvider
 
     private val viewModel: LogInViewModel by viewModels()
 
@@ -183,11 +187,11 @@ class ProfileSettingActivity :
     //뒤로가기 클릭 리스너
     private fun backBtnListener() {
         binding.ivProfileBack.setOnClickListener {
-            if (viewModel.userInfo.value != null) {
+            if (viewModel.mumentNickName.value == "null") {
                 startActivity(Intent(this, LogInActivity::class.java))
                 finish()
             } else {
-
+                mypageNavigatorProvider.navToMyPage()
             }
 
         }
@@ -204,7 +208,6 @@ class ProfileSettingActivity :
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
         viewModel.putProfile(multipart, requestBodyMap)
-        moveToMainActivity()
     }
 
     private suspend fun nickNameDupCheck() {
@@ -220,10 +223,16 @@ class ProfileSettingActivity :
     }
 
     private fun dulCheckListener() {
+        val isCheckMypage = intent.getIntExtra("checkMyPage", 0)
         binding.tvProfileFinish.setOnClickListener {
             viewModel.viewModelScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
+                if (isCheckMypage == 1)
+                    moveToMypageActivity()
+                else
+                    moveToMainActivity()
+
             }
         }
     }
@@ -255,6 +264,10 @@ class ProfileSettingActivity :
 
     private fun moveToMainActivity() {
         mainHomeNavigatorProvider.profileSettingToMain()
+    }
+
+    private fun moveToMypageActivity() {
+        mypageNavigatorProvider.navToMyPage()
     }
 
 }
