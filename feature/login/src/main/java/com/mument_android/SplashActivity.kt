@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.activity.viewModels
+import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlow
@@ -25,7 +26,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     @Inject
     lateinit var dataStoreManager: DataStoreManager
 
-
+    @Inject
+    lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +38,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     //스플래시 -> 우선은 로그인으로 가는 로직 (후에 토큰 관리하다보면 login or main 분기처리)
     private fun initSplash() {
-//        collectFlowWhenStarted(dataStoreManager.accessTokenFlow) {
-//            if (it.isNullOrEmpty()) viewModel.saveTestRefreshToken()
-//        }
         Handler(Looper.getMainLooper()).postDelayed({
             isFirst()
         }, DURATION)
@@ -52,8 +51,17 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                 val intent = Intent(this, OnBoardingActivity::class.java)
                 startActivity(intent)
             } else {
-                val intent = Intent(this, LogInActivity::class.java)
-                startActivity(intent)
+                viewModel.isExist()
+                viewModel.isExist.observe(this) {
+                    Log.e("TEST?", "$it")
+                    if(it == true) {
+                        moveToMainActivity()
+                    } else {
+                        val intent = Intent(this, LogInActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+
             }
             finish()
         }
@@ -62,13 +70,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
 
     private fun newTokenNetwork() {
-        viewModel.newToken()
-//        collectFlow(dataStoreManager.refreshTokenFlow) {
-//            viewModel.saveTestRefreshToken()
-//        }
         collectFlowWhenStarted(dataStoreManager.userIdFlow) {
             if (it.isNullOrEmpty()) viewModel.saveTestUserId()
         }
+    }
+
+    private fun moveToMainActivity() {
+        mainHomeNavigatorProvider.profileSettingToMain()
     }
 
 

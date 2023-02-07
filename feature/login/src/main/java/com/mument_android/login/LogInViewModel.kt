@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.domain.entity.sign.*
+import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
 import com.mument_android.domain.usecase.sign.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -22,7 +24,8 @@ class LogInViewModel @Inject constructor(
     private val putProfileUseCase: SignPutProfileUseCase,
     private val kaKaoUseCase: SignKaKaoUseCase,
     private val getWebViewUseCase: GetWebViewUseCase,
-    private val newTokenUseCase: NewTokenUseCase
+    private val newTokenUseCase: NewTokenUseCase,
+    private val beforeWhenHomeEnterUseCase: BeforeWhenHomeEnterUseCase
 ): ViewModel() {
 
     val mumentNickName = MutableLiveData<String>()
@@ -51,9 +54,21 @@ class LogInViewModel @Inject constructor(
     private val _newToken = MutableLiveData<NewTokenEntity>()
     val newToken get() : LiveData<NewTokenEntity> = _newToken
 
+    private val _isExist = MutableLiveData<Boolean>()
+    val isExist get() : LiveData<Boolean> = _isExist
+
     fun saveIsFirst() {
         viewModelScope.launch {
             dataStoreManager.writeIsFirst(true)
+        }
+    }
+
+    fun isExist() {
+        viewModelScope.launch {
+            beforeWhenHomeEnterUseCase.checkProfileExist().catch { }.collect {
+                Log.e("Profile Exist", it.toString())
+                _isExist.value = it
+            }
         }
     }
 
