@@ -66,16 +66,6 @@
                         app:layout_constraintTop_toTopOf="@id/iv_album_profile"
                         tools:text="하늘나라" />
 
-                    <ImageView
-                        android:id="@+id/iv_arrow_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:background="@drawable/ic_arrow_right_small"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_album_name"
-                        app:layout_constraintStart_toEndOf="@id/tv_album_name"
-                        app:layout_constraintTop_toTopOf="@id/tv_album_name" />
-
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_artist_name"
                         style="@style/TextView.Mument_B4_M14.Style"
