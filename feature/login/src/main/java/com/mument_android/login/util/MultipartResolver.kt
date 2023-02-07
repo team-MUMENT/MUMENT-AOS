@@ -12,6 +12,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
+import java.io.InputStream
+
 
 class MultipartResolver(private val context: Context) {
     private val byteArrayOutputStream = ByteArrayOutputStream()
@@ -21,6 +23,7 @@ class MultipartResolver(private val context: Context) {
         var resizedHeight = RESIZED_SIZE
         val options = BitmapFactory.Options()
         val inputStream = context.contentResolver.openInputStream(uri)
+
         val byteArrayOutputStream = ByteArrayOutputStream()
         getRotatedBitmap(
             BitmapFactory.decodeStream(inputStream, null, options),

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
@@ -27,7 +28,6 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.InputStream
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -164,13 +164,6 @@ class ProfileSettingActivity :
                     if (imageUri != null) {
                         viewModel.imageUri.value = uri
                     }
-                    //TODO 이미지 null인 경우 이미지 3개 중 임의로 하나 보내주기
-
-
-                    else {
-                        val firstImage = Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_smile_45")
-                        viewModel.imageUri.value = firstImage
-                    }
                 }
             }
         }
@@ -193,26 +186,44 @@ class ProfileSettingActivity :
         val requestBodyMap = HashMap<String, RequestBody>()
         val nickname = binding.etNickname.text.toString()
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
-        val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
-        viewModel.putProfile(multipart, requestBodyMap)
+
+
+        if(viewModel.imageUri.value == null) {
+            Log.e("여기로", "들어오나")
+            val imageUri = "drawable://" + R.drawable.mument_profile_love_45
+            val multipart = viewModel.imageUri.value?.let {
+                multiPartResolver.createImageMultiPart(Uri.parse(imageUri))
+            }
+            viewModel.putProfile(multipart, requestBodyMap)
+        } else {
+            val multipart = viewModel.imageUri.value?.let {
+                multiPartResolver.createImageMultiPart(it)
+            }
+            viewModel.putProfile(multipart, requestBodyMap)
+        }
+
+
         moveToMainActivity()
     }
 
     private fun changeImageUri() {
-        val firstImage = Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_smile_45")
+        val firstImage =
+            Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_smile_45")
         val firstImageStream = contentResolver.openInputStream(firstImage)
 
-        val secondImage = Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_love_45")
+        val secondImage =
+            Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_love_45")
         val secondImageStream = contentResolver.openInputStream(secondImage)
 
-        val thirdImage = Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_sleep_45")
+        val thirdImage =
+            Uri.parse("android.resource://com.mument_android.login/drawable/mument_profile_sleep_45")
         val thirdImageStream = contentResolver.openInputStream(thirdImage)
     }
 
     private suspend fun nickNameDupCheck() {
         delay(100)
         viewModel.isDuplicate.observe(this) {
-            if(it == 200) {
+            if (it == 200) {
                 CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
             } else if (it == 204) {
                 putProfileNetwork()
