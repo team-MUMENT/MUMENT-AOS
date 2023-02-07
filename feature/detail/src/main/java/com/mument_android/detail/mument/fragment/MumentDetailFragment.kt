@@ -135,8 +135,14 @@ class MumentDetailFragment : Fragment() {
                     musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.music)
                 }
                 is MumentDetailSideEffect.NavToMumentHistory -> {
+                    //여기 나중에 수정 좀 부탁드립니당!!
+                    //현재 effect.musicId만 받아와짐
                     viewModel.viewState.value.musicInfo?.toMusic()?.let {
-                        mumentHistoryNavigatorProvider.mumentDetailToHistory(it, 0)
+                        viewModel.viewState.value.mument?.writerInfo?.userId?.toInt()?.let { it1 ->
+                            mumentHistoryNavigatorProvider.mumentDetailToHistory(it,
+                                it1
+                            )
+                        }
                     }
                 }
                 is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
