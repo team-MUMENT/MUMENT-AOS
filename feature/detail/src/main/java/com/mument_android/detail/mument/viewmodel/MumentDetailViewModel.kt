@@ -58,7 +58,7 @@ class MumentDetailViewModel @Inject constructor(
 
             MumentDetailEvent.SelectBlockUserType -> setEffect { MumentDetailSideEffect.OpenBlockUserDialog }
             MumentDetailEvent.SelectMumentDeletionType -> setEffect { MumentDetailSideEffect.OpenDeleteMumentDialog }
-            MumentDetailEvent.SelectReportMumentType -> setEffect { MumentDetailSideEffect.NavToReportMument }
+            MumentDetailEvent.SelectReportMumentType -> setEffect { MumentDetailSideEffect.NavToReportMument(viewState.value.requestMumentId) }
             MumentDetailEvent.OnClickBlockUser -> { blockUser() }
 
             is MumentDetailEvent.SelectMumentEditType -> setEffect { MumentDetailSideEffect.NavToEditMument(event.mument) }

@@ -5,6 +5,7 @@ import com.mument_android.data.dto.MumentListDto
 import com.mument_android.data.dto.TempUserDto
 import com.mument_android.data.dto.detail.MumentDetailDto
 import com.mument_android.data.dto.detail.MusicDetailDto
+import com.mument_android.data.dto.detail.RequestReportDto
 import com.mument_android.domain.entity.detail.MusicReqeust
 import com.mument_android.data.dto.detail.ResponseBlockUserDto
 import retrofit2.http.Body
@@ -50,4 +51,10 @@ interface DetailApiService {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
     ): BaseResponse<List<TempUserDto>>
+
+    @POST("/mument/report/{mumentId}")
+    suspend fun reportMument(
+        @Path("mumentId") mumentId: String,
+        @Body requestReportDto: RequestReportDto
+    ) : BaseResponse<Void>
 }

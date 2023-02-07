@@ -12,7 +12,7 @@ DeclareNavigatorProvider{
     override fun moveDeclare(mumentId: String) {
         with(activity as MainActivity) {
             startActivity(Intent(this, DeclarMumentActivity::class.java).apply {
-                putExtra("mumentId", mumentId)
+                putExtra("MUMENT_ID", mumentId)
             })
         }
 

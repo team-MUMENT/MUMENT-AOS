@@ -1,6 +1,7 @@
 package com.mument_android.detail.mument.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import com.mument_android.core_dependent.base.BaseActivity
@@ -17,6 +18,9 @@ class DeclarMumentActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        intent.getStringExtra("MUMENT_ID")?.let {
+            Log.e("MUMENT_ID", it)
+        }
         binding.viewModel = viewModel
         backBtnListener()
         checkBoxListener()

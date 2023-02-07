@@ -52,6 +52,7 @@ class MumentDetailFragment : Fragment() {
     @Inject lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
     @Inject lateinit var likeUsersNavigatorProvider: LikeUsersNavigatorProvider
     @Inject lateinit var mumentHistoryNavigatorProvider: MumentHistoryNavigatorProvider
+    @Inject lateinit var declareNavigatorProvider: DeclareNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -128,7 +129,9 @@ class MumentDetailFragment : Fragment() {
                 MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
 
                 MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> { showBlockOrReportBottomSheet() }
-                MumentDetailSideEffect.NavToReportMument -> { /** Todo: Navigate To Report Mument **/ }
+                is MumentDetailSideEffect.NavToReportMument -> {
+                    declareNavigatorProvider.moveDeclare(effect.mumentId)
+                    /** Todo: Navigate To Report Mument **/ }
                 MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
 
                 is MumentDetailSideEffect.NavToMusicDetail -> {
