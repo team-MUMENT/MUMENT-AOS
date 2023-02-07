@@ -135,12 +135,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         collectFlow(dataStoreManager.accessTokenFlow) {
             viewModel.saveTestAccessToken()
         }
-
-        collectFlow(dataStoreManager.refreshTokenFlow) {
-            viewModel.saveTestRefreshToken()
-        }
-
-
     }
 
     private fun getErrorLog(error: Throwable) {

@@ -63,6 +63,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     private fun newTokenNetwork() {
         viewModel.newToken()
+        collectFlow(dataStoreManager.refreshTokenFlow) {
+            viewModel.saveTestRefreshToken()
+        }
     }
 
 

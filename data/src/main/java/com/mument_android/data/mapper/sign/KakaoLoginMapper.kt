@@ -8,6 +8,7 @@ import com.mument_android.domain.entity.sign.RequestKakaoData
 
 class KakaoLoginMapper : BaseMapper<KakaoDto?, KakaoEntity?> {
     override fun map(from: KakaoDto?): KakaoEntity?  = KakaoEntity(
+        from?._id,
         from?.type,
         from?.accessToken,
         from?.refreshToken
