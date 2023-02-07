@@ -1,6 +1,7 @@
 package com.mument_android.detail.music
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.mument.listener.MumentClickListener
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEffect
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEvent
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -71,8 +73,9 @@ class MusicDetailFragment() : Fragment() {
     }
 
     private fun receiveMusicId() {
-        arguments?.getString(MUSIC_ID)?.let {
-            musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicId(it))
+        arguments?.getParcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
+            Log.e("music info", "${it}")
+            musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicInfo(it))
         }
     }
 
@@ -159,5 +162,6 @@ class MusicDetailFragment() : Fragment() {
 
     companion object {
         const val MUSIC_ID = "MUSIC_ID"
+        const val MUSIC_INFO_ENTITY = "MUSIC_INFO_ENTITY"
     }
 }

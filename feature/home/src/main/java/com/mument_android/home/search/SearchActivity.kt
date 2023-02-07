@@ -1,17 +1,16 @@
 package com.mument_android.home.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
-import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.TransitionMode
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.home.adapters.SearchHeaderAdapter
 import com.mument_android.home.adapters.SearchListAdapter
 import com.mument_android.home.databinding.ShareSearchLayoutBinding
@@ -95,7 +94,8 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                moveMusicDetailNavigatorProvider.intentMusicDetail(data._id)
+                val music = MusicInfoEntity(data._id, data.name, data.image, data.artist)
+                moveMusicDetailNavigatorProvider.intentMusicDetail(music)
             },
             itemClickListener = { data -> viewmodel.deleteRecentList(data) }
         )
@@ -103,7 +103,8 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
         searchResultAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                moveMusicDetailNavigatorProvider.intentMusicDetail(data._id)
+                val music = MusicInfoEntity(data._id, data.name, data.image, data.artist)
+                moveMusicDetailNavigatorProvider.intentMusicDetail(music)
             },
             itemClickListener = {}
         )

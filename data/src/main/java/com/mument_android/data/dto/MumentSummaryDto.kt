@@ -3,7 +3,7 @@ package com.mument_android.data.dto
 import com.google.gson.annotations.SerializedName
 
 data class MumentSummaryDto(
-    val music: MusicIdDto,
+    val musicId: String,
     val user: UserDto,
     @SerializedName("_id")
     val id: String,
@@ -22,6 +22,6 @@ data class MumentSummaryDto(
 ) {
     data class MusicIdDto(
         @SerializedName("_id")
-        val id: String
+        val id: String?
     )
 }

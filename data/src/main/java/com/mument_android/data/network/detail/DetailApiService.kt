@@ -3,10 +3,11 @@ package com.mument_android.data.network.detail
 import com.mument_android.data.util.BaseResponse
 import com.mument_android.data.dto.MumentListDto
 import com.mument_android.data.dto.TempUserDto
-import com.mument_android.data.dto.UserDto
 import com.mument_android.data.dto.detail.MumentDetailDto
 import com.mument_android.data.dto.detail.MusicDetailDto
+import com.mument_android.domain.entity.detail.MusicReqeust
 import com.mument_android.data.dto.detail.ResponseBlockUserDto
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -19,9 +20,10 @@ interface DetailApiService {
         @Path ("mumentId") mumentId: String
     ): BaseResponse<MumentDetailDto>
 
-    @GET("/music/{musicId}")
+    @POST("/music/{musicId}")
     suspend fun fetchMusicDetailInfo(
         @Path("musicId") musicId: String,
+        @Body musicInfo: MusicReqeust
     ): BaseResponse<MusicDetailDto>
 
     @GET("/music/{musicId}/order")
