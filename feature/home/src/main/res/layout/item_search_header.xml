@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mument_color_bgwhite"
+        android:layout_marginBottom="@dimen/app_space_15"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_recent_search"
+            style="@style/TextView.Mument_H2_B18.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/app_space_16"
+            android:text="@string/home_recent_search"
+            android:textColor="@color/mument_color_black1"
+            app:layout_constraintBottom_toBottomOf="@id/et_all_delete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_all_delete" />
+
+        <TextView
+            android:id="@+id/et_all_delete"
+            style="@style/TextView.Mument_B7_M12.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="6dp"
+            android:padding="@dimen/app_space_10"
+            android:text="@string/home_all_delete"
+            android:textColor="@color/mument_color_gray2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

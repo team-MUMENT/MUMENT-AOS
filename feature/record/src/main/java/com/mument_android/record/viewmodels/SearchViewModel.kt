@@ -1,5 +1,6 @@
 package com.mument_android.record.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +12,7 @@ import com.mument_android.core.network.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -24,14 +22,19 @@ class SearchViewModel @Inject constructor(
     private val cruRecentSearchListUseCase: CRURecentSearchListUseCase,
     private val deleteRecentSearchListUseCase: DeleteRecentSearchListUseCase,
     private val searchMusicUseCase: SearchMusicUseCase
-) :
-    ViewModel() {
-    val searchList = MutableStateFlow<ApiResult<List<RecentSearchData>>?>(null)
+) : ViewModel() {
+    private val _searchList = MutableStateFlow<List<RecentSearchData>?>(null)
+    val searchList get() = _searchList.asStateFlow()
     val searchText = MutableLiveData<String>("")
-    val searchContent = MutableStateFlow<RecentSearchData?>(null)
-    val searchResultList = MutableStateFlow<ApiResult<List<RecentSearchData>>?>(null)
+    private val _searchResultList = MutableStateFlow<List<RecentSearchData>?>(null)
+    val searchResultList get() = _searchResultList.asStateFlow()
+    val searchOption = MutableStateFlow(false)
+
+    init {
+        setRecentData()
+    }
+
     fun selectContent(data: RecentSearchData) {
-        searchContent.value = data
         insertOrUpdateRecentItem(
             RecentSearchData(
                 data._id,
@@ -43,54 +46,52 @@ class SearchViewModel @Inject constructor(
         )
     }
 
-    fun setRecentData(scope: CoroutineScope) {
-        scope.launch {
-            cruRecentSearchListUseCase.getAllRecentSearchList().onStart {
-                searchList.value = ApiResult.Loading(null)
-            }.catch {
-                searchList.value = ApiResult.Failure(null)
+    fun searchSwitch(option: Boolean) {
+        if (!option) _searchResultList.value = listOf()
+        searchOption.value = option
+    }
+
+    private fun setRecentData() {
+        viewModelScope.launch {
+            cruRecentSearchListUseCase.getAllRecentSearchList().catch {
+                _searchList.value = null
             }.collect {
-                if (it != null) {
-                    searchList.value = ApiResult.Success(it)
-                }
+                _searchList.value = it
             }
         }
     }
 
     fun searchMusic(keyword: String) {
         viewModelScope.launch {
-            searchMusicUseCase.searchMusic(keyword).onStart {
-                searchResultList.value = ApiResult.Loading(null)
-            }.catch {
-                searchResultList.value = ApiResult.Failure(null)
+            searchMusicUseCase.searchMusic(keyword).catch {
+                _searchResultList.value = null
             }.collect {
-                if (it != null) {
-                    searchResultList.value = ApiResult.Success(it)
-                }
+                searchText.value = keyword
+                _searchResultList.value = it
+                searchOption.value = true
             }
-
         }
     }
 
-    fun insertOrUpdateRecentItem(data: RecentSearchData) {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun insertOrUpdateRecentItem(data: RecentSearchData) {
+        viewModelScope.launch {
             cruRecentSearchListUseCase.insertOrUpdateRecentSearchItem(data)
         }
     }
 
     fun deleteRecentList(data: RecentSearchData) {
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteRecentSearchListUseCase.deleteRecentSearchItem(data).let {
-                setRecentData(this)
+        viewModelScope.launch {
+            deleteRecentSearchListUseCase.deleteRecentSearchItem(data)
+            val temp = searchList.value?.toMutableList()
+            temp?.remove(data)
+            temp?.let {
+                _searchList.value = it
             }
         }
     }
 
-    fun allListDelete() {
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteRecentSearchListUseCase.deleteAllRecentSearchList()
-            setRecentData(this)
-        }
-        searchList.value = ApiResult.Success(listOf())
+    fun clearSearchResult() {
+        searchResultList.value?.toMutableList()?.clear()
     }
+
 }

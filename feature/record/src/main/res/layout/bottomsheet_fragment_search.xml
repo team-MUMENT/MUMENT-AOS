@@ -8,14 +8,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="option"
-            type="Boolean" />
-
-        <variable
-            name="searchOption"
-            type="Boolean" />
-
-        <variable
             name="bottomViewmodel"
             type="com.mument_android.record.viewmodels.SearchViewModel" />
     </data>
@@ -24,7 +16,7 @@
         android:id="@+id/cl_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="true"
+        android:background="@color/mument_color_bgwhite"
         tools:context="com.mument_android.record.com.mument_android.record.BottomSheetSearchFragment">
 
         <ImageView
@@ -34,7 +26,6 @@
             android:layout_marginStart="20dp"
             android:paddingEnd="4dp"
             android:src="@drawable/ic_back"
-            android:visibility="@{option==true? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/et_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/et_search" />
@@ -63,6 +54,7 @@
             tools:ignore="RtlSymmetry" />
 
         <ImageView
+            android:id="@+id/iv_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -81,105 +73,68 @@
             app:layout_constraintEnd_toEndOf="@id/et_search"
             app:layout_constraintTop_toTopOf="@id/et_search" />
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/mument_color_bgwhite"
+            android:visibility="@{((bottomViewmodel.searchList.size()==0&amp;&amp;!bottomViewmodel.searchOption)||(bottomViewmodel.searchResultList.size()==0&amp;&amp;bottomViewmodel.searchOption))? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_search">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_empty"
+                emptyView="@{bottomViewmodel.searchOption?3:2}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@{bottomViewmodel.searchOption?@dimen/app_space_168:@dimen/app_space_120}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/empty_mument" />
 
-                <LinearLayout
-                    android:id="@+id/ll_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/tv_empty_title"
+                style="@style/TextView.Mument_H3_B16.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@{bottomViewmodel.searchOption?@string/search_result_empty_header(bottomViewmodel.searchText):@string/search_record_empty_header}"
+                android:textColor="@color/mument_color_gray1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
 
-                    <TextView
-                        android:id="@+id/tv_recent_search"
-                        style="@style/TextView.Mument_H2_B18.Style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="30dp"
-                        android:text="최근 검색한 곡"
-                        android:textColor="@color/mument_color_black1"
-                        android:visibility="@{bottomViewmodel.searchList.data.size()==0||searchOption? View.GONE:View.VISIBLE}" />
+            <TextView
+                android:id="@+id/tv_empty_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:text="@{bottomViewmodel.searchOption?@string/search_result_empty_body:@string/search_empty_body}"
+                android:textColor="@color/mument_color_gray2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_empty_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:id="@+id/et_all_delete"
-                        style="@style/TextView.Mument_B7_M12.Style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginEnd="14dp"
-                        android:text="모두 삭제"
-                        android:textColor="@color/mument_color_gray2"
-                        android:visibility="@{bottomViewmodel.searchList.data.size()==0||option==false||searchOption? View.GONE:View.VISIBLE}" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rc_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_marginTop="25dp"
-                    android:overScrollMode="never"
-                    android:visibility="@{bottomViewmodel.searchList.data.size() == 0 &amp;&amp; bottomViewmodel.searchResultList.data.size() == 0? View.GONE : View.VISIBLE}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ll_title"
-                    tools:listitem="@layout/item_bottomsheet_search_list" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-
-        <ImageView
-            android:id="@+id/iv_empty"
-            emptyView="@{searchOption?3:option?1:2}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:visibility="@{((bottomViewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(bottomViewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_search"/>
-
-        <TextView
-            android:id="@+id/tv_empty_title"
-            style="@style/TextView.Mument_H3_B16.Style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="@{searchOption?@string/search_result_empty_header(bottomViewmodel.searchText):option?@string/search_empty_header:@string/search_record_empty_header}"
-            android:textColor="@color/mument_color_gray1"
-            android:visibility="@{((bottomViewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(bottomViewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
-
-        <TextView
-            android:id="@+id/tv_empty_sub"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_search"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:text="@{searchOption?@string/search_result_empty_body:@string/search_empty_body}"
-            android:textColor="@color/mument_color_gray2"
-            android:visibility="@{((bottomViewmodel.searchList.data.size()==0&amp;&amp;!searchOption)||(bottomViewmodel.searchResultList.data.size()==0&amp;&amp;searchOption))? View.VISIBLE:View.GONE}"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingTop="@{bottomViewmodel.searchOption?@dimen/app_space_35:@dimen/app_space_0}"
+            android:paddingBottom="87dp"
+            android:background="@color/mument_color_bgwhite"
+            android:visibility="@{bottomViewmodel.searchList.size() == 0 &amp;&amp; bottomViewmodel.searchResultList.size() == 0? View.GONE : View.VISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_empty_title" />
+            app:layout_constraintTop_toBottomOf="@+id/et_search"
+            tools:listitem="@layout/item_bottomsheet_search_list" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -33,12 +33,13 @@ class SearchListAdapter(
         holder.binding.ivDelete.setOnClickListener {
             itemClickListener(searchData)
         }
-        if(option){
+        if (searchData.createAt != null) {
             holder.binding.ivDelete.visibility = View.VISIBLE
-        }else{
+        } else {
             holder.binding.ivDelete.visibility = View.GONE
         }
     }
 
-    class SearchViewHolder(val binding: ItemBottomsheetSearchListBinding): RecyclerView.ViewHolder(binding.root)
+    class SearchViewHolder(val binding: ItemBottomsheetSearchListBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

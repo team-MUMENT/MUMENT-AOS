@@ -9,16 +9,16 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.window.layout.WindowMetrics
 import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.domain.entity.home.RecentSearchData
-import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.core_dependent.util.AutoClearedValue
-import com.mument_android.record.R
 import com.mument_android.record.databinding.BottomsheetFragmentSearchBinding
 import com.mument_android.record.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,13 +30,14 @@ class BottomSheetSearchFragment :
     private val viewmodel: SearchViewModel by viewModels()
     private lateinit var adapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
+    private val headerAdapter = BottomSearchHeaderAdapter()
+    private lateinit var searchConcatAdapter: ConcatAdapter
     private var binding by AutoClearedValue<BottomsheetFragmentSearchBinding>()
     private lateinit var behavior: BottomSheetBehavior<View>
 
     companion object {
         @JvmStatic
         private var INSTANCE: BottomSheetSearchFragment? = null
-
         private lateinit var CONTENT_CLICK_CALLBACK: (RecentSearchData) -> Unit
 
         @JvmStatic
@@ -56,7 +57,6 @@ class BottomSheetSearchFragment :
         binding = this
         this.root
     }
-
 
     override fun getTheme(): Int {
         return R.style.BottomSheetDialogTheme
@@ -83,94 +83,70 @@ class BottomSheetSearchFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.bottomViewmodel = viewmodel
         settingAdapterAndDatabinding()
         setListener()
         collectingList()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewmodel.searchText.value = ""
-        viewmodel.setRecentData(lifecycleScope)
+
+    private fun callSearch() {
+        viewmodel.searchMusic(binding.etSearch.text.toString())
+        binding.rcSearch.adapter = searchResultAdapter
     }
 
     private fun settingAdapterAndDatabinding() {
-        adapter = SearchListAdapter({ data ->
+        adapter = SearchListAdapter(contentClickListener = { data ->
             viewmodel.selectContent(data)
-            viewmodel.setRecentData(lifecycleScope)
             CONTENT_CLICK_CALLBACK(data)
             dismiss()
-        }, { data ->
+        }, itemClickListener = { data ->
             viewmodel.deleteRecentList(data)
         })
-        adapter.option = true
-        searchResultAdapter = SearchListAdapter({ data ->
+        searchConcatAdapter = ConcatAdapter(headerAdapter, adapter)
+        searchResultAdapter = SearchListAdapter(contentClickListener = { data ->
             viewmodel.selectContent(data)
-            viewmodel.setRecentData(lifecycleScope)
             CONTENT_CLICK_CALLBACK(data)
-            binding.searchOption = false
             dismiss()
-        }, {})
-        searchResultAdapter.option = false
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.bottomViewmodel = viewmodel
-        binding.option = false
-        binding.rcSearch.adapter = adapter
+        }, itemClickListener = {})
+        binding.rcSearch.adapter = searchConcatAdapter
     }
 
     private fun collectingList() {
-        viewmodel.searchResultList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
-            when (result) {
-                is ApiResult.Loading -> {}
-                is ApiResult.Failure -> {}
-                is ApiResult.Success -> {
-                    searchResultAdapter.submitList(result.data)
-                    viewmodel.searchText.value = binding.etSearch.text.toString()
-                }
-                else -> {}
+        collectFlowWhenStarted(viewmodel.searchResultList) { result ->
+            if (result != null) {
+                searchResultAdapter.submitList(result)
+                viewmodel.searchSwitch(true)
             }
         }
-        viewmodel.searchList.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { result ->
-            when (result) {
-                is ApiResult.Loading -> {}
-                is ApiResult.Failure -> {}
-                is ApiResult.Success -> {
-                    adapter.submitList(result.data)
-                    binding.rcSearch.adapter = adapter
-                }
-                else -> {}
-            }
+        collectFlowWhenStarted(viewmodel.searchList) { result ->
+            adapter.submitList(result)
+            binding.rcSearch.adapter = searchConcatAdapter
         }
     }
 
     private fun setListener() {
         binding.etSearch.setOnEditorActionListener { edit, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewmodel.searchMusic(binding.etSearch.text.toString())
-                binding.rcSearch.adapter = searchResultAdapter
-                binding.searchOption = true
+                callSearch()
             }
             false
         }
-        binding.etSearch.setOnFocusChangeListener { view, b ->
-            if (b) {
-                binding.ivDelete.visibility = View.VISIBLE
-            } else {
-                binding.ivDelete.visibility = View.GONE
-            }
+        binding.ivSearch.setOnClickListener {
+            callSearch()
+        }
+        binding.etSearch.setOnFocusChangeListener { view, focused ->
+            binding.ivDelete.visibility = if (focused) View.VISIBLE else View.GONE
         }
 
         binding.ivDelete.setOnClickListener {
             binding.etSearch.text = null
-            lifecycleScope.launch {
-                viewmodel.setRecentData(this)
-                binding.searchOption = false
-                searchResultAdapter.submitList(listOf())
-                binding.rcSearch.adapter = adapter
+            if (viewmodel.searchOption.value) {
+                binding.rcSearch.adapter = searchConcatAdapter
+                viewmodel.searchSwitch(false)
             }
         }
-
-
     }
 
     private fun getBottomSheetDialogDefaultHeight(): Int {
@@ -181,13 +157,14 @@ class BottomSheetSearchFragment :
         // Calculate window height for fullscreen use
         val windowMetrics: WindowMetrics = WindowMetricsCalculator.getOrCreate()
             .computeCurrentWindowMetrics((activity as AppCompatActivity))
-        val pxHeight = windowMetrics.bounds.height()
-        return pxHeight
+        return windowMetrics.bounds.height()
     }
 
     override fun onStop() {
         super.onStop()
-        viewmodel.searchResultList.value?.data?.toMutableList()?.clear()
+        viewmodel.searchText.value = ""
+        viewmodel.searchSwitch(false)
+        viewmodel.clearSearchResult()
     }
 }
 
