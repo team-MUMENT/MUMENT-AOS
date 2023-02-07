@@ -7,15 +7,13 @@ import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.detail.databinding.ActivityHistoryBinding
-import com.mument_android.detail.viewmodels.HistoryViewModel
 import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HistoryActivity :
-    BaseActivity<ActivityHistoryBinding>(inflate = ActivityHistoryBinding::inflate) {
+class HistoryActivity : BaseActivity<ActivityHistoryBinding>(inflate = ActivityHistoryBinding::inflate) {
     private val historyViewModel: HistoryViewModel by viewModels()
     private lateinit var adapter: HistoryListAdapter
 
@@ -23,11 +21,9 @@ class HistoryActivity :
         super.onCreate(savedInstanceState)
         binding.historyviewmodel = historyViewModel
         intent.getParcelableExtra<Music>("music")?.let {
-            Log.e("Music", it.toString())
             historyViewModel.changeMusicId(it)
         }
         intent.getIntExtra("userId", 0).let {
-            Log.e("userId", it.toString())
             historyViewModel.setUserId(it)
         }
         setListener()

@@ -1,25 +1,22 @@
 package com.mument_android.detail.mument.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core.network.ApiStatus
+import com.mument_android.core_dependent.base.MviViewModel
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.util.*
 import com.mument_android.detail.BuildConfig
 import com.mument_android.detail.R
-import com.mument_android.domain.usecase.detail.DeleteMumentUseCase
-import com.mument_android.domain.usecase.detail.FetchMumentDetailContentUseCase
-import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
+import com.mument_android.detail.mument.contract.MumentDetailContract.*
+import com.mument_android.domain.usecase.detail.*
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import com.mument_android.detail.mument.contract.MumentDetailContract.*
-import com.mument_android.domain.usecase.detail.BlockUserUseCase
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @HiltViewModel
 class MumentDetailViewModel @Inject constructor(
@@ -27,146 +24,137 @@ class MumentDetailViewModel @Inject constructor(
     private val fetchMumentListUseCase: FetchMumentListUseCase,
     private val likeMumentUseCase: LikeMumentUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
+    private val fetchUsersLikeMumentUseCase: FetchUsersLikeMumentUseCase,
     private val deleteMumentUseCase: DeleteMumentUseCase,
     private val blockUserUseCase: BlockUserUseCase,
     private val dataStoreManager: DataStoreManager,
     private val mediaUtils: MediaUtils
-) : ViewModel() {
-    private val _viewState = MutableStateFlow(MumentDetailViewState())
-    val viewState = _viewState.asStateFlow()
+) : MviViewModel<MumentDetailEvent, MumentDetailViewState, MumentDetailSideEffect>() {
+    override fun setInitialState(): MumentDetailViewState  = MumentDetailViewState()
 
-    private val _effect: Channel<MumentDetailSideEffect> = Channel()
-    val effect = _effect.receiveAsFlow()
+    override fun handleEvents(event: MumentDetailEvent) {
+        when(event) {
+            MumentDetailEvent.OnClickBackButton -> setEffect { MumentDetailSideEffect.PopBackStack }
 
-    private val _event: MutableSharedFlow<MumentDetailEvent> = MutableSharedFlow()
+            is MumentDetailEvent.ReceiveMumentId -> {
+                setState { copy(requestMumentId = event.mumentId) }
+                fetchMumentDetailContent(event.mumentId)
+                fetchLikeUserList(event.mumentId)
+            }
+            is MumentDetailEvent.ReceiveMusicInfo -> {
+                setState { copy(musicInfo = event.musicInfoEntity) }
+                fetchMumentList(event.musicInfoEntity.id)
+            }
 
-    init {
-        collectEvent()
-    }
+            MumentDetailEvent.OnClickOptionButton -> {
+                setEffect {
+                    if (viewState.value.isWriter) MumentDetailSideEffect.OpenEditOrDeleteMumentDialog else MumentDetailSideEffect.OpenBlockOrReportBottomSheet
+                }
+            }
 
-    fun emitEvent(event: MumentDetailEvent) {
-        _event.emitEvent(viewModelScope, event)
-    }
+            MumentDetailEvent.SelectBlockUserType -> setEffect { MumentDetailSideEffect.OpenBlockUserDialog }
+            MumentDetailEvent.SelectMumentDeletionType -> setEffect { MumentDetailSideEffect.OpenDeleteMumentDialog }
+            MumentDetailEvent.SelectReportMumentType -> setEffect { MumentDetailSideEffect.NavToReportMument }
+            MumentDetailEvent.OnClickBlockUser -> { blockUser() }
 
-    private fun emitEffect(effect: MumentDetailSideEffect) {
-        _effect.emitEffect(viewModelScope) { effect }
+            is MumentDetailEvent.SelectMumentEditType -> setEffect { MumentDetailSideEffect.NavToEditMument(event.mument) }
+            MumentDetailEvent.OnClickDeleteMument -> deleteMument()
+
+            MumentDetailEvent.OnClickLikeMument -> likeMument()
+            MumentDetailEvent.OnClickUnLikeMument -> cancelLikeMument()
+
+            is MumentDetailEvent.OnClickAlum -> setEffect { MumentDetailSideEffect.NavToMusicDetail(event.musicId) }
+
+            is MumentDetailEvent.OnClickHistory -> setEffect { MumentDetailSideEffect.NavToMumentHistory(event.musicId) }
+
+            is MumentDetailEvent.OnClickShareMument -> {
+                event.mumentEntity?.let { mument ->
+                    event.musicInfo?.let { music ->
+                        setEffect { MumentDetailSideEffect.OpenShareMumentDialog(mument, music) }
+                    }
+                } ?: setEffect { MumentDetailSideEffect.Toast(R.string.cannot_access_insta) }
+            }
+            is MumentDetailEvent.UpdateMumentToShareInstagram -> { setState { copy(mument = event.mument) } }
+            is MumentDetailEvent.OnDismissShareMumentDialog -> {
+                setEffect { MumentDetailSideEffect.NavToInstagram(event.imageUri) }
+                setState { copy(fileToShare = event.imageFile) }
+            }
+            MumentDetailEvent.EntryFromInstagram -> deleteSharedImageFile()
+        }
     }
 
     fun updateRenderedProfileImage(completed: Boolean) {
-        _viewState.setState { copy(renderedProfileImage = completed) }
+        setState { copy(renderedProfileImage = completed) }
     }
 
     fun updateRenderedAlbumCover(completed: Boolean) {
-        _viewState.setState { copy(renderdAlbumCover = completed) }
+        setState { copy(renderdAlbumCover = completed) }
     }
 
     fun updateRenderedTags(completed: Boolean) {
-        _viewState.setState { copy(renderedTags = completed) }
-    }
-
-    private fun collectEvent() {
-        _event.asSharedFlow().collectEvent(viewModelScope) { event ->
-            when (event) {
-                MumentDetailEvent.OnClickLikeMument -> likeMument()
-                MumentDetailEvent.OnClickUnLikeMument -> cancelLikeMument()
-                MumentDetailEvent.OnClickDeleteMument -> deleteMument()
-                MumentDetailEvent.OnClickBackIcon -> emitEffect(MumentDetailSideEffect.PopBackStack)
-                is MumentDetailEvent.OnClickAlum -> emitEffect(
-                    MumentDetailSideEffect.NavToMusicDetail(
-                        event.musicId
-                    )
-                )
-                is MumentDetailEvent.OnClickHistory -> emitEffect(
-                    MumentDetailSideEffect.NavToMumentHistory(
-                        event.musicId
-                    )
-                )
-                is MumentDetailEvent.OnClickEditMument -> emitEffect(
-                    MumentDetailSideEffect.EditMument(
-                        event.mument
-                    )
-                )
-                is MumentDetailEvent.ReceiveMumentId -> {
-                    _viewState.setState { copy(requestMumentId = event.mumentId) }
-                    fetchMumentDetailContent(event.mumentId)
-                }
-                is MumentDetailEvent.ReceiveMusicInfo -> {
-                    Log.e("MusicInfo", event.musicInfoEntity.toString())
-                    _viewState.setState { copy(musicInfo = event.musicInfoEntity) }
-                    Log.e("MUSICINFO STATE", _viewState.value.musicInfo.toString())
-                    fetchMumentList(event.musicInfoEntity.id)
-                }
-                is MumentDetailEvent.OnClickShareMument -> {
-                    event.mumentEntity?.let { mument ->
-                        event.musicInfo?.let { music ->
-                            emitEffect(MumentDetailSideEffect.OpenShareMumentDialog(mument, music))
-                        }
-                    } ?: emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_access_insta))
-                }
-                is MumentDetailEvent.UpdateMumentToShareInstagram -> {
-                    _viewState.setState { copy(mument = event.mument, musicInfo = event.musicInfo) }
-                }
-                is MumentDetailEvent.OnDismissShareMumentDialog -> {
-                    emitEffect(MumentDetailSideEffect.NavToInstagram(event.imageUri))
-                    _viewState.setState { copy(fileToShare = event.imageFile) }
-                }
-                MumentDetailEvent.EntryFromInstagram -> deleteSharedImageFile()
-            }
-        }
+        setState { copy(renderedTags = completed) }
     }
 
     private fun likeMument() {
         viewModelScope.launch {
-            _viewState.setState { copy(likeCount = likeCount + 1) }
-            likeMumentUseCase(viewState.value.requestMumentId, BuildConfig.USER_ID)
-                .catch { }
-                .collect {
-                    _viewState.setState { copy(isLikedMument = true) }
-                }
+            changeLikeStatus(true)
+            likeMumentUseCase(viewState.value.requestMumentId)
+                .catch {
+                    changeLikeStatus(false)
+                }.collect {}
         }
     }
 
     private fun cancelLikeMument() {
         viewModelScope.launch {
-            _viewState.setState { copy(likeCount = likeCount - 1) }
-            cancelLikeMumentUseCase(viewState.value.requestMumentId, BuildConfig.USER_ID)
-                .catch { }
-                .collect {
-                    _viewState.setState { copy(isLikedMument = false) }
-                }
+            changeLikeStatus(false)
+            cancelLikeMumentUseCase(viewState.value.requestMumentId)
+                .catch {
+                    changeLikeStatus(true)
+                }.collect {}
+        }
+    }
+
+    private fun changeLikeStatus(like: Boolean) {
+        if (like) {
+            setState { copy(likeCount = likeCount + 1 ) }
+            setState { copy(isLikedMument = true) }
+        } else {
+            setState { copy(likeCount = likeCount - 1 ) }
+            setState { copy(isLikedMument = false) }
         }
     }
 
     private fun fetchMumentDetailContent(mumentId: String) {
         viewModelScope.launch {
-            fetchMumentDetailContentUseCase(mumentId).onStart {
-                _viewState.setState { copy(onNetwork = true) }
-            }.catch { e ->
-                _viewState.setState { copy(hasError = true, onNetwork = false) }
-                emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_load_data))
-            }.collect { mumentDetail ->
-                val userId = runBlocking {
-                    dataStoreManager.userIdFlow.first() ?: ""
-                }
-                mumentDetail?.let {
-                    _viewState.setState {
-                        copy(
-                            isWriter = mumentDetail.mument.writerInfo.userId == userId,
-                            mument = mumentDetail.mument,
-                            isLikedMument = mumentDetail.isLiked,
-                            likeCount = mumentDetail.likeCount,
-                            historyCount = mumentDetail.mumentHistoryCount,
-                            onNetwork = false
-                        )
+            fetchMumentDetailContentUseCase(mumentId).collect { status ->
+                when(status) {
+                    ApiStatus.Loading -> { setState { copy(onNetwork = true) } }
+                    is ApiStatus.Failure -> disableFetchData()
+
+                    is ApiStatus.Success -> {
+                        val userId = runBlocking { dataStoreManager.userIdFlow.first() ?: "" }
+                        status.data.let { mumentDetail ->
+                            setState {
+                                copy(
+                                    isWriter = mumentDetail.mument.writerInfo.userId == userId,
+                                    mument = mumentDetail.mument,
+                                    isLikedMument = mumentDetail.isLiked,
+                                    likeCount = mumentDetail.likeCount,
+                                    historyCount = mumentDetail.mumentHistoryCount,
+                                    onNetwork = false
+                                )
+                            }
+                        }
                     }
-                } ?: disableFetchData()
+                }
             }
         }
     }
 
     private fun disableFetchData() {
-        _viewState.setState { copy(hasError = true, onNetwork = false) }
-        emitEffect(MumentDetailSideEffect.Toast(R.string.cannot_load_data))
+        setState { copy(hasError= true, onNetwork = false) }
+        setEffect { MumentDetailSideEffect.Toast(R.string.cannot_load_data) }
     }
 
     private fun fetchMumentList(musicId: String) {
@@ -174,9 +162,8 @@ class MumentDetailViewModel @Inject constructor(
             fetchMumentListUseCase(musicId, "Y")
                 .catch { e -> }
                 .collect {
-                    _viewState.setState {
-                        copy(hasWrittenMument = it.map { it.user.userId }
-                            .contains(BuildConfig.USER_ID))
+                    setState {
+                        copy(hasWrittenMument = it.map { it.user.userId }.contains(BuildConfig.USER_ID))
                     }
                 }
         }
@@ -184,28 +171,38 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun deleteMument() {
         viewModelScope.launch {
-            deleteMumentUseCase(viewState.value.requestMumentId)
-                .catch {
-                    emitEffect(MumentDetailSideEffect.Toast(R.string.fail_to_delete_mument))
-                }.collect {
-                    emitEffect(MumentDetailSideEffect.SuccessMumentDeletion)
+            deleteMumentUseCase(viewState.value.requestMumentId).collect { status ->
+                if (status is ApiStatus.Success) {
+                    setEffect { MumentDetailSideEffect.SuccessMumentDeletion }
+
                 }
+            }
         }
     }
 
-    fun blockUser() {
+    private fun blockUser() {
         viewModelScope.launch {
             blockUserUseCase(viewState.value.requestMumentId)
-                .also {
-                    Log.e("status", "${it}")
+                .collect {
+
                 }
         }
     }
 
     private fun deleteSharedImageFile() {
         val file = viewState.value.fileToShare
-        _viewState.setState { copy(fileToShare = null) }
+        setState { copy(fileToShare = null) }
         file?.delete()
+    }
+
+    private fun fetchLikeUserList(mumentId: String) {
+        viewModelScope.launch {
+            fetchUsersLikeMumentUseCase(mumentId, 30, 0).collect { status ->
+                if (status is ApiStatus.Success) {
+                    setState { copy(likeUsers = status.data) }
+                }
+            }
+        }
     }
 
     companion object {

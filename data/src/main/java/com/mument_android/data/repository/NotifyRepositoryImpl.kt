@@ -5,9 +5,9 @@ import com.mument_android.core.network.ApiStatus
 import com.mument_android.data.datasource.notify.NotifyDataSource
 import com.mument_android.data.mapper.notify.NotifyMapper
 import com.mument_android.data.util.ResultWrapper
-import com.mument_android.data.util.callApi
 import com.mument_android.domain.entity.home.NotifyEntity
 import com.mument_android.domain.repository.notify.NotifyRepository
+import com.mument_android.domain.util.NetworkExtensions.callApi
 import javax.inject.Inject
 
 class NotifyRepositoryImpl @Inject constructor(

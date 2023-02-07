@@ -1,13 +1,10 @@
 package com.mument_android.app.di
 
 import com.mument_android.domain.repository.app.LimitUserRepository
-import com.mument_android.domain.repository.detail.BlockUserRepository
-import com.mument_android.domain.repository.detail.MumentDetailRepository
-import com.mument_android.domain.repository.detail.MumentListRepository
-import com.mument_android.domain.repository.detail.MusicDetailRepository
+import com.mument_android.domain.repository.detail.*
 import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
-import com.mument_android.domain.repository.main.MainRepository
+import com.mument_android.domain.repository.main.LikeMumentRepository
 import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.domain.repository.mypage.NoticeListRepository
 import com.mument_android.domain.repository.mypage.UserInfoRepository
@@ -51,8 +48,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideLikeMumentUseCase(mainRepository: MainRepository): LikeMumentUseCase =
-        LikeMumentUseCaseImpl(mainRepository)
+    fun provideLikeMumentUseCase(likeMumentRepository: LikeMumentRepository): LikeMumentUseCase =
+        LikeMumentUseCaseImpl(likeMumentRepository)
 
     @Provides
     @Singleton
@@ -67,8 +64,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideCancelLikeMumentUseCase(mainRepository: MainRepository): CancelLikeMumentUseCase =
-        CancelLikeMumentUseCaseImpl(mainRepository)
+    fun provideCancelLikeMumentUseCase(likeMumentRepository: LikeMumentRepository): CancelLikeMumentUseCase =
+        CancelLikeMumentUseCaseImpl(likeMumentRepository)
 
 
     @Provides
@@ -150,7 +147,6 @@ object UseCaseModule {
     fun provideBlockUserUseCase(blockUserRepository: BlockUserRepository): BlockUserUseCase =
         BlockUserUseCaseImpl(blockUserRepository)
 
-
     @Provides
     @Singleton
     fun provideSignPutProfileUseCase(signRepository: SignRepository) : SignPutProfileUseCase =
@@ -205,4 +201,8 @@ object UseCaseModule {
         NewTokenUseCaseImpl(signRepository)
 
 
+    @Provides
+    @Singleton
+    fun provideFetchUsersLikeMumentUseCase(usersLikeMumentRepository: UsersRepository): FetchUsersLikeMumentUseCase =
+        FetchUsersLikeMumentUseCaseImpl(usersLikeMumentRepository)
 }

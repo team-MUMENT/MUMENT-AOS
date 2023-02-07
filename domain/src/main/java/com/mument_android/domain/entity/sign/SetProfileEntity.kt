@@ -6,5 +6,5 @@ data class SetProfileEntity(
     val accessToken : String,
     val refreshToken : String,
     val userName : String,
-    val image : String
+    val image : String?
 )

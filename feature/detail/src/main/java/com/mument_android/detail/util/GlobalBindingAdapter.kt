@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import coil.load
+import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -21,8 +22,7 @@ import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.detail.R
 
 object GlobalBindingAdapter {
-    const val EMPTY_PROFILE = "https://mument.s3.ap-northeast-2.amazonaws.com/user/emptyImage.jpg"
-
+    val EMPTY_PROFILE = com.mument_android.core_dependent.R.drawable.mument_default_profile
 
     @JvmStatic
     @BindingAdapter("setMovementMethod")
@@ -46,11 +46,18 @@ object GlobalBindingAdapter {
     @JvmStatic
     @BindingAdapter("load_profile")
     fun loadProfileImage(view: ImageView, url: String?) {
-        val profileImage = if (!url.isNullOrEmpty()) url else EMPTY_PROFILE
-        view.load(profileImage) {
-            crossfade(true)
-            this.transformations(CircleCropTransformation())
+        with(view) {
+            if (url.isNullOrEmpty()) {
+                view.load(context.getDrawable(EMPTY_PROFILE)) { toCircularShape() }
+            } else {
+                view.load(url) { toCircularShape() }
+            }
         }
+    }
+
+    private fun ImageRequest.Builder.toCircularShape() {
+        crossfade(true)
+        transformations(CircleCropTransformation())
     }
 
     @JvmStatic

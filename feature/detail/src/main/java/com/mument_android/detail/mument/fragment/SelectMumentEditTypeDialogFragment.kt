@@ -9,24 +9,16 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.mument_android.core_dependent.util.AutoClearedValue
-import com.mument_android.detail.databinding.FragmentEditMumentDialogBinding
+import com.mument_android.detail.databinding.FragmentSelectMumentEditTypeDialogBinding
 
-class EditMumentDialogFragment(private val editListener: EditListener): DialogFragment() {
+class SelectMumentEditTypeDialogFragment(): DialogFragment() {
     interface EditListener {
         fun edit()
         fun delete()
     }
 
-    private var binding by AutoClearedValue<FragmentEditMumentDialogBinding>()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = FragmentEditMumentDialogBinding.inflate(inflater, container, false).let {
-        binding = it
-        it.root
-    }
+    private var editListener: EditListener? = null
+    private var binding by AutoClearedValue<FragmentSelectMumentEditTypeDialogBinding>()
 
     override fun onResume() {
         super.onResume()
@@ -37,20 +29,37 @@ class EditMumentDialogFragment(private val editListener: EditListener): DialogFr
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = FragmentSelectMumentEditTypeDialogBinding.inflate(inflater, container, false).let {
+        binding = it
+        it.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        clickButtons()
+    }
+
+    private fun clickButtons() {
         with(binding) {
             tvCancel.setOnClickListener { dismiss() }
             root.setOnClickListener { dismiss() }
             tvEdit.setOnClickListener {
-                editListener.edit()
+                editListener?.edit()
                 dismiss()
             }
             tvDelete.setOnClickListener {
-                editListener.delete()
+                editListener?.delete()
                 dismiss()
             }
-
         }
+    }
+
+    fun setEditListener(editListener: EditListener): SelectMumentEditTypeDialogFragment {
+        this.editListener = editListener
+        return this
     }
 }

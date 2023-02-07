@@ -10,7 +10,8 @@ data class MumentEntity(
     val impressionTags: List<TagEntity>?,
     val emotionalTags: List<TagEntity>?,
     val content: String?,
-    val createdDate: String
+    val createdDate: String,
+    val isPrivate: Boolean
 ) {
     fun combineTags(): List<TagEntity> {
         return mutableListOf<TagEntity>().also {

@@ -1,4 +1,4 @@
-package com.mument_android.detail.viewmodels
+package com.mument_android.detail.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

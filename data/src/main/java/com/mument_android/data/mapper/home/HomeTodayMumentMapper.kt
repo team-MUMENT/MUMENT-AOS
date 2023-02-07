@@ -75,7 +75,7 @@ class HomeTodayMumentMapper : BaseMapper<TodayMumentEntity, TodayMument> {
     fun mapReverse(from: TodayMument): TodayMumentEntity = TodayMumentEntity(
         from.userId,
         from.userName,
-        from.userImage,
+        from.userImage ?: "",
         from.cardTag.map {
             it.tagIdx
         },

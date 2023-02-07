@@ -42,4 +42,5 @@ dependencies {
     implementation(KotlinDependencies.coroutines)
     implementation(AndroidXDependencies.pagingCommon)
     implementation(project(Modules.CORE_MODULE))
+    implementation(project(Modules.CORE_DEPENDENT_MODULE))
 }
