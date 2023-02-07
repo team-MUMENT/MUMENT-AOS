@@ -1,11 +1,24 @@
 package com.mument_android.app
 
+import android.content.Intent
+import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.mument_android.home.notify.NotifyActivity
 
-class SampleMessagingService :FirebaseMessagingService() {
+class FCMMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
+        Log.e("MEssage Data", message.data.toString())
+        Log.e("MEssage Body", message.notification?.body.toString())
+        Log.e("MEssage Title", message.notification?.title.toString())
+        Log.e("MEssage Icon", message.notification?.icon.toString())
+        Log.e("MEssage Noti", message.notification.toString())
+        Log.e("MEssage messageType", message.messageType.toString())
+        Intent(applicationContext, NotifyActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(this)
+        }
     }
 
     override fun onNewToken(token: String) {
