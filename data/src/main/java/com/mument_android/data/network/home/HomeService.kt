@@ -27,6 +27,6 @@ interface HomeService {
     suspend fun checkProfileSetting(): Response<Void>
 
     @GET("/user/news/exist")
-    suspend fun checkNewNotify(): Response<Boolean>
+    suspend fun checkNewNotify(): Response<NotifyCheckDto>
 
 }

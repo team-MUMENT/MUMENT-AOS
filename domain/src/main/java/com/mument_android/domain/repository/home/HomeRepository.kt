@@ -30,4 +30,8 @@ interface HomeRepository {
     suspend fun getKnownMument(): List<AgainMumentEntity>?
 
     suspend fun getRandomMument(): RandomMumentEntity?
+
+    suspend fun fetchExistNotifyList(): Boolean?
+
+    suspend fun fetchProfileExist(): Boolean?
 }

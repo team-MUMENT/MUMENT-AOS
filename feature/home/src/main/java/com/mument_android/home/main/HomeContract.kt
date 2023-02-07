@@ -17,6 +17,7 @@ class HomeContract {
         val heardMumentEntity: List<AgainMumentEntity>? = null,
         val emotionMumentEntity: RandomMumentEntity? = null,
         val notificationStatus: Boolean = false,
+        val profileStatus: Boolean = false,
     ) : ViewState
 
     sealed class HomeEvent : Event {

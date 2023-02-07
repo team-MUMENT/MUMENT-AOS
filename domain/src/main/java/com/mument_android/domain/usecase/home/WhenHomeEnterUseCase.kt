@@ -12,4 +12,5 @@ interface WhenHomeEnterUseCase {
     suspend fun getBannerMument(): Flow<List<BannerEntity>?>
     suspend fun getRandomMument(): Flow<RandomMumentEntity?>
     suspend fun getKnownMument(): Flow<List<AgainMumentEntity>?>
+    suspend fun checkNotifyExist(): Flow<Boolean?>
 }

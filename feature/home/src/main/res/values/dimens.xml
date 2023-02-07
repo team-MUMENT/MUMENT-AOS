@@ -21,5 +21,9 @@
     <dimen name="app_space_22">22dp</dimen>
     <dimen name="app_space_24">24dp</dimen>
     <dimen name="app_space_17">17dp</dimen>
+    <dimen name="app_space_0">0dp</dimen>
+    <dimen name="app_space_35">35dp</dimen>
+    <dimen name="app_space_168">168dp</dimen>
+    <dimen name="app_space_120">120dp</dimen>
 
 </resources>
