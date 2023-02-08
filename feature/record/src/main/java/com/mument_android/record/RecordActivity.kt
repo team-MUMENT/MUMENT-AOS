@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -16,6 +17,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.ImpressiveTag
@@ -23,6 +25,8 @@ import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.domain.entity.home.RecentSearchData
+import com.mument_android.domain.entity.music.MusicInfoEntity
+import com.mument_android.domain.entity.record.MumentModifyEntity
 import com.mument_android.record.databinding.ActivityRecordBinding
 import com.mument_android.record.viewmodels.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,9 +45,21 @@ class RecordActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val mumentModifyEntity = intent.getParcelableExtra<MumentModifyEntity>("MumentModifyEntity")
+        val recentSearchData = intent.getParcelableExtra<RecentSearchData>("RecentSearchData")
+        val mumentId = intent.getStringExtra("MumentID")
+        mumentModifyEntity?.let { mument ->
+            recentSearchData?.let { music ->
+                mumentId?.let { mumentId ->
+                    recordViewModel.changeSelectedMusic(music)
+                    recordViewModel.setIntentData(
+                        mumentModifyEntity, muId = mumentId
+                    )
+                }
+            }
+        }
 
         binding.recordViewModel = recordViewModel
-
         setTagRecyclerView()
         countText()
 
@@ -191,6 +207,7 @@ class RecordActivity :
             BottomSheetSearchFragment.newInstance {
                 recordViewModel.changeSelectedMusic(it)
                 recordViewModel.findIsFirst()
+                //Log.e("isFirstTagIndex" , "${recordViewModel.mumentData.value!!.mument.isFirst.tagIdx}")
             }.show(supportFragmentManager, "bottom sheet")
         }
         recordViewModel.selectedMusic.observe(this) {
@@ -203,50 +220,61 @@ class RecordActivity :
     //처음 들었어요 다시들었어요 처리
     private fun observingListen() {
         recordViewModel.isFirst.observe(this) {
+            Log.e("IS FIRST", it.toString())
             if (it != null) {
-                if (recordViewModel.mumentData.value != null) {
-                    if (recordViewModel.mumentData.value!!.mument.isFirst.tagIdx == 0) {
+                //기록하기 일 때, 기록한 적이 없다면
+                if (recordViewModel.modifyMumentId.value == null) {
+//                    if (recordViewModel.mumentData.value!!.mument.isFirst.tagIdx == 0) {
+                        //처음들었다면
                         if (it) {
+                            //처음들었어요 true, 다시들었어요 false
                             binding.btnRecordFirst.isChangeButtonFont(it)
                             binding.btnRecordSecond.isChangeButtonFont(false)
-                        } else {
+                        }
+                        //다시 들었다면 -> isFirst.value == false
+                        else {
+                            //처음들었어요 false, 다시들었어요 false , 처음들었어요 선택 못하도록
                             binding.btnRecordFirst.isChangeButtonFont(it)
                             binding.btnRecordSecond.isChangeButtonFont(true)
                             binding.btnRecordFirst.isClickable = false
                         }
-                    } else {
-                        binding.btnRecordFirst.isChangeButtonFont(!it)
-                        binding.btnRecordSecond.isChangeButtonFont(it)
                     }
-                } else {
+                    //곡을 선택했는데 기록한 적이 없다
+//                    else {
+//                        binding.btnRecordFirst.isChangeButtonFont(!it)
+//                        binding.btnRecordSecond.isChangeButtonFont(it)
+//                    }
+                    //수정하기 일 때
+                 else {
+                    //다시들었어요 일 때
                     if (!it) {
                         binding.btnRecordFirst.isChangeButtonFont(it)
                         binding.btnRecordSecond.isChangeButtonFont(true)
                         binding.btnRecordFirst.isClickable = false
                     } else {
-                        binding.btnRecordFirst.isChangeButtonFont(false)
-                        binding.btnRecordSecond.isChangeButtonFont(it)
+                        binding.btnRecordFirst.isChangeButtonFont(it)
+                        binding.btnRecordSecond.isChangeButtonFont(!it)
                     }
                 }
             } else {
+                //맨처음 들어왔고 곡 선택 안되어있을 때
                 binding.btnRecordFirst.isChangeButtonFont(false)
                 binding.btnRecordSecond.isChangeButtonFont(false)
             }
         }
 
         recordViewModel.mumentData.observe(this) {
-            if (it != null) {
-//                recordViewModel.selectedMusic.value = RecentSearchData(
-//                    it.mument.musicInfo.id,
-//                    it.mument.musicInfo.artist,
-//                    it.mument.musicInfo.thumbnail,
-//                    it.mument.musicInfo.name,
-//                    null
-//                )
-                recordViewModel.setCheckTaglist(it.mument.impressionTags ?: listOf())
-                recordViewModel.setCheckTaglist(it.mument.emotionalTags ?: listOf())
-                recordViewModel.findIsFirst()
-                recordViewModel.mumentContent.value = it.mument.content
+            if (it == null) {
+/*                recordViewModel.selectedMusic.value = RecentSearchData(
+                    it.musicInfo.id,
+                    it.mument.musicInfo.artist,
+                    it.mument.musicInfo.thumbnail,
+                    it.mument.musicInfo.name,
+                    null
+                )*/
+                recordViewModel.setCheckTaglist(recordViewModel.checkedTagList.value ?: listOf())
+//                recordViewModel.findIsFirst()
+//                recordViewModel.mumentContent.value = it.mument.content
                 binding.switchRecordSecret.isChecked = false
 
                 recordViewModel.checkedTagList.value?.let { data ->
@@ -329,8 +357,6 @@ class RecordActivity :
                 )
                 recordViewModel.mumentId.value = ""
                 recordViewModel.postMument()
-
-
             } else {
                 this.snackBar(
                     binding.clRecordRoot,
@@ -338,6 +364,21 @@ class RecordActivity :
                 )
                 recordViewModel.mumentId.value = ""
                 recordViewModel.putMument()
+            }
+            collectFlowWhenStarted(recordViewModel.isSuccess) { success ->
+                if (success) {
+                    recordViewModel.selectedMusic.value?.let { music ->
+                        moveMusicDetailNavigatorProvider.intentMusicDetail(
+                            MusicInfoEntity(
+                                music._id,
+                                music.name,
+                                music.image,
+                                music.artist
+                            )
+                        )
+                        finish()
+                    }
+                }
             }
         }
     }
@@ -361,7 +402,7 @@ class RecordActivity :
                     .setHeader(getString(R.string.modify_header))
                     .setBody(getString(R.string.modify_body))
                     .setAllowListener("확인") {
-                     //곡 상세보기로 이동
+                        //곡 상세보기로 이동
                     }
                     .setCancelListener {
                         //그대로
