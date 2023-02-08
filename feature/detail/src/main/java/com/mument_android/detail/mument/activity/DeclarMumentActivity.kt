@@ -81,6 +81,8 @@ class DeclarMumentActivity :
     private fun isBtnActive() = with(binding) {
         if (clFirstReason.isSelected || clSecondReason.isSelected || clThirdReason.isSelected || clForthReason.isSelected || clFifthReason.isSelected || clSixthReason.isSelected || clSeventhReason.isSelected) {
             tvNotifyFinish.isEnabled = true
+        } else {
+            tvNotifyFinish.isEnabled = false
         }
     }
 
@@ -114,7 +116,6 @@ class DeclarMumentActivity :
 
     private fun reportNetwork() {
         val reasonList: MutableList<Int> = mutableListOf()
-        //TODO : 신고 api연결
         if (binding.ivFirstReason.isSelected) {
             reasonList.add(1)
         }
