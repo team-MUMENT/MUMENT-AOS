@@ -15,9 +15,9 @@ import javax.inject.Inject
 
 class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity: Activity) :
     MusicDetailNavigatorProvider {
-    override fun fromHomeToMusicDetail(musicId: String) {
+    override fun fromHomeToMusicDetail(music: MusicInfoEntity) {
         with(activity as MainActivity) {
-            val bundle = Bundle().also { it.putString(HomeFragment.MUSIC_ID, musicId) }
+            val bundle = Bundle().also { it.putParcelable(MUSIC_INFO_ENTITY, music) }
             this.navController.navigate(R.id.action_homeFragment_to_nav_detail, bundle)
             val navGraph = navController.navInflater.inflate(R.navigation.nav_detail)
             navGraph.setStartDestination(R.id.musicDetailFragment)
