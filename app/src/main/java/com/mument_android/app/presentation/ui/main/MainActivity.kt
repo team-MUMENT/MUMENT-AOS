@@ -36,6 +36,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        intent.getStringExtra("NEW INTENT")?.let {
+            Log.e("NEWENW", it)
+        }
         initNavigation()
         floatingBtnListener()
         customAppBar()
@@ -134,6 +137,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun recordMusic(music: Music) {
         viewModel.changeMusic(music)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.e("onNewIntent", intent.toString())
     }
 
     companion object {
