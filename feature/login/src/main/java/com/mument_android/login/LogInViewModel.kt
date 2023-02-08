@@ -91,6 +91,7 @@ class LogInViewModel @Inject constructor(
             kotlin.runCatching {
                 putProfileUseCase(image, body).let {
                     _putProfile.value = it
+                    Log.e("viewmodel 프로필","${_putProfile.value}")
                     Log.e("refresth token 1 !#$!#@$!@#", "${it.refreshToken}")
                     saveRefreshToken(it.refreshToken)
                     saveAccessToken(it.accessToken)

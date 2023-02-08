@@ -44,6 +44,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
 
     private fun moveProfileSetting() {
         binding.clProfile.setOnClickListener {
+            Log.e("USER INFO", myPageViewModel.userInfo.value.toString())
             val intent = Intent(this, ProfileSettingActivity::class.java)
             intent.putExtra("nickname", myPageViewModel.userInfo.value?.userName)
             intent.putExtra("img", myPageViewModel.userInfo.value?.image)

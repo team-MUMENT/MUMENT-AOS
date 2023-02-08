@@ -14,10 +14,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.core.net.toFile
-import androidx.core.net.toUri
+import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.angdroid.navigation.MainHomeNavigatorProvider
@@ -37,7 +35,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -215,15 +212,17 @@ class ProfileSettingActivity :
                 changeImageUri(R.drawable.mument_profile_sleep_45)
             }
         } else {
-            val multipart = viewModel.imageUri.value?.let {
-                multiPartResolver.createImageMultiPart(it)
+            viewModel.imageUri.value?.let {
+                binding.ivProfile.drawable.toBitmapOrNull(720, 720, Bitmap.Config.RGB_565)?.let {
+                    Log.e("BITMAP", it.toString())
+                    multiPartResolver.createImageMultiPart(it)
+                }
+            }?.let { multi ->
+                viewModel.putProfile(multi, requestBodyMap)
             }
-            viewModel.putProfile(multipart, requestBodyMap)
         }
-
-        moveToMainActivity()
-        val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
-        viewModel.putProfile(multipart, requestBodyMap)
+        /*val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
+        viewModel.putProfile(multipart, requestBodyMap)*/
     }
 
     private fun changeImageUri(img: Int) {
@@ -254,6 +253,15 @@ class ProfileSettingActivity :
 
     private fun dulCheckListener() {
         val isCheckMypage = intent.getIntExtra("checkMyPage", 0)
+        collectFlowWhenStarted(viewModel.isSuccess) { success ->
+            if (success) {
+                if (isCheckMypage == 1)
+                    moveToMypageActivity()
+                else
+                    moveToMainActivity()
+            }
+        }
+
         binding.tvProfileFinish.setOnClickListener {
             lifecycleScope.launch {
                 nickNameDupNetwork()
@@ -267,8 +275,6 @@ class ProfileSettingActivity :
                             moveToMainActivity()
                     }
                 }
-
-
             }
         }
     }
@@ -283,6 +289,7 @@ class ProfileSettingActivity :
         val img = intent.getStringExtra("img")
         img?.let {
             viewModel.imageUri.value = Uri.parse(it)
+            Log.e("IMG", viewModel.imageUri.value.toString())
         }
 
         if (viewModel.mumentNickName.value == "null" && viewModel.imageUri.value == null) {
