@@ -13,6 +13,7 @@ import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
 import com.mument_android.domain.entity.user.UserEntity
 import com.mument_android.domain.usecase.sign.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -22,13 +23,13 @@ import javax.inject.Inject
 @HiltViewModel
 class LogInViewModel @Inject constructor(
     private val dataStoreManager: DataStoreManager,
-    private val dupCheckUseCase : SignDulCheckUseCase,
+    private val dupCheckUseCase: SignDulCheckUseCase,
     private val putProfileUseCase: SignPutProfileUseCase,
     private val kaKaoUseCase: SignKaKaoUseCase,
     private val getWebViewUseCase: GetWebViewUseCase,
     private val newTokenUseCase: NewTokenUseCase,
     private val beforeWhenHomeEnterUseCase: BeforeWhenHomeEnterUseCase
-): ViewModel() {
+) : ViewModel() {
 
     val mumentNickName = MutableLiveData<String>()
     val isRightPattern = MutableLiveData<Boolean>()
@@ -62,6 +63,8 @@ class LogInViewModel @Inject constructor(
     private val _isExist = MutableLiveData<Boolean>()
     val isExist get() : LiveData<Boolean> = _isExist
 
+    val isSuccess = MutableStateFlow<Boolean>(false)
+
     fun saveIsFirst() {
         viewModelScope.launch {
             dataStoreManager.writeIsFirst(true)
@@ -89,8 +92,9 @@ class LogInViewModel @Inject constructor(
                 putProfileUseCase(image, body).let {
                     _putProfile.value = it
                     Log.e("refresth token 1 !#$!#@$!@#", "${it.refreshToken}")
-                    saveRefreshToken(it.refreshToken ?: "")
-                    saveAccessToken(it.accessToken ?: "")
+                    saveRefreshToken(it.refreshToken)
+                    saveAccessToken(it.accessToken)
+                    isSuccess.value = true
                 }
             }.getOrElse {
                 Log.e("error", "${it.message}")
@@ -120,7 +124,6 @@ class LogInViewModel @Inject constructor(
 
     suspend fun saveAccessToken(accessToken: String) {
         dataStoreManager.writeAccessToken(accessToken)
-
     }
 
     fun saveTestUserId() {

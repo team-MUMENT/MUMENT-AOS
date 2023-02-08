@@ -13,5 +13,6 @@ class MypageNavigatorProviderImpl @Inject constructor(
     override fun navToMyPage() {
         val intent = Intent(activity, MyPageActivity::class.java)
         activity.startActivity(intent)
+        activity.finish()
     }
 }

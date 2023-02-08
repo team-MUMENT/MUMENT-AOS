@@ -23,6 +23,7 @@ import coil.transform.CircleCropTransformation
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.angdroid.navigation.MypageNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
@@ -206,9 +207,9 @@ class ProfileSettingActivity :
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         val rnds = (0..2).random()
         if (viewModel.imageUri.value == null) {
-            if(rnds == 0) {
+            if (rnds == 0) {
                 changeImageUri(R.drawable.mument_profile_love_45)
-            } else if(rnds == 1) {
+            } else if (rnds == 1) {
                 changeImageUri(R.drawable.mument_profile_smile_45)
             } else {
                 changeImageUri(R.drawable.mument_profile_sleep_45)
@@ -225,7 +226,7 @@ class ProfileSettingActivity :
         viewModel.putProfile(multipart, requestBodyMap)
     }
 
-    private fun changeImageUri(img : Int) {
+    private fun changeImageUri(img: Int) {
         val requestBodyMap = HashMap<String, RequestBody>()
         val nickname = binding.etNickname.text.toString()
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -235,7 +236,7 @@ class ProfileSettingActivity :
         val data = bos.toByteArray()
         val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), data)
         val image = MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
-        viewModel.putProfile(image,requestBodyMap)
+        viewModel.putProfile(image, requestBodyMap)
     }
 
     private suspend fun nickNameDupCheck() {
@@ -257,10 +258,16 @@ class ProfileSettingActivity :
             lifecycleScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
-                if (isCheckMypage == 1)
-                    moveToMypageActivity()
-                else
-                    moveToMainActivity()
+                collectFlowWhenStarted(viewModel.isSuccess) { success ->
+                    Log.e("IS SUCCESS", success.toString())
+                    if (success) {
+                        if (isCheckMypage == 1)
+                            moveToMypageActivity()
+                        else
+                            moveToMainActivity()
+                    }
+                }
+
 
             }
         }
