@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.window.layout.WindowMetrics
 import androidx.window.layout.WindowMetricsCalculator
@@ -16,18 +15,16 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.domain.entity.home.RecentSearchData
-import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.record.databinding.BottomsheetFragmentSearchBinding
 import com.mument_android.record.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BottomSheetSearchFragment :
     BottomSheetDialogFragment() {
-    private val viewmodel: SearchViewModel by viewModels()
+    private val viewmodel: SearchViewModel by activityViewModels()
     private lateinit var adapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
     private val headerAdapter = BottomSearchHeaderAdapter()
@@ -36,11 +33,9 @@ class BottomSheetSearchFragment :
     private lateinit var behavior: BottomSheetBehavior<View>
 
     companion object {
-        @JvmStatic
         private var INSTANCE: BottomSheetSearchFragment? = null
         private lateinit var CONTENT_CLICK_CALLBACK: (RecentSearchData) -> Unit
 
-        @JvmStatic
         fun newInstance(contentClick: (RecentSearchData) -> Unit): BottomSheetSearchFragment {
             return INSTANCE
                 ?: BottomSheetSearchFragment().apply {
@@ -80,7 +75,6 @@ class BottomSheetSearchFragment :
         return dialog
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -89,7 +83,6 @@ class BottomSheetSearchFragment :
         setListener()
         collectingList()
     }
-
 
     private fun callSearch() {
         viewmodel.searchMusic(binding.etSearch.text.toString())
