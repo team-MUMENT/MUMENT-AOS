@@ -9,7 +9,6 @@
     <queries>
         <package android:name="com.instagram.android" />
     </queries>
-
     <application
         android:name=".app.application.MumentApplication"
         android:allowBackup="true"
@@ -26,12 +25,13 @@
         <activity
             android:name=".app.presentation.ui.main.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing"/>
-
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
 
         <meta-data
             android:name="preloaded_fonts"
@@ -49,14 +49,7 @@
         <activity
             android:name=".home.notify.NotifyActivity"
             android:exported="true"
-            android:parentActivityName=".app.presentation.ui.main.MainActivity">
-            <intent-filter>
-                <action android:name="click_event" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:parentActivityName=".app.presentation.ui.main.MainActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -74,5 +67,4 @@
             </intent-filter>
         </service>
     </application>
-
 </manifest>

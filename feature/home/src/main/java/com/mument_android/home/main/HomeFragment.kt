@@ -93,20 +93,28 @@ class HomeFragment : Fragment() {
 
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { mument ->
-            viewModel.emitEvent(
+            mument.music.toMusicInfoEntity()?.let { musicInfoEntity ->
                 HomeEvent.OnClickHeardMument(
                     mument.mumentId,
-                    mument.music.toMusicInfoEntity()
+                    musicInfoEntity
                 )
-            )
+            }?.let { event ->
+                viewModel.emitEvent(
+                    event
+                )
+            }
         }
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { mument ->
-            viewModel.emitEvent(
+            mument.music.toMusicInfoEntity()?.let { musicInfoEntity ->
                 HomeEvent.OnClickRandomMument(
                     mument._id,
-                    mument.music.toMusicInfoEntity()
+                    musicInfoEntity
                 )
-            )
+            }?.let { event ->
+                viewModel.emitEvent(
+                    event
+                )
+            }
         }
         binding.rcHeard.adapter = heardAdapter
         binding.rcImpressive.adapter = impressiveAdapter
@@ -149,12 +157,7 @@ class HomeFragment : Fragment() {
                     }) { music ->
                         viewModel.emitEvent(
                             HomeEvent.OnClickBanner(
-                                MusicInfoEntity(
-                                    music._id,
-                                    music.name,
-                                    music.image,
-                                    music.artist
-                                )
+                                music.toMusicInfoEntity()
                             )
                         )
                     }

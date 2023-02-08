@@ -40,4 +40,7 @@ abstract class NavigatorModule {
 
     @Binds
     abstract fun provideMypageProvider(mypageNavigatorProviderImpl: MypageNavigatorProviderImpl): MypageNavigatorProvider
+
+    @Binds
+    abstract fun provideMoveNotifyNavigatorProvider(moveNotifyNavigatorProviderImpl: MoveNotifyNavigatorProviderImpl): MoveNotifyNavigatorProvider
 }

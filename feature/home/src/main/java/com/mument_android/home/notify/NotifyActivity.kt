@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import com.angdroid.navigation.MoveNotifyNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.TransitionMode
@@ -16,6 +17,7 @@ import com.mument_android.home.notify.NotifyContract.NotifySideEffect
 import com.mument_android.home.search.SearchActivity
 import com.mument_android.home.viewmodels.NotifyViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
@@ -23,6 +25,10 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
 ) {
     private lateinit var notifyAdapter: NotifyAdapter
     private val notifyViewModel by viewModels<NotifyViewModel>()
+
+    @Inject
+    lateinit var moveNotifyNavigatorProvider: MoveNotifyNavigatorProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appBarClickListener()
@@ -72,12 +78,14 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
 
     private fun moveToMumentDetail(notify: Notify) {
         //Move MumentDetail
-        startActivity(Intent(this, SearchActivity::class.java))
-        finish()
+        notify.like.toMusicInfoEntity()?.let {
+            moveNotifyNavigatorProvider.moveToMumentDetail(notify.linkId.toString(), it)
+        }
     }
 
     private fun moveToNoticeView(notify: Notify) {
         //Move Notice
+        moveNotifyNavigatorProvider.moveToNoticeDetail(notify.id)
     }
 
     private fun adapterSetting() {
