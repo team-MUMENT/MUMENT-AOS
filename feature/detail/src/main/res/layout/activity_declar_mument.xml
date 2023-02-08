@@ -393,6 +393,7 @@
                     android:background="@drawable/selector_notify_on_off"
                     android:fontFamily="@font/notosans_bold"
                     android:gravity="center"
+                    android:enabled="false"
                     android:text="@string/notify_title"
                     android:paddingVertical="12dp"
                     android:textColor="@color/mument_color_white"

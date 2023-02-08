@@ -40,33 +40,47 @@ class DeclarMumentActivity :
         }
     }
 
-    private fun clickListener() {
-        binding.clFirstReason.setOnClickListener {
-            binding.clFirstReason.isSelected = !binding.clFirstReason.isSelected
+    private fun clickListener() = with(binding) {
+
+        clFirstReason.setOnClickListener {
+            clFirstReason.isSelected = !clFirstReason.isSelected
+            isBtnActive()
         }
 
-        binding.clSecondReason.setOnClickListener {
-            binding.clSecondReason.isSelected = !binding.clSecondReason.isSelected
+        clSecondReason.setOnClickListener {
+            clSecondReason.isSelected = !clSecondReason.isSelected
+            isBtnActive()
         }
 
-        binding.clThirdReason.setOnClickListener {
-            binding.clThirdReason.isSelected = !binding.clThirdReason.isSelected
+        clThirdReason.setOnClickListener {
+            clThirdReason.isSelected = !clThirdReason.isSelected
+            isBtnActive()
         }
 
-        binding.clForthReason.setOnClickListener {
-            binding.clForthReason.isSelected = !binding.clForthReason.isSelected
+        clForthReason.setOnClickListener {
+            clForthReason.isSelected = !clForthReason.isSelected
+            isBtnActive()
         }
 
-        binding.clFifthReason.setOnClickListener {
-            binding.clFifthReason.isSelected = !binding.clFifthReason.isSelected
+        clFifthReason.setOnClickListener {
+            clFifthReason.isSelected = !clFifthReason.isSelected
+            isBtnActive()
         }
 
-        binding.clSixthReason.setOnClickListener {
-            binding.clSixthReason.isSelected = !binding.clSixthReason.isSelected
+        clSixthReason.setOnClickListener {
+            clSixthReason.isSelected = !clSixthReason.isSelected
+            isBtnActive()
         }
 
-        binding.clSeventhReason.setOnClickListener {
-            binding.clSeventhReason.isSelected = !binding.clSeventhReason.isSelected
+        clSeventhReason.setOnClickListener {
+            clSeventhReason.isSelected = !clSeventhReason.isSelected
+            isBtnActive()
+        }
+    }
+
+    private fun isBtnActive() = with(binding) {
+        if(clFirstReason.isSelected || clSecondReason.isSelected || clThirdReason.isSelected || clForthReason.isSelected || clFifthReason.isSelected || clSixthReason.isSelected || clSeventhReason.isSelected) {
+            tvNotifyFinish.isEnabled = true
         }
     }
 
@@ -82,9 +96,19 @@ class DeclarMumentActivity :
         binding.tvNotifyFinish.setOnClickListener {
             if(binding.ivBlockCheck.isSelected) {
                 val mumentId = viewModel.mumentId.value ?: ""
-                viewModel.blockUser(mumentId)
+
                 reportNetwork()
-                showToast("신고 및 차단이 완료되었습니다.")
+                viewModel.isReportMuemnt.observe(this) {
+                    if(it == true) {
+                        viewModel.blockUser(mumentId)
+                        viewModel.isWarnUser.observe(this) {
+                            if(it == true)  showToast("신고 및 차단이 완료되었습니다.")
+                            else {
+                                showToast("신고가 정상적으로 완료되었으나, 일시적인 네트워크 오류로 인해 차단을 실패했습니다. 잠시 후 다시 시도해주시기 바랍니다.")
+                            }
+                        }
+                    }
+                }
 
             } else {
                 reportNetwork()
@@ -120,10 +144,10 @@ class DeclarMumentActivity :
         if(binding.ivSeventhReason.isSelected) {
             reasonList.add(7)
         }
-        Log.e("TEST123", "${reasonList.toString()}")
         val mumentId = viewModel.mumentId.value ?: ""
         val ReportRequest = ReportRequest(binding.editText.text.toString(),reasonList)
         viewModel.reportMument( mumentId,ReportRequest)
+
 
     }
 

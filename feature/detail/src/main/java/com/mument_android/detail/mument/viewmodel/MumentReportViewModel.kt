@@ -1,5 +1,6 @@
 package com.mument_android.detail.mument.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,16 +18,31 @@ class MumentReportViewModel @Inject constructor(
 ): ViewModel() {
     val reasonLength = MutableLiveData<String>()
     val mumentId = MutableLiveData<String?>()
-
+    val isReportMuemnt = MutableLiveData<Boolean?>()
+    val isWarnUser = MutableLiveData<Boolean?>()
     fun reportMument(mumentId: String, reportRequest: ReportRequest) {
         viewModelScope.launch {
-            reportMumentUseCase.reportMuemnt(mumentId, reportRequest)
+            kotlin.runCatching { reportMumentUseCase.reportMuemnt(mumentId, reportRequest) }
+                .onSuccess {
+                    isReportMuemnt.value = true
+                }
+                .onFailure {
+                    it.printStackTrace()
+                }
+
         }
     }
 
     fun blockUser(mumentId: String) {
         viewModelScope.launch {
-            blockUserUseCase.invoke(mumentId)
+            kotlin.runCatching { blockUserUseCase(mumentId) }
+                .onSuccess {
+                    isWarnUser.value = true
+                }
+                .onFailure {
+                    isWarnUser.value = false
+                }
         }
     }
+
 }
