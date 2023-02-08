@@ -15,11 +15,12 @@ import javax.inject.Inject
 class MumentReportViewModel @Inject constructor(
     private val reportMumentUseCase: ReportMumentUseCase,
     private val blockUserUseCase: BlockUserUseCase,
-): ViewModel() {
+) : ViewModel() {
     val reasonLength = MutableLiveData<String>()
     val mumentId = MutableLiveData<String?>()
     val isReportMuemnt = MutableLiveData<Boolean?>()
     val isWarnUser = MutableLiveData<Boolean?>()
+
     fun reportMument(mumentId: String, reportRequest: ReportRequest) {
         viewModelScope.launch {
             kotlin.runCatching { reportMumentUseCase.reportMuemnt(mumentId, reportRequest) }
@@ -35,12 +36,9 @@ class MumentReportViewModel @Inject constructor(
 
     fun blockUser(mumentId: String) {
         viewModelScope.launch {
-            kotlin.runCatching { blockUserUseCase(mumentId) }
-                .onSuccess {
-                    isWarnUser.value = true
-                }
-                .onFailure {
-                    isWarnUser.value = false
+            blockUserUseCase(mumentId)
+                .collect {
+
                 }
         }
     }

@@ -182,7 +182,7 @@ class MumentDetailViewModel @Inject constructor(
         }
     }
 
-    private fun blockUser() {
+    fun blockUser() {
         viewModelScope.launch {
             blockUserUseCase(viewState.value.requestMumentId)
                 .collect {

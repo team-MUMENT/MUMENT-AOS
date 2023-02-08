@@ -79,7 +79,7 @@ class DeclarMumentActivity :
     }
 
     private fun isBtnActive() = with(binding) {
-        if(clFirstReason.isSelected || clSecondReason.isSelected || clThirdReason.isSelected || clForthReason.isSelected || clFifthReason.isSelected || clSixthReason.isSelected || clSeventhReason.isSelected) {
+        if (clFirstReason.isSelected || clSecondReason.isSelected || clThirdReason.isSelected || clForthReason.isSelected || clFifthReason.isSelected || clSixthReason.isSelected || clSeventhReason.isSelected) {
             tvNotifyFinish.isEnabled = true
         }
     }
@@ -94,59 +94,51 @@ class DeclarMumentActivity :
 
     private fun nextBtnListener() {
         binding.tvNotifyFinish.setOnClickListener {
-            if(binding.ivBlockCheck.isSelected) {
-                val mumentId = viewModel.mumentId.value ?: ""
 
+            if (binding.ivBlockCheck.isSelected) {
                 reportNetwork()
+                val mumentId = viewModel.mumentId.value ?: ""
                 viewModel.isReportMuemnt.observe(this) {
-                    if(it == true) {
+                    if (it == true) {
                         viewModel.blockUser(mumentId)
-                        viewModel.isWarnUser.observe(this) {
-                            if(it == true)  showToast("신고 및 차단이 완료되었습니다.")
-                            else {
-                                showToast("신고가 정상적으로 완료되었으나, 일시적인 네트워크 오류로 인해 차단을 실패했습니다. 잠시 후 다시 시도해주시기 바랍니다.")
-                            }
-                        }
+                        showToast("신고 및 차단이 완료되었습니다.")
                     }
                 }
-
             } else {
                 reportNetwork()
                 showToast("신고가 접수되었습니다.")
-
             }
             finish()
-
         }
     }
 
     private fun reportNetwork() {
-        val reasonList : MutableList<Int> = mutableListOf()
+        val reasonList: MutableList<Int> = mutableListOf()
         //TODO : 신고 api연결
-        if(binding.ivFirstReason.isSelected) {
+        if (binding.ivFirstReason.isSelected) {
             reasonList.add(1)
         }
-        if(binding.ivSecondReason.isSelected) {
+        if (binding.ivSecondReason.isSelected) {
             reasonList.add(2)
         }
-        if(binding.ivThirdReason.isSelected) {
+        if (binding.ivThirdReason.isSelected) {
             reasonList.add(3)
         }
-        if(binding.ivForthReason.isSelected) {
+        if (binding.ivForthReason.isSelected) {
             reasonList.add(4)
         }
-        if(binding.ivFifthReason.isSelected) {
+        if (binding.ivFifthReason.isSelected) {
             reasonList.add(5)
         }
-        if(binding.ivSixthReason.isSelected) {
+        if (binding.ivSixthReason.isSelected) {
             reasonList.add(6)
         }
-        if(binding.ivSeventhReason.isSelected) {
+        if (binding.ivSeventhReason.isSelected) {
             reasonList.add(7)
         }
         val mumentId = viewModel.mumentId.value ?: ""
-        val ReportRequest = ReportRequest(binding.editText.text.toString(),reasonList)
-        viewModel.reportMument( mumentId,ReportRequest)
+        val ReportRequest = ReportRequest(binding.editText.text.toString(), reasonList)
+        viewModel.reportMument(mumentId, ReportRequest)
 
 
     }
