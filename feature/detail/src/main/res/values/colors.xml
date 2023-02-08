@@ -15,5 +15,7 @@
     <color name="mument_color_purple2">#EAE3FF</color>
     <color name="dialog_background">#a6000000</color>
     <color name="mument_color_bgwhite">#FAFAFA</color>
+    <color name="mument_not_color_gray">#FF807F82</color>
+    <color name="mument_not_color_white">#FFEDEBEB</color>
     <color name="transparent">#00000000</color>
 </resources>

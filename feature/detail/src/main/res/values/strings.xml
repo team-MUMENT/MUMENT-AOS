@@ -41,4 +41,10 @@
     <!-- Component IDs -->
     <string name="id_insta_share_profile_image">id_insta_share_profile_image</string>
     <string name="id_insta_share_profile_name">id_insta_share_profile_name</string>
+
+    <!-- Alert -->
+    <string name="alert_notify_title">알림 설정하시고\n뮤멘트의 즐거움을 놓치지 마세요!</string>
+    <string name="alert_notify_subtitle"><![CDATA[알림 수신 동의는 알림 설정 메뉴에서 관리하실 수 있습니다.\n보관함 탭 > 마이페이지 > 알림 설정 메뉴]]></string>
+    <string name="alert_btn_noti_no">알림 받지 않기</string>
+    <string name="alert_btn_noti_yes">좋아요 알림 받기</string>
 </resources>
