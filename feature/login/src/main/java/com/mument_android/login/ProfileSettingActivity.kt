@@ -3,6 +3,8 @@ package com.mument_android.login
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,6 +14,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.net.toFile
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -27,8 +31,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -169,16 +176,6 @@ class ProfileSettingActivity :
                     if (imageUri != null) {
                         viewModel.imageUri.value = uri
                     }
-                    //TODO 이미지 null인 경우 이미지 3개 중 임의로 하나 보내주기
-                    /*
-                    else {
-                        val drawable: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.mument_profile_love_45, null)
-                        val imageUri = "drawable://$drawable".toUri()
-                        viewModel.imageUri.value = imageUri
-                    }
-
-                     */
-
                 }
             }
         }
@@ -203,11 +200,41 @@ class ProfileSettingActivity :
     }
 
     private fun putProfileNetwork() {
+        val nickname = binding.etNickname.text.toString()
+        val requestBodyMap = HashMap<String, RequestBody>()
+        requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
+        val rnds = (0..2).random()
+        if (viewModel.imageUri.value == null) {
+            if(rnds == 0) {
+                changeImageUri(R.drawable.mument_profile_love_45)
+            } else if(rnds == 1) {
+                changeImageUri(R.drawable.mument_profile_smile_45)
+            } else {
+                changeImageUri(R.drawable.mument_profile_sleep_45)
+            }
+        } else {
+            val multipart = viewModel.imageUri.value?.let {
+                multiPartResolver.createImageMultiPart(it)
+            }
+            viewModel.putProfile(multipart, requestBodyMap)
+        }
+
+        moveToMainActivity()
+        val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
+        viewModel.putProfile(multipart, requestBodyMap)
+    }
+
+    private fun changeImageUri(img : Int) {
         val requestBodyMap = HashMap<String, RequestBody>()
         val nickname = binding.etNickname.text.toString()
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
-        val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
-        viewModel.putProfile(multipart, requestBodyMap)
+        val bitmap = BitmapFactory.decodeResource(resources, img)
+        val bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        val data = bos.toByteArray()
+        val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), data)
+        val image = MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
+        viewModel.putProfile(image,requestBodyMap)
     }
 
     private suspend fun nickNameDupCheck() {
