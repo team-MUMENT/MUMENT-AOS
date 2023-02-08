@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/tv_block_user_title"
-            style="@style/TextView.Mument_H3_B16.Style"
+            android:textAppearance="@style/TextView.Mument_H2_B18.TextAppearance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
