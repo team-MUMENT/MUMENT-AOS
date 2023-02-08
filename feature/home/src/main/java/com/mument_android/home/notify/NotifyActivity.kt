@@ -85,7 +85,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
 
     private fun moveToNoticeView(notify: Notify) {
         //Move Notice
-        moveNotifyNavigatorProvider.moveToNoticeDetail(notify.id)
+        moveNotifyNavigatorProvider.moveToNoticeDetail(notify.linkId)
     }
 
     private fun adapterSetting() {
