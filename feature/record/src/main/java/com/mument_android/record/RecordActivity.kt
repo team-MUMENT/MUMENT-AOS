@@ -187,6 +187,7 @@ class RecordActivity :
             btnRecordFirst.setOnClickListener {
                 btnRecordFirst.isChangeButtonFont(true)
                 btnRecordSecond.isChangeButtonFont(false)
+                recordViewModel?.isFirstDuplicate = true
             }
             btnRecordFirst.setOnTouchListener { view, _ ->
                 if (!binding.btnRecordFirst.isClickable) {
@@ -221,37 +222,34 @@ class RecordActivity :
     private fun observingListen() {
         recordViewModel.isFirst.observe(this) {
             Log.e("IS FIRST", it.toString())
+            recordViewModel.isFirstDuplicate = it ?: true
             if (it != null) {
                 //기록하기 일 때, 기록한 적이 없다면
                 if (recordViewModel.modifyMumentId.value == null) {
-//                    if (recordViewModel.mumentData.value!!.mument.isFirst.tagIdx == 0) {
-                        //처음들었다면
-                        if (it) {
-                            //처음들었어요 true, 다시들었어요 false
-                            binding.btnRecordFirst.isChangeButtonFont(it)
-                            binding.btnRecordSecond.isChangeButtonFont(false)
-                        }
-                        //다시 들었다면 -> isFirst.value == false
-                        else {
-                            //처음들었어요 false, 다시들었어요 false , 처음들었어요 선택 못하도록
-                            binding.btnRecordFirst.isChangeButtonFont(it)
-                            binding.btnRecordSecond.isChangeButtonFont(true)
-                            binding.btnRecordFirst.isClickable = false
-                        }
+                    //처음들었다면
+                    if (it) {
+                        //처음들었어요 true, 다시들었어요 false
+                        binding.btnRecordFirst.isChangeButtonFont(it)
+                        binding.btnRecordSecond.isChangeButtonFont(false)
                     }
-                    //곡을 선택했는데 기록한 적이 없다
-//                    else {
-//                        binding.btnRecordFirst.isChangeButtonFont(!it)
-//                        binding.btnRecordSecond.isChangeButtonFont(it)
-//                    }
-                    //수정하기 일 때
-                 else {
+                    //다시 들었다면 -> isFirst.value == false
+                    else {
+                        //처음들었어요 false, 다시들었어요 false , 처음들었어요 선택 못하도록
+                        binding.btnRecordFirst.isChangeButtonFont(it)
+                        binding.btnRecordSecond.isChangeButtonFont(true)
+                        binding.btnRecordFirst.isClickable = false
+                    }
+                }
+                //수정하기 일 때
+                else {
                     //다시들었어요 일 때
-                    if (!it) {
+                    if (!it) {  //isFirst 가 false 일 때"
+                        Log.e("수정하기에서 다시 들었어요", "${recordViewModel.isFirst.value}")
                         binding.btnRecordFirst.isChangeButtonFont(it)
                         binding.btnRecordSecond.isChangeButtonFont(true)
                         binding.btnRecordFirst.isClickable = false
                     } else {
+                        Log.e("수정하기에서 처음 들었어요", "${recordViewModel.isFirst.value}")
                         binding.btnRecordFirst.isChangeButtonFont(it)
                         binding.btnRecordSecond.isChangeButtonFont(!it)
                     }
@@ -292,6 +290,7 @@ class RecordActivity :
             binding.btnRecordSecond.setOnClickListener {
                 btnRecordFirst.isChangeButtonFont(false)
                 btnRecordSecond.isChangeButtonFont(true)
+                recordViewModel?.isFirstDuplicate = false
             }
         }
     }
@@ -362,10 +361,11 @@ class RecordActivity :
                     binding.clRecordRoot,
                     getString(R.string.modify_record)
                 )
-                recordViewModel.mumentId.value = ""
                 recordViewModel.putMument()
+                recordViewModel.mumentId.value = ""
             }
             collectFlowWhenStarted(recordViewModel.isSuccess) { success ->
+                Log.e("IS SUCCESS", "$success")
                 if (success) {
                     recordViewModel.selectedMusic.value?.let { music ->
                         moveMusicDetailNavigatorProvider.intentMusicDetail(

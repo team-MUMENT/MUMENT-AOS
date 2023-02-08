@@ -31,11 +31,10 @@ class MumentDetailViewModel @Inject constructor(
     private val dataStoreManager: DataStoreManager,
     private val mediaUtils: MediaUtils
 ) : MviViewModel<MumentDetailEvent, MumentDetailViewState, MumentDetailSideEffect>() {
-
     override fun setInitialState(): MumentDetailViewState  = MumentDetailViewState()
 
     override fun handleEvents(event: MumentDetailEvent) {
-        when(event) {
+        when (event) {
             MumentDetailEvent.OnClickBackButton -> setEffect { MumentDetailSideEffect.PopBackStack }
 
             is MumentDetailEvent.ReceiveMumentId -> {
@@ -59,15 +58,33 @@ class MumentDetailViewModel @Inject constructor(
             MumentDetailEvent.SelectReportMumentType -> setEffect { MumentDetailSideEffect.NavToReportMument(viewState.value.requestMumentId) }
             MumentDetailEvent.OnClickBlockUser -> { blockUser() }
 
-            is MumentDetailEvent.SelectMumentEditType -> setEffect { MumentDetailSideEffect.NavToEditMument(event.mument) }
+            MumentDetailEvent.OnClickBlockUser -> {
+                blockUser()
+            }
+
+            is MumentDetailEvent.SelectMumentEditType -> setEffect {
+                MumentDetailSideEffect.NavToEditMument(
+                    event.mumentId,
+                    event.mumentModifyEntity,
+                    event.music
+                )
+            }
             MumentDetailEvent.OnClickDeleteMument -> deleteMument()
 
             MumentDetailEvent.OnClickLikeMument -> likeMument()
             MumentDetailEvent.OnClickUnLikeMument -> cancelLikeMument()
 
-            is MumentDetailEvent.OnClickAlum -> setEffect { MumentDetailSideEffect.NavToMusicDetail(event.music) }
+            is MumentDetailEvent.OnClickAlum -> setEffect {
+                MumentDetailSideEffect.NavToMusicDetail(
+                    event.music
+                )
+            }
 
-            is MumentDetailEvent.OnClickHistory -> setEffect { MumentDetailSideEffect.NavToMumentHistory(event.musicId) }
+            is MumentDetailEvent.OnClickHistory -> setEffect {
+                MumentDetailSideEffect.NavToMumentHistory(
+                    event.musicId
+                )
+            }
 
             is MumentDetailEvent.OnClickShareMument -> {
                 event.mumentEntity?.let { mument ->
@@ -76,7 +93,9 @@ class MumentDetailViewModel @Inject constructor(
                     }
                 } ?: setEffect { MumentDetailSideEffect.Toast(R.string.cannot_access_insta) }
             }
-            is MumentDetailEvent.UpdateMumentToShareInstagram -> { setState { copy(mument = event.mument) } }
+            is MumentDetailEvent.UpdateMumentToShareInstagram -> {
+                setState { copy(mument = event.mument) }
+            }
             is MumentDetailEvent.OnDismissShareMumentDialog -> {
                 setEffect { MumentDetailSideEffect.NavToInstagram(event.imageUri) }
                 setState { copy(fileToShare = event.imageFile) }
@@ -119,10 +138,10 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun changeLikeStatus(like: Boolean) {
         if (like) {
-            setState { copy(likeCount = likeCount + 1 ) }
+            setState { copy(likeCount = likeCount + 1) }
             setState { copy(isLikedMument = true) }
         } else {
-            setState { copy(likeCount = likeCount - 1 ) }
+            setState { copy(likeCount = likeCount - 1) }
             setState { copy(isLikedMument = false) }
         }
     }
@@ -130,8 +149,10 @@ class MumentDetailViewModel @Inject constructor(
     private fun fetchMumentDetailContent(mumentId: String) {
         viewModelScope.launch {
             fetchMumentDetailContentUseCase(mumentId).collect { status ->
-                when(status) {
-                    ApiStatus.Loading -> { setState { copy(onNetwork = true) } }
+                when (status) {
+                    ApiStatus.Loading -> {
+                        setState { copy(onNetwork = true) }
+                    }
                     is ApiStatus.Failure -> disableFetchData()
 
                     is ApiStatus.Success -> {
@@ -155,7 +176,7 @@ class MumentDetailViewModel @Inject constructor(
     }
 
     private fun disableFetchData() {
-        setState { copy(hasError= true, onNetwork = false) }
+        setState { copy(hasError = true, onNetwork = false) }
         setEffect { MumentDetailSideEffect.Toast(R.string.cannot_load_data) }
     }
 
@@ -165,7 +186,8 @@ class MumentDetailViewModel @Inject constructor(
                 .catch { e -> }
                 .collect {
                     setState {
-                        copy(hasWrittenMument = it.map { it.user.userId }.contains(BuildConfig.USER_ID))
+                        copy(hasWrittenMument = it.map { it.user.userId }
+                            .contains(BuildConfig.USER_ID))
                     }
                 }
         }

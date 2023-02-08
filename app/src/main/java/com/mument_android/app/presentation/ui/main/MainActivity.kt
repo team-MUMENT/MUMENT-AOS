@@ -3,7 +3,10 @@ package com.mument_android.app.presentation.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -22,6 +25,7 @@ import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.home.main.HomeFragment
 import com.mument_android.record.RecordActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,10 +36,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
     @Inject lateinit var dataStoreManager: DataStoreManager
+    private lateinit var getResultText: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+//        getResultText =
+//            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+//                if (it.resultCode == AppCompatActivity.RESULT_OK) {
+//                    it.data?.getStringExtra(HomeFragment.MUSIC_ID)?.apply {
+//                        changeCurrentFragment(R.id.homeFragment)
+//                        navController.navigate(R.id.action)
+//                    }
+//                }
+//            }
         initNavigation()
         floatingBtnListener()
         customAppBar()
