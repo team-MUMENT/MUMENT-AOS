@@ -1,10 +1,14 @@
 package com.mument_android.detail.music
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,11 +24,12 @@ import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
+import com.mument_android.detail.history.HistoryActivity
+import com.mument_android.detail.mument.fragment.MumentDetailFragment
 import com.mument_android.detail.mument.listener.MumentClickListener
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEffect
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEvent
 import com.mument_android.domain.entity.music.MusicInfoEntity
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -33,6 +38,7 @@ import javax.inject.Inject
 class MusicDetailFragment() : Fragment() {
     private var binding by AutoClearedValue<FragmentMusicDetailBinding>()
     private val musicDetailViewModel: MusicDetailViewModel by viewModels()
+    private lateinit var getResultText: ActivityResultLauncher<Intent>
 
     @Inject
     lateinit var recordProvider: MoveRecordProvider
@@ -56,6 +62,19 @@ class MusicDetailFragment() : Fragment() {
         binding.musicDetailViewModel = musicDetailViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        getResultText =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == AppCompatActivity.RESULT_OK) {
+                    it.data?.getParcelableExtra<MusicInfoEntity>("MUSIC_INFO")?.let { music ->
+                        it.data?.getStringExtra(MumentDetailFragment.MUMENT_ID)?.let { mumentId ->
+                            mumentDetailNavigatorProvider.musicDeatilToMumentDetail(
+                                mumentId,
+                                music
+                            )
+                        }
+                    }
+                }
+            }
         clickBackButton()
         setMyMumentTagList()
         setEntireMumentListAdapter()
@@ -93,7 +112,9 @@ class MusicDetailFragment() : Fragment() {
         collectFlowWhenStarted(musicDetailViewModel.effect) { effect ->
             when (effect) {
                 is MusicDetailEffect.ShowToast -> requireContext().showToast(effect.msg)
-                MusicDetailEffect.PopBackStack -> { findNavController().popBackStack() }
+                MusicDetailEffect.PopBackStack -> {
+                    findNavController().popBackStack()
+                }
             }
         }
     }
@@ -142,15 +163,15 @@ class MusicDetailFragment() : Fragment() {
             musicDetailViewModel.viewState.value.musicInfo
                 ?.let {
                     musicDetailViewModel.viewState.value.myMumentInfo?.user?.userId?.let { userId ->
-                        historyNavigatorProvider.moveHistory(
-                            Music(
-                                it.id,
-                                it.name,
-                                it.artist,
-                                it.thumbnail
-                            ),
-                            userId = userId.toInt()
-                        )
+                        getResultText.launch(
+                            Intent(
+                                requireActivity(),
+                                HistoryActivity::class.java
+                            ).apply {
+                                putExtra("music", it.toMusic())
+                                putExtra("userId", userId)
+                            })
+
                     }
                 }
         }
