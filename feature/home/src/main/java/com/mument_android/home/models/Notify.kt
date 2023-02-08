@@ -1,5 +1,7 @@
 package com.mument_android.home.models
 
+import com.mument_android.domain.entity.home.Like
+import com.mument_android.domain.entity.home.Notice
 import com.mument_android.home.util.NotifyType
 
 data class Notify(
@@ -10,8 +12,6 @@ data class Notify(
     val isRead: Boolean,
     val createdAt: String,
     val linkId: Int,
-    val noticePoint: String?,
-    val noticeTitle: String?,
-    val likeMusicTitle: String?,
-    val likeProfileId: String?,
+    val notice: Notice,
+    val like: Like
 )

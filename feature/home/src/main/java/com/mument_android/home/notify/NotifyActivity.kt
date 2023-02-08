@@ -21,7 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
     inflate = ActivityNotifyBinding::inflate, mode = TransitionMode.HORIZONTAL
 ) {
-
     private lateinit var notifyAdapter: NotifyAdapter
     private val notifyViewModel by viewModels<NotifyViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +35,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
         collectFlowWhenStarted(notifyViewModel.notifyViewState) { notifyViewState ->
             with(notifyViewState) {
                 notifyList?.let { notifies ->
+                    Log.e("NOTIFES", notifies.toString())
                     notifyAdapter.submitList(notifies)
                 }
             }
