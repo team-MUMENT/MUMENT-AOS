@@ -256,7 +256,7 @@ class ProfileSettingActivity :
         collectFlowWhenStarted(viewModel.isSuccess) { success ->
             if (success) {
                 if (isCheckMypage == 1)
-                    moveToMypageActivity()
+                    finish()
                 else
                     moveToMainActivity()
             }

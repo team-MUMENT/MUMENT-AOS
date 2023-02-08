@@ -19,6 +19,12 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
 
     private val myPageViewModel: MyPageViewModel by viewModels()
 
+    override fun onStart() {
+        super.onStart()
+        myPageViewModel.userInfo()
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.myPageViewModel = myPageViewModel
@@ -104,7 +110,6 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     }
 
     private fun userInfoNetwork() {
-        myPageViewModel.userInfo()
         myPageViewModel.userInfo.observe(this) {
             binding.viewModel = it
         }
@@ -144,7 +149,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
 
     private fun backBtnEvent() {
         binding.btnMyPageBack.setOnClickListener {
-            onBackPressed()
+            finish()
         }
     }
 
