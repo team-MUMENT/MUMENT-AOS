@@ -122,14 +122,17 @@
                     <TextView
                         android:id="@+id/tv_title"
                         style="@style/TextView.Mument_B4_M14.Style"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:text="@{recordViewModel.selectedMusic.name}"
                         android:textColor="@color/mument_color_black1"
+                        app:layout_constraintEnd_toStartOf="@+id/iv_delete"
                         app:layout_constraintStart_toEndOf="@id/iv_album"
                         app:layout_constraintTop_toTopOf="@id/iv_album"
-                        tools:text="덩" />
+                        tools:text="사랑하긴 했었나요 스쳐가는 인연이였나요요요요용요" />
 
                     <TextView
                         style="@style/TextView.Mument_B7_M12.Style"
@@ -137,6 +140,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="@{recordViewModel.selectedMusic.artist}"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_album"
                         app:layout_constraintStart_toStartOf="@id/tv_title"
                         app:layout_constraintTop_toBottomOf="@id/tv_title"
                         tools:text="새소년" />
