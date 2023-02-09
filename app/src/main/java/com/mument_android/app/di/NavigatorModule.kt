@@ -51,5 +51,8 @@ abstract class NavigatorModule {
     abstract fun provideDeclareProvider(declareNavigatorProviderImpl: DeclareNavigatorProviderImpl) : DeclareNavigatorProvider
 
     @Binds
+    abstract fun provideReportMumentNavigatorProvider(reportMumentNavigatorProviderImpl: ReportMumentNavigatorProviderImpl): ReportMumentNavigatorProvider
+
+    @Binds
     abstract fun bindMoveToAlarmFragmentProvider(moveToAlarmFragmentProvider: MoveToAlarmFragmentProviderImpl): MoveToAlarmFragmentProvider
 }

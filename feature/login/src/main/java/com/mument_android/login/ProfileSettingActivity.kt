@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.net.toFile
 import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -243,6 +244,7 @@ class ProfileSettingActivity :
             if (it == 200) {
                 CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
             } else if (it == 204) {
+
                 putProfileNetwork()
             } else {
             }
@@ -252,7 +254,7 @@ class ProfileSettingActivity :
     private fun dulCheckListener() {
         val isCheckMypage = intent.getIntExtra("checkMyPage", 0)
         binding.tvProfileFinish.setOnClickListener {
-            viewModel.viewModelScope.launch {
+            lifecycleScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
                 if (isCheckMypage == 1)

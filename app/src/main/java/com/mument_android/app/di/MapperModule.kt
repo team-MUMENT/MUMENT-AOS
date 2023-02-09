@@ -22,6 +22,7 @@ import com.mument_android.data.mapper.mypage.BlockUserListMapper
 import com.mument_android.data.mapper.mypage.NoticeListMapper
 import com.mument_android.data.mapper.sign.*
 import com.mument_android.data.mapper.mypage.UserInfoMapper
+import com.mument_android.data.mapper.record.MumentModifyMapper
 import com.mument_android.data.mapper.sign.GetWebViewMapper
 import dagger.Module
 import dagger.Provides
@@ -177,19 +178,19 @@ object MapperModule {
 
     @Provides
     @Singleton
-    fun provideKaKaoMapper() : KakaoLoginMapper = KakaoLoginMapper()
+    fun provideKaKaoMapper(): KakaoLoginMapper = KakaoLoginMapper()
 
     @Provides
     @Singleton
-    fun provideUserInfoMapper() : UserInfoMapper = UserInfoMapper()
+    fun provideUserInfoMapper(): UserInfoMapper = UserInfoMapper()
 
     @Provides
     @Singleton
-    fun provideLimitUserMapper() : LimitUserMapper = LimitUserMapper()
+    fun provideLimitUserMapper(): LimitUserMapper = LimitUserMapper()
 
     @Provides
     @Singleton
-    fun provideNewTokenMapper() : NewTokenMapper = NewTokenMapper()
+    fun provideNewTokenMapper(): NewTokenMapper = NewTokenMapper()
 
     @Provides
     @Singleton
@@ -208,4 +209,8 @@ object MapperModule {
     @Singleton
     fun provideRequestReportMumentMapper() : ReportMumentMapper = ReportMumentMapper()
 
+    @Provides
+    @Singleton
+    fun provideMumentModifyMapper(): MumentModifyMapper =
+        MumentModifyMapper()
 }

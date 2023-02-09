@@ -103,11 +103,27 @@ class HomeViewModel @Inject constructor(
                 HomeEvent.OnClickSearch -> emitEffect(HomeSideEffect.GoToSearchActivity)
                 HomeEvent.OnClickNotification -> emitEffect(HomeSideEffect.GoToNotification)
                 is HomeEvent.CallBackSearchResult -> emitEffect(
-                    HomeSideEffect.NavToMusicDetail(event.musicInfo))
+                    HomeSideEffect.NavToMusicDetail(event.musicInfo)
+                )
                 is HomeEvent.OnClickBanner -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicInfo))
-                is HomeEvent.OnClickTodayMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo))
-                is HomeEvent.OnClickHeardMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo))
-                is HomeEvent.OnClickRandomMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo))
+                is HomeEvent.OnClickTodayMument -> emitEffect(
+                    HomeSideEffect.NavToMumentDetail(
+                        event.mument,
+                        event.musicInfo
+                    )
+                )
+                is HomeEvent.OnClickHeardMument -> emitEffect(
+                    HomeSideEffect.NavToMumentDetail(
+                        event.mument,
+                        event.musicInfo
+                    )
+                )
+                is HomeEvent.OnClickRandomMument -> emitEffect(
+                    HomeSideEffect.NavToMumentDetail(
+                        event.mument,
+                        event.musicInfo
+                    )
+                )
             }
         }
     }

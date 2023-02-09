@@ -16,27 +16,14 @@
         android:id="@+id/cl_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mument_color_bgwhite"
         tools:context="com.mument_android.record.com.mument_android.record.BottomSheetSearchFragment">
-
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="20dp"
-            android:paddingEnd="4dp"
-            android:src="@drawable/ic_back"
-            app:layout_constraintBottom_toBottomOf="@id/et_search"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/et_search" />
 
         <EditText
             android:id="@+id/et_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_margin="16dp"
             android:layout_marginTop="27dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/rectangle_fill_gray5_11dp"
             android:hint="곡 아티스트"
             android:imeOptions="actionDone"
@@ -49,7 +36,7 @@
             android:textAppearance="@style/TextView.Mument_B4_M14.TextAppearance"
             android:textColor="@color/mument_color_black2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_back"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlSymmetry" />
 
@@ -123,11 +110,11 @@
             android:id="@+id/rc_search"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/mument_color_bgwhite"
             android:clipToPadding="false"
             android:overScrollMode="never"
             android:paddingTop="@{bottomViewmodel.searchOption?@dimen/app_space_35:@dimen/app_space_0}"
             android:paddingBottom="87dp"
-            android:background="@color/mument_color_bgwhite"
             android:visibility="@{bottomViewmodel.searchList.size() == 0 &amp;&amp; bottomViewmodel.searchResultList.size() == 0? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

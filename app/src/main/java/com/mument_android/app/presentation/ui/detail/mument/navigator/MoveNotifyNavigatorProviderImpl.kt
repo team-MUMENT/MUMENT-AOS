@@ -5,6 +5,8 @@ import android.content.Intent
 import com.angdroid.navigation.MoveNotifyNavigatorProvider
 import com.google.gson.Gson
 import com.mument_android.app.presentation.ui.main.MainActivity
+import com.mument_android.core.util.Constants.MUMENT_ID
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.home.notify.NotifyActivity
 import com.mument_android.mypage.NoticeDetailActivity
@@ -23,8 +25,8 @@ class MoveNotifyNavigatorProviderImpl @Inject constructor(val activity: Activity
     override fun moveToMumentDetail(mumentId: String, musicInfoEntity: MusicInfoEntity) {
         with(activity as NotifyActivity) {
             startActivity(Intent(this, MainActivity::class.java).apply {
-                putExtra("MUMENT_ID", mumentId)
-                putExtra("MUSIC_INFO", Gson().toJson(musicInfoEntity))
+                putExtra(MUMENT_ID, mumentId)
+                putExtra(MUSIC_INFO_ENTITY, Gson().toJson(musicInfoEntity))
             })
             finish()
         }

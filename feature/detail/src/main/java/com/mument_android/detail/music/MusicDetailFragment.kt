@@ -17,6 +17,8 @@ import com.angdroid.navigation.HistoryNavigatorProvider
 import com.angdroid.navigation.MoveRecordProvider
 import com.angdroid.navigation.MoveToAlarmFragmentProvider
 import com.angdroid.navigation.MumentDetailNavigatorProvider
+import com.mument_android.core.util.Constants.MUMENT_ID
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -70,9 +72,9 @@ class MusicDetailFragment() : Fragment() {
         getResultText =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                    it.data?.getParcelableExtra<MusicInfoEntity>("MUSIC_INFO")?.let { music ->
-                        it.data?.getStringExtra(MumentDetailFragment.MUMENT_ID)?.let { mumentId ->
-                            mumentDetailNavigatorProvider.musicDeatilToMumentDetail(
+                    it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
+                        it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
+                            mumentDetailNavigatorProvider.musicDetailToMumentDetail(
                                 mumentId,
                                 music
                             )
@@ -103,7 +105,6 @@ class MusicDetailFragment() : Fragment() {
 
     private fun receiveMusicId() {
         arguments?.getParcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
-            Log.e("music info", "${it}")
             musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicInfo(it))
         }
     }
@@ -139,7 +140,7 @@ class MusicDetailFragment() : Fragment() {
             adapter = MusicDetailMumentListAdapter(object : MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
                     musicDetailViewModel.viewState.value.musicInfo?.let { musicInfo ->
-                        mumentDetailNavigatorProvider.musicDeatilToMumentDetail(mumentId, musicInfo)
+                        mumentDetailNavigatorProvider.musicDetailToMumentDetail(mumentId, musicInfo)
                     }
                 }
 
@@ -193,6 +194,5 @@ class MusicDetailFragment() : Fragment() {
 
     companion object {
         const val MUSIC_ID = "MUSIC_ID"
-        const val MUSIC_INFO_ENTITY = "MUSIC_INFO_ENTITY"
     }
 }

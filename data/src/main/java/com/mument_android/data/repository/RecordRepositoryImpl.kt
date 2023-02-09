@@ -3,8 +3,10 @@ package com.mument_android.data.repository
 import com.mument_android.data.controller.RecordController
 import com.mument_android.data.controller.RecordModifyController
 import com.mument_android.data.datasource.record.RecordDataSource
+import com.mument_android.data.mapper.record.MumentModifyMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
+import com.mument_android.domain.entity.record.MumentModifyEntity
 import com.mument_android.domain.entity.record.MumentRecordEntity
 import com.mument_android.domain.entity.record.RecordIsFirstEntity
 import com.mument_android.domain.repository.record.RecordRepository
@@ -19,31 +21,30 @@ class RecordRepositoryImpl @Inject constructor(
     private val recordMapper: RecordMapper,
     private val recordModifyController: RecordModifyController,
     private val recordController: RecordController,
-    private val mumentRecordMapper: MumentRecordMapper
+    private val mumentRecordMapper: MumentRecordMapper,
+    private val mumnetModifyMapper: MumentModifyMapper
 ) : RecordRepository {
     override suspend fun fetchMumentRecord(
-        userId: String,
         musicId: String
     ): Flow<RecordIsFirstEntity> = flow {
-        recordDataSource.fetchMumentRecord(userId, musicId)?.let {
+        recordDataSource.fetchMumentRecord(musicId)?.let {
             emit(recordMapper.map(it))
         }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun updateMumentRecord(
         mumentId: String,
-        entity: MumentRecordEntity
+        entity: MumentModifyEntity
     ): Flow<String> = flow {
-        recordModifyController.recordModifyMument(mumentId, mumentRecordMapper.map(entity))
+        recordModifyController.recordModifyMument(mumentId, mumnetModifyMapper.map(entity))
             .data?.let { emit(it.id) }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun insertMumentRecord(
         musicId: String,
-        userId: String,
         entity: MumentRecordEntity
     ): Flow<String> = flow {
-        recordController.recordMument(musicId, userId, mumentRecordMapper.map(entity)).data?.let {
+        recordController.recordMument(musicId, mumentRecordMapper.map(entity)).data?.let {
             emit(it.id)
         }
     }.flowOn(Dispatchers.IO)

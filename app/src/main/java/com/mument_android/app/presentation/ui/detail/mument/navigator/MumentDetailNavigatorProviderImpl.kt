@@ -6,7 +6,7 @@ import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.google.gson.Gson
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.mument_android.detail.mument.fragment.MumentDetailFragment.Companion.MUSIC_INFO
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.home.main.HomeFragment
 import javax.inject.Inject
@@ -15,23 +15,26 @@ class MumentDetailNavigatorProviderImpl @Inject constructor (
     private val activity: Activity
 ): MumentDetailNavigatorProvider {
     override fun moveHomeToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
-        moveToMumentDetail(R.id.action_homeFragment_to_nav_detail, mumentId, musicInfo)
+        moveToMumentDetail(R.id.action_homeFragment_to_mumentDetailFragment, mumentId, musicInfo)
     }
 
     override fun moveLockerToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
-        moveToMumentDetail(R.id.action_lockerFragment_to_nav_detail, mumentId, musicInfo)
+        moveToMumentDetail(R.id.action_lockerFragment_to_mumentDetailFragment, mumentId, musicInfo)
     }
 
-    override fun musicDeatilToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
+    override fun musicDetailToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
         moveToMumentDetail(R.id.action_musicDetailFragment_to_mumentDetailFragment, mumentId, musicInfo)
     }
 
+    override fun mainActivityToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
+    }
+
     private fun moveToMumentDetail(actionId: Int, mumentId: String, musicInfo: MusicInfoEntity) {
-        with(activity as MainActivity) {
+        if(activity is MainActivity) {
             val bundle = Bundle()
                 .also { it.putString(HomeFragment.MUMENT_ID, mumentId) }
-                .also { it.putString(MUSIC_INFO, Gson().toJson(musicInfo)) }
-            this.navController.navigate(actionId, bundle)
+                .also { it.putString(MUSIC_INFO_ENTITY, Gson().toJson(musicInfo)) }
+            activity.navController.navigate(actionId, bundle)
         }
     }
 }

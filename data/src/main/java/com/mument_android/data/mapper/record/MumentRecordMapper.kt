@@ -10,6 +10,10 @@ class MumentRecordMapper : BaseMapper<MumentRecordEntity, MumentRecordDto> {
         from.feelingTag,
         from.impressionTag,
         from.isFirst,
-        from.isPrivate
+        from.isPrivate,
+        from.musicId,
+        from.musicArtist,
+        from.musicImage,
+        from.musicName
     )
 }

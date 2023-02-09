@@ -86,5 +86,4 @@ dependencies {
     implementation(project(Modules.FEATURE_RECORD_MODULE))
     implementation(project(Modules.FEATURE_DETAIL_MODULE))
     implementation(project(Modules.FEATURE_MY_PAGE_MODULE))
-    implementation(project(Modules.FEATURE_REPORT_MODULE))
 }
