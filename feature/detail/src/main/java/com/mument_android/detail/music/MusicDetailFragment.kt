@@ -26,6 +26,8 @@ import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.showToast
+import com.mument_android.core_dependent.util.ViewUtils.snackBar
+import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.history.HistoryActivity
 import com.mument_android.detail.mument.fragment.MumentDetailFragment
@@ -53,9 +55,6 @@ class MusicDetailFragment() : Fragment() {
     @Inject
     lateinit var historyNavigatorProvider: HistoryNavigatorProvider
 
-    @Inject
-    lateinit var moveToAlarmFragmentProvider: MoveToAlarmFragmentProvider
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,11 +81,6 @@ class MusicDetailFragment() : Fragment() {
                     }
                 }
             }
-        SuggestionNotifyAccessDialogFragment.newInstance {
-            if (it) {
-                moveToAlarmFragmentProvider.moveAlarmFromMusic()
-            }
-        }.show(parentFragmentManager, "Suggestion")
         clickBackButton()
         setMyMumentTagList()
         setEntireMumentListAdapter()
@@ -182,7 +176,6 @@ class MusicDetailFragment() : Fragment() {
                                 putExtra("music", it.toMusic())
                                 putExtra("userId", userId)
                             })
-
                     }
                 }
         }

@@ -9,7 +9,6 @@ object ApiStatusExtensions {
     suspend inline fun <T> Flow<T>.toApiStatus(
         handler: ErrorHandler
     ): Flow<ApiStatus<T>> = this.map {
-        Log.e("succfsdf", "dfasf")
         ApiStatus.Success(it) as ApiStatus<T>
     }.catch {
         it.cause?.let { t ->

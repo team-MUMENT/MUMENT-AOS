@@ -8,6 +8,7 @@ import com.mument_android.data.dto.detail.MusicDetailDto
 import com.mument_android.data.dto.detail.RequestReportDto
 import com.mument_android.domain.entity.detail.MusicReqeust
 import com.mument_android.data.dto.detail.ResponseBlockUserDto
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -43,7 +44,7 @@ interface DetailApiService {
     @POST("/user/block/{mumentId}")
     suspend fun blockUser(
         @Path("mumentId") mumentId: String
-    ): BaseResponse<ResponseBlockUserDto>
+    ): ResponseBlockUserDto
 
     @GET("/mument/{mumentId}/like")
     suspend fun fetchUsersWhoLikeMument(

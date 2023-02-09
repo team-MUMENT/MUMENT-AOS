@@ -36,6 +36,7 @@ import com.mument_android.domain.entity.record.MumentModifyEntity
 import com.mument_android.record.databinding.ActivityRecordBinding
 import com.mument_android.record.viewmodels.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -328,19 +329,9 @@ class RecordActivity :
     private fun getAllData() {
         binding.tvRecordFinish.setOnClickListener {
             if (recordViewModel.mumentId.value == "") {
-                this.snackBar(
-                    binding.clRecordRoot,
-                    getString(R.string.record_finish_record)
-                )
-                recordViewModel.mumentId.value = ""
                 recordViewModel.postMument()
             } else {
-                this.snackBar(
-                    binding.clRecordRoot,
-                    getString(R.string.modify_record)
-                )
                 recordViewModel.modifyMument()
-                recordViewModel.mumentId.value = ""
             }
 
             collectFlowWhenStarted(recordViewModel.isCreateSuccessful) { isSuccessful ->
@@ -351,7 +342,14 @@ class RecordActivity :
                             putExtra(TO_MUSIC_DETAIL, TO_MUSIC_DETAIL)
                             putExtra(MUMENT_ID, mumentId)
                             putExtra(MUSIC_INFO_ENTITY, music.toMusicInfo())
+                            when (recordViewModel.recordCount) {
+                                1, 10, 20 -> {
+                                    putExtra("COUNT", true)
+                                }
+                            }
+                            putExtra("RECORD", recordViewModel.mumentId.value == "")
                             setResult(RESULT_OK, this)
+                            delay(500)
                             finish()
                         }
                     }

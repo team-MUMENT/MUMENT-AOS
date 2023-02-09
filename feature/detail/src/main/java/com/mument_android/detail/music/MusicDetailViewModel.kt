@@ -8,6 +8,7 @@ import com.mument_android.core_dependent.base.MviViewModel
 import com.mument_android.detail.BuildConfig
 import com.mument_android.detail.music.MusicDetailContract.*
 import com.mument_android.detail.util.SortTypeEnum
+import com.mument_android.domain.entity.detail.MusicWithMyMumentEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.domain.usecase.detail.FetchMusicDetailUseCase
@@ -32,7 +33,7 @@ class MusicDetailViewModel @Inject constructor(
     override fun setInitialState(): MusicDetailViewState = MusicDetailViewState()
 
     override fun handleEvents(event: MusicDetailEvent) {
-        when(event) {
+        when (event) {
             is MusicDetailEvent.ReceiveRequestMusicInfo -> {
                 setState { copy(musicInfo = event.music) }
                 updateRequestMusicId(event.music.id)
@@ -66,11 +67,13 @@ class MusicDetailViewModel @Inject constructor(
     private fun fetchMusicDetail(musicId: String, music: MusicInfoEntity) {
         viewModelScope.launch {
             fetchMusicDetailUseCase(musicId, music.toMusicRequest()).collect { result ->
-                when(result) {
+                when (result) {
                     is ApiStatus.Success -> {
+                        Log.e("myMumentInfo", result.data.myMument.toString())
                         setState { copy(myMumentInfo = result.data.myMument) }
                     }
                     is ApiStatus.Failure -> {
+                        Log.e("myMumentInfo", result.message.toString())
                         setState { copy(hasError = true) }
                     }
                     ApiStatus.Loading -> {
@@ -101,7 +104,7 @@ class MusicDetailViewModel @Inject constructor(
         val muments = viewState.value.mumentList
         viewModelScope.launch {
             withContext(Dispatchers.Default) {
-                val sortedMuments = if(sort == SortTypeEnum.SORT_LATEST) {
+                val sortedMuments = if (sort == SortTypeEnum.SORT_LATEST) {
                     muments.sortedBy { dateFormatter.parseDate(it.createdAt) }
                         .reversed()
                 } else {

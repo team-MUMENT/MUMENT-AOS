@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.angdroid.navigation.MoveToAlarmFragmentProvider
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.mument_android.R
@@ -25,12 +26,15 @@ import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
+import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.home.main.HomeFragment
 import com.mument_android.locker.LockerFragment
+import com.mument_android.mypage.MyPageActivity
 import com.mument_android.record.RecordActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -92,7 +96,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun floatingBtnListener() {
         binding.floatingActionButton.setOnClickListener {
             viewModel.limitUser.observe(this) {
-                if(it.restricted == true) {
+                if (it.restricted == true) {
                     RestrictUserDialog(this).show(supportFragmentManager, "test")
                 } else {
                     val intent = Intent(this, RecordActivity::class.java)
@@ -102,23 +106,52 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private val recordMumentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if(result.resultCode == RESULT_OK) {
-            result.data?.let {
-                moveMusicDetail(it)
+    private val recordMumentLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.let {
+                    moveMusicDetail(it)
+                }
             }
         }
-    }
 
     private fun moveMusicDetail(intent: Intent) {
         if (intent.getStringExtra(TO_MUSIC_DETAIL) == TO_MUSIC_DETAIL) {
+            intent.getBooleanExtra("COUNT", false).let {
+                if (it) {
+                    SuggestionNotifyAccessDialogFragment.newInstance { result ->
+                        if (result) {
+                            Intent(this, MyPageActivity::class.java).apply {
+                                putExtra("alarm", true)
+                                startActivity(this)
+                            }
+                        }
+                    }.show(supportFragmentManager, "Suggestion")
+                }
+            }
+
             intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
-                val bundle = Bundle().apply { putParcelable(MUSIC_INFO_ENTITY, musicInfo) }
-                navController.navigate(
-                    R.id.musicDetailFragment,
-                    bundle,
-                    NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, false).build()
-                )
+                intent.getBooleanExtra("RECORD", false).let { record ->
+                    if (record) {
+                        snackBar(
+                            binding.cdRoot,
+                            getString(com.mument_android.detail.R.string.record_finish_record)
+                        )
+                    } else {
+                        snackBar(
+                            binding.cdRoot,
+                            getString(com.mument_android.detail.R.string.modify_record)
+                        )
+                    }
+                    val bundle = Bundle().apply {
+                        putParcelable(MUSIC_INFO_ENTITY, musicInfo)
+                    }
+                    navController.navigate(
+                        R.id.musicDetailFragment,
+                        bundle,
+                        NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, false).build()
+                    )
+                }
             }
         }
     }
@@ -138,10 +171,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.navBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeFragment -> {
-                    if(checkCurrentFragment() !is HomeFragment) { changeCurrentFragment(R.id.homeFragment) }
+                    if (checkCurrentFragment() !is HomeFragment) {
+                        changeCurrentFragment(R.id.homeFragment)
+                    }
                 }
                 R.id.lockerFragment -> {
-                    if(checkCurrentFragment() !is LockerFragment) { changeCurrentFragment(R.id.lockerFragment) }
+                    if (checkCurrentFragment() !is LockerFragment) {
+                        changeCurrentFragment(R.id.lockerFragment)
+                    }
                 }
             }
             false
@@ -158,7 +195,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private fun isRestrictUser() {
         viewModel.limitUser.observe(this) {
-            if(it.restricted == true) {
+            if (it.restricted == true) {
                 RestrictUserDialog(this).show(supportFragmentManager, "test")
             }
         }

@@ -107,6 +107,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/ns_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/mument_color_bgwhite"
@@ -115,6 +116,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <FrameLayout
+                android:id="@+id/fl_root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

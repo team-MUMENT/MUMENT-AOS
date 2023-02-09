@@ -62,6 +62,8 @@ class RecordViewModel @Inject constructor(
     private val _isRecord = MutableLiveData<Boolean>()
     val isRecord = _isRecord
 
+    var recordCount = 0
+
     fun findIsFirst() {
         viewModelScope.launch {
             selectedMusic.value?.let {
@@ -112,14 +114,15 @@ class RecordViewModel @Inject constructor(
                     selectedMusic.value!!.image,
                     selectedMusic.value!!.name
                 )
-                selectedMusic.value?.let {
+                selectedMusic.value?.let { recent ->
                     recordMumentUseCase(
-                        musicId = it._id,
+                        musicId = recent._id,
                         recordEntity
                     ).catch { e ->
                         _isCreateSuccessful.emit(false)
-                    }.collect {
-                        _createdMumentId.value = it
+                    }.collect { pair ->
+                        _createdMumentId.value = pair.first
+                        recordCount = pair.second
                         _isCreateSuccessful.emit(true)
                     }
                 }

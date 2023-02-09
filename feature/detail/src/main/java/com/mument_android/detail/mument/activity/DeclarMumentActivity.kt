@@ -96,21 +96,33 @@ class DeclarMumentActivity :
 
     private fun nextBtnListener() {
         binding.tvNotifyFinish.setOnClickListener {
-
             if (binding.ivBlockCheck.isSelected) {
                 reportNetwork()
                 val mumentId = viewModel.mumentId.value ?: ""
-                viewModel.isReportMuemnt.observe(this) {
-                    if (it == true) {
+                viewModel.isReportMuemnt.observe(this) { isReportMument ->
+                    if (isReportMument == true) {
                         viewModel.blockUser(mumentId)
-                        showToast("신고 및 차단이 완료되었습니다.")
+                        viewModel.error.observe(this) {
+                            if (it == null) {
+                                showToast("신고 및 차단이 완료되었습니다.")
+
+                            } else {
+                                showToast(it)
+                            }
+                            finish()
+                        }
                     }
                 }
             } else {
                 reportNetwork()
-                showToast("신고가 접수되었습니다.")
+                viewModel.isReportMuemnt.observe(this) { isReportMument ->
+                    if (isReportMument == true) {
+                        showToast("신고가 접수되었습니다.")
+                        finish()
+                    }
+                }
             }
-            finish()
+
         }
     }
 
@@ -140,8 +152,6 @@ class DeclarMumentActivity :
         val mumentId = viewModel.mumentId.value ?: ""
         val ReportRequest = ReportRequest(binding.editText.text.toString(), reasonList)
         viewModel.reportMument(mumentId, ReportRequest)
-
-
     }
 
 }

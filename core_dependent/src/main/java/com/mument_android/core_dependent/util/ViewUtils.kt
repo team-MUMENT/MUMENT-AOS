@@ -3,11 +3,9 @@ package com.mument_android.core_dependent.util
 import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -15,10 +13,8 @@ import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
-import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.google.android.material.snackbar.Snackbar
 import com.mument_android.core_dependent.R
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
@@ -49,8 +45,6 @@ object ViewUtils {
         val snackBarView = snack.view
         val snackBarText =
             snackBarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-        val snackBarLayout = snackBarView.layoutParams as FrameLayout.LayoutParams
-        snackBarLayout.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM // 레이아웃 위치 조정
         snackBarText.textAlignment = View.TEXT_ALIGNMENT_CENTER // 안내 텍스트 위치 조정
         snackBarText.textSize = 12.0F
         snackBarText.typeface = ResourcesCompat.getFont(

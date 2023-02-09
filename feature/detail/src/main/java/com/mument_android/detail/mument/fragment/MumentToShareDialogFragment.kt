@@ -91,11 +91,12 @@ class MumentToShareDialogFragment(
     private fun getMumentArgs() {
         arguments?.getString(KEY_PASS_MUMENT)?.let {
             val mument = Gson().fromJson(it, MumentEntity::class.java)
-            arguments?.getString(KEY_PASS_MUSIC)?.let {
-                val music = Gson().fromJson(it, MusicInfoEntity::class.java)
+            arguments?.getString(KEY_PASS_MUSIC)?.let { music ->
+                val musicInfo = Gson().fromJson(music, MusicInfoEntity::class.java)
+                Log.e("music and mument getMumentArgs!!!", "$mument $musicInfo")
                 viewModel.emitEvent(
                     MumentDetailContract.MumentDetailEvent.UpdateMumentToShareInstagram(
-                        mument, music
+                        mument, musicInfo
                     )
                 )
             }
