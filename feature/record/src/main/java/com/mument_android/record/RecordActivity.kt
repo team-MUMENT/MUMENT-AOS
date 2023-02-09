@@ -278,11 +278,11 @@ class RecordActivity :
                     it.mument.musicInfo.thumbnail,
                     it.mument.musicInfo.name,
                     null
-                )*/
+                )
                 recordViewModel.setCheckTaglist(recordViewModel.checkedTagList.value ?: listOf())
-//                recordViewModel.findIsFirst()
-//                recordViewModel.mumentContent.value = it.mument.content
-                binding.switchRecordSecret.isChecked = false
+                recordViewModel.findIsFirst()
+                recordViewModel.mumentContent.value = it.mument.content
+                binding.switchRecordSecret.isChecked = false*/
 
                 recordViewModel.checkedTagList.value?.let { data ->
                     rvImpressionTagsAdapter.selectedTags.addAll(data)
