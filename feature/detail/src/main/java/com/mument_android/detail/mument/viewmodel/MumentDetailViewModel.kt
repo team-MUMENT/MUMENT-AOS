@@ -1,6 +1,7 @@
 package com.mument_android.detail.mument.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiStatus
 import com.mument_android.core_dependent.base.MviViewModel
@@ -30,6 +31,7 @@ class MumentDetailViewModel @Inject constructor(
     private val dataStoreManager: DataStoreManager,
     private val mediaUtils: MediaUtils
 ) : MviViewModel<MumentDetailEvent, MumentDetailViewState, MumentDetailSideEffect>() {
+
     override fun setInitialState(): MumentDetailViewState  = MumentDetailViewState()
 
     override fun handleEvents(event: MumentDetailEvent) {
@@ -54,7 +56,7 @@ class MumentDetailViewModel @Inject constructor(
 
             MumentDetailEvent.SelectBlockUserType -> setEffect { MumentDetailSideEffect.OpenBlockUserDialog }
             MumentDetailEvent.SelectMumentDeletionType -> setEffect { MumentDetailSideEffect.OpenDeleteMumentDialog }
-            MumentDetailEvent.SelectReportMumentType -> setEffect { MumentDetailSideEffect.NavToReportMument }
+            MumentDetailEvent.SelectReportMumentType -> setEffect { MumentDetailSideEffect.NavToReportMument(viewState.value.requestMumentId) }
             MumentDetailEvent.OnClickBlockUser -> { blockUser() }
 
             is MumentDetailEvent.SelectMumentEditType -> setEffect { MumentDetailSideEffect.NavToEditMument(event.mument) }
@@ -180,7 +182,7 @@ class MumentDetailViewModel @Inject constructor(
         }
     }
 
-    private fun blockUser() {
+    fun blockUser() {
         viewModelScope.launch {
             blockUserUseCase(viewState.value.requestMumentId)
                 .collect {

@@ -5,7 +5,7 @@
     <application>
         <activity
             android:name=".mument.activity.DeclarMumentActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".history.HistoryActivity"
             android:exported="false" />

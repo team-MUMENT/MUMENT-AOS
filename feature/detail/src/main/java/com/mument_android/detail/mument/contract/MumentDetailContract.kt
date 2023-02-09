@@ -75,7 +75,7 @@ class MumentDetailContract {
         object OpenBlockOrReportBottomSheet: MumentDetailSideEffect()
         object OpenDeleteMumentDialog: MumentDetailSideEffect()
         object OpenBlockUserDialog: MumentDetailSideEffect()
-        object NavToReportMument: MumentDetailSideEffect()
+        data class NavToReportMument(val mumentId:String): MumentDetailSideEffect()
 
         data class NavToMusicDetail(val music: MusicInfoEntity): MumentDetailSideEffect()
         data class NavToMumentHistory(val musicId: String): MumentDetailSideEffect()

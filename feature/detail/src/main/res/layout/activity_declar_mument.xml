@@ -5,9 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
-            type="com.mument_android.detail.mument.viewmodel.MumentDetailViewModel" />
+            type="com.mument_android.detail.mument.viewmodel.MumentReportViewModel" />
 
     </data>
 
@@ -36,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:src="@drawable/mument_icon_back"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -298,6 +301,7 @@
                     android:gravity="top"
                     android:hint="@string/notify_write_content"
                     android:lines="6"
+                    android:text="@={viewModel.reasonLength}"
                     android:paddingStart="13dp"
                     android:maxLength="100"
                     android:paddingTop="15dp"
@@ -326,6 +330,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
+                    android:text="@{Integer.toString(viewModel.reasonLength.length())}"
                     android:fontFamily="@font/notosans_medium"
                     android:textColor="@color/mument_color_purple1"
                     android:textSize="13dp"
@@ -388,8 +393,8 @@
                     android:background="@drawable/selector_notify_on_off"
                     android:fontFamily="@font/notosans_bold"
                     android:gravity="center"
-                    android:text="@string/notify_title"
                     android:enabled="false"
+                    android:text="@string/notify_title"
                     android:paddingVertical="12dp"
                     android:textColor="@color/mument_color_white"
                     android:textSize="18dp"
