@@ -266,15 +266,6 @@ class ProfileSettingActivity :
             lifecycleScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
-                collectFlowWhenStarted(viewModel.isSuccess) { success ->
-                    Log.e("IS SUCCESS", success.toString())
-                    if (success) {
-                        if (isCheckMypage == 1)
-                            moveToMypageActivity()
-                        else
-                            moveToMainActivity()
-                    }
-                }
             }
         }
     }
