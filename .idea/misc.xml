@@ -22,9 +22,16 @@
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/drawable-xhdpi/selector_radio_on_off.xml" value="0.185" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/drawable-xxxhdpi/rectangle_fill_gray5_20dp.xml" value="0.1" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/activity_declar_mument.xml" value="0.2" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/activity_history.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/activity_notify_mument.xml" value="0.264" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_base_music_detail.xml" value="0.1" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_mument_detail.xml" value="0.2" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_mument_like_list.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_mument_to_share_dialog.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_music_detail.xml" value="0.1" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_select_report_type_dialog.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/fragment_suggestion_notify_access.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/item_music_detail_list.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/detail/src/main/res/layout/item_music_detail_mument.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/home/src/main/res/drawable-hdpi/rectangle_fill_white_top_11dp.xml" value="0.242" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/home/src/main/res/layout/activity_main.xml" value="0.536" />
