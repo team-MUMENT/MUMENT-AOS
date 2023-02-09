@@ -26,6 +26,7 @@ import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
 import com.mument_android.domain.entity.detail.MumentDetailEntity
@@ -128,13 +129,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }.show(supportFragmentManager, "Suggestion")
                 }
             }
+
             intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
-                val bundle = Bundle().apply { putParcelable(MUSIC_INFO_ENTITY, musicInfo) }
-                navController.navigate(
-                    R.id.musicDetailFragment,
-                    bundle,
-                    NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, false).build()
-                )
+                intent.getBooleanExtra("RECORD", false).let { record ->
+                    if (record) {
+                        snackBar(
+                            binding.cdRoot,
+                            getString(com.mument_android.detail.R.string.record_finish_record)
+                        )
+                    } else {
+                        snackBar(
+                            binding.cdRoot,
+                            getString(com.mument_android.detail.R.string.modify_record)
+                        )
+                    }
+                    val bundle = Bundle().apply {
+                        putParcelable(MUSIC_INFO_ENTITY, musicInfo)
+                    }
+                    navController.navigate(
+                        R.id.musicDetailFragment,
+                        bundle,
+                        NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, false).build()
+                    )
+                }
             }
         }
     }

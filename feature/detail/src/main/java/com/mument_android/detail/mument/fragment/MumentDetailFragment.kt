@@ -168,7 +168,10 @@ class MumentDetailFragment : Fragment() {
             when (effect) {
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
-                MumentDetailSideEffect.SuccessBlockUser -> findNavController().popBackStack()
+                MumentDetailSideEffect.SuccessBlockUser -> {
+                    requireContext().showToast("차단이 완료되었습니다.")
+                    findNavController().popBackStack()
+                }
                 MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> {
                     showEditOrDeleteMumentDialog()
                 }
@@ -215,6 +218,9 @@ class MumentDetailFragment : Fragment() {
                         effect.message
                     )
                 )
+                is MumentDetailSideEffect.ToastString -> {
+                    requireContext().showToast(effect.message)
+                }
                 is MumentDetailSideEffect.OpenShareMumentDialog -> {
                     Log.e("OpenShareMumentDialog", effect.toString())
                     openShareMumentDialog(effect.mument, effect.musicInfo)

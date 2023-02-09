@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiStatus
+import com.mument_android.core.network.ErrorMessage
 import com.mument_android.core_dependent.base.MviViewModel
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.util.*
@@ -30,7 +31,7 @@ class MumentDetailViewModel @Inject constructor(
     private val blockUserUseCase: BlockUserUseCase,
     private val dataStoreManager: DataStoreManager
 ) : MviViewModel<MumentDetailEvent, MumentDetailViewState, MumentDetailSideEffect>() {
-    override fun setInitialState(): MumentDetailViewState  = MumentDetailViewState()
+    override fun setInitialState(): MumentDetailViewState = MumentDetailViewState()
 
     override fun handleEvents(event: MumentDetailEvent) {
         when (event) {
@@ -54,8 +55,14 @@ class MumentDetailViewModel @Inject constructor(
 
             MumentDetailEvent.SelectBlockUserType -> setEffect { MumentDetailSideEffect.OpenBlockUserDialog }
             MumentDetailEvent.SelectMumentDeletionType -> setEffect { MumentDetailSideEffect.OpenDeleteMumentDialog }
-            MumentDetailEvent.SelectReportMumentType -> setEffect { MumentDetailSideEffect.NavToReportMument(viewState.value.requestMumentId) }
-            MumentDetailEvent.OnClickBlockUser -> { blockUser() }
+            MumentDetailEvent.SelectReportMumentType -> setEffect {
+                MumentDetailSideEffect.NavToReportMument(
+                    viewState.value.requestMumentId
+                )
+            }
+            MumentDetailEvent.OnClickBlockUser -> {
+                blockUser()
+            }
 
             MumentDetailEvent.OnClickBlockUser -> {
                 blockUser()
@@ -207,8 +214,21 @@ class MumentDetailViewModel @Inject constructor(
     fun blockUser() {
         viewModelScope.launch {
             blockUserUseCase(viewState.value.requestMumentId)
-                .collect {
-                    setEffect { MumentDetailSideEffect.SuccessBlockUser }
+                .collect { status ->
+                    when (status) {
+                        is ApiStatus.Failure -> {
+                            when (status.code) {
+                                ErrorMessage.INVALID -> {
+                                    setEffect { MumentDetailSideEffect.ToastString(status.message!!) }
+                                }
+                                else -> {}
+                            }
+                        }
+                        is ApiStatus.Success -> {
+                            setEffect { MumentDetailSideEffect.SuccessBlockUser }
+                        }
+                        else -> {}
+                    }
                 }
         }
     }

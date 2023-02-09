@@ -16,4 +16,9 @@
     <string name="alert_singer_to_sing">-</string>
     <string name="alert_ok">확인</string>
     <string name="notification_channel">notify</string>
+
+    <string name="record_finish_record">🎉 뮤멘트가 작성되었어요!</string>
+
+    <!--    modify record view-->
+    <string name="modify_record">뮤멘트가 수정되었어요.</string>
 </resources>

@@ -36,6 +36,7 @@ import com.mument_android.domain.entity.record.MumentModifyEntity
 import com.mument_android.record.databinding.ActivityRecordBinding
 import com.mument_android.record.viewmodels.RecordViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -367,19 +368,6 @@ class RecordActivity :
             collectFlowWhenStarted(recordViewModel.isCreateSuccessful) { isSuccessful ->
                 if (isSuccessful) {
                     val mumentId = recordViewModel.createdMumentId.value ?: ""
-                    if (recordViewModel.mumentId.value == "") {
-                        this.snackBar(
-                            binding.clRecordRoot,
-                            getString(R.string.record_finish_record)
-                        )
-                        recordViewModel.mumentId.value = ""
-                    } else {
-                        this.snackBar(
-                            binding.clRecordRoot,
-                            getString(R.string.modify_record)
-                        )
-                        recordViewModel.mumentId.value = ""
-                    }
                     recordViewModel.selectedMusic.value?.let { music ->
                         Intent().run {
                             putExtra(TO_MUSIC_DETAIL, TO_MUSIC_DETAIL)
@@ -390,7 +378,9 @@ class RecordActivity :
                                     putExtra("COUNT", true)
                                 }
                             }
+                            putExtra("RECORD", recordViewModel.mumentId.value == "")
                             setResult(RESULT_OK, this)
+                            delay(500)
                             finish()
                         }
                     }
