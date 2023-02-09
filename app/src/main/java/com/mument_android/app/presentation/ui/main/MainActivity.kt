@@ -7,7 +7,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -17,17 +16,16 @@ import com.mument_android.R
 import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.databinding.ActivityMainBinding
-import com.mument_android.detail.music.MusicDetailFragment.Companion.MUSIC_INFO_ENTITY
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.home.main.HomeFragment
-import com.mument_android.locker.LockerFragment
 import com.mument_android.record.RecordActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -38,20 +36,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
     @Inject lateinit var dataStoreManager: DataStoreManager
-    private lateinit var getResultText: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        getResultText =
-//            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//                if (it.resultCode == AppCompatActivity.RESULT_OK) {
-//                    it.data?.getStringExtra(HomeFragment.MUSIC_ID)?.apply {
-//                        changeCurrentFragment(R.id.homeFragment)
-//                        navController.navigate(R.id.action)
-//                    }
-//                }
-//            }
+        
         initNavigation()
         floatingBtnListener()
         customAppBar()
@@ -101,14 +89,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private val recordMumentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if(result.resultCode == RESULT_OK) {
-            result.data?.let { moveMusicDetail(it) }
+            result.data?.let {
+                moveMusicDetail(it)
+            }
         }
     }
 
     private fun moveMusicDetail(intent: Intent) {
         if (intent.getStringExtra(TO_MUSIC_DETAIL) == TO_MUSIC_DETAIL) {
-            intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
-                val bundle = Bundle().apply { putParcelable(MUSIC_INFO_ENTITY, it) }
+            intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
+                val bundle = Bundle().apply { putParcelable(MUSIC_INFO_ENTITY, musicInfo) }
                 navController.navigate(
                     R.id.musicDetailFragment,
                     bundle,
@@ -129,7 +119,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.navBar, navController)
-//        binding.navBar.setupWithNavController(navController)
 
         binding.navBar.setOnItemSelectedListener { item ->
             when (item.itemId) {

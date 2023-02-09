@@ -43,4 +43,7 @@ abstract class NavigatorModule {
 
     @Binds
     abstract fun provideDeclareProvider(declareNavigatorProviderImpl: DeclareNavigatorProviderImpl) : DeclareNavigatorProvider
+
+    @Binds
+    abstract fun provideReportMumentNavigatorProvider(reportMumentNavigatorProviderImpl: ReportMumentNavigatorProviderImpl): ReportMumentNavigatorProvider
 }

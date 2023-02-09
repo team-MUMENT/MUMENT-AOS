@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.*
@@ -17,6 +16,8 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.Gson
+import com.mument_android.core.util.Constants.MUMENT_ID
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
@@ -41,7 +42,6 @@ import com.mument_android.domain.entity.detail.MumentEntity
 import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.record.MumentModifyEntity
-import com.mument_android.domain.entity.user.UserEntity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -57,12 +57,20 @@ class MumentDetailFragment : Fragment() {
     @Inject lateinit var declareNavigatorProvider: DeclareNavigatorProvider
 
 
+    @Inject
+    lateinit var reportMumentNavigatorProvider: ReportMumentNavigatorProvider
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = FragmentMumentDetailBinding.inflate(inflater, container, false).let {
         binding = it
         it.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateModifiedMumentDetail()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,9 +97,17 @@ class MumentDetailFragment : Fragment() {
         arguments?.getString(MUMENT_ID)?.let {
             viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(it))
         }
-        arguments?.getString(MUSIC_INFO)?.let {
+        arguments?.getString(MUSIC_INFO_ENTITY)?.let {
             val musicInfo = Gson().fromJson(it, MusicInfoEntity::class.java)
             viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(musicInfo))
+        }
+    }
+
+    private fun updateModifiedMumentDetail() {
+        viewModel.viewState.value.let { state ->
+            if (state.musicInfo != null && state.requestMumentId.isNotEmpty()) {
+                viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(state.requestMumentId))
+            }
         }
     }
 
@@ -126,46 +142,28 @@ class MumentDetailFragment : Fragment() {
             when (effect) {
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
-
-                MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> {
-                    showEditOrDeleteMumentDialog()
-                }
+                MumentDetailSideEffect.SuccessBlockUser -> findNavController().popBackStack()
+                MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> { showEditOrDeleteMumentDialog() }
                 is MumentDetailSideEffect.NavToEditMument -> {
-                    editMumentNavigatorProvider.editMument(
-                        mumentId = effect.mumentId,
-                        music = effect.music,
-                        mumentModifyEntity = effect.mumentModifyEntity
-                    )
-                    /** Todo: Navigate To Edit Mument **/
+                    editMumentNavigatorProvider.editMument(mumentId = effect.mumentId, music = effect.music, mumentModifyEntity = effect.mumentModifyEntity)
                 }
-                MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
 
                 MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> { showBlockOrReportBottomSheet() }
-                is MumentDetailSideEffect.NavToReportMument -> {
-                    declareNavigatorProvider.moveDeclare(effect.mumentId)
-                    /** Todo: Navigate To Report Mument **/ }
+                is MumentDetailSideEffect.NavToReportMument -> { declareNavigatorProvider.moveDeclare(effect.mumentId) }
 
+                MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
+                MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> showBlockOrReportBottomSheet()
                 MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
 
-                is MumentDetailSideEffect.NavToMusicDetail -> {
-                    musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.music)
-                }
+                is MumentDetailSideEffect.NavToMusicDetail -> musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.music)
                 is MumentDetailSideEffect.NavToMumentHistory -> {
                     viewModel.viewState.value.musicInfo?.toMusic()?.let {
                         mumentHistoryNavigatorProvider.mumentDetailToHistory(it, 0)
                     }
                 }
-                is MumentDetailSideEffect.Toast -> requireContext().showToast(
-                    resources.getString(
-                        effect.message
-                    )
-                )
-                is MumentDetailSideEffect.OpenShareMumentDialog -> {
-                    openShareMumentDialog(effect.mument, effect.musicInfo)
-                }
-                is MumentDetailSideEffect.NavToInstagram -> {
-                    navToInstagram(effect.imageUri)
-                }
+                is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
+                is MumentDetailSideEffect.OpenShareMumentDialog -> openShareMumentDialog(effect.mument, effect.musicInfo)
+                is MumentDetailSideEffect.NavToInstagram -> navToInstagram(effect.imageUri)
             }
         }
     }
@@ -343,8 +341,6 @@ class MumentDetailFragment : Fragment() {
         private const val STORY_BOTTOM_BACKGROUND_COLOR_KEY = "bottom_background_color"
         private const val STORY_BACKGROUND_COLOR_VALUE = "#989898"
         const val INSTA_STORY_BACKGROUND_COLOR = "#989898"
-        const val MUMENT_ID = "MUMENT_ID"
-        const val MUSIC_INFO = "MUSIC_INFO"
         private const val TYPE_IMAGE = "image/*"
     }
 }

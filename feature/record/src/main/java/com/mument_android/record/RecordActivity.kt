@@ -20,6 +20,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
@@ -217,7 +218,6 @@ class RecordActivity :
             BottomSheetSearchFragment.newInstance {
                 recordViewModel.changeSelectedMusic(it)
                 recordViewModel.findIsFirst()
-                //Log.e("isFirstTagIndex" , "${recordViewModel.mumentData.value!!.mument.isFirst.tagIdx}")
             }.show(supportFragmentManager, "bottom sheet")
         }
         recordViewModel.selectedMusic.observe(this) {
@@ -376,7 +376,6 @@ class RecordActivity :
 
             collectFlowWhenStarted(recordViewModel.isCreateSuccessful) { isSuccessful ->
                 if (isSuccessful) {
-                    Log.e("success", "success")
                     val mumentId = recordViewModel.createdMumentId.value ?: ""
                     recordViewModel.selectedMusic.value?.let { music ->
                         Intent().run {
@@ -394,10 +393,15 @@ class RecordActivity :
 
             collectFlowWhenStarted(recordViewModel.isModifySuccessful) { isSuccessful ->
                 if (isSuccessful) {
-                    Log.e("success", "success")
+                    Log.e("modify ", "success")
+
                     val mumentId = recordViewModel.modifyMumentId.value ?: ""
                     recordViewModel.selectedMusic.value?.toMusicInfo()?.let { music ->
+                        Log.e("MUSIC ", "${music}")
+                        Log.e("MUMENT ID  ", "${mumentId}")
+
                         Intent().run {
+                            putExtra(TO_MUMENT_DETAIL, TO_MUMENT_DETAIL)
                             putExtra(MUMENT_ID, mumentId)
                             putExtra(MUSIC_INFO_ENTITY, music)
                             setResult(RESULT_OK, this)
@@ -405,7 +409,7 @@ class RecordActivity :
                         }
                     }
                 } else {
-
+                    showToast("뮤멘트 수정하기 실패")
                 }
             }
         }
@@ -429,12 +433,8 @@ class RecordActivity :
                 MumentDialogBuilder()
                     .setHeader(getString(R.string.modify_header))
                     .setBody(getString(R.string.modify_body))
-                    .setAllowListener("확인") {
-                        //곡 상세보기로 이동
-                    }
-                    .setCancelListener {
-                        //그대로
-                    }
+                    .setAllowListener("확인") { finish() }
+                    .setCancelListener {}
                     .build()
                     .show(supportFragmentManager, attributionTag)
 

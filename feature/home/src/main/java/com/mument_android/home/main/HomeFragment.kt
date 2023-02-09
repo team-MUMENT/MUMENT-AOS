@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -38,7 +39,6 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
-    private lateinit var getResultText: ActivityResultLauncher<Intent>
 
     @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
@@ -59,14 +59,15 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
         bindData()
-        getResultText =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                if (it.resultCode == AppCompatActivity.RESULT_OK) {
-//                    it.data?.getStringExtra(MUSIC_ID)?.apply {
-//                        musicDetailNavigatorProvider.fromHomeToMusicDetail(this)
-//                    }
-                }
+
+    }
+
+    private val searchMusicLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == AppCompatActivity.RESULT_OK) {
+            it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.apply {
+                musicDetailNavigatorProvider.fromHomeToMusicDetail(this)
             }
+        }
     }
 
     private fun bindData() {
@@ -147,7 +148,7 @@ class HomeFragment : Fragment() {
                     startActivity(Intent(requireActivity(), NotifyActivity::class.java))
                 }
                 HomeSideEffect.GoToSearchActivity -> {
-                    getResultText.launch(Intent(requireActivity(), SearchActivity::class.java))
+                    searchMusicLauncher.launch(Intent(requireActivity(), SearchActivity::class.java))
                 }
                 is HomeSideEffect.NavToMusicDetail -> {
                     musicDetailNavigatorProvider.fromHomeToMusicDetail(effect.music)

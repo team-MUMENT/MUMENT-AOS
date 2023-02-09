@@ -86,7 +86,8 @@ class MumentDetailContract {
     sealed class MumentDetailSideEffect : SideEffect {
         object PopBackStack : MumentDetailSideEffect()
         data class Toast(@StringRes val message: Int) : MumentDetailSideEffect()
-        object SuccessMumentDeletion : MumentDetailSideEffect()
+        object SuccessMumentDeletion: MumentDetailSideEffect()
+        object SuccessBlockUser: MumentDetailSideEffect()
 
         object OpenEditOrDeleteMumentDialog : MumentDetailSideEffect()
         object OpenBlockOrReportBottomSheet : MumentDetailSideEffect()
@@ -96,15 +97,14 @@ class MumentDetailContract {
         data class NavToReportMument(val mumentId:String): MumentDetailSideEffect()
         data class NavToMusicDetail(val music: MusicInfoEntity) : MumentDetailSideEffect()
         data class NavToMumentHistory(val musicId: String) : MumentDetailSideEffect()
+
         data class NavToEditMument(
             val mumentId: String,
             val mumentModifyEntity: MumentModifyEntity,
             val music: RecentSearchData
         ) : MumentDetailSideEffect()
 
-        data class OpenShareMumentDialog(val mument: MumentEntity, val musicInfo: MusicInfoEntity) :
-            MumentDetailSideEffect()
-
+        data class OpenShareMumentDialog(val mument: MumentEntity, val musicInfo: MusicInfoEntity) : MumentDetailSideEffect()
         data class NavToInstagram(val imageUri: Uri) : MumentDetailSideEffect()
     }
 }

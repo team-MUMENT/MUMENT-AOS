@@ -6,7 +6,7 @@ import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.google.gson.Gson
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.mument_android.detail.mument.fragment.MumentDetailFragment.Companion.MUSIC_INFO
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.home.main.HomeFragment
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class MumentDetailNavigatorProviderImpl @Inject constructor (
         if(activity is MainActivity) {
             val bundle = Bundle()
                 .also { it.putString(HomeFragment.MUMENT_ID, mumentId) }
-                .also { it.putString(MUSIC_INFO, Gson().toJson(musicInfo)) }
+                .also { it.putString(MUSIC_INFO_ENTITY, Gson().toJson(musicInfo)) }
             activity.navController.navigate(actionId, bundle)
         }
     }

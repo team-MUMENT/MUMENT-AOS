@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.HistoryNavigatorProvider
 import com.angdroid.navigation.MoveRecordProvider
 import com.angdroid.navigation.MumentDetailNavigatorProvider
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -161,6 +162,5 @@ class MusicDetailFragment() : Fragment() {
 
     companion object {
         const val MUSIC_ID = "MUSIC_ID"
-        const val MUSIC_INFO_ENTITY = "MUSIC_INFO_ENTITY"
     }
 }

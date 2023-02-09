@@ -1,15 +1,18 @@
 package com.mument_android.home.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.TransitionMode
+import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.home.adapters.SearchHeaderAdapter
 import com.mument_android.home.adapters.SearchListAdapter
@@ -28,9 +31,6 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
     private val headerAdapter = SearchHeaderAdapter(::allDelete)
     private lateinit var searchConcatAdapter: ConcatAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
-
-    @Inject
-    lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,8 +94,7 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                val music = MusicInfoEntity(data._id, data.name, data.image, data.artist)
-                moveMusicDetailNavigatorProvider.intentMusicDetail(music)
+                selectMusic(data)
             },
             itemClickListener = { data -> viewmodel.deleteRecentList(data) }
         )
@@ -103,11 +102,17 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
         searchResultAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)
-                val music = MusicInfoEntity(data._id, data.name, data.image, data.artist)
-                moveMusicDetailNavigatorProvider.intentMusicDetail(music)
+                selectMusic(data)
             },
             itemClickListener = {}
         )
         binding.rcSearch.adapter = searchConcatAdapter
+    }
+
+    private fun selectMusic(data: RecentSearchData) {
+        val music = MusicInfoEntity(data._id, data.name, data.image, data.artist)
+        val intent = Intent().apply { putExtra(MUSIC_INFO_ENTITY, music) }
+        setResult(RESULT_OK, intent)
+        finish()
     }
 }

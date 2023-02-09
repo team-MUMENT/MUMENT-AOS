@@ -28,8 +28,7 @@ class MumentDetailViewModel @Inject constructor(
     private val fetchUsersLikeMumentUseCase: FetchUsersLikeMumentUseCase,
     private val deleteMumentUseCase: DeleteMumentUseCase,
     private val blockUserUseCase: BlockUserUseCase,
-    private val dataStoreManager: DataStoreManager,
-    private val mediaUtils: MediaUtils
+    private val dataStoreManager: DataStoreManager
 ) : MviViewModel<MumentDetailEvent, MumentDetailViewState, MumentDetailSideEffect>() {
     override fun setInitialState(): MumentDetailViewState  = MumentDetailViewState()
 
@@ -198,7 +197,6 @@ class MumentDetailViewModel @Inject constructor(
             deleteMumentUseCase(viewState.value.requestMumentId).collect { status ->
                 if (status is ApiStatus.Success) {
                     setEffect { MumentDetailSideEffect.SuccessMumentDeletion }
-
                 }
             }
         }
@@ -208,7 +206,7 @@ class MumentDetailViewModel @Inject constructor(
         viewModelScope.launch {
             blockUserUseCase(viewState.value.requestMumentId)
                 .collect {
-
+                    setEffect { MumentDetailSideEffect.SuccessBlockUser }
                 }
         }
     }

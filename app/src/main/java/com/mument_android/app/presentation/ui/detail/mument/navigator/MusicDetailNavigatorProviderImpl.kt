@@ -7,10 +7,8 @@ import androidx.navigation.NavOptions
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.mument_android.app.presentation.ui.main.MainActivity.Companion.MUSIC_ID
-import com.mument_android.detail.music.MusicDetailFragment.Companion.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.domain.entity.music.MusicInfoEntity
-import com.mument_android.home.main.HomeFragment
 import com.mument_android.record.RecordActivity
 import javax.inject.Inject
 
@@ -36,14 +34,6 @@ class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity:
             } else {
                 val bundle = Bundle().also { it.putParcelable(MUSIC_INFO_ENTITY, music) }
                 this.navController.navigate(R.id.action_mumentDetailFragment_to_musicDetailFragment, bundle)
-            }
-        }
-    }
-
-    override fun fromRecoreToMusicDetail(music: MusicInfoEntity) {
-        with(activity as RecordActivity){
-            Intent(this, MainActivity::class.java).apply{
-
             }
         }
     }
