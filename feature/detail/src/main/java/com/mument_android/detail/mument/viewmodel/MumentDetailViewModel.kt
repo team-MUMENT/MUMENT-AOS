@@ -87,13 +87,15 @@ class MumentDetailViewModel @Inject constructor(
 
             is MumentDetailEvent.OnClickShareMument -> {
                 event.mumentEntity?.let { mument ->
+                    Log.e("MUMENT", mument.toString())
                     event.musicInfo?.let { music ->
+                        Log.e("MUSIC", music.toString())
                         setEffect { MumentDetailSideEffect.OpenShareMumentDialog(mument, music) }
                     }
                 } ?: setEffect { MumentDetailSideEffect.Toast(R.string.cannot_access_insta) }
             }
             is MumentDetailEvent.UpdateMumentToShareInstagram -> {
-                setState { copy(mument = event.mument) }
+                setState { copy(mument = event.mument, musicInfo = event.musicInfo) }
             }
             is MumentDetailEvent.OnDismissShareMumentDialog -> {
                 setEffect { MumentDetailSideEffect.NavToInstagram(event.imageUri) }

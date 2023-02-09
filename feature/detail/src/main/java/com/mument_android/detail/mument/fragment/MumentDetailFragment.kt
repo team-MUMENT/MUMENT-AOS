@@ -216,6 +216,7 @@ class MumentDetailFragment : Fragment() {
                     )
                 )
                 is MumentDetailSideEffect.OpenShareMumentDialog -> {
+                    Log.e("OpenShareMumentDialog", effect.toString())
                     openShareMumentDialog(effect.mument, effect.musicInfo)
                 }
                 is MumentDetailSideEffect.NavToInstagram -> {
@@ -254,7 +255,6 @@ class MumentDetailFragment : Fragment() {
         SelectMumentEditTypeDialogFragment()
             .setEditListener(object : SelectMumentEditTypeDialogFragment.EditListener {
                 override fun edit() {
-                    Log.e("EDIT CCALLL", "EDIT!!!")
                     viewModel.viewState.value.let { viewState ->
                         viewModel.emitEvent(
                             MumentDetailEvent.SelectMumentEditType(
@@ -347,7 +347,9 @@ class MumentDetailFragment : Fragment() {
     }
 
     private fun openShareMumentDialog(mument: MumentEntity, musicInfoEntity: MusicInfoEntity) {
+        Log.e("openShareMumentDialog", "$mument $musicInfoEntity")
         MumentToShareDialogFragment { file, uri ->
+            Log.e("SHARE", "$file $uri")
             viewModel.emitEvent(MumentDetailEvent.OnDismissShareMumentDialog(file, uri))
         }.apply {
             Bundle().apply {
