@@ -286,6 +286,7 @@
                             android:fontFamily="@font/notosans_medium"
                             android:gravity="top"
                             android:hint="@string/record_write_hint"
+                            android:imeOptions="actionDone"
                             android:inputType="textMultiLine|textNoSuggestions"
                             android:maxLength="1000"
                             android:minHeight="193dp"
