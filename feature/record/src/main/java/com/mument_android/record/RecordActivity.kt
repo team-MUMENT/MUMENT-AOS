@@ -273,24 +273,10 @@ class RecordActivity :
 
         recordViewModel.mumentData.observe(this) {
             if (it == null) {
-/*                recordViewModel.selectedMusic.value = RecentSearchData(
-                    it.musicInfo.id,
-                    it.mument.musicInfo.artist,
-                    it.mument.musicInfo.thumbnail,
-                    it.mument.musicInfo.name,
-                    null
-                )
-                recordViewModel.setCheckTaglist(recordViewModel.checkedTagList.value ?: listOf())
-                recordViewModel.findIsFirst()
-                recordViewModel.mumentContent.value = it.mument.content
-                binding.switchRecordSecret.isChecked = false*/
-
                 recordViewModel.checkedTagList.value?.let { data ->
                     rvImpressionTagsAdapter.selectedTags.addAll(data)
                     rvEmotionalTagsAdapter.selectedTags.addAll(data)
                 }
-            } else {
-
             }
         }
     }
@@ -313,23 +299,6 @@ class RecordActivity :
             } else {
                 binding.tvRecordTextNum.isChangeBlack()
             }
-        }
-        recordViewModel.createdMumentId.observe(this) {
-            if (it != null) {
-                if (recordViewModel.mumentData.value != null) {
-                    onBackPressed()
-                    recordViewModel.mumentData.value = null
-                } else {
-                    recordViewModel.selectedMusic.value?.let { it1 ->
-                        moveMusicDetailNavigatorProvider.musicMument(
-                            it1._id
-                        )
-                    }
-                }
-            }
-        }
-        recordViewModel.modifyMumentId.observe(this) {
-
         }
     }
 
@@ -411,7 +380,15 @@ class RecordActivity :
     //x 버튼 눌렀을 때 (기록하기/수정하기)
     private fun deleteBtnEvent() {
         binding.btnRecordDelete.setOnClickListener {
-            if (recordViewModel.mumentId.value?.isEmpty() == true) {
+            if (recordViewModel.modifyMumentId.value?.isEmpty() == false) {
+                MumentDialogBuilder()
+                    .setHeader(getString(R.string.modify_header))
+                    .setBody(getString(R.string.modify_body))
+                    .setAllowListener("확인") { finish() }
+                    .setCancelListener {}
+                    .build()
+                    .show(supportFragmentManager, attributionTag)
+            } else {
                 MumentDialogBuilder()
                     .setHeader(getString(R.string.record_delete_header))
                     .setBody(getString(R.string.record_delete_body))
@@ -421,16 +398,6 @@ class RecordActivity :
                     .setCancelListener {}
                     .build()
                     .show(supportFragmentManager, attributionTag)
-
-            } else {
-                MumentDialogBuilder()
-                    .setHeader(getString(R.string.modify_header))
-                    .setBody(getString(R.string.modify_body))
-                    .setAllowListener("확인") { finish() }
-                    .setCancelListener {}
-                    .build()
-                    .show(supportFragmentManager, attributionTag)
-
             }
         }
     }
@@ -467,15 +434,6 @@ class RecordActivity :
             context, R.font.notosans_medium
         )
         setTextColor(Color.GRAY)
-    }
-
-    //태그들 있는거 for문 돌면서 해지
-    private fun RecyclerView.resetCheckedTags(adapter: RecordTagAdapter) {
-        (0 until adapter.itemCount).forEach {
-            getChildViewHolder(get(it)).run {
-                (this as RecordTagAdapter.RecordTagViewHolder).binding.cbTag.isChecked = false
-            }
-        }
     }
 
     override fun onStop() {

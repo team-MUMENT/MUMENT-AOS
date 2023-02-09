@@ -47,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_my_page_title">
 
@@ -100,7 +101,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_my_page_profile"
                         tools:text="blueingreen" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <ImageView
                         android:id="@+id/btn_my_page_go_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -139,6 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="11dp"
                     android:paddingVertical="9dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tv_my_page_setting"
                     app:layout_constraintTop_toBottomOf="@+id/tv_my_page_setting">
 
@@ -154,7 +156,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <ImageView
                         android:id="@+id/btn_my_page_go_alarm_setting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -185,7 +187,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <ImageView
                         android:id="@+id/btn_my_page_go_block_user_management"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -240,7 +242,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <ImageView
                         android:id="@+id/btn_my_page_go_notice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -272,7 +274,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <ImageView
                         android:id="@+id/btn_my_page_go_FAQ"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -304,7 +306,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <ImageView
                         android:id="@+id/btn_my_page_go_inquiry"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -360,7 +362,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <ImageView
                         android:id="@+id/btn_my_page_go_app_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -391,7 +393,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <ImageView
                         android:id="@+id/btn_my_page_go_introduce_mument"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
