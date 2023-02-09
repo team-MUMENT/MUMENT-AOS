@@ -6,19 +6,17 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.mument_android.R
+import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
@@ -31,12 +29,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     EditMumentNavigator {
     lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
-    @Inject lateinit var dataStoreManager: DataStoreManager
+
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         initNavigation()
+        intent.getStringExtra("MUMENT_ID")?.let { mumentId ->
+            intent.getStringExtra("MUSIC_INFO")?.let { music ->
+                val bundle = Bundle().also {
+                    it.putString(MUMENT_ID, mumentId)
+                    it.putString("MUSIC_INFO", music)
+                }
+                navController.navigate(R.id.action_homeFragment_to_nav_detail, bundle)
+            }
+        }
         floatingBtnListener()
         customAppBar()
         isLimitUserNetwork()
@@ -134,6 +142,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun recordMusic(music: Music) {
         viewModel.changeMusic(music)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.e("onNewIntent", intent.toString())
     }
 
     companion object {

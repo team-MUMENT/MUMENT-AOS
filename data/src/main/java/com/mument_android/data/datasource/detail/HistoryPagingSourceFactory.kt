@@ -30,7 +30,6 @@ class HistoryPagingSourceFactory(
                 (key - 1) * (params.loadSize)
             )
         }.let { result ->
-            Log.e("LIStADAPTER FACTORY", result.toString())
             when (result) {
                 is ResultWrapper.Success -> {
                     result.data?.data?.mumentHistory ?: listOf()

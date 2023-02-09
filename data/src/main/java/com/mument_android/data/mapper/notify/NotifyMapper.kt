@@ -16,10 +16,8 @@ class NotifyMapper : BaseMapper<NotifyDto, List<NotifyEntity>> {
                 element.isRead,
                 element.createdAt,
                 element.linkId,
-                element.noticePoint,
-                element.noticeTitle,
-                element.likeMusicTitle,
-                element.likeProfileId
+                element.notice,
+                element.like
             )
         }
 }

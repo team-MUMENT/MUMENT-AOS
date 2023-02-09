@@ -15,32 +15,41 @@ abstract class NavigatorModule {
     abstract fun provideEditMumentNavigatorProvider(editMumentNavigatorProviderImpl: EditMumentNavigatorProviderImpl): EditMumentNavigatorProvider
 
     @Binds
-    abstract fun provideMusicNavigatorProvider(musicMuemnt: MoveMusicDetailNavigatorProviderImpl): MoveMusicDetailNavigatorProvider
+    abstract fun provideMusicNavigatorProvider(moveMusicDetailNavigatorProviderImpl: MoveMusicDetailNavigatorProviderImpl): MoveMusicDetailNavigatorProvider
 
     @Binds
-    abstract fun provideMusicRecodeProvider(music: MoveRecordProviderImpl): MoveRecordProvider
+    abstract fun provideMusicRecodeProvider(moveRecordProviderImpl: MoveRecordProviderImpl): MoveRecordProvider
 
     @Binds
-    abstract fun provideMusicDetailProvider(music: MusicDetailNavigatorProviderImpl): MusicDetailNavigatorProvider
+    abstract fun provideMusicDetailProvider(musicDetailNavigatorProviderImpl: MusicDetailNavigatorProviderImpl): MusicDetailNavigatorProvider
 
     @Binds
-    abstract fun provideMumentDetailProvider(mument: MumentDetailNavigatorProviderImpl): MumentDetailNavigatorProvider
+    abstract fun provideMumentDetailProvider(mumentDetailNavigatorProviderImpl: MumentDetailNavigatorProviderImpl): MumentDetailNavigatorProvider
 
     @Binds
-    abstract fun provideHistoryProvider(mument: HistoryNavigatorProviderImpl): HistoryNavigatorProvider
+    abstract fun provideHistoryProvider(historyNavigatorProviderImpl: HistoryNavigatorProviderImpl): HistoryNavigatorProvider
 
     @Binds
     abstract fun bindLikeUsersNavigatorProvider(likeUsersNavigatorProviderImpl: LikeUsersNavigatorProviderImpl): LikeUsersNavigatorProvider
 
     @Binds
-    abstract fun provideHomeProvider(userId: MainHomeNavigatorProviderImpl): MainHomeNavigatorProvider
+    abstract fun bindHomeProvider(mainHomeNavigatorProviderImpl: MainHomeNavigatorProviderImpl): MainHomeNavigatorProvider
 
     @Binds
-    abstract fun provideMumentHistoryProvider(mumentHistoryNavigatorProviderImpl: MumentHistoryNavigatorProviderImpl): MumentHistoryNavigatorProvider
+    abstract fun bindMumentHistoryProvider(mumentHistoryNavigatorProviderImpl: MumentHistoryNavigatorProviderImpl): MumentHistoryNavigatorProvider
 
     @Binds
-    abstract fun provideMypageProvider(mypageNavigatorProviderImpl: MypageNavigatorProviderImpl): MypageNavigatorProvider
+    abstract fun bindMypageProvider(mypageNavigatorProviderImpl: MypageNavigatorProviderImpl): MypageNavigatorProvider
+
+    @Binds
+    abstract fun bindMoveNotifyNavigatorProvider(moveNotifyNavigatorProviderImpl: MoveNotifyNavigatorProviderImpl): MoveNotifyNavigatorProvider
+
+    @Binds
+    abstract fun bindMoveFromHistoryToDetailProvider(moveFromHistoryToDetail: MoveFromHistoryToDetailImpl): MoveFromHistoryToDetail
 
     @Binds
     abstract fun provideDeclareProvider(declareNavigatorProviderImpl: DeclareNavigatorProviderImpl) : DeclareNavigatorProvider
+
+    @Binds
+    abstract fun bindMoveToAlarmFragmentProvider(moveToAlarmFragmentProvider: MoveToAlarmFragmentProviderImpl): MoveToAlarmFragmentProvider
 }

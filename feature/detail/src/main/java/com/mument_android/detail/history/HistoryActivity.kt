@@ -3,19 +3,25 @@ package com.mument_android.detail.history
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.paging.PagingData
+import com.angdroid.navigation.MoveFromHistoryToDetail
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.detail.databinding.ActivityHistoryBinding
 import com.mument_android.domain.entity.history.MumentHistory
-import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class HistoryActivity : BaseActivity<ActivityHistoryBinding>(inflate = ActivityHistoryBinding::inflate) {
+class HistoryActivity :
+    BaseActivity<ActivityHistoryBinding>(inflate = ActivityHistoryBinding::inflate) {
     private val historyViewModel: HistoryViewModel by viewModels()
     private lateinit var adapter: HistoryListAdapter
+
+    @Inject
+    lateinit var moveFromHistoryToDetail: MoveFromHistoryToDetail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +33,6 @@ class HistoryActivity : BaseActivity<ActivityHistoryBinding>(inflate = ActivityH
             historyViewModel.setUserId(it)
         }
         setListener()
-        setAdapter()
         collectSortType()
         collectFlowWhenStarted(historyViewModel.fetchHistory) { paging ->
             adapter.submitData(paging)
@@ -36,6 +41,7 @@ class HistoryActivity : BaseActivity<ActivityHistoryBinding>(inflate = ActivityH
 
     private fun setListener() {
         binding.clTouch.click { finish() }
+        binding.ivAlbum.click { finish() }
         binding.ivBtnBack.click { finish() }
         binding.tvLatestOrder.click {
             historyViewModel.changeSortType("Y")
@@ -45,21 +51,25 @@ class HistoryActivity : BaseActivity<ActivityHistoryBinding>(inflate = ActivityH
         }
     }
 
-    private fun setAdapter() {
-        adapter = HistoryListAdapter(::moveToMumentDetail)
-        binding.rcHistory.adapter = adapter
+    private fun moveToMumentDetail(mumentHistory: MumentHistory) {
+        val music = historyViewModel.music.value.toMusicInfoEntity()
+        moveFromHistoryToDetail.moveMumentDetail(mumentHistory._id.toString(), music)
     }
 
-    private fun moveToMumentDetail(mumentHistory: MumentHistory) {
-        val music = historyViewModel.music.value?.let {
-            MusicInfoEntity(it._id, it.name, it.artist, it.image)
-        }
-        //History로 갈 수 있는 depth가 MumentDetail->Music Detail or Music Detail로만 가능하므로 ResultLauncher 달아놔야할듯,, Activity라서,,
-        finish()
+    private fun likeMument(mumentId: String) {
+        historyViewModel.likeMument(mumentId)
+    }
+
+    private fun deleteLikeMument(mumentId: String) {
+        historyViewModel.cancelLikeMument(mumentId)
     }
 
     private fun collectSortType() {
         collectFlowWhenStarted(historyViewModel.selectSortType) { sort ->
+            adapter = HistoryListAdapter(::moveToMumentDetail, {
+                likeMument(it)
+            }, { deleteLikeMument(it) })
+            binding.rcHistory.adapter = adapter
             binding.tvLatestOrder.isSelected = sort == "Y"
             binding.tvOldestOrder.isSelected = sort == "N"
             //이거 나중에 수정,,

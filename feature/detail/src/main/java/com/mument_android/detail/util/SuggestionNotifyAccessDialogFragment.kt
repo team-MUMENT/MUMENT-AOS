@@ -1,4 +1,4 @@
-package com.mument_android.home.main
+package com.mument_android.detail.util
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.core_dependent.util.AutoClearedValue
-import com.mument_android.home.R
-import com.mument_android.home.databinding.FragmentSuggestionNotifyAccessBinding
+import com.mument_android.detail.R
+import com.mument_android.detail.databinding.FragmentSuggestionNotifyAccessBinding
 
 class SuggestionNotifyAccessDialogFragment :
     BottomSheetDialogFragment() {

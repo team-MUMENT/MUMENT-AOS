@@ -15,4 +15,5 @@
     <string name="alert_limit_period_at">까지</string>
     <string name="alert_singer_to_sing">-</string>
     <string name="alert_ok">확인</string>
+    <string name="notification_channel">notify</string>
 </resources>

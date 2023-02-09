@@ -47,7 +47,7 @@ class NotifyViewModel @Inject constructor(
                         null
                     }
                 }
-            }.collect { notifyList ->//[1073, 1061, 1049, 1037]
+            }.collect { notifyList ->
                 _notifyViewState.setState { copy(notifyList = notifyList) }
                 notifyList?.asSequence()?.filter { !it.isRead }?.map { it.id }
                     .let { unReadList ->

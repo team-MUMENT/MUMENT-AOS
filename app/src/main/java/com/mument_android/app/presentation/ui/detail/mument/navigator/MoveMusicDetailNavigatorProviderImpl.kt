@@ -18,13 +18,12 @@ class MoveMusicDetailNavigatorProviderImpl @Inject constructor(private val activ
     }
 
     override fun intentMusicDetail(music: MusicInfoEntity) {
-//        with(activity as SearchActivity) {
-//            activity.findNavController()
-//            val intent = Intent(this, MainActivity::class.java).apply {
-//                putExtra("MUSIC_INFO_ENTITY", music)
-//            }
-//            setResult(AppCompatActivity.RESULT_OK, intent)
-//            finish()
-//        }
+        with(activity as SearchActivity) {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("MUSIC_INFO_ENTITY", music)
+            }
+            setResult(AppCompatActivity.RESULT_OK, intent)
+            finish()
+        }
     }
 }

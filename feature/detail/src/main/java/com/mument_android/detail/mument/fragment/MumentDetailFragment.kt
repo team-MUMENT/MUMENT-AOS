@@ -3,13 +3,13 @@ package com.mument_android.detail.mument.fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.*
@@ -29,6 +29,7 @@ import com.mument_android.core_dependent.util.removeProgress
 import com.mument_android.core_dependent.util.showProgress
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentMumentDetailBinding
+import com.mument_android.detail.history.HistoryActivity
 import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailEvent
 import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailSideEffect
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
@@ -39,7 +40,6 @@ import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion
 import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion.SELECT_REPORT_MUMENT
 import com.mument_android.domain.entity.detail.MumentEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
-import com.mument_android.domain.entity.user.UserEntity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -47,11 +47,23 @@ import javax.inject.Inject
 class MumentDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
-    @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
-    @Inject lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
-    @Inject lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
-    @Inject lateinit var likeUsersNavigatorProvider: LikeUsersNavigatorProvider
-    @Inject lateinit var mumentHistoryNavigatorProvider: MumentHistoryNavigatorProvider
+
+    @Inject
+    lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
+
+    @Inject
+    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+
+    @Inject
+    lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
+
+    @Inject
+    lateinit var likeUsersNavigatorProvider: LikeUsersNavigatorProvider
+
+    @Inject
+    lateinit var mumentHistoryNavigatorProvider: MumentHistoryNavigatorProvider
+    private lateinit var getResultText: ActivityResultLauncher<Intent>
+
     @Inject lateinit var declareNavigatorProvider: DeclareNavigatorProvider
 
     override fun onCreateView(
@@ -66,7 +78,17 @@ class MumentDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mumentDetailViewModel = viewModel
-
+        getResultText =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == AppCompatActivity.RESULT_OK) {
+                    it.data?.getParcelableExtra<MusicInfoEntity>("MUSIC_INFO")?.let { music ->
+                        it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
+                            viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(mumentId))
+                            viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(music))
+                        } ?: musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(music)
+                    }
+                }
+            }
         receiveMumentInfo()
         updateMumentDetail()
         popBackStack()
@@ -114,7 +136,7 @@ class MumentDetailFragment : Fragment() {
             (binding.rvMumentTags.adapter as MumentTagListAdapter).submitList(it.mument?.combineTags())
             binding.cslRoot.run { if (it.onNetwork) showProgress() else removeProgress() }
             if (it.hasError) requireContext().showToast(resources.getString(R.string.cannot_load_data))
-            if (it.historyCount >0) showMumentHistory()
+            if (it.historyCount > 0) showMumentHistory()
         }
     }
 
@@ -124,34 +146,67 @@ class MumentDetailFragment : Fragment() {
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
 
-                MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> { showEditOrDeleteMumentDialog() }
-                is MumentDetailSideEffect.NavToEditMument -> { /** Todo: Navigate To Edit Mument **/ }
+                MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> {
+                    showEditOrDeleteMumentDialog()
+                }
+                is MumentDetailSideEffect.NavToEditMument -> {
+                    /** Todo: Navigate To Edit Mument **/
+                }
                 MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
 
+                MumentDetailSideEffect.NavToReportMument -> {
+                    /** Todo: Navigate To Report Mument **/
+                }
                 MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> { showBlockOrReportBottomSheet() }
                 is MumentDetailSideEffect.NavToReportMument -> {
                     declareNavigatorProvider.moveDeclare(effect.mumentId)
                     /** Todo: Navigate To Report Mument **/ }
+                    
                 MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
 
                 is MumentDetailSideEffect.NavToMusicDetail -> {
                     musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.music)
                 }
                 is MumentDetailSideEffect.NavToMumentHistory -> {
-                    viewModel.viewState.value.musicInfo?.toMusic()?.let {
-                        mumentHistoryNavigatorProvider.mumentDetailToHistory(it, 0)
+                    //여기 나중에 수정 좀 부탁드립니당!!
+                    //현재 effect.musicId만 받아와짐
+                    viewModel.viewState.value.musicInfo?.toMusic()?.let { music ->
+                        viewModel.viewState.value.mument?.writerInfo?.userId?.toInt()
+                            ?.let { userId ->
+                                getResultText.launch(
+                                    Intent(
+                                        requireActivity(),
+                                        HistoryActivity::class.java
+                                    ).apply {
+                                        putExtra("music", music)
+                                        putExtra("userId", userId)
+                                    })
+                            }
                     }
                 }
-                is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
-                is MumentDetailSideEffect.OpenShareMumentDialog -> { openShareMumentDialog(effect.mument,  effect.musicInfo) }
-                is MumentDetailSideEffect.NavToInstagram -> { navToInstagram(effect.imageUri) }
+                is MumentDetailSideEffect.Toast -> requireContext().showToast(
+                    resources.getString(
+                        effect.message
+                    )
+                )
+                is MumentDetailSideEffect.OpenShareMumentDialog -> {
+                    openShareMumentDialog(effect.mument, effect.musicInfo)
+                }
+                is MumentDetailSideEffect.NavToInstagram -> {
+                    navToInstagram(effect.imageUri)
+                }
             }
         }
     }
 
     private fun showMumentHistory() {
         binding.tvGoToHistory.run {
-            if (visibility == View.GONE) applyVisibilityAnimation(isUpward = true, reveal = true, durationTime = 700, delay = 150)
+            if (visibility == View.GONE) applyVisibilityAnimation(
+                isUpward = true,
+                reveal = true,
+                durationTime = 700,
+                delay = 150
+            )
         }
     }
 
@@ -195,7 +250,7 @@ class MumentDetailFragment : Fragment() {
     private fun showBlockOrReportBottomSheet() {
         SelectReportTypeDialogFragment()
             .attachSelectListener { type ->
-                when(type) {
+                when (type) {
                     SELECT_REPORT_MUMENT -> viewModel.emitEvent(MumentDetailEvent.SelectReportMumentType)
                     SELECT_BLOCK_USER -> viewModel.emitEvent(MumentDetailEvent.SelectBlockUserType)
                 }

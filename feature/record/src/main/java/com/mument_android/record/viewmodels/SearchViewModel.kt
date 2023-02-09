@@ -91,7 +91,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun clearSearchResult() {
-        searchResultList.value?.toMutableList()?.clear()
+        _searchResultList.value = null
     }
 
 }
