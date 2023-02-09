@@ -189,6 +189,7 @@
                 android:paddingTop="22dp"
                 android:layout_marginHorizontal="13dp"
                 android:scrollbars="vertical"
+                android:overScrollMode="never"
                 setMovementMethod="@{true}"
                 android:visibility="@{mumentDetailViewModel.viewState.mument.content == null ? View.GONE : View.VISIBLE}"
                 android:text="@{mumentDetailViewModel.viewState.mument.content}"
