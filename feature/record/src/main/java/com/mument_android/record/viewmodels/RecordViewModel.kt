@@ -62,6 +62,8 @@ class RecordViewModel @Inject constructor(
     private val _isCreateSuccessful = MutableSharedFlow<Boolean>()
     val isCreateSuccessful = _isCreateSuccessful.asSharedFlow()
 
+    var recordCount = 0
+
     fun findIsFirst() {
         viewModelScope.launch {
             selectedMusic.value?.let {
@@ -115,14 +117,15 @@ class RecordViewModel @Inject constructor(
                     selectedMusic.value!!.image,
                     selectedMusic.value!!.name
                 )
-                selectedMusic.value?.let {
+                selectedMusic.value?.let { recent ->
                     recordMumentUseCase(
-                        musicId = it._id,
+                        musicId = recent._id,
                         recordEntity
                     ).catch { e ->
                         _isCreateSuccessful.emit(false)
-                    }.collect {
-                        _createdMumentId.value = it
+                    }.collect { pair ->
+                        _createdMumentId.value = pair.first
+                        recordCount = pair.second
                         _isCreateSuccessful.emit(true)
                     }
                 }
@@ -142,7 +145,10 @@ class RecordViewModel @Inject constructor(
                     isFirstDuplicate,
                     isPrivate.value ?: false,
                 )
-                recordModifyMumentUseCase(mumentId = _modifyMumentId.value!!, modifyEntity).catch { e ->
+                recordModifyMumentUseCase(
+                    mumentId = _modifyMumentId.value!!,
+                    modifyEntity
+                ).catch { e ->
                     _isModifySuccessful.emit(false)
                 }.collect {
                     _modifyMumentId.value = it

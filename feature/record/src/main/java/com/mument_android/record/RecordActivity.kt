@@ -359,29 +359,37 @@ class RecordActivity :
     private fun getAllData() {
         binding.tvRecordFinish.setOnClickListener {
             if (recordViewModel.mumentId.value == "") {
-                this.snackBar(
-                    binding.clRecordRoot,
-                    getString(R.string.record_finish_record)
-                )
-                recordViewModel.mumentId.value = ""
                 recordViewModel.postMument()
             } else {
-                this.snackBar(
-                    binding.clRecordRoot,
-                    getString(R.string.modify_record)
-                )
                 recordViewModel.modifyMument()
-                recordViewModel.mumentId.value = ""
             }
 
             collectFlowWhenStarted(recordViewModel.isCreateSuccessful) { isSuccessful ->
                 if (isSuccessful) {
                     val mumentId = recordViewModel.createdMumentId.value ?: ""
+                    if (recordViewModel.mumentId.value == "") {
+                        this.snackBar(
+                            binding.clRecordRoot,
+                            getString(R.string.record_finish_record)
+                        )
+                        recordViewModel.mumentId.value = ""
+                    } else {
+                        this.snackBar(
+                            binding.clRecordRoot,
+                            getString(R.string.modify_record)
+                        )
+                        recordViewModel.mumentId.value = ""
+                    }
                     recordViewModel.selectedMusic.value?.let { music ->
                         Intent().run {
                             putExtra(TO_MUSIC_DETAIL, TO_MUSIC_DETAIL)
                             putExtra(MUMENT_ID, mumentId)
                             putExtra(MUSIC_INFO_ENTITY, music.toMusicInfo())
+                            when (recordViewModel.recordCount) {
+                                1, 10, 20 -> {
+                                    putExtra("COUNT", true)
+                                }
+                            }
                             setResult(RESULT_OK, this)
                             finish()
                         }

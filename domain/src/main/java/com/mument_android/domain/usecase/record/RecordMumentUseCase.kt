@@ -7,5 +7,5 @@ interface RecordMumentUseCase {
     suspend operator fun invoke(
         musicId: String,
         mumentRecordEntity: MumentRecordEntity
-    ): Flow<String>
+    ): Flow<Pair<String, Int>>
 }

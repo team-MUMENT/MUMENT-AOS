@@ -53,9 +53,6 @@ class MusicDetailFragment() : Fragment() {
     @Inject
     lateinit var historyNavigatorProvider: HistoryNavigatorProvider
 
-    @Inject
-    lateinit var moveToAlarmFragmentProvider: MoveToAlarmFragmentProvider
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,11 +79,6 @@ class MusicDetailFragment() : Fragment() {
                     }
                 }
             }
-        SuggestionNotifyAccessDialogFragment.newInstance {
-            if (it) {
-                moveToAlarmFragmentProvider.moveAlarmFromMusic()
-            }
-        }.show(parentFragmentManager, "Suggestion")
         clickBackButton()
         setMyMumentTagList()
         setEntireMumentListAdapter()
