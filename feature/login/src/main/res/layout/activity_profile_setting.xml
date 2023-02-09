@@ -22,8 +22,8 @@
             android:id="@+id/iv_profile_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="52dp"
             android:src="@drawable/mument_icon_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -90,6 +90,7 @@
             android:layout_marginTop="65dp"
             android:background="@drawable/rectangle_fill_gray4_11dp"
             android:hint="@string/login_profile_nickname"
+            android:imeOptions="actionDone"
             android:maxLength="15"
             android:paddingHorizontal="17dp"
             android:paddingVertical="17dp"
