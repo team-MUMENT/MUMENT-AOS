@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
@@ -15,6 +16,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.mument_android.R
 import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
+import com.mument_android.app.presentation.ui.detail.mument.navigator.checkCurrentFragment
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
@@ -26,6 +28,8 @@ import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.home.main.HomeFragment
+import com.mument_android.locker.LockerFragment
 import com.mument_android.record.RecordActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -122,8 +126,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         binding.navBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.homeFragment -> changeCurrentFragment(R.id.homeFragment)
-                R.id.lockerFragment -> changeCurrentFragment(R.id.lockerFragment)
+                R.id.homeFragment -> {
+                    if(checkCurrentFragment() !is HomeFragment) { changeCurrentFragment(R.id.homeFragment) }
+                }
+                R.id.lockerFragment -> {
+                    if(checkCurrentFragment() !is LockerFragment) { changeCurrentFragment(R.id.lockerFragment) }
+                }
             }
             false
         }
