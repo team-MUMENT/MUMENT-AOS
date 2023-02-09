@@ -16,6 +16,7 @@
         android:id="@+id/cl_record_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/mument_color_white"
         android:onClick="hideKeyBoard"
         tools:context="com.mument_android.record.com.mument_android.record.RecordActivity">
 
@@ -28,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_record_title"
             app:layout_constraintVertical_bias="1.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,53 +49,6 @@
                     android:layout_height="0dp"
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="16dp" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_record_delete"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="39dp"
-                    android:background="@drawable/ic_delete_dark"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_record_title"
-                    style="@style/TextView.Mument_H2_B18.Style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:text="@string/record_title"
-                    android:visibility="@{recordViewModel.modifyMumentId == null ?View.VISIBLE:View.GONE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/gl_left"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_modify_title"
-                    style="@style/TextView.Mument_H2_B18.Style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:text="@string/modify_title"
-                    android:visibility="@{recordViewModel.modifyMumentId ==null ?View.GONE:View.VISIBLE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/gl_left"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_record_finish"
-                    style="@style/TextView.Mument_H2_B18.TextAppearance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginEnd="16dp"
-                    android:enabled="false"
-                    android:text="@string/record_finish"
-                    android:textColor="@color/selector_color_gray1_to_purple1_selected"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_search"
@@ -387,6 +341,63 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_record_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mument_color_white"
+            android:paddingBottom="10dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_record_delete"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="39dp"
+                android:background="@drawable/ic_delete_dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_record_title"
+                style="@style/TextView.Mument_H2_B18.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="@string/record_title"
+                android:visibility="@{recordViewModel.modifyMumentId == null ?View.VISIBLE:View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_modify_title"
+                style="@style/TextView.Mument_H2_B18.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="@string/modify_title"
+                android:visibility="@{recordViewModel.modifyMumentId ==null ?View.GONE:View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_record_finish"
+                style="@style/TextView.Mument_H2_B18.TextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="16dp"
+                android:enabled="false"
+                android:text="@string/record_finish"
+                android:textColor="@color/selector_color_gray1_to_purple1_selected"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

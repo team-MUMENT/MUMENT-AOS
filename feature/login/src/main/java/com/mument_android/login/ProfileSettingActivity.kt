@@ -14,15 +14,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.core.net.toFile
-import androidx.core.net.toUri
+import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.angdroid.navigation.MypageNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
@@ -36,7 +35,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -206,26 +204,28 @@ class ProfileSettingActivity :
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         val rnds = (0..2).random()
         if (viewModel.imageUri.value == null) {
-            if(rnds == 0) {
+            if (rnds == 0) {
                 changeImageUri(R.drawable.mument_profile_love_45)
-            } else if(rnds == 1) {
+            } else if (rnds == 1) {
                 changeImageUri(R.drawable.mument_profile_smile_45)
             } else {
                 changeImageUri(R.drawable.mument_profile_sleep_45)
             }
         } else {
-            val multipart = viewModel.imageUri.value?.let {
-                multiPartResolver.createImageMultiPart(it)
+            viewModel.imageUri.value?.let {
+                binding.ivProfile.drawable.toBitmapOrNull(720, 720, Bitmap.Config.RGB_565)?.let {
+                    Log.e("BITMAP", it.toString())
+                    multiPartResolver.createImageMultiPart(it)
+                }
+            }?.let { multi ->
+                viewModel.putProfile(multi, requestBodyMap)
             }
-            viewModel.putProfile(multipart, requestBodyMap)
         }
-
-        moveToMainActivity()
-        val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
-        viewModel.putProfile(multipart, requestBodyMap)
+        /*val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
+        viewModel.putProfile(multipart, requestBodyMap)*/
     }
 
-    private fun changeImageUri(img : Int) {
+    private fun changeImageUri(img: Int) {
         val requestBodyMap = HashMap<String, RequestBody>()
         val nickname = binding.etNickname.text.toString()
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -235,7 +235,7 @@ class ProfileSettingActivity :
         val data = bos.toByteArray()
         val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), data)
         val image = MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
-        viewModel.putProfile(image,requestBodyMap)
+        viewModel.putProfile(image, requestBodyMap)
     }
 
     private suspend fun nickNameDupCheck() {
@@ -253,15 +253,28 @@ class ProfileSettingActivity :
 
     private fun dulCheckListener() {
         val isCheckMypage = intent.getIntExtra("checkMyPage", 0)
+        collectFlowWhenStarted(viewModel.isSuccess) { success ->
+            if (success) {
+                if (isCheckMypage == 1)
+                    finish()
+                else
+                    moveToMainActivity()
+            }
+        }
+
         binding.tvProfileFinish.setOnClickListener {
             lifecycleScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
-                if (isCheckMypage == 1)
-                    moveToMypageActivity()
-                else
-                    moveToMainActivity()
-
+                collectFlowWhenStarted(viewModel.isSuccess) { success ->
+                    Log.e("IS SUCCESS", success.toString())
+                    if (success) {
+                        if (isCheckMypage == 1)
+                            moveToMypageActivity()
+                        else
+                            moveToMainActivity()
+                    }
+                }
             }
         }
     }
@@ -276,6 +289,7 @@ class ProfileSettingActivity :
         val img = intent.getStringExtra("img")
         img?.let {
             viewModel.imageUri.value = Uri.parse(it)
+            Log.e("IMG", viewModel.imageUri.value.toString())
         }
 
         if (viewModel.mumentNickName.value == "null" && viewModel.imageUri.value == null) {

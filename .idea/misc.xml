@@ -61,7 +61,7 @@
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/mypage/src/main/res/xml/setting_alarm_preference.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/record/src/main/res/drawable-hdpi/retangle_fill_purple1_11dp.xml" value="0.137" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/record/src/main/res/drawable/selector_rectagle_gray2_purple1_11dp.xml" value="0.196" />
-        <entry key="..\:/Users/82104/MUMENT-AOS/feature/record/src/main/res/layout/activity_record.xml" value="0.2" />
+        <entry key="..\:/Users/82104/MUMENT-AOS/feature/record/src/main/res/layout/activity_record.xml" value="0.136" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/record/src/main/res/layout/bottomsheet_fragment_search.xml" value="0.1140625" />
         <entry key="..\:/Users/82104/MUMENT-AOS/feature/record/src/main/res/layout/fragment_record.xml" value="0.25364583333333335" />
         <entry key="app/src/main/res/drawable-mdpi/selector_ic_list.xml" value="0.1" />
@@ -148,6 +148,9 @@
         <entry key="feature/locker/src/main/res/layout/item_mument_image.xml" value="0.14114583333333333" />
         <entry key="feature/locker/src/main/res/layout/item_mument_string_tag.xml" value="0.14114583333333333" />
         <entry key="feature/locker/src/main/res/layout/item_tag_checkbox.xml" value="0.14114583333333333" />
+        <entry key="feature/mypage/src/main/res/layout/fragment_unregister.xml" value="0.19763991744429976" />
+        <entry key="feature/mypage/src/main/res/layout/item_notice.xml" value="0.2388888888888889" />
+        <entry key="feature/record/src/main/res/layout/activity_record.xml" value="0.3182291666666667" />
       </map>
     </option>
   </component>

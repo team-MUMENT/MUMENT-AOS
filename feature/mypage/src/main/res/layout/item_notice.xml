@@ -33,6 +33,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="게시물 1게시물 1게시물 1 게시물 1게시물 1게시물 1게시물 1" />
 
+
         <TextView
             android:id="@+id/tv_notice_item_date"
             android:layout_width="wrap_content"

@@ -19,6 +19,12 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
 
     private val myPageViewModel: MyPageViewModel by viewModels()
 
+    override fun onStart() {
+        super.onStart()
+        myPageViewModel.userInfo()
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.myPageViewModel = myPageViewModel
@@ -44,6 +50,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
 
     private fun moveProfileSetting() {
         binding.clProfile.setOnClickListener {
+            Log.e("USER INFO", myPageViewModel.userInfo.value.toString())
             val intent = Intent(this, ProfileSettingActivity::class.java)
             intent.putExtra("nickname", myPageViewModel.userInfo.value?.userName)
             intent.putExtra("img", myPageViewModel.userInfo.value?.image)
@@ -103,7 +110,6 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     }
 
     private fun userInfoNetwork() {
-        myPageViewModel.userInfo()
         myPageViewModel.userInfo.observe(this) {
             binding.viewModel = it
         }
@@ -143,7 +149,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
 
     private fun backBtnEvent() {
         binding.btnMyPageBack.setOnClickListener {
-            onBackPressed()
+            finish()
         }
     }
 

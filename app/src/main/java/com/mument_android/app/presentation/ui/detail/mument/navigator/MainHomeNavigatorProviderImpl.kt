@@ -12,5 +12,6 @@ class MainHomeNavigatorProviderImpl @Inject constructor(
     override fun profileSettingToMain() {
         val intent = Intent(activity, MainActivity::class.java)
         activity.startActivity(intent)
+        activity.finish()
     }
 }

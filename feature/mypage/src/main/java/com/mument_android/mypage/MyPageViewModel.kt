@@ -198,6 +198,7 @@ class MyPageViewModel @Inject constructor(
             kotlin.runCatching {
                 userInfoUseCase.invoke().let {
                     _userInfo.value = it
+                    _userId.value = userInfo.value?.userName
                 }
             }
         }

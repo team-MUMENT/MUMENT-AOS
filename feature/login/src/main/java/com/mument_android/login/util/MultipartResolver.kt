@@ -13,17 +13,18 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
+import java.util.*
 
 
 class MultipartResolver(private val context: Context) {
     private val byteArrayOutputStream = ByteArrayOutputStream()
 
-    fun createImageMultiPart(uri : Uri) : MultipartBody.Part {
-        var resizedWidth = RESIZED_SIZE
+    fun createImageMultiPart(uri: Bitmap?): MultipartBody.Part {
+        /*var resizedWidth = RESIZED_SIZE
         var resizedHeight = RESIZED_SIZE
-        val options = BitmapFactory.Options()
-        val inputStream = context.contentResolver.openInputStream(uri)
-
+        val options = BitmapFactory.Options()*/
+        /*val inputStream = context.contentResolver.openInputStream(uri)*/
+/*
         val byteArrayOutputStream = ByteArrayOutputStream()
         getRotatedBitmap(
             BitmapFactory.decodeStream(inputStream, null, options),
@@ -38,11 +39,15 @@ class MultipartResolver(private val context: Context) {
             } else {
                 resizedWidth = it.width.toFloat()
                 resizedHeight = it.height.toFloat()
-            }
-            Bitmap.createScaledBitmap(it, resizedWidth.toInt(), resizedHeight.toInt(), true)
+            }*/
+
+        if (uri != null) {
+            Bitmap.createBitmap(uri)
                 .compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         }
-        val file = File(replaceFileName(uri.toString()))
+        //uri -> image -> file(uri.toString).name(자원 위치) -> byteArray() -> MultiPart
+        //}
+        val file = File(replaceFileName(UUID.randomUUID().toString()))
         val surveyBody =
             byteArrayOutputStream.toByteArray().toRequestBody("image/jpeg".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("image", file.name, surveyBody)
@@ -59,7 +64,7 @@ class MultipartResolver(private val context: Context) {
 
     private fun getOrientationOfImage(uri: Uri): Int {
         // uri -> inputStream
-        val inputStream =  context.contentResolver.openInputStream(uri)
+        val inputStream = context.contentResolver.openInputStream(uri)
         val exif: ExifInterface? = try {
             ExifInterface(inputStream!!)
         } catch (e: IOException) {
@@ -69,7 +74,8 @@ class MultipartResolver(private val context: Context) {
         inputStream.close()
 
         // 회전된 각도 알아내기
-        val orientation = exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+        val orientation =
+            exif?.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
         if (orientation != -1) {
             when (orientation) {
                 ExifInterface.ORIENTATION_ROTATE_90 -> return 90

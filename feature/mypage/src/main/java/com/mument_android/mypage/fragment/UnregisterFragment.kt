@@ -45,12 +45,18 @@ class UnregisterFragment : Fragment() {
 
         reasonChooseTouchEvent()
 
+        settingUserName()
         isAgreeBtnEvent()
         unregisterFinish()
 
         backBtnListener()
 
     }
+
+    private fun settingUserName() {
+        myPageViewModel.userInfo()
+    }
+
 
     //이유 선택 박스 눌렀을 때
     private fun reasonChooseBtnEvent() {
