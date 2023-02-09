@@ -1,6 +1,7 @@
 package com.mument_android.record
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
@@ -12,10 +13,14 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
+import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.core.model.TagEntity
+import com.mument_android.core.util.Constants.MUMENT_ID
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
@@ -23,9 +28,9 @@ import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.ImpressiveTag
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
+import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.domain.entity.home.RecentSearchData
-import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.record.MumentModifyEntity
 import com.mument_android.record.databinding.ActivityRecordBinding
 import com.mument_android.record.viewmodels.RecordViewModel
@@ -42,9 +47,14 @@ class RecordActivity :
     @Inject
     lateinit var moveMusicDetailNavigatorProvider: MoveMusicDetailNavigatorProvider
 
+    @Inject
+    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.recordViewModel = recordViewModel
+
         val mumentModifyEntity = intent.getParcelableExtra<MumentModifyEntity>("MumentModifyEntity")
         val recentSearchData = intent.getParcelableExtra<RecentSearchData>("RecentSearchData")
         val mumentId = intent.getStringExtra("MumentID")
@@ -59,7 +69,6 @@ class RecordActivity :
             }
         }
 
-        binding.recordViewModel = recordViewModel
         setTagRecyclerView()
         countText()
 
@@ -361,23 +370,42 @@ class RecordActivity :
                     binding.clRecordRoot,
                     getString(R.string.modify_record)
                 )
-                recordViewModel.putMument()
+                recordViewModel.modifyMument()
                 recordViewModel.mumentId.value = ""
             }
-            collectFlowWhenStarted(recordViewModel.isSuccess) { success ->
-                Log.e("IS SUCCESS", "$success")
-                if (success) {
+
+            collectFlowWhenStarted(recordViewModel.isCreateSuccessful) { isSuccessful ->
+                if (isSuccessful) {
+                    Log.e("success", "success")
+                    val mumentId = recordViewModel.createdMumentId.value ?: ""
                     recordViewModel.selectedMusic.value?.let { music ->
-                        moveMusicDetailNavigatorProvider.intentMusicDetail(
-                            MusicInfoEntity(
-                                music._id,
-                                music.name,
-                                music.image,
-                                music.artist
-                            )
-                        )
-                        finish()
+                        Intent().run {
+                            putExtra(TO_MUSIC_DETAIL, TO_MUSIC_DETAIL)
+                            putExtra(MUMENT_ID, mumentId)
+                            putExtra(MUSIC_INFO_ENTITY, music.toMusicInfo())
+                            setResult(RESULT_OK, this)
+                            finish()
+                        }
                     }
+                } else {
+                    showToast("뮤멘트 기록하기 실패")
+                }
+            }
+
+            collectFlowWhenStarted(recordViewModel.isModifySuccessful) { isSuccessful ->
+                if (isSuccessful) {
+                    Log.e("success", "success")
+                    val mumentId = recordViewModel.modifyMumentId.value ?: ""
+                    recordViewModel.selectedMusic.value?.toMusicInfo()?.let { music ->
+                        Intent().run {
+                            putExtra(MUMENT_ID, mumentId)
+                            putExtra(MUSIC_INFO_ENTITY, music)
+                            setResult(RESULT_OK, this)
+                            finish()
+                        }
+                    }
+                } else {
+
                 }
             }
         }

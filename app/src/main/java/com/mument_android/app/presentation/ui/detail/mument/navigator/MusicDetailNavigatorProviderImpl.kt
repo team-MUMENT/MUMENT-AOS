@@ -3,6 +3,7 @@ package com.mument_android.app.presentation.ui.detail.mument.navigator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.navigation.NavOptions
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.main.MainActivity
@@ -17,13 +18,14 @@ import javax.inject.Inject
 
 class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity: Activity) :
     MusicDetailNavigatorProvider {
-    override fun fromHomeToMusicDetail(musicId: String) {
+    override fun fromHomeToMusicDetail(music: MusicInfoEntity) {
         with(activity as MainActivity) {
-            val bundle = Bundle().also { it.putString(HomeFragment.MUSIC_ID, musicId) }
-            this.navController.navigate(R.id.action_homeFragment_to_nav_detail, bundle)
-            val navGraph = navController.navInflater.inflate(R.navigation.nav_detail)
-            navGraph.setStartDestination(R.id.musicDetailFragment)
-            navController.graph = navGraph
+            val bundle = Bundle().also { it.putParcelable(MUSIC_INFO_ENTITY, music) }
+            navController.navigate(
+                R.id.musicDetailFragment,
+                bundle,
+                NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, false).build()
+            )
         }
     }
 

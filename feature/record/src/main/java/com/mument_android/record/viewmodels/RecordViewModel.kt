@@ -1,6 +1,5 @@
 package com.mument_android.record.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,9 +15,8 @@ import com.mument_android.domain.usecase.record.IsFirstRecordMumentUseCase
 import com.mument_android.domain.usecase.record.RecordModifyMumentUseCase
 import com.mument_android.domain.usecase.record.RecordMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -57,7 +55,12 @@ class RecordViewModel @Inject constructor(
     val mumentData = MutableLiveData<MumentDetailEntity?>()
 
     var isPrivate = MutableLiveData<Boolean>(false)
-    val isSuccess = MutableStateFlow(false)
+
+    private val _isModifySuccessful = MutableSharedFlow<Boolean>()
+    val isModifySuccessful = _isModifySuccessful.asSharedFlow()
+
+    private val _isCreateSuccessful = MutableSharedFlow<Boolean>()
+    val isCreateSuccessful = _isCreateSuccessful.asSharedFlow()
 
     fun findIsFirst() {
         viewModelScope.launch {
@@ -117,17 +120,17 @@ class RecordViewModel @Inject constructor(
                         musicId = it._id,
                         recordEntity
                     ).catch { e ->
-                        //Todo exception handling
+                        _isCreateSuccessful.emit(false)
                     }.collect {
-                        isSuccess.value = true
                         _createdMumentId.value = it
+                        _isCreateSuccessful.emit(true)
                     }
                 }
             }
         }
     }
 
-    fun putMument() {
+    fun modifyMument() {
         viewModelScope.launch {
             checkedTagList.value?.let { tags ->
                 val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
@@ -140,10 +143,10 @@ class RecordViewModel @Inject constructor(
                     isPrivate.value ?: false,
                 )
                 recordModifyMumentUseCase(mumentId = _modifyMumentId.value!!, modifyEntity).catch { e ->
-                    //Todo exception handling
+                    _isModifySuccessful.emit(false)
                 }.collect {
                     _modifyMumentId.value = it
-                    isSuccess.value = true
+                    _isModifySuccessful.emit(true)
                 }
             }
         }

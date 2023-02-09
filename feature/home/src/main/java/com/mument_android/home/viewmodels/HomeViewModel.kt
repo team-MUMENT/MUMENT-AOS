@@ -6,6 +6,7 @@ import com.mument_android.core_dependent.util.collectEvent
 import com.mument_android.core_dependent.util.emitEffect
 import com.mument_android.core_dependent.util.emitEvent
 import com.mument_android.core_dependent.util.setState
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.usecase.home.WhenHomeEnterUseCase
 import com.mument_android.home.main.HomeContract.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -104,10 +105,10 @@ class HomeViewModel @Inject constructor(
                 HomeEvent.OnClickNotification -> emitEffect(HomeSideEffect.GoToNotification)
                 is HomeEvent.CallBackSearchResult -> emitEffect(
                     HomeSideEffect.NavToMusicDetail(
-                        event.musicId
+                        MusicInfoEntity("","","", "")
                     )
                 )
-                is HomeEvent.OnClickBanner -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicId))
+                is HomeEvent.OnClickBanner -> emitEffect(HomeSideEffect.NavToMusicDetail(event.music))
                 is HomeEvent.OnClickTodayMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo))
                 is HomeEvent.OnClickHeardMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo))
                 is HomeEvent.OnClickRandomMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo))

@@ -6,26 +6,28 @@ import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.mument_android.R
+import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
+import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.databinding.ActivityMainBinding
+import com.mument_android.detail.music.MusicDetailFragment.Companion.MUSIC_INFO_ENTITY
 import com.mument_android.domain.entity.detail.MumentDetailEntity
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.home.main.HomeFragment
+import com.mument_android.locker.LockerFragment
 import com.mument_android.record.RecordActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -91,12 +93,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     RestrictUserDialog(this).show(supportFragmentManager, "test")
                 } else {
                     val intent = Intent(this, RecordActivity::class.java)
-                    startActivity(intent)
+                    recordMumentLauncher.launch(intent)
                 }
             }
-
         }
+    }
 
+    private val recordMumentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if(result.resultCode == RESULT_OK) {
+            result.data?.let { moveMusicDetail(it) }
+        }
+    }
+
+    private fun moveMusicDetail(intent: Intent) {
+        if (intent.getStringExtra(TO_MUSIC_DETAIL) == TO_MUSIC_DETAIL) {
+            intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
+                val bundle = Bundle().apply { putParcelable(MUSIC_INFO_ENTITY, it) }
+                navController.navigate(
+                    R.id.musicDetailFragment,
+                    bundle,
+                    NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, false).build()
+                )
+            }
+        }
     }
 
     private fun isLimitUserNetwork() {

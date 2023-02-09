@@ -62,9 +62,9 @@ class HomeFragment : Fragment() {
         getResultText =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                    it.data?.getStringExtra(MUSIC_ID)?.apply {
-                        musicDetailNavigatorProvider.fromHomeToMusicDetail(this)
-                    }
+//                    it.data?.getStringExtra(MUSIC_ID)?.apply {
+//                        musicDetailNavigatorProvider.fromHomeToMusicDetail(this)
+//                    }
                 }
             }
     }
@@ -131,8 +131,8 @@ class HomeFragment : Fragment() {
                             Music(it.music._id, it.music.name, it.music.artist, it.music.image),
                             it.tagTitle.replace("\\n", "\n")
                         )
-                    }) { musicId ->
-                        viewModel.emitEvent(HomeEvent.OnClickBanner(musicId))
+                    }) { music ->
+                        viewModel.emitEvent(HomeEvent.OnClickBanner(music.toMusicInfoEntity()))
                     }
                     setBannerCallBack()
                 }
@@ -150,7 +150,7 @@ class HomeFragment : Fragment() {
                     getResultText.launch(Intent(requireActivity(), SearchActivity::class.java))
                 }
                 is HomeSideEffect.NavToMusicDetail -> {
-                    musicDetailNavigatorProvider.fromHomeToMusicDetail(effect.musicId)
+                    musicDetailNavigatorProvider.fromHomeToMusicDetail(effect.music)
                 }
                 is HomeSideEffect.NavToMumentDetail -> {
                     mumentDetailNavigatorProvider.moveHomeToMumentDetail(effect.mumentId, effect.musicInfo)

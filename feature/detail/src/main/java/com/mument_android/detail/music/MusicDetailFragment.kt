@@ -74,7 +74,6 @@ class MusicDetailFragment() : Fragment() {
 
     private fun receiveMusicId() {
         arguments?.getParcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
-            Log.e("music info", "${it}")
             musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicInfo(it))
         }
     }
@@ -108,7 +107,7 @@ class MusicDetailFragment() : Fragment() {
             adapter = MusicDetailMumentListAdapter(object : MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
                     musicDetailViewModel.viewState.value.musicInfo?.let { musicInfo ->
-                        mumentDetailNavigatorProvider.musicDeatilToMumentDetail(mumentId, musicInfo)
+                        mumentDetailNavigatorProvider.musicDetailToMumentDetail(mumentId, musicInfo)
                     }
                 }
 
