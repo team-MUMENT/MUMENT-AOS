@@ -393,13 +393,8 @@ class RecordActivity :
 
             collectFlowWhenStarted(recordViewModel.isModifySuccessful) { isSuccessful ->
                 if (isSuccessful) {
-                    Log.e("modify ", "success")
-
                     val mumentId = recordViewModel.modifyMumentId.value ?: ""
                     recordViewModel.selectedMusic.value?.toMusicInfo()?.let { music ->
-                        Log.e("MUSIC ", "${music}")
-                        Log.e("MUMENT ID  ", "${mumentId}")
-
                         Intent().run {
                             putExtra(TO_MUMENT_DETAIL, TO_MUMENT_DETAIL)
                             putExtra(MUMENT_ID, mumentId)
