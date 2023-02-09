@@ -1,11 +1,16 @@
 package com.mument_android.login
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewModelScope
+import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
@@ -31,15 +36,51 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     private val viewModel: LogInViewModel by viewModels()
     @Inject
     lateinit var dataStoreManager: DataStoreManager
+    @Inject
+    lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var keyHash = Utility.getKeyHash(this)
-        Log.e("kkkkkkkkkk:","$keyHash")
+
+
 //        initView()
         initKakaoLogin()
         btnKakaoListener()
         getFcmToken()
         webLinkNetwork()
+        keyClipBoard()
+
+
+    }
+
+    private fun keyClipBoard() {
+        var keyHash = Utility.getKeyHash(this)
+        Log.e("kkkkkkkkkk:","$keyHash")
+        binding.key.setText("$keyHash")
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        // 새로운 ClipData 객체로 데이터 복사하기
+        val clip: ClipData =
+            ClipData.newPlainText("simple text", binding.key.text.toString())
+
+        // 새로운 클립 객체를 클립보드에 배치합니다.
+        clipboard.setPrimaryClip(clip)
+
+        Toast.makeText(this, "복사 완료.", Toast.LENGTH_SHORT).show()
+        false
+
+        binding.key.setOnClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+            // 새로운 ClipData 객체로 데이터 복사하기
+            val clip: ClipData =
+                ClipData.newPlainText("simple text", binding.key.text.toString())
+
+            // 새로운 클립 객체를 클립보드에 배치합니다.
+            clipboard.setPrimaryClip(clip)
+
+            Toast.makeText(this, "복사 완료.", Toast.LENGTH_SHORT).show()
+            false
+        }
     }
 
 
@@ -104,7 +145,9 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                     )
                     viewModel.kakaoLogin(requestKakaoData)
                     viewModel.kakaoData.observe(this) {
-                        if(it.accessToken != null) {
+                        if(it.accessToken != null && viewModel.isExist.value == true) {
+                            moveToMainActivity()
+                        } else if(it.accessToken != null && viewModel.isExist.value == false) {
                             startActivity(Intent(this, ProfileSettingActivity::class.java))
                             finish()
                         }
@@ -164,6 +207,10 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         val intent = Intent(this, WebViewActivity::class.java)
         intent.putExtra("url", url)
         ContextCompat.startActivity(this, intent, null)
+    }
+
+    private fun moveToMainActivity() {
+        mainHomeNavigatorProvider.profileSettingToMain()
     }
 
 }

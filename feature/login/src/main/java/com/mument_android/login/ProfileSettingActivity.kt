@@ -239,7 +239,10 @@ class ProfileSettingActivity :
     private suspend fun nickNameDupCheck() {
         delay(100)
         viewModel.isDuplicate.observe(this) {
-            if (it == 200) {
+            if(intent.getStringExtra("nickname") == binding.etNickname.text.toString()) {
+                putProfileNetwork()
+            }
+            else if (it == 200) {
                 CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
             } else if (it == 204) {
 

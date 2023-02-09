@@ -52,8 +52,6 @@ class MyLikeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-
         if(lockerViewModel.isLikeGridLayout.value) {
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true

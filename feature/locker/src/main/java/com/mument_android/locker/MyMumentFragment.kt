@@ -1,6 +1,7 @@
 package com.mument_android.locker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core.network.ApiResult
+import com.mument_android.core_dependent.ext.collectFlow
 import com.mument_android.core_dependent.ext.launchWhenCreated
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.domain.entity.music.MusicInfoEntity
@@ -39,7 +41,7 @@ class MyMumentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.ivLockerList.isSelected = true
+        //binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
 
@@ -57,6 +59,9 @@ class MyMumentFragment : Fragment() {
         if (lockerViewModel.isGridLayout.value) {
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
+        } else {
+            binding.ivLockerList.isSelected = true
+            binding.ivLockerGrid.isSelected = false
         }
 
         lockerViewModel.isMument = true
@@ -76,15 +81,14 @@ class MyMumentFragment : Fragment() {
                         }
 
                         override fun cancelLikeMument(mumetId: String) {
-                            cancelLikeMument(mumetId)
+                            lockerViewModel.cancelLikeMument(mumetId)
                         }
                     }
                 )
                 (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
             }
         }
-        binding.ivLockerList.isSelected = false
-        binding.ivLockerGrid.isSelected = true
+
     }
 
     private fun setMyMumentListAdapter() {
@@ -134,8 +138,8 @@ class MyMumentFragment : Fragment() {
                 else -> {}
             }
 
-            binding.ivLockerList.isSelected = true
-            binding.ivLockerGrid.isSelected = false
+            //binding.ivLockerList.isSelected = true
+            //binding.ivLockerGrid.isSelected = false
         }
     }
 
@@ -161,14 +165,18 @@ class MyMumentFragment : Fragment() {
         binding.ivLockerList.setOnClickListener {
             lockerViewModel.changeIsGridLayout(false)
             setMyMumentListAdapter()
+            binding.ivLockerList.isSelected = true
+            binding.ivLockerGrid.isSelected = false
 
         }
     }
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
-            lockerViewModel.changeIsGridLayout(true)
             setGridServerConnection()
+            lockerViewModel.changeIsGridLayout(true)
+            binding.ivLockerList.isSelected = false
+            binding.ivLockerGrid.isSelected = true
 
         }
     }
