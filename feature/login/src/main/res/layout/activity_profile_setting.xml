@@ -91,6 +91,8 @@
             android:background="@drawable/rectangle_fill_gray4_11dp"
             android:hint="@string/login_profile_nickname"
             android:maxLength="15"
+            android:singleLine="true"
+            android:maxLines="1"
             android:paddingHorizontal="17dp"
             android:paddingVertical="17dp"
             android:text="@={viewModel.mumentNickName}"

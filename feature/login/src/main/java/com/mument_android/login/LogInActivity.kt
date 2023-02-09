@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewModelScope
+import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
@@ -31,6 +32,8 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     private val viewModel: LogInViewModel by viewModels()
     @Inject
     lateinit var dataStoreManager: DataStoreManager
+    @Inject
+    lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var keyHash = Utility.getKeyHash(this)
@@ -104,7 +107,9 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                     )
                     viewModel.kakaoLogin(requestKakaoData)
                     viewModel.kakaoData.observe(this) {
-                        if(it.accessToken != null) {
+                        if(it.accessToken != null && viewModel.isExist.value == true) {
+                            moveToMainActivity()
+                        } else if(it.accessToken != null && viewModel.isExist.value == false) {
                             startActivity(Intent(this, ProfileSettingActivity::class.java))
                             finish()
                         }
@@ -164,6 +169,10 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         val intent = Intent(this, WebViewActivity::class.java)
         intent.putExtra("url", url)
         ContextCompat.startActivity(this, intent, null)
+    }
+
+    private fun moveToMainActivity() {
+        mainHomeNavigatorProvider.profileSettingToMain()
     }
 
 }
