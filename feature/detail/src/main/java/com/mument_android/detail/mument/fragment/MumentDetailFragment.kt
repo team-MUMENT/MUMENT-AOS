@@ -168,7 +168,10 @@ class MumentDetailFragment : Fragment() {
             when (effect) {
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
-                MumentDetailSideEffect.SuccessBlockUser -> findNavController().popBackStack()
+                MumentDetailSideEffect.SuccessBlockUser -> {
+                    requireContext().showToast("차단이 완료되었습니다.")
+                    findNavController().popBackStack()
+                }
                 MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> {
                     showEditOrDeleteMumentDialog()
                 }
@@ -215,7 +218,11 @@ class MumentDetailFragment : Fragment() {
                         effect.message
                     )
                 )
+                is MumentDetailSideEffect.ToastString -> {
+                    requireContext().showToast(effect.message)
+                }
                 is MumentDetailSideEffect.OpenShareMumentDialog -> {
+                    Log.e("OpenShareMumentDialog", effect.toString())
                     openShareMumentDialog(effect.mument, effect.musicInfo)
                 }
                 is MumentDetailSideEffect.NavToInstagram -> {
@@ -254,7 +261,6 @@ class MumentDetailFragment : Fragment() {
         SelectMumentEditTypeDialogFragment()
             .setEditListener(object : SelectMumentEditTypeDialogFragment.EditListener {
                 override fun edit() {
-                    Log.e("EDIT CCALLL", "EDIT!!!")
                     viewModel.viewState.value.let { viewState ->
                         viewModel.emitEvent(
                             MumentDetailEvent.SelectMumentEditType(
@@ -347,7 +353,9 @@ class MumentDetailFragment : Fragment() {
     }
 
     private fun openShareMumentDialog(mument: MumentEntity, musicInfoEntity: MusicInfoEntity) {
+        Log.e("openShareMumentDialog", "$mument $musicInfoEntity")
         MumentToShareDialogFragment { file, uri ->
+            Log.e("SHARE", "$file $uri")
             viewModel.emitEvent(MumentDetailEvent.OnDismissShareMumentDialog(file, uri))
         }.apply {
             Bundle().apply {

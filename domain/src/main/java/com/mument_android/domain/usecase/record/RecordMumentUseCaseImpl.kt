@@ -11,5 +11,5 @@ class RecordMumentUseCaseImpl @Inject constructor(
     override suspend fun invoke(
         musicId: String,
         mumentRecordEntity: MumentRecordEntity
-    ): Flow<String> = repository.insertMumentRecord(musicId, mumentRecordEntity)
+    ): Flow<Pair<String, Int>> = repository.insertMumentRecord(musicId, mumentRecordEntity)
 }

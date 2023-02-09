@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiStatus
+import com.mument_android.core.network.ErrorMessage
 import com.mument_android.core_dependent.base.MviViewModel
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.util.*
@@ -30,7 +31,7 @@ class MumentDetailViewModel @Inject constructor(
     private val blockUserUseCase: BlockUserUseCase,
     private val dataStoreManager: DataStoreManager
 ) : MviViewModel<MumentDetailEvent, MumentDetailViewState, MumentDetailSideEffect>() {
-    override fun setInitialState(): MumentDetailViewState  = MumentDetailViewState()
+    override fun setInitialState(): MumentDetailViewState = MumentDetailViewState()
 
     override fun handleEvents(event: MumentDetailEvent) {
         when (event) {
@@ -54,8 +55,14 @@ class MumentDetailViewModel @Inject constructor(
 
             MumentDetailEvent.SelectBlockUserType -> setEffect { MumentDetailSideEffect.OpenBlockUserDialog }
             MumentDetailEvent.SelectMumentDeletionType -> setEffect { MumentDetailSideEffect.OpenDeleteMumentDialog }
-            MumentDetailEvent.SelectReportMumentType -> setEffect { MumentDetailSideEffect.NavToReportMument(viewState.value.requestMumentId) }
-            MumentDetailEvent.OnClickBlockUser -> { blockUser() }
+            MumentDetailEvent.SelectReportMumentType -> setEffect {
+                MumentDetailSideEffect.NavToReportMument(
+                    viewState.value.requestMumentId
+                )
+            }
+            MumentDetailEvent.OnClickBlockUser -> {
+                blockUser()
+            }
 
             MumentDetailEvent.OnClickBlockUser -> {
                 blockUser()
@@ -87,13 +94,15 @@ class MumentDetailViewModel @Inject constructor(
 
             is MumentDetailEvent.OnClickShareMument -> {
                 event.mumentEntity?.let { mument ->
+                    Log.e("MUMENT", mument.toString())
                     event.musicInfo?.let { music ->
+                        Log.e("MUSIC", music.toString())
                         setEffect { MumentDetailSideEffect.OpenShareMumentDialog(mument, music) }
                     }
                 } ?: setEffect { MumentDetailSideEffect.Toast(R.string.cannot_access_insta) }
             }
             is MumentDetailEvent.UpdateMumentToShareInstagram -> {
-                setState { copy(mument = event.mument) }
+                setState { copy(mument = event.mument, musicInfo = event.musicInfo) }
             }
             is MumentDetailEvent.OnDismissShareMumentDialog -> {
                 setEffect { MumentDetailSideEffect.NavToInstagram(event.imageUri) }
@@ -205,8 +214,21 @@ class MumentDetailViewModel @Inject constructor(
     fun blockUser() {
         viewModelScope.launch {
             blockUserUseCase(viewState.value.requestMumentId)
-                .collect {
-                    setEffect { MumentDetailSideEffect.SuccessBlockUser }
+                .collect { status ->
+                    when (status) {
+                        is ApiStatus.Failure -> {
+                            when (status.code) {
+                                ErrorMessage.INVALID -> {
+                                    setEffect { MumentDetailSideEffect.ToastString(status.message!!) }
+                                }
+                                else -> {}
+                            }
+                        }
+                        is ApiStatus.Success -> {
+                            setEffect { MumentDetailSideEffect.SuccessBlockUser }
+                        }
+                        else -> {}
+                    }
                 }
         }
     }

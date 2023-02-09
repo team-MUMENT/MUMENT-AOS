@@ -86,6 +86,7 @@ class MumentDetailContract {
     sealed class MumentDetailSideEffect : SideEffect {
         object PopBackStack : MumentDetailSideEffect()
         data class Toast(@StringRes val message: Int) : MumentDetailSideEffect()
+        data class ToastString(val message: String) : MumentDetailSideEffect()
         object SuccessMumentDeletion: MumentDetailSideEffect()
         object SuccessBlockUser: MumentDetailSideEffect()
 

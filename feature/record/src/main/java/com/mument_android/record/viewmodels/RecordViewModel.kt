@@ -34,7 +34,7 @@ class RecordViewModel @Inject constructor(
 
     var isFirstDuplicate = false
 
-    val mumentId = MutableLiveData<String>("")
+    val mumentId = MutableLiveData<String?>()
     val mumentContent = MutableLiveData<String>()
 
     private val _isSelectedMusic = MutableLiveData<Boolean>(false)
@@ -49,9 +49,6 @@ class RecordViewModel @Inject constructor(
     private val _modifyMumentId = MutableLiveData<String?>(null)
     val modifyMumentId = _modifyMumentId
 
-    private val _isRecord = MutableLiveData<Boolean>(false)
-    val isRecord get() :LiveData<Boolean> = _isRecord
-
     val mumentData = MutableLiveData<MumentDetailEntity?>()
 
     var isPrivate = MutableLiveData<Boolean>(false)
@@ -61,6 +58,11 @@ class RecordViewModel @Inject constructor(
 
     private val _isCreateSuccessful = MutableSharedFlow<Boolean>()
     val isCreateSuccessful = _isCreateSuccessful.asSharedFlow()
+
+    private val _isRecord = MutableLiveData<Boolean>()
+    val isRecord = _isRecord
+
+    var recordCount = 0
 
     fun findIsFirst() {
         viewModelScope.launch {
@@ -76,7 +78,8 @@ class RecordViewModel @Inject constructor(
     fun setIntentData(mumentModifyEntity: MumentModifyEntity, muId: String) {
         mumentId.value = muId
         _modifyMumentId.value = muId
-        mumentContent.value = mumentModifyEntity.content
+        if (mumentModifyEntity.content == "null") mumentContent.value = ""
+        else mumentContent.value = mumentModifyEntity.content
         _isFirst.value = mumentModifyEntity.isFirst
         isPrivate.value = mumentModifyEntity.isPrivate
         mumentData.value = null
@@ -95,10 +98,6 @@ class RecordViewModel @Inject constructor(
             }
     }
 
-    fun changeIsFirst(isFirst: Boolean) {
-        _isFirst.value = isFirst
-    }
-
     fun postMument() {
         viewModelScope.launch {
             checkedTagList.value?.let { tags ->
@@ -115,14 +114,15 @@ class RecordViewModel @Inject constructor(
                     selectedMusic.value!!.image,
                     selectedMusic.value!!.name
                 )
-                selectedMusic.value?.let {
+                selectedMusic.value?.let { recent ->
                     recordMumentUseCase(
-                        musicId = it._id,
+                        musicId = recent._id,
                         recordEntity
                     ).catch { e ->
                         _isCreateSuccessful.emit(false)
-                    }.collect {
-                        _createdMumentId.value = it
+                    }.collect { pair ->
+                        _createdMumentId.value = pair.first
+                        recordCount = pair.second
                         _isCreateSuccessful.emit(true)
                     }
                 }
@@ -142,7 +142,10 @@ class RecordViewModel @Inject constructor(
                     isFirstDuplicate,
                     isPrivate.value ?: false,
                 )
-                recordModifyMumentUseCase(mumentId = _modifyMumentId.value!!, modifyEntity).catch { e ->
+                recordModifyMumentUseCase(
+                    mumentId = _modifyMumentId.value!!,
+                    modifyEntity
+                ).catch { e ->
                     _isModifySuccessful.emit(false)
                 }.collect {
                     _modifyMumentId.value = it
@@ -150,12 +153,6 @@ class RecordViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun setCheckTaglist(tagList: List<TagEntity>) {
-        val data = checkedTagList.value?.toMutableList()
-        data?.addAll(tagList)
-        _checkedTagList.value = data
     }
 
     fun changeSelectedMusic(music: RecentSearchData) {
@@ -186,10 +183,4 @@ class RecordViewModel @Inject constructor(
         _checkedTagList.value = tempList
     }
 
-    fun resetCheckedList() {
-        checkedTagList.value?.toMutableList()?.let {
-            it.clear()
-            _checkedTagList.value = it
-        }
-    }
 }

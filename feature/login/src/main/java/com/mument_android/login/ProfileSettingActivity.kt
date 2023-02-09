@@ -183,11 +183,9 @@ class ProfileSettingActivity :
     //뒤로가기 클릭 리스너
     private fun backBtnListener() {
         binding.ivProfileBack.setOnClickListener {
+            finish()
             if (viewModel.mumentNickName.value == "null") {
                 startActivity(Intent(this, LogInActivity::class.java))
-                finish()
-            } else {
-                mypageNavigatorProvider.navToMyPage()
             }
 
         }
@@ -269,15 +267,6 @@ class ProfileSettingActivity :
             lifecycleScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
-                collectFlowWhenStarted(viewModel.isSuccess) { success ->
-                    Log.e("IS SUCCESS", success.toString())
-                    if (success) {
-                        if (isCheckMypage == 1)
-                            moveToMypageActivity()
-                        else
-                            moveToMainActivity()
-                    }
-                }
             }
         }
     }
@@ -310,10 +299,6 @@ class ProfileSettingActivity :
 
     private fun moveToMainActivity() {
         mainHomeNavigatorProvider.profileSettingToMain()
-    }
-
-    private fun moveToMypageActivity() {
-        mypageNavigatorProvider.navToMyPage()
     }
 
 }

@@ -199,6 +199,8 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.bannerIndexChange(0)
+        binding.vpBanner.setCurrentItem(0, false)
 /*
         val homeFrame = requireParentFragment().requireParentFragment()
         //TODO Navi
