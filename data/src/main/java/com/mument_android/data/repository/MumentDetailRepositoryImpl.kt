@@ -7,9 +7,12 @@ import com.mument_android.core.network.ApiStatus
 import com.mument_android.data.controller.DeleteMumentController
 import com.mument_android.data.datasource.detail.HistoryPagingSourceFactory
 import com.mument_android.data.datasource.detail.MumentDetailDataSource
+import com.mument_android.data.datasource.detail.ReportMumentDataSource
 import com.mument_android.data.mapper.detail.MumentDetailMapper
+import com.mument_android.data.mapper.detail.ReportMumentMapper
 import com.mument_android.data.network.detail.HistoryService
 import com.mument_android.domain.entity.detail.MumentDetailEntity
+import com.mument_android.domain.entity.detail.ReportRequest
 import com.mument_android.domain.entity.history.HistoryRequestParams
 import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.repository.detail.MumentDetailRepository
@@ -25,6 +28,8 @@ class MumentDetailRepositoryImpl @Inject constructor(
     private val deleteMumentController: DeleteMumentController,
     private val historyService: HistoryService,
     private val errorHandler: ErrorHandler,
+    private val reportMumentDataSource: ReportMumentDataSource,
+    private val reportMumentMapper: ReportMumentMapper
 ) : MumentDetailRepository {
     override suspend fun fetchMumentDetail(mumentId: String): Flow<ApiStatus<MumentDetailEntity>> =
         mumentDetailDataSource.fetchMumentDetail(mumentId)
@@ -35,6 +40,12 @@ class MumentDetailRepositoryImpl @Inject constructor(
         deleteMumentController.deleteMument(mumentId)
             .map {  }
             .toApiStatus(errorHandler)
+
+    override suspend fun reportMument(mumentId: String, reportRequest: ReportRequest): Void? {
+        reportMumentDataSource.reportMument(mumentId, reportMumentMapper.map(reportRequest)).let {
+            return it.data
+        }
+    }
 
     override suspend fun fetchMumentHistory(mumentHistoryRequestParams: HistoryRequestParams): Flow<PagingData<MumentHistory>> =
         Pager(

@@ -204,4 +204,8 @@ object MapperModule {
     fun provideRequestUnregisterReasonMapper(): RequestUnregisterReasonMapper =
         RequestUnregisterReasonMapper()
 
+    @Provides
+    @Singleton
+    fun provideRequestReportMumentMapper() : ReportMumentMapper = ReportMumentMapper()
+
 }

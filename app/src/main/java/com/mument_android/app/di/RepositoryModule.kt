@@ -14,6 +14,7 @@ import com.mument_android.data.mapper.app.LimitUserMapper
 import com.mument_android.data.datasource.mypage.UnregisterDataSource
 import com.mument_android.data.mapper.detail.MumentDetailMapper
 import com.mument_android.data.mapper.detail.MumentSummaryMapper
+import com.mument_android.data.mapper.detail.ReportMumentMapper
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RandomMumentMapper
 import com.mument_android.data.mapper.home.RecentSearchDataMapper
@@ -81,13 +82,17 @@ object RepositoryModule {
         deleteMumentController: DeleteMumentController,
         historyService: HistoryService,
         errorHandler: ErrorHandler,
+        reportMumentDataSource: ReportMumentDataSource,
+        reportMumentMapper: ReportMumentMapper
     ): MumentDetailRepository =
         MumentDetailRepositoryImpl(
             mumentDetailDataSource,
             mumentDetailMapper,
             deleteMumentController,
             historyService,
-            errorHandler
+            errorHandler,
+            reportMumentDataSource,
+            reportMumentMapper
         )
 
     @Provides

@@ -174,4 +174,9 @@ object DataSourceModule {
     @Singleton
     fun provideUnregisterReasonDataSource(myPageApiService: MyPageApiService): UnregisterReasonDataSource =
         UnregisterReasonDataSourceImpl(myPageApiService)
+
+    @Provides
+    @Singleton
+    fun provideReportMumentDataSource(detailApiService: DetailApiService) : ReportMumentDataSource =
+        ReportMumentDataSourceImpl(detailApiService)
 }

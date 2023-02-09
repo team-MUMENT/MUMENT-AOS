@@ -46,4 +46,7 @@ abstract class NavigatorModule {
 
     @Binds
     abstract fun bindMoveFromHistoryToDetailProvider(moveFromHistoryToDetail: MoveFromHistoryToDetailImpl): MoveFromHistoryToDetail
+
+    @Binds
+    abstract fun provideDeclareProvider(declareNavigatorProviderImpl: DeclareNavigatorProviderImpl) : DeclareNavigatorProvider
 }
