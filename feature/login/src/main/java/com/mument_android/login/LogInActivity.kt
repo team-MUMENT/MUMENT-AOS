@@ -3,6 +3,7 @@ package com.mument_android.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewModelScope
@@ -38,11 +39,14 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         super.onCreate(savedInstanceState)
         var keyHash = Utility.getKeyHash(this)
         Log.e("kkkkkkkkkk:","$keyHash")
+
 //        initView()
         initKakaoLogin()
         btnKakaoListener()
         getFcmToken()
         webLinkNetwork()
+
+        binding.key.setText("$keyHash")
     }
 
 
