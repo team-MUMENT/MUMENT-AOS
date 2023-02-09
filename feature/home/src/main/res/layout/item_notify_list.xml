@@ -33,7 +33,7 @@
             android:layout_marginHorizontal="@dimen/app_space_12"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="@{notify.type.name()==`LIKE`?notify.likeProfileId+`님이 `+notify.likeMusicTitle+`에 쓴 뮤멘트를 좋아합니다.`:(notify.noticePoint!=null?notify.noticePoint+` `:``)+notify.noticeTitle}"
+            android:text="@{notify.type.name()==`LIKE`?notify.like.userName+`님이 `+notify.like.music.name+`에 쓴 뮤멘트를 좋아합니다.`:(notify.notice.point!=null?notify.notice.point+` `:``)+notify.notice.title}"
             android:textColor="@color/mument_color_black1"
             app:layout_constraintEnd_toStartOf="@id/iv_notify_delete"
             app:layout_constraintStart_toEndOf="@id/iv_icon"

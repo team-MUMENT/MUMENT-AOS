@@ -4,13 +4,11 @@
     package="com.mument_android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <queries>
         <package android:name="com.instagram.android" />
     </queries>
-
-
-
     <application
         android:name=".app.application.MumentApplication"
         android:allowBackup="true"
@@ -27,7 +25,8 @@
         <activity
             android:name=".app.presentation.ui.main.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustNothing">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
@@ -42,14 +41,25 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <activity
+            android:name=".home.notify.NotifyActivity"
+            android:exported="true"
+            android:parentActivityName=".app.presentation.ui.main.MainActivity" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_app" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/notification_channel" />
+
         <service
-            android:name=".app.SampleMessagingService"
-            android:exported="true">
+            android:name=".app.FCMMessagingService"
+            android:directBootAware="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-
         </service>
     </application>
-
 </manifest>

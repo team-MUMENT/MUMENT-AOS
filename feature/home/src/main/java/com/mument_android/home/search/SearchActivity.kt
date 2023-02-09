@@ -91,6 +91,7 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
 
     private fun settingAdapterAndDatabinding() {
         binding.viewmodel = viewmodel
+        binding.lifecycleOwner = this
         searchAdapter = SearchListAdapter(
             contentClickListener = { data ->
                 viewmodel.selectContent(data)

@@ -18,6 +18,7 @@ import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.detail.mument.navigator.checkCurrentFragment
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
+import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
@@ -39,12 +40,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     EditMumentNavigator {
     lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
-    @Inject lateinit var dataStoreManager: DataStoreManager
+
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         initNavigation()
+        intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
+            intent.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
+                val bundle = Bundle().also {
+                    it.putString(MUMENT_ID, mumentId)
+                    it.putString(MUSIC_INFO_ENTITY, music)
+                }
+                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
+            }
+        }
         floatingBtnListener()
         customAppBar()
         isLimitUserNetwork()
@@ -166,9 +177,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         viewModel.changeMusic(music)
     }
 
-    companion object {
-        const val MUMENT_ID = "MUMENT_ID"
-        const val MUSIC_ID = "MUSIC_ID"
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.e("onNewIntent", intent.toString())
     }
-
 }

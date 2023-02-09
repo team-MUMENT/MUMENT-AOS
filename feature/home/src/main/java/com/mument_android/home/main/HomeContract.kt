@@ -22,11 +22,17 @@ class HomeContract {
     ) : ViewState
 
     sealed class HomeEvent : Event {
-        data class OnClickBanner(val music: MusicInfoEntity) : HomeEvent()
-        data class OnClickTodayMument(val mument: String, val musicInfo: MusicInfoEntity) : HomeEvent()//하나로만 해도 되는데 이벤트 수집 할 수도 있으니 분기처리 하였음.
-        data class OnClickHeardMument(val mument: String, val musicInfo: MusicInfoEntity) : HomeEvent()
-        data class OnClickRandomMument(val mument: String, val musicInfo: MusicInfoEntity) : HomeEvent()
-        data class CallBackSearchResult(val musicId: String) : HomeEvent()
+        data class OnClickBanner(val musicInfo: MusicInfoEntity) : HomeEvent()
+        data class OnClickTodayMument(val mument: String, val musicInfo: MusicInfoEntity) :
+            HomeEvent()//하나로만 해도 되는데 이벤트 수집 할 수도 있으니 분기처리 하였음.
+
+        data class OnClickHeardMument(val mument: String, val musicInfo: MusicInfoEntity) :
+            HomeEvent()
+
+        data class OnClickRandomMument(val mument: String, val musicInfo: MusicInfoEntity) :
+            HomeEvent()
+
+        data class CallBackSearchResult(val musicInfo: MusicInfoEntity) : HomeEvent()
         object OnClickSearch : HomeEvent()
         object OnClickNotification : HomeEvent()
     }
@@ -35,7 +41,8 @@ class HomeContract {
         object GoToSearchActivity : HomeSideEffect()
         object GoToNotification : HomeSideEffect()
         data class Toast(val message: String) : HomeSideEffect()
-        data class NavToMusicDetail(val music: MusicInfoEntity) : HomeSideEffect()
-        data class NavToMumentDetail(val mumentId: String, val musicInfo: MusicInfoEntity) : HomeSideEffect()
+        data class NavToMusicDetail(val musicInfo: MusicInfoEntity) : HomeSideEffect()
+        data class NavToMumentDetail(val mumentId: String, val musicInfo: MusicInfoEntity) :
+            HomeSideEffect()
     }
 }

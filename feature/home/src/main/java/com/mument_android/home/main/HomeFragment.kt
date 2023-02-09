@@ -62,13 +62,14 @@ class HomeFragment : Fragment() {
 
     }
 
-    private val searchMusicLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == AppCompatActivity.RESULT_OK) {
-            it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.apply {
-                musicDetailNavigatorProvider.fromHomeToMusicDetail(this)
+    private val searchMusicLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == AppCompatActivity.RESULT_OK) {
+                it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.apply {
+                    musicDetailNavigatorProvider.fromHomeToMusicDetail(this)
+                }
             }
         }
-    }
 
     private fun bindData() {
         setAdapter()
@@ -82,17 +83,40 @@ class HomeFragment : Fragment() {
         }
         binding.clCard.root.setOnClickListener {
             viewModel.homeViewState.value.todayMumentEntity?.let {
-                viewModel.emitEvent(HomeEvent.OnClickTodayMument(it.mumentId, it.extractMusicInfo()))
+                viewModel.emitEvent(
+                    HomeEvent.OnClickTodayMument(
+                        it.mumentId,
+                        it.extractMusicInfo()
+                    )
+                )
             }
         }
     }
 
     private fun setAdapter() {
         heardAdapter = HeardMumentListAdapter(requireContext()) { mument ->
-            viewModel.emitEvent(HomeEvent.OnClickHeardMument(mument.mumentId, mument.music.toMusicInfoEntity()))
+            mument.music.toMusicInfoEntity()?.let { musicInfoEntity ->
+                HomeEvent.OnClickHeardMument(
+                    mument.mumentId,
+                    musicInfoEntity
+                )
+            }?.let { event ->
+                viewModel.emitEvent(
+                    event
+                )
+            }
         }
         impressiveAdapter = ImpressiveEmotionListAdapter(requireContext()) { mument ->
-            viewModel.emitEvent(HomeEvent.OnClickRandomMument(mument._id, mument.music.toMusicInfoEntity()))
+            mument.music.toMusicInfoEntity()?.let { musicInfoEntity ->
+                HomeEvent.OnClickRandomMument(
+                    mument._id,
+                    musicInfoEntity
+                )
+            }?.let { event ->
+                viewModel.emitEvent(
+                    event
+                )
+            }
         }
         binding.rcHeard.adapter = heardAdapter
         binding.rcImpressive.adapter = impressiveAdapter
@@ -133,7 +157,11 @@ class HomeFragment : Fragment() {
                             it.tagTitle.replace("\\n", "\n")
                         )
                     }) { music ->
-                        viewModel.emitEvent(HomeEvent.OnClickBanner(music.toMusicInfoEntity()))
+                        viewModel.emitEvent(
+                            HomeEvent.OnClickBanner(
+                                music.toMusicInfoEntity()
+                            )
+                        )
                     }
                     setBannerCallBack()
                 }
@@ -148,13 +176,21 @@ class HomeFragment : Fragment() {
                     startActivity(Intent(requireActivity(), NotifyActivity::class.java))
                 }
                 HomeSideEffect.GoToSearchActivity -> {
-                    searchMusicLauncher.launch(Intent(requireActivity(), SearchActivity::class.java))
+                    searchMusicLauncher.launch(
+                        Intent(
+                            requireActivity(),
+                            SearchActivity::class.java
+                        )
+                    )
                 }
                 is HomeSideEffect.NavToMusicDetail -> {
-                    musicDetailNavigatorProvider.fromHomeToMusicDetail(effect.music)
+                    musicDetailNavigatorProvider.fromHomeToMusicDetail(effect.musicInfo)
                 }
                 is HomeSideEffect.NavToMumentDetail -> {
-                    mumentDetailNavigatorProvider.moveHomeToMumentDetail(effect.mumentId, effect.musicInfo)
+                    mumentDetailNavigatorProvider.moveHomeToMumentDetail(
+                        effect.mumentId,
+                        effect.musicInfo
+                    )
                 }
                 is HomeSideEffect.Toast -> requireContext().showToast(effect.message)
             }
@@ -179,6 +215,6 @@ class HomeFragment : Fragment() {
 
     companion object {
         const val MUMENT_ID = "MUMENT_ID"
-        const val MUSIC_ID = "MUSIC_ID"
+        const val MUSIC_ID = "MUSIC_INFO_ENTITY"
     }
 }

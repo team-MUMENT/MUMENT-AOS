@@ -2,6 +2,7 @@ package com.mument_android.record
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,15 +34,11 @@ class BottomSheetSearchFragment :
     private lateinit var behavior: BottomSheetBehavior<View>
 
     companion object {
-        private var INSTANCE: BottomSheetSearchFragment? = null
         private lateinit var CONTENT_CLICK_CALLBACK: (RecentSearchData) -> Unit
-
         fun newInstance(contentClick: (RecentSearchData) -> Unit): BottomSheetSearchFragment {
-            return INSTANCE
-                ?: BottomSheetSearchFragment().apply {
-                    CONTENT_CLICK_CALLBACK = contentClick
-                    INSTANCE = this
-                }
+            return BottomSheetSearchFragment().apply {
+                CONTENT_CLICK_CALLBACK = contentClick
+            }
         }
     }
 
@@ -77,8 +74,9 @@ class BottomSheetSearchFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = requireActivity()
         binding.bottomViewmodel = viewmodel
+        Log.e("onViewCreated", "onViewCreated")
         settingAdapterAndDatabinding()
         setListener()
         collectingList()
@@ -116,6 +114,10 @@ class BottomSheetSearchFragment :
         collectFlowWhenStarted(viewmodel.searchList) { result ->
             adapter.submitList(result)
             binding.rcSearch.adapter = searchConcatAdapter
+        }
+
+        collectFlowWhenStarted(viewmodel.searchOption) { result ->
+            Log.e("result", result.toString())
         }
     }
 
@@ -155,6 +157,7 @@ class BottomSheetSearchFragment :
 
     override fun onStop() {
         super.onStop()
+        Log.e("onSTOP", "STOP!!!!")
         viewmodel.searchText.value = ""
         viewmodel.searchSwitch(false)
         viewmodel.clearSearchResult()

@@ -1,9 +1,10 @@
 package com.mument_android.home.notify
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import com.angdroid.navigation.MoveNotifyNavigatorProvider
+import com.angdroid.navigation.MoveToAlarmFragmentProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.TransitionMode
@@ -13,17 +14,23 @@ import com.mument_android.home.databinding.ActivityNotifyBinding
 import com.mument_android.home.models.Notify
 import com.mument_android.home.notify.NotifyContract.NotifyEvent
 import com.mument_android.home.notify.NotifyContract.NotifySideEffect
-import com.mument_android.home.search.SearchActivity
 import com.mument_android.home.viewmodels.NotifyViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
     inflate = ActivityNotifyBinding::inflate, mode = TransitionMode.HORIZONTAL
 ) {
-
     private lateinit var notifyAdapter: NotifyAdapter
     private val notifyViewModel by viewModels<NotifyViewModel>()
+
+    @Inject
+    lateinit var moveNotifyNavigatorProvider: MoveNotifyNavigatorProvider
+
+    @Inject
+    lateinit var moveToAlarmFragmentProvider: MoveToAlarmFragmentProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appBarClickListener()
@@ -36,6 +43,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
         collectFlowWhenStarted(notifyViewModel.notifyViewState) { notifyViewState ->
             with(notifyViewState) {
                 notifyList?.let { notifies ->
+                    Log.e("NOTIFES", notifies.toString())
                     notifyAdapter.submitList(notifies)
                 }
             }
@@ -52,6 +60,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
                     Log.e("Success", "AllRead Success")
                 }
                 NotifySideEffect.NavToSetting -> {
+                    moveToAlarmFragmentProvider.moveAlarm()
                     //Nav to Setting
                 }
                 is NotifySideEffect.DeleteNotify -> {
@@ -72,12 +81,14 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
 
     private fun moveToMumentDetail(notify: Notify) {
         //Move MumentDetail
-        startActivity(Intent(this, SearchActivity::class.java))
-        finish()
+        notify.like.toMusicInfoEntity()?.let {
+            moveNotifyNavigatorProvider.moveToMumentDetail(notify.linkId.toString(), it)
+        }
     }
 
     private fun moveToNoticeView(notify: Notify) {
         //Move Notice
+        moveNotifyNavigatorProvider.moveToNoticeDetail(notify.linkId)
     }
 
     private fun adapterSetting() {

@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -30,6 +32,7 @@ import com.mument_android.core_dependent.util.removeProgress
 import com.mument_android.core_dependent.util.showProgress
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentMumentDetailBinding
+import com.mument_android.detail.history.HistoryActivity
 import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailEvent
 import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailSideEffect
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
@@ -49,12 +52,25 @@ import javax.inject.Inject
 class MumentDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
-    @Inject lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
-    @Inject lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
-    @Inject lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
-    @Inject lateinit var likeUsersNavigatorProvider: LikeUsersNavigatorProvider
-    @Inject lateinit var mumentHistoryNavigatorProvider: MumentHistoryNavigatorProvider
-    @Inject lateinit var declareNavigatorProvider: DeclareNavigatorProvider
+
+    @Inject
+    lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
+
+    @Inject
+    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+
+    @Inject
+    lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
+
+    @Inject
+    lateinit var likeUsersNavigatorProvider: LikeUsersNavigatorProvider
+
+    @Inject
+    lateinit var mumentHistoryNavigatorProvider: MumentHistoryNavigatorProvider
+    private lateinit var getResultText: ActivityResultLauncher<Intent>
+
+    @Inject
+    lateinit var declareNavigatorProvider: DeclareNavigatorProvider
 
 
     @Inject
@@ -77,7 +93,17 @@ class MumentDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mumentDetailViewModel = viewModel
-
+        getResultText =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == AppCompatActivity.RESULT_OK) {
+                    it.data?.getParcelableExtra<MusicInfoEntity>("MUSIC_INFO")?.let { music ->
+                        it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
+                            viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(mumentId))
+                            viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(music))
+                        } ?: musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(music)
+                    }
+                }
+            }
         receiveMumentInfo()
         updateMumentDetail()
         popBackStack()
@@ -143,27 +169,58 @@ class MumentDetailFragment : Fragment() {
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessBlockUser -> findNavController().popBackStack()
-                MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> { showEditOrDeleteMumentDialog() }
+                MumentDetailSideEffect.OpenEditOrDeleteMumentDialog -> {
+                    showEditOrDeleteMumentDialog()
+                }
                 is MumentDetailSideEffect.NavToEditMument -> {
-                    editMumentNavigatorProvider.editMument(mumentId = effect.mumentId, music = effect.music, mumentModifyEntity = effect.mumentModifyEntity)
+                    editMumentNavigatorProvider.editMument(
+                        mumentId = effect.mumentId,
+                        music = effect.music,
+                        mumentModifyEntity = effect.mumentModifyEntity
+                    )
+                }
+                MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
+
+                MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> {
+                    showBlockOrReportBottomSheet()
+                }
+                is MumentDetailSideEffect.NavToReportMument -> {
+                    declareNavigatorProvider.moveDeclare(effect.mumentId)
                 }
 
-                MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> { showBlockOrReportBottomSheet() }
-                is MumentDetailSideEffect.NavToReportMument -> { declareNavigatorProvider.moveDeclare(effect.mumentId) }
-
-                MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
-                MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> showBlockOrReportBottomSheet()
                 MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
 
-                is MumentDetailSideEffect.NavToMusicDetail -> musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.music)
+                is MumentDetailSideEffect.NavToMusicDetail -> musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(
+                    effect.music
+                )
                 is MumentDetailSideEffect.NavToMumentHistory -> {
-                    viewModel.viewState.value.musicInfo?.toMusic()?.let {
-                        mumentHistoryNavigatorProvider.mumentDetailToHistory(it, 0)
+                    //여기 나중에 수정 좀 부탁드립니당!!
+                    //현재 effect.musicId만 받아와짐
+                    viewModel.viewState.value.musicInfo?.toMusic()?.let { music ->
+                        viewModel.viewState.value.mument?.writerInfo?.userId?.toInt()
+                            ?.let { userId ->
+                                getResultText.launch(
+                                    Intent(
+                                        requireActivity(),
+                                        HistoryActivity::class.java
+                                    ).apply {
+                                        putExtra("music", music)
+                                        putExtra("userId", userId)
+                                    })
+                            }
                     }
                 }
-                is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
-                is MumentDetailSideEffect.OpenShareMumentDialog -> openShareMumentDialog(effect.mument, effect.musicInfo)
-                is MumentDetailSideEffect.NavToInstagram -> navToInstagram(effect.imageUri)
+                is MumentDetailSideEffect.Toast -> requireContext().showToast(
+                    resources.getString(
+                        effect.message
+                    )
+                )
+                is MumentDetailSideEffect.OpenShareMumentDialog -> {
+                    openShareMumentDialog(effect.mument, effect.musicInfo)
+                }
+                is MumentDetailSideEffect.NavToInstagram -> {
+                    navToInstagram(effect.imageUri)
+                }
             }
         }
     }
@@ -219,7 +276,7 @@ class MumentDetailFragment : Fragment() {
                                         ?: listOf(),
                                     impressionTag = viewState.mument?.impressionTags?.map { it.tagIdx }
                                         ?: listOf(),
-                                    isFirst = viewState.mument?.isFirst?.tagIdx==1,
+                                    isFirst = viewState.mument?.isFirst?.tagIdx == 1,
                                     isPrivate = viewState.mument?.isPrivate!!
                                 )
                             )

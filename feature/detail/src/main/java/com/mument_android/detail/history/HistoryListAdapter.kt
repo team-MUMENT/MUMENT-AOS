@@ -6,15 +6,21 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.core.model.TagEntity
+import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.ImpressiveTag
 import com.mument_android.detail.BR
 import com.mument_android.detail.databinding.ItemMumentLayoutBinding
+import com.mument_android.detail.music.MusicDetailMumentListAdapter
 import com.mument_android.domain.entity.history.MumentHistory
 
-class HistoryListAdapter(private val itemClickListener: (MumentHistory) -> Unit) :
+class HistoryListAdapter(
+    private val itemClickListener: (MumentHistory) -> Unit,
+    private val likeMument: (String) -> Unit,
+    private val cancelLikeMument: (String) -> Unit
+) :
     PagingDataAdapter<MumentHistory, HistoryListAdapter.HistoryViewHolder>(object :
         DiffUtil.ItemCallback<MumentHistory>() {
         override fun areItemsTheSame(oldItem: MumentHistory, newItem: MumentHistory): Boolean =
@@ -46,10 +52,26 @@ class HistoryListAdapter(private val itemClickListener: (MumentHistory) -> Unit)
                 )
                 else TagEntity(TagEntity.TAG_EMOTIONAL, EmotionalTag.findEmotionalStringTag(it), it)
             })
-            holder.binding.root.setOnClickListener {
+            holder.binding.root.click {
                 itemClickListener(data)
             }
-            holder.binding.setVariable(BR.musicDetail, data)
+            holder.binding.setVariable(BR.mumentHistory, data)
+            holder.binding.run {
+                cbHeart.click {
+                    val likeCount = data.likeCount
+                    if (holder.binding.cbHeart.isChecked) likeMument(data._id.toString()) else cancelLikeMument(
+                        data._id.toString()
+                    )
+                    val updatedLikeCount = when {
+                        data.isLiked && cbHeart.isChecked -> likeCount
+                        data.isLiked && !cbHeart.isChecked -> likeCount - 1
+                        !data.isLiked && cbHeart.isChecked -> likeCount + 1
+                        !data.isLiked && !cbHeart.isChecked -> likeCount
+                        else -> likeCount
+                    }
+                    holder.binding.tvLikeCount.text = updatedLikeCount.toString()
+                }
+            }
         }
     }
 
