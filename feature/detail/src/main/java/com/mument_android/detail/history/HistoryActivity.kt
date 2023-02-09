@@ -1,7 +1,9 @@
 package com.mument_android.detail.history
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
+import androidx.paging.PagingData
 import com.angdroid.navigation.MoveFromHistoryToDetail
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.click
@@ -31,7 +33,6 @@ class HistoryActivity :
             historyViewModel.setUserId(it)
         }
         setListener()
-        setAdapter()
         collectSortType()
         collectFlowWhenStarted(historyViewModel.fetchHistory) { paging ->
             adapter.submitData(paging)
@@ -50,18 +51,25 @@ class HistoryActivity :
         }
     }
 
-    private fun setAdapter() {
-        adapter = HistoryListAdapter(::moveToMumentDetail)
-        binding.rcHistory.adapter = adapter
-    }
-
     private fun moveToMumentDetail(mumentHistory: MumentHistory) {
         val music = historyViewModel.music.value.toMusicInfoEntity()
         moveFromHistoryToDetail.moveMumentDetail(mumentHistory._id.toString(), music)
     }
 
+    private fun likeMument(mumentId: String) {
+        historyViewModel.likeMument(mumentId)
+    }
+
+    private fun deleteLikeMument(mumentId: String) {
+        historyViewModel.cancelLikeMument(mumentId)
+    }
+
     private fun collectSortType() {
         collectFlowWhenStarted(historyViewModel.selectSortType) { sort ->
+            adapter = HistoryListAdapter(::moveToMumentDetail, {
+                likeMument(it)
+            }, { deleteLikeMument(it) })
+            binding.rcHistory.adapter = adapter
             binding.tvLatestOrder.isSelected = sort == "Y"
             binding.tvOldestOrder.isSelected = sort == "N"
             //이거 나중에 수정,,
