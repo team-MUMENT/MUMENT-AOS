@@ -2,11 +2,13 @@ package com.mument_android.record
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
@@ -27,7 +29,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class BottomSheetSearchFragment :
     BottomSheetDialogFragment() {
-    private val viewmodel: SearchViewModel by viewModels()
+    private val viewmodel: SearchViewModel by activityViewModels()
     private lateinit var adapter: SearchListAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
     private val headerAdapter = BottomSearchHeaderAdapter()
@@ -36,17 +38,11 @@ class BottomSheetSearchFragment :
     private lateinit var behavior: BottomSheetBehavior<View>
 
     companion object {
-        @JvmStatic
-        private var INSTANCE: BottomSheetSearchFragment? = null
         private lateinit var CONTENT_CLICK_CALLBACK: (RecentSearchData) -> Unit
-
-        @JvmStatic
         fun newInstance(contentClick: (RecentSearchData) -> Unit): BottomSheetSearchFragment {
-            return INSTANCE
-                ?: BottomSheetSearchFragment().apply {
-                    CONTENT_CLICK_CALLBACK = contentClick
-                    INSTANCE = this
-                }
+            return BottomSheetSearchFragment().apply {
+                CONTENT_CLICK_CALLBACK = contentClick
+            }
         }
     }
 
@@ -83,8 +79,9 @@ class BottomSheetSearchFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = requireActivity()
         binding.bottomViewmodel = viewmodel
+        Log.e("onViewCreated", "onViewCreated")
         settingAdapterAndDatabinding()
         setListener()
         collectingList()
@@ -124,6 +121,10 @@ class BottomSheetSearchFragment :
             adapter.submitList(result)
             binding.rcSearch.adapter = searchConcatAdapter
         }
+
+        collectFlowWhenStarted(viewmodel.searchOption) { result ->
+            Log.e("result", result.toString())
+        }
     }
 
     private fun setListener() {
@@ -162,6 +163,7 @@ class BottomSheetSearchFragment :
 
     override fun onStop() {
         super.onStop()
+        Log.e("onSTOP", "STOP!!!!")
         viewmodel.searchText.value = ""
         viewmodel.searchSwitch(false)
         viewmodel.clearSearchResult()

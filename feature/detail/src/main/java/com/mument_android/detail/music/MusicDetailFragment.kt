@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.HistoryNavigatorProvider
 import com.angdroid.navigation.MoveRecordProvider
+import com.angdroid.navigation.MoveToAlarmFragmentProvider
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
@@ -29,6 +30,7 @@ import com.mument_android.detail.mument.fragment.MumentDetailFragment
 import com.mument_android.detail.mument.listener.MumentClickListener
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEffect
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEvent
+import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -48,6 +50,9 @@ class MusicDetailFragment() : Fragment() {
 
     @Inject
     lateinit var historyNavigatorProvider: HistoryNavigatorProvider
+
+    @Inject
+    lateinit var moveToAlarmFragmentProvider: MoveToAlarmFragmentProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +80,11 @@ class MusicDetailFragment() : Fragment() {
                     }
                 }
             }
+        SuggestionNotifyAccessDialogFragment.newInstance {
+            if (it) {
+                moveToAlarmFragmentProvider.moveAlarmFromMusic()
+            }
+        }.show(parentFragmentManager, "Suggestion")
         clickBackButton()
         setMyMumentTagList()
         setEntireMumentListAdapter()

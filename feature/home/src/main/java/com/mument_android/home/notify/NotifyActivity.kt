@@ -1,10 +1,10 @@
 package com.mument_android.home.notify
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import com.angdroid.navigation.MoveNotifyNavigatorProvider
+import com.angdroid.navigation.MoveToAlarmFragmentProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.TransitionMode
@@ -14,7 +14,6 @@ import com.mument_android.home.databinding.ActivityNotifyBinding
 import com.mument_android.home.models.Notify
 import com.mument_android.home.notify.NotifyContract.NotifyEvent
 import com.mument_android.home.notify.NotifyContract.NotifySideEffect
-import com.mument_android.home.search.SearchActivity
 import com.mument_android.home.viewmodels.NotifyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -28,6 +27,9 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
 
     @Inject
     lateinit var moveNotifyNavigatorProvider: MoveNotifyNavigatorProvider
+
+    @Inject
+    lateinit var moveToAlarmFragmentProvider: MoveToAlarmFragmentProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +60,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
                     Log.e("Success", "AllRead Success")
                 }
                 NotifySideEffect.NavToSetting -> {
+                    moveToAlarmFragmentProvider.moveAlarm()
                     //Nav to Setting
                 }
                 is NotifySideEffect.DeleteNotify -> {
