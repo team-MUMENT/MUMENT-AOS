@@ -23,7 +23,7 @@ class EditMumentNavigatorProviderImpl @Inject constructor(
                 putExtra("RecentSearchData", music)
                 putExtra("MumentID", mumentId)
             }
-            activity.startActivity(intent)
+            activity.recordMumentLauncher.launch(intent)
         }
     }
 }

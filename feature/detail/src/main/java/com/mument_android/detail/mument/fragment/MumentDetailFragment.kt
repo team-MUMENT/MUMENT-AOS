@@ -124,7 +124,9 @@ class MumentDetailFragment : Fragment() {
             viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(it))
         }
         arguments?.getString(MUSIC_INFO_ENTITY)?.let {
+            Log.e("MUSIC INFO", it)
             val musicInfo = Gson().fromJson(it, MusicInfoEntity::class.java)
+            Log.e("MUSIC INFO GSON", musicInfo.toString())
             viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(musicInfo))
         }
     }

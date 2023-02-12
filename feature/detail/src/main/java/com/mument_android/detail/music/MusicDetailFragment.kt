@@ -96,6 +96,9 @@ class MusicDetailFragment() : Fragment() {
         arguments?.getParcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
             musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicInfo(it))
         }
+        arguments?.getString(MUMENT_ID)?.let {
+            /*musicDetailViewModel.emitEvent(MusicDetailEvent.)*/
+        }
     }
 
     private fun updateView() {
