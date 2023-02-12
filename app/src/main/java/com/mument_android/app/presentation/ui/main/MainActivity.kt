@@ -2,6 +2,7 @@ package com.mument_android.app.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.navigation.NavController
@@ -48,7 +49,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNavigation()
-        intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
+        /*intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
             intent.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
                 val bundle = Bundle().also {
                     it.putString(MUMENT_ID, mumentId)
@@ -56,7 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
                 navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
             }
-        }
+        }*/
         floatingBtnListener()
         customAppBar()
         isLimitUserNetwork()
@@ -226,15 +227,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
-        intent?.getStringExtra(MUMENT_ID)?.let { mumentId ->
-            intent.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
+        Log.e("NEW INTENT", intent.toString())
+        intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
+            intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                 val bundle = Bundle().also {
                     it.putString(MUMENT_ID, mumentId)
-                    it.putString(MUSIC_INFO_ENTITY, music)
+                    it.putString(MUSIC_INFO_ENTITY, Gson().toJson(music))
                 }
                 navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
-            }
+            } ?: navController.navigate(
+                R.id.action_homeFragment_to_musicDetailFragment,
+                Bundle().apply { putString(MUSIC_INFO_ENTITY, Gson().toJson(music)) })
         }
     }
 }

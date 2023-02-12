@@ -72,7 +72,6 @@ class MumentDetailFragment : Fragment() {
     @Inject
     lateinit var declareNavigatorProvider: DeclareNavigatorProvider
 
-
     @Inject
     lateinit var reportMumentNavigatorProvider: ReportMumentNavigatorProvider
 
@@ -96,7 +95,7 @@ class MumentDetailFragment : Fragment() {
         getResultText =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                    it.data?.getParcelableExtra<MusicInfoEntity>("MUSIC_INFO")?.let { music ->
+                    it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
                         it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
                             viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(mumentId))
                             viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(music))
