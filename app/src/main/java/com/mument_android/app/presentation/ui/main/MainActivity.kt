@@ -2,16 +2,12 @@ package com.mument_android.app.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.angdroid.navigation.MoveToAlarmFragmentProvider
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.mument_android.R
@@ -21,7 +17,6 @@ import com.mument_android.app.presentation.ui.detail.mument.navigator.checkCurre
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
-import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
@@ -216,6 +211,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Log.e("onNewIntent", intent.toString())
+
+        intent?.getStringExtra(MUMENT_ID)?.let { mumentId ->
+            intent.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
+                val bundle = Bundle().also {
+                    it.putString(MUMENT_ID, mumentId)
+                    it.putString(MUSIC_INFO_ENTITY, music)
+                }
+                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
+            }
+        }
     }
 }
