@@ -141,9 +141,17 @@ object MapperModule {
 
     @Provides
     @Singleton
+    fun provideMyMumentSummaryMapper(
+        userMapper: UserMapper,
+        integrationTagMapper: IntegrationTagMapper
+    ): MyMumentSummaryMapper =
+        MyMumentSummaryMapper(userMapper, integrationTagMapper)
+
+    @Provides
+    @Singleton
     fun provideMusicWithMyMumentMapper(
         musicInfoMapper: MusicInfoMapper,
-        mumentSummaryMapper: MumentSummaryMapper
+        mumentSummaryMapper: MyMumentSummaryMapper
     ): MusicWithMyMumentMapper =
         MusicWithMyMumentMapper(musicInfoMapper, mumentSummaryMapper)
 
