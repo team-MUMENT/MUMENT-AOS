@@ -34,9 +34,7 @@ class Notification(
     }
 
     private fun setPendingIntent(): PendingIntent {
-        val resultIntent = Intent(context, NotifyActivity::class.java).apply {
-            putExtra("NEW INTENT", "HI")
-        }
+        val resultIntent = Intent(context, NotifyActivity::class.java)
         return TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)
             getPendingIntent(1, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_ONE_SHOT)
