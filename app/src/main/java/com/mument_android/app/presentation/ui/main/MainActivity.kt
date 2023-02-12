@@ -232,12 +232,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                 val bundle = Bundle().also {
                     it.putString(MUMENT_ID, mumentId)
-                    it.putString(MUSIC_INFO_ENTITY, Gson().toJson(music))
+                    it.putString(MUSIC_INFO_ENTITY, music)
                 }
                 navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
             } ?: navController.navigate(
                 R.id.action_homeFragment_to_musicDetailFragment,
-                Bundle().apply { putString(MUSIC_INFO_ENTITY, Gson().toJson(music)) })
+                Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
         }
     }
 }
