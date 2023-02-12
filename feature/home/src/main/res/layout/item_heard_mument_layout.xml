@@ -42,7 +42,7 @@
 
         <TextView
             android:id="@+id/textView3"
-            style="@style/TextView.Mument_B5_M13.Style"
+            style="@style/TextView.Mument_B6_M13.Style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="13dp"
