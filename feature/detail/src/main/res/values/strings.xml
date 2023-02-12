@@ -10,7 +10,7 @@
     <string name="mument">뮤멘트</string>
     <string name="sort_like_count">좋아요순</string>
     <string name="show_my_history"><![CDATA[나의 히스토리 보기 >]]></string>
-    <string name="locker_mument_empty_title">아직 기록한 뮤멘트가 없어요.</string>
+    <string name="mument_empty_title">아직 뮤멘트가 없어요.</string>
     <string name="like_count_integer_format">%d명이 좋아합니다.</string>
     <string name="go_to_mument_history_integer_format">%d개의 뮤멘트가 있는 히스토리 보러가기</string>
     <string name="record_mument">뮤멘트 기록하기</string>
