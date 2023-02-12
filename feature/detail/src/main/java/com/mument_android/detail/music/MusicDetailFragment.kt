@@ -2,6 +2,7 @@ package com.mument_android.detail.music
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +37,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MusicDetailFragment() : Fragment() {
+class MusicDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMusicDetailBinding>()
     private val musicDetailViewModel: MusicDetailViewModel by viewModels()
     private lateinit var getResultText: ActivityResultLauncher<Intent>
@@ -94,11 +95,12 @@ class MusicDetailFragment() : Fragment() {
 
     private fun receiveMusicId() {
         arguments?.getParcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
+            Log.e("getParcelable", it.toString())
             musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicInfo(it))
         }
-        arguments?.getString(MUMENT_ID)?.let {
-            /*musicDetailViewModel.emitEvent(MusicDetailEvent.)*/
-        }
+        /*arguments?.getString(MUMENT_ID)?.let {
+            *//*musicDetailViewModel.emitEvent(MusicDetailEvent.)*//*
+        }*/
     }
 
     private fun updateView() {
@@ -107,6 +109,16 @@ class MusicDetailFragment() : Fragment() {
                 (layoutMyMument.rvMumentTags.adapter as MumentTagListAdapter).submitList(state.myMumentInfo?.tags)
                 (rvEveryMuments.adapter as MusicDetailMumentListAdapter).submitList(state.mumentList)
                 changeSortTypeSelectedTheme(state.mumentSortType.sort)
+            }
+        }
+        binding.layoutMyMument.clRoot.click {
+            musicDetailViewModel.viewState.value.myMumentInfo?.let { mumentInfo ->
+                musicDetailViewModel.viewState.value.musicInfo?.let { musicInfoEntity ->
+                    mumentDetailNavigatorProvider.musicDetailToMumentDetail(
+                        mumentInfo.mumentId,
+                        musicInfo = musicInfoEntity
+                    )
+                }
             }
         }
 
@@ -209,7 +221,7 @@ class MusicDetailFragment() : Fragment() {
                                 HistoryActivity::class.java
                             ).apply {
                                 putExtra("music", it.toMusic())
-                                putExtra("userId", userId)
+                                putExtra("userId", userId.toInt())
                             })
                     }
                 }

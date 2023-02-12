@@ -3,6 +3,7 @@ package com.mument_android.app.presentation.ui.detail.mument.navigator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.navigation.NavOptions
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.R
@@ -28,12 +29,17 @@ class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity:
     }
 
     override fun fromMumentDetailToMusicDetail(music: MusicInfoEntity) {
+        Log.e("fromMumentDetailToMusicDetail", music.toString())
         with(activity as MainActivity) {
-            if(navController.isFragmentInBackStack(R.id.musicDetailFragment)) {
-                navController.popBackStack()
+            if (navController.isFragmentInBackStack(R.id.musicDetailFragment)) {
+                navController.popBackStack(R.id.musicDetailFragment, false)
             } else {
-                val bundle = Bundle().also { it.putParcelable(MUSIC_INFO_ENTITY, music) }
-                this.navController.navigate(R.id.action_mumentDetailFragment_to_musicDetailFragment, bundle)
+                Log.e("NOT EXIST BACK STACK", music.toString())
+                val bundle = Bundle().apply { putParcelable(MUSIC_INFO_ENTITY, music) }
+                this.navController.navigate(
+                    R.id.action_mumentDetailFragment_to_musicDetailFragment,
+                    bundle
+                )
             }
         }
     }

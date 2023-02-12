@@ -57,9 +57,6 @@ class MumentDetailFragment : Fragment() {
     lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
 
     @Inject
-    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
-
-    @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
 
     @Inject
@@ -332,6 +329,7 @@ class MumentDetailFragment : Fragment() {
     private fun goToMusicDetail() {
         binding.viewAlbumClickArea.setOnClickListener {
             viewModel.viewState.value.musicInfo?.let { music ->
+                Log.e("MUSIC", music.toString())
                 viewModel.emitEvent(MumentDetailEvent.OnClickAlum(music))
             }
         }
