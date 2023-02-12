@@ -96,10 +96,8 @@ class HomeViewModel @Inject constructor(
 
     fun checkNotifyExist() {
         viewModelScope.launch {
-            bannerNumIncrease.collectLatest {
-                useCase.checkNotifyExist().catch { }.collect { result ->
-                    _homeViewState.setState { copy(notificationStatus = result ?: false) }
-                }
+            useCase.checkNotifyExist().catch { }.collect { result ->
+                _homeViewState.setState { copy(notificationStatus = result ?: false) }
             }
         }
     }

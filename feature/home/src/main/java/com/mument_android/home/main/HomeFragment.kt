@@ -1,7 +1,11 @@
 package com.mument_android.home.main
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +42,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
+    private val notifyBroadcastReceiver = NotifyBroadCastReceiver()
 
     @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
@@ -53,12 +58,16 @@ class HomeFragment : Fragment() {
         this.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        requireContext().registerReceiver(notifyBroadcastReceiver, IntentFilter("NEW_INTENT"))
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
         bindData()
-
     }
 
     private val searchMusicLauncher =
@@ -196,10 +205,25 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        requireContext().unregisterReceiver(notifyBroadcastReceiver)
+    }
+
     override fun onResume() {
         super.onResume()
+        Log.e("ONRESUME", "ON RESUME!!!!")
+        viewModel.checkNotifyExist()
         viewModel.bannerIndexChange(0)
         binding.vpBanner.setCurrentItem(0, false)
-        viewModel.checkNotifyExist()
+    }
+
+    inner class NotifyBroadCastReceiver : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            if (p1?.action == "NEW_INTENT") {
+                Log.e("RECEIVE", "Receive BroadCast")
+                viewModel.checkNotifyExist()
+            }
+        }
     }
 }
