@@ -34,7 +34,7 @@ class RecordViewModel @Inject constructor(
 
     var isFirstDuplicate = false
 
-    val mumentId = MutableLiveData<String?>()
+    val mumentId = MutableLiveData<String?>("")
     val mumentContent = MutableLiveData<String>()
 
     private val _isSelectedMusic = MutableLiveData<Boolean>(false)

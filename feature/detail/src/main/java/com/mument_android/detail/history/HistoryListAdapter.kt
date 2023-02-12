@@ -59,7 +59,7 @@ class HistoryListAdapter(
             holder.binding.run {
                 cbHeart.click {
                     val likeCount = data.likeCount
-                    if (holder.binding.cbHeart.isChecked) likeMument(data._id.toString()) else cancelLikeMument(
+                    if (cbHeart.isChecked) likeMument(data._id.toString()) else cancelLikeMument(
                         data._id.toString()
                     )
                     val updatedLikeCount = when {
@@ -69,7 +69,22 @@ class HistoryListAdapter(
                         !data.isLiked && !cbHeart.isChecked -> likeCount
                         else -> likeCount
                     }
-                    holder.binding.tvLikeCount.text = updatedLikeCount.toString()
+                    tvLikeCount.text = updatedLikeCount.toString()
+                }
+                tvLikeCount.click {
+                    cbHeart.isChecked = !cbHeart.isChecked
+                    val likeCount = data.likeCount
+                    if (cbHeart.isChecked) likeMument(data._id.toString()) else cancelLikeMument(
+                        data._id.toString()
+                    )
+                    val updatedLikeCount = when {
+                        data.isLiked && cbHeart.isChecked -> likeCount
+                        data.isLiked && !cbHeart.isChecked -> likeCount - 1
+                        !data.isLiked && cbHeart.isChecked -> likeCount + 1
+                        !data.isLiked && !cbHeart.isChecked -> likeCount
+                        else -> likeCount
+                    }
+                    tvLikeCount.text = updatedLikeCount.toString()
                 }
             }
         }
