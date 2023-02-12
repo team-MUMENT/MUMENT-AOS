@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -201,22 +200,6 @@ class HomeFragment : Fragment() {
         super.onResume()
         viewModel.bannerIndexChange(0)
         binding.vpBanner.setCurrentItem(0, false)
-/*
-        val homeFrame = requireParentFragment().requireParentFragment()
-        //TODO Navi
-        (homeFrame as HomeFragment).arguments?.getString("musicId")?.let { musicId ->
-            if (musicId.isNotEmpty()) {
-                val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_musicDetailFragment,
-                    bundle
-                )
-            }
-        }*/
-    }
-
-    companion object {
-        const val MUMENT_ID = "MUMENT_ID"
-        const val MUSIC_ID = "MUSIC_INFO_ENTITY"
+        viewModel.checkNotifyExist()
     }
 }
