@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.mument_android.R
 import com.mument_android.home.notify.NotifyActivity
@@ -34,12 +35,13 @@ class Notification(
     }
 
     private fun setPendingIntent(): PendingIntent {
-        val resultIntent = Intent(context, NotifyActivity::class.java).apply {
-            putExtra("NEW INTENT", "HI")
-        }
+        val resultIntent = Intent(context, NotifyActivity::class.java)
         return TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)
-            getPendingIntent(1, PendingIntent.FLAG_ONE_SHOT)
+            getPendingIntent(
+                1,
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT else PendingIntent.FLAG_UPDATE_CURRENT
+            )
         }
     }
 

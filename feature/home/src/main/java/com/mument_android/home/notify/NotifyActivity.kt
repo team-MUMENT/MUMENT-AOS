@@ -33,6 +33,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.notifyViewModel = notifyViewModel
         appBarClickListener()
         adapterSetting()
         receiveEffect()

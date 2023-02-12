@@ -47,10 +47,12 @@
 
         <TextView
             android:id="@+id/textView2"
-            style="@style/TextView.Mument_B5_M13.Style"
+            style="@style/TextView.Mument_B6_M13.Style"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
+            android:maxLines="5"
+            android:ellipsize="end"
             android:text="@{randomMument.content}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toTopOf="@id/view"

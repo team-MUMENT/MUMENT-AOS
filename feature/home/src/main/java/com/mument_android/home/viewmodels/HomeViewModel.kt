@@ -62,9 +62,6 @@ class HomeViewModel @Inject constructor(
     init {
         collectEvent()
         viewModelScope.launch {
-            useCase.checkNotifyExist().catch { }.collect { result ->
-                _homeViewState.setState { copy(notificationStatus = result ?: false) }
-            }
             useCase.getTodayMument().catch {
             }.collect { today ->
                 _homeViewState.setState {
@@ -93,6 +90,14 @@ class HomeViewModel @Inject constructor(
                 if (random != null) {
                     _homeViewState.setState { copy(emotionMumentEntity = random) }
                 }
+            }
+        }
+    }
+
+    fun checkNotifyExist() {
+        viewModelScope.launch {
+            useCase.checkNotifyExist().catch { }.collect { result ->
+                _homeViewState.setState { copy(notificationStatus = result ?: false) }
             }
         }
     }

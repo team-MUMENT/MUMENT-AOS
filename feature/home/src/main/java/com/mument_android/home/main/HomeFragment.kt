@@ -1,11 +1,14 @@
 package com.mument_android.home.main
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -39,6 +42,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
+    private val notifyBroadcastReceiver = NotifyBroadCastReceiver()
 
     @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
@@ -54,12 +58,16 @@ class HomeFragment : Fragment() {
         this.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        requireContext().registerReceiver(notifyBroadcastReceiver, IntentFilter("NEW_INTENT"))
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
         bindData()
-
     }
 
     private val searchMusicLauncher =
@@ -197,26 +205,25 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.bannerIndexChange(0)
-        binding.vpBanner.setCurrentItem(0, false)
-/*
-        val homeFrame = requireParentFragment().requireParentFragment()
-        //TODO Navi
-        (homeFrame as HomeFragment).arguments?.getString("musicId")?.let { musicId ->
-            if (musicId.isNotEmpty()) {
-                val bundle = Bundle().also { it.putString(MUSIC_ID, musicId) }
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_musicDetailFragment,
-                    bundle
-                )
-            }
-        }*/
+    override fun onStop() {
+        super.onStop()
+        requireContext().unregisterReceiver(notifyBroadcastReceiver)
     }
 
-    companion object {
-        const val MUMENT_ID = "MUMENT_ID"
-        const val MUSIC_ID = "MUSIC_INFO_ENTITY"
+    override fun onResume() {
+        super.onResume()
+        Log.e("ONRESUME", "ON RESUME!!!!")
+        viewModel.checkNotifyExist()
+        viewModel.bannerIndexChange(0)
+        binding.vpBanner.setCurrentItem(0, false)
+    }
+
+    inner class NotifyBroadCastReceiver : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            if (p1?.action == "NEW_INTENT") {
+                Log.e("RECEIVE", "Receive BroadCast")
+                viewModel.checkNotifyExist()
+            }
+        }
     }
 }

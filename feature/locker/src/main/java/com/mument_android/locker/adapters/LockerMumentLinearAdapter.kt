@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.mument_android.locker.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.core.model.TagEntity
+import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.domain.entity.locker.LockerMumentEntity
 import com.mument_android.core_dependent.util.EmotionalTag
@@ -35,7 +36,11 @@ class LockerMumentLinearAdapter(
 
     override fun onBindViewHolder(holder: MumentViewHolder, position: Int) {
         val data = getItem(position).cardTag?.map {
-            if(it < 200) TagEntity(TagEntity.TAG_IMPRESSIVE, ImpressiveTag.findImpressiveStringTag(it), it)
+            if (it < 200) TagEntity(
+                TagEntity.TAG_IMPRESSIVE,
+                ImpressiveTag.findImpressiveStringTag(it),
+                it
+            )
             else TagEntity(TagEntity.TAG_EMOTIONAL, EmotionalTag.findEmotionalStringTag(it), it)
         }
         holder.binding.rvMumentTag.adapter = MumentTagListAdapter()
@@ -66,15 +71,31 @@ class LockerMumentLinearAdapter(
             ivLike.setOnClickListener {
                 tvLikeCount.text = when {
                     isLiked == true && ivLike.isChecked -> likeCount.toString()
-                    isLiked == true && !ivLike.isChecked -> (likeCount-1).toString()
-                    isLiked == false && ivLike.isChecked -> (likeCount+1).toString()
+                    isLiked == true && !ivLike.isChecked -> (likeCount - 1).toString()
+                    isLiked == false && ivLike.isChecked -> (likeCount + 1).toString()
                     isLiked == false && !ivLike.isChecked -> likeCount.toString()
                     else -> likeCount.toString()
                 }
-                if (ivLike.isChecked) likeMumentListener.likeMument(mument._id ?: "") else likeMumentListener.cancelLikeMument(mument._id ?: "")
+                if (ivLike.isChecked) likeMumentListener.likeMument(
+                    mument._id ?: ""
+                ) else likeMumentListener.cancelLikeMument(mument._id ?: "")
+            }
+            tvLikeCount.click {
+                ivLike.isChecked = !ivLike.isChecked
+                tvLikeCount.text = when {
+                    isLiked == true && ivLike.isChecked -> likeCount.toString()
+                    isLiked == true && !ivLike.isChecked -> (likeCount - 1).toString()
+                    isLiked == false && ivLike.isChecked -> (likeCount + 1).toString()
+                    isLiked == false && !ivLike.isChecked -> likeCount.toString()
+                    else -> likeCount.toString()
+                }
+                if (ivLike.isChecked) likeMumentListener.likeMument(
+                    mument._id ?: ""
+                ) else likeMumentListener.cancelLikeMument(mument._id ?: "")
             }
         }
     }
 
-    class MumentViewHolder(val binding: ItemLockerCardBinding) : RecyclerView.ViewHolder(binding.root)
+    class MumentViewHolder(val binding: ItemLockerCardBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

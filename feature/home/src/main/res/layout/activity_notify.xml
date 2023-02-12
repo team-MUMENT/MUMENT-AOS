@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="notifyViewModel"
             type="com.mument_android.home.viewmodels.NotifyViewModel" />
@@ -20,14 +23,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            style="@style/TextView.Mument_H3_B16.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notify_empty_string"
+            android:textColor="@color/mument_color_gray1"
+            android:visibility="@{(notifyViewModel.notifyViewState.notifyList==null||notifyViewModel.notifyViewState.notifyList.size()==0)?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/appbar_notify" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_notify_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:overScrollMode="never"
             android:clipToPadding="false"
             android:orientation="vertical"
+            android:overScrollMode="never"
             android:paddingTop="@dimen/app_space_14"
+            android:visibility="@{(notifyViewModel.notifyViewState.notifyList==null||notifyViewModel.notifyViewState.notifyList.size()==0)?View.GONE:View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appbar_notify"

@@ -110,5 +110,6 @@
     <string name="appbar_notify_title">소식</string>
     <string name="notify_icon_description">notify icon</string>
     <string name="notify_delete_description">notify_delete</string>
+    <string name="notify_empty_string">받은 소식이 없습니다.</string>
 
 </resources>
