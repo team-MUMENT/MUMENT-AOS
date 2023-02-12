@@ -39,7 +39,7 @@ class Notification(
         }
         return TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)
-            getPendingIntent(1, PendingIntent.FLAG_ONE_SHOT)
+            getPendingIntent(1, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_ONE_SHOT)
         }
     }
 
