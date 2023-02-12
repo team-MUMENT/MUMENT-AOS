@@ -6,5 +6,4 @@ interface MumentDetailNavigatorProvider {
     fun moveHomeToMumentDetail(mumentId:String, musicInfo: MusicInfoEntity)
     fun moveLockerToMumentDetail(mumentId:String, musicInfo: MusicInfoEntity)
     fun musicDetailToMumentDetail(mumentId:String, musicInfo: MusicInfoEntity)
-    fun mainActivityToMumentDetail(mumentId:String, musicInfo: MusicInfoEntity)
 }
