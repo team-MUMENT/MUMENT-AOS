@@ -35,7 +35,7 @@
             style="@style/TextView.Mument_H2_B18.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="36dp"
             android:text="@string/unregister_title"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
