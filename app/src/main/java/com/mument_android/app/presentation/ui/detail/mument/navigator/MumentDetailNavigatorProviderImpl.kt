@@ -32,9 +32,10 @@ class MumentDetailNavigatorProviderImpl @Inject constructor(
 
     private fun moveToMumentDetail(actionId: Int, mumentId: String, musicInfo: MusicInfoEntity) {
         if (activity is MainActivity) {
-            val bundle = Bundle()
-                .also { it.putString(MUMENT_ID, mumentId) }
-                .also { it.putString(MUSIC_INFO_ENTITY, Gson().toJson(musicInfo)) }
+            val bundle = Bundle().apply {
+                putString(MUMENT_ID, mumentId)
+                putString(MUSIC_INFO_ENTITY, Gson().toJson(musicInfo))
+            }
             activity.navController.navigate(actionId, bundle)
         }
     }

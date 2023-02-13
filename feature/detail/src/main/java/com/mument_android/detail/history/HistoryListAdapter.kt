@@ -17,7 +17,7 @@ import com.mument_android.detail.music.MusicDetailMumentListAdapter
 import com.mument_android.domain.entity.history.MumentHistory
 
 class HistoryListAdapter(
-    private val itemClickListener: (MumentHistory) -> Unit,
+    private val itemClickListener: (String) -> Unit,
     private val likeMument: (String) -> Unit,
     private val cancelLikeMument: (String) -> Unit
 ) :
@@ -53,7 +53,7 @@ class HistoryListAdapter(
                 else TagEntity(TagEntity.TAG_EMOTIONAL, EmotionalTag.findEmotionalStringTag(it), it)
             })
             holder.binding.root.click {
-                itemClickListener(data)
+                itemClickListener(data._id.toString())
             }
             holder.binding.setVariable(BR.mumentHistory, data)
             holder.binding.run {

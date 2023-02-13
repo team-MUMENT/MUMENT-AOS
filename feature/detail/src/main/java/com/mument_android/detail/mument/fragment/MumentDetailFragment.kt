@@ -57,9 +57,6 @@ class MumentDetailFragment : Fragment() {
     lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
 
     @Inject
-    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
-
-    @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
 
     @Inject
@@ -71,7 +68,6 @@ class MumentDetailFragment : Fragment() {
 
     @Inject
     lateinit var declareNavigatorProvider: DeclareNavigatorProvider
-
 
     @Inject
     lateinit var reportMumentNavigatorProvider: ReportMumentNavigatorProvider
@@ -96,7 +92,7 @@ class MumentDetailFragment : Fragment() {
         getResultText =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                    it.data?.getParcelableExtra<MusicInfoEntity>("MUSIC_INFO")?.let { music ->
+                    it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
                         it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
                             viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(mumentId))
                             viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(music))
@@ -124,7 +120,9 @@ class MumentDetailFragment : Fragment() {
             viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(it))
         }
         arguments?.getString(MUSIC_INFO_ENTITY)?.let {
+            Log.e("MUSIC INFO", it)
             val musicInfo = Gson().fromJson(it, MusicInfoEntity::class.java)
+            Log.e("MUSIC INFO GSON", musicInfo.toString())
             viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(musicInfo))
         }
     }
@@ -331,6 +329,7 @@ class MumentDetailFragment : Fragment() {
     private fun goToMusicDetail() {
         binding.viewAlbumClickArea.setOnClickListener {
             viewModel.viewState.value.musicInfo?.let { music ->
+                Log.e("MUSIC", music.toString())
                 viewModel.emitEvent(MumentDetailEvent.OnClickAlum(music))
             }
         }

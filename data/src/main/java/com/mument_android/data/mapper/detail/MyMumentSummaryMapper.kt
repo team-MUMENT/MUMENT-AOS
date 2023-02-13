@@ -4,18 +4,19 @@ import com.mument_android.core.base.BaseMapper
 import com.mument_android.core.model.TagEntity
 import com.mument_android.data.R
 import com.mument_android.data.dto.MumentSummaryDto
+import com.mument_android.data.dto.MyMumentSummaryDto
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.domain.entity.detail.MumentSummaryEntity
 import javax.inject.Inject
 
-class MumentSummaryMapper @Inject constructor(
+class MyMumentSummaryMapper @Inject constructor(
     private val userMapper: UserMapper,
     private val integrationTagMapper: IntegrationTagMapper
-): BaseMapper<MumentSummaryDto, MumentSummaryEntity> {
-    override fun map(from: MumentSummaryDto): MumentSummaryEntity {
+): BaseMapper<MyMumentSummaryDto, MumentSummaryEntity> {
+    override fun map(from: MyMumentSummaryDto): MumentSummaryEntity {
         return MumentSummaryEntity(
             from.id,
-            from.musicId,
+            from.music.id.toString(),
             userMapper.map(from.user),
             from.isFirst,
             mapTagList(from),
@@ -29,7 +30,7 @@ class MumentSummaryMapper @Inject constructor(
         )
     }
 
-    private fun mapTagList(mument: MumentSummaryDto): List<TagEntity> {
+    private fun mapTagList(mument: MyMumentSummaryDto): List<TagEntity> {
         val cardTags = mutableListOf<TagEntity>()
         val isFirst = if (mument.isFirst) R.string.tag_is_first else R.string.tag_has_heard
         cardTags.add(

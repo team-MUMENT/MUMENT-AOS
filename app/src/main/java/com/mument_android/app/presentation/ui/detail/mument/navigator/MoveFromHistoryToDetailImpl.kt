@@ -1,6 +1,7 @@
 package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.angdroid.navigation.MoveFromHistoryToDetail
@@ -19,7 +20,7 @@ class MoveFromHistoryToDetailImpl @Inject constructor(private val activity: Acti
                 putExtra(MUMENT_ID, mumentId)
                 putExtra(MUSIC_INFO_ENTITY, musicInfoEntity)
             }
-            setResult(AppCompatActivity.RESULT_OK, intent)
+            setResult(RESULT_OK, intent)
             finish()
         }
     }
@@ -29,7 +30,7 @@ class MoveFromHistoryToDetailImpl @Inject constructor(private val activity: Acti
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra(MUSIC_INFO_ENTITY, musicInfoEntity)
             }
-            setResult(AppCompatActivity.RESULT_OK, intent)
+            setResult(RESULT_OK, intent)
             finish()
         }
     }

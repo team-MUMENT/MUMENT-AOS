@@ -2,6 +2,7 @@ package com.mument_android.app.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.navigation.NavController
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.gson.Gson
 import com.mument_android.R
 import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
@@ -17,6 +19,7 @@ import com.mument_android.app.presentation.ui.detail.mument.navigator.checkCurre
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
@@ -46,7 +49,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNavigation()
-        intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
+        /*intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
             intent.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
                 val bundle = Bundle().also {
                     it.putString(MUMENT_ID, mumentId)
@@ -54,7 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
                 navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
             }
-        }
+        }*/
         floatingBtnListener()
         customAppBar()
         isLimitUserNetwork()
@@ -101,7 +104,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private val recordMumentLauncher =
+    //EditMumentNavigatorProvider에서 사용
+    val recordMumentLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 result.data?.let {
@@ -122,29 +126,41 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                             }
                         }
                     }.show(supportFragmentManager, "Suggestion")
+                } else {
+                    snackBar(
+                        binding.cdRoot,
+                        getString(com.mument_android.detail.R.string.record_finish_record)
+                    )
                 }
             }
-
             intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
-                intent.getBooleanExtra("RECORD", false).let { record ->
-                    if (record) {
-                        snackBar(
-                            binding.cdRoot,
-                            getString(com.mument_android.detail.R.string.record_finish_record)
-                        )
-                    } else {
-                        snackBar(
-                            binding.cdRoot,
-                            getString(com.mument_android.detail.R.string.modify_record)
-                        )
-                    }
+                intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                     val bundle = Bundle().apply {
                         putParcelable(MUSIC_INFO_ENTITY, musicInfo)
+                        putString(MUMENT_ID, mumentId)
                     }
                     navController.navigate(
                         R.id.musicDetailFragment,
                         bundle,
                         NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, false).build()
+                    )
+                }
+            }
+        } else if (intent.getStringExtra(TO_MUMENT_DETAIL) == TO_MUMENT_DETAIL) {
+            intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
+                intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
+                    snackBar(
+                        binding.cdRoot,
+                        getString(com.mument_android.detail.R.string.modify_record)
+                    )
+                    val bundle = Bundle().apply {
+                        putString(MUSIC_INFO_ENTITY, Gson().toJson(musicInfo))
+                        putString(MUMENT_ID, mumentId)
+                    }
+                    navController.navigate(
+                        R.id.mumentDetailFragment,
+                        bundle,
+                        NavOptions.Builder().setPopUpTo(R.id.mumentDetailFragment, false).build()
                     )
                 }
             }
@@ -211,15 +227,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
-        intent?.getStringExtra(MUMENT_ID)?.let { mumentId ->
-            intent.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
+        Log.e("NEW INTENT", intent.toString())
+        intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
+            intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                 val bundle = Bundle().also {
                     it.putString(MUMENT_ID, mumentId)
                     it.putString(MUSIC_INFO_ENTITY, music)
                 }
                 navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
-            }
+            } ?: navController.navigate(
+                R.id.action_homeFragment_to_musicDetailFragment,
+                Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
         }
     }
 }
