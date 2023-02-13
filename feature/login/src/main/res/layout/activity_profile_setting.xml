@@ -23,10 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="52dp"
             android:src="@drawable/mument_icon_back"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_profile_setting"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/tv_profile_setting" />
 
         <TextView
             android:id="@+id/tv_profile_finish"
@@ -36,9 +36,9 @@
             android:layout_marginEnd="15dp"
             android:text="@string/login_profile_finish"
             android:textColor="@color/selector_color_gray2_to_purple1_selected"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_profile_back"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_profile_setting"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_profile_back" />
+            app:layout_constraintTop_toTopOf="@+id/tv_profile_setting" />
 
         <TextView
             android:id="@+id/tv_profile_setting"
@@ -47,10 +47,10 @@
             android:layout_height="wrap_content"
             android:text="@string/login_profile_setting"
             android:textColor="@color/mument_color_black1"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_profile_back"
+            android:layout_marginTop="36dp"
             app:layout_constraintEnd_toStartOf="@+id/tv_profile_finish"
             app:layout_constraintStart_toEndOf="@+id/iv_profile_back"
-            app:layout_constraintTop_toTopOf="@+id/iv_profile_back" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_profile"
