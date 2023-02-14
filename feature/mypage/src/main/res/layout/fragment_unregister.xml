@@ -128,7 +128,7 @@
                     android:layout_marginEnd="2dp"
                     android:layout_marginBottom="15dp"
                     android:text="@{Integer.toString(myPageViewModel.unregisterReasonContent.length())}"
-                    android:textColor="@color/mument_color_purple1"
+                    android:textColor="@{myPageViewModel.unregisterReasonContent.length() == 0 ? @color/mument_color_gray2 : @color/mument_color_purple1}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tv_unregister_reason_num"
                     tools:text="0" />
