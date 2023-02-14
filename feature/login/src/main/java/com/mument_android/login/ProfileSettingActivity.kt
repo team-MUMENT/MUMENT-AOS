@@ -186,11 +186,12 @@ class ProfileSettingActivity :
     //뒤로가기 클릭 리스너
     private fun backBtnListener() {
         binding.ivProfileBack.setOnClickListener {
-            finish()
-            if (viewModel.mumentNickName.value == "null") {
+            if (viewModel.mumentNickName.value == null) {
                 startActivity(Intent(this, LogInActivity::class.java))
+                finish()
+            } else {
+                finish()
             }
-
         }
     }
 
@@ -304,11 +305,7 @@ class ProfileSettingActivity :
         binding.svProfileScroll.viewTreeObserver.addOnGlobalLayoutListener {
             val rec = Rect()
             binding.svProfileScroll.getWindowVisibleDisplayFrame(rec)
-
-            //finding screen height
             val screenHeight = binding.svProfileScroll.rootView.height
-
-            //finding keyboard height
             val keypadHeight = screenHeight - rec.bottom
 
             if (keypadHeight > screenHeight * 0.15) {
