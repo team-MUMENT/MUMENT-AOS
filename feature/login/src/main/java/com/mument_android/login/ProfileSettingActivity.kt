@@ -93,14 +93,13 @@ class ProfileSettingActivity :
     //닉네임 정규식 확인
     private fun isRightPattern() {
         viewModel.mumentNickName.observe(this) {
-            if (!Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
+            if (!Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it) || it.trim().length < 2) {
                 viewModel.isRightPattern.value = false
                 binding.tvPattern.isSelected = true
-            } else if (it == "" || Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
+            } else if (it.isEmpty() || Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it) || it.trim().length >= 2) {
                 viewModel.isRightPattern.value = true
                 binding.tvPattern.isSelected = false
             }
-
             viewModel.isActive.value = it.trim().length >= 2 && !binding.tvPattern.isSelected
 
         }
