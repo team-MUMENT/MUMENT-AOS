@@ -83,6 +83,7 @@ class ProfileSettingActivity :
         scrollToBottom()
     }
 
+
     //edittext에 작성한 텍스트 삭제 버튼 클릭 리스너
     private fun deleteText() {
         binding.ivDelete.setOnClickListener {
@@ -117,6 +118,7 @@ class ProfileSettingActivity :
         binding.ivProfile.setOnClickListener {
             if (viewModel.imageUri.value == null) {
                 uploadPhotoClickListener(galleryUtil)
+                binding.ivProfile.setImageResource(R.drawable.mument_profile_camera)
             } else {
                 binding.clSelectImg.visibility = View.VISIBLE
                 binding.tvSelectLibrary.setOnClickListener {
