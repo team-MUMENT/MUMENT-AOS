@@ -84,63 +84,63 @@
 
     <style name="TextView.Mument_H3_B16.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_bold</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/mument_color_black2</item>
     </style>
 
     <style name="TextView.Mument_H4_M16.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_medium</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/mument_color_gray1</item>
     </style>
 
     <style name="TextView.Mument_B1_B15.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_bold</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">15dp</item>
     </style>
 
     <style name="TextView.Mument_B3_B14.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_bold</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:textColor">@color/mument_color_black1</item>
     </style>
 
     <style name="TextView.Mument_B4_M14.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_medium</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">14dp</item>
     </style>
 
     <style name="TextView.Mument_B2_B13.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_bold</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">13dp</item>
     </style>
 
     <style name="TextView.Mument_B5_M13.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_medium</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">13dp</item>
         <item name="android:textColor">@color/mument_color_black2</item>
     </style>
 
     <style name="TextView.Mument_B6_B12.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_bold</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">12dp</item>
     </style>
 
     <style name="TextView.Mument_B7_M12.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_medium</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/mument_color_gray1</item>
     </style>
 
     <style name="TextView.Mument_C1_R12.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_regular</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/mument_color_black2</item>
     </style>
 
     <style name="TextView.Mument_B6_M13.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_medium</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">13dp</item>
     </style>
 
 
@@ -148,7 +148,7 @@
     <!-- Typography-->
 
     <style name="tab_text" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">18dp</item>
         <item name="android:fontFamily">@font/notosans_medium</item>
     </style>
 
@@ -159,7 +159,7 @@
 
     <style name="ExpandedTitleStyle" parent="TextView.Mument_H2_B18.Style">
         <item name="android:textColor">@color/transparent</item>
-        <item name="android:textSize">0.1sp</item>
+        <item name="android:textSize">0.1dp</item>
     </style>
 
 

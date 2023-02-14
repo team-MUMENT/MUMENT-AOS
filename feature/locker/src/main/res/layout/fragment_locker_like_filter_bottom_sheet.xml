@@ -21,7 +21,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/locker_filter"
             android:textColor="@color/mument_color_black2"
-            android:textSize="18sp"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -55,7 +55,7 @@
             android:layout_marginTop="12dp"
             android:text="/ 3"
             android:textColor="@color/mument_color_gray2"
-            android:textSize="14sp"
+            android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="@+id/view_filter"
             app:layout_constraintTop_toBottomOf="@+id/view_filter" />
 
@@ -66,7 +66,7 @@
             android:layout_marginEnd="3dp"
             android:text="0"
             android:textColor="@color/mument_color_blue1"
-            android:textSize="14sp"
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_locker_max_num"
             app:layout_constraintEnd_toStartOf="@+id/tv_locker_max_num"
             app:layout_constraintTop_toTopOf="@+id/tv_locker_max_num"

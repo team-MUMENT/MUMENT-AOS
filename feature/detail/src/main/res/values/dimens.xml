@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="font_size_18">18sp</dimen>
+    <dimen name="font_size_18">18dp</dimen>
     <dimen name="app_space_22">22dp</dimen>
     <dimen name="app_space_24">24dp</dimen>
     <dimen name="app_space_17">17dp</dimen>
