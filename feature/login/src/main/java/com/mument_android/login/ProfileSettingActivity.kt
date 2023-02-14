@@ -201,7 +201,7 @@ class ProfileSettingActivity :
     }
 
     private fun putProfileNetwork() {
-        val nickname = binding.etNickname.text.toString()
+        val nickname = binding.etNickname.text.trim().toString()
         val requestBodyMap = HashMap<String, RequestBody>()
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         val rnds = (0..2).random()
