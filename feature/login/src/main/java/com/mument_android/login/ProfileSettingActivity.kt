@@ -5,12 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
+import android.widget.ScrollView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -77,6 +80,7 @@ class ProfileSettingActivity :
         backBtnListener()
         dulCheckListener()
         getUserInfo()
+        scrollToBottom()
     }
 
     //edittext에 작성한 텍스트 삭제 버튼 클릭 리스너
@@ -293,6 +297,23 @@ class ProfileSettingActivity :
                 crossfade(true)
                 placeholder(R.drawable.mument_profile_camera)
                 transformations(CircleCropTransformation())
+            }
+        }
+    }
+
+    private fun scrollToBottom() {
+        binding.svProfileScroll.viewTreeObserver.addOnGlobalLayoutListener {
+            val rec = Rect()
+            binding.svProfileScroll.getWindowVisibleDisplayFrame(rec)
+
+            //finding screen height
+            val screenHeight = binding.svProfileScroll.rootView.height
+
+            //finding keyboard height
+            val keypadHeight = screenHeight - rec.bottom
+
+            if (keypadHeight > screenHeight * 0.15) {
+                binding.svProfileScroll.fullScroll(ScrollView.FOCUS_DOWN)
             }
         }
     }
