@@ -94,8 +94,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_filter_total"
-            app:layout_constraintTop_toBottomOf="@+id/tv_filter_total"
-            tools:listitem="@layout/item_mument_string_tag" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_filter_total" />
 
         <TextView
             android:id="@+id/tv_filter_impress"
@@ -118,8 +117,7 @@
             app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_filter_impress"
-            app:layout_constraintTop_toBottomOf="@+id/tv_filter_impress"
-            tools:listitem="@layout/item_mument_string_tag" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_filter_impress" />
 
         <TextView
             android:id="@+id/tv_clear_all"
@@ -159,7 +157,6 @@
             android:layout_height="79dp"
             android:layout_marginTop="20dp"
             android:background="@color/mument_color_gray3"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_clear_all"
             app:layout_constraintTop_toBottomOf="@+id/tv_approve">

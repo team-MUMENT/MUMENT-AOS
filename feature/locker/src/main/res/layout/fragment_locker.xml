@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.mument_android.domain.entity.mypage.UserInfoEntity" />
@@ -28,10 +29,10 @@
 
         <ImageView
             android:id="@+id/iv_profile"
+            load_profile="@{viewModel.image}"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="16dp"
-            load_profile="@{viewModel.image}"
             app:layout_constraintBottom_toBottomOf="@+id/tv_locker_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_locker_title" />
@@ -46,7 +47,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_locker_title"
             app:tabIndicatorColor="@color/mument_color_purple1"
-            app:tabTextAppearance="@style/tab_text" />
+            app:tabSelectedTextColor="@color/mument_color_purple1"
+            app:tabTextAppearance="@style/tab_text"
+            app:tabTextColor="@color/mument_color_gray1" />
 
         <View
             android:id="@+id/view2"

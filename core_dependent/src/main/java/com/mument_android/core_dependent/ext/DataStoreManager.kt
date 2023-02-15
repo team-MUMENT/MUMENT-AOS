@@ -2,6 +2,7 @@ package com.mument_android.core_dependent.ext
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -27,9 +28,29 @@ class DataStoreManager(
         writeData(REFRESH_TOKEN_KEY, refreshToken)
     }
 
+    suspend fun removeUserId() {
+        deleteData(USER_ID)
+    }
+
+    suspend fun removeAccessToken() {
+        deleteData(ACCESS_TOKEN_KEY)
+    }
+
+    suspend fun removeRefreshToken() {
+        deleteData(REFRESH_TOKEN_KEY)
+    }
+
     suspend fun <T> writeData(key: Preferences.Key<T>, value: T) {
         context.datastore.edit {
             it[key] = value
+        }
+    }
+
+    suspend fun <T> deleteData(key: Preferences.Key<T>) {
+        context.datastore.edit {
+            if(it.contains(key)) {
+                it.remove(key)
+            }
         }
     }
 
