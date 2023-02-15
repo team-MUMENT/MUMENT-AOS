@@ -17,6 +17,7 @@
         android:id="@+id/csl_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/mument_color_bgwhite"
         tools:context="com.mument_android.detail.com.mument_android.detail.mument.MumentDetailFragment">
 
         <ImageView
@@ -55,13 +56,13 @@
                 android:layout_height="match_parent"
                 android:paddingBottom="70dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <com.mument_android.core_dependent.ui.ShadowConstraintLayout
                     android:id="@+id/csl_mument_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:background="@drawable/shape_border_default_redius_11dp"
-                    android:elevation="2dp"
+                    android:elevation="8dp"
                     android:paddingBottom="19dp"
                     android:visibility="@{mumentDetailViewModel.viewState.hasError ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -261,7 +262,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tv_like_count" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.mument_android.core_dependent.ui.ShadowConstraintLayout>
 
                 <TextView
                     android:id="@+id/tv_go_to_history"

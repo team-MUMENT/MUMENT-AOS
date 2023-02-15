@@ -51,13 +51,13 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="16dp" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <com.mument_android.core_dependent.ui.ShadowConstraintLayout
                     android:id="@+id/cl_search"
                     android:layout_width="0dp"
                     android:layout_height="72dp"
                     android:layout_marginTop="111dp"
                     android:background="@drawable/rectangle_fill_white_11dp"
-                    android:elevation="2dp"
+                    android:elevation="8dp"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="8dp"
                     android:visibility="@{recordViewModel.isSelectedMusic() ? View.VISIBLE:View.GONE}"
@@ -110,7 +110,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.mument_android.core_dependent.ui.ShadowConstraintLayout>
 
                 <TextView
                     android:id="@+id/tv_record_choose_title"

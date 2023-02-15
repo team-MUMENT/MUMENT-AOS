@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -24,6 +26,7 @@ import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.home.R
 import com.mument_android.home.adapters.BannerListAdapter
 import com.mument_android.home.adapters.HeardMumentListAdapter
 import com.mument_android.home.adapters.ImpressiveEmotionListAdapter
@@ -83,7 +86,9 @@ class HomeFragment : Fragment() {
         setAdapter()
         setListData()
         receiveEffect()
-        binding.tvSearch.setOnClickListener {
+        /*binding.clCard.clMument.outlineAmbientShadowColor = ContextCompat.getColor(requireContext(), R.color.mument_card_shadow_color)
+        binding.clCard.clMument.outlineSpotShadowColor = ContextCompat.getColor(requireContext(), R.color.mument_card_shadow_color)
+        */binding.tvSearch.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickSearch)
         }
         binding.ivNotify.setOnClickListener {

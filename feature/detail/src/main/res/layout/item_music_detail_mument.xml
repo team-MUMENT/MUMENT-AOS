@@ -13,12 +13,12 @@
     </data>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.mument_android.core_dependent.ui.ShadowConstraintLayout
         android:id="@+id/cl_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_border_default_redius_11dp"
-        android:elevation="3dp"
+        android:elevation="8dp"
         android:paddingHorizontal="13dp"
         android:paddingTop="11dp"
         android:paddingBottom="16dp">
@@ -116,5 +116,5 @@
             app:layout_constraintTop_toBottomOf="@id/tv_content"
             tools:text="1 Sep, 2020" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.mument_android.core_dependent.ui.ShadowConstraintLayout>
 </layout>

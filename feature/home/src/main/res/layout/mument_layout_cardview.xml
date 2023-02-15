@@ -13,13 +13,13 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.mument_android.core_dependent.ui.ShadowConstraintLayout
         android:id="@+id/cl_mument"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
+        android:elevation="8dp"
         android:background="@drawable/shape_border_default_redius_11dp"
-        android:elevation="3dp"
         android:paddingHorizontal="13dp"
         android:paddingTop="11dp"
         android:paddingBottom="16dp">
@@ -149,6 +149,6 @@
             android:textColor="@color/mument_color_gray2"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="1 Sep, 2020" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.mument_android.core_dependent.ui.ShadowConstraintLayout>
 
 </layout>
