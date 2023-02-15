@@ -16,7 +16,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/rectangle_fill_white_11dp">
 
-
         <ImageView
             android:id="@+id/iv_profile_image"
             android:layout_width="25dp"

@@ -31,7 +31,7 @@
             android:id="@+id/tv_notice_detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="36dp"
             android:text="@string/my_page_notice"
             android:textAppearance="@style/TextView.Mument_H2_B18.TextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,14 +89,18 @@
 
                 <TextView
                     android:id="@+id/tv_notice_detail_content"
-                    android:layout_width="wrap_content"
+                    style="@style/TextView.Mument_B4_M14.Style"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:autoLink="web"
+                    android:gravity="left"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="20dp"
+                    android:textColor="@color/mument_color_black2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view_notice_line" />
+                    app:layout_constraintTop_toBottomOf="@id/view_notice_line"
+                    tools:text="게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다.게시판 내용입니다." />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

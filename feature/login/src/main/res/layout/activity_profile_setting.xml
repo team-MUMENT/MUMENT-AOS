@@ -13,204 +13,216 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
+        android:id="@+id/sv_profile_scroll"
+        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-        <ImageView
-            android:id="@+id/iv_profile_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="52dp"
-            android:src="@drawable/mument_icon_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_profile_finish"
-            style="@style/TextView.Mument_H2_B18.Style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:text="@string/login_profile_finish"
-            android:textColor="@color/selector_color_gray2_to_purple1_selected"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_profile_back"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_profile_back" />
-
-        <TextView
-            android:id="@+id/tv_profile_setting"
-            style="@style/TextView.Mument_H2_B18.Style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_profile_setting"
-            android:textColor="@color/mument_color_black1"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_profile_back"
-            app:layout_constraintEnd_toStartOf="@+id/tv_profile_finish"
-            app:layout_constraintStart_toEndOf="@+id/iv_profile_back"
-            app:layout_constraintTop_toTopOf="@+id/iv_profile_back" />
-
-        <ImageView
-            android:id="@+id/iv_profile"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_marginTop="92dp"
-            android:src="@drawable/mument_profile_camera"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_profile_setting" />
-
-        <ImageView
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_marginTop="92dp"
-            android:src="@drawable/circle_fill_black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_profile_setting" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:src="@drawable/ic_camera"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
-            app:layout_constraintEnd_toEndOf="@+id/iv_profile"
-            app:layout_constraintStart_toStartOf="@+id/iv_profile"
-            app:layout_constraintTop_toTopOf="@+id/iv_profile" />
-
-        <EditText
-            android:id="@+id/et_nickname"
-            style="@style/TextView.Mument_H4_M16.Style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="65dp"
-            android:background="@drawable/rectangle_fill_gray4_11dp"
-            android:hint="@string/login_profile_nickname"
-            android:imeOptions="actionDone"
-            android:maxLength="15"
-            android:singleLine="true"
-            android:maxLines="1"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="17dp"
-            android:text="@={viewModel.mumentNickName}"
-            android:textColor="@color/mument_color_black2"
-            android:textColorHint="@color/mument_color_gray1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/mument_delete_2"
-            android:visibility="@{viewModel.mumentNickName.length() > 0 ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/et_nickname"
-            app:layout_constraintEnd_toEndOf="@+id/et_nickname"
-            app:layout_constraintTop_toTopOf="@+id/et_nickname" />
-
-        <TextView
-            android:id="@+id/tv_pattern"
-            style="@style/TextView.Mument_B8_M12.Style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="14dp"
-            android:text="@string/login_profile_regular_expression"
-            android:textColor="@color/selector_color_gray2_to_red_selected"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_nickname" />
-
-        <TextView
-            android:id="@+id/tv_max_length"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:fontFamily="@font/notosans_medium"
-            android:text="/15"
-            android:textColor="@color/mument_color_gray1"
-            android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_pattern"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_pattern" />
-
-        <TextView
-            android:id="@+id/tv_recent_length"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/notosans_medium"
-            android:text="@{Integer.toString(viewModel.mumentNickName.length())}"
-            android:textColor="@color/mument_color_purple1"
-            android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_max_length"
-            app:layout_constraintEnd_toStartOf="@+id/tv_max_length" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_select_img"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/dialog_background"
-            android:visibility="gone">
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/iv_profile_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="52dp"
+                android:src="@drawable/mument_icon_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_profile_cancel"
+                android:id="@+id/tv_profile_finish"
+                style="@style/TextView.Mument_H2_B18.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:text="@string/login_profile_finish"
+                android:textColor="@color/selector_color_gray2_to_purple1_selected"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_profile_back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_profile_back" />
+
+            <TextView
+                android:id="@+id/tv_profile_setting"
+                style="@style/TextView.Mument_H2_B18.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_profile_setting"
+                android:textColor="@color/mument_color_black1"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_profile_back"
+                app:layout_constraintEnd_toStartOf="@+id/tv_profile_finish"
+                app:layout_constraintStart_toEndOf="@+id/iv_profile_back"
+                app:layout_constraintTop_toTopOf="@+id/iv_profile_back" />
+
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginTop="92dp"
+                android:background="@drawable/mument_profile_camera"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_profile_setting" />
+
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginTop="92dp"
+                android:background="@drawable/circle_black_layer_70"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_profile_setting" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:background="@drawable/ic_camera"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
+                app:layout_constraintEnd_toEndOf="@+id/iv_profile"
+                app:layout_constraintStart_toStartOf="@+id/iv_profile"
+                app:layout_constraintTop_toTopOf="@+id/iv_profile" />
+
+            <EditText
+                android:id="@+id/et_nickname"
                 style="@style/TextView.Mument_H4_M16.Style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="40dp"
-                android:background="@drawable/rectangle_fill_white_11dp"
-                android:gravity="center"
-                android:paddingVertical="16dp"
-                android:text="@string/profile_cancel"
+                android:layout_marginTop="65dp"
+                android:background="@drawable/rectangle_fill_gray4_11dp"
+                android:hint="@string/login_profile_nickname"
+                android:imeOptions="actionDone"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingHorizontal="17dp"
+                android:paddingVertical="17dp"
+                android:singleLine="true"
+                android:focusableInTouchMode="true"
+                android:text="@={viewModel.mumentNickName}"
                 android:textColor="@color/mument_color_black2"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColorHint="@color/mument_color_gray1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/mument_delete_2"
+                android:visibility="@{viewModel.mumentNickName.length() > 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/et_nickname"
+                app:layout_constraintEnd_toEndOf="@+id/et_nickname"
+                app:layout_constraintTop_toTopOf="@+id/et_nickname" />
+
+            <TextView
+                android:id="@+id/tv_pattern"
+                style="@style/TextView.Mument_B8_M12.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/login_profile_regular_expression"
+                android:textColor="@color/selector_color_gray2_to_red_selected"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_nickname" />
+
+            <TextView
+                android:id="@+id/tv_max_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/notosans_medium"
+                android:text="/15"
+                android:textColor="@color/mument_color_gray1"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_pattern"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_pattern" />
+
+            <TextView
+                android:id="@+id/tv_recent_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosans_medium"
+                android:text="@{Integer.toString(viewModel.mumentNickName.length())}"
+                android:textColor="@color/mument_color_purple1"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_max_length"
+                app:layout_constraintEnd_toStartOf="@+id/tv_max_length" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/rectangle_fill_white_11dp"
-                android:paddingVertical="12dp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_profile_cancel"
-                app:layout_constraintEnd_toEndOf="@+id/tv_profile_cancel"
-                app:layout_constraintStart_toStartOf="@+id/tv_profile_cancel">
+                android:id="@+id/cl_select_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:background="@color/dialog_background"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <TextView
-                    android:id="@+id/tv_delete_profile"
+                    android:id="@+id/tv_profile_cancel"
                     style="@style/TextView.Mument_H4_M16.Style"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="40dp"
+                    android:background="@drawable/rectangle_fill_white_11dp"
                     android:gravity="center"
-                    android:paddingVertical="12dp"
-                    android:text="@string/profile_delete_img"
+                    android:paddingVertical="16dp"
+                    android:text="@string/profile_cancel"
                     android:textColor="@color/mument_color_black2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_select_library"
-                    style="@style/TextView.Mument_H4_M16.Style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingVertical="12dp"
-                    android:text="@string/profile_select_library"
-                    android:textColor="@color/mument_color_black2"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_delete_profile"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/rectangle_fill_white_11dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_profile_cancel"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_profile_cancel"
+                    app:layout_constraintStart_toStartOf="@+id/tv_profile_cancel">
+
+                    <TextView
+                        android:id="@+id/tv_delete_profile"
+                        style="@style/TextView.Mument_H4_M16.Style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingVertical="12dp"
+                        android:text="@string/profile_delete_img"
+                        android:textColor="@color/mument_color_black2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_select_library"
+                        style="@style/TextView.Mument_H4_M16.Style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingVertical="12dp"
+                        android:text="@string/profile_select_library"
+                        android:textColor="@color/mument_color_black2"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_delete_profile"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
 </layout>

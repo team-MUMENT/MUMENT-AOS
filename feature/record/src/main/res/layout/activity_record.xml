@@ -82,6 +82,7 @@
                         android:layout_marginStart="10dp"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:layout_marginTop="8dp"
                         android:text="@{recordViewModel.selectedMusic.name}"
                         android:textColor="@color/mument_color_black1"
                         app:layout_constraintEnd_toStartOf="@+id/iv_delete"
@@ -93,7 +94,7 @@
                         style="@style/TextView.Mument_B7_M12.Style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="8dp"
                         android:text="@{recordViewModel.selectedMusic.artist}"
                         app:layout_constraintBottom_toBottomOf="@+id/iv_album"
                         app:layout_constraintStart_toStartOf="@id/tv_title"
@@ -163,13 +164,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/selector_retangle_gray5_to_purple2"
+                    android:enabled="@{recordViewModel.isSelectedMusic() ? true : false}"
                     android:paddingHorizontal="40dp"
                     android:paddingVertical="10dp"
                     android:stateListAnimator="@null"
                     android:text="@string/record_first_listen"
                     android:textColor="@color/selector_color_gray1_to_purple1_selected"
                     app:layout_constraintEnd_toStartOf="@+id/btn_record_second"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="@id/gl_left"
                     app:layout_constraintTop_toBottomOf="@+id/tv_record_first_title" />
@@ -182,13 +183,14 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/selector_retangle_gray5_to_purple2"
+                    android:enabled="@{recordViewModel.isSelectedMusic() ? true : false}"
                     android:paddingHorizontal="39dp"
                     android:paddingVertical="10dp"
                     android:stateListAnimator="@null"
                     android:text="@string/record_second_listen"
                     android:textColor="@color/selector_color_gray1_to_purple1_selected"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_record_first"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/btn_record_first"
                     app:layout_constraintTop_toTopOf="@id/btn_record_first" />
 
@@ -296,8 +298,21 @@
                             android:text="@={recordViewModel.mumentContent}"
                             android:textColor="@color/mument_color_black2"
                             android:textColorHint="@color/mument_color_gray1"
-                            android:textSize="13sp" />
+                            android:textSize="13dp" />
                     </androidx.core.widget.NestedScrollView>
+
+                    <TextView
+                        android:id="@+id/tv_record_text_num_length"
+                        style="@style/TextView.Mument_B5_M13.Style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="@{Integer.toString(recordViewModel.mumentContent.length())}"
+                        android:textColor="@color/mument_color_gray2"
+                        app:layout_constraintBottom_toBottomOf="@+id/cl_record_write"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_record_text_num"
+                        tools:text="100" />
 
                     <TextView
                         android:id="@+id/tv_record_text_num"
@@ -306,11 +321,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="13dp"
                         android:layout_marginBottom="15dp"
-                        android:text="@{@string/record_text_num(recordViewModel.mumentContent.length())}"
+                        android:text="/1000"
                         android:textColor="@color/mument_color_gray2"
                         app:layout_constraintBottom_toBottomOf="@+id/cl_record_write"
                         app:layout_constraintEnd_toEndOf="@+id/ns_record_write"
-                        tools:text="100/1000" />
+                        tools:text="/1000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

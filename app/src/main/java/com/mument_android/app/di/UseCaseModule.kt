@@ -226,4 +226,9 @@ object UseCaseModule {
     fun provideReportMumentUseCase(mumentDetailRepository: MumentDetailRepository): ReportMumentUseCase =
         ReportMumentUseCaseImpl(mumentDetailRepository)
 
+    @Provides
+    @Singleton
+    fun provideLogOutUseCase(logOutRepository: LogOutRepository) : LogOutUseCase =
+        LogOutUseCaseImpl(logOutRepository)
+
 }

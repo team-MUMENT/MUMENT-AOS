@@ -5,7 +5,7 @@
     android:id="@+id/gallery_tool_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="50dp"
+    android:paddingTop="36dp"
     app:contentInsetStart="0dp">
 
     <ImageView

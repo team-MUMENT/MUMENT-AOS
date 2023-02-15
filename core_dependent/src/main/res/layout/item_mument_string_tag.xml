@@ -20,7 +20,7 @@
             android:layout_marginEnd="8dp"
             android:includeFontPadding="false"
             android:paddingStart="8dp"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:fontFamily="@font/notosans_medium"
             android:textColor="@color/mument_color_gray1"
             android:paddingTop="5dp"

@@ -12,7 +12,6 @@
             type="com.mument_android.mypage.MyPageViewModel" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,299 +34,308 @@
             style="@style/TextView.Mument_H2_B18.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="36dp"
             android:text="@string/unregister_title"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_unregister"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_unregister_title">
 
-            <ImageView
-                android:id="@+id/iv_unregister_image"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="22dp"
-                android:background="@drawable/mument_profile_sad_60_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_unregister_really_gone"
-                style="@style/TextView.Mument_H2_B18.Style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="@string/unregister_really_gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_unregister_image" />
-
-            <TextView
-                android:id="@+id/tv_unregister_content"
-                style="@style/TextView.Mument_B3_M14.TextAppearance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingHorizontal="16dp"
-                android:text="@{myPageViewModel.userId != null  ? @string/unregister_content(myPageViewModel.userId) :@string/unregister_content(@string/unregister_loading_id)}"
-                android:textColor="@color/mument_color_black2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_unregister_really_gone" />
-
-            <TextView
-                android:id="@+id/tv_unregister_what_reason"
-                style="@style/TextView.Mument_B4_M14.Style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="25dp"
-                android:text="@string/unregister_what_reason"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_unregister_content" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_reason_content"
+                android:id="@+id/cl_unregister"
                 android:layout_width="match_parent"
-                android:layout_height="134dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/rectangle_fill_gray5_7dp"
-                android:visibility="@{myPageViewModel.isSelectSixthReason() ? View.VISIBLE : View.GONE}"
-                app:layout_constraintTop_toBottomOf="@id/cl_reason">
-
-                <EditText
-                    android:id="@+id/et_unregister_reason_content"
-                    style="@style/TextView.Mument_B3_M14.Style"
-                    android:layout_width="match_parent"
-                    android:layout_height="110dp"
-                    android:background="@drawable/rectangle_fill_gray5_7dp"
-                    android:gravity="top"
-                    android:hint="@string/unregister_hint"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:maxLength="100"
-                    android:padding="12dp"
-                    android:text="@={myPageViewModel.unregisterReasonContent}"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <TextView
-                    android:id="@+id/tv_unregister_reason_num_color"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="@{Integer.toString(myPageViewModel.unregisterReasonContent.length())}"
-                    android:textColor="@color/mument_color_purple1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tv_unregister_reason_num"
-                    tools:text="0" />
-
-                <TextView
-                    android:id="@+id/tv_unregister_reason_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="11dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/unregister_reason_num"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <ImageButton
-                android:id="@+id/btn_unregister_agree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="17dp"
-                android:background="@drawable/selector_unregister_checkbox"
-                app:layout_constraintBottom_toTopOf="@id/btn_unregister_finish"
-                app:layout_constraintEnd_toStartOf="@+id/tv_unregister_agree"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_unregister_agree"
-                style="@style/TextView.Mument_B8_M12.Style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/unregister_agree"
-                android:textColor="@color/mument_color_black1"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_unregister_agree"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_unregister_agree"
-                app:layout_constraintTop_toTopOf="@id/btn_unregister_agree" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_unregister_finish"
-                style="@style/TextView.Mument_H2_B18.Style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/selector_unregister_finish_btn"
-                android:enabled="@{myPageViewModel.isClickReasonChoose == true &amp;&amp; myPageViewModel.isUnregisterAgree() == true ? true : false}"
-                android:paddingVertical="12dp"
-                android:text="@string/unregister_finish"
-                android:textColor="@color/mument_color_white"
-                app:layout_constraintBottom_toBottomOf="@id/cl_unregister"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_reason_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="46dp"
-                android:background="@drawable/rectangle_fill_gray5_11dp"
-                android:visibility="@{myPageViewModel.isClickReasonChooseBox() ? View.VISIBLE : View.GONE}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cl_reason">
-
-                <RadioGroup
-                    android:id="@+id/rg_choose_reason"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="13dp"
-                    android:layout_marginVertical="15dp"
-                    android:checkedButton="@null"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <RadioButton
-                        android:id="@+id/unregister_reason_first"
-                        style="@style/TextView.Mument_B3_M14.Style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@null"
-                        android:button="@null"
-                        android:drawableEnd="@drawable/selector_unregister_radio_btn"
-                        android:paddingVertical="12dp"
-                        android:text="@string/unregister_reason_first"
-                        android:textColor="@color/mument_color_black1" />
-
-                    <RadioButton
-                        android:id="@+id/unregister_reason_second"
-                        style="@style/TextView.Mument_B3_M14.Style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:button="@null"
-                        android:drawableEnd="@drawable/selector_unregister_radio_btn"
-                        android:paddingVertical="12dp"
-                        android:text="@string/unregister_reason_second"
-                        android:textColor="@color/mument_color_black1" />
-
-                    <RadioButton
-                        android:id="@+id/unregister_reason_third"
-                        style="@style/TextView.Mument_B3_M14.Style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:button="@null"
-                        android:drawableEnd="@drawable/selector_unregister_radio_btn"
-                        android:paddingVertical="12dp"
-                        android:text="@string/unregister_reason_third"
-                        android:textColor="@color/mument_color_black1" />
-
-                    <RadioButton
-                        android:id="@+id/unregister_reason_fourth"
-                        style="@style/TextView.Mument_B3_M14.Style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:button="@null"
-                        android:drawableEnd="@drawable/selector_unregister_radio_btn"
-                        android:paddingVertical="12dp"
-                        android:text="@string/unregister_reason_fourth"
-                        android:textColor="@color/mument_color_black1" />
-
-                    <RadioButton
-                        android:id="@+id/unregister_reason_fifth"
-                        style="@style/TextView.Mument_B3_M14.Style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:button="@null"
-                        android:drawableEnd="@drawable/selector_unregister_radio_btn"
-                        android:paddingVertical="12dp"
-                        android:text="@string/unregister_reason_fifth"
-                        android:textColor="@color/mument_color_black1" />
-
-                    <RadioButton
-                        android:id="@+id/unregister_reason_sixth"
-                        style="@style/TextView.Mument_B3_M14.Style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
-                        android:background="@null"
-                        android:button="@null"
-                        android:drawableEnd="@drawable/selector_unregister_radio_btn"
-                        android:paddingVertical="12dp"
-                        android:text="@string/unregister_reason_sixth"
-                        android:textColor="@color/mument_color_black1" />
-                </RadioGroup>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_reason"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_unregister_what_reason">
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_unregister_title">
 
                 <ImageView
-                    android:id="@+id/iv_choose_reason"
+                    android:id="@+id/iv_unregister_image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="22dp"
+                    android:src="@drawable/mument_profile_sad_45"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_unregister_really_gone"
+                    style="@style/TextView.Mument_H2_B18.Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:text="@string/unregister_really_gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_unregister_image" />
+
+                <TextView
+                    android:id="@+id/tv_unregister_content"
+                    style="@style/TextView.Mument_B3_M14.TextAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="16dp"
+                    android:text="@{myPageViewModel.userId != null  ? @string/unregister_content(myPageViewModel.userId) :@string/unregister_content(@string/unregister_loading_id)}"
+                    android:textColor="@color/mument_color_black2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_unregister_really_gone" />
+
+                <TextView
+                    android:id="@+id/tv_unregister_what_reason"
+                    style="@style/TextView.Mument_B4_M14.Style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="25dp"
+                    android:text="@string/unregister_what_reason"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_unregister_content" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_reason_content"
                     android:layout_width="match_parent"
-                    android:layout_height="46dp"
+                    android:layout_height="134dp"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="13dp"
-                    android:background="@drawable/selector_unregister_reason"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rectangle_fill_gray5_7dp"
+                    android:visibility="@{myPageViewModel.isSelectSixthReason() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toBottomOf="@id/cl_reason">
+
+                    <EditText
+                        android:id="@+id/et_unregister_reason_content"
+                        style="@style/TextView.Mument_B3_M14.Style"
+                        android:layout_width="match_parent"
+                        android:layout_height="110dp"
+                        android:background="@drawable/rectangle_fill_gray5_7dp"
+                        android:gravity="top"
+                        android:hint="@string/unregister_hint"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLength="100"
+                        android:padding="12dp"
+                        android:text="@={myPageViewModel.unregisterReasonContent}"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/tv_unregister_reason_num_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="@{Integer.toString(myPageViewModel.unregisterReasonContent.length())}"
+                        android:textColor="@{myPageViewModel.unregisterReasonContent.length() == 0 ? @color/mument_color_gray2 : @color/mument_color_purple1}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tv_unregister_reason_num"
+                        tools:text="0" />
+
+                    <TextView
+                        android:id="@+id/tv_unregister_reason_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="@string/unregister_reason_num"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <ImageButton
+                    android:id="@+id/btn_unregister_agree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="17dp"
+                    android:background="@drawable/selector_unregister_checkbox"
+                    app:layout_constraintBottom_toTopOf="@id/btn_unregister_finish"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_unregister_agree"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_choose_reason"
-                    style="@style/TextView.Mument_B3_M14.Style"
+                    android:id="@+id/tv_unregister_agree"
+                    style="@style/TextView.Mument_B8_M12.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:paddingVertical="13dp"
-                    android:text="@string/unregister_choose_reason"
-                    android:textColor="@{myPageViewModel.isClickReasonChoose() ? @color/mument_color_black1 : @color/mument_color_gray2 }"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_choose_reason"
-                    app:layout_constraintStart_toStartOf="@+id/iv_choose_reason"
-                    app:layout_constraintTop_toTopOf="@+id/iv_choose_reason" />
+                    android:layout_marginStart="5dp"
+                    android:text="@string/unregister_agree"
+                    android:textColor="@color/mument_color_black1"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_unregister_agree"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btn_unregister_agree"
+                    app:layout_constraintTop_toTopOf="@id/btn_unregister_agree" />
 
-                <ImageView
-                    android:id="@+id/iv_choose_reason_arrow"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_unregister_finish"
+                    style="@style/TextView.Mument_H2_B18.Style"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/mument_down"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/iv_choose_reason"
-                    app:layout_constraintTop_toTopOf="@+id/iv_choose_reason" />
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="50dp"
+                    android:background="@drawable/selector_unregister_finish_btn"
+                    android:enabled="@{myPageViewModel.isClickReasonChoose == true &amp;&amp; myPageViewModel.isUnregisterAgree() == true ? true : false}"
+                    android:paddingVertical="12dp"
+                    android:text="@string/unregister_finish"
+                    android:layout_marginTop="300dp"
+                    android:textColor="@color/mument_color_white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/cl_reason_detail" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_reason_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="46dp"
+                    android:background="@drawable/rectangle_fill_gray5_11dp"
+                    android:visibility="@{myPageViewModel.isClickReasonChooseBox() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cl_reason">
+
+                    <RadioGroup
+                        android:id="@+id/rg_choose_reason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="13dp"
+                        android:layout_marginVertical="15dp"
+                        android:checkedButton="@null"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <RadioButton
+                            android:id="@+id/unregister_reason_first"
+                            style="@style/TextView.Mument_B3_M14.Style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@null"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/selector_unregister_radio_btn"
+                            android:paddingVertical="12dp"
+                            android:text="@string/unregister_reason_first"
+                            android:textColor="@color/mument_color_black1" />
+
+                        <RadioButton
+                            android:id="@+id/unregister_reason_second"
+                            style="@style/TextView.Mument_B3_M14.Style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/selector_unregister_radio_btn"
+                            android:paddingVertical="12dp"
+                            android:text="@string/unregister_reason_second"
+                            android:textColor="@color/mument_color_black1" />
+
+                        <RadioButton
+                            android:id="@+id/unregister_reason_third"
+                            style="@style/TextView.Mument_B3_M14.Style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/selector_unregister_radio_btn"
+                            android:paddingVertical="12dp"
+                            android:text="@string/unregister_reason_third"
+                            android:textColor="@color/mument_color_black1" />
+
+                        <RadioButton
+                            android:id="@+id/unregister_reason_fourth"
+                            style="@style/TextView.Mument_B3_M14.Style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/selector_unregister_radio_btn"
+                            android:paddingVertical="12dp"
+                            android:text="@string/unregister_reason_fourth"
+                            android:textColor="@color/mument_color_black1" />
+
+                        <RadioButton
+                            android:id="@+id/unregister_reason_fifth"
+                            style="@style/TextView.Mument_B3_M14.Style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/selector_unregister_radio_btn"
+                            android:paddingVertical="12dp"
+                            android:text="@string/unregister_reason_fifth"
+                            android:textColor="@color/mument_color_black1" />
+
+                        <RadioButton
+                            android:id="@+id/unregister_reason_sixth"
+                            style="@style/TextView.Mument_B3_M14.Style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="15dp"
+                            android:background="@null"
+                            android:button="@null"
+                            android:drawableEnd="@drawable/selector_unregister_radio_btn"
+                            android:paddingVertical="12dp"
+                            android:text="@string/unregister_reason_sixth"
+                            android:textColor="@color/mument_color_black1" />
+                    </RadioGroup>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_unregister_what_reason">
+
+                    <ImageView
+                        android:id="@+id/iv_choose_reason"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="13dp"
+                        android:background="@drawable/selector_unregister_reason"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_choose_reason"
+                        style="@style/TextView.Mument_B3_M14.Style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:paddingVertical="13dp"
+                        android:text="@string/unregister_choose_reason"
+                        android:textColor="@{myPageViewModel.isClickReasonChoose() ? @color/mument_color_black1 : @color/mument_color_gray2 }"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_choose_reason"
+                        app:layout_constraintStart_toStartOf="@+id/iv_choose_reason"
+                        app:layout_constraintTop_toTopOf="@+id/iv_choose_reason" />
+
+                    <ImageView
+                        android:id="@+id/iv_choose_reason_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/mument_down"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/iv_choose_reason"
+                        app:layout_constraintTop_toTopOf="@+id/iv_choose_reason" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

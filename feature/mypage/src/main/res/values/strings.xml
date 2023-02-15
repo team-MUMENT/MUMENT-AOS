@@ -38,7 +38,7 @@
     <string name="unblock_empty">차단한 유저가 없어요.</string>
 
     <!-- unregister view-->
-    <string name="unregister_title">회원탈퇴</string>
+    <string name="unregister_title">회원 탈퇴</string>
     <string name="unregister_really_gone">정말 떠나시는 건가요?</string>
     <string name="unregister_content">지금 당장 뮤멘트를 떠나시면 곡에 담긴 추억이 모두 사라지게 돼요. %s님이 좋아하신 뮤멘트들도 더이상 모아볼 수 없게됩니다.</string>
     <string name="unregister_what_reason">탈퇴하시려는 이유가 궁금해요.</string>
