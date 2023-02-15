@@ -3,6 +3,7 @@
     <!--mument color-->
     <color name="mument_color_purple1">#872CFE</color>
     <color name="mument_color_gray1">#838383</color>
+    <color name="mument_bottom_navi_shadow_color">#0F414141</color>
 
 
 </resources>

@@ -12,7 +12,5 @@ interface HistoryService {
         @Path("userId") userId: String,
         @Path("musicId") musicId: String,
         @Query("default") default: String,
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int
     ): Response<MumentHistoryDto>
 }

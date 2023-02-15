@@ -26,21 +26,28 @@ class MumentDetailViewModel @Inject constructor(
     private val fetchMumentListUseCase: FetchMumentListUseCase,
     private val likeMumentUseCase: LikeMumentUseCase,
     private val cancelLikeMumentUseCase: CancelLikeMumentUseCase,
-    private val fetchUsersLikeMumentUseCase: FetchUsersLikeMumentUseCase,
     private val deleteMumentUseCase: DeleteMumentUseCase,
     private val blockUserUseCase: BlockUserUseCase,
     private val dataStoreManager: DataStoreManager
 ) : MviViewModel<MumentDetailEvent, MumentDetailViewState, MumentDetailSideEffect>() {
+    private var mumentId: String? = null
     override fun setInitialState(): MumentDetailViewState = MumentDetailViewState()
 
     override fun handleEvents(event: MumentDetailEvent) {
         when (event) {
+            MumentDetailEvent.OnClickLikeCount -> {
+                if (mumentId != null) {
+                    setEffect {
+                        MumentDetailSideEffect.NavToLikeUserListView(mumentId!!)
+                    }
+                }
+            }
             MumentDetailEvent.OnClickBackButton -> setEffect { MumentDetailSideEffect.PopBackStack }
 
             is MumentDetailEvent.ReceiveMumentId -> {
                 setState { copy(requestMumentId = event.mumentId) }
                 fetchMumentDetailContent(event.mumentId)
-                fetchLikeUserList(event.mumentId)
+                mumentId = event.mumentId
             }
             is MumentDetailEvent.ReceiveMusicInfo -> {
                 setState { copy(musicInfo = event.musicInfoEntity) }
@@ -239,15 +246,6 @@ class MumentDetailViewModel @Inject constructor(
         file?.delete()
     }
 
-    private fun fetchLikeUserList(mumentId: String) {
-        viewModelScope.launch {
-            fetchUsersLikeMumentUseCase(mumentId, 30, 0).collect { status ->
-                if (status is ApiStatus.Success) {
-                    setState { copy(likeUsers = status.data) }
-                }
-            }
-        }
-    }
 
     companion object {
         private const val FILE_NAME_TO_SHARE = "MumentShareImage"

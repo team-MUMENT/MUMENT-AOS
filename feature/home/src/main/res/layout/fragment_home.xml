@@ -15,6 +15,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/mument_color_bgwhite"
         tools:context=".app.presentation.ui.home.HomeFragment">
 
 
@@ -100,6 +101,7 @@
             android:id="@+id/nc_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/mument_color_bgwhite"
             android:fillViewport="true"
             android:overScrollMode="never"
             android:visibility="@{homeViewModel.homeViewStateEnabled?View.VISIBLE:View.GONE}"
@@ -108,6 +110,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/mument_color_bgwhite"
                 android:paddingTop="5dp"
                 android:paddingBottom="33dp">
 

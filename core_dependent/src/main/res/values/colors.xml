@@ -12,4 +12,5 @@
     <color name="mument_color_black2">#4B4B4B</color>
     <color name="insta_background">#989898</color>
     <color name="bottomsheet_background">#73000000</color>
+    <color name="mument_card_shadow_color">#12414141</color>
 </resources>

@@ -43,13 +43,13 @@ class MultipartResolver(private val context: Context) {
 
         if (uri != null) {
             Bitmap.createBitmap(uri)
-                .compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+                .compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         }
         //uri -> image -> file(uri.toString).name(자원 위치) -> byteArray() -> MultiPart
         //}
         val file = File(replaceFileName(UUID.randomUUID().toString()))
         val surveyBody =
-            byteArrayOutputStream.toByteArray().toRequestBody("image/jpeg".toMediaTypeOrNull())
+            byteArrayOutputStream.toByteArray().toRequestBody("image/png".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("image", file.name, surveyBody)
     }
 
@@ -86,7 +86,7 @@ class MultipartResolver(private val context: Context) {
         return 0
     }
 
-    private fun replaceFileName(fileName: String): String = "${fileName.replace(".", "_")}.jpeg"
+    private fun replaceFileName(fileName: String): String = "${fileName.replace(".", "_")}.png"
 
     companion object {
         private const val RESIZED_SIZE = 720f

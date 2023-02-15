@@ -1,10 +1,15 @@
 package com.mument_android.record.util
 
+import android.app.Activity
+import android.content.Context
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.mument_android.core_dependent.util.createSpannableString
 import com.mument_android.record.R
+import com.mument_android.record.RecordActivity
 
 object GlobalBindingAdapter {
     const val EMPTY_PROFILE = "https://mument.s3.ap-northeast-2.amazonaws.com/user/emptyImage.jpg"
@@ -46,5 +51,14 @@ object GlobalBindingAdapter {
                 view.setImageResource(R.drawable.ic_alert)
             }
         }
+    }
+}
+
+@BindingAdapter("app:coloredText")
+fun TextView.setColoredText(coloredText: String) {
+    if (coloredText.isNotBlank()) {
+        val originalText = text.toString()
+        val spannableString = (context as Context).createSpannableString(originalText, coloredText)
+        text = spannableString
     }
 }

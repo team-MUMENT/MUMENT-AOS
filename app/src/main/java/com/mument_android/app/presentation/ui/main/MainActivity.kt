@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
@@ -49,15 +50,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNavigation()
-        /*intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
-            intent.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
-                val bundle = Bundle().also {
-                    it.putString(MUMENT_ID, mumentId)
-                    it.putString(MUSIC_INFO_ENTITY, music)
-                }
-                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
-            }
-        }*/
+        binding.appBar.outlineAmbientShadowColor =
+            ContextCompat.getColor(this, R.color.mument_bottom_navi_shadow_color)
+        binding.appBar.outlineSpotShadowColor =
+            ContextCompat.getColor(this, R.color.mument_bottom_navi_shadow_color)
         floatingBtnListener()
         customAppBar()
         isLimitUserNetwork()
