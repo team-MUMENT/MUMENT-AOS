@@ -40,5 +40,8 @@ interface MyPageApiService {
         @Body requestUnregisterReasonDto: RequestUnregisterReasonDto
     ): BaseResponse<UnregisterReasonDto>
 
+    @POST("/auth/logout")
+    suspend fun postLogOut() : Response<Any?>
+
 
 }

@@ -31,15 +31,11 @@ import com.mument_android.domain.repository.detail.*
 import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.LikeMumentRepository
-import com.mument_android.domain.repository.mypage.BlockUserListRepository
 import com.mument_android.data.mapper.mypage.UnregisterMapper
-import com.mument_android.data.repository.mypage.UnregisterRepositoryImpl
 import com.mument_android.domain.repository.detail.BlockUserRepository
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import com.mument_android.domain.repository.detail.MumentListRepository
 import com.mument_android.domain.repository.detail.MusicDetailRepository
-import com.mument_android.domain.repository.mypage.NoticeListRepository
-import com.mument_android.domain.repository.mypage.UserInfoRepository
 import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
@@ -54,12 +50,8 @@ import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.UnregisterReasonMapper
 import com.mument_android.data.mapper.record.MumentModifyMapper
-import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
-import com.mument_android.data.repository.mypage.NoticeListRepositoryImpl
-import com.mument_android.data.repository.mypage.UserInfoRepositoryImpl
-import com.mument_android.data.repository.mypage.UnregisterReasonRepositoryImpl
-import com.mument_android.domain.repository.mypage.UnregisterReasonRepository
-import com.mument_android.domain.repository.mypage.UnregisterRepository
+import com.mument_android.data.repository.mypage.*
+import com.mument_android.domain.repository.mypage.*
 
 
 @Module
@@ -256,5 +248,13 @@ object RepositoryModule {
         requestUnregisterReasonMapper: RequestUnregisterReasonMapper
     ): UnregisterReasonRepository = UnregisterReasonRepositoryImpl(
         unregisterReasonDataSource, unregisterReasonMapper, requestUnregisterReasonMapper
+    )
+
+    @Provides
+    @Singleton
+    fun provideLogOutRepository(
+        logOutDataSource: LogOutDataSource
+    ) : LogOutRepository = LogOutRepositoryImpl(
+        logOutDataSource
     )
 }

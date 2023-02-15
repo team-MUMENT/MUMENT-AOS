@@ -3,20 +3,23 @@ package com.mument_android.mypage
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.login.LogInActivity
 import com.mument_android.login.ProfileSettingActivity
+import com.mument_android.login.util.shortToast
 import com.mument_android.mypage.databinding.ActivityMyPageBinding
 import com.mument_android.mypage.fragment.*
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding::inflate) {
-
     private val myPageViewModel: MyPageViewModel by viewModels()
 
     override fun onStart() {
@@ -127,9 +130,13 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                 .setHeader(getString(R.string.logout_header))
                 .setBody("")
                 .setAllowListener("로그아웃") {
+                    myPageViewModel.logOut()
+
                     val intent = Intent(this, LogInActivity::class.java)
                     startActivity(intent)
                     finish()
+
+
                 }
                 .setCancelListener {}
                 .build()
