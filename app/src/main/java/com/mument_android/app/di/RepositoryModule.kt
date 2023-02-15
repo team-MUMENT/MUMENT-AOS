@@ -54,6 +54,7 @@ import com.mument_android.data.mapper.sign.RequestSetProfileMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
 import com.mument_android.data.mapper.mypage.UnregisterReasonMapper
 import com.mument_android.data.mapper.record.MumentModifyMapper
+import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.repository.mypage.BlockUserListRepositoryImpl
 import com.mument_android.data.repository.mypage.NoticeListRepositoryImpl
 import com.mument_android.data.repository.mypage.UserInfoRepositoryImpl
@@ -235,9 +236,8 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideUsersLikeMumentRepository(
-        usersWhoLikeMumentDataSource: UsersWhoLikeMumentDataSource,
-        errorHandler: ErrorHandler
-    ): UsersRepository = UsersRepositoryImpl(usersWhoLikeMumentDataSource, errorHandler)
+        detailApiService: DetailApiService
+    ): UsersRepository = UsersRepositoryImpl(detailApiService)
 
     @Provides
     @Singleton

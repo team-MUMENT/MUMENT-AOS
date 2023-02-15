@@ -163,11 +163,6 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideUsersLikeMumentDataSource(detailApiService: DetailApiService): UsersWhoLikeMumentDataSource =
-        UsersWhoLikeMumentDataSourceImpl(detailApiService)
-
-    @Provides
-    @Singleton
     fun provideTokenDataSource(refreshTokenApiService: RefreshTokenApiService): TokenDataSource =
         TokenDataSourceImpl(refreshTokenApiService)
 
