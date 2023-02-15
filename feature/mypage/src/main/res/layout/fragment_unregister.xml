@@ -61,7 +61,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginTop="22dp"
-                    android:src="@drawable/mument_profile_sad_60_1"
+                    android:src="@drawable/mument_profile_sad_45"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
