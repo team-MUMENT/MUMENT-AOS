@@ -112,7 +112,6 @@ class MumentDetailFragment : Fragment() {
         shareMumentOnInstagram()
         binding.tvLikeCount.setOnClickListener {
             viewModel.emitEvent(MumentDetailEvent.OnClickLikeCount)
-            /*likeUsersNavigatorProvider.toLikeUsers(viewModel.viewState.value.mument.)*/
         }
     }
 
