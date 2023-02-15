@@ -21,7 +21,9 @@ class HistoryPagingSourceFactory(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MumentHistory> {
         val key = params.key ?: HiSTORY_STARTING_PAGE_INDEX
-        val response = catchingApiCall {
+
+        return LoadResult.Error(IllegalArgumentException())
+        /*val response = catchingApiCall {
             historyService.getMumentHistory(
                 historyRequestParams.userId,
                 historyRequestParams.musicId,
@@ -38,8 +40,8 @@ class HistoryPagingSourceFactory(
                     listOf()
                 }
             }
-        }
-        return try {
+        }*/
+        /*return try {
             LoadResult.Page(
                 data = response,
                 nextKey = if (response.isEmpty()) null else key + (params.loadSize / 10),
@@ -47,7 +49,7 @@ class HistoryPagingSourceFactory(
             )
         } catch (e: IllegalArgumentException) {   //LoadResult.Page 객체 생성시에 require 부분에서 해당 exception throw 하기 때문에 처리
             LoadResult.Error(e)
-        }
+        }*/
     }
 
     companion object {

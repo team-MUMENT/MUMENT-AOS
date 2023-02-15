@@ -29,8 +29,6 @@ interface DetailApiService {
     suspend fun fetchMumentList(
         @Path("musicId") musicId: String,
         @Query("default") default: String,
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int
     ): BaseResponse<MumentListDto>
 
     @DELETE("/mument/{mumentId}")

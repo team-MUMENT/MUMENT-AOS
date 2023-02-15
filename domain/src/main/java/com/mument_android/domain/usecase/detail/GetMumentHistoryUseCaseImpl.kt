@@ -1,7 +1,5 @@
-package com.mument_android.domain.usecase.home
+package com.mument_android.domain.usecase.detail
 
-import androidx.paging.PagingData
-import com.mument_android.domain.entity.history.HistoryRequestParams
 import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.repository.detail.MumentDetailRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,6 +11,6 @@ class GetMumentHistoryUseCaseImpl @Inject constructor(val mumentDetailRepository
         userId: String,
         musicId: String,
         default: String,
-    ): Flow<PagingData<MumentHistory>> =
-        mumentDetailRepository.fetchMumentHistory(HistoryRequestParams(userId, musicId, default))
+    ): Flow<List<MumentHistory>?> =
+        mumentDetailRepository.fetchMumentHistory(userId, musicId, default)
 }

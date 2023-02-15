@@ -26,6 +26,7 @@ import com.mument_android.data.local.recentlist.RecentSearchDAO
 import com.mument_android.data.local.todaymument.TodayMumentDAO
 import com.mument_android.data.network.app.AppApiService
 import com.mument_android.data.network.detail.DetailApiService
+import com.mument_android.data.network.detail.HistoryService
 import com.mument_android.data.network.home.HomeService
 import com.mument_android.data.network.home.NotifyService
 import com.mument_android.data.network.locker.LockerApiService
@@ -65,6 +66,11 @@ object DataSourceModule {
     @Singleton
     fun provideSignDataSource(signApiService: SignApiService): SignDataSource =
         SignDataSourceImpl(signApiService)
+
+    @Provides
+    @Singleton
+    fun provideHistoryDataSource(historyService: HistoryService): HistoryDataSource =
+        HistoryDataSourceImpl(historyService)
 
     @Provides
     @Singleton
@@ -147,12 +153,12 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideUserInfoDataSource(myPageApiService: MyPageApiService) : UserInfoDataSource =
+    fun provideUserInfoDataSource(myPageApiService: MyPageApiService): UserInfoDataSource =
         UserInfoDataSourceImpl(myPageApiService)
 
     @Provides
     @Singleton
-    fun provideLimitUserDataSource(appApiService: AppApiService) : LimitUserDataSource =
+    fun provideLimitUserDataSource(appApiService: AppApiService): LimitUserDataSource =
         LimitUserDataSourceImpl(appApiService)
 
     @Provides
@@ -177,6 +183,6 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideReportMumentDataSource(detailApiService: DetailApiService) : ReportMumentDataSource =
+    fun provideReportMumentDataSource(detailApiService: DetailApiService): ReportMumentDataSource =
         ReportMumentDataSourceImpl(detailApiService)
 }

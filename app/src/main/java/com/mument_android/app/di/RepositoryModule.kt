@@ -81,7 +81,7 @@ object RepositoryModule {
         mumentDetailDataSource: MumentDetailDataSource,
         mumentDetailMapper: MumentDetailMapper,
         deleteMumentController: DeleteMumentController,
-        historyService: HistoryService,
+        historyDataSource: HistoryDataSource,
         errorHandler: ErrorHandler,
         reportMumentDataSource: ReportMumentDataSource,
         reportMumentMapper: ReportMumentMapper
@@ -90,7 +90,7 @@ object RepositoryModule {
             mumentDetailDataSource,
             mumentDetailMapper,
             deleteMumentController,
-            historyService,
+            historyDataSource,
             errorHandler,
             reportMumentDataSource,
             reportMumentMapper
