@@ -211,7 +211,7 @@ class ProfileSettingActivity :
             }
         } else {
             viewModel.imageUri.value?.let {
-                binding.ivProfile.drawable.toBitmapOrNull(720, 720, Bitmap.Config.RGB_565)?.let {
+                binding.ivProfile.drawable.toBitmapOrNull(720, 720, Bitmap.Config.ARGB_8888)?.let {
                     Log.e("BITMAP", it.toString())
                     multiPartResolver.createImageMultiPart(it)
                 }
@@ -229,23 +229,21 @@ class ProfileSettingActivity :
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         val bitmap = BitmapFactory.decodeResource(resources, img)
         val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos)
         val data = bos.toByteArray()
-        val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), data)
-        val image = MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
+        val requestFile = RequestBody.create("image/png".toMediaTypeOrNull(), data)
+        val image = MultipartBody.Part.createFormData("image", "image.png", requestFile)
         viewModel.putProfile(image, requestBodyMap)
     }
 
     private suspend fun nickNameDupCheck() {
         delay(100)
         viewModel.isDuplicate.observe(this) {
-            if(intent.getStringExtra("nickname") == binding.etNickname.text.toString()) {
+            if (intent.getStringExtra("nickname") == binding.etNickname.text.toString()) {
                 putProfileNetwork()
-            }
-            else if (it == 200) {
+            } else if (it == 200) {
                 CustomSnackBar.make(binding.root.rootView, "중복된 닉네임이 존재합니다.").show()
             } else if (it == 204) {
-
                 putProfileNetwork()
             } else {
             }
