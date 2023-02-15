@@ -5,12 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
+import android.widget.ScrollView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -77,7 +80,9 @@ class ProfileSettingActivity :
         backBtnListener()
         dulCheckListener()
         getUserInfo()
+        scrollToBottom()
     }
+
 
     //edittext에 작성한 텍스트 삭제 버튼 클릭 리스너
     private fun deleteText() {
@@ -89,14 +94,13 @@ class ProfileSettingActivity :
     //닉네임 정규식 확인
     private fun isRightPattern() {
         viewModel.mumentNickName.observe(this) {
-            if (!Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
+            if (!Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it) || it.trim().length < 2) {
                 viewModel.isRightPattern.value = false
                 binding.tvPattern.isSelected = true
-            } else if (it == "" || Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it)) {
+            } else if (it.isEmpty() || Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it) || it.trim().length >= 2) {
                 viewModel.isRightPattern.value = true
                 binding.tvPattern.isSelected = false
             }
-
             viewModel.isActive.value = it.trim().length >= 2 && !binding.tvPattern.isSelected
 
         }
@@ -114,6 +118,7 @@ class ProfileSettingActivity :
         binding.ivProfile.setOnClickListener {
             if (viewModel.imageUri.value == null) {
                 uploadPhotoClickListener(galleryUtil)
+                binding.ivProfile.setImageResource(R.drawable.mument_profile_camera)
             } else {
                 binding.clSelectImg.visibility = View.VISIBLE
                 binding.tvSelectLibrary.setOnClickListener {
@@ -183,11 +188,12 @@ class ProfileSettingActivity :
     //뒤로가기 클릭 리스너
     private fun backBtnListener() {
         binding.ivProfileBack.setOnClickListener {
-            finish()
-            if (viewModel.mumentNickName.value == "null") {
+            if (viewModel.mumentNickName.value == null) {
                 startActivity(Intent(this, LogInActivity::class.java))
+                finish()
+            } else {
+                finish()
             }
-
         }
     }
 
@@ -197,7 +203,7 @@ class ProfileSettingActivity :
     }
 
     private fun putProfileNetwork() {
-        val nickname = binding.etNickname.text.toString()
+        val nickname = binding.etNickname.text.trim().toString()
         val requestBodyMap = HashMap<String, RequestBody>()
         requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         val rnds = (0..2).random()
@@ -293,6 +299,19 @@ class ProfileSettingActivity :
                 crossfade(true)
                 placeholder(R.drawable.mument_profile_camera)
                 transformations(CircleCropTransformation())
+            }
+        }
+    }
+
+    private fun scrollToBottom() {
+        binding.svProfileScroll.viewTreeObserver.addOnGlobalLayoutListener {
+            val rec = Rect()
+            binding.svProfileScroll.getWindowVisibleDisplayFrame(rec)
+            val screenHeight = binding.svProfileScroll.rootView.height
+            val keypadHeight = screenHeight - rec.bottom
+
+            if (keypadHeight > screenHeight * 0.15) {
+                binding.svProfileScroll.fullScroll(ScrollView.FOCUS_DOWN)
             }
         }
     }

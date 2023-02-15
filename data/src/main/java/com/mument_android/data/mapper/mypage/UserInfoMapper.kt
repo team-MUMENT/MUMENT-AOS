@@ -8,6 +8,7 @@ import com.mument_android.domain.entity.mypage.UserInfoEntity
 
 class UserInfoMapper : BaseMapper<UserInfoDto?, UserInfoEntity> {
     override fun map(from: UserInfoDto?): UserInfoEntity = UserInfoEntity(
+        id = from?.id,
         userName = from?.userName,
         image = from?.image
     )

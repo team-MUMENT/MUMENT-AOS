@@ -64,11 +64,11 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="126dp"
+            android:layout_width="350dp"
+            android:layout_height="320dp"
+            android:layout_marginBottom="38dp"
             android:src="@drawable/mument_onboarding_1"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_finish"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -77,15 +77,15 @@
             style="@style/TextView.Mument_H2_B18.TextAppearance"
             android:layout_width="0dp"
             android:layout_height="47dp"
-            android:enabled="true"
             android:layout_marginHorizontal="21dp"
+            android:layout_marginBottom="41dp"
             android:background="@drawable/rectangle_fill_bgwhite_11dp"
+            android:enabled="true"
             android:text="@string/onboarding_start"
             android:textColor="@color/mument_color_gray2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
 

@@ -142,14 +142,4 @@ class LogInViewModel @Inject constructor(
             }
         }
     }
-
-    fun newToken() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                newTokenUseCase.newToken().let {
-                    _newToken.value = it
-                }
-            }
-        }
-    }
 }
