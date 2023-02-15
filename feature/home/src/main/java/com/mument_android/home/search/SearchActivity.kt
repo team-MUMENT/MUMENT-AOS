@@ -1,12 +1,16 @@
 package com.mument_android.home.search
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ConcatAdapter
-import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
@@ -14,12 +18,12 @@ import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.TransitionMode
 import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.entity.music.MusicInfoEntity
+import com.mument_android.home.R
 import com.mument_android.home.adapters.SearchHeaderAdapter
 import com.mument_android.home.adapters.SearchListAdapter
 import com.mument_android.home.databinding.ShareSearchLayoutBinding
 import com.mument_android.home.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
@@ -116,4 +120,5 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
         setResult(RESULT_OK, intent)
         finish()
     }
+
 }

@@ -85,11 +85,12 @@
                 style="@style/TextView.Mument_H3_B16.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:gravity="center"
+                android:paddingTop="@{bottomViewmodel.searchOption?@dimen/app_space_0:@dimen/app_space_11}"
                 android:text="@{bottomViewmodel.searchOption?@string/search_result_empty_header(bottomViewmodel.searchText):@string/search_record_empty_header}"
                 android:textColor="@color/mument_color_gray1"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:coloredText="@{bottomViewmodel.searchOption?bottomViewmodel.searchText:``}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
 
