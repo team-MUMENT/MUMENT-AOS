@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiResult
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.domain.entity.mypage.*
 import com.mument_android.domain.entity.sign.WebViewEntity
 import com.mument_android.domain.usecase.mypage.*
@@ -24,6 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
+    private val dataStoreManager: DataStoreManager,
     private val fetchBlockUserUseCase: FetchBlockUserUseCase,
     private val deleteBlockUserUseCase: DeleteBlockUserUseCase,
     private val fetchNoticeListUseCase: FetchNoticeListUseCase,
@@ -31,7 +33,8 @@ class MyPageViewModel @Inject constructor(
     private val userInfoUseCase: UserInfoUseCase,
     private val getWebViewUseCase: GetWebViewUseCase,
     private val fetchUnregisterInfoUseCase: FetchUnregisterInfoUseCase,
-    private val postUnregisterReasonUseCase: PostUnregisterReasonUseCase
+    private val postUnregisterReasonUseCase: PostUnregisterReasonUseCase,
+    private val logOutUseCase: LogOutUseCase
 ) : ViewModel() {
 
     //myPage
@@ -41,6 +44,9 @@ class MyPageViewModel @Inject constructor(
     //Profile
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> get() = _userId
+
+    private val _id = MutableLiveData<Int>()
+    val id : LiveData<Int> get() = _id
 
     //BlockUserManagement
     private val _blockUserList = MutableStateFlow<ApiResult<List<BlockUserEntity>>?>(null)
@@ -70,6 +76,9 @@ class MyPageViewModel @Inject constructor(
 
     private val _isUnregisterAgree = MutableLiveData(false)
     val isUnregisterAgree: LiveData<Boolean> get() = _isUnregisterAgree
+
+    private val _postLogOut = MutableLiveData<Int>(null)
+    val postLogOut get() : LiveData<Int> = _postLogOut
 
     //userInfo
     private val _userInfo = MutableLiveData<UserInfoEntity>()
@@ -199,6 +208,7 @@ class MyPageViewModel @Inject constructor(
                 userInfoUseCase.invoke().let {
                     _userInfo.value = it
                     _userId.value = userInfo.value?.userName
+                    _id.value = userInfo.value?.id
                 }
             }
         }
@@ -217,6 +227,15 @@ class MyPageViewModel @Inject constructor(
                     _getWebView.value = it
                 }
             }
+        }
+    }
+
+    fun logOut() {
+        viewModelScope.launch {
+            _postLogOut.value = logOutUseCase.logout()
+            dataStoreManager.removeAccessToken()
+            dataStoreManager.removeRefreshToken()
+            dataStoreManager.removeUserId()
         }
     }
 

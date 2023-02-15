@@ -179,4 +179,9 @@ object DataSourceModule {
     @Singleton
     fun provideReportMumentDataSource(detailApiService: DetailApiService) : ReportMumentDataSource =
         ReportMumentDataSourceImpl(detailApiService)
+
+    @Provides
+    @Singleton
+    fun provideLogOutDataSource(myPageApiService: MyPageApiService) : LogOutDataSource =
+        LogOutDataSourceImpl(myPageApiService)
 }
