@@ -35,7 +35,7 @@ class HistoryActivity :
         setListener()
         collectSortType()
         collectFlowWhenStarted(historyViewModel.fetchHistory) { paging ->
-            adapter.submitData(paging)
+            adapter.submitList(paging)
         }
     }
 

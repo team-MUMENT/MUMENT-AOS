@@ -10,7 +10,7 @@
         <import type="android.view.View"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.mument_android.core_dependent.ui.ShadowConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="13dp"
@@ -18,7 +18,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:background="@drawable/shape_border_default_redius_11dp"
-        android:elevation="2dp">
+        android:elevation="8dp">
 
         <ImageView
             android:id="@+id/iv_profile"
@@ -131,5 +131,5 @@
             app:layout_constraintTop_toTopOf="@id/iv_profile"
             tools:text="15" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.mument_android.core_dependent.ui.ShadowConstraintLayout>
 </layout>

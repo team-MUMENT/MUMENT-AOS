@@ -1,5 +1,6 @@
 package com.mument_android.data.network.detail
 
+import com.mument_android.data.dto.LikedUserDto
 import com.mument_android.data.util.BaseResponse
 import com.mument_android.data.dto.MumentListDto
 import com.mument_android.data.dto.TempUserDto
@@ -29,8 +30,6 @@ interface DetailApiService {
     suspend fun fetchMumentList(
         @Path("musicId") musicId: String,
         @Query("default") default: String,
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int
     ): BaseResponse<MumentListDto>
 
     @DELETE("/mument/{mumentId}")
@@ -48,7 +47,7 @@ interface DetailApiService {
         @Path("mumentId") mumentId: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
-    ): BaseResponse<List<TempUserDto>>
+    ): Response<LikedUserDto>
 
     @POST("/mument/report/{mumentId}")
     suspend fun reportMument(

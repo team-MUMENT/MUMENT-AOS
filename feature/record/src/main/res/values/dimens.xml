@@ -6,6 +6,8 @@
     <dimen name="app_space_15">15dp</dimen>
     <dimen name="app_space_16">16dp</dimen>
     <dimen name="app_space_0">0dp</dimen>
+    <dimen name="app_space_11">11dp</dimen>
+    <dimen name="app_space_20">20dp</dimen>
     <dimen name="app_space_35">35dp</dimen>
     <dimen name="app_space_168">168dp</dimen>
     <dimen name="app_space_120">120dp</dimen>

@@ -111,7 +111,7 @@ class MumentDetailFragment : Fragment() {
         goToHistory()
         shareMumentOnInstagram()
         binding.tvLikeCount.setOnClickListener {
-            likeUsersNavigatorProvider.toLikeUsers(ArrayList(viewModel.viewState.value.likeUsers))
+            viewModel.emitEvent(MumentDetailEvent.OnClickLikeCount)
         }
     }
 
@@ -181,7 +181,9 @@ class MumentDetailFragment : Fragment() {
                     )
                 }
                 MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
-
+                is MumentDetailSideEffect.NavToLikeUserListView -> {
+                    likeUsersNavigatorProvider.toLikeUsers(effect.mumentId)
+                }
                 MumentDetailSideEffect.OpenBlockOrReportBottomSheet -> {
                     showBlockOrReportBottomSheet()
                 }

@@ -1,11 +1,18 @@
 package com.mument_android.home.util
 
+import android.app.Activity
+import android.content.Context
+import android.text.SpannableString
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
+import com.mument_android.core_dependent.util.createSpannableString
 import com.mument_android.home.R
+import com.mument_android.home.search.SearchActivity
 
 object GlobalBindingAdapter {
     const val EMPTY_PROFILE = "https://mument.s3.ap-northeast-2.amazonaws.com/user/emptyImage.jpg"
@@ -83,5 +90,13 @@ object GlobalBindingAdapter {
             }
         }
     }
+}
 
+@BindingAdapter("app:coloredText")
+fun TextView.setColoredText(coloredText: String) {
+    if (coloredText.isNotBlank()) {
+        val originalText = text.toString()
+        val spannableString = (context as Context).createSpannableString(originalText, coloredText)
+        text = spannableString
+    }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.domain.usecase.home.GetMumentHistoryUseCase
+import com.mument_android.domain.usecase.detail.GetMumentHistoryUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +25,7 @@ class HistoryViewModel @Inject constructor(
     val fetchHistory =
         selectSortType.flatMapLatest {
             useCase.getMumentHistory(userId = userId.value.toString(), music.value._id, it)
-        }.cachedIn(viewModelScope)
+        }
 
     private val _music = MutableStateFlow<Music>(
         Music("", "", "", "")
@@ -39,12 +39,13 @@ class HistoryViewModel @Inject constructor(
 
     fun likeMument(mumentId: String) {
         viewModelScope.launch {
-            likeUseCase.invoke(mumentId).catch {  }.collect{}
+            likeUseCase.invoke(mumentId).catch { }.collect {}
         }
     }
+
     fun cancelLikeMument(mumentId: String) {
         viewModelScope.launch {
-            cancelLikeUseCase.invoke(mumentId).catch {  }.collect{}
+            cancelLikeUseCase.invoke(mumentId).catch { }.collect {}
         }
     }
 

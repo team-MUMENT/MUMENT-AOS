@@ -76,6 +76,7 @@
             android:clipToPadding="false"
             android:orientation="vertical"
             android:overScrollMode="never"
+            android:paddingBottom="48dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -115,13 +116,13 @@
 
             <TextView
                 android:id="@+id/tv_like_empty_subtitle"
+                style="@style/TextView.Mument_B6_M13.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/notosans_medium"
                 android:text="@string/locker_like_empty_sub_title"
                 android:textColor="@color/mument_color_gray2"
-                android:textSize="13dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_like_empty_title" />

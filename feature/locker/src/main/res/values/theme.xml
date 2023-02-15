@@ -147,8 +147,9 @@
 
     <!-- Typography-->
 
-    <style name="tab_text" parent="TextAppearance.Design.Tab">
+    <style name="tab_text" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="android:textSize">18dp</item>
+        <item name="android:textAllCaps">true</item>
         <item name="android:fontFamily">@font/notosans_medium</item>
     </style>
 
@@ -176,4 +177,6 @@
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+
+
 </resources>

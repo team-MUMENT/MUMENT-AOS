@@ -32,15 +32,19 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_users"
             android:layout_width="0dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="16dp"
-            android:layout_height="wrap_content"
+            android:paddingBottom="48dp"
+            android:clipToPadding="false"
+            android:layout_marginTop="30dp"
             android:orientation="vertical"
+            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/tv_main_title"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:listitem="@layout/item_user_like_mument"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_main_title"
+            tools:listitem="@layout/item_user_like_mument" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

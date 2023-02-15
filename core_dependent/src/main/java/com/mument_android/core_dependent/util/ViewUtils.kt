@@ -2,6 +2,9 @@ package com.mument_android.core_dependent.util
 
 import android.app.Activity
 import android.content.Context
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
@@ -13,6 +16,7 @@ import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
@@ -162,4 +166,22 @@ inline fun <T : View> T.checkIsViewLoaded(crossinline callback: T.() -> Unit) {
             }
         }
     })
+}
+
+fun Context.createSpannableString(
+    originalText: String,
+    coloredText: String
+): SpannableString {
+    val spannableString = SpannableString(originalText)
+    val start = originalText.indexOf(coloredText)
+    val end = start + coloredText.length
+    val color =
+        if (start != -1) ContextCompat.getColor(this, R.color.mument_color_black2) else 0
+    spannableString.setSpan(
+        ForegroundColorSpan(color),
+        start - 1,
+        end + 1,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    return spannableString
 }

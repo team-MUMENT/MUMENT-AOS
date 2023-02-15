@@ -1,6 +1,5 @@
 package com.mument_android.app.di
 
-import com.mument_android.data.mapper.detail.ReportMumentMapper
 import com.mument_android.domain.repository.app.LimitUserRepository
 import com.mument_android.domain.repository.detail.*
 import com.mument_android.domain.repository.home.HomeRepository
@@ -224,7 +223,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideReportMumentUseCase(mumentDetailRepository: MumentDetailRepository) : ReportMumentUseCase =
+    fun provideReportMumentUseCase(mumentDetailRepository: MumentDetailRepository): ReportMumentUseCase =
         ReportMumentUseCaseImpl(mumentDetailRepository)
 
     @Provides

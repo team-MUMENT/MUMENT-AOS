@@ -22,7 +22,6 @@ class MumentDetailContract {
         val mument: MumentEntity? = null,
         val isLikedMument: Boolean = false,
         val likeCount: Int = 0,
-        val likeUsers: List<UserEntity> = emptyList(),
         val historyCount: Int = 0,
         val hasWrittenMument: Boolean = false,
         val renderedProfileImage: Boolean = false,
@@ -81,23 +80,25 @@ class MumentDetailContract {
         ) : MumentDetailEvent()
 
         object EntryFromInstagram : MumentDetailEvent()
+        object OnClickLikeCount : MumentDetailEvent()
     }
 
     sealed class MumentDetailSideEffect : SideEffect {
         object PopBackStack : MumentDetailSideEffect()
         data class Toast(@StringRes val message: Int) : MumentDetailSideEffect()
         data class ToastString(val message: String) : MumentDetailSideEffect()
-        object SuccessMumentDeletion: MumentDetailSideEffect()
-        object SuccessBlockUser: MumentDetailSideEffect()
+        object SuccessMumentDeletion : MumentDetailSideEffect()
+        object SuccessBlockUser : MumentDetailSideEffect()
 
         object OpenEditOrDeleteMumentDialog : MumentDetailSideEffect()
         object OpenBlockOrReportBottomSheet : MumentDetailSideEffect()
         object OpenDeleteMumentDialog : MumentDetailSideEffect()
         object OpenBlockUserDialog : MumentDetailSideEffect()
 
-        data class NavToReportMument(val mumentId:String): MumentDetailSideEffect()
+        data class NavToReportMument(val mumentId: String) : MumentDetailSideEffect()
         data class NavToMusicDetail(val music: MusicInfoEntity) : MumentDetailSideEffect()
         data class NavToMumentHistory(val musicId: String) : MumentDetailSideEffect()
+        data class NavToLikeUserListView(val mumentId: String) : MumentDetailSideEffect()
 
         data class NavToEditMument(
             val mumentId: String,
@@ -105,7 +106,9 @@ class MumentDetailContract {
             val music: RecentSearchData
         ) : MumentDetailSideEffect()
 
-        data class OpenShareMumentDialog(val mument: MumentEntity, val musicInfo: MusicInfoEntity) : MumentDetailSideEffect()
+        data class OpenShareMumentDialog(val mument: MumentEntity, val musicInfo: MusicInfoEntity) :
+            MumentDetailSideEffect()
+
         data class NavToInstagram(val imageUri: Uri) : MumentDetailSideEffect()
     }
 }

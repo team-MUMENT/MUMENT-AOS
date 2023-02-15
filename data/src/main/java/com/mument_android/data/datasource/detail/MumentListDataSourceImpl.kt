@@ -11,5 +11,5 @@ class MumentListDataSourceImpl @Inject constructor(
     override suspend fun fetchMumentList(
         musicId: String,
         default: String
-    ): BaseResponse<MumentListDto> = detailApiService.fetchMumentList(musicId, default, 20, 0)
+    ): BaseResponse<MumentListDto> = detailApiService.fetchMumentList(musicId, default)
 }

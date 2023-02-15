@@ -11,7 +11,6 @@ import com.mument_android.data.datasource.record.RecordDataSource
 import com.mument_android.data.datasource.sign.SignDataSource
 import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
 import com.mument_android.data.mapper.app.LimitUserMapper
-import com.mument_android.data.datasource.mypage.UnregisterDataSource
 import com.mument_android.data.mapper.detail.MumentDetailMapper
 import com.mument_android.data.mapper.detail.MumentSummaryMapper
 import com.mument_android.data.mapper.detail.ReportMumentMapper
@@ -21,21 +20,19 @@ import com.mument_android.data.mapper.home.RecentSearchDataMapper
 import com.mument_android.data.mapper.locker.LockerMapper
 import com.mument_android.data.mapper.mypage.*
 import com.mument_android.data.mapper.notify.NotifyMapper
+import com.mument_android.data.mapper.record.MumentModifyMapper
 import com.mument_android.data.mapper.record.MumentRecordMapper
 import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.mapper.sign.*
-import com.mument_android.data.network.detail.HistoryService
+import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.repository.*
+import com.mument_android.data.repository.mypage.*
 import com.mument_android.domain.repository.app.LimitUserRepository
 import com.mument_android.domain.repository.detail.*
 import com.mument_android.domain.repository.home.HomeRepository
 import com.mument_android.domain.repository.locker.LockerRepository
 import com.mument_android.domain.repository.main.LikeMumentRepository
-import com.mument_android.data.mapper.mypage.UnregisterMapper
-import com.mument_android.domain.repository.detail.BlockUserRepository
-import com.mument_android.domain.repository.detail.MumentDetailRepository
-import com.mument_android.domain.repository.detail.MumentListRepository
-import com.mument_android.domain.repository.detail.MusicDetailRepository
+import com.mument_android.domain.repository.mypage.*
 import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
@@ -45,13 +42,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-import com.mument_android.data.mapper.sign.GetWebViewMapper
-import com.mument_android.data.mapper.sign.RequestSetProfileMapper
-import com.mument_android.data.mapper.sign.SetProfileMapper
-import com.mument_android.data.mapper.mypage.UnregisterReasonMapper
-import com.mument_android.data.mapper.record.MumentModifyMapper
-import com.mument_android.data.repository.mypage.*
-import com.mument_android.domain.repository.mypage.*
 
 
 @Module
@@ -73,7 +63,7 @@ object RepositoryModule {
         mumentDetailDataSource: MumentDetailDataSource,
         mumentDetailMapper: MumentDetailMapper,
         deleteMumentController: DeleteMumentController,
-        historyService: HistoryService,
+        historyDataSource: HistoryDataSource,
         errorHandler: ErrorHandler,
         reportMumentDataSource: ReportMumentDataSource,
         reportMumentMapper: ReportMumentMapper
@@ -82,7 +72,7 @@ object RepositoryModule {
             mumentDetailDataSource,
             mumentDetailMapper,
             deleteMumentController,
-            historyService,
+            historyDataSource,
             errorHandler,
             reportMumentDataSource,
             reportMumentMapper
@@ -227,9 +217,8 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideUsersLikeMumentRepository(
-        usersWhoLikeMumentDataSource: UsersWhoLikeMumentDataSource,
-        errorHandler: ErrorHandler
-    ): UsersRepository = UsersRepositoryImpl(usersWhoLikeMumentDataSource, errorHandler)
+        detailApiService: DetailApiService
+    ): UsersRepository = UsersRepositoryImpl(detailApiService)
 
     @Provides
     @Singleton

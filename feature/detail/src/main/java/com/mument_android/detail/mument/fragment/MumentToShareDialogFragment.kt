@@ -13,6 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.request.ImageRequest
 import coil.request.ImageResult
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -108,18 +110,14 @@ class MumentToShareDialogFragment(
             Log.e("STATE!!!", state.toString())
             checkImagesRendered(state)
             if (state.mument != null && state.musicInfo != null) {
-                binding.tvMusicName.text = state.musicInfo.name
                 with(binding) {
-                    tvWriterName.text = state.mument.writerInfo.name
-                    tvMument.text = state.mument.content
-                    tvDate.text = state.mument.createdDate
                     (rvTags.adapter as MumentTagListAdapter).submitList(state.mument.combineTags())
                     checkAllViewsRendered(state.mument, state.musicInfo)
                 }
             }
-
         }
     }
+
 
     private fun setUpMumentTagList() {
         binding.rvTags.run {
@@ -162,18 +160,16 @@ class MumentToShareDialogFragment(
     private fun checkAllViewsRendered(mument: MumentEntity, musicInfo: MusicInfoEntity) {
         with(binding) {
             rvTags.checkIsViewLoaded { viewModel?.updateRenderedTags(true) }
-            ivProfileImage.checkIfImageLoaded(
-                mument.writerInfo.profileImage ?: ""
-            ) { viewModel?.updateRenderedProfileImage(true) }
-            ivAlbumCover.checkIfImageLoaded(musicInfo.thumbnail) {
-                viewModel?.updateRenderedAlbumCover(
-                    true
-                )
+            ivProfileImage.checkIfProfileImageLoaded(mument.writerInfo.profileImage ?: "") {
+                viewModel?.updateRenderedProfileImage(true)
+            }
+            ivAlbumCover.checkIfAlbumImageLoaded(musicInfo.thumbnail) {
+                viewModel?.updateRenderedAlbumCover(true)
             }
         }
     }
 
-    private inline fun ImageView.checkIfImageLoaded(
+    private inline fun ImageView.checkIfProfileImageLoaded(
         url: String,
         crossinline finishRenderCallback: () -> Unit
     ) {
@@ -185,6 +181,23 @@ class MumentToShareDialogFragment(
                     finishRenderCallback()
                 }
             })
+            transformations(CircleCropTransformation())
+        }
+    }
+
+    private inline fun ImageView.checkIfAlbumImageLoaded(
+        url: String,
+        crossinline finishRenderCallback: () -> Unit
+    ) {
+        load(url) {
+            allowHardware(false)
+            listener(object : ImageRequest.Listener {
+                override fun onSuccess(request: ImageRequest, metadata: ImageResult.Metadata) {
+                    super.onSuccess(request, metadata)
+                    finishRenderCallback()
+                }
+            })
+            transformations(RoundedCornersTransformation(11F, 11F, 11F, 11F))
         }
     }
 
