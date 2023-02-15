@@ -5,10 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiStatus
 import com.mument_android.core.util.DateFormatter
 import com.mument_android.core_dependent.base.MviViewModel
-import com.mument_android.detail.BuildConfig
 import com.mument_android.detail.music.MusicDetailContract.*
 import com.mument_android.detail.util.SortTypeEnum
-import com.mument_android.domain.entity.detail.MusicWithMyMumentEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.domain.usecase.detail.FetchMusicDetailUseCase
@@ -19,7 +17,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 @HiltViewModel

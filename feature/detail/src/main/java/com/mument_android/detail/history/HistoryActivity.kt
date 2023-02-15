@@ -40,9 +40,9 @@ class HistoryActivity :
     }
 
     private fun setListener() {
-        binding.clTouch.click { finish() }
-        binding.ivAlbum.click { finish() }
-        binding.ivBtnBack.click { finish() }
+        binding.clTouch.click { moveToMusicDetail() }
+        binding.ivAlbum.click { moveToMusicDetail() }
+        binding.ivBtnBack.click { moveToMusicDetail() }
         binding.tvLatestOrder.click {
             historyViewModel.changeSortType("Y")
         }
@@ -51,9 +51,14 @@ class HistoryActivity :
         }
     }
 
-    private fun moveToMumentDetail(mumentHistory: MumentHistory) {
+    private fun moveToMumentDetail(mumentId: String) {
         val music = historyViewModel.music.value.toMusicInfoEntity()
-        moveFromHistoryToDetail.moveMumentDetail(mumentHistory._id.toString(), music)
+        moveFromHistoryToDetail.moveMumentDetail(mumentId, music)
+    }
+
+    private fun moveToMusicDetail() {
+        val music = historyViewModel.music.value.toMusicInfoEntity()
+        moveFromHistoryToDetail.moveMusicDetail(music)
     }
 
     private fun likeMument(mumentId: String) {

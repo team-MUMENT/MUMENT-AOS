@@ -111,8 +111,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/mument_color_bgwhite"
-            android:overScrollMode="never"
             android:fillViewport="true"
+            android:overScrollMode="never"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <FrameLayout
@@ -131,10 +131,11 @@
                         android:id="@+id/tv_my_muments"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/notosans_bold"
                         android:text="@string/muments_recorded_by_me"
                         android:textColor="@color/mument_color_black2"
                         android:textSize="15dp"
-                        android:fontFamily="@font/notosans_bold"
+                        android:visibility="@{musicDetailViewModel.viewState.myMumentInfo == null &amp;&amp; musicDetailViewModel.viewState.mumentList.size()==0? View.GONE : View.VISIBLE}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -179,7 +180,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/emptyview_first"
-                            android:visibility="@{musicDetailViewModel.viewState.myMumentInfo == null &amp;&amp; musicDetailViewModel.viewState.mumentList.empty ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{musicDetailViewModel.viewState.mumentList.empty &amp;&amp; musicDetailViewModel.viewState.myMumentInfo == null  ? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toTopOf="@id/tv_empty_header"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -192,9 +193,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            android:text="@string/locker_mument_empty_title"
+                            android:text="@string/mument_empty_title"
                             android:textColor="@color/mument_color_gray1"
-                            android:visibility="@{musicDetailViewModel.viewState.myMumentInfo == null || musicDetailViewModel.viewState.mumentList.empty ? View.VISIBLE : View.INVISIBLE}"
                             app:layout_constraintBottom_toTopOf="@id/tv_empty_body"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -209,23 +209,27 @@
                             android:text="@{musicDetailViewModel.viewState.mumentList.empty &amp;&amp; musicDetailViewModel.viewState.myMumentInfo == null ? @string/write_earliest_mument : @string/write_first_mument}"
                             android:textColor="@color/mument_color_gray2"
                             android:textSize="13dp"
-                            android:visibility="@{musicDetailViewModel.viewState.myMumentInfo == null || musicDetailViewModel.viewState.mumentList.empty ? View.VISIBLE : View.INVISIBLE}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_empty_header" />
 
 
+                        <androidx.constraintlayout.widget.Group
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="@{musicDetailViewModel.viewState.myMumentInfo == null ? View.VISIBLE : View.GONE}"
+                            app:constraint_referenced_ids="tv_empty_header, tv_empty_body" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_every_muments"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/every_mument"
-                        android:textSize="15dp"
                         android:fontFamily="@font/notosans_bold"
+                        android:text="@string/every_mument"
                         android:textColor="@color/mument_color_black2"
+                        android:textSize="15dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/csl_empty_view" />
 
@@ -268,6 +272,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_every_muments"
                         tools:listitem="@layout/item_music_detail_list" />
+
+                    <androidx.constraintlayout.widget.Group
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{musicDetailViewModel.viewState.mumentList.size()==0 ? View.GONE : View.VISIBLE}"
+                        app:constraint_referenced_ids="tv_every_muments, tv_sort_latest,tv_my_muments,
+                    tv_sort_like_count" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </FrameLayout>

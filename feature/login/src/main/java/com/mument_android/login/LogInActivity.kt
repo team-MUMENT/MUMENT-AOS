@@ -4,8 +4,10 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -41,15 +43,12 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
 //        initView()
         initKakaoLogin()
         btnKakaoListener()
         getFcmToken()
         webLinkNetwork()
         keyClipBoard()
-
-
     }
 
     private fun keyClipBoard() {
@@ -212,5 +211,4 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     private fun moveToMainActivity() {
         mainHomeNavigatorProvider.profileSettingToMain()
     }
-
 }

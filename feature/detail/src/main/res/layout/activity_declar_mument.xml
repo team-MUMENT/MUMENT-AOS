@@ -374,10 +374,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="47dp"
                     android:layout_marginTop="3dp"
-                    android:fontFamily="@font/notosans_medium"
+                    android:fontFamily="@font/notosans_regular"
                     android:text="@string/notify_block_reference"
                     android:textColor="@color/mument_color_gray1"
-                    android:textSize="13dp"
+                    android:textSize="12dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cl_block" />
 
