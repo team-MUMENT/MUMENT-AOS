@@ -101,9 +101,9 @@
             android:id="@+id/nc_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/mument_color_bgwhite"
             android:fillViewport="true"
             android:overScrollMode="never"
-            android:background="@color/mument_color_bgwhite"
             android:visibility="@{homeViewModel.homeViewStateEnabled?View.VISIBLE:View.GONE}"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
