@@ -45,6 +45,9 @@ class MyPageViewModel @Inject constructor(
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> get() = _userId
 
+    private val _id = MutableLiveData<Int>()
+    val id : LiveData<Int> get() = _id
+
     //BlockUserManagement
     private val _blockUserList = MutableStateFlow<ApiResult<List<BlockUserEntity>>?>(null)
     val blockUserList get() = _blockUserList.asStateFlow()
@@ -205,6 +208,7 @@ class MyPageViewModel @Inject constructor(
                 userInfoUseCase.invoke().let {
                     _userInfo.value = it
                     _userId.value = userInfo.value?.userName
+                    _id.value = userInfo.value?.id
                 }
             }
         }
