@@ -78,12 +78,14 @@ class DeclarMumentActivity :
         }
     }
 
-    private fun isBtnActive() = with(binding) {
-        if (clFirstReason.isSelected || clSecondReason.isSelected || clThirdReason.isSelected || clForthReason.isSelected || clFifthReason.isSelected || clSixthReason.isSelected || clSeventhReason.isSelected) {
-            tvNotifyFinish.isEnabled = true
-        } else {
-            tvNotifyFinish.isEnabled = false
+    private fun isBtnActive()  {
+        viewModel.reasonLength.observe(this) {
+            binding.apply {
+                tvNotifyFinish.isEnabled = (clFirstReason.isSelected || clSecondReason.isSelected || clThirdReason.isSelected || clForthReason.isSelected || clFifthReason.isSelected || clSixthReason.isSelected || clSeventhReason.isSelected) && it.length > 0
+            }
+
         }
+
     }
 
 
