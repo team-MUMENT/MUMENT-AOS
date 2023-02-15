@@ -6,7 +6,7 @@
         <activity
             android:name="com.mument_android.mypage.MyPageActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustNothing" />
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.mument_android.mypage.NoticeDetailActivity" />
     </application>
 

@@ -32,7 +32,7 @@
             android:id="@+id/tv_block_user_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="36dp"
             android:text="@string/my_page_block_user_management"
             android:textAppearance="@style/TextView.Mument_H2_B18.TextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,13 +43,13 @@
             android:id="@+id/tv_block_user_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="269dp"
             android:text="@string/unblock_empty"
             android:textAppearance="@style/TextView.Mument_H2_B18.TextAppearance"
             android:textColor="@color/mument_color_gray1"
+            android:layout_marginTop="369dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rv_block_user" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_block_user"

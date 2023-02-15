@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
@@ -295,9 +296,16 @@ class RecordActivity :
     private fun countText() {
         recordViewModel.mumentContent.observe(this) {
             if (it.length >= 1000) {
-                binding.tvRecordTextNum.isChangeRedLine()
-            } else {
-                binding.tvRecordTextNum.isChangeBlack()
+                binding.tvRecordTextNumLength.isChangeRedLine()
+            } else if (it.isNotEmpty()) {
+                binding.tvRecordTextNumLength.isChangePurple()
+            } else if (it.isEmpty()) {
+                binding.tvRecordTextNumLength.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.mument_color_gray2
+                    )
+                )
             }
         }
     }
@@ -305,9 +313,6 @@ class RecordActivity :
     //editTex 스크롤 지정
     private fun scrollEditTextView() {
         binding.etRecordWrite.movementMethod = ScrollingMovementMethod()
-        binding.etRecordWrite.setOnClickListener {
-            binding.svRecord.scrollTo(0, binding.tvRecordWriteTitle.top)
-        }
 
         binding.etRecordWrite.setOnFocusChangeListener { view, b ->
             binding.svRecord.scrollTo(0, binding.tvRecordWriteTitle.top)
@@ -429,11 +434,16 @@ class RecordActivity :
     }
 
     //안 넘어갔을 때 색상
-    private fun TextView.isChangeBlack() {
+    private fun TextView.isChangePurple() {
         typeface = ResourcesCompat.getFont(
             context, R.font.notosans_medium
         )
-        setTextColor(Color.GRAY)
+        setTextColor(
+            ContextCompat.getColor(
+                this@RecordActivity,
+                R.color.mument_color_purple1
+            )
+        )
     }
 
     override fun onStop() {

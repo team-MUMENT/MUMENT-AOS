@@ -72,7 +72,7 @@ class UnregisterFragment : Fragment() {
                     )
                 }
             }
-            binding.clReason.isSelected = !binding.clReason.isSelected
+            binding.ivChooseReason.isSelected = !binding.ivChooseReason.isSelected
             myPageViewModel.clickReasonChooseBox()
             setAnimationReason()
             view?.hideKeyboard()
@@ -86,7 +86,7 @@ class UnregisterFragment : Fragment() {
             myPageViewModel.clickReasonChoose()
 
             //이유 선택했을 때 이유선택박스 selector
-            binding.clReason.isSelected = false
+            binding.ivChooseReason.isSelected = false
 
 
             myPageViewModel.clickSixthReason(checkedID == R.id.unregister_reason_sixth)
@@ -134,7 +134,7 @@ class UnregisterFragment : Fragment() {
     private fun reasonChooseTouchEvent() {
         binding.clUnregister.setOnClickListener {
             myPageViewModel.initReasonChooseBox()
-            binding.clReason.isSelected = false
+            binding.ivChooseReason.isSelected = false
             view?.hideKeyboard()
         }
     }

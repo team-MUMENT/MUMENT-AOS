@@ -22,7 +22,7 @@ class BlockUserManagementAdapter(
             binding.tvUserName.text = blockUserData.profileId
             binding.ivBlockUser.load(blockUserData.image) {
                 crossfade(true)
-                placeholder(R.drawable.mument_profile_sad_60_1)
+                placeholder(R.drawable.mument_profile_sad_45)
                 transformations(CircleCropTransformation())
             }
 
