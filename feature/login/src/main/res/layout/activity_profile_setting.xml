@@ -55,8 +55,8 @@
                 android:text="@string/login_profile_setting"
                 android:textColor="@color/mument_color_black1"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_profile_back"
-                app:layout_constraintEnd_toStartOf="@+id/tv_profile_finish"
-                app:layout_constraintStart_toEndOf="@+id/iv_profile_back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/iv_profile_back" />
 
             <ImageView
