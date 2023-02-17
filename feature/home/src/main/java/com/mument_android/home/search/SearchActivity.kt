@@ -71,7 +71,7 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
     private fun allDelete() {
         MumentDialogBuilder().setAllowListener {
             viewmodel.allListDelete()
-        }.setCancelListener { }.setBody("").setHeader("최근 검색한 내역을\n모두 삭제하시겠어요?").build()
+        }.setCancelListener { }.setHeader("최근 검색한 내역을\n모두 삭제하시겠어요?").build()
             .show(supportFragmentManager, "")
     }
 
