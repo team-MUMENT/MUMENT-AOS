@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -139,6 +140,8 @@ class MumentDetailFragment : Fragment() {
         binding.ivBackButton.setOnClickListener {
             viewModel.emitEvent(MumentDetailEvent.OnClickBackButton)
         }
+
+
     }
 
     private fun setMumentTags() {
@@ -164,6 +167,14 @@ class MumentDetailFragment : Fragment() {
     private fun receiveEffect() {
         collectFlowWhenStarted(viewModel.effect) { effect ->
             when (effect) {
+                MumentDetailSideEffect.ShowDeletedMumentAlert -> {
+                    AlertDialog.Builder(requireContext()).setTitle("삭제된 뮤멘트입니다.")
+                        .setMessage("이용에 불편을 드려 죄송합니다.")
+                        .setPositiveButton("확인") { _, _ ->
+                            findNavController().popBackStack()
+                        }.show()
+
+                }
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessBlockUser -> {

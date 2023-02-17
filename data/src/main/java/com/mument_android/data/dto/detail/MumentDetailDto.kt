@@ -1,6 +1,5 @@
 package com.mument_android.data.dto.detail
 
-import com.mument_android.data.dto.MusicDto
 import com.mument_android.data.dto.UserDto
 
 data class MumentDetailDto(

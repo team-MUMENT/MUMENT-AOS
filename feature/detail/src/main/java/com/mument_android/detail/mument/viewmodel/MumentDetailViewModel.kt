@@ -168,7 +168,12 @@ class MumentDetailViewModel @Inject constructor(
                     ApiStatus.Loading -> {
                         setState { copy(onNetwork = true) }
                     }
-                    is ApiStatus.Failure -> disableFetchData()
+                    is ApiStatus.Failure -> {
+                        if (status.message == "Can't Receive Data") {
+                            setEffect { MumentDetailSideEffect.ShowDeletedMumentAlert }
+                        }
+                        disableFetchData()
+                    }
 
                     is ApiStatus.Success -> {
                         val userId = runBlocking { dataStoreManager.userIdFlow.first() ?: "" }
