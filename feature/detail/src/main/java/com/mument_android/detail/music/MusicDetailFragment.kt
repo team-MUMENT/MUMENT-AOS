@@ -138,9 +138,10 @@ class MusicDetailFragment : Fragment() {
                         )
                     )
                 }
+                binding.layoutMyMument.mument = musicDetailViewModel.viewState.value.myMumentInfo
             }
         }
-        binding.layoutMyMument.tvSecretLikecount.click {
+        binding.layoutMyMument.llTouchArea.click {
             if (musicDetailViewModel.viewState.value.myMumentInfo != null) {
                 binding.layoutMyMument.ivLike.isChecked = !binding.layoutMyMument.ivLike.isChecked
                 if (binding.layoutMyMument.ivLike.isChecked) {
@@ -156,6 +157,7 @@ class MusicDetailFragment : Fragment() {
                         )
                     )
                 }
+                binding.layoutMyMument.mument = musicDetailViewModel.viewState.value.myMumentInfo
             }
         }
     }

@@ -114,18 +114,42 @@ class MusicDetailViewModel @Inject constructor(
     }
 
     fun likeMument(mumentId: String) {
+        changeLikeStatus(true)
         viewModelScope.launch {
             likeMumentUseCase(mumentId)
-                .catch { }
+                .catch {
+                    changeLikeStatus(false)
+                }
                 .collect { }
         }
     }
 
     fun cancelLikeMument(mumentId: String) {
+        changeLikeStatus(false)
         viewModelScope.launch {
             cancelLikeMumentUseCase(mumentId)
-                .catch { }
+                .catch {
+                    changeLikeStatus(true)
+                }
                 .collect { }
+        }
+    }
+
+    private fun changeLikeStatus(like: Boolean) {
+        if (like) {
+            setState {
+                copy(myMumentInfo = myMumentInfo?.apply {
+                    likeCount += 1
+                    isLiked = true
+                })
+            }
+        } else {
+            setState {
+                copy(myMumentInfo = myMumentInfo?.apply {
+                    likeCount -= 1
+                    isLiked = false
+                })
+            }
         }
     }
 }
