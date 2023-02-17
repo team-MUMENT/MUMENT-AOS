@@ -91,6 +91,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun clearSearchResult() {
+        setRecentData()
         _searchResultList.value = null
     }
 
