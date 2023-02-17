@@ -202,12 +202,13 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun fetchMumentList(musicId: String) {
         viewModelScope.launch {
+            val userId = runBlocking { dataStoreManager.userIdFlow.first() ?: "" }
             fetchMumentListUseCase(musicId, "Y")
                 .catch { e -> }
                 .collect {
                     setState {
                         copy(hasWrittenMument = it.map { it.user.userId }
-                            .contains(BuildConfig.USER_ID))
+                            .contains(userId))
                     }
                 }
         }
@@ -223,7 +224,7 @@ class MumentDetailViewModel @Inject constructor(
         }
     }
 
-    fun blockUser() {
+    private fun blockUser() {
         viewModelScope.launch {
             blockUserUseCase(viewState.value.requestMumentId)
                 .collect { status ->

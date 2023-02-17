@@ -1,6 +1,5 @@
 package com.mument_android.data.repository
 
-import com.mument_android.data.BuildConfig
 import com.mument_android.data.datasource.detail.MumentListDataSource
 import com.mument_android.data.mapper.detail.MumentSummaryMapper
 import com.mument_android.domain.entity.detail.MumentSummaryEntity
@@ -14,18 +13,14 @@ import javax.inject.Inject
 class MumentListRepositoryImpl @Inject constructor(
     private val mumentSummaryMapper: MumentSummaryMapper,
     private val mumentListDataSource: MumentListDataSource
-): MumentListRepository {
+) : MumentListRepository {
     override suspend fun fetchMumentList(
         musicId: String,
         default: String
     ): Flow<List<MumentSummaryEntity>> = flow {
         val mumentList = mumentListDataSource.fetchMumentList(musicId, default).data?.mumentList
-        val publicMuments = mumentList?.filter { !it.isPrivate }?.map { mumentSummaryMapper.map(it) }
-        val filteredList = mutableListOf<MumentSummaryEntity>()
-        mumentList?.filter { it.isPrivate }?.onEach {
-            if(it.user.id == BuildConfig.USER_ID)  filteredList.add(mumentSummaryMapper.map(it))
+        if (mumentList != null) {
+            emit(mumentList.map { mumentSummaryMapper.map(it) })
         }
-        publicMuments?.let { filteredList.addAll(it) }
-        emit(filteredList)
     }.flowOn(Dispatchers.IO)
 }
