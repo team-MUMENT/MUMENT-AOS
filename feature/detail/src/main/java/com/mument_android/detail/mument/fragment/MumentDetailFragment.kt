@@ -168,12 +168,15 @@ class MumentDetailFragment : Fragment() {
         collectFlowWhenStarted(viewModel.effect) { effect ->
             when (effect) {
                 MumentDetailSideEffect.ShowDeletedMumentAlert -> {
-                    AlertDialog.Builder(requireContext()).setTitle("삭제된 뮤멘트입니다.")
-                        .setMessage("이용에 불편을 드려 죄송합니다.")
-                        .setPositiveButton("확인") { _, _ ->
+                    MumentDialogBuilder()
+                        .setHeader("삭제된 뮤멘트입니다.")
+                        .setBody("이용에 불편을 드려 죄송합니다.")
+                        .setAllowListener("확인") {
                             findNavController().popBackStack()
-                        }.show()
-
+                        }
+                        .setCancelListener("") {}
+                        .build()
+                        .show(childFragmentManager, this.tag)
                 }
                 MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()

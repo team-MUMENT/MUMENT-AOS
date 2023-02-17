@@ -41,6 +41,9 @@ class MumentDialog(
         binding.tvHeader.setContent(header)
         binding.tvBody.setContent(body)
         binding.tvAllow.text = allowButtonText ?: "삭제"
+        if(cancelButtonText==""){
+            binding.tvCancel.visibility = View.GONE
+        }
         setClickListener()
     }
 
