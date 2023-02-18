@@ -78,7 +78,7 @@ class RecordActivity :
         firstListenClickEvent()
         secondListenClickEvent()
 
-        switchClickEvent()
+        switchBtnEvent()
 
         scrollEditTextView()
         initBottomSheet()
@@ -320,7 +320,7 @@ class RecordActivity :
     }
 
     //비밀글 공개글 버튼 리스너
-    private fun switchClickEvent() {
+    private fun switchBtnEvent() {
         binding.switchRecordSecret.setOnClickListener {
             if (binding.switchRecordSecret.isChecked) {
                 binding.tvRecordSecret.setText(R.string.record_secret)
@@ -328,6 +328,10 @@ class RecordActivity :
                 binding.tvRecordSecret.setText(R.string.record_open)
             }
         }
+
+        if (recordViewModel.isPrivate.value == true)
+            binding.tvRecordSecret.setText(R.string.record_secret)
+        else binding.tvRecordSecret.setText(R.string.record_open)
     }
 
     //완료버튼 눌렀을 때
