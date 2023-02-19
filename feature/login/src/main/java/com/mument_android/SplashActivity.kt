@@ -44,20 +44,18 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun isFirst() {
-        Log.e("12j4123", "${viewModel.isExist.value}")
         collectFlow(dataStoreManager.accessTokenFlow) {
             Log.e("bbbbbbbbbbb", "$it")
         }
         collectFlow(dataStoreManager.isFirstFlow) {
             Log.e("datastore", "$it")
             delay(1000)
-            if (it == null) {
+            if (it == null || it==false) {
                 val intent = Intent(this, OnBoardingActivity::class.java)
                 startActivity(intent)
             } else {
                 if(viewModel.isExist.value == true) {
                     moveToMainActivity()
-                    Log.e("뭐지", "31324")
                 }
                 else {
                     val intent = Intent(this, LogInActivity::class.java)

@@ -66,11 +66,13 @@
             android:id="@+id/imageView"
             android:layout_width="350dp"
             android:layout_height="320dp"
+            android:layout_marginTop="95dp"
             android:layout_marginBottom="38dp"
             android:src="@drawable/mument_onboarding_1"
             app:layout_constraintBottom_toTopOf="@+id/btn_finish"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_subtitle" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_finish"

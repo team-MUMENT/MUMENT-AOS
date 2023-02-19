@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.google.android.gms.tasks.OnCompleteListener
@@ -36,8 +37,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
     private val viewModel: LogInViewModel by viewModels()
+
     @Inject
     lateinit var dataStoreManager: DataStoreManager
+
     @Inject
     lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +56,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
 
     private fun keyClipBoard() {
         var keyHash = Utility.getKeyHash(this)
-        Log.e("kkkkkkkkkk:","$keyHash")
+        Log.e("kkkkkkkkkk:", "$keyHash")
         binding.key.setText("$keyHash")
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
@@ -83,13 +86,12 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     }
 
 
-
     private fun getFcmToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {  //기기 토큰 얻어오는 코드
-                    Log.w("TAG", "Fetching FCM registration token failed", task.exception)
-                    return@OnCompleteListener
-                }
+            if (!task.isSuccessful) {  //기기 토큰 얻어오는 코드
+                Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
             // Get new FCM registration token
             val token = task.result
             val msg = token.toString()
@@ -128,7 +130,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     }
 
 
-
     private fun setKakaoBtnListener() {
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
@@ -137,16 +138,18 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
             } else if (token != null) {
                 UserApiClient.instance.me { _, error ->
                     Log.e("kakao access token :", token.accessToken)
+
                     val requestKakaoData = RequestKakaoData(
                         "kakao",
                         token.accessToken.toString(),
                         viewModel.fcmToken.value.toString()
                     )
                     viewModel.kakaoLogin(requestKakaoData)
-                    viewModel.kakaoData.observe(this) {
-                        if(it.accessToken != null && viewModel.isExist.value == true) {
+
+                    viewModel.isExist.observe(this) {
+                        if (it == true) {
                             moveToMainActivity()
-                        } else if(it.accessToken != null && viewModel.isExist.value == false) {
+                        } else if (viewModel.isExist.value == false) {
                             startActivity(Intent(this, ProfileSettingActivity::class.java))
                             finish()
                         }
@@ -176,28 +179,28 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                 Log.e("접근이 거부 됨(동의 취소)", "")
             }
             error.toString() == AuthErrorCause.InvalidClient.toString() -> {
-                Log.e("유효하지 않은 앱","")
+                Log.e("유효하지 않은 앱", "")
             }
             error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
-                Log.e("인증 수단이 유효하지 않아 인증할 수 없는 상태","")
+                Log.e("인증 수단이 유효하지 않아 인증할 수 없는 상태", "")
             }
             error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
-                Log.e("요청 파라미터 오류","")
+                Log.e("요청 파라미터 오류", "")
             }
             error.toString() == AuthErrorCause.InvalidScope.toString() -> {
-                Log.e("유효하지 않은 scope ID","")
+                Log.e("유효하지 않은 scope ID", "")
             }
             error.toString() == AuthErrorCause.Misconfigured.toString() -> {
-                Log.e("설정이 올바르지 않음(android key hash)","")
+                Log.e("설정이 올바르지 않음(android key hash)", "")
             }
             error.toString() == AuthErrorCause.ServerError.toString() -> {
-                Log.e("서버 내부 에러","")
+                Log.e("서버 내부 에러", "")
             }
             error.toString() == AuthErrorCause.Unauthorized.toString() -> {
-                Log.e("앱이 요청 권한이 없음","")
+                Log.e("앱이 요청 권한이 없음", "")
             }
             else -> { // Unknown
-                Log.e("기타 에러","")
+                Log.e("기타 에러", "")
             }
         }
     }

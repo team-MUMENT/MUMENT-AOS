@@ -71,7 +71,7 @@ class LogInViewModel @Inject constructor(
         }
     }
 
-    init {
+    fun isExistProfile() {
         viewModelScope.launch {
             beforeWhenHomeEnterUseCase.checkProfileExist().catch { }.collect {
                 _isExist.value = it
@@ -114,6 +114,9 @@ class LogInViewModel @Inject constructor(
                     saveAccessToken(it?.accessToken ?: "")
                     //saveTestUserId(it._id ?: 1)
                 }
+
+            }.also {
+                isExistProfile()
             }
         }
     }
