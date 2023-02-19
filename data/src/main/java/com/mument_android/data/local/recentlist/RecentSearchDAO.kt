@@ -19,6 +19,9 @@ interface RecentSearchDAO {
     @Update
     suspend fun updateRecentSearch(data: RecentSearchDataEntity)
 
+    @Query("SELECT COUNT(*) FROM recent_table")
+    suspend fun getRowCount(): Int
+
     @Query("delete from recent_table")
     suspend fun deleteAllRecentSearchList()
 

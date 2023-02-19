@@ -16,7 +16,7 @@
         android:id="@+id/cl_record_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mument_color_white"
+        android:background="@color/mument_color_bgwhite"
         android:onClick="hideKeyBoard"
         tools:context="com.mument_android.record.com.mument_android.record.RecordActivity">
 

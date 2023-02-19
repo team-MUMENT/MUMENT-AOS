@@ -11,9 +11,9 @@ data class MumentSummaryEntity(
     val tags: List<TagEntity>,
     val content: String?,
     val isPrivate: Boolean,
-    val likeCount: Int,
+    var likeCount: Int,
     val isDeleted: Boolean,
     val createdAt: String,
     val date: String,
-    val isLiked: Boolean
+    var isLiked: Boolean
 )

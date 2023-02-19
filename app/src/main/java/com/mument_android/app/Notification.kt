@@ -28,6 +28,7 @@ class Notification(
                 .setSmallIcon(R.drawable.ic_app)
                 .setContentTitle(title)
                 .setContentText(body)
+                .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(resultPendingIntent)
                 .setFullScreenIntent(resultPendingIntent, true)

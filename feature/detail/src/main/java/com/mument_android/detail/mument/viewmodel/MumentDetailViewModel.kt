@@ -168,7 +168,12 @@ class MumentDetailViewModel @Inject constructor(
                     ApiStatus.Loading -> {
                         setState { copy(onNetwork = true) }
                     }
-                    is ApiStatus.Failure -> disableFetchData()
+                    is ApiStatus.Failure -> {
+                        if (status.message == "Can't Receive Data") {
+                            setEffect { MumentDetailSideEffect.ShowDeletedMumentAlert }
+                        }
+                        disableFetchData()
+                    }
 
                     is ApiStatus.Success -> {
                         val userId = runBlocking { dataStoreManager.userIdFlow.first() ?: "" }
@@ -197,12 +202,13 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun fetchMumentList(musicId: String) {
         viewModelScope.launch {
+            val userId = runBlocking { dataStoreManager.userIdFlow.first() ?: "" }
             fetchMumentListUseCase(musicId, "Y")
                 .catch { e -> }
                 .collect {
                     setState {
                         copy(hasWrittenMument = it.map { it.user.userId }
-                            .contains(BuildConfig.USER_ID))
+                            .contains(userId))
                     }
                 }
         }
@@ -218,7 +224,7 @@ class MumentDetailViewModel @Inject constructor(
         }
     }
 
-    fun blockUser() {
+    private fun blockUser() {
         viewModelScope.launch {
             blockUserUseCase(viewState.value.requestMumentId)
                 .collect { status ->

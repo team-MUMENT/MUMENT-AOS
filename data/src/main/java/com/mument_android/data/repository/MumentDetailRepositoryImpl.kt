@@ -30,7 +30,7 @@ class MumentDetailRepositoryImpl @Inject constructor(
     override suspend fun fetchMumentDetail(mumentId: String): Flow<ApiStatus<MumentDetailEntity>> =
         mumentDetailDataSource.fetchMumentDetail(mumentId)
             .map {
-                it.data?.let { it -> mumentDetailMapper.map(it) }
+                it.data?.let { dto -> mumentDetailMapper.map(dto) }
                     ?: throw NullPointerException("Can't Receive Data")
             }
             .toApiStatus(errorHandler)

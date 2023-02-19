@@ -1,5 +1,7 @@
 package com.mument_android.home.notify
 
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -34,6 +36,8 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.notifyViewModel = notifyViewModel
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancelAll()
         appBarClickListener()
         adapterSetting()
         receiveEffect()

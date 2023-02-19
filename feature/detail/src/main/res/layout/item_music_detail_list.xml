@@ -7,18 +7,18 @@
         <variable
             name="mumentSummary"
             type="com.mument_android.domain.entity.detail.MumentSummaryEntity" />
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
     </data>
 
     <com.mument_android.core_dependent.ui.ShadowConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="13dp"
-        android:paddingBottom="16dp"
+        android:background="@drawable/shape_border_default_redius_11dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:background="@drawable/shape_border_default_redius_11dp"
-        android:elevation="8dp">
+        android:elevation="8dp"
+        android:paddingHorizontal="13dp"
+        android:paddingBottom="16dp">
 
         <ImageView
             android:id="@+id/iv_profile"
@@ -61,9 +61,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/view_divider"
             app:layout_constraintTop_toBottomOf="@id/view_divider"
             tools:itemCount="2"
@@ -73,15 +73,15 @@
         <TextView
             android:id="@+id/tv_contents"
             style="@style/TextView.Mument_B4_M14.Style"
-            setMovementMethod="@{true}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:ellipsize="end"
+            android:maxLines="3"
             android:paddingVertical="10dp"
-            android:maxHeight="150dp"
-            android:scrollbars="vertical"
             android:text="@{mumentSummary.content}"
-            android:visibility="@{mumentSummary.content.empty || mumentSummary.content == null ? View.GONE : View.VISIBLE}"
             android:textColor="@color/mument_color_gray1"
+            app:layout_constraintBottom_toTopOf="@+id/tv_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_mument_tags"
@@ -94,18 +94,18 @@
             android:layout_height="wrap_content"
             android:text="@{mumentSummary.date}"
             android:textColor="@color/mument_color_gray2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_contents"
             tools:text="1 Sep, 2020" />
 
         <View
             android:id="@+id/view_clickable"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
             android:id="@+id/cb_heart"
