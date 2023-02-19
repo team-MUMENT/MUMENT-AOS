@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -419,7 +418,7 @@ class MumentDetailFragment : Fragment() {
         private const val STICKER_ASSET_KEY = "interactive_asset_uri"
         private const val STORY_TOP_BACKGROUND_COLOR_KEY = "top_background_color"
         private const val STORY_BOTTOM_BACKGROUND_COLOR_KEY = "bottom_background_color"
-        private const val STORY_BACKGROUND_COLOR_VALUE = "#989898"
+        private const val STORY_BACKGROUND_COLOR_VALUE = "#D8D8D8"
         const val INSTA_STORY_BACKGROUND_COLOR = "#989898"
         private const val TYPE_IMAGE = "image/*"
     }

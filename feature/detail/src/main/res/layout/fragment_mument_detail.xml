@@ -236,6 +236,7 @@
                         android:checked="@{mumentDetailViewModel.viewState.likedMument}"
                         android:scaleX="0.7"
                         android:scaleY="0.7"
+                        android:visibility="@{mumentDetailViewModel.viewState.mument.private?View.GONE:View.VISIBLE}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_date"
                         tools:src="@drawable/selector_heart_on_off" />
@@ -246,7 +247,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:text="@{@string/like_count_integer_format(mumentDetailViewModel.viewState.likeCount)}"
+                        android:enabled="@{mumentDetailViewModel.viewState.likeCount==0?false:true}"
+                        android:text="@{mumentDetailViewModel.viewState.mument.private?`비밀글`:@string/like_count_integer_format(mumentDetailViewModel.viewState.likeCount)}"
                         android:textColor="@color/mument_color_gray1"
                         app:layout_constraintBottom_toBottomOf="@id/cb_heart"
                         app:layout_constraintStart_toEndOf="@id/cb_heart"
