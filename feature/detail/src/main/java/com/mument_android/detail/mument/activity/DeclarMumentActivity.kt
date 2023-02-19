@@ -19,15 +19,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class DeclarMumentActivity :
     BaseActivity<ActivityDeclarMumentBinding>(inflate = ActivityDeclarMumentBinding::inflate) {
 
-    private val viewModel: MumentReportViewModel by viewModels()
+    private val reportViewModel: MumentReportViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         intent.getStringExtra("MUMENT_ID")?.let {
             Log.e("MUMENT_ID", it)
-            viewModel.mumentId.value = it
+            reportViewModel.mumentId.value = it
         }
-        binding.viewModel = viewModel
+        binding.viewModel = reportViewModel
         backBtnListener()
         checkBoxListener()
         nextBtnListener()
@@ -70,22 +70,39 @@ class DeclarMumentActivity :
         clSixthReason.setOnClickListener {
             clSixthReason.isSelected = !clSixthReason.isSelected
             isBtnActive()
+
         }
 
         clSeventhReason.setOnClickListener {
             clSeventhReason.isSelected = !clSeventhReason.isSelected
             isBtnActive()
+            observingData()
         }
     }
 
-    private fun isBtnActive()  {
-        viewModel.reasonLength.observe(this) {
+    private fun observingData() {
+        reportViewModel.reasonLength.observe(this) {
             binding.apply {
-                tvNotifyFinish.isEnabled = (clFirstReason.isSelected || clSecondReason.isSelected || clThirdReason.isSelected || clForthReason.isSelected || clFifthReason.isSelected || clSixthReason.isSelected || clSeventhReason.isSelected) && it.length > 0
+                tvNotifyFinish.isEnabled =
+                    (clFirstReason.isSelected || clSecondReason.isSelected || clThirdReason.isSelected || clForthReason.isSelected || clFifthReason.isSelected || clSixthReason.isSelected || (clSeventhReason.isSelected) && it.isNotEmpty())
             }
-
         }
+    }
 
+    private fun isBtnActive() {
+        binding.apply {
+            val btnList = listOf(
+                clFirstReason.isSelected,
+                clSecondReason.isSelected,
+                clThirdReason.isSelected,
+                clForthReason.isSelected,
+                clFifthReason.isSelected,
+                clSixthReason.isSelected
+            )
+            if (clSeventhReason.isSelected) {
+                tvNotifyFinish.isEnabled = reportViewModel.reasonLength.value?.isNotBlank() == true
+            } else tvNotifyFinish.isEnabled = btnList.any { it }
+        }
     }
 
 
@@ -100,11 +117,11 @@ class DeclarMumentActivity :
         binding.tvNotifyFinish.setOnClickListener {
             if (binding.ivBlockCheck.isSelected) {
                 reportNetwork()
-                val mumentId = viewModel.mumentId.value ?: ""
-                viewModel.isReportMuemnt.observe(this) { isReportMument ->
+                val mumentId = reportViewModel.mumentId.value ?: ""
+                reportViewModel.isReportMuemnt.observe(this) { isReportMument ->
                     if (isReportMument == true) {
-                        viewModel.blockUser(mumentId)
-                        viewModel.error.observe(this) {
+                        reportViewModel.blockUser(mumentId)
+                        reportViewModel.error.observe(this) {
                             if (it == null) {
                                 showToast("신고 및 차단이 완료되었습니다.")
 
@@ -117,7 +134,7 @@ class DeclarMumentActivity :
                 }
             } else {
                 reportNetwork()
-                viewModel.isReportMuemnt.observe(this) { isReportMument ->
+                reportViewModel.isReportMuemnt.observe(this) { isReportMument ->
                     if (isReportMument == true) {
                         showToast("신고가 접수되었습니다.")
                         finish()
@@ -151,9 +168,9 @@ class DeclarMumentActivity :
         if (binding.ivSeventhReason.isSelected) {
             reasonList.add(7)
         }
-        val mumentId = viewModel.mumentId.value ?: ""
+        val mumentId = reportViewModel.mumentId.value ?: ""
         val ReportRequest = ReportRequest(binding.editText.text.toString(), reasonList)
-        viewModel.reportMument(mumentId, ReportRequest)
+        reportViewModel.reportMument(mumentId, ReportRequest)
     }
 
 }
