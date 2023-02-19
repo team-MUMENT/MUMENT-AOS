@@ -32,8 +32,15 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        isFirst()
+        initSplash()
         newTokenNetwork()
+    }
+
+    //스플래시 -> 우선은 로그인으로 가는 로직 (후에 토큰 관리하다보면 login or main 분기처리)
+    private fun initSplash() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            isFirst()
+        }, DURATION)
     }
 
     private fun isFirst() {
@@ -62,6 +69,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     }
 
+
+
     private fun newTokenNetwork() {
         collectFlowWhenStarted(dataStoreManager.userIdFlow) {
             if (it.isNullOrEmpty()) viewModel.saveTestUserId()
@@ -72,5 +81,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         mainHomeNavigatorProvider.profileSettingToMain()
     }
 
+
+    companion object {
+        private const val DURATION: Long = 1100
+    }
 
 }
