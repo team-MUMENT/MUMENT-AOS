@@ -11,6 +11,7 @@ import androidx.databinding.BindingAdapter
 import com.mument_android.core.model.TagEntity.Companion.TAG_IS_FIRST
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.R
+import com.mument_android.core_dependent.util.OnSingleClickListener
 
 inline fun View.click(crossinline block: () -> Unit) {
     setOnClickListener { block() }
@@ -20,6 +21,10 @@ fun TextView.changeTextColor(id: Int) {
     setTextColor(context.getColor(id))
 }
 
+
+fun View.setOnSingleClickListener(onSingleClick: (View) -> Unit) {
+    setOnClickListener(OnSingleClickListener { onSingleClick(it) })
+}
 
 fun View.setVisible() {
     this.visibility = View.VISIBLE
