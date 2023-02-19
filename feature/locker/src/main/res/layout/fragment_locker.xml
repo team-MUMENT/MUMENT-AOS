@@ -41,7 +41,7 @@
             android:id="@+id/tl_locker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="26dp"
             android:background="@color/mument_color_bgwhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
