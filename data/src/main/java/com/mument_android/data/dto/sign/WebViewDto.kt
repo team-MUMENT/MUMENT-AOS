@@ -6,6 +6,7 @@ data class WebViewDto(
     val faq : String?,
     val contact: String?,
     val appInfo: String?,
-    val introduction : String?
+    val introduction : String?,
+    val license: String?
 
 )
