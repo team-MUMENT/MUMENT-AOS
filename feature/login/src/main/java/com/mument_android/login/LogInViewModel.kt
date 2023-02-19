@@ -71,6 +71,14 @@ class LogInViewModel @Inject constructor(
         }
     }
 
+    init {
+        viewModelScope.launch {
+            beforeWhenHomeEnterUseCase.checkProfileExist().catch { }.collect {
+                _isExist.value = it
+                Log.e("Profile Exist", it.toString())
+            }
+        }
+    }
     fun isExistProfile() {
         viewModelScope.launch {
             beforeWhenHomeEnterUseCase.checkProfileExist().catch { }.collect {
