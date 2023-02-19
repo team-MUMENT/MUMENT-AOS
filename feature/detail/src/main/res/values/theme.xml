@@ -27,7 +27,7 @@
     </style>
 
     <style name="TextView.Mument_B2_B14.Style" parent="">
-        <item name="android:textAppearance">@style/TextView.Mument_B3_B14.TextAppearance</item>
+        <item name="android:textAppearance">@style/TextView.Mument_B2_B14.TextAppearance</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
