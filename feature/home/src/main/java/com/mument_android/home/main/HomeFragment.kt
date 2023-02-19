@@ -86,9 +86,7 @@ class HomeFragment : Fragment() {
         setAdapter()
         setListData()
         receiveEffect()
-        /*binding.clCard.clMument.outlineAmbientShadowColor = ContextCompat.getColor(requireContext(), R.color.mument_card_shadow_color)
-        binding.clCard.clMument.outlineSpotShadowColor = ContextCompat.getColor(requireContext(), R.color.mument_card_shadow_color)
-        */binding.tvSearch.setOnClickListener {
+        binding.tvSearch.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickSearch)
         }
         binding.ivNotify.setOnClickListener {
@@ -151,6 +149,7 @@ class HomeFragment : Fragment() {
         }
         collectFlowWhenStarted(viewModel.homeViewState) { homeViewState ->
             with(homeViewState) {
+                Log.e("View State", homeViewState.toString())
                 emotionMumentEntity?.let {
                     impressiveAdapter.submitList(it.mumentList)
                     binding.tvImpressive.text = it.title
@@ -217,7 +216,6 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.e("ONRESUME", "ON RESUME!!!!")
         viewModel.checkNotifyExist()
         viewModel.bannerIndexChange(0)
         binding.vpBanner.setCurrentItem(0, false)
@@ -226,7 +224,6 @@ class HomeFragment : Fragment() {
     inner class NotifyBroadCastReceiver : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             if (p1?.action == "NEW_INTENT") {
-                Log.e("RECEIVE", "Receive BroadCast")
                 viewModel.checkNotifyExist()
             }
         }
