@@ -120,7 +120,7 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:paddingVertical="10dp"
-            android:text="@{mument.content}"
+            android:text="@{mument.content.replace(`\\n`, `\n`)}"
             app:layout_constraintBottom_toTopOf="@+id/tv_date"
             app:layout_constraintStart_toStartOf="@id/rv_mument_tags"
             app:layout_constraintTop_toBottomOf="@+id/rv_mument_tags"

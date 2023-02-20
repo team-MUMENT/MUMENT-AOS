@@ -176,7 +176,7 @@
             android:layout_marginBottom="12dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="@{mument.content}"
+            android:text="@{mument.content.replace(`\\n`, `\n`)}"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/imageview"
             tools:text="음악은 저에게 영감을 줘요, 이 곡 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게 영감을 줘요. 추천해준 이부장에게 심심한 감사의 인사를 음악은 저에게" />

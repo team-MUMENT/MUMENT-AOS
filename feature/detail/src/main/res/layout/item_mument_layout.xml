@@ -140,7 +140,7 @@
             android:ellipsize="end"
             android:maxHeight="150dp"
             android:maxLines="3"
-            android:text="@{mumentHistory.content}"
+            android:text="@{mumentHistory.content.replace(`\\n`, `\n`)}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
