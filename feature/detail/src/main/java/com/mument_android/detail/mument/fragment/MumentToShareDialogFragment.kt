@@ -86,7 +86,7 @@ class MumentToShareDialogFragment(
         val deviceWidth = deviceSize[0]
         val params = dialog?.window?.attributes
         params?.width = (deviceWidth * 0.75).toInt()
-        params?.height = (deviceWidth * 0.75 * 1.8).toInt()
+        /*params?.height = (deviceWidth * 0.75 * 1.8).toInt()*/
         dialog?.window?.attributes = params as WindowManager.LayoutParams
     }
 
