@@ -119,7 +119,7 @@ class MusicDetailViewModel @Inject constructor(
         }
     }
 
-    fun likeItemMument(mumentId: String) {
+    private fun likeItemMument(mumentId: String) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId).catch {
 
@@ -127,13 +127,13 @@ class MusicDetailViewModel @Inject constructor(
         }
     }
 
-    fun cancelLikeItemMument(mumentId: String) {
+    private fun cancelLikeItemMument(mumentId: String) {
         viewModelScope.launch {
             cancelLikeMumentUseCase(mumentId).catch { }.collect()
         }
     }
 
-    fun likeMument(mumentId: String) {
+    private fun likeMument(mumentId: String) {
         changeLikeStatus(true)
         viewModelScope.launch {
             likeMumentUseCase(mumentId)
@@ -146,7 +146,7 @@ class MusicDetailViewModel @Inject constructor(
         }
     }
 
-    fun cancelLikeMument(mumentId: String) {
+    private fun cancelLikeMument(mumentId: String) {
         changeLikeStatus(false)
         viewModelScope.launch {
             cancelLikeMumentUseCase(mumentId)
