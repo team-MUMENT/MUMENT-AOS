@@ -363,7 +363,7 @@
             android:id="@+id/cl_record_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/mument_color_white"
+            android:background="@color/mument_color_bgwhite"
             android:paddingBottom="10dp"
             app:layout_constraintTop_toTopOf="parent">
 

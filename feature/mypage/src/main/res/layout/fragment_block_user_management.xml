@@ -46,7 +46,7 @@
             android:text="@string/unblock_empty"
             android:textAppearance="@style/TextView.Mument_H2_B18.TextAppearance"
             android:textColor="@color/mument_color_gray1"
-            android:layout_marginTop="369dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
