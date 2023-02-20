@@ -61,6 +61,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         customAppBar()
         isLimitUserNetwork()
         isRestrictUser()
+        /*
+        TODO 소식창에서 접근 시에 finish() 안하면 이거 그대로 써야함 이래도 홈까지는 가서 나가야 함
+        */
+        intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
+            intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
+                val bundle = Bundle().also {
+                    it.putString(MUMENT_ID, mumentId)
+                    it.putString(MUSIC_INFO_ENTITY, music)
+                }
+                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
+            } ?: navController.navigate(
+                R.id.action_homeFragment_to_musicDetailFragment,
+                Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
+        }
     }
 
     private fun saveTestToken() {
@@ -119,7 +133,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 if (it && !NotificationManagerCompat.from(this).areNotificationsEnabled()) {
                     SuggestionNotifyAccessDialogFragment.newInstance { result ->
                         if (result) {
-                            moveoToAlarmSetting()
+                            moveToAlarmSetting()
                         }
                     }.show(supportFragmentManager, "Suggestion")
                 } else {
@@ -192,7 +206,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun moveoToAlarmSetting() {
+    private fun moveToAlarmSetting() {
         Intent().apply {
             action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
             flags = Intent.FLAG_ACTIVITY_NEW_TASK

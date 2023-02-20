@@ -114,7 +114,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="@dimen/app_space_32"
             android:ellipsize="end"
-            android:maxLines="4"
+            android:maxLines="6"
             android:text="@{viewModel.viewState.mument.content.trim()}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toTopOf="@+id/tv_date"

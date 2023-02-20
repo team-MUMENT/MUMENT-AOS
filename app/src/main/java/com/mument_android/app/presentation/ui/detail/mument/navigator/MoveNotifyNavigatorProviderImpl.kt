@@ -28,7 +28,7 @@ class MoveNotifyNavigatorProviderImpl @Inject constructor(val activity: Activity
                 putExtra(MUMENT_ID, mumentId)
                 putExtra(MUSIC_INFO_ENTITY, Gson().toJson(musicInfoEntity))
             })
-            finish()
+            /*finish() TODO 어떻게 할 지 정해야 함*/
         }
     }
 }
