@@ -86,9 +86,9 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         myPageViewModel.getWebView("mypage")
         myPageViewModel.getWebView.observe(this) {
             val faq = it.faq.toString()
-            val contact = it.contact.toString()
             val appInfo = it.appInfo.toString()
             val introduction = it.introduction.toString()
+            val license = it.license.toString()
 
             with(binding) {
                 //자주묻는질문
@@ -106,6 +106,11 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                 //뮤멘트 소개
                 clIntroduceMument.setOnClickListener {
                     initIntent(introduction)
+                }
+
+                //오픈라이선스
+                clOpenSource.setOnClickListener {
+                    initIntent(license)
                 }
             }
         }

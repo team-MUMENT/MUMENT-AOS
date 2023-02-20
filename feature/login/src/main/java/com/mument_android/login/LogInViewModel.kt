@@ -79,6 +79,14 @@ class LogInViewModel @Inject constructor(
             }
         }
     }
+    fun isExistProfile() {
+        viewModelScope.launch {
+            beforeWhenHomeEnterUseCase.checkProfileExist().catch { }.collect {
+                _isExist.value = it
+                Log.e("Profile Exist", it.toString())
+            }
+        }
+    }
 
     fun nickNameDupCheck(nickname: String) {
         viewModelScope.launch {
@@ -114,6 +122,9 @@ class LogInViewModel @Inject constructor(
                     saveAccessToken(it?.accessToken ?: "")
                     //saveTestUserId(it._id ?: 1)
                 }
+
+            }.also {
+                isExistProfile()
             }
         }
     }

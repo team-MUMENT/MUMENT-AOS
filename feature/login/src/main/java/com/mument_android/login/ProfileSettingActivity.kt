@@ -198,7 +198,7 @@ class ProfileSettingActivity :
     }
 
     private fun nickNameDupNetwork() {
-        val nickname = binding.etNickname.text.toString()
+        val nickname = binding.etNickname.text.toString().trim()
         viewModel.nickNameDupCheck(nickname)
     }
 

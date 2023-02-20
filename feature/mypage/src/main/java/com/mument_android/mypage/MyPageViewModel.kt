@@ -233,6 +233,14 @@ class MyPageViewModel @Inject constructor(
     fun logOut() {
         viewModelScope.launch {
             _postLogOut.value = logOutUseCase.logout()
+
+        }.also {
+            deleteInfo()
+        }
+    }
+
+    fun deleteInfo() {
+        viewModelScope.launch {
             dataStoreManager.removeAccessToken()
             dataStoreManager.removeRefreshToken()
             dataStoreManager.removeUserId()
