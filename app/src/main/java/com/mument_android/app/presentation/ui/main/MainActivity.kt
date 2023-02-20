@@ -156,7 +156,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     navController.navigate(
                         R.id.mumentDetailFragment,
                         bundle,
-                        NavOptions.Builder().setPopUpTo(R.id.mumentDetailFragment, false).build()
+                        NavOptions.Builder().setPopUpTo(R.id.mumentDetailFragment, true).build()
                     )
                 }
             }
