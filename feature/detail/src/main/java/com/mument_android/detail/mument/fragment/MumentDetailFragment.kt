@@ -20,7 +20,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.Gson
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -110,7 +112,7 @@ class MumentDetailFragment : Fragment() {
         goToMusicDetail()
         goToHistory()
         shareMumentOnInstagram()
-        binding.tvLikeCount.setOnClickListener {
+        binding.tvLikeCount.setOnSingleClickListener {
             viewModel.emitEvent(MumentDetailEvent.OnClickLikeCount)
         }
     }
@@ -257,10 +259,17 @@ class MumentDetailFragment : Fragment() {
     }
 
     private fun changeLikeStatus() {
-        binding.cbHeart.setOnClickListener {
-            viewModel.emitEvent(
-                if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
-            )
+        binding.laLike.click {
+            if (binding.laLike.progress == 0F) {
+                binding.laLike.playAnimation()
+                viewModel.emitDelayEvent(
+                    MumentDetailEvent.OnClickLikeMument
+                )
+            } else {
+                viewModel.emitEvent(
+                    MumentDetailEvent.OnClickUnLikeMument
+                )
+            }
         }
     }
 
