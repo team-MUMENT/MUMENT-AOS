@@ -3,7 +3,7 @@ package com.mument_android.core_dependent.util
 import android.os.SystemClock
 import android.view.View
 
-class OnSingleClickListener(private val interval: Int = 2000, val onSingleClick: (View) -> Unit) :
+class OnSingleClickListener(private val interval: Int = 1000, val onSingleClick: (View) -> Unit) :
     View.OnClickListener {
 
     private var lastClickTime: Long = 0
