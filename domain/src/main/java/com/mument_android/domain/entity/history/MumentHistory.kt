@@ -17,5 +17,5 @@ data class MumentHistory(
     val createAt: String,
     val updatedAt: String,
     val date: String,
-    val isLiked: Boolean,
+    var isLiked: Boolean,
 )

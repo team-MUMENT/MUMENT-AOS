@@ -65,7 +65,7 @@ class HistoryActivity :
         historyViewModel.likeMument(mumentId)
     }
 
-    private fun deleteLikeMument(mumentId: String) {
+    private fun cancelLikeMument(mumentId: String) {
         historyViewModel.cancelLikeMument(mumentId)
     }
 
@@ -73,7 +73,7 @@ class HistoryActivity :
         collectFlowWhenStarted(historyViewModel.selectSortType) { sort ->
             adapter = HistoryListAdapter(::moveToMumentDetail, {
                 likeMument(it)
-            }, { deleteLikeMument(it) })
+            }, { cancelLikeMument(it) })
             binding.rcHistory.adapter = adapter
             binding.tvLatestOrder.isSelected = sort == "Y"
             binding.tvOldestOrder.isSelected = sort == "N"

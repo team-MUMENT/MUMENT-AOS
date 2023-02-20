@@ -111,9 +111,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/la_like_music"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:progress="@{mumentSummary.liked?100:0}"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toStartOf="@id/tv_like_count"
