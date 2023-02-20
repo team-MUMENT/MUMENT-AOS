@@ -113,25 +113,27 @@
             android:id="@+id/la_like_music"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:progress="@{mumentSummary.liked?100:0}"
+            android:progress="@{mumentSummary.liked?100F:0F}"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toStartOf="@id/tv_like_count"
             app:layout_constraintTop_toTopOf="@id/iv_profile"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"
             app:lottie_rawRes="@raw/heart_icn_lottie" />
-<!--
+        <!--
 
-        <CheckBox
-            android:id="@+id/cb_heart"
-            android:layout_width="17dp"
-            android:layout_height="17dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/selector_heart_on_off"
-            android:button="@null"
-            android:checked="@{mumentSummary.liked}"
-            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
-            app:layout_constraintEnd_toStartOf="@id/tv_like_count"
-            app:layout_constraintTop_toTopOf="@id/iv_profile" />
--->
+                <CheckBox
+                    android:id="@+id/cb_heart"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/selector_heart_on_off"
+                    android:button="@null"
+                    android:checked="@{mumentSummary.liked}"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+                    app:layout_constraintEnd_toStartOf="@id/tv_like_count"
+                    app:layout_constraintTop_toTopOf="@id/iv_profile" />
+        -->
 
         <TextView
             android:id="@+id/tv_like_count"

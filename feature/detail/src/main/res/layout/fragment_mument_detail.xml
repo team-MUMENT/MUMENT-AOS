@@ -224,32 +224,34 @@
                         app:layout_constraintStart_toStartOf="@id/rv_mument_tags"
                         app:layout_constraintTop_toBottomOf="@id/tv_contents"
                         tools:text="1 Sep, 2020" />
-<!--
+                    <!--
 
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/cb_heart"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="13dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/selector_heart_on_off"
-                        android:button="@null"
-                        android:checked="@{mumentDetailViewModel.viewState.likedMument}"
-                        android:visibility="@{mumentDetailViewModel.viewState.mument.private?View.GONE:View.VISIBLE}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_date"
-                        tools:src="@drawable/selector_heart_on_off" />
--->
+                                        <androidx.appcompat.widget.AppCompatCheckBox
+                                            android:id="@+id/cb_heart"
+                                            android:layout_width="24dp"
+                                            android:layout_height="24dp"
+                                            android:layout_marginStart="13dp"
+                                            android:layout_marginTop="12dp"
+                                            android:background="@drawable/selector_heart_on_off"
+                                            android:button="@null"
+                                            android:checked="@{mumentDetailViewModel.viewState.likedMument}"
+                                            android:visibility="@{mumentDetailViewModel.viewState.mument.private?View.GONE:View.VISIBLE}"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@id/tv_date"
+                                            tools:src="@drawable/selector_heart_on_off" />
+                    -->
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/la_like"
                         android:layout_width="wrap_content"
-                        android:progress="@{mumentDetailViewModel.viewState.likedMument?100:0}"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="13dp"
                         android:layout_marginTop="12dp"
+                        android:progress="@{mumentDetailViewModel.viewState.likedMument?100F:0F}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_date"
+                        app:lottie_autoPlay="false"
+                        app:lottie_loop="false"
                         app:lottie_rawRes="@raw/heart_icn_lottie" />
 
                     <TextView

@@ -49,8 +49,8 @@
             android:id="@+id/ll_touch_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
             android:gravity="center"
+            android:paddingVertical="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/iv_profile">
@@ -60,24 +60,26 @@
                 android:id="@+id/la_like_mument_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:progress="@{mument.liked?100:0}"
+                android:progress="@{mument.liked?100F:0F}"
                 android:visibility="@{mument.isPrivate != true ? View.VISIBLE : View.GONE}"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
                 app:lottie_rawRes="@raw/heart_icn_lottie" />
-<!--
+            <!--
 
-            <CheckBox
-                android:id="@+id/iv_like"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/selector_heart_on_off"
-                android:button="@null"
-                android:checked="@{mument.isLiked}"
-                android:visibility="@{mument.isPrivate != true ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_secret_likecount"
-                app:layout_constraintEnd_toStartOf="@id/tv_secret_likecount"
-                app:layout_constraintTop_toTopOf="@id/tv_secret_likecount" />
--->
+                        <CheckBox
+                            android:id="@+id/iv_like"
+                            android:layout_width="21dp"
+                            android:layout_height="21dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/selector_heart_on_off"
+                            android:button="@null"
+                            android:checked="@{mument.isLiked}"
+                            android:visibility="@{mument.isPrivate != true ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_secret_likecount"
+                            app:layout_constraintEnd_toStartOf="@id/tv_secret_likecount"
+                            app:layout_constraintTop_toTopOf="@id/tv_secret_likecount" />
+            -->
 
             <TextView
                 android:id="@+id/tv_secret_likecount"

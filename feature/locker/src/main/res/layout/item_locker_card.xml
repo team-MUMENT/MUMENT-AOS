@@ -49,15 +49,27 @@
                 android:text="@{mument.userName}"
                 tools:text="이수지" />
 
-            <CheckBox
-                android:id="@+id/iv_like"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/selector_heart_on_off"
-                android:button="@null"
-                android:checked="@{mument.isLiked}"
-                android:visibility="@{mument.isPrivate != true ? View.VISIBLE : View.GONE}" />
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/la_like_locker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:progress="@{mument.isLiked?100F:0F}"
+                android:visibility="@{mument.isPrivate != true ? View.VISIBLE : View.GONE}"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/heart_icn_lottie" />
+            <!--
+
+                        <CheckBox
+                            android:id="@+id/iv_like"
+                            android:layout_width="21dp"
+                            android:layout_height="21dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/selector_heart_on_off"
+                            android:button="@null"
+                            android:checked="@{mument.isLiked}"
+                            android:visibility="@{mument.isPrivate != true ? View.VISIBLE : View.GONE}" />
+            -->
 
             <TextView
                 android:id="@+id/tv_like_count"
@@ -126,13 +138,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@drawable/rectangle_fill_purple2_20dp"
+                    android:fontFamily="@font/notosans_medium"
                     android:gravity="center_vertical"
                     android:paddingHorizontal="7dp"
                     android:paddingVertical="5dp"
-                    android:textSize="12dp"
-                    android:fontFamily="@font/notosans_medium"
                     android:text="@{mument.isFirst()?`처음` : `다시`}"
                     android:textColor="@color/mument_color_purple1"
+                    android:textSize="12dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

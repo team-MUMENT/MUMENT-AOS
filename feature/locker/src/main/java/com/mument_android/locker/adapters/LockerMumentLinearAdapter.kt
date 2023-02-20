@@ -12,9 +12,14 @@ import com.mument_android.domain.entity.locker.LockerMumentEntity
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.ImpressiveTag
+import com.mument_android.core_dependent.util.myIsDigitsOnly
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.LikeMumentListener
 import com.mument_android.locker.databinding.ItemLockerCardBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 //자식어뎁터
 class LockerMumentLinearAdapter(
@@ -65,33 +70,44 @@ class LockerMumentLinearAdapter(
 
     private fun likeMument(holder: MumentViewHolder) {
         val mument = getItem(holder.absoluteAdapterPosition)
-        val isLiked = mument.isLiked
-        val likeCount = mument.likeCount ?: 0
         holder.binding.run {
-            ivLike.setOnClickListener {
-                tvLikeCount.text = when {
-                    isLiked == true && ivLike.isChecked -> likeCount.toString()
-                    isLiked == true && !ivLike.isChecked -> (likeCount - 1).toString()
-                    isLiked == false && ivLike.isChecked -> (likeCount + 1).toString()
-                    isLiked == false && !ivLike.isChecked -> likeCount.toString()
-                    else -> likeCount.toString()
+            laLikeLocker.setOnClickListener {
+                if (tvLikeCount.text.myIsDigitsOnly()) {
+                    val likeCount = tvLikeCount.text.toString().toInt()
+                    if (laLikeLocker.progress == 0F) {
+                        laLikeLocker.playAnimation()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            delay(1000)
+                            likeMumentListener.likeMument(
+                                mument._id ?: ""
+                            )
+                            tvLikeCount.text = (likeCount + 1).toString()
+                        }
+                    } else {
+                        likeMumentListener.cancelLikeMument(mument._id ?: "")
+                        laLikeLocker.progress = 0F
+                        tvLikeCount.text = (likeCount - 1).toString()
+                    }
                 }
-                if (ivLike.isChecked) likeMumentListener.likeMument(
-                    mument._id ?: ""
-                ) else likeMumentListener.cancelLikeMument(mument._id ?: "")
             }
             tvLikeCount.click {
-                ivLike.isChecked = !ivLike.isChecked
-                tvLikeCount.text = when {
-                    isLiked == true && ivLike.isChecked -> likeCount.toString()
-                    isLiked == true && !ivLike.isChecked -> (likeCount - 1).toString()
-                    isLiked == false && ivLike.isChecked -> (likeCount + 1).toString()
-                    isLiked == false && !ivLike.isChecked -> likeCount.toString()
-                    else -> likeCount.toString()
+                if (tvLikeCount.text.myIsDigitsOnly()) {
+                    val likeCount = tvLikeCount.text.toString().toInt()
+                    if (laLikeLocker.progress == 0F) {
+                        laLikeLocker.playAnimation()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            delay(1000)
+                            likeMumentListener.likeMument(
+                                mument._id ?: ""
+                            )
+                            tvLikeCount.text = (likeCount + 1).toString()
+                        }
+                    } else {
+                        likeMumentListener.cancelLikeMument(mument._id ?: "")
+                        laLikeLocker.progress = 0F
+                        tvLikeCount.text = (likeCount - 1).toString()
+                    }
                 }
-                if (ivLike.isChecked) likeMumentListener.likeMument(
-                    mument._id ?: ""
-                ) else likeMumentListener.cancelLikeMument(mument._id ?: "")
             }
         }
     }
