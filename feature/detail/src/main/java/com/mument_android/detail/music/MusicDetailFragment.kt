@@ -127,7 +127,7 @@ class MusicDetailFragment : Fragment() {
             if (musicDetailViewModel.viewState.value.myMumentInfo != null) {
                 if (binding.layoutMyMument.laLikeMumentDetail.progress == 0F) {
                     binding.layoutMyMument.laLikeMumentDetail.playAnimation()
-                    musicDetailViewModel.emitDelayEvent(
+                    musicDetailViewModel.emitEvent(
                         MusicDetailEvent.CheckLikeMument(
                             musicDetailViewModel.viewState.value.myMumentInfo!!.mumentId
                         )
@@ -145,7 +145,7 @@ class MusicDetailFragment : Fragment() {
             if (musicDetailViewModel.viewState.value.myMumentInfo != null) {
                 if (binding.layoutMyMument.laLikeMumentDetail.progress == 0F) {
                     binding.layoutMyMument.laLikeMumentDetail.playAnimation()
-                    musicDetailViewModel.emitDelayEvent(
+                    musicDetailViewModel.emitEvent(
                         MusicDetailEvent.CheckLikeMument(
                             musicDetailViewModel.viewState.value.myMumentInfo!!.mumentId
                         )

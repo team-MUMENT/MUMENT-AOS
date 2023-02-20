@@ -262,7 +262,7 @@ class MumentDetailFragment : Fragment() {
         binding.laLike.click {
             if (binding.laLike.progress == 0F) {
                 binding.laLike.playAnimation()
-                viewModel.emitDelayEvent(
+                viewModel.emitEvent(
                     MumentDetailEvent.OnClickLikeMument
                 )
             } else {

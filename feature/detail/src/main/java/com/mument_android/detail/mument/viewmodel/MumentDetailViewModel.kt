@@ -15,6 +15,7 @@ import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -134,11 +135,13 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun likeMument() {
         viewModelScope.launch {
-            changeLikeStatus(true)
             likeMumentUseCase(viewState.value.requestMumentId)
                 .catch {
                     changeLikeStatus(false)
-                }.collect {}
+                }.collect {
+                    delay(1000)
+                    changeLikeStatus(true)
+                }
         }
     }
 

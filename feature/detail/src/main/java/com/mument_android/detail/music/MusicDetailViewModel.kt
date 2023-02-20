@@ -14,6 +14,7 @@ import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -121,9 +122,7 @@ class MusicDetailViewModel @Inject constructor(
 
     private fun likeItemMument(mumentId: String) {
         viewModelScope.launch {
-            likeMumentUseCase(mumentId).catch {
-
-            }.collect()
+            likeMumentUseCase(mumentId).catch {}.collect()
         }
     }
 
@@ -134,13 +133,14 @@ class MusicDetailViewModel @Inject constructor(
     }
 
     private fun likeMument(mumentId: String) {
-        changeLikeStatus(true)
         viewModelScope.launch {
             likeMumentUseCase(mumentId)
                 .catch {
                     changeLikeStatus(false)
                 }
                 .collect {
+                    delay(1000)
+                    changeLikeStatus(true)
                     setEffect { MusicDetailEffect.CompleteLikeMument }
                 }
         }
