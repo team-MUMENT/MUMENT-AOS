@@ -224,6 +224,7 @@
                         app:layout_constraintStart_toStartOf="@id/rv_mument_tags"
                         app:layout_constraintTop_toBottomOf="@id/tv_contents"
                         tools:text="1 Sep, 2020" />
+<!--
 
                     <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/cb_heart"
@@ -234,12 +235,22 @@
                         android:background="@drawable/selector_heart_on_off"
                         android:button="@null"
                         android:checked="@{mumentDetailViewModel.viewState.likedMument}"
-                        android:scaleX="0.7"
-                        android:scaleY="0.7"
                         android:visibility="@{mumentDetailViewModel.viewState.mument.private?View.GONE:View.VISIBLE}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_date"
                         tools:src="@drawable/selector_heart_on_off" />
+-->
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/la_like"
+                        android:layout_width="24dp"
+                        android:progress="@{mumentDetailViewModel.viewState.likedMument?100:0}"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_date"
+                        app:lottie_rawRes="@raw/heart_icn_lottie" />
 
                     <TextView
                         android:id="@+id/tv_like_count"
@@ -250,9 +261,9 @@
                         android:enabled="@{mumentDetailViewModel.viewState.likeCount==0?false:true}"
                         android:text="@{mumentDetailViewModel.viewState.mument.private?`비밀글`:@string/like_count_integer_format(mumentDetailViewModel.viewState.likeCount)}"
                         android:textColor="@color/mument_color_gray1"
-                        app:layout_constraintBottom_toBottomOf="@id/cb_heart"
-                        app:layout_constraintStart_toEndOf="@id/cb_heart"
-                        app:layout_constraintTop_toTopOf="@id/cb_heart"
+                        app:layout_constraintBottom_toBottomOf="@id/la_like"
+                        app:layout_constraintStart_toEndOf="@id/la_like"
+                        app:layout_constraintTop_toTopOf="@id/la_like"
                         tools:text="15명이 좋아합니다." />
 
                     <androidx.appcompat.widget.AppCompatImageView

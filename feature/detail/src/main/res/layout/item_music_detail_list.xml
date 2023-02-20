@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="mumentSummary"
             type="com.mument_android.domain.entity.detail.MumentSummaryEntity" />
+
         <import type="android.view.View" />
     </data>
 
@@ -107,6 +109,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/la_like_music"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="5dp"
+            android:progress="@{mumentSummary.liked?100:0}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+            app:layout_constraintEnd_toStartOf="@id/tv_like_count"
+            app:layout_constraintTop_toTopOf="@id/iv_profile"
+            app:lottie_rawRes="@raw/heart_icn_lottie" />
+<!--
+
         <CheckBox
             android:id="@+id/cb_heart"
             android:layout_width="17dp"
@@ -118,6 +132,7 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toStartOf="@id/tv_like_count"
             app:layout_constraintTop_toTopOf="@id/iv_profile" />
+-->
 
         <TextView
             android:id="@+id/tv_like_count"
