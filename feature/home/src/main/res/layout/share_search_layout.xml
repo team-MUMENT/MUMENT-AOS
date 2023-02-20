@@ -108,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingTop="@{viewmodel.searchOption?@dimen/app_space_0:@dimen/app_space_11}"
+                android:paddingTop="@{viewmodel.searchOption?@dimen/app_space_11:@dimen/app_space_20}"
                 android:text="@{viewmodel.searchOption?@string/search_result_empty_header(viewmodel.searchText):@string/search_empty_header}"
                 android:textColor="@color/mument_color_gray1"
                 app:coloredText="@{viewmodel.searchOption?viewmodel.searchText:``}"
