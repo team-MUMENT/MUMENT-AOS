@@ -52,6 +52,7 @@ dependencies {
     implementation(ThirdPartyDependencies.fireBaseCloudMessaging)
     implementation(ThirdPartyDependencies.indicator)
     implementation(ThirdPartyDependencies.coil)
+    implementation(ThirdPartyDependencies.lottie)
     implementation(AndroidXDependencies.coroutines)
     implementation(ThirdPartyDependencies.kakao)
     implementation(project(Modules.DOMAIN_MODULE))

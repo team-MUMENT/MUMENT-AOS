@@ -1,10 +1,7 @@
 package com.mument_android.data.mapper.sign
 
 import com.mument_android.core.base.BaseMapper
-import com.mument_android.data.dto.sign.SetProfileDto
 import com.mument_android.data.dto.sign.WebViewDto
-import com.mument_android.domain.entity.sign.SetProfileData
-import com.mument_android.domain.entity.sign.SetProfileEntity
 import com.mument_android.domain.entity.sign.WebViewEntity
 
 class GetWebViewMapper : BaseMapper<WebViewDto?, WebViewEntity> {
@@ -14,6 +11,7 @@ class GetWebViewMapper : BaseMapper<WebViewDto?, WebViewEntity> {
         faq = from?.faq,
         contact = from?.contact,
         appInfo = from?.appInfo,
-        introduction = from?.introduction
+        introduction = from?.introduction,
+        license = from?.license
     )
 }

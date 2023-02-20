@@ -5,7 +5,9 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.navigation.fragment.findNavController
 import com.mument_android.core_dependent.base.BaseActivity
+import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.ActivityDeclarMumentBinding
@@ -126,9 +128,19 @@ class DeclarMumentActivity :
                                 showToast("신고 및 차단이 완료되었습니다.")
 
                             } else {
-                                showToast(it)
+
+                                MumentDialogBuilder()
+                                    .setBody("신고가 정상적으로 완료되었으나, 일시적인 네트워크 오류로 인해 차단을 실패했습니다. 잠시 후 다시 시도해주시기 바랍니다.")
+                                    .setAllowListener("확인") {
+                                        finish()
+                                    }
+                                    .build()
+                                    .show(supportFragmentManager, attributionTag)
+                               // showToast(it)
+                            }.also {
+
                             }
-                            finish()
+
                         }
                     }
                 }

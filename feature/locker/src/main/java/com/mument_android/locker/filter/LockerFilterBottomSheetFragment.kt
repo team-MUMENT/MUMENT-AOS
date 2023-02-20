@@ -212,8 +212,8 @@ class LockerFilterBottomSheetFragment(
     private fun resetTags() {
         binding.tvClearAll.setOnClickListener {
             binding.rvEmotion.resetCheckTags(filterBottomSheetAdpaterEmotion)
-            binding.rvImpressive.resetCheckTags(filterBottomSheetAdpaterEmotion)
-            filterBottomSheetAdpaterEmotion.selectedTags.clear()
+            binding.rvImpressive.resetCheckTags(filterBottomSheetAdapterImpress)
+            filterBottomSheetAdapterImpress.selectedTags.clear()
             filterBottomSheetAdpaterEmotion.selectedTags.clear()
             lockerFilterViewModel.clearSelectedTags()
         }

@@ -70,6 +70,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
 
+
     private fun newTokenNetwork() {
         collectFlowWhenStarted(dataStoreManager.userIdFlow) {
             if (it.isNullOrEmpty()) viewModel.saveTestUserId()
@@ -82,7 +83,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
 
     companion object {
-        private const val DURATION: Long = 2000
+        private const val DURATION: Long = 1100
     }
 
 }
