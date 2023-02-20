@@ -1,10 +1,13 @@
 package com.mument_android.app.presentation.ui.main
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -113,13 +116,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun moveMusicDetail(intent: Intent) {
         if (intent.getStringExtra(TO_MUSIC_DETAIL) == TO_MUSIC_DETAIL) {
             intent.getBooleanExtra("COUNT", false).let {
-                if (it) {
+                if (it && !NotificationManagerCompat.from(this).areNotificationsEnabled()) {
                     SuggestionNotifyAccessDialogFragment.newInstance { result ->
                         if (result) {
-                            Intent(this, MyPageActivity::class.java).apply {
-                                putExtra("alarm", true)
-                                startActivity(this)
-                            }
+                            moveoToAlarmSetting()
                         }
                     }.show(supportFragmentManager, "Suggestion")
                 } else {
@@ -189,6 +189,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
             false
+        }
+    }
+
+    private fun moveoToAlarmSetting() {
+        Intent().apply {
+            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            //버전에 따른 알림 설정
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            } else {
+                putExtra("app_package", packageName)
+                putExtra("app_uid", applicationInfo.uid)
+            }
+        }.also { destination ->
+            startActivity(destination)
         }
     }
 
