@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,7 +20,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.Gson
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
@@ -111,7 +112,7 @@ class MumentDetailFragment : Fragment() {
         goToMusicDetail()
         goToHistory()
         shareMumentOnInstagram()
-        binding.tvLikeCount.setOnClickListener {
+        binding.tvLikeCount.setOnSingleClickListener {
             viewModel.emitEvent(MumentDetailEvent.OnClickLikeCount)
         }
     }
@@ -258,10 +259,17 @@ class MumentDetailFragment : Fragment() {
     }
 
     private fun changeLikeStatus() {
-        binding.cbHeart.setOnClickListener {
-            viewModel.emitEvent(
-                if (binding.cbHeart.isChecked) MumentDetailEvent.OnClickLikeMument else MumentDetailEvent.OnClickUnLikeMument
-            )
+        binding.laLike.click {
+            if (binding.laLike.progress == 0F) {
+                binding.laLike.playAnimation()
+                viewModel.emitEvent(
+                    MumentDetailEvent.OnClickLikeMument
+                )
+            } else {
+                viewModel.emitEvent(
+                    MumentDetailEvent.OnClickUnLikeMument
+                )
+            }
         }
     }
 
@@ -419,7 +427,7 @@ class MumentDetailFragment : Fragment() {
         private const val STICKER_ASSET_KEY = "interactive_asset_uri"
         private const val STORY_TOP_BACKGROUND_COLOR_KEY = "top_background_color"
         private const val STORY_BOTTOM_BACKGROUND_COLOR_KEY = "bottom_background_color"
-        private const val STORY_BACKGROUND_COLOR_VALUE = "#989898"
+        private const val STORY_BACKGROUND_COLOR_VALUE = "#D8D8D8"
         const val INSTA_STORY_BACKGROUND_COLOR = "#989898"
         private const val TYPE_IMAGE = "image/*"
     }

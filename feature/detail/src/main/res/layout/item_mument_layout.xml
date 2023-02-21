@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="mumentHistory"
             type="com.mument_android.domain.entity.history.MumentHistory" />
@@ -47,24 +49,40 @@
             app:layout_constraintTop_toTopOf="@id/iv_profile"
             tools:text="이수지" />
 
-        <CheckBox
-            android:id="@+id/cb_heart"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/selector_heart_on_off"
-            android:button="@null"
-            android:checked="@{mumentHistory.liked}"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/la_like_mument_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:progress="@{mumentHistory.liked?100F:0F}"
+            android:visibility="@{mumentHistory.private?View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toStartOf="@id/tv_like_count"
-            app:layout_constraintTop_toTopOf="@id/iv_profile" />
+            app:layout_constraintTop_toTopOf="@id/iv_profile"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/heart_icn_lottie" />
+        <!--
+
+                <CheckBox
+                    android:id="@+id/cb_heart"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/selector_heart_on_off"
+                    android:button="@null"
+                    android:checked="@{mumentHistory.liked}"
+                    android:visibility="@{mumentHistory.private?View.GONE:View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+                    app:layout_constraintEnd_toStartOf="@id/tv_like_count"
+                    app:layout_constraintTop_toTopOf="@id/iv_profile" />
+        -->
 
         <TextView
             android:id="@+id/tv_like_count"
             style="@style/TextView.Mument_C1_R12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(mumentHistory.likeCount)}"
+            android:text="@{mumentHistory.private?`비밀글`:String.valueOf(mumentHistory.likeCount)}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
@@ -113,7 +131,6 @@
             tools:listitem="@layout/item_mument_string_tag" />
 
 
-
         <TextView
             android:id="@+id/tv_contents"
             style="@style/TextView.Mument_B4_M14.Style"
@@ -123,7 +140,7 @@
             android:ellipsize="end"
             android:maxHeight="150dp"
             android:maxLines="3"
-            android:text="@{mumentHistory.content}"
+            android:text="@{mumentHistory.content.replace(`\\n`, `\n`)}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

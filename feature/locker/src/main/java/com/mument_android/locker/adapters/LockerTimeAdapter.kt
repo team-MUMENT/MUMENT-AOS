@@ -17,7 +17,7 @@ class LockerTimeAdapter(
     private val isGridLayout: Boolean,
     private val showDetailListener: (String, MusicInfoEntity) -> Unit,
     private val likeMumentListener: LikeMumentListener
-): ListAdapter<LockerMumentEntity, LockerTimeAdapter.LockerTimeViewHolder>(
+) : ListAdapter<LockerMumentEntity, LockerTimeAdapter.LockerTimeViewHolder>(
     GlobalDiffCallBack<LockerMumentEntity>()
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LockerTimeViewHolder {
@@ -35,19 +35,20 @@ class LockerTimeAdapter(
     private fun setMumentList(holder: LockerTimeViewHolder) {
         val mumentList = getItem(holder.absoluteAdapterPosition)
         holder.binding.rvMumentLinear.run {
-            if(isGridLayout) {
+            if (isGridLayout) {
                 adapter = LockerMumentGridAdapter { mumentId, musicInfo ->
                     showDetailListener(mumentId, musicInfo)
                 }
                 (adapter as LockerMumentGridAdapter).submitList(mumentList.mumentCard)
-                val gridLayoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
+                val gridLayoutManager =
+                    GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
                 holder.binding.rvMumentLinear.layoutManager = gridLayoutManager
             } else {
                 adapter = LockerMumentLinearAdapter(
                     showDetailListener = { mumentId, musicInfo ->
                         showDetailListener(mumentId, musicInfo)
-                                         },
-                    likeMumentListener = object: LikeMumentListener {
+                    },
+                    likeMumentListener = object : LikeMumentListener {
                         override fun likeMument(mumetId: String) {
                             likeMumentListener.likeMument(mumetId)
                         }
@@ -55,12 +56,17 @@ class LockerTimeAdapter(
                             likeMumentListener.cancelLikeMument(mumetId)
                         }
                     }
-                )
+                ).also {
+                    if (mumentList.isOther == true) {
+                        it.isOther = true
+                    }
+                }
 
                 (adapter as LockerMumentLinearAdapter).submitList(mumentList.mumentCard)
             }
         }
     }
 
-    class LockerTimeViewHolder(val binding: ItemLockerDateBinding) : RecyclerView.ViewHolder(binding.root)
+    class LockerTimeViewHolder(val binding: ItemLockerDateBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

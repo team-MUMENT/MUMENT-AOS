@@ -5,9 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.mument_android.core.util.Event
 import com.mument_android.core.util.SideEffect
 import com.mument_android.core.util.ViewState
-import com.mument_android.core_dependent.ext.collectFlow
-import com.mument_android.core_dependent.util.emitEffect
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -40,6 +39,13 @@ abstract class MviViewModel<E: Event, S: ViewState, SE: SideEffect>: ViewModel()
 
     fun emitEvent(event: E) {
         viewModelScope.launch {
+            _event.emit(event)
+        }
+    }
+
+    fun emitDelayEvent(event: E) {
+        viewModelScope.launch {
+            delay(1200)
             _event.emit(event)
         }
     }

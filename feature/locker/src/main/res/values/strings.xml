@@ -86,7 +86,7 @@
     <string name="locker_mument_empty_btn">뮤멘트 기록하기</string>
 
     <string name="search_record_empty_header">감상을 남기고 싶은 곡을 찾아보세요.</string>
-    <string name="search_empty_header">좋아하는 곡에 대한 다양한 감상을 찾아보세요</string>
+    <string name="search_empty_header">좋아하는 곡에 대한\n다양한 감상을 찾아보세요</string>
     <string name="search_empty_body">아티스트,곡을 검색해보세요.</string>
     <string name="search_result_empty_header">\'%s\'에 대한\n검색 결과가 없어요</string>
     <string name="search_result_empty_body">다른 검색어를 입력해보세요.</string>

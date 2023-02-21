@@ -25,10 +25,13 @@ sealed class MusicDetailContract {
         data class ReceiveRequestMusicInfo(val music: MusicInfoEntity): MusicDetailEvent()
         data class CheckLikeMument(val mumentId: String): MusicDetailEvent()
         data class UnCheckLikeMument(val mumentId: String): MusicDetailEvent()
+        data class CheckLikeItemMument(val mumentId: String): MusicDetailEvent()
+        data class UnCheckLikeItemMument(val mumentId: String): MusicDetailEvent()
     }
 
     sealed class MusicDetailEffect: SideEffect {
         object PopBackStack: MusicDetailEffect()
         data class ShowToast(val msg: String): MusicDetailEffect()
+        object CompleteLikeMument: MusicDetailEffect()
     }
 }

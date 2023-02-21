@@ -5,9 +5,7 @@ import android.graphics.*
 import android.net.Uri
 import android.os.Environment
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.mument_android.core_dependent.R
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.ByteArrayOutputStream
@@ -32,7 +30,7 @@ class MediaUtils @Inject constructor(@ApplicationContext private val context: Co
             file.createNewFile()
 
             val bitmapByteArray = ByteArrayOutputStream().let { bos ->
-                bitmap?.compress(Bitmap.CompressFormat.PNG, 80, bos)
+                bitmap?.compress(Bitmap.CompressFormat.PNG, 100, bos)
                 bos.toByteArray()
             }
 

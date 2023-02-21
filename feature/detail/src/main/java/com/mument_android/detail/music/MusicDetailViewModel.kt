@@ -14,7 +14,9 @@ import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -50,6 +52,12 @@ class MusicDetailViewModel @Inject constructor(
             }
             is MusicDetailEvent.UnCheckLikeMument -> {
                 cancelLikeMument(event.mumentId)
+            }
+            is MusicDetailEvent.CheckLikeItemMument -> {
+                likeItemMument(event.mumentId)
+            }
+            is MusicDetailEvent.UnCheckLikeItemMument -> {
+                cancelLikeItemMument(event.mumentId)
             }
             is MusicDetailEvent.OnClickBackButton -> {
                 setEffect { MusicDetailEffect.PopBackStack }
@@ -88,7 +96,6 @@ class MusicDetailViewModel @Inject constructor(
                 viewState.value.mumentSortType.tag
             ).catch { e ->
                 Log.e("error", "${e.message}")
-
                 setState { copy(hasError = true, mumentList = emptyList()) }
             }.collect { muments ->
                 Log.e("mument list", "${muments}")
@@ -113,25 +120,42 @@ class MusicDetailViewModel @Inject constructor(
         }
     }
 
-    fun likeMument(mumentId: String) {
-        changeLikeStatus(true)
+    private fun likeItemMument(mumentId: String) {
+        viewModelScope.launch {
+            likeMumentUseCase(mumentId).catch {}.collect()
+        }
+    }
+
+    private fun cancelLikeItemMument(mumentId: String) {
+        viewModelScope.launch {
+            cancelLikeMumentUseCase(mumentId).catch { }.collect()
+        }
+    }
+
+    private fun likeMument(mumentId: String) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId)
                 .catch {
                     changeLikeStatus(false)
                 }
-                .collect { }
+                .collect {
+                    delay(1000)
+                    changeLikeStatus(true)
+                    setEffect { MusicDetailEffect.CompleteLikeMument }
+                }
         }
     }
 
-    fun cancelLikeMument(mumentId: String) {
+    private fun cancelLikeMument(mumentId: String) {
         changeLikeStatus(false)
         viewModelScope.launch {
             cancelLikeMumentUseCase(mumentId)
                 .catch {
                     changeLikeStatus(true)
                 }
-                .collect { }
+                .collect {
+                    setEffect { MusicDetailEffect.CompleteLikeMument }
+                }
         }
     }
 

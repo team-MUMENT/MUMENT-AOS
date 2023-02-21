@@ -2,11 +2,13 @@ package com.mument_android.home.notify
 
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.viewModels
 import com.angdroid.navigation.MoveNotifyNavigatorProvider
-import com.angdroid.navigation.MoveToAlarmFragmentProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.TransitionMode
@@ -29,9 +31,6 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
 
     @Inject
     lateinit var moveNotifyNavigatorProvider: MoveNotifyNavigatorProvider
-
-    @Inject
-    lateinit var moveToAlarmFragmentProvider: MoveToAlarmFragmentProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +64,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
                     Log.e("Success", "AllRead Success")
                 }
                 NotifySideEffect.NavToSetting -> {
-                    moveToAlarmFragmentProvider.moveAlarm()
+                    moveToAlarmSetting()
                     //Nav to Setting
                 }
                 is NotifySideEffect.DeleteNotify -> {
@@ -94,6 +93,22 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
     private fun moveToNoticeView(notify: Notify) {
         //Move Notice
         moveNotifyNavigatorProvider.moveToNoticeDetail(notify.linkId)
+    }
+
+    private fun moveToAlarmSetting() {
+        Intent().apply {
+            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            //버전에 따른 알림 설정
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            } else {
+                putExtra("app_package", packageName)
+                putExtra("app_uid", applicationInfo.uid)
+            }
+        }.also { destination ->
+            startActivity(destination)
+        }
     }
 
     private fun adapterSetting() {

@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core.network.ApiResult
-import com.mument_android.core_dependent.ext.launchWhenCreated
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
@@ -27,6 +26,7 @@ import javax.inject.Inject
 class MyLikeFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMyLikeBinding>()
     private val lockerViewModel: LockerViewModel by activityViewModels()
+
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
 
@@ -50,11 +50,12 @@ class MyLikeFragment : Fragment() {
         filterBtnClickListener()
         fetchLikes()
         setMyMumentListAdapter()
+        setGridServerConnection()
     }
 
     override fun onResume() {
         super.onResume()
-        if(lockerViewModel.isLikeGridLayout.value) {
+        if (lockerViewModel.isLikeGridLayout.value) {
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
         }
@@ -63,48 +64,54 @@ class MyLikeFragment : Fragment() {
     }
 
     private fun setGridServerConnection() {
-        binding.rvLikeLinear.run {
-            lockerViewModel.isLikeGridLayout.launchWhenCreated(viewLifecycleOwner.lifecycleScope) { isLikeGridLayout ->
-                adapter = LockerTimeAdapter(isLikeGridLayout, showDetailListener = { mumentId, musicInfo ->
-                    showMumentDetail(mumentId, musicInfo)
-                }, object: LikeMumentListener {
-                    override fun likeMument(mumetId: String) {
-                        lockerViewModel.likeMument(mumetId)
-                    }
+        collectFlowWhenStarted(lockerViewModel.isLikeGridLayout) { isLikeGridLayout ->
+            binding.rvLikeLinear.run {
+                adapter = LockerTimeAdapter(
+                    isLikeGridLayout,
+                    showDetailListener = { mumentId, musicInfo ->
+                        showMumentDetail(mumentId, musicInfo)
+                    },
+                    object : LikeMumentListener {
+                        override fun likeMument(mumetId: String) {
+                            lockerViewModel.likeMument(mumetId)
+                        }
 
-                    override fun cancelLikeMument(mumetId: String) {
-                        lockerViewModel.cancelLikeMument(mumetId)
-                    }
-                })
+                        override fun cancelLikeMument(mumetId: String) {
+                            lockerViewModel.cancelLikeMument(mumetId)
+                        }
+                    })
                 (adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
-
             }
         }
     }
 
     private fun setMyMumentListAdapter() {
         //setGridServerConnection()
-        lockerViewModel.myLikeMuments.launchWhenCreated(viewLifecycleOwner.lifecycleScope) {
-            when (it) {
+        collectFlowWhenStarted(lockerViewModel.myLikeMuments) { result ->
+            when (result) {
                 is ApiResult.Loading -> {}
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
                     binding.rvLikeLinear.adapter =
                         LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value,
-                            showDetailListener =  { mumentId, musicInfo ->
+                            showDetailListener = { mumentId, musicInfo ->
                                 showMumentDetail(mumentId, musicInfo)
-                        },object: LikeMumentListener {
-                            override fun likeMument(mumetId: String) {
-                                lockerViewModel.likeMument(mumetId)
-                            }
+                            }, object : LikeMumentListener {
+                                override fun likeMument(mumetId: String) {
+                                    lockerViewModel.likeMument(mumetId)
+                                }
 
-                            override fun cancelLikeMument(mumetId: String) {
-                                lockerViewModel.cancelLikeMument(mumetId)
-                            }
-                        })
+                                override fun cancelLikeMument(mumetId: String) {
+                                    lockerViewModel.cancelLikeMument(mumetId)
+                                }
+                            })
 
-                    initLikeEmpty(it.data?.size ?: 0)
-                    val decoration = CustomDecoration(4.dpToPxF, 4.dpToPxF, this.context!!.getColor(R.color.mument_color_bgwhite))
+                    initLikeEmpty(result.data?.size ?: 0)
+                    val decoration = CustomDecoration(
+                        4.dpToPxF,
+                        4.dpToPxF,
+                        this.context!!.getColor(R.color.mument_color_bgwhite)
+                    )
                     binding.rvLikeLinear.addItemDecoration(decoration)
                     (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
                 }
@@ -119,7 +126,7 @@ class MyLikeFragment : Fragment() {
     //TODO: 필터 및 아이콘들 비활성화
     private fun initLikeEmpty(size: Int) {
         if (size == 0) {
-            if(binding.ivLockerFilter.isSelected) {
+            if (binding.ivLockerFilter.isSelected) {
                 binding.clFilterResultNull.visibility = View.VISIBLE
                 binding.clEmptyView.visibility = View.GONE
             } else {
@@ -136,7 +143,6 @@ class MyLikeFragment : Fragment() {
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
             lockerViewModel.changeLikeIsGridLayout(false)
-            setMyMumentListAdapter()
             binding.ivLockerList.isSelected = true
             binding.ivLockerGrid.isSelected = false
 
@@ -145,9 +151,7 @@ class MyLikeFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
-            setGridServerConnection()
             lockerViewModel.changeLikeIsGridLayout(true)
-
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
         }

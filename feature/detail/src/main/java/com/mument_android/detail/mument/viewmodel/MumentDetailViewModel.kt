@@ -1,21 +1,23 @@
 package com.mument_android.detail.mument.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiStatus
 import com.mument_android.core.network.ErrorMessage
 import com.mument_android.core_dependent.base.MviViewModel
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.core_dependent.util.*
-import com.mument_android.detail.BuildConfig
 import com.mument_android.detail.R
 import com.mument_android.detail.mument.contract.MumentDetailContract.*
-import com.mument_android.domain.usecase.detail.*
+import com.mument_android.domain.usecase.detail.BlockUserUseCase
+import com.mument_android.domain.usecase.detail.DeleteMumentUseCase
+import com.mument_android.domain.usecase.detail.FetchMumentDetailContentUseCase
+import com.mument_android.domain.usecase.detail.FetchMumentListUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -133,11 +135,13 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun likeMument() {
         viewModelScope.launch {
-            changeLikeStatus(true)
             likeMumentUseCase(viewState.value.requestMumentId)
                 .catch {
                     changeLikeStatus(false)
-                }.collect {}
+                }.collect {
+                    delay(1000)
+                    changeLikeStatus(true)
+                }
         }
     }
 

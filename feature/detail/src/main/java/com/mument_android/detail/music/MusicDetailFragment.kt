@@ -123,9 +123,10 @@ class MusicDetailFragment : Fragment() {
         }
 
         // TODO 해당 부분 리펙토링 해야합니당. 현재 해당 뷰 안 보여서 테스트도 못 해봐씀, 불필요하게 길어유
-        binding.layoutMyMument.ivLike.click {
+        binding.layoutMyMument.laLikeMumentDetail.click {
             if (musicDetailViewModel.viewState.value.myMumentInfo != null) {
-                if (binding.layoutMyMument.ivLike.isChecked) {
+                if (binding.layoutMyMument.laLikeMumentDetail.progress == 0F) {
+                    binding.layoutMyMument.laLikeMumentDetail.playAnimation()
                     musicDetailViewModel.emitEvent(
                         MusicDetailEvent.CheckLikeMument(
                             musicDetailViewModel.viewState.value.myMumentInfo!!.mumentId
@@ -138,13 +139,12 @@ class MusicDetailFragment : Fragment() {
                         )
                     )
                 }
-                binding.layoutMyMument.mument = musicDetailViewModel.viewState.value.myMumentInfo
             }
         }
         binding.layoutMyMument.llTouchArea.click {
             if (musicDetailViewModel.viewState.value.myMumentInfo != null) {
-                binding.layoutMyMument.ivLike.isChecked = !binding.layoutMyMument.ivLike.isChecked
-                if (binding.layoutMyMument.ivLike.isChecked) {
+                if (binding.layoutMyMument.laLikeMumentDetail.progress == 0F) {
+                    binding.layoutMyMument.laLikeMumentDetail.playAnimation()
                     musicDetailViewModel.emitEvent(
                         MusicDetailEvent.CheckLikeMument(
                             musicDetailViewModel.viewState.value.myMumentInfo!!.mumentId
@@ -157,7 +157,6 @@ class MusicDetailFragment : Fragment() {
                         )
                     )
                 }
-                binding.layoutMyMument.mument = musicDetailViewModel.viewState.value.myMumentInfo
             }
         }
     }
@@ -168,6 +167,10 @@ class MusicDetailFragment : Fragment() {
                 is MusicDetailEffect.ShowToast -> requireContext().showToast(effect.msg)
                 MusicDetailEffect.PopBackStack -> {
                     findNavController().popBackStack()
+                }
+                MusicDetailEffect.CompleteLikeMument -> {
+                    binding.layoutMyMument.mument =
+                        musicDetailViewModel.viewState.value.myMumentInfo
                 }
             }
         }
@@ -188,11 +191,11 @@ class MusicDetailFragment : Fragment() {
                 }
 
                 override fun likeMument(mumentId: String) {
-                    musicDetailViewModel.emitEvent(MusicDetailEvent.CheckLikeMument(mumentId))
+                    musicDetailViewModel.emitEvent(MusicDetailEvent.CheckLikeItemMument(mumentId))
                 }
 
                 override fun cancelLikeMument(mumentId: String) {
-                    musicDetailViewModel.emitEvent(MusicDetailEvent.UnCheckLikeMument(mumentId))
+                    musicDetailViewModel.emitEvent(MusicDetailEvent.UnCheckLikeItemMument(mumentId))
                 }
             })
         }

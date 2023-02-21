@@ -86,7 +86,7 @@ class MumentToShareDialogFragment(
         val deviceWidth = deviceSize[0]
         val params = dialog?.window?.attributes
         params?.width = (deviceWidth * 0.75).toInt()
-        params?.height = (deviceWidth * 0.75 * 1.8).toInt()
+        /*params?.height = (deviceWidth * 0.75 * 1.8).toInt()*/
         dialog?.window?.attributes = params as WindowManager.LayoutParams
     }
 
@@ -95,7 +95,6 @@ class MumentToShareDialogFragment(
             val mument = Gson().fromJson(it, MumentEntity::class.java)
             arguments?.getString(KEY_PASS_MUSIC)?.let { music ->
                 val musicInfo = Gson().fromJson(music, MusicInfoEntity::class.java)
-                Log.e("music and mument getMumentArgs!!!", "$mument $musicInfo")
                 viewModel.emitEvent(
                     MumentDetailContract.MumentDetailEvent.UpdateMumentToShareInstagram(
                         mument, musicInfo
@@ -141,7 +140,6 @@ class MumentToShareDialogFragment(
         with(state) {
             if (renderedProfileImage && renderedTags && renderdAlbumCover) {
                 mediaUtils.getBitmapUri(binding.root.rootView, FILE_NAME).let { fileInfo ->
-                    Log.e("GET BITMAP", fileInfo.toString())
                     fileInfo?.let { dismissWithDelay(it.first, it.second) }
                         ?: dismiss()
                 }

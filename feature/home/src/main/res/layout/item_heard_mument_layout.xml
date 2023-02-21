@@ -49,7 +49,7 @@
             android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{againMument.content}"
+            android:text="@{againMument.content.replace(`\\n`, `\n`)}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             tools:layout_editor_absoluteX="13dp"

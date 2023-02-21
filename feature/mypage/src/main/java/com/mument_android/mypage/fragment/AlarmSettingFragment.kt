@@ -50,7 +50,6 @@ class AlarmSettingFragment : Fragment() {
     }
 
     //알림 설정 보여주기
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun alarmSetting(): Intent {
         val intent = with(Intent()) {
             action = Settings.ACTION_APP_NOTIFICATION_SETTINGS

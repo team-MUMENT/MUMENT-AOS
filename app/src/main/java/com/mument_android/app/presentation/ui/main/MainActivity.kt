@@ -1,10 +1,13 @@
 package com.mument_android.app.presentation.ui.main
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -58,6 +61,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         customAppBar()
         isLimitUserNetwork()
         isRestrictUser()
+        /*
+        TODO 소식창에서 접근 시에 finish() 안하면 이거 그대로 써야함 이래도 홈까지는 가서 나가야 함
+        */
+        intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
+            intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
+                val bundle = Bundle().also {
+                    it.putString(MUMENT_ID, mumentId)
+                    it.putString(MUSIC_INFO_ENTITY, music)
+                }
+                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
+            } ?: navController.navigate(
+                R.id.action_homeFragment_to_musicDetailFragment,
+                Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
+        }
     }
 
     private fun saveTestToken() {
@@ -113,13 +130,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun moveMusicDetail(intent: Intent) {
         if (intent.getStringExtra(TO_MUSIC_DETAIL) == TO_MUSIC_DETAIL) {
             intent.getBooleanExtra("COUNT", false).let {
-                if (it) {
+                if (it && !NotificationManagerCompat.from(this).areNotificationsEnabled()) {
                     SuggestionNotifyAccessDialogFragment.newInstance { result ->
                         if (result) {
-                            Intent(this, MyPageActivity::class.java).apply {
-                                putExtra("alarm", true)
-                                startActivity(this)
-                            }
+                            moveToAlarmSetting()
                         }
                     }.show(supportFragmentManager, "Suggestion")
                 } else {
@@ -156,7 +170,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     navController.navigate(
                         R.id.mumentDetailFragment,
                         bundle,
-                        NavOptions.Builder().setPopUpTo(R.id.mumentDetailFragment, false).build()
+                        NavOptions.Builder().setPopUpTo(R.id.mumentDetailFragment, true).build()
                     )
                 }
             }
@@ -189,6 +203,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
             false
+        }
+    }
+
+    private fun moveToAlarmSetting() {
+        Intent().apply {
+            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            //버전에 따른 알림 설정
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            } else {
+                putExtra("app_package", packageName)
+                putExtra("app_uid", applicationInfo.uid)
+            }
+        }.also { destination ->
+            startActivity(destination)
         }
     }
 

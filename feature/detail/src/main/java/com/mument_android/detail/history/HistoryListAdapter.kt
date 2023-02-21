@@ -2,6 +2,7 @@ package com.mument_android.detail.history
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.text.isDigitsOnly
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,10 +13,15 @@ import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.ImpressiveTag
+import com.mument_android.core_dependent.util.myIsDigitsOnly
 import com.mument_android.detail.BR
 import com.mument_android.detail.databinding.ItemMumentLayoutBinding
 import com.mument_android.detail.music.MusicDetailMumentListAdapter
 import com.mument_android.domain.entity.history.MumentHistory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class HistoryListAdapter(
     private val itemClickListener: (String) -> Unit,
@@ -56,34 +62,47 @@ class HistoryListAdapter(
         }
         holder.binding.setVariable(BR.mumentHistory, data)
         holder.binding.run {
-            cbHeart.click {
-                val likeCount = data.likeCount
-                if (cbHeart.isChecked) likeMument(data._id.toString()) else cancelLikeMument(
-                    data._id.toString()
-                )
-                val updatedLikeCount = when {
-                    data.isLiked && cbHeart.isChecked -> likeCount
-                    data.isLiked && !cbHeart.isChecked -> likeCount - 1
-                    !data.isLiked && cbHeart.isChecked -> likeCount + 1
-                    !data.isLiked && !cbHeart.isChecked -> likeCount
-                    else -> likeCount
+            laLikeMumentHistory.click {
+                val likeCount = tvLikeCount.text.toString().toInt()
+                if (laLikeMumentHistory.progress == 0F) {
+                    laLikeMumentHistory.playAnimation()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(1000)
+                        data.isLiked = true
+                        tvLikeCount.text = (likeCount + 1).toString()
+                        laLikeMumentHistory.progress = 100F
+                    }
+                    likeMument(data._id.toString())
+                } else {
+                    cancelLikeMument(
+                        data._id.toString()
+                    )
+                    laLikeMumentHistory.progress = 0F
+                    data.isLiked = false
+                    tvLikeCount.text = (likeCount - 1).toString()
                 }
-                tvLikeCount.text = updatedLikeCount.toString()
             }
             tvLikeCount.click {
-                cbHeart.isChecked = !cbHeart.isChecked
-                val likeCount = data.likeCount
-                if (cbHeart.isChecked) likeMument(data._id.toString()) else cancelLikeMument(
-                    data._id.toString()
-                )
-                val updatedLikeCount = when {
-                    data.isLiked && cbHeart.isChecked -> likeCount
-                    data.isLiked && !cbHeart.isChecked -> likeCount - 1
-                    !data.isLiked && cbHeart.isChecked -> likeCount + 1
-                    !data.isLiked && !cbHeart.isChecked -> likeCount
-                    else -> likeCount
+                if (tvLikeCount.text.myIsDigitsOnly()) {
+                    val likeCount = tvLikeCount.text.toString().toInt()
+                    if (laLikeMumentHistory.progress == 0F) {
+                        laLikeMumentHistory.playAnimation()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            delay(1000)
+                            data.isLiked = true
+                            tvLikeCount.text = (likeCount + 1).toString()
+                            laLikeMumentHistory.progress = 100F
+                        }
+                        likeMument(data._id.toString())
+                    } else {
+                        cancelLikeMument(
+                            data._id.toString()
+                        )
+                        data.isLiked = false
+                        laLikeMumentHistory.progress = 0F
+                        tvLikeCount.text = (likeCount - 1).toString()
+                    }
                 }
-                tvLikeCount.text = updatedLikeCount.toString()
             }
         }
     }

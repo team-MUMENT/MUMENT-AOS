@@ -8,6 +8,7 @@
     <dimen name="app_space_15">15dp</dimen>
     <dimen name="app_space_16">16dp</dimen>
     <dimen name="app_space_18">18dp</dimen>
+    <dimen name="app_space_20">20dp</dimen>
     <dimen name="app_space_8">8dp</dimen>
     <dimen name="app_space_48">48dp</dimen>
     <dimen name="app_space_14">14dp</dimen>
