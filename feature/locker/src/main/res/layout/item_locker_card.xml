@@ -10,6 +10,10 @@
         <import type="com.mument_android.locker.R" />
 
         <variable
+            name="isOther"
+            type="Boolean" />
+
+        <variable
             name="mument"
             type="com.mument_android.domain.entity.locker.LockerMumentEntity.MumentLockerCard" />
     </data>
@@ -54,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:progress="@{mument.isLiked?100F:0F}"
-                android:visibility="@{mument.isPrivate != true ? View.VISIBLE : View.GONE}"
+                android:visibility="@{mument.isPrivate != true &amp;&amp; !isOther? View.VISIBLE : View.GONE}"
                 app:lottie_autoPlay="false"
                 app:lottie_loop="false"
                 app:lottie_rawRes="@raw/heart_icn_lottie" />
@@ -78,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{mument.private == true ? `비밀글`: mument.likeCount.toString()}"
                 android:textColor="@color/mument_color_gray1"
+                android:visibility="@{isOther?View.GONE:View.VISIBLE}"
                 tools:text="15" />
         </LinearLayout>
 
