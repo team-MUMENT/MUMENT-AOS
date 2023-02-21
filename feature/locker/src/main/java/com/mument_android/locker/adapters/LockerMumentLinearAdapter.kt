@@ -29,6 +29,7 @@ class LockerMumentLinearAdapter(
     GlobalDiffCallBack<LockerMumentEntity.MumentLockerCard>()
 ) {
 
+    var isOther = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MumentViewHolder {
         val binding = ItemLockerCardBinding.inflate(
@@ -51,6 +52,7 @@ class LockerMumentLinearAdapter(
         holder.binding.rvMumentTag.adapter = MumentTagListAdapter()
         (holder.binding.rvMumentTag.adapter as MumentTagListAdapter).submitList(data)
         holder.binding.setVariable(BR.mument, getItem(position))
+        holder.binding.setVariable(BR.isOther, isOther)
 
         likeMument(holder)
         holder.binding.root.setOnClickListener {
