@@ -13,7 +13,6 @@ import com.mument_android.domain.usecase.locker.FetchMyMumentListUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.domain.usecase.mypage.UserInfoUseCase
-import com.mument_android.locker.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -102,14 +101,12 @@ class LockerViewModel @Inject constructor(
                 tag3 = thirdTag
             ).onStart {
                 myMuments.value = ApiResult.Loading(null)
-
             }.catch {
                 //Todo exception handling
                 myMuments.value = ApiResult.Failure(null)
             }.collectLatest {
                 myMuments.value = ApiResult.Success(it)
                 //_profileImage.value = it.get(0).mumentCard?.get(0)?.userImage ?: ""
-
             }
         }
     }
@@ -150,7 +147,9 @@ class LockerViewModel @Inject constructor(
                 //Todo exception handling
                 myLikeMuments.value = ApiResult.Failure(null)
             }.collectLatest {
-                myLikeMuments.value = ApiResult.Success(it)
+                myLikeMuments.value = ApiResult.Success(it.map { entity ->
+                    entity.copy(isOther = true)
+                })
             }
         }
 
