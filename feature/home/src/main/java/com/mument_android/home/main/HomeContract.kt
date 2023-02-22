@@ -32,17 +32,19 @@ class HomeContract {
         data class OnClickRandomMument(val mument: String, val musicInfo: MusicInfoEntity) :
             HomeEvent()
 
-        data class CallBackSearchResult(val musicInfo: MusicInfoEntity) : HomeEvent()
+        data class ReEntryToSearchView(val musicInfo: MusicInfoEntity, val startNav: String) : HomeEvent()
+        object ReEntryToNotificationView : HomeEvent()
+
         object OnClickSearch : HomeEvent()
         object OnClickNotification : HomeEvent()
+        data class NotificationToMumentDetail(val mument: String, val musicInfo: MusicInfoEntity): HomeEvent()
     }
 
     sealed class HomeSideEffect : SideEffect {
         object GoToSearchActivity : HomeSideEffect()
         object GoToNotification : HomeSideEffect()
         data class Toast(val message: String) : HomeSideEffect()
-        data class NavToMusicDetail(val musicInfo: MusicInfoEntity) : HomeSideEffect()
-        data class NavToMumentDetail(val mumentId: String, val musicInfo: MusicInfoEntity) :
-            HomeSideEffect()
+        data class NavToMusicDetail(val musicInfo: MusicInfoEntity, val startNav: String) : HomeSideEffect()
+        data class NavToMumentDetail(val mumentId: String, val musicInfo: MusicInfoEntity, val startNav: String) : HomeSideEffect()
     }
 }

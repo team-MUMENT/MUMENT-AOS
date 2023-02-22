@@ -3,6 +3,7 @@ package com.angdroid.navigation
 import com.mument_android.domain.entity.music.MusicInfoEntity
 
 interface MusicDetailNavigatorProvider {
-    fun fromHomeToMusicDetail(music: MusicInfoEntity)
+    fun fromHomeToMusicDetail(music: MusicInfoEntity, startNav: String)
     fun fromMumentDetailToMusicDetail(music: MusicInfoEntity)
+    fun musicDetailPopBackStack(startNav: String)
 }

@@ -15,7 +15,8 @@ sealed class MusicDetailContract {
         val musicInfo: MusicInfoEntity? = null,
         val myMumentInfo: MumentSummaryEntity? = null,
         val mumentList: List<MumentSummaryEntity> = emptyList(),
-        val mumentSortType: SortTypeEnum = SortTypeEnum.SORT_LIKE_COUNT
+        val mumentSortType: SortTypeEnum = SortTypeEnum.SORT_LIKE_COUNT,
+        val startNav: String = ""
     ): ViewState
 
     sealed class MusicDetailEvent: Event {
@@ -23,6 +24,7 @@ sealed class MusicDetailContract {
         object ClickSortByLatest: MusicDetailEvent()
         object OnClickBackButton: MusicDetailEvent()
         data class ReceiveRequestMusicInfo(val music: MusicInfoEntity): MusicDetailEvent()
+        data class ReceiveStartNav(val startNav: String): MusicDetailEvent()
         data class CheckLikeMument(val mumentId: String): MusicDetailEvent()
         data class UnCheckLikeMument(val mumentId: String): MusicDetailEvent()
         data class CheckLikeItemMument(val mumentId: String): MusicDetailEvent()
@@ -30,7 +32,7 @@ sealed class MusicDetailContract {
     }
 
     sealed class MusicDetailEffect: SideEffect {
-        object PopBackStack: MusicDetailEffect()
+        data class PopBackStack(val startNav: String): MusicDetailEffect()
         data class ShowToast(val msg: String): MusicDetailEffect()
         object CompleteLikeMument: MusicDetailEffect()
     }

@@ -1,5 +1,6 @@
 package com.mument_android.detail.mument.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.Gson
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
@@ -54,6 +57,7 @@ import javax.inject.Inject
 class MumentDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMumentDetailBinding>()
     private val viewModel: MumentDetailViewModel by viewModels()
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     @Inject
     lateinit var editMumentNavigatorProvider: EditMumentNavigatorProvider
@@ -73,6 +77,19 @@ class MumentDetailFragment : Fragment() {
 
     @Inject
     lateinit var reportMumentNavigatorProvider: ReportMumentNavigatorProvider
+
+    @Inject
+    lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        onBackPressedCallback = object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.emitEvent(MumentDetailEvent.OnClickBackButton)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -122,10 +139,11 @@ class MumentDetailFragment : Fragment() {
             viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(it))
         }
         arguments?.getString(MUSIC_INFO_ENTITY)?.let {
-            Log.e("MUSIC INFO", it)
             val musicInfo = Gson().fromJson(it, MusicInfoEntity::class.java)
-            Log.e("MUSIC INFO GSON", musicInfo.toString())
             viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(musicInfo))
+        }
+        arguments?.getString(START_NAV_KEY)?.let {
+            viewModel.emitEvent(MumentDetailEvent.ReceiveStartNav(it))
         }
     }
 
@@ -168,18 +186,12 @@ class MumentDetailFragment : Fragment() {
     private fun receiveEffect() {
         collectFlowWhenStarted(viewModel.effect) { effect ->
             when (effect) {
-                MumentDetailSideEffect.ShowDeletedMumentAlert -> {
-                    MumentDialogBuilder()
-                        .setHeader("삭제된 뮤멘트입니다.")
-                        .setBody("이용에 불편을 드려 죄송합니다.")
-                        .setAllowListener("확인") {
-                            findNavController().popBackStack()
-                        }
-                        .setCancelListener("") {}
-                        .build()
-                        .show(childFragmentManager, this.tag)
+                MumentDetailSideEffect.ShowDeletedMumentAlert -> { showDeletedMumentDialog() }
+                MumentDetailSideEffect.PopBackStack -> {
+                    val startNav = viewModel.viewState.value.navStart
+                    Log.e("nav start", "${startNav}")
+                    mumentDetailNavigatorProvider.mumentDetailPopBackStack(startNav)
                 }
-                MumentDetailSideEffect.PopBackStack -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
                 MumentDetailSideEffect.SuccessBlockUser -> {
                     requireContext().showToast("차단이 완료되었습니다.")
@@ -228,23 +240,24 @@ class MumentDetailFragment : Fragment() {
                             }
                     }
                 }
-                is MumentDetailSideEffect.Toast -> requireContext().showToast(
-                    resources.getString(
-                        effect.message
-                    )
-                )
-                is MumentDetailSideEffect.ToastString -> {
-                    requireContext().showToast(effect.message)
-                }
-                is MumentDetailSideEffect.OpenShareMumentDialog -> {
-                    Log.e("OpenShareMumentDialog", effect.toString())
-                    openShareMumentDialog(effect.mument, effect.musicInfo)
-                }
-                is MumentDetailSideEffect.NavToInstagram -> {
-                    navToInstagram(effect.imageUri)
-                }
+                is MumentDetailSideEffect.Toast -> requireContext().showToast(resources.getString(effect.message))
+                is MumentDetailSideEffect.ToastString -> { requireContext().showToast(effect.message) }
+                is MumentDetailSideEffect.OpenShareMumentDialog -> { openShareMumentDialog(effect.mument, effect.musicInfo) }
+                is MumentDetailSideEffect.NavToInstagram -> { navToInstagram(effect.imageUri) }
             }
         }
+    }
+
+    private fun showDeletedMumentDialog() {
+        MumentDialogBuilder()
+            .setHeader("삭제된 뮤멘트입니다.")
+            .setBody("이용에 불편을 드려 죄송합니다.")
+            .setAllowListener("확인") {
+                findNavController().popBackStack()
+            }
+            .setCancelListener("") {}
+            .build()
+            .show(childFragmentManager, this.tag)
     }
 
     private fun showMumentHistory() {
@@ -353,7 +366,6 @@ class MumentDetailFragment : Fragment() {
     private fun goToMusicDetail() {
         binding.viewAlbumClickArea.setOnClickListener {
             viewModel.viewState.value.musicInfo?.let { music ->
-                Log.e("MUSIC", music.toString())
                 viewModel.emitEvent(MumentDetailEvent.OnClickAlum(music))
             }
         }
@@ -376,9 +388,7 @@ class MumentDetailFragment : Fragment() {
     }
 
     private fun openShareMumentDialog(mument: MumentEntity, musicInfoEntity: MusicInfoEntity) {
-        Log.e("openShareMumentDialog", "$mument $musicInfoEntity")
         MumentToShareDialogFragment { file, uri ->
-            Log.e("SHARE", "$file $uri")
             viewModel.emitEvent(MumentDetailEvent.OnDismissShareMumentDialog(file, uri))
         }.apply {
             Bundle().apply {
@@ -420,6 +430,10 @@ class MumentDetailFragment : Fragment() {
             viewModel.emitEvent(MumentDetailEvent.EntryFromInstagram)
         }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        onBackPressedCallback.remove()
+    }
     companion object {
         private const val INSTAGRAM_PACKAGE_NAME = "com.instagram.android"
         private const val SHARE_INSTAGRAM_STORY_ID = "com.instagram.share.ADD_TO_STORY"
