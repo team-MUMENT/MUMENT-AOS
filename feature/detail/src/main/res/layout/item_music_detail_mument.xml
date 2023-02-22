@@ -65,21 +65,6 @@
                 app:lottie_autoPlay="false"
                 app:lottie_loop="false"
                 app:lottie_rawRes="@raw/heart_icn_lottie" />
-            <!--
-
-                        <CheckBox
-                            android:id="@+id/iv_like"
-                            android:layout_width="21dp"
-                            android:layout_height="21dp"
-                            android:layout_marginEnd="5dp"
-                            android:background="@drawable/selector_heart_on_off"
-                            android:button="@null"
-                            android:checked="@{mument.isLiked}"
-                            android:visibility="@{mument.isPrivate != true ? View.VISIBLE : View.GONE}"
-                            app:layout_constraintBottom_toBottomOf="@+id/tv_secret_likecount"
-                            app:layout_constraintEnd_toStartOf="@id/tv_secret_likecount"
-                            app:layout_constraintTop_toTopOf="@id/tv_secret_likecount" />
-            -->
 
             <TextView
                 android:id="@+id/tv_secret_likecount"
@@ -115,12 +100,14 @@
 
         <TextView
             android:id="@+id/tv_content"
+            style="@style/TextView.Mument_B6_M13.Style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="3"
             android:paddingVertical="10dp"
             android:text="@{mument.content.replace(`\\n`, `\n`)}"
+            android:textColor="@color/mument_color_black2"
             app:layout_constraintBottom_toTopOf="@+id/tv_date"
             app:layout_constraintStart_toStartOf="@id/rv_mument_tags"
             app:layout_constraintTop_toBottomOf="@+id/rv_mument_tags"
@@ -128,6 +115,7 @@
 
         <TextView
             android:id="@+id/tv_date"
+            style="@style/TextView.Mument_C1_R12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{mument.date}"

@@ -28,8 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:collapsedTitleGravity="center"
-                app:collapsedTitleTextColor="@color/mument_color_black1"
                 app:collapsedTitleTextAppearance="@style/CollapsedTitle.TextAppearance"
+                app:collapsedTitleTextColor="@color/mument_color_black1"
                 app:contentScrim="@color/white"
                 app:expandedTitleGravity="center"
                 app:expandedTitleTextAppearance="@style/ExpandedTitleStyle"
@@ -143,6 +143,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_show_my_history"
+                        style="@style/TextView.Mument_C1_R12.Style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/show_my_history"
@@ -211,6 +212,7 @@
                             android:text="@{musicDetailViewModel.viewState.mumentList.empty &amp;&amp; musicDetailViewModel.viewState.myMumentInfo == null ? @string/write_earliest_mument : @string/write_first_mument}"
                             android:textColor="@color/mument_color_gray2"
                             android:textSize="13dp"
+                            android:textStyle="normal"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -237,6 +239,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_sort_latest"
+                        style="@style/TextView.Mument_C1_R12.Style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="4dp"
@@ -248,6 +251,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_sort_like_count"
+                        style="@style/TextView.Mument_C1_R12.Style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="4dp"

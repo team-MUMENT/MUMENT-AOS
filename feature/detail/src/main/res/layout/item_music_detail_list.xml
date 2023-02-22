@@ -120,20 +120,6 @@
             app:lottie_autoPlay="false"
             app:lottie_loop="false"
             app:lottie_rawRes="@raw/heart_icn_lottie" />
-        <!--
-
-                <CheckBox
-                    android:id="@+id/cb_heart"
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/selector_heart_on_off"
-                    android:button="@null"
-                    android:checked="@{mumentSummary.liked}"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_profile"
-                    app:layout_constraintEnd_toStartOf="@id/tv_like_count"
-                    app:layout_constraintTop_toTopOf="@id/iv_profile" />
-        -->
 
         <TextView
             android:id="@+id/tv_like_count"
