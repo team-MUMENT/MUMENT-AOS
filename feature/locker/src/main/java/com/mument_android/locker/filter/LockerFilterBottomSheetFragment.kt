@@ -2,10 +2,13 @@ package com.mument_android.locker.filter
 
 import android.app.Dialog
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -40,7 +43,8 @@ class LockerFilterBottomSheetFragment(
         private var INSTANCE: LockerFilterBottomSheetFragment? = null
 
         @JvmStatic
-        fun newInstance(initialTags: List<TagEntity>, completeSelectListener: (List<TagEntity>) -> Unit
+        fun newInstance(
+            initialTags: List<TagEntity>, completeSelectListener: (List<TagEntity>) -> Unit
         ): LockerFilterBottomSheetFragment {
             return INSTANCE ?: LockerFilterBottomSheetFragment(initialTags).apply {
                 this.completeSelectListener = completeSelectListener
@@ -149,10 +153,18 @@ class LockerFilterBottomSheetFragment(
     private fun setSelectedTag() {
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
-                if(lockerFilterViewModel.emotionalTags.contains(tag)) {
-                    binding.rvEmotion.syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag), false)
+                if (lockerFilterViewModel.emotionalTags.contains(tag)) {
+                    binding.rvEmotion.syncSelectedTags(
+                        filterBottomSheetAdpaterEmotion.currentList.indexOf(
+                            tag
+                        ), false
+                    )
                 } else {
-                    binding.rvImpressive.syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag), false)
+                    binding.rvImpressive.syncSelectedTags(
+                        filterBottomSheetAdapterImpress.currentList.indexOf(
+                            tag
+                        ), false
+                    )
                 }
                 filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
                 filterBottomSheetAdapterImpress.selectedTags.remove(tag)
@@ -162,9 +174,11 @@ class LockerFilterBottomSheetFragment(
     }
 
     private fun RecyclerView.syncSelectedTags(position: Int, check: Boolean) {
-        val view = if (id == binding.rvEmotion.id) binding.rvEmotion[position] else binding.rvImpressive[position]
+        val view =
+            if (id == binding.rvEmotion.id) binding.rvEmotion[position] else binding.rvImpressive[position]
         val viewHolder = getChildViewHolder(view)
-        (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked = check
+        (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
+            check
     }
 
     //recyclerview item decoration
@@ -222,7 +236,8 @@ class LockerFilterBottomSheetFragment(
     private fun RecyclerView.resetCheckTags(adapter: FilterBottomSheetAdapter) {
         (0 until adapter.itemCount).forEach {
             getChildViewHolder(get(it)).run {
-                (this as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked = false
+                (this as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
+                    false
             }
         }
     }
@@ -231,9 +246,12 @@ class LockerFilterBottomSheetFragment(
         if (tags.isEmpty()) {
             binding.clSelectedTag.visibility = View.GONE
             binding.tvFilterNum.setTextColor(Color.parseColor("#B6B6B6"))
+            val typeface = ResourcesCompat.getFont(requireContext(), R.font.notosans_medium)
+            binding.tvFilterNum.setTypeface(typeface, Typeface.NORMAL)
         } else {
             binding.clSelectedTag.visibility = View.VISIBLE
             binding.tvFilterNum.setTextColor(Color.parseColor("#2AC9fB"))
+            binding.tvFilterNum.typeface = ResourcesCompat.getFont(requireContext(), R.font.notosans_bold)
         }
         binding.tvFilterNum.text = tags.size.toString()
     }

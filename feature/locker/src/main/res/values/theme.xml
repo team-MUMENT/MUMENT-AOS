@@ -92,6 +92,7 @@
         <item name="android:fontFamily">@font/notosans_medium</item>
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/mument_color_gray1</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextView.Mument_B1_B15.TextAppearance" parent="">
@@ -108,6 +109,7 @@
     <style name="TextView.Mument_B4_M14.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_medium</item>
         <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextView.Mument_B2_B13.TextAppearance" parent="">
@@ -119,6 +121,7 @@
         <item name="android:fontFamily">@font/notosans_medium</item>
         <item name="android:textSize">13dp</item>
         <item name="android:textColor">@color/mument_color_black2</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextView.Mument_B6_B12.TextAppearance" parent="">
@@ -130,19 +133,21 @@
         <item name="android:fontFamily">@font/notosans_medium</item>
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/mument_color_gray1</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextView.Mument_C1_R12.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_regular</item>
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/mument_color_black2</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextView.Mument_B6_M13.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_medium</item>
         <item name="android:textSize">13dp</item>
+        <item name="android:textStyle">normal</item>
     </style>
-
 
 
     <!-- Typography-->
@@ -151,18 +156,8 @@
         <item name="android:textSize">18dp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:fontFamily">@font/notosans_medium</item>
+        <item name="android:textStyle">normal</item>
     </style>
-
-    <!-- CoordinatorLayout -->
-    <style name="CollapsedTitleStyle" parent="TextView.Mument_H2_B18.Style">
-        <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="ExpandedTitleStyle" parent="TextView.Mument_H2_B18.Style">
-        <item name="android:textColor">@color/transparent</item>
-        <item name="android:textSize">0.1dp</item>
-    </style>
-
 
     <!-- case : to use Bottom Sheet -->
 
@@ -177,6 +172,4 @@
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
-
-
 </resources>
