@@ -6,7 +6,9 @@
     <data>
 
         <import type="android.view.View" />
+
         <import type="com.mument_android.home.R" />
+
         <variable
             name="mument"
             type="com.mument_android.domain.entity.home.TodayMument" />
@@ -18,8 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
-        android:elevation="8dp"
         android:background="@drawable/shape_border_default_redius_11dp"
+        android:elevation="8dp"
         android:paddingHorizontal="13dp"
         android:paddingTop="11dp"
         android:paddingBottom="16dp">
@@ -81,6 +83,7 @@
 
         <TextView
             android:id="@+id/tv_sub"
+            style="@style/TextView.Mument_B6_M13.Style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"

@@ -48,7 +48,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            style="@style/TextView.Mument_H1_B25.TextAppearance"
+            style="@style/TextView.Mument_H1_B25.Style"
             android:layout_width="172dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
