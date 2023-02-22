@@ -23,7 +23,6 @@ import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.core_dependent.ext.getActivityResult
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
@@ -40,7 +39,6 @@ import com.mument_android.home.notify.NotifyActivity
 import com.mument_android.home.search.SearchActivity
 import com.mument_android.home.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -72,22 +70,22 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkFromMumentDetailToNotify()
+        checkCurrentBackStack()
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
         bindData()
     }
 
-    private fun checkFromMumentDetailToNotify() {
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(START_NAV_KEY, "")?.observe(viewLifecycleOwner) { startNav ->
-            if (startNav == FROM_NOTIFICATION_TO_MUMENT_DETAIL) {
-                viewModel.emitEvent(HomeEvent.ReEntryToNotificationView)
-//                Intent(requireActivity(), NotifyActivity::class.java).apply {
-//                    putExtra(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
-//                    activity?.startActivity(this)
-//                }
+    private fun checkCurrentBackStack() {
+        findNavController().currentBackStackEntry
+            ?.savedStateHandle?.let { savedStateHandle ->
+                savedStateHandle.getLiveData<String>(START_NAV_KEY, "").observe(viewLifecycleOwner) { startNav ->
+                    when(startNav) {
+                        FROM_NOTIFICATION_TO_MUMENT_DETAIL -> viewModel.emitEvent(HomeEvent.ReEntryToNotificationView)
+                        FROM_SEARCH -> viewModel.emitEvent(HomeEvent.OnClickSearch)
+                    }
+                }
             }
-        }
     }
 
     private val searchMusicLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -108,7 +106,6 @@ class HomeFragment : Fragment() {
                 result.data?.getStringExtra(START_NAV_KEY)
                     .takeIf { it == FROM_NOTIFICATION_TO_MUMENT_DETAIL }
                     ?.let {
-//                        viewModel.emitEvent(HomeEvent.ReEntryToNotificationView)
                         viewModel.emitEvent(HomeEvent.NotificationToMumentDetail(mumentId ?:"", musicInfo))
                     }
             }

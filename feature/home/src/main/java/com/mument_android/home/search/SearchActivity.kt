@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
@@ -117,7 +118,7 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
     private fun selectMusic(data: RecentSearchData) {
         val music = MusicInfoEntity(data._id, data.name, data.image, data.artist)
         val intent = Intent().apply {
-            putExtra(FROM_SEARCH, true)
+            putExtra(START_NAV_KEY, FROM_SEARCH)
             putExtra(MUSIC_INFO_ENTITY, music)
         }
         setResult(RESULT_OK, intent)

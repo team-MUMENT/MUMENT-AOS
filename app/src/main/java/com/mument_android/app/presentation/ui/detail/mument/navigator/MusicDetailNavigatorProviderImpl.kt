@@ -7,6 +7,7 @@ import androidx.navigation.NavOptions
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.main.MainActivity
+import com.mument_android.core.util.Constants
 import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
@@ -48,8 +49,10 @@ class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity:
 
     override fun musicDetailPopBackStack(startNav: String) {
         with(activity as MainActivity) {
-            if (startNav == FROM_SEARCH) startActivity(Intent(activity, SearchActivity::class.java))
-            navController.popBackStack()
+            activity.navController.previousBackStackEntry?.savedStateHandle?.set(START_NAV_KEY, Constants.FROM_SEARCH)
+            activity.navController.popBackStack()
+//            if (startNav == FROM_SEARCH) startActivity(Intent(activity, SearchActivity::class.java))
+//            navController.popBackStack()
         }
     }
 }
