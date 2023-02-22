@@ -80,9 +80,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:layout_marginTop="8dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:layout_marginTop="8dp"
                         android:text="@{recordViewModel.selectedMusic.name}"
                         android:textColor="@color/mument_color_black1"
                         app:layout_constraintEnd_toStartOf="@+id/iv_delete"
@@ -159,7 +159,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_record_first"
-                    style="@style/TextView.Mument_B4_M14.TextAppearance"
+                    style="@style/TextView.Mument_B4_M14.Style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -298,7 +298,8 @@
                             android:text="@={recordViewModel.mumentContent}"
                             android:textColor="@color/mument_color_black2"
                             android:textColorHint="@color/mument_color_gray1"
-                            android:textSize="13dp" />
+                            android:textSize="13dp"
+                            android:textStyle="normal" />
                     </androidx.core.widget.NestedScrollView>
 
                     <TextView
@@ -331,7 +332,7 @@
 
                 <TextView
                     android:id="@+id/tv_record_secret"
-                    style="@style/TextView.Mument_B4_M14.TextAppearance"
+                    style="@style/TextView.Mument_B4_M14.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -403,7 +404,7 @@
 
             <TextView
                 android:id="@+id/tv_record_finish"
-                style="@style/TextView.Mument_H2_B18.TextAppearance"
+                style="@style/TextView.Mument_H2_B18.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
@@ -415,7 +416,5 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
