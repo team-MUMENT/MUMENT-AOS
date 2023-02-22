@@ -50,11 +50,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:textColor="@color/mument_color_gray1"
             android:text="@string/second_onboarding_subtitle"
+            android:textColor="@color/mument_color_gray1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_title" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +89,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
