@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
@@ -39,6 +40,7 @@ import com.mument_android.home.notify.NotifyActivity
 import com.mument_android.home.search.SearchActivity
 import com.mument_android.home.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -70,9 +72,22 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkFromMumentDetailToNotify()
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
         bindData()
+    }
+
+    private fun checkFromMumentDetailToNotify() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(START_NAV_KEY, "")?.observe(viewLifecycleOwner) { startNav ->
+            if (startNav == FROM_NOTIFICATION_TO_MUMENT_DETAIL) {
+                viewModel.emitEvent(HomeEvent.ReEntryToNotificationView)
+//                Intent(requireActivity(), NotifyActivity::class.java).apply {
+//                    putExtra(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+//                    activity?.startActivity(this)
+//                }
+            }
+        }
     }
 
     private val searchMusicLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -93,6 +108,7 @@ class HomeFragment : Fragment() {
                 result.data?.getStringExtra(START_NAV_KEY)
                     .takeIf { it == FROM_NOTIFICATION_TO_MUMENT_DETAIL }
                     ?.let {
+//                        viewModel.emitEvent(HomeEvent.ReEntryToNotificationView)
                         viewModel.emitEvent(HomeEvent.NotificationToMumentDetail(mumentId ?:"", musicInfo))
                     }
             }
@@ -111,12 +127,7 @@ class HomeFragment : Fragment() {
         }
         binding.clCard.root.setOnClickListener {
             viewModel.homeViewState.value.todayMumentEntity?.let {
-                viewModel.emitEvent(
-                    HomeEvent.OnClickTodayMument(
-                        it.mumentId,
-                        it.extractMusicInfo()
-                    )
-                )
+                viewModel.emitEvent(HomeEvent.OnClickTodayMument(it.mumentId, it.extractMusicInfo()))
             }
         }
     }
@@ -185,11 +196,7 @@ class HomeFragment : Fragment() {
                             it.tagTitle.replace("\\n", "\n")
                         )
                     }) { music ->
-                        viewModel.emitEvent(
-                            HomeEvent.OnClickBanner(
-                                music.toMusicInfoEntity()
-                            )
-                        )
+                        viewModel.emitEvent(HomeEvent.OnClickBanner(music.toMusicInfoEntity()))
                     }
                     setBannerCallBack()
                 }
@@ -210,11 +217,7 @@ class HomeFragment : Fragment() {
                     musicDetailNavigatorProvider.fromHomeToMusicDetail(effect.musicInfo, effect.startNav)
                 }
                 is HomeSideEffect.NavToMumentDetail -> {
-                    mumentDetailNavigatorProvider.moveHomeToMumentDetail(
-                        effect.mumentId,
-                        effect.musicInfo,
-                        effect.startNav
-                    )
+                    mumentDetailNavigatorProvider.moveHomeToMumentDetail(effect.mumentId, effect.musicInfo, effect.startNav)
                 }
                 is HomeSideEffect.Toast -> requireContext().showToast(effect.message)
             }

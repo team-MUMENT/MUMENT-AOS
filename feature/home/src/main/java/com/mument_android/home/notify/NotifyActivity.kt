@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
-    inflate = ActivityNotifyBinding::inflate, mode = TransitionMode.HORIZONTAL
+    inflate = ActivityNotifyBinding::inflate, mode = TransitionMode.NONE
 ) {
     private lateinit var notifyAdapter: NotifyAdapter
     private val notifyViewModel by viewModels<NotifyViewModel>()

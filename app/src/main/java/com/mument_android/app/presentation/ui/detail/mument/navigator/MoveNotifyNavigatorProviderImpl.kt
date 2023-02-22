@@ -33,11 +33,6 @@ class MoveNotifyNavigatorProviderImpl @Inject constructor(val activity: Activity
                 setResult(RESULT_OK, this)
                 finish()
             }
-//            startActivity(Intent(this, MainActivity::class.java).apply {
-//                putExtra(START_NAV_KEY, startNav)
-//                putExtra(MUMENT_ID, mumentId)
-//                putExtra(MUSIC_INFO_ENTITY, Gson().toJson(musicInfoEntity))
-//            })
         }
     }
 }

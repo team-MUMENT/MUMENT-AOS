@@ -19,6 +19,7 @@ class HomeContract {
         val emotionMumentEntity: RandomMumentEntity? = null,
         val notificationStatus: Boolean = false,
         val profileStatus: Boolean = false,
+        val navStart: String = ""
     ) : ViewState
 
     sealed class HomeEvent : Event {

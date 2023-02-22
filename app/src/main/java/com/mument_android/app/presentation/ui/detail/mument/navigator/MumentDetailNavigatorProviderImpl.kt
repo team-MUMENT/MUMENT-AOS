@@ -49,7 +49,7 @@ class MumentDetailNavigatorProviderImpl @Inject constructor(
 
     override fun mumentDetailPopBackStack(startNav: String) {
         if (activity is MainActivity) {
-            if (startNav == FROM_NOTIFICATION_TO_MUMENT_DETAIL) activity.startActivity(Intent(activity, NotifyActivity::class.java))
+            activity.navController.previousBackStackEntry?.savedStateHandle?.set(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
             activity.navController.popBackStack()
         }
     }

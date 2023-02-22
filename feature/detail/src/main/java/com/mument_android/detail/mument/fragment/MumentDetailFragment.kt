@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -20,6 +18,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.Gson
+import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
@@ -70,7 +69,6 @@ class MumentDetailFragment : Fragment() {
 
     @Inject
     lateinit var mumentHistoryNavigatorProvider: MumentHistoryNavigatorProvider
-    private lateinit var getResultText: ActivityResultLauncher<Intent>
 
     @Inject
     lateinit var declareNavigatorProvider: DeclareNavigatorProvider
@@ -108,17 +106,7 @@ class MumentDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mumentDetailViewModel = viewModel
-        getResultText =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                    it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
-                        it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
-                            viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(mumentId))
-                            viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(music))
-                        } ?: musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(music)
-                    }
-                }
-            }
+
         receiveMumentInfo()
         updateMumentDetail()
         popBackStack()
@@ -159,8 +147,6 @@ class MumentDetailFragment : Fragment() {
         binding.ivBackButton.setOnClickListener {
             viewModel.emitEvent(MumentDetailEvent.OnClickBackButton)
         }
-
-
     }
 
     private fun setMumentTags() {
@@ -189,7 +175,6 @@ class MumentDetailFragment : Fragment() {
                 MumentDetailSideEffect.ShowDeletedMumentAlert -> { showDeletedMumentDialog() }
                 MumentDetailSideEffect.PopBackStack -> {
                     val startNav = viewModel.viewState.value.navStart
-                    Log.e("nav start", "${startNav}")
                     mumentDetailNavigatorProvider.mumentDetailPopBackStack(startNav)
                 }
                 MumentDetailSideEffect.SuccessMumentDeletion -> findNavController().popBackStack()
@@ -201,11 +186,7 @@ class MumentDetailFragment : Fragment() {
                     showEditOrDeleteMumentDialog()
                 }
                 is MumentDetailSideEffect.NavToEditMument -> {
-                    editMumentNavigatorProvider.editMument(
-                        mumentId = effect.mumentId,
-                        music = effect.music,
-                        mumentModifyEntity = effect.mumentModifyEntity
-                    )
+                    editMumentNavigatorProvider.editMument(mumentId = effect.mumentId, music = effect.music, mumentModifyEntity = effect.mumentModifyEntity)
                 }
                 MumentDetailSideEffect.OpenDeleteMumentDialog -> showMumentDeletionDialog()
                 is MumentDetailSideEffect.NavToLikeUserListView -> {
@@ -220,22 +201,19 @@ class MumentDetailFragment : Fragment() {
 
                 MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
 
-                is MumentDetailSideEffect.NavToMusicDetail -> musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(
-                    effect.music
-                )
+                is MumentDetailSideEffect.NavToMusicDetail -> musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.music)
                 is MumentDetailSideEffect.NavToMumentHistory -> {
                     //여기 나중에 수정 좀 부탁드립니당!!
                     //현재 effect.musicId만 받아와짐
                     viewModel.viewState.value.musicInfo?.toMusic()?.let { music ->
-                        viewModel.viewState.value.mument?.writerInfo?.userId?.toInt()
-                            ?.let { userId ->
-                                getResultText.launch(
-                                    Intent(
-                                        requireActivity(),
-                                        HistoryActivity::class.java
-                                    ).apply {
+                        viewModel.viewState.value.mument?.writerInfo?.userId?.toInt()?.let { userId ->
+                                mumentHistoryLauncher.launch(
+                                    Intent(requireActivity(), HistoryActivity::class.java).apply {
                                         putExtra("music", music)
                                         putExtra("userId", userId)
+                                        if(viewModel.viewState.value.navStart == FROM_NOTIFICATION_TO_MUMENT_DETAIL) {
+                                            putExtra(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+                                        }
                                     })
                             }
                     }
@@ -429,6 +407,20 @@ class MumentDetailFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             viewModel.emitEvent(MumentDetailEvent.EntryFromInstagram)
         }
+
+    private val mumentHistoryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == AppCompatActivity.RESULT_OK) {
+            it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
+                it.data?.getStringExtra(START_NAV_KEY).takeIf { it == FROM_NOTIFICATION_TO_MUMENT_DETAIL }?.let {
+                    viewModel.emitEvent(MumentDetailEvent.ReceiveStartNav(it))
+                }
+                it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
+                    viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(mumentId))
+                    viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(music))
+                } ?: musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(music)
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
