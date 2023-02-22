@@ -29,11 +29,11 @@
 
         <TextView
             android:id="@+id/tv_notice_detail_title"
+            style="@style/TextView.Mument_H2_B18.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:text="@string/my_page_notice"
-            android:textAppearance="@style/TextView.Mument_H2_B18.TextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,6 +60,7 @@
                     android:fontFamily="@font/notosans_medium"
                     android:textColor="@color/mument_color_black1"
                     android:textSize="16dp"
+                    android:textStyle="normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="게시물 이름 1" />
@@ -72,6 +73,7 @@
                     android:fontFamily="@font/notosans_regular"
                     android:textColor="@color/mument_color_gray1"
                     android:textSize="12dp"
+                    android:textStyle="normal"
                     app:layout_constraintStart_toStartOf="@+id/tv_notice_detail_item_title"
                     app:layout_constraintTop_toBottomOf="@+id/tv_notice_detail_item_title"
                     tools:text="2022. 10. 18" />
