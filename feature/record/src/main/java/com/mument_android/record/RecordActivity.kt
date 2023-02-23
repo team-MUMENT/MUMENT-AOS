@@ -26,6 +26,7 @@ import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.ImpressiveTag
@@ -336,7 +337,7 @@ class RecordActivity :
 
     //완료버튼 눌렀을 때
     private fun getAllData() {
-        binding.tvRecordFinish.setOnClickListener {
+        binding.tvRecordFinish.setOnSingleClickListener {
             if (recordViewModel.mumentId.value == "") {
                 recordViewModel.postMument()
             } else {
