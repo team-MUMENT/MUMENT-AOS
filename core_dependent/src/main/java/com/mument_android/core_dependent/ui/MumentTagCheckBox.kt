@@ -1,7 +1,9 @@
 package com.mument_android.core_dependent.ui
 
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.content.res.ResourcesCompat
@@ -19,7 +21,12 @@ class MumentTagCheckBox @JvmOverloads constructor(
         setTextColor(context.getColorStateList(R.color.selector_color_gray1_to_blue1))
         setBackgroundResource(R.drawable.selector_tag_background_fill_20dp)
         setOnCheckedChangeListener { button, isChecked ->
-            typeface = ResourcesCompat.getFont(context, if (isChecked) R.font.notosans_bold else R.font.notosans_medium)
+            typeface = if(isChecked) {
+                ResourcesCompat.getFont(context, R.font.notosans_bold)
+            } else {
+                Typeface.DEFAULT
+            }
+            //typeface = ResourcesCompat.getFont(context, if (isChecked) R.font.notosans_bold else R.font.notosans_medium)
         }
     }
 }

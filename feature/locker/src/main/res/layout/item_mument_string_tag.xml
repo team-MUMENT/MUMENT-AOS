@@ -20,7 +20,7 @@
             android:layout_marginEnd="8dp"
             android:includeFontPadding="false"
             android:paddingStart="8dp"
-            style="@style/TextView.Mument_B4_M14.Style"
+            style="@style/TextView.Mument_B2_B14.Style"
             android:textColor="@color/mument_color_gray1"
             android:paddingTop="5dp"
             android:paddingEnd="13dp"
