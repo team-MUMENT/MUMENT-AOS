@@ -224,9 +224,10 @@ object RepositoryModule {
     @Singleton
     fun provideUnregisterRepository(
         unregisterDataSource: UnregisterDataSource,
+        userLocalDataSource: UserLocalDataSource,
         unregisterMapper: UnregisterMapper
     ): UnregisterRepository = UnregisterRepositoryImpl(
-        unregisterDataSource, unregisterMapper
+        unregisterDataSource, userLocalDataSource, unregisterMapper
     )
 
     @Provides
@@ -243,7 +244,7 @@ object RepositoryModule {
     @Singleton
     fun provideLogOutRepository(
         logOutDataSource: LogOutDataSource
-    ) : LogOutRepository = LogOutRepositoryImpl(
+    ): LogOutRepository = LogOutRepositoryImpl(
         logOutDataSource
     )
 }

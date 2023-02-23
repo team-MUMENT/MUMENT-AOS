@@ -107,6 +107,14 @@ object DataSourceModule {
 
     @Provides
     @Singleton
+    fun provideUserLocalDataSource(
+        todayMumentDAO: TodayMumentDAO,
+        recentSearchDAO: RecentSearchDAO
+    ): UserLocalDataSource =
+        UserLocalDataSourceImpl(todayDao = todayMumentDAO, recentSearchDAO = recentSearchDAO)
+
+    @Provides
+    @Singleton
     fun provideSearchListDataSource(service: HomeService): RemoteSearchListDataSource =
         RemoteSearchListDataSourceImpl(service)
 
@@ -183,6 +191,6 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideLogOutDataSource(myPageApiService: MyPageApiService) : LogOutDataSource =
+    fun provideLogOutDataSource(myPageApiService: MyPageApiService): LogOutDataSource =
         LogOutDataSourceImpl(myPageApiService)
 }
