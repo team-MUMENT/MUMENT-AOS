@@ -138,7 +138,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }.show(supportFragmentManager, "Suggestion")
                 } else {
                     snackBar(
-                        binding.cdRoot,
+                        binding.clSnackBar,
                         getString(com.mument_android.detail.R.string.record_finish_record)
                     )
                 }
@@ -160,7 +160,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
                 intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                     snackBar(
-                        binding.cdRoot,
+                        binding.clSnackBar,
                         getString(com.mument_android.detail.R.string.modify_record)
                     )
                     val bundle = Bundle().apply {
