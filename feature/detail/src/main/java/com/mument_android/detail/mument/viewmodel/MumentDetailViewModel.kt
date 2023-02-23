@@ -156,7 +156,7 @@ class MumentDetailViewModel @Inject constructor(
                         if (status.message == "Can't Receive Data") {
                             setEffect { MumentDetailSideEffect.ShowDeletedMumentAlert }
                         }
-                        disableFetchData()
+                        /*disableFetchData()*/
                     }
 
                     is ApiStatus.Success -> {

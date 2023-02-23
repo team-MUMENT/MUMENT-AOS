@@ -14,8 +14,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_my_muments"
@@ -27,6 +27,7 @@
             android:textSize="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_show_my_history"
             style="@style/TextView.Mument_C1_R12.Style"
@@ -67,9 +68,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
-                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@{mument.user.name}"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
+                app:layout_constraintEnd_toStartOf="@+id/ll_touch_area"
                 app:layout_constraintStart_toEndOf="@id/iv_profile"
                 app:layout_constraintTop_toTopOf="@id/iv_profile"
                 tools:text="이수지" />
@@ -79,7 +82,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingVertical="10dp"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/iv_profile">
@@ -100,6 +102,7 @@
                     style="@style/TextView.Mument_C1_R12.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingEnd="@{mument.private?@dimen/app_space_0:@dimen/app_space_4}"
                     android:text="@{mument.private == true ? `비밀글`: Integer.toString(mument.likeCount)}"
                     android:textColor="@color/mument_color_gray1"
                     tools:text="15" />
@@ -117,7 +120,7 @@
                 android:id="@+id/rv_mument_tags"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="11dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"

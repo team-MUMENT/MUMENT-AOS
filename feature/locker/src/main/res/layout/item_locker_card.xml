@@ -30,18 +30,14 @@
         android:paddingTop="11dp"
         android:paddingBottom="16dp">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
             <ImageView
+                android:id="@+id/iv_profile"
                 load_profile="@{mument.userImage}"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_heart_off" />
 
             <TextView
@@ -50,7 +46,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@{mument.userName}"
+                app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+                app:layout_constraintStart_toEndOf="@id/iv_profile"
+                app:layout_constraintTop_toTopOf="@id/iv_profile"
                 tools:text="이수지" />
 
             <com.airbnb.lottie.LottieAnimationView
@@ -61,18 +62,24 @@
                 android:visibility="@{mument.isPrivate != true &amp;&amp; !isOther? View.VISIBLE : View.GONE}"
                 app:lottie_autoPlay="false"
                 app:lottie_loop="false"
-                app:lottie_rawRes="@raw/heart_icn_lottie" />
+                app:lottie_rawRes="@raw/heart_icn_lottie"
+                app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+                app:layout_constraintEnd_toStartOf="@id/tv_like_count"
+                app:layout_constraintTop_toTopOf="@id/iv_profile" />
 
             <TextView
                 android:id="@+id/tv_like_count"
                 style="@style/TextView.Mument_C1_R12.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="@{mument.private?@dimen/app_space_0:@dimen/app_space_4}"
                 android:text="@{mument.private == true ? `비밀글`: mument.likeCount.toString()}"
                 android:textColor="@color/mument_color_gray1"
+                app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_profile"
                 android:visibility="@{isOther?View.GONE:View.VISIBLE}"
                 tools:text="15" />
-        </LinearLayout>
 
         <View
             android:id="@+id/view"
@@ -80,7 +87,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="11dp"
             android:background="@color/mument_color_gray4"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
 
         <ImageView
             android:id="@+id/imageview"

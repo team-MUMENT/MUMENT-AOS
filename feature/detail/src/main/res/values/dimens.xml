@@ -11,6 +11,8 @@
     <dimen name="app_space_16">16dp</dimen>
     <dimen name="app_space_45">45dp</dimen>
     <dimen name="app_space_5">5dp</dimen>
+    <dimen name="app_space_4">4dp</dimen>
     <dimen name="app_space_8">8dp</dimen>
+    <dimen name="app_space_0">0dp</dimen>
 
 </resources>

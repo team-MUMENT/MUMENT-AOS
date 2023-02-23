@@ -3,5 +3,7 @@
     <!-- Font Size-->
     <dimen name="font_size_25">25dp</dimen>
     <dimen name="font_size_18">18dp</dimen>
+    <dimen name="app_space_0">0dp</dimen>
+    <dimen name="app_space_4">4dp</dimen>
 
 </resources>
