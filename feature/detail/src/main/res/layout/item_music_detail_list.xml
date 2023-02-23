@@ -15,6 +15,7 @@
     <com.mument_android.core_dependent.ui.ShadowConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/shape_border_default_redius_11dp"
         android:clipChildren="false"
         android:clipToPadding="false"

@@ -14,7 +14,7 @@
     <string name="like_count_integer_format">%d명이 좋아합니다.</string>
     <string name="go_to_mument_history_integer_format">%d개의 뮤멘트가 있는 히스토리 보러가기</string>
     <string name="record_mument">뮤멘트 기록하기</string>
-    <string name="write_earliest_mument">가장 먼저 뮤멘트를 남겨n보세요.</string>
+    <string name="write_earliest_mument">가장 먼저 뮤멘트를 남겨보세요.</string>
     <string name="write_first_mument">첫 뮤멘트를 남겨보세요.</string>
     <string name="cannot_load_data">데이터를 불러올 수 없습니다.</string>
     <string name="cannot_access_insta">인스타그램에 접근할 수 없습니다 :(</string>
