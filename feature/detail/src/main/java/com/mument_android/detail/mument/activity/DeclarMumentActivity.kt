@@ -130,6 +130,7 @@ class DeclarMumentActivity :
                             } else {
 
                                 MumentDialogBuilder()
+                                    .setHeader("네트워크 오류")
                                     .setBody("신고가 정상적으로 완료되었으나, 일시적인 네트워크 오류로 인해 차단을 실패했습니다. 잠시 후 다시 시도해주시기 바랍니다.")
                                     .setAllowListener("확인") {
                                         finish()
