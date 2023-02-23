@@ -2,6 +2,9 @@ package com.mument_android.home.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core.util.Constants.FROM_NOTIFICATION
+import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
+import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core_dependent.util.collectEvent
 import com.mument_android.core_dependent.util.emitEffect
 import com.mument_android.core_dependent.util.emitEvent
@@ -142,31 +145,14 @@ class HomeViewModel @Inject constructor(
             when (event) {
                 HomeEvent.OnClickSearch -> emitEffect(HomeSideEffect.GoToSearchActivity)
                 HomeEvent.OnClickNotification -> emitEffect(HomeSideEffect.GoToNotification)
-                is HomeEvent.CallBackSearchResult -> emitEffect(
-                    HomeSideEffect.NavToMusicDetail(event.musicInfo)
-                )
-                is HomeEvent.OnClickBanner -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicInfo))
-                is HomeEvent.OnClickTodayMument -> emitEffect(
-                    HomeSideEffect.NavToMumentDetail(
-                        event.mument,
-                        event.musicInfo
-                    )
-                )
-                is HomeEvent.OnClickHeardMument -> emitEffect(
-                    HomeSideEffect.NavToMumentDetail(
-                        event.mument,
-                        event.musicInfo
-                    )
-                )
-                is HomeEvent.OnClickRandomMument -> emitEffect(
-                    HomeSideEffect.NavToMumentDetail(
-                        event.mument,
-                        event.musicInfo
-                    )
-                )
-                HomeEvent.OnClickLogo -> {
-                    fetchList()
-                }
+                HomeEvent.OnClickLogo -> { fetchList() }
+                is HomeEvent.ReEntryToSearchView -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicInfo, FROM_SEARCH))
+                is HomeEvent.OnClickBanner -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicInfo, ""))
+                is HomeEvent.OnClickTodayMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo, ""))
+                is HomeEvent.OnClickHeardMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo, ""))
+                is HomeEvent.OnClickRandomMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo, ""))
+                is HomeEvent.ReEntryToNotificationView -> emitEffect(HomeSideEffect.GoToNotification)
+                is HomeEvent.NotificationToMumentDetail -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo, FROM_NOTIFICATION_TO_MUMENT_DETAIL))
             }
         }
     }

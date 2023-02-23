@@ -1,21 +1,24 @@
 package com.mument_android.detail.music
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.HistoryNavigatorProvider
 import com.angdroid.navigation.MoveRecordProvider
 import com.angdroid.navigation.MumentDetailNavigatorProvider
+import com.angdroid.navigation.MusicDetailNavigatorProvider
+import com.mument_android.core.util.Constants
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core_dependent.ext.click
@@ -40,7 +43,10 @@ import javax.inject.Inject
 class MusicDetailFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentMusicDetailBinding>()
     private val musicDetailViewModel: MusicDetailViewModel by viewModels()
-    private lateinit var getResultText: ActivityResultLauncher<Intent>
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
+
+    @Inject
+    lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
 
     @Inject
     lateinit var recordProvider: MoveRecordProvider
@@ -50,6 +56,16 @@ class MusicDetailFragment : Fragment() {
 
     @Inject
     lateinit var historyNavigatorProvider: HistoryNavigatorProvider
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                musicDetailViewModel.emitEvent(MusicDetailEvent.OnClickBackButton)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,19 +80,6 @@ class MusicDetailFragment : Fragment() {
         binding.musicDetailViewModel = musicDetailViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        getResultText =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                    it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
-                        it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
-                            mumentDetailNavigatorProvider.musicDetailToMumentDetail(
-                                mumentId,
-                                music
-                            )
-                        }
-                    }
-                }
-            }
         clickBackButton()
         setMyMumentTagList()
         setEntireMumentListAdapter()
@@ -95,12 +98,11 @@ class MusicDetailFragment : Fragment() {
 
     private fun receiveMusicId() {
         arguments?.getParcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
-            Log.e("getParcelable", it.toString())
             musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicInfo(it))
         }
-        /*arguments?.getString(MUMENT_ID)?.let {
-            *//*musicDetailViewModel.emitEvent(MusicDetailEvent.)*//*
-        }*/
+        arguments?.getString(Constants.START_NAV_KEY)?.let {
+            musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveStartNav(it))
+        }
     }
 
     private fun updateView() {
@@ -165,8 +167,8 @@ class MusicDetailFragment : Fragment() {
         collectFlowWhenStarted(musicDetailViewModel.effect) { effect ->
             when (effect) {
                 is MusicDetailEffect.ShowToast -> requireContext().showToast(effect.msg)
-                MusicDetailEffect.PopBackStack -> {
-                    findNavController().popBackStack()
+                is MusicDetailEffect.PopBackStack -> {
+                    musicDetailNavigatorProvider.musicDetailPopBackStack(effect.startNav)
                 }
                 MusicDetailEffect.CompleteLikeMument -> {
                     binding.layoutMyMument.mument =
@@ -215,6 +217,17 @@ class MusicDetailFragment : Fragment() {
         binding.tvSortLikeCount.changeSelectedSortTheme(sort)
     }
 
+    private val getResultText =
+    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == AppCompatActivity.RESULT_OK) {
+            it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
+                it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
+                    mumentDetailNavigatorProvider.musicDetailToMumentDetail(mumentId, music)
+                }
+            }
+        }
+    }
+
     private fun moveToHistoryFragment() {
         binding.tvShowMyHistory.setOnClickListener {
             musicDetailViewModel.viewState.value.musicInfo
@@ -235,6 +248,11 @@ class MusicDetailFragment : Fragment() {
 
     private fun AppCompatTextView.changeSelectedSortTheme(selectedSort: String) {
         isSelected = selectedSort == text.toString()
+    }
+
+    override fun onDestroyView() {
+        onBackPressedCallback.remove()
+        super.onDestroyView()
     }
 
     companion object {

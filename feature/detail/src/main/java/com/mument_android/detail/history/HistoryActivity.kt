@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.paging.PagingData
 import com.angdroid.navigation.MoveFromHistoryToDetail
+import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
@@ -32,6 +33,7 @@ class HistoryActivity :
         intent.getIntExtra("userId", 0).let {
             historyViewModel.setUserId(it)
         }
+
         setListener()
         collectSortType()
         collectFlowWhenStarted(historyViewModel.fetchHistory) { paging ->
