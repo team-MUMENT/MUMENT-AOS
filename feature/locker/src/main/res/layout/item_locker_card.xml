@@ -22,7 +22,6 @@
         android:id="@+id/cl_mument"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="5dp"
         android:background="@drawable/shape_border_default_redius_11dp"
         android:elevation="8dp"

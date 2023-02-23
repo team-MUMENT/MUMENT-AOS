@@ -33,7 +33,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_mument_linear"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="15dp"
@@ -48,9 +48,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_mument_grid"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:paddingStart="16dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
