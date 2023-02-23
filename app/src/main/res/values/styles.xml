@@ -5,6 +5,7 @@
         <item name="itemPaddingTop">6dp</item>
         <item name="itemPaddingBottom">4dp</item>
         <item name="fontFamily">@font/notosans_medium</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
 </resources>

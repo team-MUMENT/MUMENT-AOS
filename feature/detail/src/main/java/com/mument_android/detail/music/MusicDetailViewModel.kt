@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.internal.wait
 import javax.inject.Inject
 
 @HiltViewModel
@@ -108,16 +109,14 @@ class MusicDetailViewModel @Inject constructor(
     private fun sortMumentList(sort: SortTypeEnum) {
         val muments = viewState.value.mumentList
         viewModelScope.launch {
-            withContext(Dispatchers.Default) {
-                val sortedMuments = if (sort == SortTypeEnum.SORT_LATEST) {
-                    muments.sortedBy { dateFormatter.parseDate(it.createdAt) }
-                        .reversed()
+            val sortedMuments = withContext(Dispatchers.Default) {
+                if (sort == SortTypeEnum.SORT_LATEST) {
+                    muments.sortedByDescending { dateFormatter.parseDate(it.createdAt) }
                 } else {
-                    muments.sortedBy { it.likeCount }
-                        .reversed()
+                    muments.sortedByDescending { it.likeCount }
                 }
-                setState { copy(mumentList = sortedMuments) }
             }
+            setState { copy(mumentList = sortedMuments) }
         }
     }
 

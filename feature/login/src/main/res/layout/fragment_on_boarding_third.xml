@@ -79,7 +79,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_finish"
-            style="@style/TextView.Mument_H2_B18.TextAppearance"
+            style="@style/TextView.Mument_H2_B18.Style"
             android:layout_width="0dp"
             android:layout_height="47dp"
             android:layout_marginHorizontal="21dp"

@@ -38,6 +38,7 @@ class HomeContract {
 
         object OnClickSearch : HomeEvent()
         object OnClickNotification : HomeEvent()
+        object OnClickLogo : HomeEvent()
         data class NotificationToMumentDetail(val mument: String, val musicInfo: MusicInfoEntity): HomeEvent()
     }
 

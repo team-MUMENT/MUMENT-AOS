@@ -22,4 +22,7 @@ interface TodayMumentDAO {
 
     @Query("SELECT * FROM today_mument_table")
     suspend fun getTodayMument(): TodayMumentEntity?
+
+    @Query("delete from today_mument_table")
+    suspend fun dropTodayMument():Int
 }

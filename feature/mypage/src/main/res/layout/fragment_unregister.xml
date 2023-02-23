@@ -73,7 +73,7 @@
 
             <TextView
                 android:id="@+id/tv_unregister_content"
-                style="@style/TextView.Mument_B3_M14.TextAppearance"
+                style="@style/TextView.Mument_B3_M14.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -107,7 +107,6 @@
 
                 <EditText
                     android:id="@+id/et_unregister_reason_content"
-                    style="@style/TextView.Mument_B3_M14.Style"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
                     android:background="@drawable/rectangle_fill_gray5_7dp"
@@ -118,11 +117,13 @@
                     android:maxLength="100"
                     android:padding="12dp"
                     android:text="@={myPageViewModel.unregisterReasonContent}"
+                    android:textAppearance="@style/TextView.Mument_B3_M14.TextAppearance"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
                 <TextView
                     android:id="@+id/tv_unregister_reason_num_color"
+                    style="@style/TextView.Mument_B6_M13.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
@@ -135,6 +136,7 @@
 
                 <TextView
                     android:id="@+id/tv_unregister_reason_num"
+                    style="@style/TextView.Mument_B6_M13.Style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="11dp"
@@ -190,9 +192,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="46dp"
+                android:background="@drawable/rectangle_fill_gray5_11dp"
                 android:overScrollMode="never"
                 android:visibility="@{myPageViewModel.isClickReasonChooseBox() ? View.VISIBLE : View.GONE}"
-                android:background="@drawable/rectangle_fill_gray5_11dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/cl_reason">

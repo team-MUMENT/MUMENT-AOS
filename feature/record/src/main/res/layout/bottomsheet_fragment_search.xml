@@ -82,20 +82,21 @@
 
             <TextView
                 android:id="@+id/tv_empty_title"
-                style="@style/TextView.Mument_H3_B16.Style"
+                style="@style/TextView.Mument_B1_B15.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="@{bottomViewmodel.searchOption?@dimen/app_space_11:@dimen/app_space_20}"
                 android:text="@{bottomViewmodel.searchOption?@string/search_result_empty_header(bottomViewmodel.searchText):@string/search_record_empty_header}"
                 android:textColor="@color/mument_color_gray1"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:coloredText="@{bottomViewmodel.searchOption?bottomViewmodel.searchText:``}"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
 
             <TextView
                 android:id="@+id/tv_empty_sub"
+                style="@style/TextView.Mument_B6_M13.Style"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"
@@ -121,7 +122,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_search"
             tools:listitem="@layout/item_bottomsheet_search_list" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

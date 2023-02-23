@@ -23,6 +23,7 @@ import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
@@ -126,6 +127,9 @@ class HomeFragment : Fragment() {
             viewModel.homeViewState.value.todayMumentEntity?.let {
                 viewModel.emitEvent(HomeEvent.OnClickTodayMument(it.mumentId, it.extractMusicInfo()))
             }
+        }
+        binding.ivLogo.setOnSingleClickListener {
+            viewModel.emitEvent(HomeEvent.OnClickLogo)
         }
     }
 

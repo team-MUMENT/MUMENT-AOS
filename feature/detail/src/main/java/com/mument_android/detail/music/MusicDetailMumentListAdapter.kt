@@ -37,13 +37,13 @@ class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickL
             viewClickable.setOnClickListener {
                 mumentClickListener.showMumentDetail(data.mumentId)
             }
-            checkLikeMument(holder)
-            setMumentTagList(holder)
+            checkLikeMument(holder, position)
+            setMumentTagList(holder, position)
         }
     }
 
-    private fun checkLikeMument(holder: MusicDetailMumentListViewHolder) {
-        val mument = getItem(holder.absoluteAdapterPosition)
+    private fun checkLikeMument(holder: MusicDetailMumentListViewHolder, position: Int) {
+        val mument = getItem(position)
         holder.binding.run {
             laLikeMusic.click {
                 val likeCount = tvLikeCount.text.toString().toInt()
@@ -91,8 +91,8 @@ class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickL
         }
     }
 
-    private fun setMumentTagList(holder: MusicDetailMumentListViewHolder) {
-        val mument = getItem(holder.absoluteAdapterPosition)
+    private fun setMumentTagList(holder: MusicDetailMumentListViewHolder, position: Int) {
+        val mument = getItem(position)
         holder.binding.rvMumentTags.run {
             adapter = MumentTagListAdapter()
             (adapter as MumentTagListAdapter).submitList(mument.tags)

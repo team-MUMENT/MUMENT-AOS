@@ -3,6 +3,7 @@ package com.mument_android.record
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
@@ -52,7 +53,6 @@ class RecordActivity :
 
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -426,9 +426,15 @@ class RecordActivity :
     //버튼 폰트 지정
     private fun Button.isChangeButtonFont(selected: Boolean) {
         isSelected = selected
-        typeface = ResourcesCompat.getFont(
-            context, if (selected) R.font.notosans_bold else R.font.notosans_medium
-        )
+        if (selected) {
+            typeface = ResourcesCompat.getFont(context, R.font.notosans_bold)
+        } else {
+            setTypeface(
+                ResourcesCompat.getFont(
+                    context, R.font.notosans_medium
+                ), Typeface.NORMAL
+            )
+        }
     }
 
     //1000자 넘어가면 색상 변경
@@ -439,8 +445,10 @@ class RecordActivity :
 
     //안 넘어갔을 때 색상
     private fun TextView.isChangePurple() {
-        typeface = ResourcesCompat.getFont(
-            context, R.font.notosans_medium
+        setTypeface(
+            ResourcesCompat.getFont(
+                context, R.font.notosans_medium
+            ), Typeface.NORMAL
         )
         setTextColor(
             ContextCompat.getColor(

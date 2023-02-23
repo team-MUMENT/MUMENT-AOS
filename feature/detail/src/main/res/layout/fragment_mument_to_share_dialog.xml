@@ -28,6 +28,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_writer_name"
+            style="@style/TextView.Mument_C1_R12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
@@ -100,12 +101,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="16dp"
-            tools:listitem="@layout/item_mument_string_tag"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_music_artist_name" />
+            app:layout_constraintTop_toBottomOf="@id/tv_music_artist_name"
+            tools:listitem="@layout/item_mument_string_tag" />
 
         <com.mument_android.detail.mument.fragment.EllipsizeTextView
             android:id="@+id/tv_mument"

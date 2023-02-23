@@ -32,6 +32,7 @@
         <item name="android:fontFamily">@font/notosans_medium</item>
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/mument_color_black2</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
 
@@ -39,11 +40,13 @@
         <item name="android:fontFamily">@font/notosans_medium</item>
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/mument_color_gray1</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextView.Mument_B4_M14.TextAppearance" parent="">
         <item name="android:fontFamily">@font/notosans_medium</item>
         <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="DialogExposeAnimation">
