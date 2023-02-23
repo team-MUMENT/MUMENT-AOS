@@ -15,8 +15,6 @@ import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
 import com.mument_android.locker.adapters.LockerTimeAdapter
 import com.mument_android.locker.databinding.FragmentMyLikeBinding
 import com.mument_android.locker.filter.LockerLikeFilterBottomSheetFragment
-import com.mument_android.locker.util.CustomDecoration
-import com.mument_android.locker.util.dpToPxF
 import com.mument_android.locker.viewmodels.LockerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -85,6 +83,7 @@ class MyLikeFragment : Fragment() {
         }
     }
 
+
     private fun setMyMumentListAdapter() {
         //setGridServerConnection()
         collectFlowWhenStarted(lockerViewModel.myLikeMuments) { result ->
@@ -107,12 +106,7 @@ class MyLikeFragment : Fragment() {
                             })
 
                     initLikeEmpty(result.data?.size ?: 0)
-                    val decoration = CustomDecoration(
-                        4.dpToPxF,
-                        4.dpToPxF,
-                        this.context!!.getColor(R.color.mument_color_bgwhite)
-                    )
-                    binding.rvLikeLinear.addItemDecoration(decoration)
+
                     (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
                 }
                 else -> {}

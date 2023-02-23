@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="mument"
             type="com.mument_android.domain.entity.locker.LockerMumentEntity.MumentLockerCard" />
@@ -20,6 +21,8 @@
             load_album="@{mument.musicImage}"
             android:layout_width="88dp"
             android:layout_height="88dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
