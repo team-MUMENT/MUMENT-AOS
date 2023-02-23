@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
+import com.angdroid.navigation.QuitMainNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
@@ -17,10 +18,15 @@ import com.mument_android.mypage.fragment.BlockUserManagementFragment
 import com.mument_android.mypage.fragment.NoticeFragment
 import com.mument_android.mypage.fragment.UnregisterFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding::inflate) {
     private val myPageViewModel: MyPageViewModel by viewModels()
+    @Inject
+    lateinit var quitMainNavigatorProvider : QuitMainNavigatorProvider
+
 
     override fun onStart() {
         super.onStart()
@@ -136,12 +142,10 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                 .setBody("")
                 .setAllowListener("로그아웃") {
                     myPageViewModel.logOut()
-
-                    val intent = Intent(this, LogInActivity::class.java)
-                    startActivity(intent)
+                   // val intent = Intent(this, LogInActivity::class.java)
+                   // startActivity(intent)
+                    moveToMainActivity()
                     finish()
-
-
                 }
                 .setCancelListener {}
                 .build()
@@ -188,6 +192,9 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         startActivity(email)
     }
 
+    private fun moveToMainActivity() {
+        quitMainNavigatorProvider.quitMument(true)
+    }
 }
 
 

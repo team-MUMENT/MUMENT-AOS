@@ -149,7 +149,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                     viewModel.isExist.observe(this) {
                         if (it == true) {
                             moveToMainActivity()
-                        } else {
+                        } else if (viewModel.isExist.value == false) {
                             startActivity(Intent(this, ProfileSettingActivity::class.java))
                             finish()
                         }
