@@ -27,7 +27,8 @@ class MumentDetailContract {
         val renderedProfileImage: Boolean = false,
         val renderedTags: Boolean = false,
         val renderdAlbumCover: Boolean = false,
-        val fileToShare: File? = null
+        val fileToShare: File? = null,
+        val navStart: String = ""
     ) : ViewState
 
     sealed class MumentDetailEvent : Event {
@@ -36,6 +37,7 @@ class MumentDetailContract {
         /** 뷰 진입시 Arguments로 MumentId, Music 데이터 업데이트 **/
         data class ReceiveMumentId(val mumentId: String) : MumentDetailEvent()
         data class ReceiveMusicInfo(val musicInfoEntity: MusicInfoEntity) : MumentDetailEvent()
+        data class ReceiveStartNav(val startNav: String): MumentDetailEvent()
 
         /** ...메뉴 버튼 클릭 Event **/
         object OnClickOptionButton : MumentDetailEvent()

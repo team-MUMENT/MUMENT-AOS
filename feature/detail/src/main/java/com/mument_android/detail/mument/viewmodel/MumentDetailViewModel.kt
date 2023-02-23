@@ -64,18 +64,9 @@ class MumentDetailViewModel @Inject constructor(
 
             MumentDetailEvent.SelectBlockUserType -> setEffect { MumentDetailSideEffect.OpenBlockUserDialog }
             MumentDetailEvent.SelectMumentDeletionType -> setEffect { MumentDetailSideEffect.OpenDeleteMumentDialog }
-            MumentDetailEvent.SelectReportMumentType -> setEffect {
-                MumentDetailSideEffect.NavToReportMument(
-                    viewState.value.requestMumentId
-                )
-            }
-            MumentDetailEvent.OnClickBlockUser -> {
-                blockUser()
-            }
-
-            MumentDetailEvent.OnClickBlockUser -> {
-                blockUser()
-            }
+            MumentDetailEvent.SelectReportMumentType -> setEffect { MumentDetailSideEffect.NavToReportMument(viewState.value.requestMumentId) }
+            MumentDetailEvent.OnClickBlockUser -> { blockUser() }
+            MumentDetailEvent.OnClickBlockUser -> { blockUser() }
 
             is MumentDetailEvent.SelectMumentEditType -> setEffect {
                 MumentDetailSideEffect.NavToEditMument(
@@ -89,23 +80,11 @@ class MumentDetailViewModel @Inject constructor(
             MumentDetailEvent.OnClickLikeMument -> likeMument()
             MumentDetailEvent.OnClickUnLikeMument -> cancelLikeMument()
 
-            is MumentDetailEvent.OnClickAlum -> setEffect {
-                MumentDetailSideEffect.NavToMusicDetail(
-                    event.music
-                )
-            }
-
-            is MumentDetailEvent.OnClickHistory -> setEffect {
-                MumentDetailSideEffect.NavToMumentHistory(
-                    event.musicId
-                )
-            }
-
+            is MumentDetailEvent.OnClickAlum -> setEffect { MumentDetailSideEffect.NavToMusicDetail(event.music) }
+            is MumentDetailEvent.OnClickHistory -> setEffect { MumentDetailSideEffect.NavToMumentHistory(event.musicId) }
             is MumentDetailEvent.OnClickShareMument -> {
                 event.mumentEntity?.let { mument ->
-                    Log.e("MUMENT", mument.toString())
                     event.musicInfo?.let { music ->
-                        Log.e("MUSIC", music.toString())
                         setEffect { MumentDetailSideEffect.OpenShareMumentDialog(mument, music) }
                     }
                 } ?: setEffect { MumentDetailSideEffect.Toast(R.string.cannot_access_insta) }
@@ -118,6 +97,7 @@ class MumentDetailViewModel @Inject constructor(
                 setState { copy(fileToShare = event.imageFile) }
             }
             MumentDetailEvent.EntryFromInstagram -> deleteSharedImageFile()
+            is MumentDetailEvent.ReceiveStartNav -> setState { copy(navStart = event.startNav) }
         }
     }
 
