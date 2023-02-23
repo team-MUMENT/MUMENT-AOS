@@ -15,6 +15,7 @@
     <com.mument_android.core_dependent.ui.ShadowConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/shape_border_default_redius_11dp"
         android:clipChildren="false"
         android:clipToPadding="false"
@@ -62,7 +63,7 @@
             android:id="@+id/rv_mument_tags"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="11dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -120,26 +121,13 @@
             app:lottie_autoPlay="false"
             app:lottie_loop="false"
             app:lottie_rawRes="@raw/heart_icn_lottie" />
-        <!--
-
-                <CheckBox
-                    android:id="@+id/cb_heart"
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/selector_heart_on_off"
-                    android:button="@null"
-                    android:checked="@{mumentSummary.liked}"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_profile"
-                    app:layout_constraintEnd_toStartOf="@id/tv_like_count"
-                    app:layout_constraintTop_toTopOf="@id/iv_profile" />
-        -->
 
         <TextView
             android:id="@+id/tv_like_count"
             style="@style/TextView.Mument_C1_R12.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingEnd="4dp"
             android:text="@{Integer.toString(mumentSummary.likeCount)}"
             android:textColor="@color/mument_color_gray1"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"

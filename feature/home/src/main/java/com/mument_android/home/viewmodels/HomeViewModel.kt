@@ -2,6 +2,9 @@ package com.mument_android.home.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mument_android.core.util.Constants.FROM_NOTIFICATION
+import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
+import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core_dependent.util.collectEvent
 import com.mument_android.core_dependent.util.emitEffect
 import com.mument_android.core_dependent.util.emitEvent
@@ -94,6 +97,41 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun fetchList() {
+
+        viewModelScope.launch {
+            useCase.getTodayMument().catch {
+            }.collect { today ->
+                _homeViewState.setState {
+                    copy(todayMumentEntity = today)
+                }
+            }
+            useCase.getBannerMument().catch {
+            }.collect { banners ->
+                if (banners != null) {
+                    _homeViewState.setState {
+                        copy(bannerEntity = banners)
+                    }
+                }
+            }
+            useCase.getKnownMument().catch {
+            }.collect { heards ->
+                if (heards != null) {
+                    _homeViewState.setState {
+                        copy(heardMumentEntity = heards)
+                    }
+                }
+            }
+            useCase.getRandomMument().catch {
+                //Todo exception handling
+            }.collect { random ->
+                if (random != null) {
+                    _homeViewState.setState { copy(emotionMumentEntity = random) }
+                }
+            }
+        }
+    }
+
     fun checkNotifyExist() {
         viewModelScope.launch {
             useCase.checkNotifyExist().catch { }.collect { result ->
@@ -107,28 +145,14 @@ class HomeViewModel @Inject constructor(
             when (event) {
                 HomeEvent.OnClickSearch -> emitEffect(HomeSideEffect.GoToSearchActivity)
                 HomeEvent.OnClickNotification -> emitEffect(HomeSideEffect.GoToNotification)
-                is HomeEvent.CallBackSearchResult -> emitEffect(
-                    HomeSideEffect.NavToMusicDetail(event.musicInfo)
-                )
-                is HomeEvent.OnClickBanner -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicInfo))
-                is HomeEvent.OnClickTodayMument -> emitEffect(
-                    HomeSideEffect.NavToMumentDetail(
-                        event.mument,
-                        event.musicInfo
-                    )
-                )
-                is HomeEvent.OnClickHeardMument -> emitEffect(
-                    HomeSideEffect.NavToMumentDetail(
-                        event.mument,
-                        event.musicInfo
-                    )
-                )
-                is HomeEvent.OnClickRandomMument -> emitEffect(
-                    HomeSideEffect.NavToMumentDetail(
-                        event.mument,
-                        event.musicInfo
-                    )
-                )
+                HomeEvent.OnClickLogo -> { fetchList() }
+                is HomeEvent.ReEntryToSearchView -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicInfo, FROM_SEARCH))
+                is HomeEvent.OnClickBanner -> emitEffect(HomeSideEffect.NavToMusicDetail(event.musicInfo, ""))
+                is HomeEvent.OnClickTodayMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo, ""))
+                is HomeEvent.OnClickHeardMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo, ""))
+                is HomeEvent.OnClickRandomMument -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo, ""))
+                is HomeEvent.ReEntryToNotificationView -> emitEffect(HomeSideEffect.GoToNotification)
+                is HomeEvent.NotificationToMumentDetail -> emitEffect(HomeSideEffect.NavToMumentDetail(event.mument, event.musicInfo, FROM_NOTIFICATION_TO_MUMENT_DETAIL))
             }
         }
     }

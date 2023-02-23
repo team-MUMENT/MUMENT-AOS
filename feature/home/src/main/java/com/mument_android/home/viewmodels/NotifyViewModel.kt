@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiStatus
+import com.mument_android.core.util.Constants.FROM_NOTIFICATION
+import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core_dependent.util.collectEvent
 import com.mument_android.core_dependent.util.emitEffect
 import com.mument_android.core_dependent.util.emitEvent
@@ -74,7 +76,7 @@ class NotifyViewModel @Inject constructor(
                 is NotifyEvent.OnClickNotify -> {
                     when (event.notify.type) {
                         NotifyType.LIKE -> {
-                            emitEffect(NotifySideEffect.NavToMumentDetail(event.notify))
+                            emitEffect(NotifySideEffect.NavToMumentDetail(event.notify, FROM_NOTIFICATION_TO_MUMENT_DETAIL))
                         }
                         NotifyType.NOTICE -> {
                             emitEffect(NotifySideEffect.NavToNotice(event.notify))

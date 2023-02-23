@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ll_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/mument_color_bgwhite"
         android:layout_marginBottom="@dimen/app_space_15"
+        android:background="@color/mument_color_bgwhite"
         android:orientation="horizontal">
 
         <TextView

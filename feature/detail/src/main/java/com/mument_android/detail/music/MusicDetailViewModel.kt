@@ -17,8 +17,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.internal.wait
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,7 +62,11 @@ class MusicDetailViewModel @Inject constructor(
                 cancelLikeItemMument(event.mumentId)
             }
             is MusicDetailEvent.OnClickBackButton -> {
-                setEffect { MusicDetailEffect.PopBackStack }
+                val startNav = viewState.value.startNav
+                setEffect { MusicDetailEffect.PopBackStack(startNav) }
+            }
+            is MusicDetailEvent.ReceiveStartNav -> {
+                setState { copy(startNav = event.startNav) }
             }
         }
     }
@@ -74,16 +80,12 @@ class MusicDetailViewModel @Inject constructor(
             fetchMusicDetailUseCase(musicId, music.toMusicRequest()).collect { result ->
                 when (result) {
                     is ApiStatus.Success -> {
-                        Log.e("myMumentInfo", result.data.myMument.toString())
                         setState { copy(myMumentInfo = result.data.myMument) }
                     }
                     is ApiStatus.Failure -> {
-                        Log.e("myMumentInfo", result.message.toString())
                         setState { copy(hasError = true) }
                     }
-                    ApiStatus.Loading -> {
-
-                    }
+                    ApiStatus.Loading -> {}
                 }
             }
         }
@@ -94,12 +96,12 @@ class MusicDetailViewModel @Inject constructor(
             fetchMumentListUseCase(
                 musicId,
                 viewState.value.mumentSortType.tag
-            ).catch { e ->
-                Log.e("error", "${e.message}")
-                setState { copy(hasError = true, mumentList = emptyList()) }
+            ).onStart {
+                setState { copy(onNetwork = true) }
+            }.catch { e ->
+                setState { copy(hasError = true, onNetwork = false, mumentList = emptyList()) }
             }.collect { muments ->
-                Log.e("mument list", "${muments}")
-                setState { copy(mumentList = muments) }
+                setState { copy(onNetwork = false, mumentList = muments) }
             }
         }
     }
@@ -107,16 +109,14 @@ class MusicDetailViewModel @Inject constructor(
     private fun sortMumentList(sort: SortTypeEnum) {
         val muments = viewState.value.mumentList
         viewModelScope.launch {
-            withContext(Dispatchers.Default) {
-                val sortedMuments = if (sort == SortTypeEnum.SORT_LATEST) {
-                    muments.sortedBy { dateFormatter.parseDate(it.createdAt) }
-                        .reversed()
+            val sortedMuments = withContext(Dispatchers.Default) {
+                if (sort == SortTypeEnum.SORT_LATEST) {
+                    muments.sortedByDescending { dateFormatter.parseDate(it.createdAt) }
                 } else {
-                    muments.sortedBy { it.likeCount }
-                        .reversed()
+                    muments.sortedByDescending { it.likeCount }
                 }
-                setState { copy(mumentList = sortedMuments) }
             }
+            setState { copy(mumentList = sortedMuments) }
         }
     }
 

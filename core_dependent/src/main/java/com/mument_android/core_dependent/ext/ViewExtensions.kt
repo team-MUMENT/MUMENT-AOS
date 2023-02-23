@@ -1,13 +1,20 @@
 package com.mument_android.core_dependent.ext
 
+import android.app.Activity
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
+import androidx.fragment.app.FragmentActivity
 import com.mument_android.core.model.TagEntity.Companion.TAG_IS_FIRST
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.R
@@ -32,6 +39,12 @@ fun View.setVisible() {
 
 fun View.setGone() {
     this.visibility = View.GONE
+}
+
+inline fun FragmentActivity.getActivityResult(crossinline resultSuccess: (Intent?) -> Unit): ActivityResultLauncher<Intent> {
+    return registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) resultSuccess(result.data)
+    }
 }
 
 

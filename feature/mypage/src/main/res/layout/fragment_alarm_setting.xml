@@ -30,11 +30,11 @@
 
         <TextView
             android:id="@+id/tv_alarm_setting_title"
+            style="@style/TextView.Mument_H2_B18.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:text="@string/my_page_alarm_setting"
-            android:textAppearance="@style/TextView.Mument_H2_B18.TextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:textStyle="normal"
             android:fontFamily="@font/notosans_medium"
             android:text="@string/alarm"
             android:textColor="@color/mument_color_black1"
@@ -56,6 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textStyle="normal"
             android:fontFamily="@font/notosans_medium"
             android:paddingEnd="20dp"
             android:text="@string/alarm_content"

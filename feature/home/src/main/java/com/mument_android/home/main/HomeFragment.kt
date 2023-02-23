@@ -1,32 +1,35 @@
 package com.mument_android.home.main
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
+import com.google.gson.Gson
+import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
+import com.mument_android.core.util.Constants.FROM_SEARCH
+import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.home.R
 import com.mument_android.home.adapters.BannerListAdapter
 import com.mument_android.home.adapters.HeardMumentListAdapter
 import com.mument_android.home.adapters.ImpressiveEmotionListAdapter
@@ -68,19 +71,47 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkCurrentBackStack()
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
         bindData()
     }
 
-    private val searchMusicLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.apply {
-                    musicDetailNavigatorProvider.fromHomeToMusicDetail(this)
+    private fun checkCurrentBackStack() {
+        findNavController().currentBackStackEntry
+            ?.savedStateHandle?.let { savedStateHandle ->
+                savedStateHandle.getLiveData<String>(START_NAV_KEY, "").observe(viewLifecycleOwner) { startNav ->
+                    when(startNav) {
+                        FROM_NOTIFICATION_TO_MUMENT_DETAIL -> viewModel.emitEvent(HomeEvent.ReEntryToNotificationView)
+                        FROM_SEARCH -> viewModel.emitEvent(HomeEvent.OnClickSearch)
+                    }
+                }
+            }
+    }
+
+    private val searchMusicLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
+                result.data?.getStringExtra(START_NAV_KEY).takeIf { it == FROM_SEARCH }?.let {
+                    viewModel.emitEvent(HomeEvent.ReEntryToSearchView(music, it))
                 }
             }
         }
+    }
+
+    private val notificationLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.getStringExtra(MUSIC_INFO_ENTITY)?.let {
+                val mumentId = result.data?.getStringExtra(MUMENT_ID)
+                val musicInfo = Gson().fromJson(it, MusicInfoEntity::class.java)
+                result.data?.getStringExtra(START_NAV_KEY)
+                    .takeIf { it == FROM_NOTIFICATION_TO_MUMENT_DETAIL }
+                    ?.let {
+                        viewModel.emitEvent(HomeEvent.NotificationToMumentDetail(mumentId ?:"", musicInfo))
+                    }
+            }
+        }
+    }
 
     private fun bindData() {
         setAdapter()
@@ -94,13 +125,11 @@ class HomeFragment : Fragment() {
         }
         binding.clCard.root.setOnClickListener {
             viewModel.homeViewState.value.todayMumentEntity?.let {
-                viewModel.emitEvent(
-                    HomeEvent.OnClickTodayMument(
-                        it.mumentId,
-                        it.extractMusicInfo()
-                    )
-                )
+                viewModel.emitEvent(HomeEvent.OnClickTodayMument(it.mumentId, it.extractMusicInfo()))
             }
+        }
+        binding.ivLogo.setOnSingleClickListener {
+            viewModel.emitEvent(HomeEvent.OnClickLogo)
         }
     }
 
@@ -149,7 +178,6 @@ class HomeFragment : Fragment() {
         }
         collectFlowWhenStarted(viewModel.homeViewState) { homeViewState ->
             with(homeViewState) {
-                Log.e("View State", homeViewState.toString())
                 emotionMumentEntity?.let {
                     impressiveAdapter.submitList(it.mumentList)
                     binding.tvImpressive.text = it.title
@@ -169,11 +197,7 @@ class HomeFragment : Fragment() {
                             it.tagTitle.replace("\\n", "\n")
                         )
                     }) { music ->
-                        viewModel.emitEvent(
-                            HomeEvent.OnClickBanner(
-                                music.toMusicInfoEntity()
-                            )
-                        )
+                        viewModel.emitEvent(HomeEvent.OnClickBanner(music.toMusicInfoEntity()))
                     }
                     setBannerCallBack()
                 }
@@ -185,24 +209,16 @@ class HomeFragment : Fragment() {
         collectFlowWhenStarted(viewModel.effect) { effect ->
             when (effect) {
                 HomeSideEffect.GoToNotification -> {
-                    startActivity(Intent(requireActivity(), NotifyActivity::class.java))
+                    notificationLauncher.launch(Intent(requireActivity(), NotifyActivity::class.java))
                 }
                 HomeSideEffect.GoToSearchActivity -> {
-                    searchMusicLauncher.launch(
-                        Intent(
-                            requireActivity(),
-                            SearchActivity::class.java
-                        )
-                    )
+                    searchMusicLauncher.launch(Intent(requireActivity(), SearchActivity::class.java))
                 }
                 is HomeSideEffect.NavToMusicDetail -> {
-                    musicDetailNavigatorProvider.fromHomeToMusicDetail(effect.musicInfo)
+                    musicDetailNavigatorProvider.fromHomeToMusicDetail(effect.musicInfo, effect.startNav)
                 }
                 is HomeSideEffect.NavToMumentDetail -> {
-                    mumentDetailNavigatorProvider.moveHomeToMumentDetail(
-                        effect.mumentId,
-                        effect.musicInfo
-                    )
+                    mumentDetailNavigatorProvider.moveHomeToMumentDetail(effect.mumentId, effect.musicInfo, effect.startNav)
                 }
                 is HomeSideEffect.Toast -> requireContext().showToast(effect.message)
             }

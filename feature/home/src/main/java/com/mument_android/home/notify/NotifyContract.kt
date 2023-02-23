@@ -26,7 +26,7 @@ class NotifyContract {
         object AllReadSuccess : NotifySideEffect()
         data class Toast(val message: String) : NotifySideEffect()
         data class DeleteNotify(val notify: Notify) : NotifySideEffect()
-        data class NavToMumentDetail(val notify: Notify) : NotifySideEffect()
+        data class NavToMumentDetail(val notify: Notify, val startNav: String) : NotifySideEffect()
         data class NavToNotice(val notify: Notify) : NotifySideEffect()
     }
 }

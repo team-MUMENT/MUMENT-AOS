@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import com.angdroid.navigation.MoveNotifyNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ext.getActivityResult
 import com.mument_android.core_dependent.util.TransitionMode
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.home.adapters.NotifyAdapter
@@ -24,7 +25,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
-    inflate = ActivityNotifyBinding::inflate, mode = TransitionMode.HORIZONTAL
+    inflate = ActivityNotifyBinding::inflate, mode = TransitionMode.NONE
 ) {
     private lateinit var notifyAdapter: NotifyAdapter
     private val notifyViewModel by viewModels<NotifyViewModel>()
@@ -47,7 +48,6 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
         collectFlowWhenStarted(notifyViewModel.notifyViewState) { notifyViewState ->
             with(notifyViewState) {
                 notifyList?.let { notifies ->
-                    Log.e("NOTIFES", notifies.toString())
                     notifyAdapter.submitList(notifies)
                 }
             }
@@ -71,7 +71,7 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
                     notifyViewModel.deleteNotify(notifySideEffect.notify)
                 }
                 is NotifySideEffect.NavToMumentDetail -> {
-                    moveToMumentDetail(notifySideEffect.notify)
+                    moveToMumentDetail(notifySideEffect.notify, notifySideEffect.startNav)
                 }
                 is NotifySideEffect.Toast -> {
                     showToast(notifySideEffect.message)
@@ -83,10 +83,10 @@ class NotifyActivity : BaseActivity<ActivityNotifyBinding>(
         }
     }
 
-    private fun moveToMumentDetail(notify: Notify) {
+    private fun moveToMumentDetail(notify: Notify, startNav: String) {
         //Move MumentDetail
         notify.like.toMusicInfoEntity()?.let {
-            moveNotifyNavigatorProvider.moveToMumentDetail(notify.linkId.toString(), it)
+            moveNotifyNavigatorProvider.moveToMumentDetail(notify.linkId.toString(), it, startNav)
         }
     }
 

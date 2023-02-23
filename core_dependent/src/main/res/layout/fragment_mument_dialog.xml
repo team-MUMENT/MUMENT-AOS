@@ -68,7 +68,5 @@
                 android:text="확인"
                 android:textColor="@color/mument_color_purple1" />
         </LinearLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

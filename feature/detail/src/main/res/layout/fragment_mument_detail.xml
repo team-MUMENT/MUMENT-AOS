@@ -224,29 +224,13 @@
                         app:layout_constraintStart_toStartOf="@id/rv_mument_tags"
                         app:layout_constraintTop_toBottomOf="@id/tv_contents"
                         tools:text="1 Sep, 2020" />
-                    <!--
-
-                                        <androidx.appcompat.widget.AppCompatCheckBox
-                                            android:id="@+id/cb_heart"
-                                            android:layout_width="24dp"
-                                            android:layout_height="24dp"
-                                            android:layout_marginStart="13dp"
-                                            android:layout_marginTop="12dp"
-                                            android:background="@drawable/selector_heart_on_off"
-                                            android:button="@null"
-                                            android:checked="@{mumentDetailViewModel.viewState.likedMument}"
-                                            android:visibility="@{mumentDetailViewModel.viewState.mument.private?View.GONE:View.VISIBLE}"
-                                            app:layout_constraintStart_toStartOf="parent"
-                                            app:layout_constraintTop_toBottomOf="@id/tv_date"
-                                            tools:src="@drawable/selector_heart_on_off" />
-                    -->
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/la_like"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="13dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="3dp"
                         android:progress="@{mumentDetailViewModel.viewState.likedMument?100F:0F}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_date"
@@ -259,8 +243,8 @@
                         style="@style/TextView.Mument_C1_R12.Style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
                         android:enabled="@{mumentDetailViewModel.viewState.likeCount==0?false:true}"
+                        android:paddingEnd="4dp"
                         android:text="@{mumentDetailViewModel.viewState.mument.private?`비밀글`:@string/like_count_integer_format(mumentDetailViewModel.viewState.likeCount)}"
                         android:textColor="@color/mument_color_gray1"
                         app:layout_constraintBottom_toBottomOf="@id/la_like"

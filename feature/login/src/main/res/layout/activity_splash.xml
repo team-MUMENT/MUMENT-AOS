@@ -52,6 +52,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:textColor="@color/white"
+                    android:textStyle="normal"
+                    android:fontFamily="@font/notosans_regular"
                     android:textSize="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

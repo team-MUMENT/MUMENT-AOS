@@ -2,10 +2,12 @@ package com.mument_android.locker.filter
 
 import android.app.Dialog
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -160,8 +162,17 @@ class LockerLikeFilterBottomSheetFragment(
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
                 if (lockerFilterViewModel.emotionalTags.contains(tag)) {
-                    binding.rvEmotion.syncSelectedTags(filterBottomSheetAdpaterEmotion.currentList.indexOf(tag), false)
-                } else { binding.rvImpressive.syncSelectedTags(filterBottomSheetAdapterImpress.currentList.indexOf(tag), false)
+                    binding.rvEmotion.syncSelectedTags(
+                        filterBottomSheetAdpaterEmotion.currentList.indexOf(
+                            tag
+                        ), false
+                    )
+                } else {
+                    binding.rvImpressive.syncSelectedTags(
+                        filterBottomSheetAdapterImpress.currentList.indexOf(
+                            tag
+                        ), false
+                    )
                 }
 
                 filterBottomSheetAdpaterEmotion.selectedTags.remove(tag)
@@ -176,7 +187,8 @@ class LockerLikeFilterBottomSheetFragment(
         val view =
             if (id == binding.rvEmotion.id) binding.rvEmotion[position] else binding.rvImpressive[position]
         val viewHolder = getChildViewHolder(view)
-        (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked = check
+        (viewHolder as FilterBottomSheetAdapter.BottomSheetFilterHolder).binding.cbTag.isChecked =
+            check
     }
 
 
@@ -246,8 +258,12 @@ class LockerLikeFilterBottomSheetFragment(
         if (tags.isEmpty()) {
             binding.clSelectedTag.visibility = View.GONE
             binding.tvFilterNum.setTextColor(Color.parseColor("#B6B6B6"))
+            val typeface = ResourcesCompat.getFont(requireContext(), R.font.notosans_medium)
+            binding.tvFilterNum.setTypeface(typeface, Typeface.NORMAL)
         } else {
             binding.clSelectedTag.visibility = View.VISIBLE
+            binding.tvFilterNum.typeface =
+                ResourcesCompat.getFont(requireContext(), R.font.notosans_bold)
             binding.tvFilterNum.setTextColor(Color.parseColor("#2AC9fB"))
         }
 

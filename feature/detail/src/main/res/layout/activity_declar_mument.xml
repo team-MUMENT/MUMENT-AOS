@@ -77,6 +77,7 @@
                     android:text="@string/notify_reference"
                     android:textColor="@color/mument_color_gray1"
                     android:textSize="13dp"
+                    android:textStyle="normal"
                     app:layout_constraintStart_toStartOf="@+id/textView"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -105,6 +106,7 @@
                         android:text="@string/notify_not_relative"
                         android:textColor="@color/black"
                         android:textSize="14dp"
+                        android:textStyle="normal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_first_reason"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -135,6 +137,7 @@
                         android:text="@string/notify_personal_info"
                         android:textColor="@color/black"
                         android:textSize="14dp"
+                        android:textStyle="normal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_second_reason"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -165,6 +168,7 @@
                         android:text="@string/notify_not_good"
                         android:textColor="@color/black"
                         android:textSize="14dp"
+                        android:textStyle="normal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_third_reason"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -195,6 +199,7 @@
                         android:text="@string/notify_noxious_content"
                         android:textColor="@color/black"
                         android:textSize="14dp"
+                        android:textStyle="normal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_forth_reason"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -225,6 +230,7 @@
                         android:text="@string/notify_same_content"
                         android:textColor="@color/black"
                         android:textSize="14dp"
+                        android:textStyle="normal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_fifth_reason"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -255,6 +261,7 @@
                         android:text="@string/notify_advertise"
                         android:textColor="@color/black"
                         android:textSize="14dp"
+                        android:textStyle="normal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_sixth_reason"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -286,6 +293,7 @@
                         android:text="@string/notify_etc"
                         android:textColor="@color/black"
                         android:textSize="14dp"
+                        android:textStyle="normal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_seventh_reason"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -298,20 +306,21 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/rectangle_fill_gray5_7dp"
-                    android:imeOptions="actionDone"
                     android:fontFamily="@font/notosans_medium"
                     android:gravity="top"
                     android:hint="@string/notify_write_content"
+                    android:imeOptions="actionDone"
                     android:lines="6"
                     android:maxLength="100"
-                    android:scrollbars="vertical"
                     android:paddingHorizontal="13dp"
-                    android:paddingBottom="32dp"
                     android:paddingTop="15dp"
+                    android:paddingBottom="32dp"
+                    android:scrollbars="vertical"
                     android:text="@={viewModel.reasonLength}"
                     android:textColor="@color/mument_color_black2"
                     android:textColorHint="@color/mument_color_gray1"
                     android:textSize="13dp"
+                    android:textStyle="normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cl_seventh_reason" />
@@ -326,6 +335,7 @@
                     android:text="/100"
                     android:textColor="@color/mument_color_gray2"
                     android:textSize="13dp"
+                    android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="@+id/editText"
                     app:layout_constraintEnd_toEndOf="@+id/editText" />
 
@@ -338,6 +348,7 @@
                     android:text="@{Integer.toString(viewModel.reasonLength.length())}"
                     android:textColor="@{viewModel.reasonLength.length() == 0 ? @color/mument_color_gray2 : @color/mument_color_purple1}"
                     android:textSize="13dp"
+                    android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="@+id/editText"
                     app:layout_constraintEnd_toStartOf="@+id/tv_max_length" />
 
@@ -367,6 +378,7 @@
                         android:text="@string/notify_block"
                         android:textColor="@color/black"
                         android:textSize="14dp"
+                        android:textStyle="normal"
                         app:layout_constraintBottom_toBottomOf="@+id/iv_block_check"
                         app:layout_constraintStart_toEndOf="@+id/iv_block_check"
                         app:layout_constraintTop_toTopOf="@+id/iv_block_check" />
@@ -382,6 +394,7 @@
                     android:text="@string/notify_block_reference"
                     android:textColor="@color/mument_color_gray1"
                     android:textSize="12dp"
+                    android:textStyle="normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cl_block" />
 
