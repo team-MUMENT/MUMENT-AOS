@@ -35,6 +35,7 @@ class HomeContract {
         data class CallBackSearchResult(val musicInfo: MusicInfoEntity) : HomeEvent()
         object OnClickSearch : HomeEvent()
         object OnClickNotification : HomeEvent()
+        object OnClickLogo : HomeEvent()
     }
 
     sealed class HomeSideEffect : SideEffect {

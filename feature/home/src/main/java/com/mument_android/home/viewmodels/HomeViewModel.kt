@@ -94,6 +94,41 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun fetchList() {
+
+        viewModelScope.launch {
+            useCase.getTodayMument().catch {
+            }.collect { today ->
+                _homeViewState.setState {
+                    copy(todayMumentEntity = today)
+                }
+            }
+            useCase.getBannerMument().catch {
+            }.collect { banners ->
+                if (banners != null) {
+                    _homeViewState.setState {
+                        copy(bannerEntity = banners)
+                    }
+                }
+            }
+            useCase.getKnownMument().catch {
+            }.collect { heards ->
+                if (heards != null) {
+                    _homeViewState.setState {
+                        copy(heardMumentEntity = heards)
+                    }
+                }
+            }
+            useCase.getRandomMument().catch {
+                //Todo exception handling
+            }.collect { random ->
+                if (random != null) {
+                    _homeViewState.setState { copy(emotionMumentEntity = random) }
+                }
+            }
+        }
+    }
+
     fun checkNotifyExist() {
         viewModelScope.launch {
             useCase.checkNotifyExist().catch { }.collect { result ->
@@ -129,6 +164,9 @@ class HomeViewModel @Inject constructor(
                         event.musicInfo
                     )
                 )
+                HomeEvent.OnClickLogo -> {
+                    fetchList()
+                }
             }
         }
     }

@@ -20,6 +20,7 @@ import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
@@ -101,6 +102,9 @@ class HomeFragment : Fragment() {
                     )
                 )
             }
+        }
+        binding.ivLogo.setOnSingleClickListener {
+            viewModel.emitEvent(HomeEvent.OnClickLogo)
         }
     }
 
