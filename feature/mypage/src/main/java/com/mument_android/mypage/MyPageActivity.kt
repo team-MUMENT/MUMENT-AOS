@@ -142,8 +142,6 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                 .setBody("")
                 .setAllowListener("로그아웃") {
                     myPageViewModel.logOut()
-                   // val intent = Intent(this, LogInActivity::class.java)
-                   // startActivity(intent)
                     moveToMainActivity()
                     finish()
                 }
@@ -193,7 +191,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     }
 
     private fun moveToMainActivity() {
-        quitMainNavigatorProvider.quitMument(true)
+        quitMainNavigatorProvider.quitMument()
     }
 }
 

@@ -12,19 +12,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_mument"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
 
 
         <ImageView
             android:id="@+id/imageview"
             load_album="@{mument.musicImage}"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

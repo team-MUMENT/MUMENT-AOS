@@ -1,6 +1,7 @@
 package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
+import android.app.Application
 import android.content.Intent
 import com.angdroid.navigation.QuitMainNavigatorProvider
 import com.mument_android.login.LogInActivity
@@ -9,14 +10,15 @@ import kotlin.system.exitProcess
 
 
 class QuitMainNavigatorProviderImpl @Inject constructor(
-    private val activity: Activity
+    private val activity: Activity,
+    private val application: Application
 ): QuitMainNavigatorProvider {
-    override fun quitMument(isQuit: Boolean) {
-        activity.finishAffinity()
-        System.runFinalization()
+    override fun quitMument() {
         val intent = Intent(activity, LogInActivity::class.java)
-        intent.putExtra("isQuit", true)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        activity.finishAffinity()
         activity.startActivity(intent)
         exitProcess(0)
+
     }
 }
