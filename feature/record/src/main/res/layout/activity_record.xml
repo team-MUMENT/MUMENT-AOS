@@ -167,7 +167,6 @@
                     android:enabled="@{recordViewModel.isSelectedMusic() ? true : false}"
                     android:paddingHorizontal="40dp"
                     android:paddingVertical="10dp"
-                    android:autoSizeTextType="uniform"
                     android:stateListAnimator="@null"
                     android:text="@string/record_first_listen"
                     android:textColor="@color/selector_color_gray1_to_purple1_selected"
