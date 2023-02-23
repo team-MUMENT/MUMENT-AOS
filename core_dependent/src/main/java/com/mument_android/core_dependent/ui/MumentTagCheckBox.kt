@@ -13,7 +13,7 @@ import com.mument_android.core_dependent.R
 class MumentTagCheckBox @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null
-): AppCompatCheckBox(context, attributeSet) {
+) : AppCompatCheckBox(context, attributeSet) {
     init {
         buttonDrawable = null
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14f)
@@ -21,12 +21,7 @@ class MumentTagCheckBox @JvmOverloads constructor(
         setTextColor(context.getColorStateList(R.color.selector_color_gray1_to_blue1))
         setBackgroundResource(R.drawable.selector_tag_background_fill_20dp)
         setOnCheckedChangeListener { button, isChecked ->
-            typeface = if(isChecked) {
-                ResourcesCompat.getFont(context, R.font.notosans_bold)
-            } else {
-                Typeface.DEFAULT
-            }
-            //typeface = ResourcesCompat.getFont(context, if (isChecked) R.font.notosans_bold else R.font.notosans_medium)
+            typeface = ResourcesCompat.getFont(context, if (isChecked) R.font.notosans_bold else R.font.notosans_medium)
         }
     }
 }
