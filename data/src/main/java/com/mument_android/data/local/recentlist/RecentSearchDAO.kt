@@ -23,7 +23,7 @@ interface RecentSearchDAO {
     suspend fun getRowCount(): Int
 
     @Query("delete from recent_table")
-    suspend fun deleteAllRecentSearchList()
+    suspend fun deleteAllRecentSearchList(): Int
 
     @Query("select * from recent_table order by createAt desc")
     suspend fun getAllRecentList(): List<RecentSearchDataEntity>
