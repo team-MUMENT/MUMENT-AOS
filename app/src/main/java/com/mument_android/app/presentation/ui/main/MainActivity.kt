@@ -57,6 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         customAppBar()
         isLimitUserNetwork()
         isRestrictUser()
+        isQuit()
         /*
         TODO 소식창에서 접근 시에 finish() 안하면 이거 그대로 써야함 이래도 홈까지는 가서 나가야 함
         */
@@ -235,6 +236,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             if (it.restricted == true) {
                 RestrictUserDialog(this).show(supportFragmentManager, "test")
             }
+        }
+    }
+
+    private fun isQuit() {
+        val isQuit = intent.getBooleanExtra("isQuit", false)
+        if(isQuit) {
+            finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 

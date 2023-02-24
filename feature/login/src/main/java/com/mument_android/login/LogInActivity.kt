@@ -45,9 +45,10 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         btnKakaoListener()
         getFcmToken()
         webLinkNetwork()
-        keyClipBoard()
+        //keyClipBoard()
     }
 
+    /*
     private fun keyClipBoard() {
         var keyHash = Utility.getKeyHash(this)
         Log.e("kkkkkkkkkk:", "$keyHash")
@@ -78,6 +79,8 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
             false
         }
     }
+
+     */
 
 
     private fun getFcmToken() {

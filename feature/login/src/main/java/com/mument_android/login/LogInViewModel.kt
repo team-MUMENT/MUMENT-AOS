@@ -124,7 +124,7 @@ class LogInViewModel @Inject constructor(
                 }
 
             }.also {
-                isExistProfile()
+                //isExistProfile()
             }
         }
     }
