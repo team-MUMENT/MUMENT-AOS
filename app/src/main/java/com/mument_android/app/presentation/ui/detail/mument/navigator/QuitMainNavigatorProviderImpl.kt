@@ -1,24 +1,27 @@
 package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
-import android.app.Application
 import android.content.Intent
 import com.angdroid.navigation.QuitMainNavigatorProvider
+import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.login.LogInActivity
+import com.mument_android.mypage.MyPageActivity
 import javax.inject.Inject
-import kotlin.system.exitProcess
 
 
 class QuitMainNavigatorProviderImpl @Inject constructor(
     private val activity: Activity,
-    private val application: Application
-): QuitMainNavigatorProvider {
+) : QuitMainNavigatorProvider {
     override fun quitMument() {
-        val intent = Intent(activity, LogInActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        activity.finishAffinity()
-        activity.startActivity(intent)
-        exitProcess(0)
+        with(activity as MyPageActivity) {
+            val intentSecond = Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                putExtra("FINISH", true)
+            }
+            startActivity(intentSecond)
+            val intent = Intent(this, LogInActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
