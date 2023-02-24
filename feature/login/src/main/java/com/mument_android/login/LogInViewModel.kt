@@ -10,7 +10,6 @@ import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.domain.entity.mypage.UserInfoEntity
 import com.mument_android.domain.entity.sign.*
 import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
-import com.mument_android.domain.entity.user.UserEntity
 import com.mument_android.domain.usecase.sign.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,8 +53,8 @@ class LogInViewModel @Inject constructor(
     private val _kakaoData = MutableLiveData<KakaoEntity>()
     val kakaoData get() : LiveData<KakaoEntity> = _kakaoData
 
-    private val _getWebView = MutableLiveData<WebViewEntity>()
-    val getWebView get() :LiveData<WebViewEntity> = _getWebView
+    private val _getWebViewEntity = MutableLiveData<WebViewEntity>()
+    val getWebViewEntity get() :LiveData<WebViewEntity> = _getWebViewEntity
 
     private val _newToken = MutableLiveData<NewTokenEntity>()
     val newToken get() : LiveData<NewTokenEntity> = _newToken
@@ -122,9 +121,8 @@ class LogInViewModel @Inject constructor(
                     saveAccessToken(it?.accessToken ?: "")
                     //saveTestUserId(it._id ?: 1)
                 }
-
             }.also {
-                //isExistProfile()
+                isExistProfile()
             }
         }
     }
@@ -148,7 +146,7 @@ class LogInViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 getWebViewUseCase.getWebView(page).let {
-                    _getWebView.value = it
+                    _getWebViewEntity.value = it
                 }
             }
         }
