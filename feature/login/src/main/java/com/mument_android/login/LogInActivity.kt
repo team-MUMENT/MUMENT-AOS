@@ -1,12 +1,8 @@
 package com.mument_android.login
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.angdroid.navigation.MainHomeNavigatorProvider
@@ -15,7 +11,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.AuthErrorCause
-import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
@@ -105,7 +100,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
 
     private fun webLinkNetwork() {
         viewModel.getWebView("login")
-        viewModel.getWebView.observe(this) {
+        viewModel.getWebViewEntity.observe(this) {
             val tosLink = it.tos.toString()
             val privacyLink = it.privacy.toString()
             binding.tvTermsOfService.setOnClickListener {
@@ -141,11 +136,13 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                     viewModel.kakaoLogin(requestKakaoData)
 
                     viewModel.isExist.observe(this) {
-                        if (it == true) {
+                        Log.e("isExist", it.toString())
+                        if (it) {
+                            Log.e("isExist True", it.toString())
                             moveToMainActivity()
-                        } else if (viewModel.isExist.value == false) {
+                        } else if (!it) {
+                            Log.e("isExist False", it.toString())
                             startActivity(Intent(this, ProfileSettingActivity::class.java))
-                            finish()
                         }
                     }
                 }
