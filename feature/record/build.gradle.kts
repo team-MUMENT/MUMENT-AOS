@@ -57,6 +57,7 @@ dependencies {
     addNavigationDependencies()
     addDaggerHiltDependencies()
     addLifecycleDependencies()
+    implementation(ThirdPartyDependencies.fireBaseGA)
     implementation(ThirdPartyDependencies.coil)
     implementation(AndroidXDependencies.coroutines)
     implementation(ThirdPartyDependencies.flexBox)

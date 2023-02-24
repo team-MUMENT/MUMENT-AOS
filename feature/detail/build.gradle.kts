@@ -59,6 +59,7 @@ dependencies {
     addNavigationDependencies()
     addDaggerHiltDependencies()
     addLifecycleDependencies()
+    implementation(ThirdPartyDependencies.fireBaseGA)
     implementation(ThirdPartyDependencies.lottie)
     implementation(ThirdPartyDependencies.gson)
     implementation(ThirdPartyDependencies.coil)

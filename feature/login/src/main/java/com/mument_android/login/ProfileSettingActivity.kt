@@ -23,6 +23,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.angdroid.navigation.MypageNavigatorProvider
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
@@ -181,6 +182,7 @@ class ProfileSettingActivity :
                         viewModel.imageUri.value = uri
                     }
                 }
+                FirebaseAnalytics.getInstance(this).logEvent("signup_profile_img", null)
             }
         }
     }
@@ -262,12 +264,15 @@ class ProfileSettingActivity :
             if (success) {
                 if (isCheckMypage == 1)
                     finish()
-                else
+                else {
+                    FirebaseAnalytics.getInstance(this).logEvent("signup_success", null)
                     moveToMainActivity()
+                }
             }
         }
 
         binding.tvProfileFinish.setOnClickListener {
+            FirebaseAnalytics.getInstance(this).logEvent("signup_duplication_test", null)
             lifecycleScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()

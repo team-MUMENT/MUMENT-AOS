@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
@@ -37,6 +38,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
     private val viewModel: LogInViewModel by viewModels()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     @Inject
     lateinit var dataStoreManager: DataStoreManager
@@ -45,7 +47,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 //        initView()
         initKakaoLogin()
         btnKakaoListener()
@@ -125,6 +127,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
 
     private fun btnKakaoListener() {
         binding.ivKakao.setOnClickListener {
+            FirebaseAnalytics.getInstance(this).logEvent("signup_sns_login_kakao", null)
             setKakaoBtnListener()
         }
     }
