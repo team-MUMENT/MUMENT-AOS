@@ -26,11 +26,12 @@ class MoveNotifyNavigatorProviderImpl @Inject constructor(val activity: Activity
 
     override fun moveToMumentDetail(mumentId: String, musicInfoEntity: MusicInfoEntity, startNav: String) {
         with(activity as NotifyActivity) {
-            Intent().apply {
+            Intent(this, MainActivity::class.java).apply {
                 putExtra(START_NAV_KEY, startNav)
                 putExtra(MUMENT_ID, mumentId)
                 putExtra(MUSIC_INFO_ENTITY, Gson().toJson(musicInfoEntity))
-                setResult(RESULT_OK, this)
+                startActivity(this)
+                /*setResult(RESULT_OK, this)*/
                 finish()
             }
         }
