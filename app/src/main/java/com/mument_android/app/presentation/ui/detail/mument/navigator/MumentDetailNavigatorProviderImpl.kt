@@ -19,12 +19,26 @@ import javax.inject.Inject
 class MumentDetailNavigatorProviderImpl @Inject constructor(
     private val activity: Activity
 ) : MumentDetailNavigatorProvider {
-    override fun moveHomeToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity, startNav: String) {
-        moveToMumentDetail(R.id.action_homeFragment_to_mumentDetailFragment, mumentId, musicInfo, startNav)
+    override fun moveHomeToMumentDetail(
+        mumentId: String,
+        musicInfo: MusicInfoEntity,
+        startNav: String
+    ) {
+        moveToMumentDetail(
+            R.id.action_homeFragment_to_mumentDetailFragment,
+            mumentId,
+            musicInfo,
+            startNav
+        )
     }
 
     override fun moveLockerToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
-        moveToMumentDetail(R.id.action_lockerFragment_to_mumentDetailFragment, mumentId, musicInfo, null)
+        moveToMumentDetail(
+            R.id.action_lockerFragment_to_mumentDetailFragment,
+            mumentId,
+            musicInfo,
+            null
+        )
     }
 
     override fun musicDetailToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
@@ -36,7 +50,12 @@ class MumentDetailNavigatorProviderImpl @Inject constructor(
         )
     }
 
-    private fun moveToMumentDetail(actionId: Int, mumentId: String, musicInfo: MusicInfoEntity, startNav: String?) {
+    private fun moveToMumentDetail(
+        actionId: Int,
+        mumentId: String,
+        musicInfo: MusicInfoEntity,
+        startNav: String?
+    ) {
         if (activity is MainActivity) {
             val bundle = Bundle().apply {
                 putString(MUMENT_ID, mumentId)
@@ -49,7 +68,17 @@ class MumentDetailNavigatorProviderImpl @Inject constructor(
 
     override fun mumentDetailPopBackStack(startNav: String) {
         if (activity is MainActivity) {
-            activity.navController.previousBackStackEntry?.savedStateHandle?.set(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+            if (startNav.isNotBlank()) {
+                activity.navController.previousBackStackEntry?.savedStateHandle?.set(
+                    START_NAV_KEY,
+                    FROM_NOTIFICATION_TO_MUMENT_DETAIL
+                )
+            } else {
+                activity.navController.previousBackStackEntry?.savedStateHandle?.set(
+                    START_NAV_KEY,
+                    null
+                )
+            }
             activity.navController.popBackStack()
         }
     }

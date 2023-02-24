@@ -49,7 +49,17 @@ class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity:
 
     override fun musicDetailPopBackStack(startNav: String) {
         with(activity as MainActivity) {
-            activity.navController.previousBackStackEntry?.savedStateHandle?.set(START_NAV_KEY, Constants.FROM_SEARCH)
+            if (startNav.isNotBlank()) {
+                activity.navController.previousBackStackEntry?.savedStateHandle?.set(
+                    START_NAV_KEY,
+                    Constants.FROM_SEARCH
+                )
+            }else{
+                activity.navController.previousBackStackEntry?.savedStateHandle?.set(
+                    START_NAV_KEY,
+                    null
+                )
+            }
             activity.navController.popBackStack()
 //            if (startNav == FROM_SEARCH) startActivity(Intent(activity, SearchActivity::class.java))
 //            navController.popBackStack()
