@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.angdroid.navigation.MoveMusicDetailNavigatorProvider
 import com.angdroid.navigation.MumentDetailNavigatorProvider
@@ -257,13 +256,13 @@ class RecordActivity :
                     //다시들었어요 일 때
                     if (!it) {  //isFirst 가 false 일 때"
                         Log.e("수정하기에서 다시 들었어요", "${recordViewModel.isFirst.value}")
-                        binding.btnRecordFirst.isChangeButtonFont(it)
+                        binding.btnRecordFirst.isChangeButtonFont(false)
                         binding.btnRecordSecond.isChangeButtonFont(true)
                         binding.btnRecordFirst.isClickable = false
                     } else {
                         Log.e("수정하기에서 처음 들었어요", "${recordViewModel.isFirst.value}")
-                        binding.btnRecordFirst.isChangeButtonFont(it)
-                        binding.btnRecordSecond.isChangeButtonFont(!it)
+                        binding.btnRecordFirst.isChangeButtonFont(true)
+                        binding.btnRecordSecond.isChangeButtonFont(false)
                     }
                 }
             } else {
@@ -463,10 +462,4 @@ class RecordActivity :
         super.onStop()
         recordViewModel.mumentId.value = ""
     }
-
-    companion object {
-        const val MUMENT_ID_FOR_EDIT = "MUMENT_ID_FOR_EDIT"
-        const val MUMENT_DETAIL_ENTITY = "MUMENT_DETAIL_ENTITY"
-    }
-
 }
