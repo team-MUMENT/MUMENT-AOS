@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class OnBoardingThirdFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentOnBoardingThirdBinding>()
-    private val viewModel : LogInViewModel by viewModels()
+    private val viewModel: LogInViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,6 +27,7 @@ class OnBoardingThirdFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.saveIsFirst()
         startBtnClickListener()
     }
 

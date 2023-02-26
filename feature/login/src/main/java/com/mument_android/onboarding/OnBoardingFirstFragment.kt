@@ -13,7 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class OnBoardingFirstFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentOnBoardingFirstBinding>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,10 +20,5 @@ class OnBoardingFirstFragment : Fragment() {
         binding = this
         this.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
 }
 
