@@ -8,6 +8,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.fragment.findNavController
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
+import com.mument_android.core_dependent.util.ViewUtils.hideKeyboard
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.ActivityDeclarMumentBinding
@@ -124,6 +125,7 @@ class DeclarMumentActivity :
                     if (isReportMument == true) {
                         reportViewModel.blockUser(mumentId)
                         reportViewModel.error.observe(this) {
+                            binding.clDeclar.hideKeyboard()
                             if (it == null) {
                                 showToast("신고 및 차단이 완료되었습니다.")
 
@@ -138,7 +140,7 @@ class DeclarMumentActivity :
                                     .setCancelListener("") {}
                                     .build()
                                     .show(supportFragmentManager, attributionTag)
-                               // showToast(it)
+                                // showToast(it)
                             }.also {
 
                             }
@@ -150,6 +152,7 @@ class DeclarMumentActivity :
                 reportNetwork()
                 reportViewModel.isReportMuemnt.observe(this) { isReportMument ->
                     if (isReportMument == true) {
+                        binding.clDeclar.hideKeyboard()
                         showToast("신고가 접수되었습니다.")
                         finish()
                     }
