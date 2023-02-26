@@ -19,28 +19,31 @@ class SignRepositoryImpl @Inject constructor(
     private val requestSetProfileMapper: RequestSetProfileMapper,
     private val getWebViewMapper: GetWebViewMapper,
     private val newTokenMapper: NewTokenMapper
+) : SignRepository {
 
-): SignRepository {
-
-    override suspend fun signDupCheck(userName: String) : Int {
+    override suspend fun signDupCheck(userName: String): Int {
         signDataSource.signDupCheck(userName).let {
-           return it.code()
+            return it.code()
         }
     }
 
     override suspend fun signSetProfile(
         image: MultipartBody.Part?,
         body: HashMap<String, RequestBody>
-    ): SetProfileEntity {
-        signDataSource.signPutProfile(image,body).let {
-            return setProfileMapper.map(it.data!!)
+    ): SetProfileEntity? {
+        signDataSource.signPutProfile(image, body).let {
+            return if (it.data != null) {
+                setProfileMapper.map(it.data)
+            } else null
         }
     }
 
 
     override suspend fun kakaoLogin(requestKakaoData: RequestKakaoData): KakaoEntity? {
         signDataSource.signKakao(kakaoLoginMapper.requestMap(requestKakaoData)).let {
-            return kakaoLoginMapper.map(it.data)
+            return if (it.data != null) {
+                kakaoLoginMapper.map(it.data)
+            } else null
         }
     }
 
