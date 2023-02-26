@@ -70,14 +70,6 @@ class LogInViewModel @Inject constructor(
         }
     }
 
-    init {
-        viewModelScope.launch {
-            beforeWhenHomeEnterUseCase.checkProfileExist().catch { }.collect {
-                _isExist.value = it
-                Log.e("Profile Exist", it.toString())
-            }
-        }
-    }
     fun isExistProfile() {
         viewModelScope.launch {
             beforeWhenHomeEnterUseCase.checkProfileExist().catch { }.collect {
@@ -97,12 +89,14 @@ class LogInViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 putProfileUseCase(image, body).let {
-                    _putProfile.value = it
-                    Log.e("viewmodel 프로필","${_putProfile.value}")
-                    Log.e("refresth token 1 !#$!#@$!@#", "${it.refreshToken}")
-                    saveRefreshToken(it.refreshToken)
-                    saveAccessToken(it.accessToken)
-                    isSuccess.value = true
+                    if (it != null) {
+                        _putProfile.value = it
+                        Log.e("viewmodel 프로필", "${_putProfile.value}")
+                        Log.e("refresth token 1 !#$!#@$!@#", it.refreshToken)
+                        dataStoreManager.writeRefreshToken(it.refreshToken)
+                        dataStoreManager.writeAccessToken(it.accessToken)
+                        isSuccess.value = true
+                    }
                 }
             }.getOrElse {
                 Log.e("error", "${it.message}")
@@ -113,32 +107,20 @@ class LogInViewModel @Inject constructor(
     fun kakaoLogin(requestKakaoData: RequestKakaoData) {
         viewModelScope.launch {
             kotlin.runCatching {
-                kaKaoUseCase.kakaoLogin(requestKakaoData).let {
-                    _kakaoData.value = it
-                    dataStoreManager.writeUserId(it?._id.toString())
-                    Log.e("access token", "${it?.accessToken}")
-                    saveRefreshToken(it?.refreshToken ?: "")
-                    saveAccessToken(it?.accessToken ?: "")
-                    //saveTestUserId(it._id ?: 1)
+                kaKaoUseCase.kakaoLogin(requestKakaoData).let { kakao ->
+                    _kakaoData.value = kakao
+                    if (kakao != null) {
+                        dataStoreManager.writeUserId(kakao._id.toString())
+                        Log.e("access token", kakao.accessToken)
+                        dataStoreManager.writeRefreshToken(kakao.refreshToken)
+                        dataStoreManager.writeAccessToken(kakao.accessToken)
+                        beforeWhenHomeEnterUseCase.checkProfileExist().catch { }.collect {
+                            _isExist.value = it
+                            Log.e("Profile Exist", it.toString())
+                        }
+                    }
                 }
-            }.also {
-                isExistProfile()
             }
-        }
-    }
-
-    suspend fun saveRefreshToken(refreshToken: String) {
-        dataStoreManager.writeRefreshToken(refreshToken)
-        Log.e("111111", "${refreshToken}")
-    }
-
-    suspend fun saveAccessToken(accessToken: String) {
-        dataStoreManager.writeAccessToken(accessToken)
-    }
-
-    fun saveTestUserId() {
-        viewModelScope.launch {
-            dataStoreManager.writeUserId(userId.value.toString())
         }
     }
 

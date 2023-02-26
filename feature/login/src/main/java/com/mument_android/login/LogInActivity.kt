@@ -14,7 +14,6 @@ import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
-import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.domain.entity.sign.RequestKakaoData
 import com.mument_android.login.databinding.ActivityLogInBinding
@@ -27,8 +26,6 @@ import javax.inject.Inject
 class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
     private val viewModel: LogInViewModel by viewModels()
 
-    @Inject
-    lateinit var dataStoreManager: DataStoreManager
 
     @Inject
     lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
@@ -88,13 +85,12 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
             val token = task.result
             val msg = token.toString()
             Log.e("TAG", msg)
-
             viewModel.fcmToken.value = token.toString()
         })
     }
 
     private fun initKakaoLogin() {
-        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d"
+        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d" // Local Property에 있는거랑 무슨 차이가 있는건가용
         KakaoSdk.init(this, kakaoAppKey)
     }
 
@@ -124,17 +120,15 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
             if (error != null) {
                 shortToast("로그인 실패")
                 getErrorLog(error)
-            } else if (token != null) {
+            } else if (token != null && viewModel.fcmToken.value != null) {
                 UserApiClient.instance.me { _, error ->
                     Log.e("kakao access token :", token.accessToken)
-
                     val requestKakaoData = RequestKakaoData(
                         "kakao",
-                        token.accessToken.toString(),
-                        viewModel.fcmToken.value.toString()
+                        token.accessToken,
+                        viewModel.fcmToken.value!!
                     )
                     viewModel.kakaoLogin(requestKakaoData)
-
                     viewModel.isExist.observe(this) {
                         Log.e("isExist", it.toString())
                         if (it) {
