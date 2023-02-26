@@ -28,7 +28,6 @@ import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
@@ -57,9 +56,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         customAppBar()
         isLimitUserNetwork()
         isRestrictUser()
-        /*
-        TODO 소식창에서 접근 시에 finish() 안하면 이거 그대로 써야함 이래도 홈까지는 가서 나가야 함
-        */
         intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
             intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                 val bundle = Bundle().also { bundle ->
@@ -75,19 +71,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
         }
     }
-
-    private fun saveTestToken() {
-        collectFlowWhenStarted(dataStoreManager.accessTokenFlow) {
-            viewModel.saveTestAccessToken()
-        }
-
-        collectFlowWhenStarted(dataStoreManager.refreshTokenFlow) {
-            viewModel.saveTestRefreshToken()
-        }
-    }
-
-
-    //TODO : 아이콘 변경
 
     //appbar 상단 모서리 radius값 추가
     private fun customAppBar() {
