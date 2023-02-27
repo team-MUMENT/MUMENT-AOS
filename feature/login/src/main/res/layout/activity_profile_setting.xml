@@ -25,12 +25,12 @@
             android:layout_height="match_parent">
 
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_profile_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="36dp"
                 android:src="@drawable/mument_icon_back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
