@@ -64,7 +64,7 @@
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_marginTop="92dp"
-                android:background="@drawable/mument_profile_camera"
+                android:background="@drawable/mument_profile_default_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_profile_setting" />
