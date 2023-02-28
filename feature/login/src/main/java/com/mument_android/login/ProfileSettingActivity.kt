@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.ScrollView
 import androidx.activity.result.ActivityResultLauncher
@@ -23,9 +22,9 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.angdroid.navigation.MypageNavigatorProvider
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
@@ -98,7 +97,11 @@ class ProfileSettingActivity :
             if (!Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it) || it.trim().length < 2) {
                 viewModel.isRightPattern.value = false
                 binding.tvPattern.isSelected = true
-            } else if (it.isEmpty() || Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it) || it.trim().length >= 2) {
+            } else if (it.isEmpty() || Pattern.matches(
+                    "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$",
+                    it
+                ) || it.trim().length >= 2
+            ) {
                 viewModel.isRightPattern.value = true
                 binding.tvPattern.isSelected = false
             }
@@ -182,7 +185,15 @@ class ProfileSettingActivity :
                         viewModel.imageUri.value = uri
                     }
                 }
-                FirebaseAnalytics.getInstance(this).logEvent("signup_profile_img", null)
+                if (intent.getBooleanExtra("isSignUp", false)) {
+                    Log.e("이거 떠라", "1111")
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "sign_up",
+                        "journey",
+                        "signup_profile_img"
+                    )
+
+                }
             }
         }
     }
@@ -265,14 +276,29 @@ class ProfileSettingActivity :
                 if (isCheckMypage == 1)
                     finish()
                 else {
-                    FirebaseAnalytics.getInstance(this).logEvent("signup_success", null)
+                    if (intent.getBooleanExtra("isSignUp", false)) {
+                        Log.e("이거 떠라", "2222")
+
+                        FirebaseAnalyticsUtil.firebaseLog(
+                            "sign_up",
+                            "journey",
+                            "signup_duplication_test"
+                        )
+                    }
                     moveToMainActivity()
                 }
             }
         }
 
         binding.tvProfileFinish.setOnClickListener {
-            FirebaseAnalytics.getInstance(this).logEvent("signup_duplication_test", null)
+            if (intent.getBooleanExtra("isSignUp", false)) {
+                Log.e("이거 떠라", "3333")
+                FirebaseAnalyticsUtil.firebaseLog(
+                    "sign_up",
+                    "journey",
+                    "signup_success"
+                )
+            }
             lifecycleScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
