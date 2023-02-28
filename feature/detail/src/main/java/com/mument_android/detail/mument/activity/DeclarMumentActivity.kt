@@ -129,6 +129,7 @@ class DeclarMumentActivity :
                                     .setAllowListener("확인") {
                                         finish()
                                     }
+                                    .setCancelListener("") {}
                                     .build()
                                     .show(supportFragmentManager, attributionTag)
                                // showToast(it)

@@ -55,4 +55,7 @@ abstract class NavigatorModule {
 
     @Binds
     abstract fun bindMoveToAlarmFragmentProvider(moveToAlarmFragmentProvider: MoveToAlarmFragmentProviderImpl): MoveToAlarmFragmentProvider
+
+    @Binds
+    abstract fun quitMainNavigatorProvider(quitMainNavigatorProvider: QuitMainNavigatorProviderImpl) : QuitMainNavigatorProvider
 }

@@ -19,10 +19,10 @@ import com.mument_android.mypage.R
 import com.mument_android.mypage.databinding.FragmentUnregisterBinding
 import com.mument_android.mypage.util.UnregisterReason
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UnregisterFragment : Fragment() {
-
     private var binding by AutoClearedValue<FragmentUnregisterBinding>()
     private val myPageViewModel: MyPageViewModel by viewModels()
 
@@ -169,6 +169,11 @@ class UnregisterFragment : Fragment() {
         binding.btnUnregisterBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
+    }
+
+    private fun moveToMainActivity() {
+        //quitMainNavigatorProvider
+       // mainHomeNavigatorProvider.profileSettingToMain()
     }
 }
 
