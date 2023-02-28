@@ -81,7 +81,8 @@ object ThirdPartyDependencies {
     const val flexBox = "com.google.android.flexbox:flexbox:${Versions.flexBoxVersion}"
     const val fireBaseCloudMessaging =
         "com.google.firebase:firebase-messaging-ktx:${Versions.fcmVersion}"
-    const val fireBaseGA = "com.google.firebase:firebase-analytics:${Versions.firebaseAnalyticsVersion}"
+    const val fireBaseGA = "com.google.firebase:firebase-analytics-ktx:${Versions.firebaseAnalyticsVersion}"
+    const val fireBasePlatform = "com.google.firebase:firebase-bom:${Versions.firebasePlatformVersion}"
     const val kakao = "com.kakao.sdk:v2-user:${Versions.kakaoVersion}"
     const val indicator = "com.tbuonomo:dotsindicator:${Versions.dotsIndicator}"
 }

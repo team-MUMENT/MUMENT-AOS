@@ -17,6 +17,7 @@ import com.angdroid.navigation.*
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.MUMENT_ID
@@ -359,6 +360,7 @@ class MumentDetailFragment : Fragment() {
 
     private fun shareMumentOnInstagram() {
         binding.ivShare.setOnClickListener {
+            FirebaseAnalytics.getInstance(requireActivity()).logEvent("click_instagram", null)
             val (mument, music) =
                 if (checkIfAppInstalled(INSTAGRAM_PACKAGE_NAME)) viewModel.viewState.value.mument to viewModel.viewState.value.musicInfo else null to null
             viewModel.emitEvent(MumentDetailEvent.OnClickShareMument(mument, music))

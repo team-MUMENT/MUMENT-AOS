@@ -1,5 +1,10 @@
 package com.mument_android.core_dependent.util
 
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
+
 object FirebaseAnalyticsUtil {
 
     //sign process
@@ -87,5 +92,14 @@ object FirebaseAnalyticsUtil {
     private const val DIRECT_SEARCH = "direct_search"
     private const val DIRECT_CURATION = "direct_curation"
     private const val DIRECT_STORAGE = "direct_storage"
+
+    private val firebaseAnalytics: FirebaseAnalytics?
+        get() = Firebase.analytics
+    fun firebaseLog(event: String, paramKey: String, paramVal: String) {
+        firebaseAnalytics?.logEvent(event) {
+            param(paramKey, paramVal)
+        }
+    }
+
 
 }

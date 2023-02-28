@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,9 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.viewModels
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.mypage.MyPageViewModel
 import com.mument_android.mypage.databinding.FragmentAlarmSettingBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +57,12 @@ class AlarmSettingFragment : Fragment() {
         val intent = with(Intent()) {
             action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+            if (NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()) {
+                FirebaseAnalyticsUtil.firebaseLog("noti_on", "type", "noti_page_success")
+            }
+
+
             //버전에 따른 알림 설정
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 putExtra(Settings.EXTRA_APP_PACKAGE, activity?.packageName)
@@ -62,6 +71,7 @@ class AlarmSettingFragment : Fragment() {
                 putExtra("app_uid", activity?.applicationInfo?.uid)
             }
         }
+
         return intent
     }
 

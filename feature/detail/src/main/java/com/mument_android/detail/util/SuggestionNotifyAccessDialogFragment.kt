@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentSuggestionNotifyAccessBinding
 
@@ -41,6 +43,8 @@ class SuggestionNotifyAccessDialogFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.btnYes.setOnClickListener {
+            //TODO : 여기 유도 알럿
+            //FirebaseAnalyticsUtil.firebaseLog(FirebaseAnalytics.Event.SIGN_UP, "journey", "signup_sns_login_kakao")
             RESULT_CALLBACK(true)
             dismiss()
         }

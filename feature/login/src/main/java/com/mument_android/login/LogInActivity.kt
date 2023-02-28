@@ -16,6 +16,8 @@ import androidx.lifecycle.viewModelScope
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
@@ -27,6 +29,7 @@ import com.mument_android.core_dependent.base.WebViewActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlow
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.domain.entity.sign.RequestKakaoData
 import com.mument_android.login.databinding.ActivityLogInBinding
 import com.mument_android.login.util.shortToast
@@ -47,7 +50,8 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics = Firebase.analytics
+
 //        initView()
         initKakaoLogin()
         btnKakaoListener()
@@ -127,7 +131,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
 
     private fun btnKakaoListener() {
         binding.ivKakao.setOnClickListener {
-            FirebaseAnalytics.getInstance(this).logEvent("signup_sns_login_kakao", null)
+            FirebaseAnalyticsUtil.firebaseLog(FirebaseAnalytics.Event.SIGN_UP, "journey", "signup_sns_login_kakao")
             setKakaoBtnListener()
         }
     }
