@@ -10,6 +10,7 @@ import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
 import com.mument_android.locker.adapters.LockerTimeAdapter
@@ -136,6 +137,11 @@ class MyLikeFragment : Fragment() {
 
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
+            FirebaseAnalyticsUtil.firebaseLog(
+                "use_grid_like_mument",
+                "journey",
+                "like_mument_list"
+            )
             lockerViewModel.changeLikeIsGridLayout(false)
             binding.ivLockerList.isSelected = true
             binding.ivLockerGrid.isSelected = false
@@ -145,6 +151,11 @@ class MyLikeFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
+            FirebaseAnalyticsUtil.firebaseLog(
+                "use_grid_like_mument",
+                "journey",
+                "like_mument_grid"
+            )
             lockerViewModel.changeLikeIsGridLayout(true)
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
