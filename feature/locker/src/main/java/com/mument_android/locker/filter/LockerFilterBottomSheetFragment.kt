@@ -58,6 +58,7 @@ class LockerFilterBottomSheetFragment(
         savedInstanceState: Bundle?
     ): View = FragmentLockerFilterBottomSheetBinding.inflate(inflater, container, false).run {
         binding = this
+        binding.paddingEnable = true
         this.root
     }
 
@@ -245,11 +246,13 @@ class LockerFilterBottomSheetFragment(
     private fun selectLayout(tags: List<TagEntity>) {
         if (tags.isEmpty()) {
             binding.clSelectedTag.visibility = View.GONE
+            binding.paddingEnable = true
             binding.tvFilterNum.setTextColor(Color.parseColor("#B6B6B6"))
             val typeface = ResourcesCompat.getFont(requireContext(), R.font.notosans_medium)
             binding.tvFilterNum.setTypeface(typeface, Typeface.NORMAL)
         } else {
             binding.clSelectedTag.visibility = View.VISIBLE
+            binding.paddingEnable = false
             binding.tvFilterNum.setTextColor(Color.parseColor("#2AC9fB"))
             binding.tvFilterNum.typeface = ResourcesCompat.getFont(requireContext(), R.font.notosans_bold)
         }

@@ -192,14 +192,16 @@
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginTop="46dp"
                 android:background="@drawable/rectangle_fill_gray5_11dp"
                 android:overScrollMode="never"
                 android:visibility="@{myPageViewModel.isClickReasonChooseBox() ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/btn_unregister_agree"
                 app:layout_constraintTop_toTopOf="@id/cl_reason">
 
 
@@ -216,7 +218,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="13dp"
-                        android:layout_marginVertical="15dp"
+                        android:layout_marginTop="15dp"
                         android:checkedButton="@null"
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -289,7 +291,6 @@
                             style="@style/TextView.Mument_B3_M14.Style"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="15dp"
                             android:background="@null"
                             android:button="@null"
                             android:drawableEnd="@drawable/selector_unregister_radio_btn"
