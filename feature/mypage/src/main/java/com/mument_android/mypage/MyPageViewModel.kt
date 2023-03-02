@@ -1,5 +1,6 @@
 package com.mument_android.mypage
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -47,6 +48,9 @@ class MyPageViewModel @Inject constructor(
 
     private val _id = MutableLiveData<Int>()
     val id : LiveData<Int> get() = _id
+
+    val alarmSetting = MutableLiveData<Boolean?>(null)
+
 
     //BlockUserManagement
     private val _blockUserList = MutableStateFlow<ApiResult<List<BlockUserEntity>>?>(null)
