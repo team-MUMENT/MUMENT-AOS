@@ -43,16 +43,29 @@ class SuggestionNotifyAccessDialogFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.btnYes.setOnClickListener {
-            //TODO : 여기 유도 알럿
-            //FirebaseAnalyticsUtil.firebaseLog(FirebaseAnalytics.Event.SIGN_UP, "journey", "signup_sns_login_kakao")
+            FirebaseAnalyticsUtil.firebaseLog(
+                "noti_popup",
+                "choice",
+                "noti_popup_success"
+            )
             RESULT_CALLBACK(true)
             dismiss()
         }
         binding.ivCancel.setOnClickListener {
+            FirebaseAnalyticsUtil.firebaseLog(
+                "noti_popup",
+                "choice",
+                "noti_popup_delete"
+            )
             RESULT_CALLBACK(false)
             dismiss()
         }
         binding.btnCancel.setOnClickListener {
+            FirebaseAnalyticsUtil.firebaseLog(
+                "noti_popup",
+                "choice",
+                "noti_popup_refuse"
+            )
             RESULT_CALLBACK(false)
             dismiss()
         }
