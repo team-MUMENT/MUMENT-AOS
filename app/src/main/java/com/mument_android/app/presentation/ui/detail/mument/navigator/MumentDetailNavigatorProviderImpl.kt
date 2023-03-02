@@ -1,19 +1,15 @@
 package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.google.gson.Gson
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.mument_android.core.util.Constants.FROM_NOTIFICATION
-import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.domain.entity.music.MusicInfoEntity
-import com.mument_android.home.notify.NotifyActivity
 import javax.inject.Inject
 
 class MumentDetailNavigatorProviderImpl @Inject constructor(
@@ -71,7 +67,7 @@ class MumentDetailNavigatorProviderImpl @Inject constructor(
             if (startNav.isNotBlank()) {
                 activity.navController.previousBackStackEntry?.savedStateHandle?.set(
                     START_NAV_KEY,
-                    FROM_NOTIFICATION_TO_MUMENT_DETAIL
+                    startNav
                 )
             } else {
                 activity.navController.previousBackStackEntry?.savedStateHandle?.set(

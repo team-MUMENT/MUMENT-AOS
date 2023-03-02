@@ -2,14 +2,12 @@ package com.mument_android.core_dependent.ext
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import java.io.IOException
 
 class DataStoreManager(
     val context: Context
@@ -40,39 +38,68 @@ class DataStoreManager(
         deleteData(REFRESH_TOKEN_KEY)
     }
 
-    suspend fun <T> writeData(key: Preferences.Key<T>, value: T) {
+    private suspend fun <T> writeData(key: Preferences.Key<T>, value: T) {
         context.datastore.edit {
             it[key] = value
         }
     }
 
-    suspend fun <T> deleteData(key: Preferences.Key<T>) {
+    private suspend fun <T> deleteData(key: Preferences.Key<T>) {
         context.datastore.edit {
-            if(it.contains(key)) {
+            if (it.contains(key)) {
                 it.remove(key)
             }
         }
     }
 
-    suspend fun writeIsFirst(isFirst : Boolean) {
+    suspend fun writeIsFirst(isFirst: Boolean) {
         writeData(IS_FIRST, isFirst)
     }
 
-    val accessTokenFlow: Flow<String?> = context.datastore.data.map {
-        it[ACCESS_TOKEN_KEY]
-    }
+    val accessTokenFlow: Flow<String?> = context.datastore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map {
+            it[ACCESS_TOKEN_KEY]
+        }
 
-    val refreshTokenFlow: Flow<String?> = context.datastore.data.map {
-        it[REFRESH_TOKEN_KEY]
-    }
+    val refreshTokenFlow: Flow<String?> = context.datastore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map {
+            it[REFRESH_TOKEN_KEY]
+        }
 
-    val userIdFlow: Flow<String?> = context.datastore.data.map {
-        it[USER_ID]
-    }
+    val userIdFlow: Flow<String?> = context.datastore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map {
+            it[USER_ID]
+        }
 
-    val isFirstFlow : Flow<Boolean?> = context.datastore.data.map {
-        it[IS_FIRST]
-    }
+    val isFirstFlow: Flow<Boolean?> = context.datastore.data
+        .catch { exception ->
+            // handle exception here
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map {
+            it[IS_FIRST]
+        }
 
     companion object {
         val USER_ID = stringPreferencesKey("USER_ID")

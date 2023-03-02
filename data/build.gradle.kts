@@ -20,9 +20,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
-        buildConfigField("String", "USER_ID", properties.getProperty("USER_ID"))
+        buildConfigField("String","KAKAO_NATIVE_KEY", properties["KAKAO_NATIVE_KEY"] as String)
     }
 
     buildTypes {
@@ -35,7 +34,6 @@ android {
         }
         getByName("debug") {
             buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
-            buildConfigField("String", "USER_ID", properties["USER_ID"] as String)
         }
     }
     compileOptions {

@@ -33,7 +33,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initSplash()
-        newTokenNetwork()
     }
 
     //스플래시 -> 우선은 로그인으로 가는 로직 (후에 토큰 관리하다보면 login or main 분기처리)
@@ -44,36 +43,26 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun isFirst() {
-        Log.e("12j4123", "${viewModel.isExist.value}")
-        collectFlow(dataStoreManager.accessTokenFlow) {
-            Log.e("bbbbbbbbbbb", "$it")
-        }
-        collectFlow(dataStoreManager.isFirstFlow) {
+        collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
             Log.e("datastore", "$it")
-            delay(1000)
             if (it == null) {
+                Log.e("datastore", "onBoarding")
                 val intent = Intent(this, OnBoardingActivity::class.java)
                 startActivity(intent)
+                finish()
             } else {
-                if(viewModel.isExist.value == true) {
-                    moveToMainActivity()
-                    Log.e("뭐지", "31324")
-                }
-                else {
-                    val intent = Intent(this, LogInActivity::class.java)
-                    startActivity(intent)
+                viewModel.isExistProfile()
+                viewModel.isExist.observe(this) { exist ->
+                    if (exist) {
+                        moveToMainActivity()
+                        finish()
+                    } else {
+                        val intent = Intent(this, LogInActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
             }
-            finish()
-        }
-
-    }
-
-
-
-    private fun newTokenNetwork() {
-        collectFlowWhenStarted(dataStoreManager.userIdFlow) {
-            if (it.isNullOrEmpty()) viewModel.saveTestUserId()
         }
     }
 
@@ -83,7 +72,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
 
     companion object {
-        private const val DURATION: Long = 1100
+        private const val DURATION: Long = 1200
     }
 
 }

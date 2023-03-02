@@ -6,7 +6,6 @@ plugins {
 
 android {
     compileSdk = DefaultConfig.COMPILE_SDK
-
     defaultConfig {
         minSdk = DefaultConfig.MIN_SDK
         targetSdk = DefaultConfig.TARGET_SDK

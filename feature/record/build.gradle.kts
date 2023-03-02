@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -7,9 +6,6 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
-
-val properties = Properties()
-properties.load(project.rootProject.file("local.properties").inputStream())
 android {
     compileSdk = DefaultConfig.COMPILE_SDK
 
@@ -19,9 +15,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
-        buildConfigField("String", "USER_ID", properties.getProperty("USER_ID"))
     }
 
     buildTypes {
@@ -31,10 +24,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        getByName("debug") {
-            buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
-            buildConfigField("String", "USER_ID", properties["USER_ID"] as String)
         }
     }
     compileOptions {

@@ -12,16 +12,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class OnBoardingSecondFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentOnBoardingSecondBinding>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = FragmentOnBoardingSecondBinding.inflate(inflater, container, false).run {
         binding = this
         this.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 }

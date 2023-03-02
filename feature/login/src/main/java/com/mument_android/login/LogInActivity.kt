@@ -1,12 +1,8 @@
 package com.mument_android.login
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.angdroid.navigation.MainHomeNavigatorProvider
@@ -15,11 +11,9 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.AuthErrorCause
-import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
-import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.domain.entity.sign.RequestKakaoData
 import com.mument_android.login.databinding.ActivityLogInBinding
@@ -32,8 +26,6 @@ import javax.inject.Inject
 class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
     private val viewModel: LogInViewModel by viewModels()
 
-    @Inject
-    lateinit var dataStoreManager: DataStoreManager
 
     @Inject
     lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
@@ -93,19 +85,18 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
             val token = task.result
             val msg = token.toString()
             Log.e("TAG", msg)
-
             viewModel.fcmToken.value = token.toString()
         })
     }
 
     private fun initKakaoLogin() {
-        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d"
+        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d" // Local Property에 있는거랑 무슨 차이가 있는건가용
         KakaoSdk.init(this, kakaoAppKey)
     }
 
     private fun webLinkNetwork() {
         viewModel.getWebView("login")
-        viewModel.getWebView.observe(this) {
+        viewModel.getWebViewEntity.observe(this) {
             val tosLink = it.tos.toString()
             val privacyLink = it.privacy.toString()
             binding.tvTermsOfService.setOnClickListener {
@@ -129,23 +120,23 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
             if (error != null) {
                 shortToast("로그인 실패")
                 getErrorLog(error)
-            } else if (token != null) {
+            } else if (token != null && viewModel.fcmToken.value != null) {
                 UserApiClient.instance.me { _, error ->
                     Log.e("kakao access token :", token.accessToken)
-
                     val requestKakaoData = RequestKakaoData(
                         "kakao",
-                        token.accessToken.toString(),
-                        viewModel.fcmToken.value.toString()
+                        token.accessToken,
+                        viewModel.fcmToken.value!!
                     )
                     viewModel.kakaoLogin(requestKakaoData)
-
                     viewModel.isExist.observe(this) {
-                        if (it == true) {
+                        Log.e("isExist", it.toString())
+                        if (it) {
+                            Log.e("isExist True", it.toString())
                             moveToMainActivity()
-                        } else if (viewModel.isExist.value == false) {
+                        } else if (!it) {
+                            Log.e("isExist False", it.toString())
                             startActivity(Intent(this, ProfileSettingActivity::class.java))
-                            finish()
                         }
                     }
                 }
