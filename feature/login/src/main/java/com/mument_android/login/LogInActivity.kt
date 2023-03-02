@@ -122,9 +122,8 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         binding.ivKakao.setOnSingleClickListener {
             viewModel.isExist.observe(this) {
                 if (viewModel.isExist.value == false) {
-                    Log.e("여기 뜨나", "실험")
                     FirebaseAnalyticsUtil.firebaseLog(
-                        "sign_up",
+                        "signup_process",
                         "journey",
                         "signup_sns_login_kakao"
                     )
@@ -156,7 +155,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                             moveToMainActivity()
                         } else if (viewModel.isExist.value == false) {
                             val intent = Intent(this, ProfileSettingActivity::class.java)
-                            intent.putExtra("isSignUp", true)
+                            intent.putExtra("isSignUp", false)
                             startActivity(intent)
                             finish()
                         }

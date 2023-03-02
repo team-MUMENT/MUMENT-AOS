@@ -185,14 +185,14 @@ class ProfileSettingActivity :
                         viewModel.imageUri.value = uri
                     }
                 }
-                if (intent.getBooleanExtra("isSignUp", false)) {
-                    Log.e("이거 떠라", "1111")
+
+                val isProfile = intent.getBooleanExtra("isSignUp", true)
+                if (!isProfile) {
                     FirebaseAnalyticsUtil.firebaseLog(
-                        "sign_up",
+                        "signup_process",
                         "journey",
                         "signup_profile_img"
                     )
-
                 }
             }
         }
@@ -276,13 +276,12 @@ class ProfileSettingActivity :
                 if (isCheckMypage == 1)
                     finish()
                 else {
-                    if (intent.getBooleanExtra("isSignUp", false)) {
-                        Log.e("이거 떠라", "2222")
-
+                    val isProfile = intent.getBooleanExtra("isSignUp", true)
+                    if (!isProfile) {
                         FirebaseAnalyticsUtil.firebaseLog(
-                            "sign_up",
+                            "signup_process",
                             "journey",
-                            "signup_duplication_test"
+                            "signup_success"
                         )
                     }
                     moveToMainActivity()
@@ -291,17 +290,17 @@ class ProfileSettingActivity :
         }
 
         binding.tvProfileFinish.setOnClickListener {
-            if (intent.getBooleanExtra("isSignUp", false)) {
-                Log.e("이거 떠라", "3333")
-                FirebaseAnalyticsUtil.firebaseLog(
-                    "sign_up",
-                    "journey",
-                    "signup_success"
-                )
-            }
             lifecycleScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
+            }
+            val isProfile = intent.getBooleanExtra("isSignUp", true)
+            if (!isProfile) {
+                FirebaseAnalyticsUtil.firebaseLog(
+                    "signup_process",
+                    "journey",
+                    "signup_duplication_test"
+                )
             }
         }
     }
