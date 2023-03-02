@@ -61,7 +61,7 @@ class MyMumentFragment : Fragment() {
             binding.ivLockerGrid.isSelected = false
         }
 
-        lockerViewModel.isMument = true
+        lockerViewModel.isMument.value = true
     }
 
     private fun setGridServerConnection() {

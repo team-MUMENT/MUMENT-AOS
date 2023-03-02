@@ -59,7 +59,7 @@ class MyLikeFragment : Fragment() {
             binding.ivLockerGrid.isSelected = true
         }
 
-        lockerViewModel.isMument = false
+        lockerViewModel.isMument.value = false
     }
 
     private fun setGridServerConnection() {

@@ -20,11 +20,13 @@ import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.locker.adapters.LockerTabAdapter
 import com.mument_android.locker.databinding.FragmentLockerBinding
 import com.mument_android.locker.viewmodels.LockerViewModel
 import com.mument_android.mypage.MyPageActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class LockerFragment : Fragment() {
@@ -58,14 +60,20 @@ class LockerFragment : Fragment() {
     }
 
     private fun isMumentView() {
-        if(!viewModel.isMument) {
+        if(!viewModel.isMument.value) {
+            viewModel.recentTab.value = 1
             binding.vpLocker.doOnPreDraw {
                 binding.vpLocker.currentItem = 1
                 binding.tlLocker.changeTabsFont(1)
             }
-        } else {
+        }
+
+        //Mument일 때
+        else {
+            viewModel.recentTab.value = 0
             binding.tlLocker.changeTabsFont(0)
         }
+
     }
 
     private fun userInfoNetwork() {
@@ -100,9 +108,16 @@ class LockerFragment : Fragment() {
         override fun onTabSelected(tabItem: TabLayout.Tab?) {
             tabItem?.position?.let {
                 binding.tlLocker.changeTabsFont(it)
-            }
-            if(tabItem?.position == 1) {
-
+                if(tabItem.position == 0) {
+                    viewModel.recentTab.value = 0
+                }
+                if(viewModel.recentTab.value == 0 && tabItem?.position ==1) {
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "use_storage_tap",
+                        "journey",
+                        "click_like_mument"
+                    )
+                }
             }
         }
     }
