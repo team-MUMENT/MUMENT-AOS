@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.domain.entity.home.AgainMumentEntity
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
@@ -38,6 +39,11 @@ class HeardMumentListAdapter(
         holder.binding.setVariable(BR.againMument, mumentData)
         holder.binding.clMument.setOnClickListener {
             itemClickListener(mumentData)
+            FirebaseAnalyticsUtil.firebaseLog(
+                "home_activity_type",
+                "type",
+                " home_relistenmu"
+            )
         }
     }
 

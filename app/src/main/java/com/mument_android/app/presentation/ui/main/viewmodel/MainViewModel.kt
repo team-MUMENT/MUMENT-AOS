@@ -91,7 +91,6 @@ class MainViewModel @Inject constructor(
     fun limitUser() {
         viewModelScope.launch {
             _limitUser.value = limitUserUseCase.invoke()
-            Log.e("TEST", "${_limitUser.value}")
         }
     }
 }

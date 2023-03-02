@@ -101,6 +101,9 @@ class LockerFragment : Fragment() {
             tabItem?.position?.let {
                 binding.tlLocker.changeTabsFont(it)
             }
+            if(tabItem?.position == 1) {
+
+            }
         }
     }
 

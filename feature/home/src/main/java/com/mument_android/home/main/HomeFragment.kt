@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
@@ -140,6 +142,11 @@ class HomeFragment : Fragment() {
                     )
                 )
             }
+            FirebaseAnalyticsUtil.firebaseLog(
+                "home_activity_type",
+                "type",
+                " home_todaymu"
+            )
         }
         binding.ivLogo.setOnSingleClickListener {
             viewModel.emitEvent(HomeEvent.OnClickLogo)
@@ -236,11 +243,21 @@ class HomeFragment : Fragment() {
                             SearchActivity::class.java
                         )
                     )
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "home_activity_type",
+                        "type",
+                        " home_search"
+                    )
                 }
                 is HomeSideEffect.NavToMusicDetail -> {
                     musicDetailNavigatorProvider.fromHomeToMusicDetail(
                         effect.musicInfo,
                         effect.startNav
+                    )
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "home_activity_type",
+                        "type",
+                        " home_rec_song"
                     )
                 }
                 is HomeSideEffect.NavToMumentDetail -> {

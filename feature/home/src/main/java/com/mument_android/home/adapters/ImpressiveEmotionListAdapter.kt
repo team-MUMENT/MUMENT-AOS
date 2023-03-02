@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.domain.entity.home.Mument
 import com.mument_android.home.BR
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
@@ -37,6 +38,11 @@ class ImpressiveEmotionListAdapter(
         holder.binding.setVariable(BR.randomMument, mementData)
         holder.binding.clMument.setOnClickListener {
             itemClickListener(mementData)
+            FirebaseAnalyticsUtil.firebaseLog(
+                "home_activity_type",
+                "type",
+                " home_tagmu"
+            )
         }
     }
 

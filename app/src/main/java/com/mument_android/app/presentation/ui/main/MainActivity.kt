@@ -29,6 +29,7 @@ import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
@@ -198,6 +199,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
                 }
                 R.id.lockerFragment -> {
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "use_storage_tap",
+                        "journey",
+                        "click_storage_tap"
+                    )
                     if (checkCurrentFragment() !is LockerFragment) {
                         changeCurrentFragment(R.id.lockerFragment)
                     }
