@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
@@ -261,7 +263,37 @@ class LockerFilterBottomSheetFragment(
         binding.tvApprove.setOnClickListener {
             selectLayout(lockerFilterViewModel.selectedTags.value ?: listOf())
             completeSelectListener(lockerFilterViewModel.selectedTags.value ?: listOf())
+            useFilterGA()
             dismiss()
+        }
+    }
+
+    private fun useFilterGA() {
+        filterBottomSheetAdapterImpress.selectedTags?.let { tags ->
+            val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
+            val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
+            if (feelingTags.isNotEmpty() && impressionTags.isEmpty()) {
+                FirebaseAnalyticsUtil.firebaseLog(
+                    "use_filter",
+                    "journey",
+                    "use_feeling_filter"
+                )
+            }
+            else if (impressionTags.isNotEmpty() && feelingTags.isEmpty()) {
+                FirebaseAnalyticsUtil.firebaseLog(
+                    "use_filter",
+                    "journey",
+                    "use_impressive_filter"
+                )
+            }
+            else if (impressionTags.isNotEmpty() && feelingTags.isNotEmpty()) {
+                FirebaseAnalyticsUtil.firebaseLog(
+                    "use_filter",
+                    "journey",
+                    "use_both_filter"
+                )
+            }
+            else { }
         }
     }
 
