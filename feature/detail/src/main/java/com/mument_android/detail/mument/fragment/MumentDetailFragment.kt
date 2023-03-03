@@ -29,13 +29,10 @@ import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
-import com.mument_android.core_dependent.util.AutoClearedValue
-import com.mument_android.core_dependent.util.RecyclerviewItemDivider
+import com.mument_android.core_dependent.util.*
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
 import com.mument_android.core_dependent.util.ViewUtils.applyVisibilityAnimation
 import com.mument_android.core_dependent.util.ViewUtils.showToast
-import com.mument_android.core_dependent.util.removeProgress
-import com.mument_android.core_dependent.util.showProgress
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentMumentDetailBinding
 import com.mument_android.detail.history.HistoryActivity
@@ -381,6 +378,20 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToHistory() {
         binding.tvGoToHistory.setOnClickListener {
+            //내 뮤멘트 일 때
+            if(viewModel.viewState.value.isWriter) {
+                FirebaseAnalyticsUtil.firebaseLog(
+                    "mument_history_view",
+                    "journey",
+                    "from_my_mument_detail"
+                )
+            } else {
+                FirebaseAnalyticsUtil.firebaseLog(
+                    "mument_history_view",
+                    "journey",
+                    "from_other_mument_detail"
+                )
+            }
             viewModel.viewState.value.musicInfo?.id?.let { musicId ->
                 viewModel.emitEvent(MumentDetailEvent.OnClickHistory(musicId))
             }

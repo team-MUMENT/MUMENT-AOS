@@ -1,11 +1,13 @@
 package com.mument_android.detail.music
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.myIsDigitsOnly
 import com.mument_android.detail.BR
 import com.mument_android.detail.databinding.ItemMusicDetailMumentBinding
@@ -27,7 +29,13 @@ class MusicDetailMumentHeaderAdapter(
     override fun onBindViewHolder(holder: MusicDetailHeaderViewHolder, position: Int) {
 
         holder.binding.setVariable(BR.mument, myMumentInfo)
-        holder.binding.tvShowMyHistory.click(onClickHistory)
+        holder.binding.tvShowMyHistory.click(onClickHistory).let {
+            FirebaseAnalyticsUtil.firebaseLog(
+                "mument_history_view",
+                "journey",
+                "from_song_detail"
+            )
+        }
 
         if (myMumentInfo != null) {
             holder.binding.clRoot.click {
