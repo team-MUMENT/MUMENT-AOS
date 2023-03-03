@@ -113,12 +113,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun getForegroundFragment(tabNumber : Int) {
-        val navController = findNavController(binding.navHost.id)
-        val currentDestinationId = navController.currentDestination?.id
-        Log.e("TEST", "${currentDestinationId}")
-    }
-
     //EditMumentNavigatorProvider에서 사용
     val recordMumentLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
