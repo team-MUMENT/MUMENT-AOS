@@ -414,7 +414,7 @@ class RecordActivity :
         }
     }
 
-
+    //뮤멘트 기록 취소 시 어디까지 작성했는지 추적 GA
     private fun recordProcessGA() {
         val recordProcessGA = mutableListOf<String>()
         recordViewModel.checkedTagList.value?.let { tags ->
@@ -429,10 +429,10 @@ class RecordActivity :
         }
 
         Log.e("몰까유", "${recordProcessGA}")
-        FirebaseAnalyticsUtil.firebaseLogs(
+        FirebaseAnalyticsUtil.firebaseLog(
             "write_process",
             "journey",
-            recordProcessGA
+            recordProcessGA.joinToString()
         )
         recordProcessGA.clear()
     }
