@@ -15,6 +15,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_declar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".mument.activity.DeclarMumentActivity">

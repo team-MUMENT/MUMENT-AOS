@@ -8,14 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.domain.entity.mypage.*
-import com.mument_android.domain.entity.sign.WebViewEntity
-import com.mument_android.domain.usecase.mypage.*
-import com.mument_android.domain.usecase.sign.GetWebViewUseCase
 import com.mument_android.domain.entity.mypage.BlockUserEntity
 import com.mument_android.domain.entity.mypage.NoticeListEntity
 import com.mument_android.domain.entity.mypage.RequestUnregisterReasonEntity
-import com.mument_android.domain.entity.sign.SetProfileEntity
+import com.mument_android.domain.entity.mypage.UserInfoEntity
+import com.mument_android.domain.entity.sign.WebViewEntity
+import com.mument_android.domain.usecase.mypage.*
+import com.mument_android.domain.usecase.sign.GetWebViewUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -47,7 +46,7 @@ class MyPageViewModel @Inject constructor(
     val userId: LiveData<String> get() = _userId
 
     private val _id = MutableLiveData<Int>()
-    val id : LiveData<Int> get() = _id
+    val id: LiveData<Int> get() = _id
 
     val alarmSetting = MutableLiveData<Boolean?>(null)
 
@@ -91,8 +90,8 @@ class MyPageViewModel @Inject constructor(
     val unregisterReasonIndex = _unregisterReasonIndex
 
     //web view link
-    private val _getWebView = MutableLiveData<WebViewEntity>()
-    val getWebView get() :LiveData<WebViewEntity> = _getWebView
+    private val _getWebViewEntity = MutableLiveData<WebViewEntity>()
+    val getWebViewEntity get() :LiveData<WebViewEntity> = _getWebViewEntity
 
     //마이페이지 뷰이동 버튼 클릭
     fun isClickBtnEvent(isBtnClick: Boolean) {
@@ -228,7 +227,7 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 getWebViewUseCase.getWebView(page).let {
-                    _getWebView.value = it
+                    _getWebViewEntity.value = it
                 }
             }
         }

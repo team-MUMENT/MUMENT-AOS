@@ -122,7 +122,7 @@ class ProfileSettingActivity :
         binding.ivProfile.setOnClickListener {
             if (viewModel.imageUri.value == null) {
                 uploadPhotoClickListener(galleryUtil)
-                binding.ivProfile.setImageResource(R.drawable.mument_profile_camera)
+                binding.ivProfile.setImageResource(R.drawable.mument_profile_default_image)
             } else {
                 binding.clSelectImg.visibility = View.VISIBLE
                 binding.tvSelectLibrary.setOnClickListener {
@@ -130,7 +130,7 @@ class ProfileSettingActivity :
                     binding.clSelectImg.visibility = View.GONE
                 }
                 binding.tvDeleteProfile.setOnClickListener {
-                    binding.ivProfile.setImageResource(R.drawable.mument_profile_camera)
+                    binding.ivProfile.setImageResource(R.drawable.mument_profile_default_image)
                     viewModel.imageUri.value = null
                     binding.clSelectImg.visibility = View.GONE
                 }
@@ -178,7 +178,7 @@ class ProfileSettingActivity :
                     binding.ivProfile.load(uri) {
                         viewModel.imageUri.value = uri
                         crossfade(true)
-                        placeholder(R.drawable.mument_profile_camera)
+                        placeholder(R.drawable.mument_profile_default_image)
                         transformations(CircleCropTransformation())
                     }
                     if (imageUri != null) {
@@ -201,12 +201,7 @@ class ProfileSettingActivity :
     //뒤로가기 클릭 리스너
     private fun backBtnListener() {
         binding.ivProfileBack.setOnClickListener {
-            if (viewModel.mumentNickName.value == null) {
-                startActivity(Intent(this, LogInActivity::class.java))
-                finish()
-            } else {
-                finish()
-            }
+            finish()
         }
     }
 
@@ -325,7 +320,7 @@ class ProfileSettingActivity :
             binding.etNickname.setText(viewModel.mumentNickName.value)
             binding.ivProfile.load(viewModel.imageUri.value) {
                 crossfade(true)
-                placeholder(R.drawable.mument_profile_camera)
+                placeholder(R.drawable.mument_profile_default_image)
                 transformations(CircleCropTransformation())
             }
         }

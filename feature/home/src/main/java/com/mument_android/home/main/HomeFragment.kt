@@ -17,10 +17,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
-import com.google.gson.Gson
 import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.FROM_SEARCH
-import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
@@ -99,26 +97,6 @@ class HomeFragment : Fragment() {
                     result.data?.getStringExtra(START_NAV_KEY).takeIf { it == FROM_SEARCH }?.let {
                         viewModel.emitEvent(HomeEvent.ReEntryToSearchView(music, it))
                     }
-                }
-            }
-        }
-
-    private val notificationLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                result.data?.getStringExtra(MUSIC_INFO_ENTITY)?.let {
-                    val mumentId = result.data?.getStringExtra(MUMENT_ID)
-                    val musicInfo = Gson().fromJson(it, MusicInfoEntity::class.java)
-                    result.data?.getStringExtra(START_NAV_KEY)
-                        .takeIf { it == FROM_NOTIFICATION_TO_MUMENT_DETAIL }
-                        ?.let {
-                            viewModel.emitEvent(
-                                HomeEvent.NotificationToMumentDetail(
-                                    mumentId ?: "",
-                                    musicInfo
-                                )
-                            )
-                        }
                 }
             }
         }

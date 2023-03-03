@@ -5,13 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mument_android.BuildConfig
-import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.domain.entity.LimitUserEntity
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
-import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
 import com.mument_android.domain.usecase.app.LimitUserUseCase
+import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -20,7 +18,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val dataStoreManager: DataStoreManager,
     private val beforeWhenHomeEnterUseCase: BeforeWhenHomeEnterUseCase,
     private val limitUserUseCase: LimitUserUseCase
 ) : ViewModel() {
@@ -73,20 +70,6 @@ class MainViewModel @Inject constructor(
         _music.value = null
         _mumentDetailContents.value = null
     }
-
-
-    fun saveTestRefreshToken() {
-        viewModelScope.launch {
-            dataStoreManager.writeRefreshToken("dsfds")
-        }
-    }
-
-    fun saveTestAccessToken() {
-        viewModelScope.launch {
-            dataStoreManager.writeAccessToken(BuildConfig.TEST_ACCESS_TOKEN)
-        }
-    }
-
 
     fun limitUser() {
         viewModelScope.launch {

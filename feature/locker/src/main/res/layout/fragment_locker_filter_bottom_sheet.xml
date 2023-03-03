@@ -6,12 +6,17 @@
 
     <data>
 
+        <variable
+            name="paddingEnable"
+            type="Boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_filter_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:paddingBottom="@{paddingEnable?@dimen/app_space_20:@dimen/app_space_0}"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tv_filter_title"
@@ -90,7 +95,7 @@
             android:id="@+id/rv_impressive"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="7dp"
             android:layout_marginEnd="16dp"
             app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +109,7 @@
             style="@style/TextView.Mument_B1_B15.Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="@dimen/app_space_24"
             android:text="@string/locker_emotion"
             android:textColor="@color/mument_color_black2"
             app:layout_constraintStart_toStartOf="@+id/tv_filter_total"
@@ -115,7 +120,7 @@
             android:id="@+id/rv_emotion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="7dp"
             android:layout_marginEnd="16dp"
             app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -129,11 +134,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
-            android:layout_marginTop="46dp"
-            android:layout_marginBottom="29dp"
+            android:layout_marginTop="37dp"
             android:text="@string/locker_delete"
             android:textColor="@color/mument_color_gray2"
-            app:layout_constraintBottom_toTopOf="@+id/cl_selected_tag"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_emotion" />
 
@@ -158,13 +161,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_selected_tag"
             android:layout_width="match_parent"
-            android:layout_height="79dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
             android:background="@color/mument_color_gray3"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingVertical="13dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_clear_all"
-            app:layout_constraintTop_toBottomOf="@+id/tv_approve">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_clear_all">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_selected_tags"

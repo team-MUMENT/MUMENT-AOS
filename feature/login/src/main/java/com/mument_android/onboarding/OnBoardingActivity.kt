@@ -17,25 +17,17 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OnBoardingActivity :
     BaseActivity<ActivityOnBoardingBinding>(ActivityOnBoardingBinding::inflate) {
-    @Inject
-    lateinit var dataStoreManager: DataStoreManager
-
-    private val viewModel: LogInViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val pagerAdater = OnBoardingPagerAdapter(this)
         binding.vpOnboarding.adapter = pagerAdater
         binding.dotsIndicator.setViewPager2(binding.vpOnboarding)
-        isFirstCheck()
     }
 
-    private inner class OnBoardingPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+    private class OnBoardingPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int = 3
-
         override fun createFragment(position: Int): Fragment {
-
             return when (position) {
                 0 -> OnBoardingFirstFragment()
                 1 -> OnBoardingSecondFragment()
@@ -43,14 +35,4 @@ class OnBoardingActivity :
             }
         }
     }
-
-
-    private fun isFirstCheck() {
-        collectFlow(dataStoreManager.isFirstFlow) {
-            if (it == null) {
-                viewModel.saveIsFirst()
-            }
-        }
-    }
-
 }

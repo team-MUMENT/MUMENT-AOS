@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -132,6 +133,7 @@ class MumentDetailFragment : Fragment() {
             viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(musicInfo))
         }
         arguments?.getString(START_NAV_KEY)?.let {
+            Log.e("START_NAV_KEY", it)
             viewModel.emitEvent(MumentDetailEvent.ReceiveStartNav(it))
         } ?: viewModel.emitEvent(MumentDetailEvent.ReceiveStartNav(""))
     }

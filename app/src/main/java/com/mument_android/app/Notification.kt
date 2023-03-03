@@ -10,6 +10,8 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.mument_android.R
 import com.mument_android.home.notify.NotifyActivity
+import java.util.UUID
+import kotlin.random.Random
 
 class Notification(
     private val context: Context,
@@ -18,7 +20,7 @@ class Notification(
 ) {
     init {
         val builder = setBuilder()
-        createNotificationChannel().notify(1, builder.build())
+        createNotificationChannel().notify(Random.nextInt(), builder.build())
     }
 
     private fun setBuilder(): NotificationCompat.Builder {

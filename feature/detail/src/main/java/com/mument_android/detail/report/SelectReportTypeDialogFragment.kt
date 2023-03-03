@@ -1,27 +1,16 @@
 package com.mument_android.detail.report
 
-import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.angdroid.navigation.DeclareNavigatorProvider
-import com.angdroid.navigation.MainHomeNavigatorProvider
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.detail.databinding.FragmentSelectReportTypeDialogBinding
-import com.mument_android.detail.history.HistoryActivity
-import com.mument_android.detail.mument.activity.DeclarMumentActivity
-import com.mument_android.detail.mument.contract.MumentDetailContract
-import com.mument_android.detail.mument.fragment.MumentDetailFragment
 import javax.inject.Inject
 
 class SelectReportTypeDialogFragment(): DialogFragment() {

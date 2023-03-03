@@ -11,7 +11,7 @@ interface SignRepository {
     suspend fun signSetProfile(
         image: MultipartBody.Part?,
         body: HashMap<String, RequestBody>
-    ) : SetProfileEntity
+    ) : SetProfileEntity?
 
 
     suspend fun kakaoLogin(

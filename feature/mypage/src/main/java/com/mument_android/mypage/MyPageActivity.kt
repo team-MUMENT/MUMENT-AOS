@@ -24,9 +24,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding::inflate) {
     private val myPageViewModel: MyPageViewModel by viewModels()
-    @Inject
-    lateinit var quitMainNavigatorProvider : QuitMainNavigatorProvider
 
+    @Inject
+    lateinit var quitMainNavigatorProvider: QuitMainNavigatorProvider
 
     override fun onStart() {
         super.onStart()
@@ -90,7 +90,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     //각 웹뷰로 이동
     private fun clickListenerWebView() {
         myPageViewModel.getWebView("mypage")
-        myPageViewModel.getWebView.observe(this) {
+        myPageViewModel.getWebViewEntity.observe(this) {
             val faq = it.faq.toString()
             val appInfo = it.appInfo.toString()
             val introduction = it.introduction.toString()
@@ -173,19 +173,20 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         val address = arrayOf("mument.mp3@gmail.com")
         email.putExtra(Intent.EXTRA_EMAIL, address)
         email.putExtra(Intent.EXTRA_SUBJECT, "[MUMENT] 문의해요 🙋‍♀️")
-        email.putExtra(Intent.EXTRA_TEXT, "안녕하세요, 뮤멘트입니다. \n" +
-                "문의하실 내용을 하단에 작성해주세요. \n" +
-                "문의에 대한 답변은 전송해주신 메일로 회신드리겠습니다. \n" +
-                "감사합니다. \n" +
-                "—————————————————————————————-\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "—————————————————————————————-\n" +
-                "User: Optional(" + myPageViewModel.id.value + ")\n" +
-                "App Version: " + Build.VERSION.RELEASE +"\n" +
-                "OS : "+ Build.MODEL +"\n"
+        email.putExtra(
+            Intent.EXTRA_TEXT, "안녕하세요, 뮤멘트입니다. \n" +
+                    "문의하실 내용을 하단에 작성해주세요. \n" +
+                    "문의에 대한 답변은 전송해주신 메일로 회신드리겠습니다. \n" +
+                    "감사합니다. \n" +
+                    "—————————————————————————————-\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "—————————————————————————————-\n" +
+                    "User: Optional(" + myPageViewModel.id.value + ")\n" +
+                    "App Version: " + Build.VERSION.RELEASE + "\n" +
+                    "OS : " + Build.MODEL + "\n"
         )
         startActivity(email)
     }
