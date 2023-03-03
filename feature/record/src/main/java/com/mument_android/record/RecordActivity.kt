@@ -28,6 +28,7 @@ import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.EmotionalTag
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ImpressiveTag
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
@@ -122,6 +123,7 @@ class RecordActivity :
                 override fun addCheckedTag(tag: TagEntity) {
                     recordViewModel.addCheckedList(tag)
                     rvImpressionTagsAdapter.selectedTags.add(tag)
+
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
@@ -403,6 +405,7 @@ class RecordActivity :
                     .setBody(getString(R.string.record_delete_body))
                     .setAllowListener("확인") {
                         onBackPressed()
+                        recordProcessGA()
                     }
                     .setCancelListener {}
                     .build()
@@ -410,6 +413,35 @@ class RecordActivity :
             }
         }
     }
+
+
+    private fun recordProcessGA() {
+        recordViewModel.checkedTagList.value?.let { tags ->
+            val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
+            val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
+            if (feelingTags.isNotEmpty()) {
+                recordViewModel.recordProcessGA.add("select_feeling")
+            }
+            if (impressionTags.isNotEmpty()) {
+                recordViewModel.recordProcessGA.add("select_impressive")
+            }
+        }
+        if (recordViewModel.selectedMusic.value != null) {
+            recordViewModel.recordProcessGA.add("select_music")
+        }
+        if (binding.etRecordWrite.text.toString().length > 9) {
+            recordViewModel.recordProcessGA.add("write_text")
+        }
+
+        Log.e("몰까유", "${recordViewModel.recordProcessGA}")
+        FirebaseAnalyticsUtil.firebaseLogs(
+            "write_process",
+            "journey",
+            recordViewModel.recordProcessGA
+        )
+        recordViewModel.recordProcessGA.clear()
+    }
+
 
     //곡에서 x버튼 클릭 리스너
     private fun isClickDelete() {

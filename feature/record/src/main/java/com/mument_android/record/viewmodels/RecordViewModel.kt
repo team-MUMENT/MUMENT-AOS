@@ -64,6 +64,9 @@ class RecordViewModel @Inject constructor(
 
     var recordCount = 0
 
+    //기록 취소 GA
+    val recordProcessGA = mutableListOf<String>()
+
     fun findIsFirst() {
         viewModelScope.launch {
             selectedMusic.value?.let {
