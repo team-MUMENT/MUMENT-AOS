@@ -8,9 +8,12 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -89,6 +92,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     //floatingBtn 클릭 시 기록하기 뷰로 이동
     private fun floatingBtnListener() {
         binding.floatingActionButton.setOnClickListener {
+            val navController = findNavController(binding.navHost.id)
+            val currentDestinationId = navController.currentDestination?.id
+            //기록하기 버튼을 누를 때
+            when(currentDestinationId) {
+                2131362133 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_home")
+                2131362286 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_song_detail_page")
+                2131362284 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_mument_detail_page")
+                2131362224 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_storage")
+            }
+
             viewModel.limitUser.observe(this) {
                 if (it.restricted == true) {
                     RestrictUserDialog(this).show(supportFragmentManager, "test")
@@ -98,6 +111,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
         }
+    }
+
+    private fun getForegroundFragment(tabNumber : Int) {
+        val navController = findNavController(binding.navHost.id)
+        val currentDestinationId = navController.currentDestination?.id
+        Log.e("TEST", "${currentDestinationId}")
     }
 
     //EditMumentNavigatorProvider에서 사용

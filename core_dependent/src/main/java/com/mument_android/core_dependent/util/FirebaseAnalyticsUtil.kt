@@ -22,6 +22,20 @@ object FirebaseAnalyticsUtil {
         }
     }
 
+    //글쓰기 플로팅 버튼 클릭 시 있는 뷰
+    fun firebaseWritePathLog(paramVal: String) {
+        firebaseAnalytics?.logEvent("write_path") {
+            param("type", paramVal)
+        }
+    }
+
+    //뮤멘트 앱에 진입하자마자 나타는 뷰 GA
+    fun firebaseFirstVisitLog(paramVal : String) {
+        firebaseAnalytics?.logEvent("first_visit_page") {
+            param("choice", paramVal)
+        }
+    }
+
     // 커스텀 이벤트 로그(복수 파라미터)
     fun firebaseLogs(event: String, paramKey : String, paramVal : List<String>){
         val bundle = Bundle()
