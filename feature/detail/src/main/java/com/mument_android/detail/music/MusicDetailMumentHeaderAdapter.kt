@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mument_android.core_dependent.ext.click
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.myIsDigitsOnly
@@ -29,7 +30,8 @@ class MusicDetailMumentHeaderAdapter(
     override fun onBindViewHolder(holder: MusicDetailHeaderViewHolder, position: Int) {
 
         holder.binding.setVariable(BR.mument, myMumentInfo)
-        holder.binding.tvShowMyHistory.click(onClickHistory).let {
+        //여기 클릭할 때 마다 수집해야하는데 최초 한번 밖에 안 됩니다... 해결방법 원해요..
+        holder.binding.tvShowMyHistory.click(onClickHistory).apply {
             FirebaseAnalyticsUtil.firebaseLog(
                 "mument_history_view",
                 "journey",
