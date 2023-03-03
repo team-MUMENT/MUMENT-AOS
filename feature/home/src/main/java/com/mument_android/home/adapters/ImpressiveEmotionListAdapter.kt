@@ -44,6 +44,10 @@ class ImpressiveEmotionListAdapter(
                 "type",
                 "home_tagmu"
             )
+
+            //뮤멘트 상세보기에 진입했을 때 GA
+            FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_home")
+
         }
     }
 

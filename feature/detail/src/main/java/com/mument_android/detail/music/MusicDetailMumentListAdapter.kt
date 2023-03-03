@@ -1,11 +1,13 @@
 package com.mument_android.detail.music
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.myIsDigitsOnly
 import com.mument_android.detail.BR
@@ -36,6 +38,8 @@ class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickL
             setVariable(BR.mumentSummary, data)
             viewClickable.setOnClickListener {
                 mumentClickListener.showMumentDetail(data.mumentId)
+                //뮤멘트 상세보기에 진입했을 때 GA
+                FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_song_detail_page")
             }
             checkLikeMument(holder, position)
             setMumentTagList(holder, position)

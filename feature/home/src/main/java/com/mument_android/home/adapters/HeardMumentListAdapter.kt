@@ -39,11 +39,16 @@ class HeardMumentListAdapter(
         holder.binding.setVariable(BR.againMument, mumentData)
         holder.binding.clMument.setOnClickListener {
             itemClickListener(mumentData)
+            //홈 탭에서 다시 들은 곡 터치 GA
             FirebaseAnalyticsUtil.firebaseLog(
                 "home_activity_type",
                 "type",
-                " home_relistenmu"
+                "home_relistenmu"
             )
+
+            //뮤멘트 상세보기에 진입했을 때 GA
+            FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_home")
+
         }
     }
 

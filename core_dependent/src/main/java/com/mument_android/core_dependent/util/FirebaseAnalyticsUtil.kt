@@ -16,6 +16,12 @@ object FirebaseAnalyticsUtil {
         }
     }
 
+    fun firebaseMumentDetailLog(paramVal : String) {
+        firebaseAnalytics?.logEvent("mument_detail_page") {
+            param("type", paramVal)
+        }
+    }
+
     // 커스텀 이벤트 로그(복수 파라미터)
     fun firebaseLogs(event: String, paramKey : String, paramVal : List<String>){
         val bundle = Bundle()
@@ -24,5 +30,6 @@ object FirebaseAnalyticsUtil {
         }
         firebaseAnalytics?.logEvent(event,bundle)
     }
+
 
 }

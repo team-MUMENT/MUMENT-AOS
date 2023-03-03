@@ -68,6 +68,7 @@ class MyMumentFragment : Fragment() {
         collectFlowWhenStarted(lockerViewModel.isGridLayout) { isGridLayout ->
                 binding.rvMumentLinear.run {
                     adapter = LockerTimeAdapter(
+                        true,
                         isGridLayout,
                         showDetailListener = { mumentId, musicInfo ->
                             showMumentDetail(mumentId, musicInfo)
@@ -94,6 +95,7 @@ class MyMumentFragment : Fragment() {
                 is ApiResult.Failure -> {}
                 is ApiResult.Success -> {
                     binding.rvMumentLinear.adapter = LockerTimeAdapter(
+                        true,
                         lockerViewModel.isGridLayout.value,
                         showDetailListener = { mumentId, musicInfo ->
                             showMumentDetail(mumentId, musicInfo)
@@ -110,6 +112,7 @@ class MyMumentFragment : Fragment() {
                     )
                     //binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value)
                     binding.rvMumentLinear.adapter = LockerTimeAdapter(
+                        true,
                         lockerViewModel.isGridLayout.value,
                         showDetailListener = { mumentId, musicInfo ->
                             showMumentDetail(mumentId, musicInfo)

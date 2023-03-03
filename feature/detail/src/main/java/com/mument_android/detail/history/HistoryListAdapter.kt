@@ -10,10 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
-import com.mument_android.core_dependent.util.EmotionalTag
-import com.mument_android.core_dependent.util.GlobalDiffCallBack
-import com.mument_android.core_dependent.util.ImpressiveTag
-import com.mument_android.core_dependent.util.myIsDigitsOnly
+import com.mument_android.core_dependent.util.*
 import com.mument_android.detail.BR
 import com.mument_android.detail.databinding.ItemMumentLayoutBinding
 import com.mument_android.detail.music.MusicDetailMumentListAdapter
@@ -59,6 +56,8 @@ class HistoryListAdapter(
         })
         holder.binding.root.click {
             itemClickListener(data._id.toString())
+            //뮤멘트 상세보기에 진입했을 때 GA
+            FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_history_list")
         }
         holder.binding.setVariable(BR.mumentHistory, data)
         holder.binding.run {
