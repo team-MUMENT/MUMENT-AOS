@@ -38,10 +38,11 @@ class ImpressiveEmotionListAdapter(
         holder.binding.setVariable(BR.randomMument, mementData)
         holder.binding.clMument.setOnClickListener {
             itemClickListener(mementData)
+            //홈탭에서 -> 태그를 느낀 순간 터치
             FirebaseAnalyticsUtil.firebaseLog(
                 "home_activity_type",
                 "type",
-                " home_tagmu"
+                "home_tagmu"
             )
         }
     }

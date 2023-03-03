@@ -118,6 +118,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         binding.ivKakao.setOnSingleClickListener {
             viewModel.isExist.observe(this) {
                 if (viewModel.isExist.value == false) {
+                    //카카오 회원가입 누를 때 GA
                     FirebaseAnalyticsUtil.firebaseLog(
                         "signup_process",
                         "journey",

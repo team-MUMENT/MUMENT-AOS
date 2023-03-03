@@ -30,8 +30,9 @@ class MusicDetailMumentHeaderAdapter(
     override fun onBindViewHolder(holder: MusicDetailHeaderViewHolder, position: Int) {
 
         holder.binding.setVariable(BR.mument, myMumentInfo)
-        //여기 클릭할 때 마다 수집해야하는데 최초 한번 밖에 안 됩니다... 해결방법 원해요..
-        holder.binding.tvShowMyHistory.click(onClickHistory).apply {
+        holder.binding.tvShowMyHistory.click{
+            onClickHistory()
+            //뮤멘트 히스토리 페이지에 진입 경로
             FirebaseAnalyticsUtil.firebaseLog(
                 "mument_history_view",
                 "journey",

@@ -272,31 +272,17 @@ class LockerFilterBottomSheetFragment(
     }
 
     private fun useFilterGA() {
-        filterBottomSheetAdapterImpress.selectedTags?.let { tags ->
-            val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
-            val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
-            if (feelingTags.isNotEmpty() && impressionTags.isEmpty()) {
+        //보관함 필터를 적용하기 클릭했을 때
+        filterBottomSheetAdapterImpress.selectedTags.let { tags ->
+            val feelingTags = tags.find { it.tagIdx >= 200 }
+            val impressionTags = tags.find { it.tagIdx < 200 }
+            if (feelingTags != null || impressionTags != null) {
                 FirebaseAnalyticsUtil.firebaseLog(
                     "use_filter",
                     "journey",
-                    "use_feeling_filter"
+                    if (feelingTags != null && impressionTags != null) "use_both_filter" else if (feelingTags != null) "use_feeling_filter" else "use_impressive_filter"
                 )
             }
-            else if (impressionTags.isNotEmpty() && feelingTags.isEmpty()) {
-                FirebaseAnalyticsUtil.firebaseLog(
-                    "use_filter",
-                    "journey",
-                    "use_impressive_filter"
-                )
-            }
-            else if (impressionTags.isNotEmpty() && feelingTags.isNotEmpty()) {
-                FirebaseAnalyticsUtil.firebaseLog(
-                    "use_filter",
-                    "journey",
-                    "use_both_filter"
-                )
-            }
-            else { }
         }
     }
 

@@ -73,6 +73,7 @@ class AlarmSettingFragment : Fragment() {
         binding.btnAlarmSettingSwitch.isSelected =
             NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
         if(myPageViewModel.alarmSetting.value == true && !NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()) {
+            //알림 on -> off GA
             FirebaseAnalyticsUtil.firebaseLog(
                 "noti_off",
                 "count",
@@ -80,6 +81,7 @@ class AlarmSettingFragment : Fragment() {
             )
         }
         else if(myPageViewModel.alarmSetting.value == false && NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()) {
+            //알림 off -> on GA
             FirebaseAnalyticsUtil.firebaseLog(
                 "noti_on",
                 "type",

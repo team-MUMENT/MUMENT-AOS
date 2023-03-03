@@ -404,8 +404,8 @@ class RecordActivity :
                     .setHeader(getString(R.string.record_delete_header))
                     .setBody(getString(R.string.record_delete_body))
                     .setAllowListener("확인") {
-                        onBackPressed()
                         recordProcessGA()
+                        onBackPressed()
                     }
                     .setCancelListener {}
                     .build()
@@ -416,30 +416,25 @@ class RecordActivity :
 
 
     private fun recordProcessGA() {
+        val recordProcessGA = mutableListOf<String>()
         recordViewModel.checkedTagList.value?.let { tags ->
-            val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
-            val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
-            if (feelingTags.isNotEmpty()) {
-                recordViewModel.recordProcessGA.add("select_feeling")
-            }
-            if (impressionTags.isNotEmpty()) {
-                recordViewModel.recordProcessGA.add("select_impressive")
-            }
+            tags.filter { it.tagIdx >= 200 }.find { recordProcessGA.add("select_feeling") }
+            tags.filter { it.tagIdx < 200 }.find { recordProcessGA.add("select_impressive") }
         }
         if (recordViewModel.selectedMusic.value != null) {
-            recordViewModel.recordProcessGA.add("select_music")
+            recordProcessGA.add("select_music")
         }
         if (binding.etRecordWrite.text.toString().length > 9) {
-            recordViewModel.recordProcessGA.add("write_text")
+            recordProcessGA.add("write_text")
         }
 
-        Log.e("몰까유", "${recordViewModel.recordProcessGA}")
+        Log.e("몰까유", "${recordProcessGA}")
         FirebaseAnalyticsUtil.firebaseLogs(
             "write_process",
             "journey",
-            recordViewModel.recordProcessGA
+            recordProcessGA
         )
-        recordViewModel.recordProcessGA.clear()
+        recordProcessGA.clear()
     }
 
 

@@ -378,21 +378,22 @@ class MumentDetailFragment : Fragment() {
 
     private fun goToHistory() {
         binding.tvGoToHistory.setOnClickListener {
-            //내 뮤멘트 일 때
-            if(viewModel.viewState.value.isWriter) {
-                FirebaseAnalyticsUtil.firebaseLog(
-                    "mument_history_view",
-                    "journey",
-                    "from_my_mument_detail"
-                )
-            } else {
-                FirebaseAnalyticsUtil.firebaseLog(
-                    "mument_history_view",
-                    "journey",
-                    "from_other_mument_detail"
-                )
-            }
             viewModel.viewState.value.musicInfo?.id?.let { musicId ->
+                //뮤멘트 히스토리 페이지에 진입 경로
+                //내 뮤멘트 일 때
+                if(viewModel.viewState.value.isWriter) {
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "mument_history_view",
+                        "journey",
+                        "from_my_mument_detail"
+                    )
+                } else {
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "mument_history_view",
+                        "journey",
+                        "from_other_mument_detail"
+                    )
+                }
                 viewModel.emitEvent(MumentDetailEvent.OnClickHistory(musicId))
             }
         }
@@ -400,7 +401,12 @@ class MumentDetailFragment : Fragment() {
 
     private fun shareMumentOnInstagram() {
         binding.ivShare.setOnClickListener {
-            FirebaseAnalytics.getInstance(requireActivity()).logEvent("click_instagram", null)
+            //인스타 클릭 GA
+            FirebaseAnalyticsUtil.firebaseLog(
+                "share_instagram",
+                "count",
+                "click_instagram"
+            )
             val (mument, music) =
                 if (checkIfAppInstalled(INSTAGRAM_PACKAGE_NAME)) viewModel.viewState.value.mument to viewModel.viewState.value.musicInfo else null to null
             viewModel.emitEvent(MumentDetailEvent.OnClickShareMument(mument, music))

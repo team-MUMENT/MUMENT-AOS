@@ -120,10 +120,11 @@ class HomeFragment : Fragment() {
                     )
                 )
             }
+            //홈탭에서 -> 오늘의 뮤멘트 터치
             FirebaseAnalyticsUtil.firebaseLog(
                 "home_activity_type",
                 "type",
-                " home_todaymu"
+                "home_todaymu"
             )
         }
         binding.ivLogo.setOnSingleClickListener {
@@ -221,10 +222,11 @@ class HomeFragment : Fragment() {
                             SearchActivity::class.java
                         )
                     )
+                    //홈탭에서 -> 검색 터치
                     FirebaseAnalyticsUtil.firebaseLog(
                         "home_activity_type",
                         "type",
-                        " home_search"
+                        "home_search"
                     )
                 }
                 is HomeSideEffect.NavToMusicDetail -> {
@@ -232,10 +234,11 @@ class HomeFragment : Fragment() {
                         effect.musicInfo,
                         effect.startNav
                     )
+                    //홈탭에서 -> 추천 곡 터치
                     FirebaseAnalyticsUtil.firebaseLog(
                         "home_activity_type",
                         "type",
-                        " home_rec_song"
+                        "home_rec_song"
                     )
                 }
                 is HomeSideEffect.NavToMumentDetail -> {
