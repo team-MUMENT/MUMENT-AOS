@@ -158,6 +158,7 @@ class MyMumentFragment : Fragment() {
 
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
+            //보관함 list 형식 아이콘 클릭 GA
             FirebaseAnalyticsUtil.firebaseLog(
                 "use_grid_my_mument",
                 "journey",
@@ -172,6 +173,7 @@ class MyMumentFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
+            //보관함 grid 형식 아이콘 클릭 GA
             FirebaseAnalyticsUtil.firebaseLog(
                 "use_grid_my_mument",
                 "journey",

@@ -180,6 +180,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
                 }
                 R.id.lockerFragment -> {
+                    //보관함 바텀네비 클릭 GA
                     FirebaseAnalyticsUtil.firebaseLog(
                         "use_storage_tap",
                         "journey",

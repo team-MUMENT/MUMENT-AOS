@@ -188,6 +188,7 @@ class ProfileSettingActivity :
 
                 val isProfile = intent.getBooleanExtra("isSignUp", true)
                 if (!isProfile) {
+                    //회원가입 시 이미지 설정 여부 GA
                     FirebaseAnalyticsUtil.firebaseLog(
                         "signup_process",
                         "journey",
@@ -273,6 +274,7 @@ class ProfileSettingActivity :
                 else {
                     val isProfile = intent.getBooleanExtra("isSignUp", true)
                     if (!isProfile) {
+                        // 회원가입 성공 GA
                         FirebaseAnalyticsUtil.firebaseLog(
                             "signup_process",
                             "journey",
@@ -291,6 +293,7 @@ class ProfileSettingActivity :
             }
             val isProfile = intent.getBooleanExtra("isSignUp", true)
             if (!isProfile) {
+                //회원가입 시 닉네임 중복 여부 GA
                 FirebaseAnalyticsUtil.firebaseLog(
                     "signup_process",
                     "journey",

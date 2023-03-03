@@ -43,6 +43,7 @@ class SuggestionNotifyAccessDialogFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.btnYes.setOnClickListener {
+            //알림 권장 팝업 관련 GA
             FirebaseAnalyticsUtil.firebaseLog(
                 "noti_popup",
                 "choice",
