@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
@@ -41,6 +42,8 @@ import com.mument_android.home.notify.NotifyActivity
 import com.mument_android.home.search.SearchActivity
 import com.mument_android.home.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -111,6 +114,7 @@ class HomeFragment : Fragment() {
         receiveEffect()
         binding.tvSearch.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickSearch)
+
         }
         binding.ivNotify.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickNotification)
@@ -131,9 +135,11 @@ class HomeFragment : Fragment() {
                 "home_todaymu"
             )
 
-            collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
-                if(it == true) {
-                    Log.e("최초에", "홈 큐레이션")
+            lifecycleScope.launch {
+                //최초에 홈 큐레이션 클릭 GA
+                if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                    Log.e("최초에", "홈 큐레이션 : 오늘의 뮤멘트")
+                    FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_curation")
                     dataStoreManager.writeIsFirst(false)
                 }
             }
@@ -154,6 +160,14 @@ class HomeFragment : Fragment() {
                     musicInfoEntity
                 )
             }?.let { event ->
+                lifecycleScope.launch {
+                    //최초에 홈 큐레이션 클릭 GA
+                    if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                        Log.e("최초에", "홈 큐레이션 클릭 : 다시 들은 곡")
+                        FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_curation")
+                        dataStoreManager.writeIsFirst(false)
+                    }
+                }
                 viewModel.emitEvent(
                     event
                 )
@@ -166,6 +180,15 @@ class HomeFragment : Fragment() {
                     musicInfoEntity
                 )
             }?.let { event ->
+                lifecycleScope.launch {
+                    //최초에 홈 큐레이션 클릭 GA
+                    if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                        Log.e("최초에", "홈 큐레이션 클릭 : 인상적인 태그")
+                        FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_curation")
+                        dataStoreManager.writeIsFirst(false)
+                    }
+                }
+
                 viewModel.emitEvent(
                     event
                 )
@@ -210,9 +233,16 @@ class HomeFragment : Fragment() {
                             it.tagTitle.replace("\\n", "\n")
                         )
                     }) { music ->
-                        viewModel.emitEvent(HomeEvent.OnClickBanner(music.toMusicInfoEntity()))
-                        Log.e("배너", "눌렀나")
+                        //최초 접속 시 홈 큐레이션 클릭
+                        lifecycleScope.launch {
+                            if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                                Log.e("최초에", "홈 큐레이션 클릭 : 배너")
+                                FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_curation")
+                                dataStoreManager.writeIsFirst(false)
+                            }
+                        }
 
+                        viewModel.emitEvent(HomeEvent.OnClickBanner(music.toMusicInfoEntity()))
                     }
                     setBannerCallBack()
                 }
@@ -245,10 +275,12 @@ class HomeFragment : Fragment() {
                         "home_search"
                     )
 
-                    collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
-                        if(it == true) {
-                            Log.e("최초에", "검색")
-                           dataStoreManager.writeIsFirst(false)
+                    lifecycleScope.launch {
+                        //최초에 검색 클릭 GA
+                        if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                            Log.e("최초에", "검색 클릭")
+                            FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_search")
+                            dataStoreManager.writeIsFirst(false)
                         }
                     }
                 }

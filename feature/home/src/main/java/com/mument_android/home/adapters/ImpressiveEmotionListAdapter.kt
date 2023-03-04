@@ -23,8 +23,6 @@ class ImpressiveEmotionListAdapter(
     ListAdapter<Mument, ImpressiveEmotionListAdapter.ImpressiveEmotionViewHolder>(
         GlobalDiffCallBack<Mument>()
     ) {
-/*    @Inject
-    lateinit var dataStoreManager: DataStoreManager*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImpressiveEmotionViewHolder {
         return ImpressiveEmotionViewHolder(
             ItemImpressiveEmotionMumentLayoutBinding.inflate(
@@ -52,13 +50,6 @@ class ImpressiveEmotionListAdapter(
 
             //뮤멘트 상세보기에 진입했을 때 GA
             FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_home")
-
-            /*collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
-                if(it == true) {
-                    Log.e("최초에", "홈 큐레이션")
-                    dataStoreManager.writeIsFirst(false)
-                }
-            }*/
         }
     }
 
