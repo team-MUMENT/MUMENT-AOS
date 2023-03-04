@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.model.TagEntity
-import com.mument_android.core.network.ApiResult
 import com.mument_android.domain.entity.locker.LockerMumentEntity
 import com.mument_android.domain.entity.mypage.UserInfoEntity
 import com.mument_android.domain.usecase.locker.FetchMyLikeListUseCase
@@ -29,9 +28,9 @@ class LockerViewModel @Inject constructor(
     private val likeMumentUseCase: LikeMumentUseCase,
     private val userInfoUseCase: UserInfoUseCase
 ) : ViewModel() {
-    val myMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
+    val myMuments = MutableStateFlow<List<LockerMumentEntity>?>(null)
 
-    val myLikeMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
+    val myLikeMuments = MutableStateFlow<List<LockerMumentEntity>?>(null)
 
     private val _checkedTagList = MutableLiveData<List<TagEntity>>(emptyList())
     val checkedTagList = _checkedTagList
@@ -73,7 +72,6 @@ class LockerViewModel @Inject constructor(
 
 
     fun fetchMyMumentList() {
-        myMuments.value = ApiResult.Loading(null)
         viewModelScope.launch {
             _checkedTagList.value?.let { tags ->
                 firstTag = tags.getOrNull(0)?.tagIdx
@@ -86,16 +84,14 @@ class LockerViewModel @Inject constructor(
                 tag3 = thirdTag
             ).catch {
                 //Todo exception handling
-                myMuments.value = ApiResult.Failure(null)
             }.collect {
-                myMuments.value = ApiResult.Success(it)
+                myMuments.value = it
                 //_profileImage.value = it.get(0).mumentCard?.get(0)?.userImage ?: ""
             }
         }
     }
 
     fun fetchMyLikeList() {
-        myLikeMuments.value = ApiResult.Loading(null)
         viewModelScope.launch {
             _checkedLikeTagList.value?.let { tags ->
                 firstTag = tags.getOrNull(0)?.tagIdx
@@ -108,11 +104,10 @@ class LockerViewModel @Inject constructor(
                 tag3 = thirdTag
             ).catch {
                 //Todo exception handling
-                myLikeMuments.value = ApiResult.Failure(null)
             }.collect {
-                myLikeMuments.value = ApiResult.Success(it.map { entity ->
+                myLikeMuments.value = it.map { entity ->
                     entity.copy(isOther = true)
-                })
+                }
             }
         }
 
@@ -127,13 +122,11 @@ class LockerViewModel @Inject constructor(
         _isLikeGridLayout.value = isGrid
     }
 
-
     fun removeCheckedList(tag: TagEntity) {
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
         tempList.remove(tag)
         checkedTagList.value = tempList
     }
-
 
     fun removeLikeCheckedList(tag: TagEntity) {
         val tempList = checkedLikeTagList.value?.toMutableList() ?: mutableListOf()
