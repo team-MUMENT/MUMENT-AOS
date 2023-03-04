@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/TextView.Mument_B4_M14.Style"
+            style="@style/TextView.Mument_B2_B14.Style"
             setTagType="@{tagEntity.tagType}"
             android:layout_width="wrap_content"
             android:layout_height="30dp"

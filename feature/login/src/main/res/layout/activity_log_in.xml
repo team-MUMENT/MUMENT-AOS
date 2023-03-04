@@ -126,6 +126,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!--
         <TextView
             android:id="@+id/key"
             android:layout_width="wrap_content"
@@ -134,7 +135,7 @@
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />-->
 <!--TODO 이 텍스트뷰 나중에 삭제-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

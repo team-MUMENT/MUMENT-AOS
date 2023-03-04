@@ -12,7 +12,7 @@ class SignPutProfileUseCaseImpl @Inject constructor(
     override suspend fun invoke(
         image: MultipartBody.Part?,
         body: HashMap<String, RequestBody>
-    ): SetProfileEntity {
+    ): SetProfileEntity? {
         return signRepository.signSetProfile(image, body)
     }
 

@@ -20,10 +20,10 @@
         android:background="@color/mument_color_bgwhite"
         tools:context="com.mument_android.detail.com.mument_android.detail.mument.MumentDetailFragment">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_back_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_back"

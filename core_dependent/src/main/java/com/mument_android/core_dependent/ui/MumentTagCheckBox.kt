@@ -1,7 +1,9 @@
 package com.mument_android.core_dependent.ui
 
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.content.res.ResourcesCompat
@@ -11,7 +13,7 @@ import com.mument_android.core_dependent.R
 class MumentTagCheckBox @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null
-): AppCompatCheckBox(context, attributeSet) {
+) : AppCompatCheckBox(context, attributeSet) {
     init {
         buttonDrawable = null
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14f)

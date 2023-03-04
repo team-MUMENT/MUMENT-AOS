@@ -8,7 +8,6 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
@@ -21,13 +20,14 @@ import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.detail.mument.navigator.checkCurrentFragment
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
+import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
@@ -36,7 +36,6 @@ import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.home.main.HomeFragment
 import com.mument_android.locker.LockerFragment
-import com.mument_android.mypage.MyPageActivity
 import com.mument_android.record.RecordActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -53,22 +52,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNavigation()
-        binding.appBar.outlineAmbientShadowColor =
-            ContextCompat.getColor(this, R.color.mument_bottom_navi_shadow_color)
-        binding.appBar.outlineSpotShadowColor =
-            ContextCompat.getColor(this, R.color.mument_bottom_navi_shadow_color)
         floatingBtnListener()
         customAppBar()
         isLimitUserNetwork()
         isRestrictUser()
-        /*
-        TODO 소식창에서 접근 시에 finish() 안하면 이거 그대로 써야함 이래도 홈까지는 가서 나가야 함
-        */
         intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
             intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
-                val bundle = Bundle().also {
-                    it.putString(MUMENT_ID, mumentId)
-                    it.putString(MUSIC_INFO_ENTITY, music)
+                val bundle = Bundle().also { bundle ->
+                    bundle.putString(MUMENT_ID, mumentId)
+                    bundle.putString(MUSIC_INFO_ENTITY, music)
+                    intent.getStringExtra(START_NAV_KEY)?.let {
+                        bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+                    }
                 }
                 navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
             } ?: navController.navigate(
@@ -76,19 +71,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
         }
     }
-
-    private fun saveTestToken() {
-        collectFlowWhenStarted(dataStoreManager.accessTokenFlow) {
-            viewModel.saveTestAccessToken()
-        }
-
-        collectFlowWhenStarted(dataStoreManager.refreshTokenFlow) {
-            viewModel.saveTestRefreshToken()
-        }
-    }
-
-
-    //TODO : 아이콘 변경
 
     //appbar 상단 모서리 radius값 추가
     private fun customAppBar() {
@@ -138,7 +120,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }.show(supportFragmentManager, "Suggestion")
                 } else {
                     snackBar(
-                        binding.cdRoot,
+                        binding.clSnackBar,
                         getString(com.mument_android.detail.R.string.record_finish_record)
                     )
                 }
@@ -160,7 +142,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
                 intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                     snackBar(
-                        binding.cdRoot,
+                        binding.clSnackBar,
                         getString(com.mument_android.detail.R.string.modify_record)
                     )
                     val bundle = Bundle().apply {
@@ -256,14 +238,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         Log.e("NEW INTENT", intent.toString())
         intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
             intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
-                val bundle = Bundle().also {
-                    it.putString(MUMENT_ID, mumentId)
-                    it.putString(MUSIC_INFO_ENTITY, music)
+                val bundle = Bundle().also { bundle ->
+                    bundle.putString(MUMENT_ID, mumentId)
+                    bundle.putString(MUSIC_INFO_ENTITY, music)
+                    intent.getStringExtra(START_NAV_KEY)?.let {
+                        bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+                    }
                 }
                 navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
             } ?: navController.navigate(
                 R.id.action_homeFragment_to_musicDetailFragment,
                 Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
+        }
+        intent?.getBooleanExtra("FINISH", false)?.let { finish ->
+            if (finish) finish()
         }
     }
 }

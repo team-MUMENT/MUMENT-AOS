@@ -25,12 +25,12 @@
             android:layout_height="match_parent">
 
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_profile_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="36dp"
                 android:src="@drawable/mument_icon_back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,7 @@
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_marginTop="92dp"
-                android:background="@drawable/mument_profile_camera"
+                android:background="@drawable/mument_profile_default_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_profile_setting" />
@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosans_medium"
                 android:text="@{Integer.toString(viewModel.mumentNickName.length())}"
-                android:textColor="@color/mument_color_purple1"
+                android:textColor="@{viewModel.mumentNickName.length() == 0 ? @color/mument_color_gray1 : @color/mument_color_purple1}"
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_max_length"
                 app:layout_constraintEnd_toStartOf="@+id/tv_max_length" />

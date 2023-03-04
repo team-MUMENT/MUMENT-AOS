@@ -6,12 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
@@ -22,13 +19,8 @@ import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.core.util.Constants
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
-import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
-import com.mument_android.core_dependent.util.RecyclerviewItemDivider
-import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_VERTICAL
-import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.history.HistoryActivity
@@ -108,7 +100,7 @@ class MusicDetailFragment : Fragment() {
         }
         arguments?.getString(Constants.START_NAV_KEY)?.let {
             musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveStartNav(it))
-        }
+        } ?: musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveStartNav(""))
     }
 
     private fun updateView() {

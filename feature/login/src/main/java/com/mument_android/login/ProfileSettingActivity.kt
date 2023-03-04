@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.ScrollView
 import androidx.activity.result.ActivityResultLauncher
@@ -97,7 +96,11 @@ class ProfileSettingActivity :
             if (!Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it) || it.trim().length < 2) {
                 viewModel.isRightPattern.value = false
                 binding.tvPattern.isSelected = true
-            } else if (it.isEmpty() || Pattern.matches("^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$", it) || it.trim().length >= 2) {
+            } else if (it.isEmpty() || Pattern.matches(
+                    "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\\s]{2,15}\$",
+                    it
+                ) || it.trim().length >= 2
+            ) {
                 viewModel.isRightPattern.value = true
                 binding.tvPattern.isSelected = false
             }
@@ -118,7 +121,7 @@ class ProfileSettingActivity :
         binding.ivProfile.setOnClickListener {
             if (viewModel.imageUri.value == null) {
                 uploadPhotoClickListener(galleryUtil)
-                binding.ivProfile.setImageResource(R.drawable.mument_profile_camera)
+                binding.ivProfile.setImageResource(R.drawable.mument_profile_default_image)
             } else {
                 binding.clSelectImg.visibility = View.VISIBLE
                 binding.tvSelectLibrary.setOnClickListener {
@@ -126,7 +129,7 @@ class ProfileSettingActivity :
                     binding.clSelectImg.visibility = View.GONE
                 }
                 binding.tvDeleteProfile.setOnClickListener {
-                    binding.ivProfile.setImageResource(R.drawable.mument_profile_camera)
+                    binding.ivProfile.setImageResource(R.drawable.mument_profile_default_image)
                     viewModel.imageUri.value = null
                     binding.clSelectImg.visibility = View.GONE
                 }
@@ -174,7 +177,7 @@ class ProfileSettingActivity :
                     binding.ivProfile.load(uri) {
                         viewModel.imageUri.value = uri
                         crossfade(true)
-                        placeholder(R.drawable.mument_profile_camera)
+                        placeholder(R.drawable.mument_profile_default_image)
                         transformations(CircleCropTransformation())
                     }
                     if (imageUri != null) {
@@ -188,12 +191,7 @@ class ProfileSettingActivity :
     //뒤로가기 클릭 리스너
     private fun backBtnListener() {
         binding.ivProfileBack.setOnClickListener {
-            if (viewModel.mumentNickName.value == null) {
-                startActivity(Intent(this, LogInActivity::class.java))
-                finish()
-            } else {
-                finish()
-            }
+            finish()
         }
     }
 
@@ -295,7 +293,7 @@ class ProfileSettingActivity :
             binding.etNickname.setText(viewModel.mumentNickName.value)
             binding.ivProfile.load(viewModel.imageUri.value) {
                 crossfade(true)
-                placeholder(R.drawable.mument_profile_camera)
+                placeholder(R.drawable.mument_profile_default_image)
                 transformations(CircleCropTransformation())
             }
         }

@@ -1,36 +1,24 @@
 package com.mument_android.login
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
-import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.AuthErrorCause
-import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
-import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.core_dependent.ext.collectFlow
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.domain.entity.sign.RequestKakaoData
 import com.mument_android.login.databinding.ActivityLogInBinding
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -38,8 +26,6 @@ import javax.inject.Inject
 class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
     private val viewModel: LogInViewModel by viewModels()
 
-    @Inject
-    lateinit var dataStoreManager: DataStoreManager
 
     @Inject
     lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
@@ -51,9 +37,10 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         btnKakaoListener()
         getFcmToken()
         webLinkNetwork()
-        keyClipBoard()
+        //keyClipBoard()
     }
 
+    /*
     private fun keyClipBoard() {
         var keyHash = Utility.getKeyHash(this)
         Log.e("kkkkkkkkkk:", "$keyHash")
@@ -85,6 +72,8 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         }
     }
 
+     */
+
 
     private fun getFcmToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -96,21 +85,18 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
             val token = task.result
             val msg = token.toString()
             Log.e("TAG", msg)
-
             viewModel.fcmToken.value = token.toString()
         })
     }
 
     private fun initKakaoLogin() {
-        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d"
+        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d" // Local Property에 있는거랑 무슨 차이가 있는건가용
         KakaoSdk.init(this, kakaoAppKey)
-
     }
 
     private fun webLinkNetwork() {
-
         viewModel.getWebView("login")
-        viewModel.getWebView.observe(this) {
+        viewModel.getWebViewEntity.observe(this) {
             val tosLink = it.tos.toString()
             val privacyLink = it.privacy.toString()
             binding.tvTermsOfService.setOnClickListener {
@@ -120,11 +106,10 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                 initIntent(privacyLink)
             }
         }
-
     }
 
     private fun btnKakaoListener() {
-        binding.ivKakao.setOnClickListener {
+        binding.ivKakao.setOnSingleClickListener {
             setKakaoBtnListener()
         }
     }
@@ -135,34 +120,30 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
             if (error != null) {
                 shortToast("로그인 실패")
                 getErrorLog(error)
-            } else if (token != null) {
+            } else if (token != null && viewModel.fcmToken.value != null) {
                 UserApiClient.instance.me { _, error ->
                     Log.e("kakao access token :", token.accessToken)
-
                     val requestKakaoData = RequestKakaoData(
                         "kakao",
-                        token.accessToken.toString(),
-                        viewModel.fcmToken.value.toString()
+                        token.accessToken,
+                        viewModel.fcmToken.value!!
                     )
                     viewModel.kakaoLogin(requestKakaoData)
-
                     viewModel.isExist.observe(this) {
-                        if (it == true) {
+                        Log.e("isExist", it.toString())
+                        if (it) {
+                            Log.e("isExist True", it.toString())
                             moveToMainActivity()
-                        } else if (viewModel.isExist.value == false) {
+                        } else if (!it) {
+                            Log.e("isExist False", it.toString())
                             startActivity(Intent(this, ProfileSettingActivity::class.java))
-                            finish()
                         }
                     }
                 }
             } else {
                 shortToast("else")
             }
-
-
         }
-
-
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
             UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
         } else {
@@ -174,29 +155,29 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     }
 
     private fun getErrorLog(error: Throwable) {
-        when {
-            error.toString() == AuthErrorCause.AccessDenied.toString() -> {
+        when (error.toString()) {
+            AuthErrorCause.AccessDenied.toString() -> {
                 Log.e("접근이 거부 됨(동의 취소)", "")
             }
-            error.toString() == AuthErrorCause.InvalidClient.toString() -> {
+            AuthErrorCause.InvalidClient.toString() -> {
                 Log.e("유효하지 않은 앱", "")
             }
-            error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
+            AuthErrorCause.InvalidGrant.toString() -> {
                 Log.e("인증 수단이 유효하지 않아 인증할 수 없는 상태", "")
             }
-            error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
+            AuthErrorCause.InvalidRequest.toString() -> {
                 Log.e("요청 파라미터 오류", "")
             }
-            error.toString() == AuthErrorCause.InvalidScope.toString() -> {
+            AuthErrorCause.InvalidScope.toString() -> {
                 Log.e("유효하지 않은 scope ID", "")
             }
-            error.toString() == AuthErrorCause.Misconfigured.toString() -> {
+            AuthErrorCause.Misconfigured.toString() -> {
                 Log.e("설정이 올바르지 않음(android key hash)", "")
             }
-            error.toString() == AuthErrorCause.ServerError.toString() -> {
+            AuthErrorCause.ServerError.toString() -> {
                 Log.e("서버 내부 에러", "")
             }
-            error.toString() == AuthErrorCause.Unauthorized.toString() -> {
+            AuthErrorCause.Unauthorized.toString() -> {
                 Log.e("앱이 요청 권한이 없음", "")
             }
             else -> { // Unknown

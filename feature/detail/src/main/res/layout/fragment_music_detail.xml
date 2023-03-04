@@ -27,7 +27,7 @@
                 toolbarElipseTitle="@{musicDetailViewModel.viewState.musicInfo.name}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:collapsedTitleGravity="center"
+                app:collapsedTitleGravity="center_horizontal|bottom"
                 app:collapsedTitleTextAppearance="@style/CollapsedTitle.TextAppearance"
                 app:collapsedTitleTextColor="@color/mument_color_black1"
                 app:contentScrim="@color/white"
@@ -48,7 +48,7 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="70dp"
+                        android:layout_marginTop="98dp"
                         android:scaleType="centerCrop"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,8 @@
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="72dp"
+                    android:paddingBottom="12dp"
                     app:contentInsetStart="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -93,15 +94,16 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_back"
-                    android:layout_width="60dp"
-                    android:layout_height="70dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="26dp"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_back"
-                    app:layout_collapseMode="pin"
-                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    app:layout_collapseMode="pin" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>

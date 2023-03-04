@@ -1,18 +1,14 @@
 package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.NavOptions
 import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.main.MainActivity
-import com.mument_android.core.util.Constants
-import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.domain.entity.music.MusicInfoEntity
-import com.mument_android.home.search.SearchActivity
 import javax.inject.Inject
 
 /** 여러 Class에 불필요하게 중복 선언된 상수들 하나로 통일하기 ex) MUSIC_ID **/
@@ -49,7 +45,17 @@ class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity:
 
     override fun musicDetailPopBackStack(startNav: String) {
         with(activity as MainActivity) {
-            activity.navController.previousBackStackEntry?.savedStateHandle?.set(START_NAV_KEY, Constants.FROM_SEARCH)
+            if (startNav.isNotBlank()) {
+                activity.navController.previousBackStackEntry?.savedStateHandle?.set(
+                    START_NAV_KEY,
+                    startNav
+                )
+            } else {
+                activity.navController.previousBackStackEntry?.savedStateHandle?.set(
+                    START_NAV_KEY,
+                    null
+                )
+            }
             activity.navController.popBackStack()
 //            if (startNav == FROM_SEARCH) startActivity(Intent(activity, SearchActivity::class.java))
 //            navController.popBackStack()
