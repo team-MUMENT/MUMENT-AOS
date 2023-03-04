@@ -11,8 +11,13 @@ import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.home.databinding.ItemBannerLayoutBinding
 
+/*@Inject
+lateinit var dataStoreManager: DataStoreManager*/
+
 class BannerListAdapter(var data: List<BannerEntity>, private val clickBanner: (Music) -> Unit) :
     RecyclerView.Adapter<BannerListAdapter.BannerViewHolder>() {
+
+
 
     class BannerViewHolder(val binding: ItemBannerLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)

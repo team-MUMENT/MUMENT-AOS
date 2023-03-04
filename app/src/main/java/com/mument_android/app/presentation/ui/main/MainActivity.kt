@@ -31,6 +31,7 @@ import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
@@ -94,12 +95,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.floatingActionButton.setOnClickListener {
             val navController = findNavController(binding.navHost.id)
             val currentDestinationId = navController.currentDestination?.id
-            //기록하기 버튼을 누를 때
+            //기록하기 버튼을 누를 때 GA
             when(currentDestinationId) {
                 2131362133 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_home")
                 2131362286 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_song_detail_page")
                 2131362284 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_mument_detail_page")
                 2131362224 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_storage")
+            }
+
+            collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
+                if(it == true) {
+                    Log.e("최초에", "글쓰기")
+                    dataStoreManager.writeIsFirst(false)
+                }
             }
 
             viewModel.limitUser.observe(this) {
@@ -199,6 +207,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         "journey",
                         "click_storage_tap"
                     )
+                    collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
+                        if(it == true) {
+                            Log.e("최초에", "보관함")
+                            dataStoreManager.writeIsFirst(false)
+                        }
+                    }
                     if (checkCurrentFragment() !is LockerFragment) {
                         changeCurrentFragment(R.id.lockerFragment)
                     }

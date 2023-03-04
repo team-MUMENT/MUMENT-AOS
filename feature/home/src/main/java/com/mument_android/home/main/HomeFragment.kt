@@ -21,6 +21,7 @@ import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
@@ -49,6 +50,9 @@ class HomeFragment : Fragment() {
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
     private val notifyBroadcastReceiver = NotifyBroadCastReceiver()
+
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
 
     @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
@@ -127,6 +131,13 @@ class HomeFragment : Fragment() {
                 "home_todaymu"
             )
 
+            collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
+                if(it == true) {
+                    Log.e("최초에", "홈 큐레이션")
+                    dataStoreManager.writeIsFirst(false)
+                }
+            }
+
             //뮤멘트 상세보기에 진입했을 때 GA
             FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_home")
         }
@@ -200,6 +211,8 @@ class HomeFragment : Fragment() {
                         )
                     }) { music ->
                         viewModel.emitEvent(HomeEvent.OnClickBanner(music.toMusicInfoEntity()))
+                        Log.e("배너", "눌렀나")
+
                     }
                     setBannerCallBack()
                 }
@@ -231,6 +244,13 @@ class HomeFragment : Fragment() {
                         "type",
                         "home_search"
                     )
+
+                    collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
+                        if(it == true) {
+                            Log.e("최초에", "검색")
+                           dataStoreManager.writeIsFirst(false)
+                        }
+                    }
                 }
                 is HomeSideEffect.NavToMusicDetail -> {
                     musicDetailNavigatorProvider.fromHomeToMusicDetail(

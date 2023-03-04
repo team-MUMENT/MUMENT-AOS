@@ -1,23 +1,28 @@
 package com.mument_android.home.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.domain.entity.home.AgainMumentEntity
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.home.BR
 import com.mument_android.home.databinding.ItemHeardMumentLayoutBinding
+import javax.inject.Inject
 
 class HeardMumentListAdapter(
     private val context: Context,
     private val itemClickListener: (AgainMumentEntity) -> Unit
 ) :
     ListAdapter<AgainMumentEntity, HeardMumentListAdapter.HeardViewHolder>(GlobalDiffCallBack<AgainMumentEntity>()) {
-
+/*    @Inject
+    lateinit var dataStoreManager: DataStoreManager*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeardViewHolder {
         return HeardViewHolder(
@@ -49,6 +54,12 @@ class HeardMumentListAdapter(
             //뮤멘트 상세보기에 진입했을 때 GA
             FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_home")
 
+/*            collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
+                if(it == true) {
+                    Log.e("최초에", "홈 큐레이션")
+                    dataStoreManager.writeIsFirst(false)
+                }
+            }*/
         }
     }
 

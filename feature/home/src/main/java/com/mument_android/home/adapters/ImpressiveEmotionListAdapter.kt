@@ -1,16 +1,20 @@
 package com.mument_android.home.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.domain.entity.home.Mument
 import com.mument_android.home.BR
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.home.databinding.ItemImpressiveEmotionMumentLayoutBinding
+import javax.inject.Inject
 
 class ImpressiveEmotionListAdapter(
     private val context: Context,
@@ -19,7 +23,8 @@ class ImpressiveEmotionListAdapter(
     ListAdapter<Mument, ImpressiveEmotionListAdapter.ImpressiveEmotionViewHolder>(
         GlobalDiffCallBack<Mument>()
     ) {
-
+/*    @Inject
+    lateinit var dataStoreManager: DataStoreManager*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImpressiveEmotionViewHolder {
         return ImpressiveEmotionViewHolder(
             ItemImpressiveEmotionMumentLayoutBinding.inflate(
@@ -48,6 +53,12 @@ class ImpressiveEmotionListAdapter(
             //뮤멘트 상세보기에 진입했을 때 GA
             FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_home")
 
+            /*collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
+                if(it == true) {
+                    Log.e("최초에", "홈 큐레이션")
+                    dataStoreManager.writeIsFirst(false)
+                }
+            }*/
         }
     }
 
