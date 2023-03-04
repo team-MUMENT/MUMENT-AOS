@@ -14,7 +14,10 @@ import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.domain.usecase.mypage.UserInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -70,41 +73,21 @@ class LockerViewModel @Inject constructor(
 
 
     fun fetchMyMumentList() {
+        myMuments.value = ApiResult.Loading(null)
         viewModelScope.launch {
-            checkedTagList.value?.let { tags ->
-                if (tags.isEmpty()) {
-                    firstTag = null
-                    secondTag = null
-                    thirdTag = null
-                } else if (tags.size == 1) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = null
-                    thirdTag = null
-                } else if (tags.size == 2) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = tags.get(1).tagIdx
-                    thirdTag = null
-                } else if (tags.size == 3) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = tags.get(1).tagIdx
-                    thirdTag = tags.get(2).tagIdx
-                } else {
-                    firstTag = null
-                    secondTag = null
-                    thirdTag = null
-                }
+            _checkedTagList.value?.let { tags ->
+                firstTag = tags.getOrNull(0)?.tagIdx
+                secondTag = tags.getOrNull(1)?.tagIdx
+                thirdTag = tags.getOrNull(2)?.tagIdx
             }
-
             fetchMyMumentListUseCase(
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag
-            ).onStart {
-                myMuments.value = ApiResult.Loading(null)
-            }.catch {
+            ).catch {
                 //Todo exception handling
                 myMuments.value = ApiResult.Failure(null)
-            }.collectLatest {
+            }.collect {
                 myMuments.value = ApiResult.Success(it)
                 //_profileImage.value = it.get(0).mumentCard?.get(0)?.userImage ?: ""
             }
@@ -112,41 +95,21 @@ class LockerViewModel @Inject constructor(
     }
 
     fun fetchMyLikeList() {
+        myLikeMuments.value = ApiResult.Loading(null)
         viewModelScope.launch {
-            checkedLikeTagList.value?.let { tags ->
-                if (tags.isEmpty()) {
-                    firstTag = null
-                    secondTag = null
-                    thirdTag = null
-                } else if (tags.size == 1) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = null
-                    thirdTag = null
-                } else if (tags.size == 2) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = tags.get(1).tagIdx
-                    thirdTag = null
-                } else if (tags.size == 3) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = tags.get(1).tagIdx
-                    thirdTag = tags.get(2).tagIdx
-                } else {
-                    firstTag = null
-                    secondTag = null
-                    thirdTag = null
-                }
+            _checkedLikeTagList.value?.let { tags ->
+                firstTag = tags.getOrNull(0)?.tagIdx
+                secondTag = tags.getOrNull(1)?.tagIdx
+                thirdTag = tags.getOrNull(2)?.tagIdx
             }
-
             fetchMyLikeListUseCase(
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag
-            ).onStart {
-                myLikeMuments.value = ApiResult.Loading(null)
-            }.catch {
+            ).catch {
                 //Todo exception handling
                 myLikeMuments.value = ApiResult.Failure(null)
-            }.collectLatest {
+            }.collect {
                 myLikeMuments.value = ApiResult.Success(it.map { entity ->
                     entity.copy(isOther = true)
                 })
@@ -154,7 +117,6 @@ class LockerViewModel @Inject constructor(
         }
 
     }
-
 
     fun changeIsGridLayout(isGrid: Boolean) {
         _isGridLayout.value = isGrid
