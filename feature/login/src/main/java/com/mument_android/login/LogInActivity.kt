@@ -194,5 +194,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
 
     private fun moveToMainActivity() {
         mainHomeNavigatorProvider.profileSettingToMain()
+        finish()
     }
 }
