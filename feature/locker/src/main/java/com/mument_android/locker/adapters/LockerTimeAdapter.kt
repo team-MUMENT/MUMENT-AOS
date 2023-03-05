@@ -38,11 +38,10 @@ class LockerTimeAdapter(
             if (isGridLayout) {
                 adapter = LockerMumentGridAdapter { mumentId, musicInfo ->
                     showDetailListener(mumentId, musicInfo)
+                }.apply {
+                    submitList(mumentList.mumentCard)
                 }
-                (adapter as LockerMumentGridAdapter).submitList(mumentList.mumentCard)
-                val gridLayoutManager =
-                    GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
-                holder.binding.rvMumentLinear.layoutManager = gridLayoutManager
+                holder.binding.rvMumentLinear.layoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
             } else {
                 adapter = LockerMumentLinearAdapter(
                     showDetailListener = { mumentId, musicInfo ->
@@ -56,13 +55,12 @@ class LockerTimeAdapter(
                             likeMumentListener.cancelLikeMument(mumetId)
                         }
                     }
-                ).also {
+                ).apply {
+                    submitList(mumentList.mumentCard)
                     if (mumentList.isOther == true) {
-                        it.isOther = true
+                        isOther = true
                     }
                 }
-
-                (adapter as LockerMumentLinearAdapter).submitList(mumentList.mumentCard)
             }
         }
     }
