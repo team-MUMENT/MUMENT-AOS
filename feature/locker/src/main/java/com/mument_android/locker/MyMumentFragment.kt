@@ -1,13 +1,13 @@
 package com.mument_android.locker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.angdroid.navigation.MumentDetailNavigatorProvider
-import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
@@ -52,7 +52,6 @@ class MyMumentFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         if (lockerViewModel.isGridLayout.value) {
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
@@ -62,85 +61,58 @@ class MyMumentFragment : Fragment() {
         }
 
         lockerViewModel.isMument.value = true
+        lockerViewModel.fetchMyMumentList()
     }
 
     private fun setGridServerConnection() {
         collectFlowWhenStarted(lockerViewModel.isGridLayout) { isGridLayout ->
-                binding.rvMumentLinear.run {
-                    adapter = LockerTimeAdapter(
-                        true,
-                        isGridLayout,
-                        showDetailListener = { mumentId, musicInfo ->
-                            showMumentDetail(mumentId, musicInfo)
-                        },
-                        likeMumentListener = object : LikeMumentListener {
-                            override fun likeMument(mumetId: String) {
-                                lockerViewModel.likeMument(mumetId)
-                            }
-
-                            override fun cancelLikeMument(mumetId: String) {
-                                lockerViewModel.cancelLikeMument(mumetId)
-                            }
+            binding.rvMumentLinear.run {
+                adapter = LockerTimeAdapter(
+                    isGridLayout,
+                    showDetailListener = { mumentId, musicInfo ->
+                        showMumentDetail(mumentId, musicInfo)
+                    },
+                    likeMumentListener = object : LikeMumentListener {
+                        override fun likeMument(mumetId: String) {
+                            lockerViewModel.likeMument(mumetId)
                         }
-                    )
-                    (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myMuments.value?.data)
+
+                        override fun cancelLikeMument(mumetId: String) {
+                            lockerViewModel.cancelLikeMument(mumetId)
+                        }
+                    }
+                ).apply {
+                    submitList(lockerViewModel.myMuments.value)
                 }
+            }
         }
     }
 
     private fun setMyMumentListAdapter() {
         collectFlowWhenStarted(lockerViewModel.myMuments) { result ->
-            when (result) {
-                is ApiResult.Loading -> {}
-                is ApiResult.Failure -> {}
-                is ApiResult.Success -> {
-                    binding.rvMumentLinear.adapter = LockerTimeAdapter(
-                        true,
-                        lockerViewModel.isGridLayout.value,
-                        showDetailListener = { mumentId, musicInfo ->
-                            showMumentDetail(mumentId, musicInfo)
-                        },
-                        likeMumentListener = object : LikeMumentListener {
-                            override fun likeMument(mumetId: String) {
-                                lockerViewModel.likeMument(mumetId)
-                            }
+            Log.e("Collect", "Value")
+            binding.rvMumentLinear.adapter = LockerTimeAdapter(
+                lockerViewModel.isGridLayout.value,
+                showDetailListener = { mumentId, musicInfo ->
+                    showMumentDetail(mumentId, musicInfo)
+                },
+                likeMumentListener = object : LikeMumentListener {
+                    override fun likeMument(mumetId: String) {
+                        lockerViewModel.likeMument(mumetId)
+                    }
 
-                            override fun cancelLikeMument(mumetId: String) {
-                                lockerViewModel.cancelLikeMument(mumetId)
-                            }
-                        }
-                    )
-                    //binding.rvMumentLinear.adapter = LockerTimeAdapter(lockerViewModel.isGridLayout.value)
-                    binding.rvMumentLinear.adapter = LockerTimeAdapter(
-                        true,
-                        lockerViewModel.isGridLayout.value,
-                        showDetailListener = { mumentId, musicInfo ->
-                            showMumentDetail(mumentId, musicInfo)
-                        },
-                        likeMumentListener = object : LikeMumentListener {
-                            override fun likeMument(mumetId: String) {
-                                lockerViewModel.likeMument(mumetId)
-                            }
-
-                            override fun cancelLikeMument(mumetId: String) {
-                                lockerViewModel.cancelLikeMument(mumetId)
-                            }
-                        }
-                    )
-
-                    initMumentEmpty(result.data?.size ?: 0)
-                    (binding.rvMumentLinear.adapter as LockerTimeAdapter).submitList(
-                        lockerViewModel.myMuments.value?.data
-                    )
+                    override fun cancelLikeMument(mumetId: String) {
+                        lockerViewModel.cancelLikeMument(mumetId)
+                    }
                 }
-                else -> {}
+            ).apply {
+                submitList(result)
             }
-
+            initMumentEmpty(result?.size ?: 0)
             //binding.ivLockerList.isSelected = true
             //binding.ivLockerGrid.isSelected = false
         }
     }
-
 
     //TODO: 필터 및 아이콘들 비활성화
     private fun initMumentEmpty(size: Int) {
@@ -170,7 +142,6 @@ class MyMumentFragment : Fragment() {
             lockerViewModel.changeIsGridLayout(false)
             binding.ivLockerList.isSelected = true
             binding.ivLockerGrid.isSelected = false
-
         }
     }
 
@@ -185,7 +156,6 @@ class MyMumentFragment : Fragment() {
             lockerViewModel.changeIsGridLayout(true)
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
-
         }
     }
 
@@ -200,39 +170,18 @@ class MyMumentFragment : Fragment() {
         }
     }
 
-
     private fun settingRecyclerView() {
-        removeTag()
-        lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                binding.rvSelectedTags.visibility = View.GONE
-            } else {
-                binding.rvSelectedTags.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun removeTag() {
         binding.rvSelectedTags.run {
             adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
                 lockerViewModel.removeCheckedList(tag)
-            }
-
-            lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
-                (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
-                if (it.isEmpty()) {
-                    binding.rvSelectedTags.visibility = View.GONE
-                    binding.ivLockerFilter.isSelected = false
-                } else {
-                    binding.rvSelectedTags.visibility = View.VISIBLE
-                    binding.ivLockerFilter.isSelected = true
-                }
             }
         }
     }
 
     private fun fetchMuments() {
         lockerViewModel.checkedTagList.observe(viewLifecycleOwner) {
+            (binding.rvSelectedTags.adapter as FilterBottomSheetSelectedAdapter).submitList(it)
+            binding.ivLockerFilter.isSelected = it.isNotEmpty()
             lockerViewModel.fetchMyMumentList()
         }
     }

@@ -25,7 +25,7 @@ class AuthInterceptor @Inject constructor(
     private val context: Context,
     private val dataStoreManager: DataStoreManager,
     private val tokenDataSource: TokenDataSource
-): Interceptor {
+) : Interceptor {
     private val entryPoint by lazy { EntryPoints.get(context, LoginModuleDependencies::class.java) }
     private val loginNavigatorProvider = entryPoint.provideLoginNavigatorProvider()
     private var countOfUnAuth = 0
@@ -40,9 +40,9 @@ class AuthInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = runBlocking {
             collectFlow(dataStoreManager.accessTokenFlow) {
-                dataStoreManager.writeAccessToken(it?:"")
-                if(it == null){
-                    dataStoreManager.writeRefreshToken(it?:"")
+                dataStoreManager.writeAccessToken(it ?: "")
+                if (it == null) {
+                    dataStoreManager.writeRefreshToken(it ?: "")
                     dataStoreManager.refreshTokenFlow.first()
                 }
             }
@@ -63,7 +63,11 @@ class AuthInterceptor @Inject constructor(
         }
     }
 
-    private fun retryConnection(chain: Interceptor.Chain, context: Context, previousResponse: Response): Response {
+    private fun retryConnection(
+        chain: Interceptor.Chain,
+        context: Context,
+        previousResponse: Response
+    ): Response {
         var response = previousResponse
         var retryCount = 0
         do {
@@ -77,12 +81,11 @@ class AuthInterceptor @Inject constructor(
             retryCount++
         } while (response.code == HttpURLConnection.HTTP_UNAUTHORIZED && retryCount < MAX_RETRY_COUNT)
 
-        if(response.code == HttpURLConnection.HTTP_UNAUTHORIZED && retryCount == MAX_RETRY_COUNT) {
+        if (response.code == HttpURLConnection.HTTP_UNAUTHORIZED && retryCount == MAX_RETRY_COUNT) {
             countOfUnAuth++
             if (countOfUnAuth == 1) {
                 runBlocking(Dispatchers.Main) {
                     Toast.makeText(context, "세션이 만료되었습니다. 다시 로그인해주세요:)", Toast.LENGTH_SHORT).show()
-                    loginNavigatorProvider.navToLogin()
                 }
             }
             runBlocking {
@@ -90,7 +93,6 @@ class AuthInterceptor @Inject constructor(
                 dataStoreManager.writeRefreshToken("")
             }
         }
-
         return response
     }
 
@@ -98,10 +100,10 @@ class AuthInterceptor @Inject constructor(
         runBlocking {
             dataStoreManager.refreshTokenFlow.first()?.let {
                 val apiCall = tokenDataSource.refreshAccessToken(it)
-                if(apiCall.isSuccessful) {
-                    apiCall.body()?.data?.let {
-                        dataStoreManager.writeAccessToken(it.accessToken)
-                        dataStoreManager.writeRefreshToken(it.refreshToken)
+                if (apiCall.isSuccessful) {
+                    apiCall.body()?.data?.let { tokens ->
+                        dataStoreManager.writeAccessToken(tokens.accessToken)
+                        dataStoreManager.writeRefreshToken(tokens.refreshToken)
                     }
                 }
             }
@@ -109,8 +111,10 @@ class AuthInterceptor @Inject constructor(
     }
 
     companion object {
-        private const val MAX_RETRY_COUNT= 2
-        private fun Request.Builder.addHeaders(token: String?) = this.apply { header("Authorization", BEARER + token.toString()) }
+        private const val MAX_RETRY_COUNT = 2
+        private fun Request.Builder.addHeaders(token: String?) =
+            this.apply { header("Authorization", BEARER + token.toString()) }
+
         private const val BEARER = "Bearer "
     }
 }

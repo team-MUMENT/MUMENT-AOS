@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.model.TagEntity
-import com.mument_android.core.network.ApiResult
 import com.mument_android.domain.entity.locker.LockerMumentEntity
 import com.mument_android.domain.entity.mypage.UserInfoEntity
 import com.mument_android.domain.usecase.locker.FetchMyLikeListUseCase
@@ -14,7 +13,10 @@ import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import com.mument_android.domain.usecase.mypage.UserInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,9 +28,9 @@ class LockerViewModel @Inject constructor(
     private val likeMumentUseCase: LikeMumentUseCase,
     private val userInfoUseCase: UserInfoUseCase
 ) : ViewModel() {
-    val myMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
+    val myMuments = MutableStateFlow<List<LockerMumentEntity>?>(null)
 
-    val myLikeMuments = MutableStateFlow<ApiResult<List<LockerMumentEntity>>?>(null)
+    val myLikeMuments = MutableStateFlow<List<LockerMumentEntity>?>(null)
 
     private val _checkedTagList = MutableLiveData<List<TagEntity>>(emptyList())
     val checkedTagList = _checkedTagList
@@ -71,41 +73,19 @@ class LockerViewModel @Inject constructor(
 
     fun fetchMyMumentList() {
         viewModelScope.launch {
-            checkedTagList.value?.let { tags ->
-                if (tags.isEmpty()) {
-                    firstTag = null
-                    secondTag = null
-                    thirdTag = null
-                } else if (tags.size == 1) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = null
-                    thirdTag = null
-                } else if (tags.size == 2) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = tags.get(1).tagIdx
-                    thirdTag = null
-                } else if (tags.size == 3) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = tags.get(1).tagIdx
-                    thirdTag = tags.get(2).tagIdx
-                } else {
-                    firstTag = null
-                    secondTag = null
-                    thirdTag = null
-                }
+            _checkedTagList.value?.let { tags ->
+                firstTag = tags.getOrNull(0)?.tagIdx
+                secondTag = tags.getOrNull(1)?.tagIdx
+                thirdTag = tags.getOrNull(2)?.tagIdx
             }
-
             fetchMyMumentListUseCase(
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag
-            ).onStart {
-                myMuments.value = ApiResult.Loading(null)
-            }.catch {
+            ).catch {
                 //Todo exception handling
-                myMuments.value = ApiResult.Failure(null)
-            }.collectLatest {
-                myMuments.value = ApiResult.Success(it)
+            }.collect {
+                myMuments.value = it
                 //_profileImage.value = it.get(0).mumentCard?.get(0)?.userImage ?: ""
             }
         }
@@ -113,48 +93,25 @@ class LockerViewModel @Inject constructor(
 
     fun fetchMyLikeList() {
         viewModelScope.launch {
-            checkedLikeTagList.value?.let { tags ->
-                if (tags.isEmpty()) {
-                    firstTag = null
-                    secondTag = null
-                    thirdTag = null
-                } else if (tags.size == 1) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = null
-                    thirdTag = null
-                } else if (tags.size == 2) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = tags.get(1).tagIdx
-                    thirdTag = null
-                } else if (tags.size == 3) {
-                    firstTag = tags.get(0).tagIdx
-                    secondTag = tags.get(1).tagIdx
-                    thirdTag = tags.get(2).tagIdx
-                } else {
-                    firstTag = null
-                    secondTag = null
-                    thirdTag = null
-                }
+            _checkedLikeTagList.value?.let { tags ->
+                firstTag = tags.getOrNull(0)?.tagIdx
+                secondTag = tags.getOrNull(1)?.tagIdx
+                thirdTag = tags.getOrNull(2)?.tagIdx
             }
-
             fetchMyLikeListUseCase(
                 tag1 = firstTag,
                 tag2 = secondTag,
                 tag3 = thirdTag
-            ).onStart {
-                myLikeMuments.value = ApiResult.Loading(null)
-            }.catch {
+            ).catch {
                 //Todo exception handling
-                myLikeMuments.value = ApiResult.Failure(null)
-            }.collectLatest {
-                myLikeMuments.value = ApiResult.Success(it.map { entity ->
+            }.collect {
+                myLikeMuments.value = it.map { entity ->
                     entity.copy(isOther = true)
-                })
+                }
             }
         }
 
     }
-
 
     fun changeIsGridLayout(isGrid: Boolean) {
         _isGridLayout.value = isGrid
@@ -165,13 +122,11 @@ class LockerViewModel @Inject constructor(
         _isLikeGridLayout.value = isGrid
     }
 
-
     fun removeCheckedList(tag: TagEntity) {
         val tempList = checkedTagList.value?.toMutableList() ?: mutableListOf()
         tempList.remove(tag)
         checkedTagList.value = tempList
     }
-
 
     fun removeLikeCheckedList(tag: TagEntity) {
         val tempList = checkedLikeTagList.value?.toMutableList() ?: mutableListOf()

@@ -1,10 +1,7 @@
 package com.mument_android.locker
 
 import android.content.Intent
-import android.graphics.Typeface.BOLD
-import android.graphics.Typeface.NORMAL
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,17 +43,20 @@ class LockerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
-
         imageSet()
         navToMyPage()
         initAdapter()
         initTab()
-        userInfoNetwork()
     }
 
     override fun onResume() {
         super.onResume()
         isMumentView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        userInfoNetwork()
     }
 
     private fun isMumentView() {
@@ -136,7 +136,7 @@ class LockerFragment : Fragment() {
         }
     }
 
-    fun TextView.setTextBold(isBold: Boolean) {
+    private fun TextView.setTextBold(isBold: Boolean) {
         this.typeface = ResourcesCompat.getFont(this.context,if(isBold) R.font.notosans_semibold else R.font.notosans_medium)
     }
 
