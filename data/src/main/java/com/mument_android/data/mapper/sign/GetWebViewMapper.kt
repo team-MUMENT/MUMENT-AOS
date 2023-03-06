@@ -12,6 +12,7 @@ class GetWebViewMapper : BaseMapper<WebViewDto?, WebViewEntity> {
         contact = from?.contact,
         appInfo = from?.appInfo,
         introduction = from?.introduction,
-        license = from?.license
+        license = from?.license,
+        version = from?.version
     )
 }
