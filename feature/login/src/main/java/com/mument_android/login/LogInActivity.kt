@@ -7,6 +7,9 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
@@ -15,6 +18,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.domain.entity.sign.RequestKakaoData
 import com.mument_android.login.databinding.ActivityLogInBinding
 import com.mument_android.login.util.shortToast
@@ -25,12 +29,14 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
     private val viewModel: LogInViewModel by viewModels()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 
     @Inject
     lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firebaseAnalytics = Firebase.analytics
 
 //        initView()
         initKakaoLogin()
@@ -110,6 +116,16 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
 
     private fun btnKakaoListener() {
         binding.ivKakao.setOnSingleClickListener {
+            viewModel.isExist.observe(this) {
+                if (viewModel.isExist.value == false) {
+                    //카카오 회원가입 누를 때 GA
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "signup_process",
+                        "journey",
+                        "signup_sns_login_kakao"
+                    )
+                }
+            }
             setKakaoBtnListener()
         }
     }

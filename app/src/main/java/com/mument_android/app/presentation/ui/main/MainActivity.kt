@@ -8,9 +8,13 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -28,6 +32,8 @@ import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
@@ -38,6 +44,8 @@ import com.mument_android.home.main.HomeFragment
 import com.mument_android.locker.LockerFragment
 import com.mument_android.record.RecordActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -88,6 +96,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     //floatingBtn 클릭 시 기록하기 뷰로 이동
     private fun floatingBtnListener() {
         binding.floatingActionButton.setOnClickListener {
+            lifecycleScope.launch {
+                if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                    Log.e("최초에", "글쓰기 클릭")
+                    FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_write")
+                    dataStoreManager.writeIsFirst(false)
+                }
+            }
+
+            val navController = findNavController(binding.navHost.id)
+            val currentDestinationId = navController.currentDestination?.id
+            //기록하기 버튼을 누를 때 GA
+            when(currentDestinationId) {
+                2131362133 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_home")
+                2131362286 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_song_detail_page")
+                2131362284 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_mument_detail_page")
+                2131362224 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_storage")
+            }
+
             viewModel.limitUser.observe(this) {
                 if (it.restricted == true) {
                     RestrictUserDialog(this).show(supportFragmentManager, "test")
@@ -179,6 +205,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
                 }
                 R.id.lockerFragment -> {
+                    //보관함 바텀네비 클릭 GA
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "use_storage_tap",
+                        "journey",
+                        "click_storage_tap"
+                    )
+
+                    //앱 최초 접속 시 보관함 클릭 GA
+                    lifecycleScope.launch {
+                        if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                            Log.e("최초에", "보관함 클릭")
+                            FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_storage")
+                            dataStoreManager.writeIsFirst(false)
+                        }
+                    }
+
                     if (checkCurrentFragment() !is LockerFragment) {
                         changeCurrentFragment(R.id.lockerFragment)
                     }

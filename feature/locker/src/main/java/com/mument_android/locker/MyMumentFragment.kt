@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
 import com.mument_android.locker.adapters.LockerTimeAdapter
@@ -58,7 +59,8 @@ class MyMumentFragment : Fragment() {
             binding.ivLockerList.isSelected = true
             binding.ivLockerGrid.isSelected = false
         }
-        lockerViewModel.isMument = true
+
+        lockerViewModel.isMument.value = true
         lockerViewModel.fetchMyMumentList()
     }
 
@@ -112,7 +114,6 @@ class MyMumentFragment : Fragment() {
         }
     }
 
-
     //TODO: 필터 및 아이콘들 비활성화
     private fun initMumentEmpty(size: Int) {
         if (size == 0) {
@@ -132,6 +133,12 @@ class MyMumentFragment : Fragment() {
 
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
+            //보관함 list 형식 아이콘 클릭 GA
+            FirebaseAnalyticsUtil.firebaseLog(
+                "use_grid_my_mument",
+                "journey",
+                "my_mument_list"
+            )
             lockerViewModel.changeIsGridLayout(false)
             binding.ivLockerList.isSelected = true
             binding.ivLockerGrid.isSelected = false
@@ -140,6 +147,12 @@ class MyMumentFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
+            //보관함 grid 형식 아이콘 클릭 GA
+            FirebaseAnalyticsUtil.firebaseLog(
+                "use_grid_my_mument",
+                "journey",
+                "my_mument_grid"
+            )
             lockerViewModel.changeIsGridLayout(true)
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true

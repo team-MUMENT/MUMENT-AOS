@@ -2,6 +2,7 @@ package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import com.angdroid.navigation.HistoryNavigatorProvider
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.detail.history.HistoryActivity

@@ -42,14 +42,17 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun isFirst() {
-
         lifecycleScope.launch {
             if (dataStoreManager.isFirstFlow.firstOrNull() == null) {
                 Log.e("datastore", "onBoarding")
                 val intent = Intent(this@SplashActivity, OnBoardingActivity::class.java)
                 startActivity(intent)
                 finish()
-            } else {
+            }
+            else {
+                if(it == false) {
+                    dataStoreManager.writeIsFirst(true)
+                }
                 viewModel.isExistProfile()
                 viewModel.isExist.observe(this@SplashActivity) { exist ->
                     if (exist) {

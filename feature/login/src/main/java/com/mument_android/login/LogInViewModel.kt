@@ -43,6 +43,7 @@ class LogInViewModel @Inject constructor(
     val accessToken = MutableLiveData<String?>(null)
     val refreshToken = MutableLiveData<String?>(null)
     val userId = MutableLiveData<Int?>(null)
+    val isSignUp = MutableLiveData<Boolean?>(null)
 
     private val _putProfile = MutableLiveData<SetProfileEntity>()
     val putProfile get() :LiveData<SetProfileEntity> = _putProfile

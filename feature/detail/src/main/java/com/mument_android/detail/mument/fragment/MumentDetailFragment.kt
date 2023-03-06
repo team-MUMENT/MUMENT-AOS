@@ -18,6 +18,7 @@ import com.angdroid.navigation.*
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.MUMENT_ID
@@ -28,13 +29,10 @@ import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
-import com.mument_android.core_dependent.util.AutoClearedValue
-import com.mument_android.core_dependent.util.RecyclerviewItemDivider
+import com.mument_android.core_dependent.util.*
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider.Companion.IS_GRIDLAYOUT
 import com.mument_android.core_dependent.util.ViewUtils.applyVisibilityAnimation
 import com.mument_android.core_dependent.util.ViewUtils.showToast
-import com.mument_android.core_dependent.util.removeProgress
-import com.mument_android.core_dependent.util.showProgress
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentMumentDetailBinding
 import com.mument_android.detail.history.HistoryActivity
@@ -381,6 +379,21 @@ class MumentDetailFragment : Fragment() {
     private fun goToHistory() {
         binding.tvGoToHistory.setOnClickListener {
             viewModel.viewState.value.musicInfo?.id?.let { musicId ->
+                //뮤멘트 히스토리 페이지에 진입 경로
+                //내 뮤멘트 일 때
+                if(viewModel.viewState.value.isWriter) {
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "mument_history_view",
+                        "journey",
+                        "from_my_mument_detail"
+                    )
+                } else {
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "mument_history_view",
+                        "journey",
+                        "from_other_mument_detail"
+                    )
+                }
                 viewModel.emitEvent(MumentDetailEvent.OnClickHistory(musicId))
             }
         }
@@ -388,6 +401,12 @@ class MumentDetailFragment : Fragment() {
 
     private fun shareMumentOnInstagram() {
         binding.ivShare.setOnClickListener {
+            //인스타 클릭 GA
+            FirebaseAnalyticsUtil.firebaseLog(
+                "share_instagram",
+                "count",
+                "click_instagram"
+            )
             val (mument, music) =
                 if (checkIfAppInstalled(INSTAGRAM_PACKAGE_NAME)) viewModel.viewState.value.mument to viewModel.viewState.value.musicInfo else null to null
             viewModel.emitEvent(MumentDetailEvent.OnClickShareMument(mument, music))

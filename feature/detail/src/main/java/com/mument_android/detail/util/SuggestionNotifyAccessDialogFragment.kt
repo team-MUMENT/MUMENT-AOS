@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.detail.R
 import com.mument_android.detail.databinding.FragmentSuggestionNotifyAccessBinding
 
@@ -41,14 +43,30 @@ class SuggestionNotifyAccessDialogFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.btnYes.setOnClickListener {
+            //알림 권장 팝업 관련 GA
+            FirebaseAnalyticsUtil.firebaseLog(
+                "noti_popup",
+                "choice",
+                "noti_popup_success"
+            )
             RESULT_CALLBACK(true)
             dismiss()
         }
         binding.ivCancel.setOnClickListener {
+            FirebaseAnalyticsUtil.firebaseLog(
+                "noti_popup",
+                "choice",
+                "noti_popup_delete"
+            )
             RESULT_CALLBACK(false)
             dismiss()
         }
         binding.btnCancel.setOnClickListener {
+            FirebaseAnalyticsUtil.firebaseLog(
+                "noti_popup",
+                "choice",
+                "noti_popup_refuse"
+            )
             RESULT_CALLBACK(false)
             dismiss()
         }

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
@@ -264,7 +266,23 @@ class LockerFilterBottomSheetFragment(
         binding.tvApprove.setOnClickListener {
             selectLayout(lockerFilterViewModel.selectedTags.value ?: listOf())
             completeSelectListener(lockerFilterViewModel.selectedTags.value ?: listOf())
+            useFilterGA()
             dismiss()
+        }
+    }
+
+    private fun useFilterGA() {
+        //보관함 필터를 적용하기 클릭했을 때
+        filterBottomSheetAdapterImpress.selectedTags.let { tags ->
+            val feelingTags = tags.find { it.tagIdx >= 200 }
+            val impressionTags = tags.find { it.tagIdx < 200 }
+            if (feelingTags != null || impressionTags != null) {
+                FirebaseAnalyticsUtil.firebaseLog(
+                    "use_filter",
+                    "journey",
+                    if (feelingTags != null && impressionTags != null) "use_both_filter" else if (feelingTags != null) "use_feeling_filter" else "use_impressive_filter"
+                )
+            }
         }
     }
 

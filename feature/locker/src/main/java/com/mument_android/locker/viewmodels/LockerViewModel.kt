@@ -54,8 +54,8 @@ class LockerViewModel @Inject constructor(
     private val _isLikeGridLayout = MutableStateFlow(false)
     val isLikeGridLayout = _isLikeGridLayout.asStateFlow()
 
-
-    var isMument: Boolean = true
+    val isMument = MutableStateFlow<Boolean>(true)
+    val recentTab = MutableStateFlow<Int>(0)
     var firstTag: Int? = 0
     var secondTag: Int? = 0
     var thirdTag: Int? = 0
