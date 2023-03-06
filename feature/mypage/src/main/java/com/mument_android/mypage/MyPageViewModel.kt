@@ -1,7 +1,5 @@
 package com.mument_android.mypage
 
-import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -121,14 +119,6 @@ class MyPageViewModel @Inject constructor(
                 }
         }
     }
-
-    fun checkBlockUserEmpty(): Boolean {
-//        return _blockUserList.value == null
-        return _blockUserList.value?.data?.size == null
-        Log.e("TEST", "${_blockUserList.value?.data?.size}")
-        //return _blockUserList.value == null
-    }
-
 
     //공지사항
     fun fetchNoticeList() {
