@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mument_android.core_dependent.util.GlobalDiffCallBack
-import com.mument_android.domain.entity.locker.LockerMumentEntity
-import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.BR
+import com.mument_android.domain.entity.locker.LockerMumentEntity
+import com.mument_android.core_dependent.util.GlobalDiffCallBack
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.LikeMumentListener
 import com.mument_android.locker.databinding.ItemLockerDateBinding
 
@@ -38,6 +38,7 @@ class LockerTimeAdapter(
         holder.binding.rvMumentLinear.run {
             if (isGridLayout) {
                 adapter = LockerMumentGridAdapter(isMumentTab = isMumentTab) { mumentId, musicInfo ->
+
                     showDetailListener(mumentId, musicInfo)
                 }.apply {
                     submitList(mumentList.mumentCard)

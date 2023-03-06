@@ -50,7 +50,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                 finish()
             }
             else {
-                if(it == false) {
+                if(dataStoreManager.isFirstFlow.firstOrNull() == false) {
                     dataStoreManager.writeIsFirst(true)
                 }
                 viewModel.isExistProfile()
