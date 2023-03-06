@@ -92,7 +92,7 @@ class MyLikeFragment : Fragment() {
         collectFlowWhenStarted(lockerViewModel.myLikeMuments) { result ->
             Log.e("Collect", "Value??")
             binding.rvLikeLinear.adapter =
-                LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value,
+                LockerTimeAdapter(false,lockerViewModel.isLikeGridLayout.value,
                     showDetailListener = { mumentId, musicInfo ->
                         showMumentDetail(mumentId, musicInfo)
                     }, object : LikeMumentListener {
