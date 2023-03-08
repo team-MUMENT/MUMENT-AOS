@@ -60,6 +60,7 @@ dependencies {
     addLifecycleDependencies()
     addTestDependencies()
     addNetworkDependencies()
+    implementation(ThirdPartyDependencies.fireBaseGA)
     implementation(ThirdPartyDependencies.kakao)
     implementation(ThirdPartyDependencies.fireBaseCloudMessaging)
     implementation(ThirdPartyDependencies.gson)

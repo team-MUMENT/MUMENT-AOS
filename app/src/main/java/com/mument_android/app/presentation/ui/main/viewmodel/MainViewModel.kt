@@ -23,11 +23,12 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
     private val _mumentId = MutableLiveData<String>("")
     val mumentId: LiveData<String> = _mumentId
+
     private val _musicId = MutableLiveData<String>("")
     val musicId: LiveData<String> = _musicId
+
     private val _music = MutableLiveData<Music>()
     val music: LiveData<Music> = _music
-
 
     private val _limitUser = MutableLiveData<LimitUserEntity>()
     val limitUser: LiveData<LimitUserEntity>
@@ -74,7 +75,6 @@ class MainViewModel @Inject constructor(
     fun limitUser() {
         viewModelScope.launch {
             _limitUser.value = limitUserUseCase.invoke()
-            Log.e("TEST", "${_limitUser.value}")
         }
     }
 }

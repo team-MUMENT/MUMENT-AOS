@@ -1,15 +1,16 @@
 package com.mument_android.locker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.angdroid.navigation.MumentDetailNavigatorProvider
-import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
 import com.mument_android.locker.adapters.LockerTimeAdapter
@@ -41,7 +42,6 @@ class MyLikeFragment : Fragment() {
         binding.ivLockerList.isSelected = true
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = lockerViewModel
-
         settingRecyclerView()
         listBtnClickListener()
         gridBtnClickListener()
@@ -58,13 +58,15 @@ class MyLikeFragment : Fragment() {
             binding.ivLockerGrid.isSelected = true
         }
 
-        lockerViewModel.isMument = false
+        lockerViewModel.isMument.value = false
+        lockerViewModel.fetchMyLikeList()
     }
 
     private fun setGridServerConnection() {
         collectFlowWhenStarted(lockerViewModel.isLikeGridLayout) { isLikeGridLayout ->
             binding.rvLikeLinear.run {
                 adapter = LockerTimeAdapter(
+                    false,
                     isLikeGridLayout,
                     showDetailListener = { mumentId, musicInfo ->
                         showMumentDetail(mumentId, musicInfo)
@@ -77,8 +79,9 @@ class MyLikeFragment : Fragment() {
                         override fun cancelLikeMument(mumetId: String) {
                             lockerViewModel.cancelLikeMument(mumetId)
                         }
-                    })
-                (adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
+                    }).apply {
+                    submitList(lockerViewModel.myLikeMuments.value)
+                }
             }
         }
     }
@@ -87,37 +90,28 @@ class MyLikeFragment : Fragment() {
     private fun setMyMumentListAdapter() {
         //setGridServerConnection()
         collectFlowWhenStarted(lockerViewModel.myLikeMuments) { result ->
-            when (result) {
-                is ApiResult.Loading -> {}
-                is ApiResult.Failure -> {}
-                is ApiResult.Success -> {
-                    binding.rvLikeLinear.adapter =
-                        LockerTimeAdapter(lockerViewModel.isLikeGridLayout.value,
-                            showDetailListener = { mumentId, musicInfo ->
-                                showMumentDetail(mumentId, musicInfo)
-                            }, object : LikeMumentListener {
-                                override fun likeMument(mumetId: String) {
-                                    lockerViewModel.likeMument(mumetId)
-                                }
+            Log.e("Collect", "Value??")
+            binding.rvLikeLinear.adapter =
+                LockerTimeAdapter(false,lockerViewModel.isLikeGridLayout.value,
+                    showDetailListener = { mumentId, musicInfo ->
+                        showMumentDetail(mumentId, musicInfo)
+                    }, object : LikeMumentListener {
+                        override fun likeMument(mumetId: String) {
+                            lockerViewModel.likeMument(mumetId)
+                        }
 
-                                override fun cancelLikeMument(mumetId: String) {
-                                    lockerViewModel.cancelLikeMument(mumetId)
-                                }
-                            })
-
-                    initLikeEmpty(result.data?.size ?: 0)
-
-                    (binding.rvLikeLinear.adapter as LockerTimeAdapter).submitList(lockerViewModel.myLikeMuments.value?.data)
+                        override fun cancelLikeMument(mumetId: String) {
+                            lockerViewModel.cancelLikeMument(mumetId)
+                        }
+                    }).apply {
+                    submitList(result)
                 }
-                else -> {}
-            }
-
+            initLikeEmpty(result?.size ?: 0)
         }
-
     }
 
     //좋아요 한 뮤멘트 엠티뷰
-    //TODO: 필터 및 아이콘들 비활성화
+//TODO: 필터 및 아이콘들 비활성화
     private fun initLikeEmpty(size: Int) {
         if (size == 0) {
             if (binding.ivLockerFilter.isSelected) {
@@ -136,6 +130,11 @@ class MyLikeFragment : Fragment() {
 
     private fun listBtnClickListener() {
         binding.ivLockerList.setOnClickListener {
+            FirebaseAnalyticsUtil.firebaseLog(
+                "use_grid_like_mument",
+                "journey",
+                "like_mument_list"
+            )
             lockerViewModel.changeLikeIsGridLayout(false)
             binding.ivLockerList.isSelected = true
             binding.ivLockerGrid.isSelected = false
@@ -145,6 +144,11 @@ class MyLikeFragment : Fragment() {
 
     private fun gridBtnClickListener() {
         binding.ivLockerGrid.setOnClickListener {
+            FirebaseAnalyticsUtil.firebaseLog(
+                "use_grid_like_mument",
+                "journey",
+                "like_mument_grid"
+            )
             lockerViewModel.changeLikeIsGridLayout(true)
             binding.ivLockerList.isSelected = false
             binding.ivLockerGrid.isSelected = true
@@ -163,48 +167,22 @@ class MyLikeFragment : Fragment() {
     }
 
     private fun settingRecyclerView() {
-        removeTag()
-        lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                binding.rvSelectedTags.visibility = View.GONE
-            } else {
-                binding.rvSelectedTags.visibility = View.VISIBLE
-            }
-        }
-    }
-
-
-    private fun removeTag() {
         binding.rvSelectedTags.run {
-            adapter = FilterBottomSheetSelectedAdapter { tag, idx ->
+            adapter = FilterBottomSheetSelectedAdapter { tag, _ ->
                 lockerViewModel.removeLikeCheckedList(tag)
-            }
-
-            lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
-                (adapter as FilterBottomSheetSelectedAdapter).submitList(it)
-                if (it.isEmpty()) {
-                    binding.rvSelectedTags.visibility = View.GONE
-                    binding.ivLockerFilter.isSelected = false
-                } else {
-                    binding.rvSelectedTags.visibility = View.VISIBLE
-                    binding.ivLockerFilter.isSelected = true
-                }
             }
         }
     }
 
     private fun fetchLikes() {
         lockerViewModel.checkedLikeTagList.observe(viewLifecycleOwner) {
+            (binding.rvSelectedTags.adapter as FilterBottomSheetSelectedAdapter).submitList(it)
+            binding.ivLockerFilter.isSelected = it.isNotEmpty()
             lockerViewModel.fetchMyLikeList()
         }
     }
 
-
     private fun showMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
         mumentDetailNavigatorProvider.moveLockerToMumentDetail(mumentId, musicInfo)
-    }
-
-    companion object {
-        const val MUMENT_ID = "MUMENT_ID"
     }
 }

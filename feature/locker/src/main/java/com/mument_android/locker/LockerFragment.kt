@@ -1,10 +1,7 @@
 package com.mument_android.locker
 
 import android.content.Intent
-import android.graphics.Typeface.BOLD
-import android.graphics.Typeface.NORMAL
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,11 +17,13 @@ import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.locker.adapters.LockerTabAdapter
 import com.mument_android.locker.databinding.FragmentLockerBinding
 import com.mument_android.locker.viewmodels.LockerViewModel
 import com.mument_android.mypage.MyPageActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class LockerFragment : Fragment() {
@@ -44,12 +43,10 @@ class LockerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
-
         imageSet()
         navToMyPage()
         initAdapter()
         initTab()
-        userInfoNetwork()
     }
 
     override fun onResume() {
@@ -57,15 +54,26 @@ class LockerFragment : Fragment() {
         isMumentView()
     }
 
+    override fun onStart() {
+        super.onStart()
+        userInfoNetwork()
+    }
+
     private fun isMumentView() {
-        if(!viewModel.isMument) {
+        if(!viewModel.isMument.value) {
+            viewModel.recentTab.value = 1
             binding.vpLocker.doOnPreDraw {
                 binding.vpLocker.currentItem = 1
                 binding.tlLocker.changeTabsFont(1)
             }
-        } else {
+        }
+
+        //Mument일 때
+        else {
+            viewModel.recentTab.value = 0
             binding.tlLocker.changeTabsFont(0)
         }
+
     }
 
     private fun userInfoNetwork() {
@@ -100,6 +108,16 @@ class LockerFragment : Fragment() {
         override fun onTabSelected(tabItem: TabLayout.Tab?) {
             tabItem?.position?.let {
                 binding.tlLocker.changeTabsFont(it)
+                if(tabItem.position == 0) {
+                    viewModel.recentTab.value = 0
+                }
+                if(viewModel.recentTab.value == 0 && tabItem?.position ==1) {
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "use_storage_tap",
+                        "journey",
+                        "click_like_mument"
+                    )
+                }
             }
         }
     }
@@ -118,7 +136,7 @@ class LockerFragment : Fragment() {
         }
     }
 
-    fun TextView.setTextBold(isBold: Boolean) {
+    private fun TextView.setTextBold(isBold: Boolean) {
         this.typeface = ResourcesCompat.getFont(this.context,if(isBold) R.font.notosans_semibold else R.font.notosans_medium)
     }
 

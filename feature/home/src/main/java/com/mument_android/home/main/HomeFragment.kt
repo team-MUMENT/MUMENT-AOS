@@ -6,12 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.angdroid.navigation.MumentDetailNavigatorProvider
@@ -20,10 +22,12 @@ import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.AutoClearedValue
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.domain.entity.home.BannerEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
@@ -38,6 +42,8 @@ import com.mument_android.home.notify.NotifyActivity
 import com.mument_android.home.search.SearchActivity
 import com.mument_android.home.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -47,6 +53,9 @@ class HomeFragment : Fragment() {
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
     private val notifyBroadcastReceiver = NotifyBroadCastReceiver()
+
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
 
     @Inject
     lateinit var musicDetailNavigatorProvider: MusicDetailNavigatorProvider
@@ -105,6 +114,7 @@ class HomeFragment : Fragment() {
         receiveEffect()
         binding.tvSearch.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickSearch)
+
         }
         binding.ivNotify.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickNotification)
@@ -118,6 +128,24 @@ class HomeFragment : Fragment() {
                     )
                 )
             }
+            //홈탭에서 -> 오늘의 뮤멘트 터치
+            FirebaseAnalyticsUtil.firebaseLog(
+                "home_activity_type",
+                "type",
+                "home_todaymu"
+            )
+
+            lifecycleScope.launch {
+                //최초에 홈 큐레이션 클릭 GA
+                if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                    Log.e("최초에", "홈 큐레이션 : 오늘의 뮤멘트")
+                    FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_curation")
+                    dataStoreManager.writeIsFirst(false)
+                }
+            }
+
+            //뮤멘트 상세보기에 진입했을 때 GA
+            FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_home")
         }
         binding.ivLogo.setOnSingleClickListener {
             viewModel.emitEvent(HomeEvent.OnClickLogo)
@@ -132,6 +160,14 @@ class HomeFragment : Fragment() {
                     musicInfoEntity
                 )
             }?.let { event ->
+                lifecycleScope.launch {
+                    //최초에 홈 큐레이션 클릭 GA
+                    if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                        Log.e("최초에", "홈 큐레이션 클릭 : 다시 들은 곡")
+                        FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_curation")
+                        dataStoreManager.writeIsFirst(false)
+                    }
+                }
                 viewModel.emitEvent(
                     event
                 )
@@ -144,6 +180,15 @@ class HomeFragment : Fragment() {
                     musicInfoEntity
                 )
             }?.let { event ->
+                lifecycleScope.launch {
+                    //최초에 홈 큐레이션 클릭 GA
+                    if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                        Log.e("최초에", "홈 큐레이션 클릭 : 인상적인 태그")
+                        FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_curation")
+                        dataStoreManager.writeIsFirst(false)
+                    }
+                }
+
                 viewModel.emitEvent(
                     event
                 )
@@ -188,6 +233,15 @@ class HomeFragment : Fragment() {
                             it.tagTitle.replace("\\n", "\n")
                         )
                     }) { music ->
+                        //최초 접속 시 홈 큐레이션 클릭
+                        lifecycleScope.launch {
+                            if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                                Log.e("최초에", "홈 큐레이션 클릭 : 배너")
+                                FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_curation")
+                                dataStoreManager.writeIsFirst(false)
+                            }
+                        }
+
                         viewModel.emitEvent(HomeEvent.OnClickBanner(music.toMusicInfoEntity()))
                     }
                     setBannerCallBack()
@@ -214,11 +268,32 @@ class HomeFragment : Fragment() {
                             SearchActivity::class.java
                         )
                     )
+                    //홈탭에서 -> 검색 터치
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "home_activity_type",
+                        "type",
+                        "home_search"
+                    )
+
+                    lifecycleScope.launch {
+                        //최초에 검색 클릭 GA
+                        if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
+                            Log.e("최초에", "검색 클릭")
+                            FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_search")
+                            dataStoreManager.writeIsFirst(false)
+                        }
+                    }
                 }
                 is HomeSideEffect.NavToMusicDetail -> {
                     musicDetailNavigatorProvider.fromHomeToMusicDetail(
                         effect.musicInfo,
                         effect.startNav
+                    )
+                    //홈탭에서 -> 추천 곡 터치
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "home_activity_type",
+                        "type",
+                        "home_rec_song"
                     )
                 }
                 is HomeSideEffect.NavToMumentDetail -> {

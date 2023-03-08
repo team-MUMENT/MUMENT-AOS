@@ -46,6 +46,7 @@ dependencies {
     implementation(project(Modules.DOMAIN_MODULE))
     implementation(project(Modules.CORE_MODULE))
     implementation(project(Modules.FEATURE_LOGIN_MODULE))
+    implementation(ThirdPartyDependencies.fireBaseGA)
     implementation(project(Modules.NAVIGATION_MODULE))
     addAndroidXDependencies()
     addTestDependencies()

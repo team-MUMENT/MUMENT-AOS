@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.mument_android.locker.viewmodels.LockerViewModel" />
@@ -62,6 +64,7 @@
             android:orientation="horizontal"
             android:paddingStart="16dp"
             android:paddingEnd="7dp"
+            android:visibility="@{viewModel.checkedTagList.empty?View.GONE:View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +85,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_selected_tags"
-            tools:listitem="@layout/item_mument_image"/>
+            tools:listitem="@layout/item_mument_image" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_empty_view"

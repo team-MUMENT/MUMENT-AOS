@@ -2,18 +2,13 @@ package com.mument_android.detail.mument.activity
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.navigation.fragment.findNavController
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.ViewUtils.hideKeyboard
 import com.mument_android.core_dependent.util.ViewUtils.showToast
-import com.mument_android.detail.R
 import com.mument_android.detail.databinding.ActivityDeclarMumentBinding
-import com.mument_android.detail.mument.contract.MumentDetailContract
-import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import com.mument_android.detail.mument.viewmodel.MumentReportViewModel
 import com.mument_android.domain.entity.detail.ReportRequest
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DeclarMumentActivity :
     BaseActivity<ActivityDeclarMumentBinding>(inflate = ActivityDeclarMumentBinding::inflate) {
-
     private val reportViewModel: MumentReportViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -24,6 +24,7 @@ import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.angdroid.navigation.MypageNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
@@ -184,6 +185,16 @@ class ProfileSettingActivity :
                         viewModel.imageUri.value = uri
                     }
                 }
+
+                val isProfile = intent.getBooleanExtra("isSignUp", true)
+                if (!isProfile) {
+                    //회원가입 시 이미지 설정 여부 GA
+                    FirebaseAnalyticsUtil.firebaseLog(
+                        "signup_process",
+                        "journey",
+                        "signup_profile_img"
+                    )
+                }
             }
         }
     }
@@ -260,8 +271,18 @@ class ProfileSettingActivity :
             if (success) {
                 if (isCheckMypage == 1)
                     finish()
-                else
+                else {
+                    val isProfile = intent.getBooleanExtra("isSignUp", true)
+                    if (!isProfile) {
+                        // 회원가입 성공 GA
+                        FirebaseAnalyticsUtil.firebaseLog(
+                            "signup_process",
+                            "journey",
+                            "signup_success"
+                        )
+                    }
                     moveToMainActivity()
+                }
             }
         }
 
@@ -269,6 +290,15 @@ class ProfileSettingActivity :
             lifecycleScope.launch {
                 nickNameDupNetwork()
                 nickNameDupCheck()
+            }
+            val isProfile = intent.getBooleanExtra("isSignUp", true)
+            if (!isProfile) {
+                //회원가입 시 닉네임 중복 여부 GA
+                FirebaseAnalyticsUtil.firebaseLog(
+                    "signup_process",
+                    "journey",
+                    "signup_duplication_test"
+                )
             }
         }
     }

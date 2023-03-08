@@ -1,19 +1,21 @@
 package com.mument_android.locker.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.mument_android.locker.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
-import com.mument_android.domain.entity.locker.LockerMumentEntity
+import com.mument_android.core_dependent.util.*
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.ImpressiveTag
 import com.mument_android.core_dependent.util.myIsDigitsOnly
+import com.mument_android.domain.entity.locker.LockerMumentEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
+import com.mument_android.locker.BR
 import com.mument_android.locker.LikeMumentListener
 import com.mument_android.locker.databinding.ItemLockerCardBinding
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +24,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 //자식어뎁터
-class LockerMumentLinearAdapter(
+class LockerMumentLinearAdapter (
+    private val isMumentTab: Boolean,
     private val showDetailListener: (String, MusicInfoEntity) -> Unit,
     private val likeMumentListener: LikeMumentListener
 ) : ListAdapter<LockerMumentEntity.MumentLockerCard, LockerMumentLinearAdapter.MumentViewHolder>(
@@ -56,6 +59,12 @@ class LockerMumentLinearAdapter(
 
         likeMument(holder)
         holder.binding.root.setOnClickListener {
+            //뮤멘트 상세보기에 진입했을 때 GA
+            if(isMumentTab) {
+                FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_storage_my_mument")
+            } else {
+                FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_storage_like_mument")
+            }
             getItem(position)?.let { data ->
                 showDetailListener(
                     data._id ?: "",

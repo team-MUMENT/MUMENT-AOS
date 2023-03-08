@@ -60,6 +60,8 @@ dependencies {
     implementation(ThirdPartyDependencies.indicator)
     implementation(ThirdPartyDependencies.coil)
     implementation(ThirdPartyDependencies.lottie)
+    implementation(ThirdPartyDependencies.fireBaseGA)
+    implementation(ThirdPartyDependencies.fireBasePlatform)
     implementation(AndroidXDependencies.coroutines)
     implementation(ThirdPartyDependencies.kakao)
     implementation(project(Modules.DOMAIN_MODULE))

@@ -14,6 +14,7 @@ import com.mument_android.locker.databinding.ItemLockerDateBinding
 
 //부모 어뎁터
 class LockerTimeAdapter(
+    private val isMumentTab : Boolean,
     private val isGridLayout: Boolean,
     private val showDetailListener: (String, MusicInfoEntity) -> Unit,
     private val likeMumentListener: LikeMumentListener
@@ -36,15 +37,16 @@ class LockerTimeAdapter(
         val mumentList = getItem(holder.absoluteAdapterPosition)
         holder.binding.rvMumentLinear.run {
             if (isGridLayout) {
-                adapter = LockerMumentGridAdapter { mumentId, musicInfo ->
+                adapter = LockerMumentGridAdapter(isMumentTab = isMumentTab) { mumentId, musicInfo ->
+
                     showDetailListener(mumentId, musicInfo)
+                }.apply {
+                    submitList(mumentList.mumentCard)
                 }
-                (adapter as LockerMumentGridAdapter).submitList(mumentList.mumentCard)
-                val gridLayoutManager =
-                    GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
-                holder.binding.rvMumentLinear.layoutManager = gridLayoutManager
+                holder.binding.rvMumentLinear.layoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
             } else {
                 adapter = LockerMumentLinearAdapter(
+                    isMumentTab = isMumentTab,
                     showDetailListener = { mumentId, musicInfo ->
                         showDetailListener(mumentId, musicInfo)
                     },
@@ -56,13 +58,12 @@ class LockerTimeAdapter(
                             likeMumentListener.cancelLikeMument(mumetId)
                         }
                     }
-                ).also {
+                ).apply {
+                    submitList(mumentList.mumentCard)
                     if (mumentList.isOther == true) {
-                        it.isOther = true
+                        isOther = true
                     }
                 }
-
-                (adapter as LockerMumentLinearAdapter).submitList(mumentList.mumentCard)
             }
         }
     }

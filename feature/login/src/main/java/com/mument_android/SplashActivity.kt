@@ -6,18 +6,17 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.core_dependent.ext.collectFlow
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.login.LogInActivity
 import com.mument_android.login.LogInViewModel
 import com.mument_android.login.databinding.ActivitySplashBinding
 import com.mument_android.onboarding.OnBoardingActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,21 +42,24 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun isFirst() {
-        collectFlowWhenStarted(dataStoreManager.isFirstFlow) {
-            Log.e("datastore", "$it")
-            if (it == null) {
+        lifecycleScope.launch {
+            if (dataStoreManager.isFirstFlow.firstOrNull() == null) {
                 Log.e("datastore", "onBoarding")
-                val intent = Intent(this, OnBoardingActivity::class.java)
+                val intent = Intent(this@SplashActivity, OnBoardingActivity::class.java)
                 startActivity(intent)
                 finish()
-            } else {
+            }
+            else {
+                if(dataStoreManager.isFirstFlow.firstOrNull() == false) {
+                    dataStoreManager.writeIsFirst(true)
+                }
                 viewModel.isExistProfile()
-                viewModel.isExist.observe(this) { exist ->
+                viewModel.isExist.observe(this@SplashActivity) { exist ->
                     if (exist) {
                         moveToMainActivity()
                         finish()
                     } else {
-                        val intent = Intent(this, LogInActivity::class.java)
+                        val intent = Intent(this@SplashActivity, LogInActivity::class.java)
                         startActivity(intent)
                         finish()
                     }
@@ -69,7 +71,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     private fun moveToMainActivity() {
         mainHomeNavigatorProvider.profileSettingToMain()
     }
-
 
     companion object {
         private const val DURATION: Long = 1200

@@ -28,6 +28,7 @@ import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.EmotionalTag
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ImpressiveTag
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
@@ -122,6 +123,7 @@ class RecordActivity :
                 override fun addCheckedTag(tag: TagEntity) {
                     recordViewModel.addCheckedList(tag)
                     rvImpressionTagsAdapter.selectedTags.add(tag)
+
                 }
 
                 override fun removeCheckedTag(tag: TagEntity) {
@@ -402,6 +404,7 @@ class RecordActivity :
                     .setHeader(getString(R.string.record_delete_header))
                     .setBody(getString(R.string.record_delete_body))
                     .setAllowListener("확인") {
+                        recordProcessGA()
                         onBackPressed()
                     }
                     .setCancelListener {}
@@ -410,6 +413,29 @@ class RecordActivity :
             }
         }
     }
+
+    //기록하기 퍼널 분석 및 이탈 과정 파악 GA
+    private fun recordProcessGA() {
+        val recordProcessGA = mutableListOf<String>()
+        recordViewModel.checkedTagList.value?.let { tags ->
+            tags.filter { it.tagIdx >= 200 }.find { recordProcessGA.add("select_feeling") }
+            tags.filter { it.tagIdx < 200 }.find { recordProcessGA.add("select_impressive") }
+        }
+        if (recordViewModel.selectedMusic.value != null) {
+            recordProcessGA.add("select_music")
+        }
+        if (binding.etRecordWrite.text.toString().length > 9) {
+            recordProcessGA.add("write_text")
+        }
+
+        FirebaseAnalyticsUtil.firebaseLog(
+            "write_process",
+            "journey",
+            recordProcessGA.joinToString()
+        )
+        recordProcessGA.clear()
+    }
+
 
     //곡에서 x버튼 클릭 리스너
     private fun isClickDelete() {
