@@ -172,6 +172,11 @@ class MyPageViewModel @Inject constructor(
                         isUnregisterSuccess.value = false
                     }.collect {
                         isUnregisterSuccess.value = it
+                    }.also {
+                        viewModelScope.launch {
+                            dataStoreManager.removeKaKaoToken()
+                        }
+                        deleteInfo()
                     }
                 }
             }
