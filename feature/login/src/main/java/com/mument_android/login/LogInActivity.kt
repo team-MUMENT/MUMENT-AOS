@@ -101,7 +101,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     }
 
     private fun initKakaoLogin() {
-        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d" // Local Property에 있는거랑 무슨 차이가 있는건가용
+        val kakaoAppKey = BuildConfig.KAKAO_NATIVE_KEY
         KakaoSdk.init(this, kakaoAppKey)
     }
 
