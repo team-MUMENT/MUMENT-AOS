@@ -151,13 +151,12 @@ class UnregisterFragment : Fragment() {
     //회원탈퇴 버튼 눌렀을 때
     private fun unregisterFinish() {
         binding.btnUnregisterFinish.setOnClickListener {
-            myPageViewModel.postUnregisterReason()
+            //myPageViewModel.postUnregisterReason()
         }
         myPageViewModel.isUnregisterSuccess.observe(viewLifecycleOwner) {
             if (it) {
                 myPageViewModel.deleteInfo()
                 requireActivity().finish()
-                //TODO : 다시 들어왔을 때 홈으로 이동시켜야하는데 보관함으로 가있습니다... 해결방법.. 알려주세요...
                 startActivity(Intent(requireActivity(), LogInActivity::class.java))
             } else {
                 Log.e("unregisterFinish()", "회원탈퇴 실패")
@@ -171,9 +170,5 @@ class UnregisterFragment : Fragment() {
         }
     }
 
-    private fun moveToMainActivity() {
-        //quitMainNavigatorProvider
-       // mainHomeNavigatorProvider.profileSettingToMain()
-    }
 }
 
