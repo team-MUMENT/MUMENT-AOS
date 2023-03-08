@@ -171,7 +171,7 @@ class UnregisterFragment : Fragment() {
                 myPageViewModel.deleteInfo()
                 requireActivity().finish()
                 quitMainNavigatorProvider.quitMument()
-                startActivity(Intent(requireActivity(), LogInActivity::class.java))
+                //startActivity(Intent(requireActivity(), LogInActivity::class.java))
             } else {
                 Log.e("unregisterFinish()", "회원탈퇴 실패")
             }
