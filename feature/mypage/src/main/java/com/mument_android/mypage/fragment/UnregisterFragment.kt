@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.core.view.isEmpty
 import androidx.fragment.app.viewModels
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.hideKeyboard
 import com.mument_android.login.LogInActivity
@@ -25,6 +26,9 @@ import javax.inject.Inject
 class UnregisterFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentUnregisterBinding>()
     private val myPageViewModel: MyPageViewModel by viewModels()
+
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -151,7 +155,8 @@ class UnregisterFragment : Fragment() {
     //회원탈퇴 버튼 눌렀을 때
     private fun unregisterFinish() {
         binding.btnUnregisterFinish.setOnClickListener {
-            //myPageViewModel.postUnregisterReason()
+            Log.e("맞지", "${dataStoreManager.kakaoTokenFlow.toString()}")
+            myPageViewModel.postUnregisterReason(dataStoreManager.kakaoTokenFlow.toString())
         }
         myPageViewModel.isUnregisterSuccess.observe(viewLifecycleOwner) {
             if (it) {

@@ -26,6 +26,10 @@ class DataStoreManager(
         writeData(REFRESH_TOKEN_KEY, refreshToken)
     }
 
+    suspend fun writeKaKaoToken(kakaoToken: String) {
+        writeData(KAKAO_TOKEN_KEY, kakaoToken)
+    }
+
     suspend fun removeUserId() {
         deleteData(USER_ID)
     }
@@ -36,6 +40,10 @@ class DataStoreManager(
 
     suspend fun removeRefreshToken() {
         deleteData(REFRESH_TOKEN_KEY)
+    }
+
+    suspend fun removeKaKaoToken() {
+        deleteData(KAKAO_TOKEN_KEY)
     }
 
     private suspend fun <T> writeData(key: Preferences.Key<T>, value: T) {
@@ -55,6 +63,17 @@ class DataStoreManager(
     suspend fun writeIsFirst(isFirst: Boolean) {
         writeData(IS_FIRST, isFirst)
     }
+
+    val kakaoTokenFlow: Flow<String?> = context.datastore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map {
+            it[KAKAO_TOKEN_KEY]
+        }
 
     val accessTokenFlow: Flow<String?> = context.datastore.data
         .catch { exception ->
@@ -105,6 +124,7 @@ class DataStoreManager(
         val USER_ID = stringPreferencesKey("USER_ID")
         val ACCESS_TOKEN_KEY = stringPreferencesKey("ACCESS_TOKEN")
         val REFRESH_TOKEN_KEY = stringPreferencesKey("REFRESH_TOKEN")
+        val KAKAO_TOKEN_KEY = stringPreferencesKey("KAKAO_TOKEN")
         val IS_FIRST = booleanPreferencesKey("IS_FIRST")
     }
 }
