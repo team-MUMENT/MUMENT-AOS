@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isEmpty
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.angdroid.navigation.QuitMainNavigatorProvider
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.hideKeyboard
@@ -32,6 +33,9 @@ class UnregisterFragment : Fragment() {
 
     @Inject
     lateinit var dataStoreManager: DataStoreManager
+
+    @Inject
+    lateinit var quitMainNavigatorProvider: QuitMainNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -160,13 +164,13 @@ class UnregisterFragment : Fragment() {
         binding.btnUnregisterFinish.setOnClickListener {
             lifecycleScope.launch {
                 myPageViewModel.postUnregisterReason(dataStoreManager.kakaoTokenFlow.firstOrNull() ?: "")
-
             }
         }
         myPageViewModel.isUnregisterSuccess.observe(viewLifecycleOwner) {
             if (it) {
                 myPageViewModel.deleteInfo()
                 requireActivity().finish()
+                quitMainNavigatorProvider.quitMument()
                 startActivity(Intent(requireActivity(), LogInActivity::class.java))
             } else {
                 Log.e("unregisterFinish()", "회원탈퇴 실패")

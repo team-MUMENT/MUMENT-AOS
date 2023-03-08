@@ -155,7 +155,7 @@ class MyPageViewModel @Inject constructor(
     }
 
     //회원탈퇴
-    fun postUnregisterReason(socialToken : String) {
+    fun postUnregisterReason(socialToken: String) {
         viewModelScope.launch {
             val reasonEntity = RequestUnregisterReasonEntity(
                 leaveCategoryId = unregisterReasonIndex.value ?: 0,
@@ -172,11 +172,9 @@ class MyPageViewModel @Inject constructor(
                         isUnregisterSuccess.value = false
                     }.collect {
                         isUnregisterSuccess.value = it
-                    }.also {
-                        viewModelScope.launch {
+                        if (it) {
                             dataStoreManager.removeKaKaoToken()
                         }
-                        deleteInfo()
                     }
                 }
             }
