@@ -26,6 +26,10 @@ class DataStoreManager(
         writeData(REFRESH_TOKEN_KEY, refreshToken)
     }
 
+    suspend fun writeAdminList(adminList: String) {
+        writeData(ADMIN_USER_LIST_KEY, adminList)
+    }
+
     suspend fun removeUserId() {
         deleteData(USER_ID)
     }
