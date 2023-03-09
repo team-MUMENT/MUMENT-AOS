@@ -101,10 +101,24 @@ class DataStoreManager(
             it[IS_FIRST]
         }
 
+
+    val adminUserList: Flow<List<String>?> = context.datastore.data
+        .catch { exception ->
+            // handle exception here
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map {
+            it[ADMIN_USER_LIST_KEY]?.split(" ")
+        }
+
     companion object {
         val USER_ID = stringPreferencesKey("USER_ID")
         val ACCESS_TOKEN_KEY = stringPreferencesKey("ACCESS_TOKEN")
         val REFRESH_TOKEN_KEY = stringPreferencesKey("REFRESH_TOKEN")
+        val ADMIN_USER_LIST_KEY = stringPreferencesKey("ADMIN_USER_LIST_KEY")
         val IS_FIRST = booleanPreferencesKey("IS_FIRST")
     }
 }
