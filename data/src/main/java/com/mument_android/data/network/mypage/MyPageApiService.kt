@@ -31,8 +31,9 @@ interface MyPageApiService {
     @GET("/user/profile")
     suspend fun getUserInfo() : BaseResponse<UserInfoDto>
 
-    @DELETE("/user")
+    @POST("/user/leave")
     suspend fun fetchUnregisterInfo(
+        @Body requestUnregisterDto: RequestUnregisterDto
     ) :BaseResponse<UnregisterDto>
 
     @POST("/user/leave-category")

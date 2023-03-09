@@ -221,4 +221,9 @@ object MapperModule {
     @Singleton
     fun provideMumentModifyMapper(): MumentModifyMapper =
         MumentModifyMapper()
+
+    @Provides
+    @Singleton
+    fun provideRequestUnregisterMapper() : RequestUnregisterMapper =
+        RequestUnregisterMapper()
 }

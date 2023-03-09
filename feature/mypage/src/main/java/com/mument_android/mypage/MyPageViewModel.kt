@@ -6,10 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.domain.entity.mypage.BlockUserEntity
-import com.mument_android.domain.entity.mypage.NoticeListEntity
-import com.mument_android.domain.entity.mypage.RequestUnregisterReasonEntity
-import com.mument_android.domain.entity.mypage.UserInfoEntity
+import com.mument_android.domain.entity.mypage.*
 import com.mument_android.domain.entity.sign.WebViewEntity
 import com.mument_android.domain.usecase.mypage.*
 import com.mument_android.domain.usecase.sign.GetWebViewUseCase
@@ -148,20 +145,26 @@ class MyPageViewModel @Inject constructor(
     }
 
     //회원탈퇴
-    fun postUnregisterReason() {
+    fun postUnregisterReason(socialToken: String) {
         viewModelScope.launch {
             val reasonEntity = RequestUnregisterReasonEntity(
                 leaveCategoryId = unregisterReasonIndex.value ?: 0,
                 reasonEtc = unregisterReasonContent.value ?: ""
             )
+            val requestUnregisterEntity = RequestUnregisterEntity(
+                socialToken = socialToken
+            )
             postUnregisterReasonUseCase.invoke(reasonEntity).catch {
                 isUnregisterSuccess.value = false
             }.collect { apiResult ->
                 if (apiResult) {
-                    fetchUnregisterInfoUseCase.invoke().catch {
+                    fetchUnregisterInfoUseCase.invoke(requestUnregisterEntity).catch {
                         isUnregisterSuccess.value = false
                     }.collect {
                         isUnregisterSuccess.value = it
+                        if (it) {
+                            dataStoreManager.removeKaKaoToken()
+                        }
                     }
                 }
             }

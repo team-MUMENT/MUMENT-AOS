@@ -11,6 +11,9 @@ import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.core.view.isEmpty
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.angdroid.navigation.QuitMainNavigatorProvider
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.hideKeyboard
 import com.mument_android.login.LogInActivity
@@ -19,12 +22,20 @@ import com.mument_android.mypage.R
 import com.mument_android.mypage.databinding.FragmentUnregisterBinding
 import com.mument_android.mypage.util.UnregisterReason
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class UnregisterFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentUnregisterBinding>()
     private val myPageViewModel: MyPageViewModel by viewModels()
+
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
+
+    @Inject
+    lateinit var quitMainNavigatorProvider: QuitMainNavigatorProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -151,14 +162,16 @@ class UnregisterFragment : Fragment() {
     //회원탈퇴 버튼 눌렀을 때
     private fun unregisterFinish() {
         binding.btnUnregisterFinish.setOnClickListener {
-            myPageViewModel.postUnregisterReason()
+            lifecycleScope.launch {
+                myPageViewModel.postUnregisterReason(dataStoreManager.kakaoTokenFlow.firstOrNull() ?: "")
+            }
         }
         myPageViewModel.isUnregisterSuccess.observe(viewLifecycleOwner) {
             if (it) {
                 myPageViewModel.deleteInfo()
                 requireActivity().finish()
-                //TODO : 다시 들어왔을 때 홈으로 이동시켜야하는데 보관함으로 가있습니다... 해결방법.. 알려주세요...
-                startActivity(Intent(requireActivity(), LogInActivity::class.java))
+                quitMainNavigatorProvider.quitMument()
+                //startActivity(Intent(requireActivity(), LogInActivity::class.java))
             } else {
                 Log.e("unregisterFinish()", "회원탈퇴 실패")
             }
@@ -171,9 +184,5 @@ class UnregisterFragment : Fragment() {
         }
     }
 
-    private fun moveToMainActivity() {
-        //quitMainNavigatorProvider
-       // mainHomeNavigatorProvider.profileSettingToMain()
-    }
 }
 

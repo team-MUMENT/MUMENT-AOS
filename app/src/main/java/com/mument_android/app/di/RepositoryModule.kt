@@ -225,7 +225,7 @@ object RepositoryModule {
     fun provideUnregisterRepository(
         unregisterDataSource: UnregisterDataSource,
         userLocalDataSource: UserLocalDataSource,
-        unregisterMapper: UnregisterMapper
+        unregisterMapper: RequestUnregisterMapper
     ): UnregisterRepository = UnregisterRepositoryImpl(
         unregisterDataSource, userLocalDataSource, unregisterMapper
     )
