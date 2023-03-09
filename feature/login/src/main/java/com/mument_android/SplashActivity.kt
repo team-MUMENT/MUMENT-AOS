@@ -10,11 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.login.LogInActivity
 import com.mument_android.login.LogInViewModel
 import com.mument_android.login.databinding.ActivitySplashBinding
 import com.mument_android.onboarding.OnBoardingActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -48,17 +50,17 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                 val intent = Intent(this@SplashActivity, OnBoardingActivity::class.java)
                 startActivity(intent)
                 finish()
-            }
-            else {
-                if(dataStoreManager.isFirstFlow.firstOrNull() == false) {
+            } else {
+                if (dataStoreManager.isFirstFlow.firstOrNull() == false) {
                     dataStoreManager.writeIsFirst(true)
                 }
                 viewModel.isExistProfile()
-                viewModel.isExist.observe(this@SplashActivity) { exist ->
-                    if (exist) {
+                viewModel.isExist.collectLatest { exist ->
+                    Log.e("Why?", exist.toString())
+                    if (exist == true) {
                         moveToMainActivity()
                         finish()
-                    } else {
+                    } else if(exist == false){
                         val intent = Intent(this@SplashActivity, LogInActivity::class.java)
                         startActivity(intent)
                         finish()

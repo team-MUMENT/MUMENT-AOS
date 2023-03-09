@@ -13,6 +13,8 @@ import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
 import com.mument_android.domain.usecase.sign.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -60,8 +62,8 @@ class LogInViewModel @Inject constructor(
     private val _newToken = MutableLiveData<NewTokenEntity>()
     val newToken get() : LiveData<NewTokenEntity> = _newToken
 
-    private val _isExist = MutableLiveData<Boolean>()
-    val isExist get() : LiveData<Boolean> = _isExist
+    private val _isExist = MutableStateFlow<Boolean?>(null)
+    val isExist get() = _isExist.asStateFlow()
 
     val isSuccess = MutableStateFlow<Boolean>(false)
 
