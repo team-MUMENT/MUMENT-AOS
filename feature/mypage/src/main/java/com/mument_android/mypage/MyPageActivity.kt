@@ -10,7 +10,6 @@ import com.angdroid.navigation.QuitMainNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
-import com.mument_android.login.LogInActivity
 import com.mument_android.login.ProfileSettingActivity
 import com.mument_android.mypage.databinding.ActivityMyPageBinding
 import com.mument_android.mypage.fragment.AlarmSettingFragment
@@ -54,6 +53,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         logoutBtnListener()
         moveUnregister()
         userInfoNetwork()
+        getVersionInfo()
         backBtnEvent()
     }
 
@@ -189,6 +189,21 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                     "OS : " + Build.MODEL + "\n"
         )
         startActivity(email)
+    }
+
+    private fun getVersionInfo() {
+        val presentVersionInfo = packageManager.getPackageInfo(packageName, 0)
+        myPageViewModel.getWebView("version")
+        myPageViewModel.getWebViewEntity.observe(this) {
+            val recentVersionInfo = it.version.toString()
+            binding.tvMyPageVersionInfo.text = String.format(
+                getString(
+                    R.string.my_page_version_info,
+                    presentVersionInfo.versionName,
+                    recentVersionInfo
+                )
+            )
+        }
     }
 
     private fun moveToMainActivity() {
