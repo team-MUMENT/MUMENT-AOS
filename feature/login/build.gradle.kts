@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     id("com.android.library")
@@ -22,6 +23,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String","KAKAO_NATIVE_KEY", properties["KAKAO_NATIVE_KEY"] as String)
+        manifestPlaceholders["kakaokey"] = getApiKey("KAKAO_NATIVE_KEY")
     }
 
     buildTypes {
@@ -48,6 +50,12 @@ android {
         dataBinding = true
         viewBinding = true
     }
+
+}
+
+
+fun getApiKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir).getProperty(propertyKey)
 }
 
 dependencies {

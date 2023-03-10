@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -18,18 +19,22 @@ import com.kakao.sdk.user.UserApiClient
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.domain.entity.sign.RequestKakaoData
 import com.mument_android.login.databinding.ActivityLogInBinding
 import com.mument_android.login.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::inflate) {
     private val viewModel: LogInViewModel by viewModels()
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 
@@ -97,7 +102,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     }
 
     private fun initKakaoLogin() {
-        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d" // Local Property에 있는거랑 무슨 차이가 있는건가용
+        val kakaoAppKey = BuildConfig.KAKAO_NATIVE_KEY
         KakaoSdk.init(this, kakaoAppKey)
     }
 
@@ -129,7 +134,12 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                 getErrorLog(error)
             } else if (token != null && viewModel.fcmToken.value != null) {
                 UserApiClient.instance.me { _, error ->
-                    Log.e("kakao access token :", token.accessToken)
+
+                    lifecycleScope.launch {
+                        dataStoreManager.writeKaKaoToken(token.accessToken)
+                        Log.e("kakao access token :", token.accessToken)
+                    }
+
                     val requestKakaoData = RequestKakaoData(
                         "kakao",
                         token.accessToken,
