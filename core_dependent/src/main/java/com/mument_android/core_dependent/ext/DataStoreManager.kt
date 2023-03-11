@@ -26,6 +26,9 @@ class DataStoreManager(
         writeData(REFRESH_TOKEN_KEY, refreshToken)
     }
 
+    suspend fun writeAdminList(adminList: String) {
+        writeData(ADMIN_USER_LIST_KEY, adminList)
+    }
     suspend fun writeKaKaoToken(kakaoToken: String) {
         writeData(KAKAO_TOKEN_KEY, kakaoToken)
     }
@@ -120,10 +123,24 @@ class DataStoreManager(
             it[IS_FIRST]
         }
 
+
+    val adminUserList: Flow<List<String>?> = context.datastore.data
+        .catch { exception ->
+            // handle exception here
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map {
+            it[ADMIN_USER_LIST_KEY]?.split(" ")
+        }
+
     companion object {
         val USER_ID = stringPreferencesKey("USER_ID")
         val ACCESS_TOKEN_KEY = stringPreferencesKey("ACCESS_TOKEN")
         val REFRESH_TOKEN_KEY = stringPreferencesKey("REFRESH_TOKEN")
+        val ADMIN_USER_LIST_KEY = stringPreferencesKey("ADMIN_USER_LIST_KEY")
         val KAKAO_TOKEN_KEY = stringPreferencesKey("KAKAO_TOKEN")
         val IS_FIRST = booleanPreferencesKey("IS_FIRST")
     }

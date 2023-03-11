@@ -1,5 +1,6 @@
 package com.mument_android.app.di
 
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.data.controller.*
 import com.mument_android.data.datasource.app.LimitUserDataSource
 import com.mument_android.data.datasource.detail.*
@@ -113,7 +114,8 @@ object RepositoryModule {
         homeDataSource: HomeDataSource,
         randomMumentMapper: RandomMumentMapper,
         homeTodayMumentMapper: HomeTodayMumentMapper,
-        recentSearchDataMapper: RecentSearchDataMapper
+        recentSearchDataMapper: RecentSearchDataMapper,
+        dataStoreManager: DataStoreManager
     ): HomeRepository = HomeRepositoryImpl(
         todayMumentDataSource,
         recentSearchListDataSource,
@@ -121,7 +123,8 @@ object RepositoryModule {
         homeDataSource,
         randomMumentMapper,
         homeTodayMumentMapper,
-        recentSearchDataMapper
+        recentSearchDataMapper,
+        dataStoreManager
     )
 
     @Provides

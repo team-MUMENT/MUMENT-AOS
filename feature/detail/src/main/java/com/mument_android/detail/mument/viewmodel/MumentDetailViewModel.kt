@@ -1,6 +1,5 @@
 package com.mument_android.detail.mument.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiStatus
 import com.mument_android.core.network.ErrorMessage
@@ -16,8 +15,10 @@ import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
 import com.mument_android.domain.usecase.main.LikeMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -33,6 +34,7 @@ class MumentDetailViewModel @Inject constructor(
     private val dataStoreManager: DataStoreManager
 ) : MviViewModel<MumentDetailEvent, MumentDetailViewState, MumentDetailSideEffect>() {
     private var mumentId: String? = null
+    val isAdmin = MutableStateFlow<Boolean>(false)
     override fun setInitialState(): MumentDetailViewState = MumentDetailViewState()
 
     override fun handleEvents(event: MumentDetailEvent) {
@@ -64,9 +66,17 @@ class MumentDetailViewModel @Inject constructor(
 
             MumentDetailEvent.SelectBlockUserType -> setEffect { MumentDetailSideEffect.OpenBlockUserDialog }
             MumentDetailEvent.SelectMumentDeletionType -> setEffect { MumentDetailSideEffect.OpenDeleteMumentDialog }
-            MumentDetailEvent.SelectReportMumentType -> setEffect { MumentDetailSideEffect.NavToReportMument(viewState.value.requestMumentId) }
-            MumentDetailEvent.OnClickBlockUser -> { blockUser() }
-            MumentDetailEvent.OnClickBlockUser -> { blockUser() }
+            MumentDetailEvent.SelectReportMumentType -> setEffect {
+                MumentDetailSideEffect.NavToReportMument(
+                    viewState.value.requestMumentId
+                )
+            }
+            MumentDetailEvent.OnClickBlockUser -> {
+                blockUser()
+            }
+            MumentDetailEvent.OnClickBlockUser -> {
+                blockUser()
+            }
 
             is MumentDetailEvent.SelectMumentEditType -> setEffect {
                 MumentDetailSideEffect.NavToEditMument(
@@ -80,8 +90,16 @@ class MumentDetailViewModel @Inject constructor(
             MumentDetailEvent.OnClickLikeMument -> likeMument()
             MumentDetailEvent.OnClickUnLikeMument -> cancelLikeMument()
 
-            is MumentDetailEvent.OnClickAlum -> setEffect { MumentDetailSideEffect.NavToMusicDetail(event.music) }
-            is MumentDetailEvent.OnClickHistory -> setEffect { MumentDetailSideEffect.NavToMumentHistory(event.musicId) }
+            is MumentDetailEvent.OnClickAlum -> setEffect {
+                MumentDetailSideEffect.NavToMusicDetail(
+                    event.music
+                )
+            }
+            is MumentDetailEvent.OnClickHistory -> setEffect {
+                MumentDetailSideEffect.NavToMumentHistory(
+                    event.musicId
+                )
+            }
             is MumentDetailEvent.OnClickShareMument -> {
                 event.mumentEntity?.let { mument ->
                     event.musicInfo?.let { music ->
@@ -147,6 +165,7 @@ class MumentDetailViewModel @Inject constructor(
 
     private fun fetchMumentDetailContent(mumentId: String) {
         viewModelScope.launch {
+            checkIsAdmin(mumentId)
             fetchMumentDetailContentUseCase(mumentId).collect { status ->
                 when (status) {
                     ApiStatus.Loading -> {
@@ -177,6 +196,11 @@ class MumentDetailViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private suspend fun checkIsAdmin(mumentId: String) {
+        isAdmin.value = dataStoreManager.adminUserList.firstOrNull()
+            ?.any { it == mumentId } ?: false
     }
 
     private fun disableFetchData() {

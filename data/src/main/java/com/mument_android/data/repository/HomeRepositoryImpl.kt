@@ -1,10 +1,12 @@
 package com.mument_android.data.repository
 
 import android.util.Log
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.data.datasource.home.HomeDataSource
 import com.mument_android.data.datasource.home.LocalRecentSearchListDataSource
 import com.mument_android.data.datasource.home.LocalTodayMumentDataSource
 import com.mument_android.data.datasource.home.RemoteSearchListDataSource
+import com.mument_android.data.dto.home.Exist
 import com.mument_android.data.local.recentlist.RecentSearchDataEntity
 import com.mument_android.data.mapper.home.HomeTodayMumentMapper
 import com.mument_android.data.mapper.home.RandomMumentMapper
@@ -27,7 +29,8 @@ class HomeRepositoryImpl @Inject constructor(
     private val homeDataSource: HomeDataSource,
     private val randomMumentMapper: RandomMumentMapper,
     private val todayMumentMapper: HomeTodayMumentMapper,
-    private val recentSearchDataMapper: RecentSearchDataMapper
+    private val recentSearchDataMapper: RecentSearchDataMapper,
+    private val dataStoreManager: DataStoreManager
 ) : HomeRepository {
     // Remote
     override suspend fun searchList(keyword: String): List<RecentSearchData>? =
@@ -121,7 +124,13 @@ class HomeRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun fetchExistNotifyList(): Boolean? = homeDataSource.fetchExistNotifyList()
+    override suspend fun fetchExistNotifyList(): Boolean? =
+        homeDataSource.fetchExistNotifyList()?.run {
+            if (officialIdList.isNotEmpty()) {
+                dataStoreManager.writeAdminList(officialIdList.joinToString(" "))
+            }
+            this.exist
+        }
 
     override suspend fun fetchProfileExist(): Boolean? = homeDataSource.fetchProfileExist()
 

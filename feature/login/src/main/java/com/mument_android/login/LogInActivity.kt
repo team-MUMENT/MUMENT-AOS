@@ -18,6 +18,7 @@ import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.base.WebViewActivity
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
@@ -121,16 +122,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
 
     private fun btnKakaoListener() {
         binding.ivKakao.setOnSingleClickListener {
-            viewModel.isExist.observe(this) {
-                if (viewModel.isExist.value == false) {
-                    //카카오 회원가입 누를 때 GA
-                    FirebaseAnalyticsUtil.firebaseLog(
-                        "signup_process",
-                        "journey",
-                        "signup_sns_login_kakao"
-                    )
-                }
-            }
             setKakaoBtnListener()
         }
     }
@@ -155,12 +146,18 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                         viewModel.fcmToken.value!!
                     )
                     viewModel.kakaoLogin(requestKakaoData)
-                    viewModel.isExist.observe(this) {
+                    collectFlowWhenStarted(viewModel.isExist){
                         Log.e("isExist", it.toString())
-                        if (it) {
+                        if (it==true) {
                             Log.e("isExist True", it.toString())
                             moveToMainActivity()
-                        } else if (!it) {
+                        } else if (it==false) {
+                            //카카오 회원가입 누를 때 GA
+                            FirebaseAnalyticsUtil.firebaseLog(
+                                "signup_process",
+                                "journey",
+                                "signup_sns_login_kakao"
+                            )
                             Log.e("isExist False", it.toString())
                             startActivity(Intent(this, ProfileSettingActivity::class.java))
                         }
