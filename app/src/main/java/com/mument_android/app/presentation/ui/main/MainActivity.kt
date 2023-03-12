@@ -1,7 +1,9 @@
 package com.mument_android.app.presentation.ui.main
 
+import android.Manifest
 import android.content.Intent
 import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -68,21 +70,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         customAppBar()
         isLimitUserNetwork()
         isRestrictUser()
+        checkNotificationPermissions()
+    }
 
-//        intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
-//            intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
-//                val bundle = Bundle().also { bundle ->
-//                    bundle.putString(MUMENT_ID, mumentId)
-//                    bundle.putString(MUSIC_INFO_ENTITY, music)
-//                    intent.getStringExtra(START_NAV_KEY)?.let {
-//                        bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
-//                    }
-//                }
-//                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
-//            } ?: navController.navigate(
-//                R.id.action_homeFragment_to_musicDetailFragment,
-//                Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
-//        }
+    private fun checkNotificationPermissions() {
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+            requestNotificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+    private val requestNotificationLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+
     }
 
     //appbar 상단 모서리 radius값 추가
