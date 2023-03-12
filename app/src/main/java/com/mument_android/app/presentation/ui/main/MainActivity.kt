@@ -68,7 +68,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initNavigation()
         floatingBtnListener()
         customAppBar()
-        isLimitUserNetwork()
         isRestrictUser()
         checkNotificationPermissions()
     }
@@ -187,9 +186,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun isLimitUserNetwork() {
-        viewModel.limitUser()
-    }
 
     private fun initNavigation() {
         binding.navBar.background = null

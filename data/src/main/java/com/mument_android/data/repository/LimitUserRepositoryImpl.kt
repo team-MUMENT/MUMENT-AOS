@@ -10,7 +10,7 @@ class LimitUserRepositoryImpl @Inject constructor(
     private val limitUserDataSource: LimitUserDataSource,
     private val limitUserMapper: LimitUserMapper
 ): LimitUserRepository {
-    override suspend fun limitUser(): LimitUserEntity? {
+    override suspend fun limitUser(): LimitUserEntity {
         limitUserDataSource.limitUser().let {
             return limitUserMapper.map(it)
         }

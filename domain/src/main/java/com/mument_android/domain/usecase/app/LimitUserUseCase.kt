@@ -5,5 +5,5 @@ import com.mument_android.domain.entity.mypage.NoticeListEntity
 import kotlinx.coroutines.flow.Flow
 
 interface LimitUserUseCase {
-    suspend operator fun invoke(): LimitUserEntity?
+    suspend operator fun invoke(): LimitUserEntity
 }
