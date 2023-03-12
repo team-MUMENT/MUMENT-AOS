@@ -29,7 +29,7 @@ class MoveNotifyNavigatorProviderImpl @Inject constructor(val activity: Activity
             Intent(this, MainActivity::class.java).apply {
                 putExtra(START_NAV_KEY, startNav)
                 putExtra(MUMENT_ID, mumentId)
-                putExtra(MUSIC_INFO_ENTITY, Gson().toJson(musicInfoEntity))
+                putExtra(MUSIC_INFO_ENTITY, musicInfoEntity)
                 startActivity(this)
                 /*setResult(RESULT_OK, this)*/
                 finish()

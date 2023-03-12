@@ -93,6 +93,8 @@ class HomeFragment : Fragment() {
                             FROM_NOTIFICATION_TO_MUMENT_DETAIL -> viewModel.emitEvent(HomeEvent.ReEntryToNotificationView)
                             FROM_SEARCH -> viewModel.emitEvent(HomeEvent.OnClickSearch)
                         }
+
+                        Log.e("dsfasd", "${startNav}")
                     }
             }
     }
@@ -255,10 +257,7 @@ class HomeFragment : Fragment() {
             when (effect) {
                 HomeSideEffect.GoToNotification -> {
                     startActivity(
-                        Intent(
-                            requireActivity(),
-                            NotifyActivity::class.java
-                        )
+                        Intent(requireActivity(), NotifyActivity::class.java)
                     )
                 }
                 HomeSideEffect.GoToSearchActivity -> {
@@ -278,7 +277,6 @@ class HomeFragment : Fragment() {
                     lifecycleScope.launch {
                         //최초에 검색 클릭 GA
                         if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
-                            Log.e("최초에", "검색 클릭")
                             FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_search")
                             dataStoreManager.writeIsFirst(false)
                         }

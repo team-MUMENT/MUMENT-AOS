@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -25,6 +26,7 @@ import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMument
 import com.mument_android.app.presentation.ui.detail.mument.navigator.checkCurrentFragment
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
+import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
@@ -36,6 +38,7 @@ import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
+import com.mument_android.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
@@ -59,25 +62,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         initNavigation()
         floatingBtnListener()
         customAppBar()
         isLimitUserNetwork()
         isRestrictUser()
-        intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
-            intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
-                val bundle = Bundle().also { bundle ->
-                    bundle.putString(MUMENT_ID, mumentId)
-                    bundle.putString(MUSIC_INFO_ENTITY, music)
-                    intent.getStringExtra(START_NAV_KEY)?.let {
-                        bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
-                    }
-                }
-                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
-            } ?: navController.navigate(
-                R.id.action_homeFragment_to_musicDetailFragment,
-                Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
-        }
+
+//        intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
+//            intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
+//                val bundle = Bundle().also { bundle ->
+//                    bundle.putString(MUMENT_ID, mumentId)
+//                    bundle.putString(MUSIC_INFO_ENTITY, music)
+//                    intent.getStringExtra(START_NAV_KEY)?.let {
+//                        bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+//                    }
+//                }
+//                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
+//            } ?: navController.navigate(
+//                R.id.action_homeFragment_to_musicDetailFragment,
+//                Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
+//        }
     }
 
     //appbar 상단 모서리 radius값 추가
@@ -277,21 +282,41 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Log.e("NEW INTENT", intent.toString())
-        intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
+        intent?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
             intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                 val bundle = Bundle().also { bundle ->
                     bundle.putString(MUMENT_ID, mumentId)
-                    bundle.putString(MUSIC_INFO_ENTITY, music)
+                    bundle.putParcelable(MUSIC_INFO_ENTITY, music)
                     intent.getStringExtra(START_NAV_KEY)?.let {
-                        bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+                        when(it) {
+                            FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
+                                bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+                            }
+                            FROM_SEARCH -> {
+                                bundle.putString(START_NAV_KEY, FROM_SEARCH)
+                            }
+                        }
                     }
                 }
                 navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
             } ?: navController.navigate(
                 R.id.action_homeFragment_to_musicDetailFragment,
-                Bundle().apply { putString(MUSIC_INFO_ENTITY, music) })
+                Bundle().apply {
+                    intent.getStringExtra(START_NAV_KEY)?.let {
+                        when(it) {
+                            FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
+                                putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+                            }
+                            FROM_SEARCH -> {
+                                putString(START_NAV_KEY, FROM_SEARCH)
+                            }
+                        }
+                    }
+                    putParcelable(MUSIC_INFO_ENTITY, music)
+                }
+            )
         }
+
         intent?.getBooleanExtra("FINISH", false)?.let { finish ->
             if (finish) finish()
         }
