@@ -97,17 +97,6 @@ class HomeFragment : Fragment() {
             }
     }
 
-    private val searchMusicLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                result.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
-                    result.data?.getStringExtra(START_NAV_KEY).takeIf { it == FROM_SEARCH }?.let {
-                        viewModel.emitEvent(HomeEvent.ReEntryToSearchView(music, it))
-                    }
-                }
-            }
-        }
-
     private fun bindData() {
         setAdapter()
         setListData()
@@ -138,7 +127,6 @@ class HomeFragment : Fragment() {
             lifecycleScope.launch {
                 //최초에 홈 큐레이션 클릭 GA
                 if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
-                    Log.e("최초에", "홈 큐레이션 : 오늘의 뮤멘트")
                     FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_curation")
                     dataStoreManager.writeIsFirst(false)
                 }
@@ -236,7 +224,6 @@ class HomeFragment : Fragment() {
                         //최초 접속 시 홈 큐레이션 클릭
                         lifecycleScope.launch {
                             if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
-                                Log.e("최초에", "홈 큐레이션 클릭 : 배너")
                                 FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_curation")
                                 dataStoreManager.writeIsFirst(false)
                             }
@@ -255,19 +242,17 @@ class HomeFragment : Fragment() {
             when (effect) {
                 HomeSideEffect.GoToNotification -> {
                     startActivity(
-                        Intent(
-                            requireActivity(),
-                            NotifyActivity::class.java
-                        )
+                        Intent(requireActivity(), NotifyActivity::class.java)
                     )
                 }
                 HomeSideEffect.GoToSearchActivity -> {
-                    searchMusicLauncher.launch(
+                    requireContext().startActivity(
                         Intent(
                             requireActivity(),
                             SearchActivity::class.java
                         )
                     )
+
                     //홈탭에서 -> 검색 터치
                     FirebaseAnalyticsUtil.firebaseLog(
                         "home_activity_type",
@@ -278,7 +263,6 @@ class HomeFragment : Fragment() {
                     lifecycleScope.launch {
                         //최초에 검색 클릭 GA
                         if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
-                            Log.e("최초에", "검색 클릭")
                             FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_search")
                             dataStoreManager.writeIsFirst(false)
                         }

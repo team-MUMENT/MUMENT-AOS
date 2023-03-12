@@ -54,7 +54,6 @@ class NotifyViewModel @Inject constructor(
                 notifyList?.asSequence()?.filter { !it.isRead }?.map { it.id }
                     .let { unReadList ->
                         unReadList?.let { nonNullUnReadList ->
-                            Log.e("nonNullUnReadList", nonNullUnReadList.toList().toString())
                             fetchNotifyListsReadUseCase.invoke(nonNullUnReadList.toList()).catch { }
                                 .collect { result ->
                                     if (result == true) {

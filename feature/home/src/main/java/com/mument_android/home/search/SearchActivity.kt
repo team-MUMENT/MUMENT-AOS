@@ -6,6 +6,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
+import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
@@ -20,6 +21,7 @@ import com.mument_android.home.adapters.SearchListAdapter
 import com.mument_android.home.databinding.ShareSearchLayoutBinding
 import com.mument_android.home.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
@@ -31,6 +33,8 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
     private val headerAdapter = SearchHeaderAdapter(::allDelete)
     private lateinit var searchConcatAdapter: ConcatAdapter
     private lateinit var searchResultAdapter: SearchListAdapter
+    @Inject
+    lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -117,12 +121,13 @@ class SearchActivity : BaseActivity<ShareSearchLayoutBinding>(
 
     private fun selectMusic(data: RecentSearchData) {
         val music = MusicInfoEntity(data._id, data.name, data.image, data.artist)
-        val intent = Intent().apply {
-            putExtra(START_NAV_KEY, FROM_SEARCH)
-            putExtra(MUSIC_INFO_ENTITY, music)
-        }
-        setResult(RESULT_OK, intent)
-        finish()
+        mainHomeNavigatorProvider.searchToMain(music)
+//        val intent = Intent().apply {
+//            putExtra(START_NAV_KEY, FROM_SEARCH)
+//            putExtra(MUSIC_INFO_ENTITY, music)
+//        }
+//        setResult(RESULT_OK, intent)
+//        finish()
     }
 
 }

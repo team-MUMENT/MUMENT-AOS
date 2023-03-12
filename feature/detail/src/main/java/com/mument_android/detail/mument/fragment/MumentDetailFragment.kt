@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.angdroid.navigation.*
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -123,14 +124,15 @@ class MumentDetailFragment : Fragment() {
         arguments?.getString(MUMENT_ID)?.let {
             viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(it))
         }
-        arguments?.getString(MUSIC_INFO_ENTITY)?.let {
-            val musicInfo = Gson().fromJson(it, MusicInfoEntity::class.java)
+        arguments?.getParcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
             viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(musicInfo))
         }
         arguments?.getString(START_NAV_KEY)?.let {
-            Log.e("START_NAV_KEY", it)
             viewModel.emitEvent(MumentDetailEvent.ReceiveStartNav(it))
-        } ?: viewModel.emitEvent(MumentDetailEvent.ReceiveStartNav(""))
+        }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(START_NAV_KEY)?.observe(viewLifecycleOwner) {
+            viewModel.emitEvent(MumentDetailEvent.ReceiveStartNav(it))
+        }
     }
 
     private fun updateModifiedMumentDetail() {
@@ -210,7 +212,8 @@ class MumentDetailFragment : Fragment() {
                 MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
 
                 is MumentDetailSideEffect.NavToMusicDetail -> musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(
-                    effect.music
+                    effect.music,
+                    arguments?.getString(START_NAV_KEY)
                 )
                 is MumentDetailSideEffect.NavToMumentHistory -> {
                     //여기 나중에 수정 좀 부탁드립니당!!
@@ -223,10 +226,7 @@ class MumentDetailFragment : Fragment() {
                                         putExtra("music", music)
                                         putExtra("userId", userId)
                                         if (viewModel.viewState.value.navStart == FROM_NOTIFICATION_TO_MUMENT_DETAIL) {
-                                            putExtra(
-                                                START_NAV_KEY,
-                                                FROM_NOTIFICATION_TO_MUMENT_DETAIL
-                                            )
+                                            putExtra(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
                                         }
                                     })
                             }
@@ -369,7 +369,8 @@ class MumentDetailFragment : Fragment() {
     private fun goToMusicDetail() {
         binding.viewAlbumClickArea.setOnClickListener {
             viewModel.viewState.value.musicInfo?.let { music ->
-                viewModel.emitEvent(MumentDetailEvent.OnClickAlum(music))
+                val startNav = viewModel.viewState.value.navStart
+                viewModel.emitEvent(MumentDetailEvent.OnClickAlum(music, startNav))
             }
         }
     }
@@ -457,6 +458,7 @@ class MumentDetailFragment : Fragment() {
     private val mumentHistoryLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == AppCompatActivity.RESULT_OK) {
+                val startNav = viewModel.viewState.value.navStart
                 it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
                     it.data?.getStringExtra(START_NAV_KEY)
                         .takeIf { it == FROM_NOTIFICATION_TO_MUMENT_DETAIL }?.let {
@@ -465,7 +467,7 @@ class MumentDetailFragment : Fragment() {
                     it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
                         viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(mumentId))
                         viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(music))
-                    } ?: musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(music)
+                    } ?: musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(music, startNav)
                 }
             }
         }
