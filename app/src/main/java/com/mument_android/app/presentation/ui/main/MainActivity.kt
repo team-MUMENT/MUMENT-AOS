@@ -4,17 +4,14 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -32,7 +29,6 @@ import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
@@ -46,6 +42,7 @@ import com.mument_android.record.RecordActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -98,7 +95,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.floatingActionButton.setOnClickListener {
             lifecycleScope.launch {
                 if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
-                    Log.e("최초에", "글쓰기 클릭")
+                    Timber.e("최초에, 글쓰기 클릭")
                     FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_write")
                     dataStoreManager.writeIsFirst(false)
                 }
@@ -215,7 +212,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     //앱 최초 접속 시 보관함 클릭 GA
                     lifecycleScope.launch {
                         if (dataStoreManager.isFirstFlow.firstOrNull() == true) {
-                            Log.e("최초에", "보관함 클릭")
+                            Timber.e("최초에 보관함 클릭")
                             FirebaseAnalyticsUtil.firebaseFirstVisitLog("direct_storage")
                             dataStoreManager.writeIsFirst(false)
                         }
@@ -277,7 +274,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Log.e("NEW INTENT", intent.toString())
+        Timber.e("NEW INTENT: ${intent.toString()}")
         intent?.getStringExtra(MUSIC_INFO_ENTITY)?.let { music ->
             intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                 val bundle = Bundle().also { bundle ->
