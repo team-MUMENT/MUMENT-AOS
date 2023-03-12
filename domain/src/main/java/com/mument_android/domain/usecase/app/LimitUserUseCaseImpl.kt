@@ -10,7 +10,7 @@ import javax.inject.Inject
 class LimitUserUseCaseImpl @Inject constructor(
     private val limitUserRepository: LimitUserRepository
 ):LimitUserUseCase{
-    override suspend fun invoke(): LimitUserEntity? =
+    override suspend fun invoke(): LimitUserEntity =
         limitUserRepository.limitUser()
 
 }

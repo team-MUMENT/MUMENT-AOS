@@ -31,8 +31,7 @@ class MainViewModel @Inject constructor(
     val music: LiveData<Music> = _music
 
     private val _limitUser = MutableLiveData<LimitUserEntity>()
-    val limitUser: LiveData<LimitUserEntity>
-        get() = _limitUser
+    val limitUser: LiveData<LimitUserEntity> = _limitUser
 
     private val _mumentDetailContents = MutableLiveData<MumentDetailEntity>()
     val mumentDetailContents: LiveData<MumentDetailEntity> = _mumentDetailContents
@@ -41,6 +40,10 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             beforeWhenHomeEnterUseCase.checkProfileExist().catch { }.collect {
                 Timber.e("Profile Exist: ${it.toString()}")
+            }
+            limitUserUseCase.invoke().let {
+                _limitUser.value = it
+                Timber.e("isLimitUser: ${it.restricted} ")
             }
         }
     }
@@ -66,16 +69,13 @@ class MainViewModel @Inject constructor(
     }
 
     fun clearBundle() {
+        /*
         _mumentId.value = ""
         _musicId.value = ""
         _music.value = null
         _mumentDetailContents.value = null
-    }
 
-    fun limitUser() {
-        viewModelScope.launch {
-            _limitUser.value = limitUserUseCase.invoke()
-        }
+         */
     }
 }
 
