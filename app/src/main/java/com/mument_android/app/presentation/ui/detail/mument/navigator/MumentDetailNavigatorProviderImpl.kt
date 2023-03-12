@@ -2,6 +2,7 @@ package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.google.gson.Gson
 import com.mument_android.R
@@ -37,12 +38,12 @@ class MumentDetailNavigatorProviderImpl @Inject constructor(
         )
     }
 
-    override fun musicDetailToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
+    override fun musicDetailToMumentDetail(mumentId: String, musicInfo: MusicInfoEntity, startNav: String?) {
         moveToMumentDetail(
             R.id.action_musicDetailFragment_to_mumentDetailFragment,
             mumentId,
             musicInfo,
-            null
+            startNav
         )
     }
 
@@ -55,7 +56,7 @@ class MumentDetailNavigatorProviderImpl @Inject constructor(
         if (activity is MainActivity) {
             val bundle = Bundle().apply {
                 putString(MUMENT_ID, mumentId)
-                putString(MUSIC_INFO_ENTITY, Gson().toJson(musicInfo))
+                putParcelable(MUSIC_INFO_ENTITY, musicInfo)
                 putString(START_NAV_KEY, startNav)
             }
             activity.navController.navigate(actionId, bundle)
@@ -64,17 +65,10 @@ class MumentDetailNavigatorProviderImpl @Inject constructor(
 
     override fun mumentDetailPopBackStack(startNav: String) {
         if (activity is MainActivity) {
-            if (startNav.isNotBlank()) {
-                activity.navController.previousBackStackEntry?.savedStateHandle?.set(
-                    START_NAV_KEY,
-                    startNav
-                )
-            } else {
-                activity.navController.previousBackStackEntry?.savedStateHandle?.set(
-                    START_NAV_KEY,
-                    null
-                )
-            }
+            activity.navController.previousBackStackEntry?.savedStateHandle?.set(
+                START_NAV_KEY,
+                startNav
+            )
             activity.navController.popBackStack()
         }
     }

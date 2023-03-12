@@ -62,7 +62,7 @@ class MumentDetailContract {
         object OnClickUnLikeMument : MumentDetailEvent()
 
         /** 앨범 정보 클릭 Event **/
-        data class OnClickAlum(val music: MusicInfoEntity) : MumentDetailEvent()
+        data class OnClickAlum(val music: MusicInfoEntity, val startNav: String?) : MumentDetailEvent()
 
         /** 해당 곡의 모든 뮤멘트 보러가기 하단 Floating 클릭 Event **/
         data class OnClickHistory(val musicId: String) : MumentDetailEvent()

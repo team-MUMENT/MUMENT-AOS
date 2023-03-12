@@ -4,6 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.mument_android.app.presentation.ui.main.MainActivity
+import com.mument_android.core.util.Constants
+import com.mument_android.core.util.Constants.FROM_SEARCH
+import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.detail.music.MusicDetailFragment.Companion.MUSIC_ID
+import com.mument_android.domain.entity.music.MusicInfoEntity
 import javax.inject.Inject
 
 class MainHomeNavigatorProviderImpl @Inject constructor(
@@ -14,5 +19,14 @@ class MainHomeNavigatorProviderImpl @Inject constructor(
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         }
         activity.startActivity(intent)
+    }
+
+    override fun searchToMain(selectedMusic: MusicInfoEntity) {
+        val intent = Intent(activity, MainActivity::class.java).apply {
+            putExtra(Constants.START_NAV_KEY, FROM_SEARCH)
+            putExtra(MUSIC_INFO_ENTITY, selectedMusic)
+        }
+        activity.startActivity(intent)
+        activity.finish()
     }
 }

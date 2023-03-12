@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import com.angdroid.navigation.HistoryNavigatorProvider
 import com.angdroid.navigation.MoveRecordProvider
@@ -19,11 +20,13 @@ import com.angdroid.navigation.MusicDetailNavigatorProvider
 import com.mument_android.core.util.Constants
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.history.HistoryActivity
+import com.mument_android.detail.mument.contract.MumentDetailContract
 import com.mument_android.detail.mument.listener.MumentClickListener
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEffect
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEvent
@@ -98,9 +101,12 @@ class MusicDetailFragment : Fragment() {
         arguments?.getParcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
             musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicInfo(it))
         }
-        arguments?.getString(Constants.START_NAV_KEY)?.let {
+        arguments?.getString(START_NAV_KEY)?.let {
             musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveStartNav(it))
-        } ?: musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveStartNav(""))
+        }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(START_NAV_KEY)?.observe(viewLifecycleOwner) {
+            musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveStartNav(it))
+        }
     }
 
     private fun updateView() {
@@ -143,7 +149,8 @@ class MusicDetailFragment : Fragment() {
                     musicDetailViewModel.viewState.value.musicInfo?.let { musicInfoEntity ->
                         mumentDetailNavigatorProvider.musicDetailToMumentDetail(
                             mumentId,
-                            musicInfo = musicInfoEntity
+                            musicInfo = musicInfoEntity,
+                            arguments?.getString(START_NAV_KEY)
                         )
                     }
                 }
@@ -165,7 +172,7 @@ class MusicDetailFragment : Fragment() {
         musicDetailMumentListAdapter = MusicDetailMumentListAdapter(object : MumentClickListener {
             override fun showMumentDetail(mumentId: String) {
                 musicDetailViewModel.viewState.value.musicInfo?.let { musicInfo ->
-                    mumentDetailNavigatorProvider.musicDetailToMumentDetail(mumentId, musicInfo)
+                    mumentDetailNavigatorProvider.musicDetailToMumentDetail(mumentId, musicInfo, musicDetailViewModel.viewState.value.startNav)
                 }
             }
 
@@ -193,7 +200,7 @@ class MusicDetailFragment : Fragment() {
             if (it.resultCode == AppCompatActivity.RESULT_OK) {
                 it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
                     it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
-                        mumentDetailNavigatorProvider.musicDetailToMumentDetail(mumentId, music)
+                        mumentDetailNavigatorProvider.musicDetailToMumentDetail(mumentId, music, arguments?.getString(START_NAV_KEY))
                     }
                 }
             }
