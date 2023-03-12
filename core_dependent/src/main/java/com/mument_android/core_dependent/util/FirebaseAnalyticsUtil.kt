@@ -45,5 +45,10 @@ object FirebaseAnalyticsUtil {
         firebaseAnalytics?.logEvent(event,bundle)
     }
 
-
+    //글쓰기 취소
+    fun writeProcessGA(paramVal : String) {
+        firebaseAnalytics?.logEvent("write_process") {
+            param("journey", paramVal)
+        }
+    }
 }

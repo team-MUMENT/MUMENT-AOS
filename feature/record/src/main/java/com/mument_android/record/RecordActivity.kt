@@ -29,6 +29,7 @@ import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
+import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil.writeProcessGA
 import com.mument_android.core_dependent.util.ImpressiveTag
 import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
@@ -404,7 +405,6 @@ class RecordActivity :
                     .setHeader(getString(R.string.record_delete_header))
                     .setBody(getString(R.string.record_delete_body))
                     .setAllowListener("확인") {
-                        recordProcessGA()
                         onBackPressed()
                     }
                     .setCancelListener {}
@@ -416,24 +416,23 @@ class RecordActivity :
 
     //기록하기 퍼널 분석 및 이탈 과정 파악 GA
     private fun recordProcessGA() {
-        val recordProcessGA = mutableListOf<String>()
         recordViewModel.checkedTagList.value?.let { tags ->
-            tags.filter { it.tagIdx >= 200 }.find { recordProcessGA.add("select_feeling") }
-            tags.filter { it.tagIdx < 200 }.find { recordProcessGA.add("select_impressive") }
+            if (recordViewModel.selectedMusic.value != null) {
+                val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
+                val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
+                if(feelingTags.isNotEmpty()) {
+                    writeProcessGA("select_feeling")
+                    Log.e("Log", "select_feeling")
+                }
+                if(impressionTags.isNotEmpty()) { writeProcessGA("select_impressive") }
+            }
+            if (recordViewModel.selectedMusic.value != null) {
+                writeProcessGA("select_music")
+            }
+            if (binding.etRecordWrite.text.toString().length > 9) {
+                writeProcessGA("write_text")
+            }
         }
-        if (recordViewModel.selectedMusic.value != null) {
-            recordProcessGA.add("select_music")
-        }
-        if (binding.etRecordWrite.text.toString().length > 9) {
-            recordProcessGA.add("write_text")
-        }
-
-        FirebaseAnalyticsUtil.firebaseLog(
-            "write_process",
-            "journey",
-            recordProcessGA.joinToString()
-        )
-        recordProcessGA.clear()
     }
 
 

@@ -1,6 +1,5 @@
 package com.mument_android.app.presentation.ui.main.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +12,7 @@ import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -40,7 +40,7 @@ class MainViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             beforeWhenHomeEnterUseCase.checkProfileExist().catch { }.collect {
-                Log.e("Profile Exist", it.toString())
+                Timber.e("Profile Exist: ${it.toString()}")
             }
         }
     }
