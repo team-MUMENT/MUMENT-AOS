@@ -405,8 +405,9 @@ class RecordActivity :
                     .setHeader(getString(R.string.record_delete_header))
                     .setBody(getString(R.string.record_delete_body))
                     .setAllowListener("확인") {
-                        recordProcessGA()
                         onBackPressed()
+                    }.also {
+                        recordProcessGA()
                     }
                     .setCancelListener {}
                     .build()
@@ -421,7 +422,10 @@ class RecordActivity :
             if (recordViewModel.selectedMusic.value != null) {
                 val feelingTags = tags.filter { it.tagIdx >= 200 }.map { it.tagIdx }
                 val impressionTags = tags.filter { it.tagIdx < 200 }.map { it.tagIdx }
-                if(feelingTags.isNotEmpty()) { writeProcessGA("select_feeling") }
+                if(feelingTags.isNotEmpty()) {
+                    writeProcessGA("select_feeling")
+                    Log.e("Log", "select_feeling")
+                }
                 if(impressionTags.isNotEmpty()) { writeProcessGA("select_impressive") }
             }
             if (recordViewModel.selectedMusic.value != null) {

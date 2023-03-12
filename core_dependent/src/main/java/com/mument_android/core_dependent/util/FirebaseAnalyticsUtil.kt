@@ -51,6 +51,4 @@ object FirebaseAnalyticsUtil {
             param("journey", paramVal)
         }
     }
-
-
 }
