@@ -406,8 +406,6 @@ class RecordActivity :
                     .setBody(getString(R.string.record_delete_body))
                     .setAllowListener("확인") {
                         onBackPressed()
-                    }.also {
-                        recordProcessGA()
                     }
                     .setCancelListener {}
                     .build()
