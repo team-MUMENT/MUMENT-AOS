@@ -300,6 +300,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 R.id.action_homeFragment_to_musicDetailFragment,
                 Bundle().apply {
                     intent.getStringExtra(START_NAV_KEY)?.let {
+                        putParcelable(MUSIC_INFO_ENTITY, music)
                         when(it) {
                             FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
                                 putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
@@ -309,7 +310,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                             }
                         }
                     }
-                    putParcelable(MUSIC_INFO_ENTITY, music)
                 }
             )
         }

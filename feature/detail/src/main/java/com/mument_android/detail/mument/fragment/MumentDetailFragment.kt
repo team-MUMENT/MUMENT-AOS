@@ -129,7 +129,7 @@ class MumentDetailFragment : Fragment() {
         }
         arguments?.getString(START_NAV_KEY)?.let {
             viewModel.emitEvent(MumentDetailEvent.ReceiveStartNav(it))
-        } ?: viewModel.emitEvent(MumentDetailEvent.ReceiveStartNav(""))
+        }
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(START_NAV_KEY)?.observe(viewLifecycleOwner) {
             viewModel.emitEvent(MumentDetailEvent.ReceiveStartNav(it))
         }
