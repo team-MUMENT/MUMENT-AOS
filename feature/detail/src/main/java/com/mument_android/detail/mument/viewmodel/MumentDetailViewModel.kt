@@ -74,9 +74,6 @@ class MumentDetailViewModel @Inject constructor(
             MumentDetailEvent.OnClickBlockUser -> {
                 blockUser()
             }
-            MumentDetailEvent.OnClickBlockUser -> {
-                blockUser()
-            }
 
             is MumentDetailEvent.SelectMumentEditType -> setEffect {
                 MumentDetailSideEffect.NavToEditMument(
