@@ -313,22 +313,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun showMumentDetail(mumentId:String, music: MusicInfoEntity) {
-        if (navController.currentDestination?.id == R.id.homeFragment) {
-            val bundle = Bundle().also { bundle ->
-                bundle.putString(MUMENT_ID, mumentId)
-                bundle.putParcelable(MUSIC_INFO_ENTITY, music)
-                intent.getStringExtra(START_NAV_KEY)?.let {
-                    when(it) {
-                        FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
-                            bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
-                        }
-                        FROM_SEARCH -> {
-                            bundle.putString(START_NAV_KEY, FROM_SEARCH)
-                        }
+        val bundle = Bundle().also { bundle ->
+            bundle.putString(MUMENT_ID, mumentId)
+            bundle.putParcelable(MUSIC_INFO_ENTITY, music)
+            intent.getStringExtra(START_NAV_KEY)?.let {
+                when(it) {
+                    FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
+                        bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+                    }
+                    FROM_SEARCH -> {
+                        bundle.putString(START_NAV_KEY, FROM_SEARCH)
                     }
                 }
             }
-            navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
+        }
+
+        when(navController.currentDestination?.id) {
+            R.id.homeFragment -> {
+                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
+            }
+            R.id.musicDetailFragment -> {
+                navController.navigate(R.id.action_musicDetailFragment_to_mumentDetailFragment, bundle)
+            }
+            else -> {}
         }
     }
 

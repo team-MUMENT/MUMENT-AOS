@@ -32,7 +32,6 @@ class HistoryActivity :
         super.onCreate(savedInstanceState)
         binding.historyviewmodel = historyViewModel
 
-
         intent.getParcelableExtra<Music>("music")?.let {
             historyViewModel.changeMusicId(it)
         }

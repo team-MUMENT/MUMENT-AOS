@@ -19,7 +19,6 @@ class MoveFromHistoryToDetailImpl @Inject constructor(private val activity: Acti
     override fun moveMumentDetail(mumentId: String, musicInfoEntity: MusicInfoEntity) {
         with(activity as HistoryActivity) {
             Intent(this, MainActivity::class.java).apply {
-                Log.e("mument id", "${mumentId}")
                 putExtra(MUMENT_ID, mumentId)
                 putExtra(MUSIC_INFO_ENTITY, musicInfoEntity)
                 putExtra(FROM_HISTORY, FROM_HISTORY)
@@ -30,11 +29,10 @@ class MoveFromHistoryToDetailImpl @Inject constructor(private val activity: Acti
 
     override fun moveMusicDetail(musicInfoEntity: MusicInfoEntity) {
         with(activity as HistoryActivity) {
-            val intent = Intent(this, MainActivity::class.java).apply {
+            Intent(this, MainActivity::class.java).apply {
                 putExtra(MUSIC_INFO_ENTITY, musicInfoEntity)
+                startActivity(this)
             }
-            setResult(RESULT_OK, intent)
-            finish()
         }
     }
 }
