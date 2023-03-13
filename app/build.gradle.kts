@@ -12,7 +12,16 @@ plugins {
 
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
+
 android {
+    signingConfigs {
+        create("release") {
+            storeFile = file("key_store_file/release.jks")
+            storePassword = "alsgh478"
+            keyAlias = "releaseKey"
+            keyPassword = "alsgh478"
+        }
+    }
     compileSdk = DefaultConfig.COMPILE_SDK
 
     defaultConfig {
@@ -32,6 +41,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
+            signingConfig = signingConfigs.getByName("release")
         }
         getByName("debug") {
             buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
