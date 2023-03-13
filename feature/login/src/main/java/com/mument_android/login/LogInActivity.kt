@@ -45,7 +45,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         firebaseAnalytics = Firebase.analytics
 
 //        initView()
-        initKakaoLogin()
         btnKakaoListener()
         getFcmToken()
         webLinkNetwork()
@@ -99,11 +98,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
             Log.e("TAG", msg)
             viewModel.fcmToken.value = token.toString()
         })
-    }
-
-    private fun initKakaoLogin() {
-        val kakaoAppKey = BuildConfig.KAKAO_NATIVE_KEY
-        KakaoSdk.init(this, kakaoAppKey)
     }
 
     private fun webLinkNetwork() {
@@ -204,7 +198,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                 Log.e("앱이 요청 권한이 없음", "")
             }
             else -> { // Unknown
-                Log.e("기타 에러", "")
+                Log.e("기타 에러", error.toString())
             }
         }
     }

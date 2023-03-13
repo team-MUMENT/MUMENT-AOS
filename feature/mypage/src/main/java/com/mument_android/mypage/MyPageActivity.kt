@@ -147,7 +147,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                 }
                 .setCancelListener {}
                 .build()
-                .show(supportFragmentManager, attributionTag)
+                .show(supportFragmentManager, "hi")
         }
     }
 

@@ -1,6 +1,7 @@
 package com.mument_android.app.application
 
 import android.app.Application
+import com.kakao.sdk.common.KakaoSdk
 import com.mument_android.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -9,6 +10,7 @@ import timber.log.Timber
 class MumentApplication: Application() {
     override fun onCreate() {
         super.onCreate()
+        initKakaoLogin()
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
         /*val fontRequest = FontRequest( TODO 안 쓰면 지우기
             "com.google.android.gms.fonts",
@@ -18,5 +20,11 @@ class MumentApplication: Application() {
 //
 //        val config = FontRequestEmojiCompatConfig(this, fontRequest)
 //        EmojiCompat.init(config)
+
+    }
+
+    private fun initKakaoLogin() {
+        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d"
+        KakaoSdk.init(this, kakaoAppKey)
     }
 }
