@@ -39,6 +39,7 @@ import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDeta
 import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailSideEffect
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUSIC
+import com.mument_android.detail.mument.listener.StackProvider
 import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import com.mument_android.detail.report.SelectReportTypeDialogFragment
 import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion.SELECT_BLOCK_USER
@@ -46,6 +47,7 @@ import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion
 import com.mument_android.domain.entity.detail.MumentEntity
 import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.entity.music.MusicInfoEntity
+import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.domain.entity.record.MumentModifyEntity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -77,10 +79,14 @@ class MumentDetailFragment : Fragment() {
     @Inject
     lateinit var mumentDetailNavigatorProvider: MumentDetailNavigatorProvider
 
+    @Inject
+    lateinit var stackProvider: StackProvider
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                Log.e("dfsadsafasddsa", "왜 안먹음?")
                 viewModel.emitEvent(MumentDetailEvent.OnClickBackButton)
             }
         }
@@ -176,6 +182,13 @@ class MumentDetailFragment : Fragment() {
                     showDeletedMumentDialog()
                 }
                 MumentDetailSideEffect.PopBackStack -> {
+                    stackProvider.getHistoryBackStack {
+                        if (it.isNotEmpty()) {
+                            it.pop()?.let { mument ->
+                                moveToMumentHistory(mument.second, mument.first)
+                            }
+                        }
+                    }
                     val startNav = viewModel.viewState.value.navStart
                     mumentDetailNavigatorProvider.mumentDetailPopBackStack(startNav)
                 }
@@ -216,19 +229,11 @@ class MumentDetailFragment : Fragment() {
                     arguments?.getString(START_NAV_KEY)
                 )
                 is MumentDetailSideEffect.NavToMumentHistory -> {
-                    //여기 나중에 수정 좀 부탁드립니당!!
-                    //현재 effect.musicId만 받아와짐
                     viewModel.viewState.value.musicInfo?.toMusic()?.let { music ->
                         viewModel.viewState.value.mument?.writerInfo?.userId?.toInt()
                             ?.let { userId ->
-                                mumentHistoryLauncher.launch(
-                                    Intent(requireActivity(), HistoryActivity::class.java).apply {
-                                        putExtra("music", music)
-                                        putExtra("userId", userId)
-                                        if (viewModel.viewState.value.navStart == FROM_NOTIFICATION_TO_MUMENT_DETAIL) {
-                                            putExtra(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
-                                        }
-                                    })
+                                stackProvider.putHistoryBackStack(userId, music)
+                                moveToMumentHistory(music, userId)
                             }
                     }
                 }
@@ -248,6 +253,17 @@ class MumentDetailFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun moveToMumentHistory(music: Music, userId: Int) {
+        mumentHistoryLauncher.launch(
+            Intent(requireActivity(), HistoryActivity::class.java).apply {
+                putExtra("music", music)
+                putExtra("userId", userId)
+                if (viewModel.viewState.value.navStart == FROM_NOTIFICATION_TO_MUMENT_DETAIL) {
+                    putExtra(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+                }
+            })
     }
 
     private fun showDeletedMumentDialog() {
@@ -471,6 +487,11 @@ class MumentDetailFragment : Fragment() {
                 }
             }
         }
+
+    fun updateMumentDetailInfo(mumentId: String?, musicInfoEntity: MusicInfoEntity) {
+        viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(mumentId ?: ""))
+        viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(musicInfoEntity))
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -113,6 +113,7 @@ class MumentDetailViewModel @Inject constructor(
             }
             MumentDetailEvent.EntryFromInstagram -> deleteSharedImageFile()
             is MumentDetailEvent.ReceiveStartNav -> setState { copy(navStart = event.startNav) }
+            is MumentDetailEvent.UpdateMumentInfo -> setState { copy(requestMumentId = event.mumentId, musicInfo = event.musicInfo) }
         }
     }
 
