@@ -1,8 +1,13 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
 }
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     compileSdk = DefaultConfig.COMPILE_SDK

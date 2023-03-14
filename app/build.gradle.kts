@@ -13,7 +13,6 @@ plugins {
 
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
-
 android {
     signingConfigs {
         register("release") {
@@ -43,6 +42,7 @@ android {
             signingConfig = signingConfigs.getByName("release")
             isShrinkResources = true
         }
+
         getByName("debug") {
             buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
         }

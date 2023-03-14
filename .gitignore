@@ -53,6 +53,9 @@ build/
 
 # Signing files
 .signing/
+/*/signKey
+.app/signKey
+.app/key_tore_file/release.jks
 
 # Local configuration file (sdk path, etc)
 local.properties

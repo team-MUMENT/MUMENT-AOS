@@ -10,6 +10,7 @@ import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.detail.databinding.ActivityHistoryBinding
+import com.mument_android.detail.mument.listener.StackProvider
 import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,9 +25,13 @@ class HistoryActivity :
     @Inject
     lateinit var moveFromHistoryToDetail: MoveFromHistoryToDetail
 
+    @Inject
+    lateinit var stackProvider: StackProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.historyviewmodel = historyViewModel
+
         intent.getParcelableExtra<Music>("music")?.let {
             historyViewModel.changeMusicId(it)
         }
@@ -81,5 +86,10 @@ class HistoryActivity :
             binding.tvOldestOrder.isSelected = sort == "N"
             //이거 나중에 수정,,
         }
+    }
+
+    override fun onBackPressed() {
+        stackProvider.popHistoryBackStack()
+        super.onBackPressed()
     }
 }
