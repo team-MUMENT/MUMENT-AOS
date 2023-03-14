@@ -15,8 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class RestrictUserDialog(context: Context) :
-    DialogFragment() {
+class RestrictUserDialog(context: Context) : DialogFragment() {
 
     val viewModel: MainViewModel by viewModels()
     private var binding by AutoClearedValue<AlretInapproUserBinding>()
@@ -52,7 +51,6 @@ class RestrictUserDialog(context: Context) :
     }
 
     private fun dataNetwork() {
-        viewModel.limitUser()
         viewModel.limitUser.observe(viewLifecycleOwner) {
             binding.viewModel = it
         }
