@@ -14,14 +14,6 @@ plugins {
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 android {
-    signingConfigs {
-        register("release") {
-            storeFile = file("key_store_file/release.jks")
-            storePassword = gradleLocalProperties(rootDir).getProperty("keystore_password")
-            keyAlias = gradleLocalProperties(rootDir).getProperty("key_alias")
-            keyPassword = gradleLocalProperties(rootDir).getProperty("key_alias_password")
-        }
-    }
     compileSdk = DefaultConfig.COMPILE_SDK
 
     defaultConfig {
@@ -32,6 +24,15 @@ android {
         versionName = DefaultConfig.VERSION_NAME
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+
+        signingConfigs {
+            register("release") {
+                storeFile = file("signKey")
+                storePassword = gradleLocalProperties(rootDir).getProperty("keystore_password")
+                keyAlias = gradleLocalProperties(rootDir).getProperty("key_alias")
+                keyPassword = gradleLocalProperties(rootDir).getProperty("key_alias_password")
+            }
+        }
     }
 
     buildTypes {
@@ -41,6 +42,7 @@ android {
             isDebuggable = true
             signingConfig = signingConfigs.getByName("release")
             isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
 
         getByName("debug") {
