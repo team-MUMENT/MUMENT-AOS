@@ -3,9 +3,12 @@ package com.mument_android.app.di
 
 import android.content.Context
 import com.angdroid.navigation.LogInNavigatorProvider
+import com.mument_android.app.application.MumentApplication
 import com.mument_android.app.presentation.ui.detail.mument.navigator.LogInNavigatorProviderImpl
+import com.mument_android.app.presentation.ui.detail.mument.navigator.StackProviderImpl
 import com.mument_android.core.util.DateFormatter
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.detail.mument.listener.StackProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,4 +34,8 @@ object AppModule {
     @Provides
     fun provideLoginNavigatorProvider(@ApplicationContext context: Context): LogInNavigatorProvider =
         LogInNavigatorProviderImpl(context)
+
+    @Singleton
+    @Provides
+    fun provideStackProviderImp(@ApplicationContext context: Context): StackProvider = StackProviderImpl(context)
 }

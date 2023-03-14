@@ -15,8 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class RestrictUserDialog(context: Context) :
-    DialogFragment() {
+class RestrictUserDialog(context: Context) : DialogFragment() {
 
     val viewModel: MainViewModel by activityViewModels()
     private var binding by AutoClearedValue<AlretInapproUserBinding>()
