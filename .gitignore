@@ -53,7 +53,8 @@ build/
 
 # Signing files
 .signing/
-.signKey
+/*/signKey
+app/signKey
 
 # Local configuration file (sdk path, etc)
 local.properties
