@@ -2,6 +2,7 @@ package com.mument_android.app.di
 
 import com.angdroid.navigation.*
 import com.mument_android.app.presentation.ui.detail.mument.navigator.*
+import com.mument_android.detail.mument.listener.StackProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -58,4 +59,5 @@ abstract class NavigatorModule {
 
     @Binds
     abstract fun quitMainNavigatorProvider(quitMainNavigatorProvider: QuitMainNavigatorProviderImpl) : QuitMainNavigatorProvider
+
 }

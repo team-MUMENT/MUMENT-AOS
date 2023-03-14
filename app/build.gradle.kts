@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
@@ -23,16 +24,26 @@ android {
         versionName = DefaultConfig.VERSION_NAME
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+
+        signingConfigs {
+            register("release") {
+                storeFile = file("signKey")
+                storePassword = gradleLocalProperties(rootDir).getProperty("keystore_password")
+                keyAlias = gradleLocalProperties(rootDir).getProperty("key_alias")
+                keyPassword = gradleLocalProperties(rootDir).getProperty("key_alias_password")
+            }
+        }
     }
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+        release {
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            isDebuggable = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
+
         getByName("debug") {
             buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
         }

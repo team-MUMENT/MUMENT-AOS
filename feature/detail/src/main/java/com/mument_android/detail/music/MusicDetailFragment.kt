@@ -28,6 +28,7 @@ import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.history.HistoryActivity
 import com.mument_android.detail.mument.contract.MumentDetailContract
 import com.mument_android.detail.mument.listener.MumentClickListener
+import com.mument_android.detail.mument.listener.StackProvider
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEffect
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEvent
 import com.mument_android.domain.entity.music.MusicInfoEntity
@@ -130,9 +131,7 @@ class MusicDetailFragment : Fragment() {
 
     private fun setEntireMumentListAdapter() {
         musicDetailMumentHeaderAdapter = MusicDetailMumentHeaderAdapter(
-            {
-                musicDetailViewModel.viewState.value.musicInfo
-                    ?.let {
+            { musicDetailViewModel.viewState.value.musicInfo?.let {
                         musicDetailViewModel.viewState.value.myMumentInfo?.user?.userId?.let { userId ->
                             getResultText.launch(
                                 Intent(

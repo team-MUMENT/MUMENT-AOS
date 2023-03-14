@@ -27,6 +27,7 @@ import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
 import com.mument_android.app.presentation.ui.detail.mument.navigator.checkCurrentFragment
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
+import com.mument_android.core.util.Constants.FROM_HISTORY
 import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUMENT_ID
@@ -40,6 +41,7 @@ import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
+import com.mument_android.detail.mument.fragment.MumentDetailFragment
 import com.mument_android.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
 import com.mument_android.domain.entity.detail.MumentDetailEntity
@@ -54,13 +56,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate),
-    EditMumentNavigator {
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate), EditMumentNavigator {
     lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
 
     @Inject
     lateinit var dataStoreManager: DataStoreManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -277,21 +279,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         super.onNewIntent(intent)
         intent?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
             intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
-                val bundle = Bundle().also { bundle ->
-                    bundle.putString(MUMENT_ID, mumentId)
-                    bundle.putParcelable(MUSIC_INFO_ENTITY, music)
-                    intent.getStringExtra(START_NAV_KEY)?.let {
-                        when(it) {
-                            FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
-                                bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
-                            }
-                            FROM_SEARCH -> {
-                                bundle.putString(START_NAV_KEY, FROM_SEARCH)
-                            }
-                        }
-                    }
-                }
-                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
+                showMumentDetail(mumentId, music)
             } ?: navController.navigate(
                 R.id.action_homeFragment_to_musicDetailFragment,
                 Bundle().apply {
@@ -310,8 +298,53 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             )
         }
 
+        intent?.getStringExtra(FROM_HISTORY)?.let {
+            if (it == FROM_HISTORY) {
+                val mumentId = intent.getStringExtra(MUMENT_ID) ?: ""
+                intent.getParcelableExtra(MUSIC_INFO_ENTITY, MusicInfoEntity::class.java)?.let { musicInfo ->
+                    updateMumentDetail(mumentId, musicInfo)
+                }
+            }
+        }
+
         intent?.getBooleanExtra("FINISH", false)?.let { finish ->
             if (finish) finish()
+        }
+    }
+
+    private fun showMumentDetail(mumentId:String, music: MusicInfoEntity) {
+        val bundle = Bundle().also { bundle ->
+            bundle.putString(MUMENT_ID, mumentId)
+            bundle.putParcelable(MUSIC_INFO_ENTITY, music)
+            intent.getStringExtra(START_NAV_KEY)?.let {
+                when(it) {
+                    FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
+                        bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+                    }
+                    FROM_SEARCH -> {
+                        bundle.putString(START_NAV_KEY, FROM_SEARCH)
+                    }
+                }
+            }
+        }
+
+        when(navController.currentDestination?.id) {
+            R.id.homeFragment -> {
+                navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
+            }
+            R.id.musicDetailFragment -> {
+                navController.navigate(R.id.action_musicDetailFragment_to_mumentDetailFragment, bundle)
+            }
+            else -> {}
+        }
+    }
+
+    private fun updateMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        navHost.childFragmentManager.fragments.get(0)?.let {
+            if (it is MumentDetailFragment) {
+                it.updateMumentDetailInfo(mumentId, musicInfo)
+            }
         }
     }
 }

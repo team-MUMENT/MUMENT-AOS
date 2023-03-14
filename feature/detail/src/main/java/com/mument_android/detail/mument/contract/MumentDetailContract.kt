@@ -38,6 +38,7 @@ class MumentDetailContract {
         data class ReceiveMumentId(val mumentId: String) : MumentDetailEvent()
         data class ReceiveMusicInfo(val musicInfoEntity: MusicInfoEntity) : MumentDetailEvent()
         data class ReceiveStartNav(val startNav: String): MumentDetailEvent()
+        data class UpdateMumentInfo(val mumentId: String, val musicInfo: MusicInfoEntity): MumentDetailEvent()
 
         /** ...메뉴 버튼 클릭 Event **/
         object OnClickOptionButton : MumentDetailEvent()
