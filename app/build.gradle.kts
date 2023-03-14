@@ -13,7 +13,16 @@ plugins {
 
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
+
 android {
+    signingConfigs {
+        create("release") {
+            storeFile = file("key_store_file/release.jks")
+            storePassword = "alsgh478"
+            keyAlias = "releaseKey"
+            keyPassword = "alsgh478"
+        }
+    }
     compileSdk = DefaultConfig.COMPILE_SDK
 
     defaultConfig {

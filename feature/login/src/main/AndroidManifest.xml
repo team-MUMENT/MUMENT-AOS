@@ -39,7 +39,7 @@
 
                 <data
                     android:host="oauth"
-                    android:scheme="$kakaokey" />
+                    android:scheme="kakaodcf1de7e11089f484ac873f0e833427d" />
 
             </intent-filter>
         </activity>

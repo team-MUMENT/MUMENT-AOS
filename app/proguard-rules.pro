@@ -20,6 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class com.kakao.sdk.**.model.* { <fields>; }
+-keep class * extends com.google.gson.TypeAdapter
 
 # kakao
 -keep class com.kakao.** { *; }
@@ -82,4 +84,3 @@
 
 -keep class com.mument_android.domain.entity.detail.MumentDetailEntity
 -keep class com.mument_android.domain.entity.music.MusicInfoEntity
-

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.databinding.AlretInapproUserBinding
@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RestrictUserDialog(context: Context) : DialogFragment() {
 
-    val viewModel: MainViewModel by viewModels()
+    val viewModel: MainViewModel by activityViewModels()
     private var binding by AutoClearedValue<AlretInapproUserBinding>()
 
     override fun onCreateView(
@@ -51,9 +51,7 @@ class RestrictUserDialog(context: Context) : DialogFragment() {
     }
 
     private fun dataNetwork() {
-        viewModel.limitUser.observe(viewLifecycleOwner) {
-            binding.viewModel = it
-        }
+        binding.viewModel = viewModel.limitUser.value
     }
 
     private fun clickListener() {
