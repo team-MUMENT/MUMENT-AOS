@@ -1,17 +1,13 @@
 package com.mument_android.detail.history
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.paging.PagingData
 import com.angdroid.navigation.MoveFromHistoryToDetail
-import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.detail.databinding.ActivityHistoryBinding
 import com.mument_android.detail.mument.listener.StackProvider
-import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

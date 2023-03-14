@@ -68,7 +68,6 @@ class MultipartResolver(private val context: Context) {
         val exif: ExifInterface? = try {
             ExifInterface(inputStream!!)
         } catch (e: IOException) {
-            e.printStackTrace()
             return -1
         }
         inputStream.close()

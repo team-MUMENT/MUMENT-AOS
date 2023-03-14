@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.konan.properties.Properties
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     id("com.android.application")
@@ -27,10 +26,10 @@ android {
 
         signingConfigs {
             register("release") {
-                storeFile = file("signKey")
-                storePassword = gradleLocalProperties(rootDir).getProperty("keystore_password")
-                keyAlias = gradleLocalProperties(rootDir).getProperty("key_alias")
-                keyPassword = gradleLocalProperties(rootDir).getProperty("key_alias_password")
+                storeFile = file("key_store_file/release.jks")
+                storePassword = "alsgh478"
+                keyAlias = "releaseKey"
+                keyPassword = "alsgh478"
             }
         }
     }
@@ -42,7 +41,6 @@ android {
             isDebuggable = true
             signingConfig = signingConfigs.getByName("release")
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
 
         getByName("debug") {

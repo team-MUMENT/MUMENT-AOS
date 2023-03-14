@@ -110,7 +110,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             val navController = findNavController(binding.navHost.id)
             val currentDestinationId = navController.currentDestination?.id
             //기록하기 버튼을 누를 때 GA
-            when(currentDestinationId) {
+            when (currentDestinationId) {
                 2131362133 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_home")
                 2131362286 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_song_detail_page")
                 2131362284 -> FirebaseAnalyticsUtil.firebaseWritePathLog("from_mument_detail_page")
@@ -277,6 +277,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+
+        intent?.getStringExtra(FROM_HISTORY)?.let {
+            if (it == FROM_HISTORY) {
+                val mumentId = intent.getStringExtra(MUMENT_ID) ?: ""
+                intent.getParcelableExtra(MUSIC_INFO_ENTITY, MusicInfoEntity::class.java)?.let { musicInfo ->
+                    updateMumentDetail(mumentId, musicInfo)
+                }
+            }
+        }
+
         intent?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
             intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                 showMumentDetail(mumentId, music)
@@ -298,26 +308,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             )
         }
 
-        intent?.getStringExtra(FROM_HISTORY)?.let {
-            if (it == FROM_HISTORY) {
-                val mumentId = intent.getStringExtra(MUMENT_ID) ?: ""
-                intent.getParcelableExtra(MUSIC_INFO_ENTITY, MusicInfoEntity::class.java)?.let { musicInfo ->
-                    updateMumentDetail(mumentId, musicInfo)
-                }
-            }
-        }
-
         intent?.getBooleanExtra("FINISH", false)?.let { finish ->
             if (finish) finish()
         }
     }
 
-    private fun showMumentDetail(mumentId:String, music: MusicInfoEntity) {
+    private fun showMumentDetail(mumentId: String, music: MusicInfoEntity) {
         val bundle = Bundle().also { bundle ->
             bundle.putString(MUMENT_ID, mumentId)
             bundle.putParcelable(MUSIC_INFO_ENTITY, music)
             intent.getStringExtra(START_NAV_KEY)?.let {
-                when(it) {
+                when (it) {
                     FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
                         bundle.putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
                     }
@@ -328,7 +329,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         }
 
-        when(navController.currentDestination?.id) {
+        when (navController.currentDestination?.id) {
             R.id.homeFragment -> {
                 navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
             }
