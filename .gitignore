@@ -56,6 +56,8 @@ build/
 /*/signKey
 .app/signKey
 .app/mumentkeystores
+app/mumentkeystores
+
 
 # Local configuration file (sdk path, etc)
 local.properties
