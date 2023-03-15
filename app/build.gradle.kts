@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
@@ -22,29 +23,36 @@ android {
         versionCode = DefaultConfig.VERSION_CODE
         versionName = DefaultConfig.VERSION_NAME
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildToolsVersion = "30.0.3"
+
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+        buildConfigField("String", "KAKAO_NATIVE_KEY", properties.getProperty("KAKAO_NATIVE_KEY"))
 
         signingConfigs {
             register("release") {
-                storeFile = file("key_store_file/release.jks")
-                storePassword = "alsgh478"
-                keyAlias = "releaseKey"
-                keyPassword = "alsgh478"
+                storeFile = file("mumentkeystores")
+                storePassword = gradleLocalProperties(rootDir).getProperty("keystore_password")
+                keyAlias = gradleLocalProperties(rootDir).getProperty("key_alias")
+                keyPassword = gradleLocalProperties(rootDir).getProperty("key_alias_password")
             }
         }
     }
 
     buildTypes {
         release {
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             isMinifyEnabled = true
             isDebuggable = true
-            signingConfig = signingConfigs.getByName("release")
             isShrinkResources = true
         }
 
-        getByName("debug") {
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
+
         }
     }
     compileOptions {

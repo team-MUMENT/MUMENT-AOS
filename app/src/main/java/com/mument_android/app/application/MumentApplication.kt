@@ -3,6 +3,7 @@ package com.mument_android.app.application
 import android.app.Application
 import com.kakao.sdk.common.KakaoSdk
 import com.mument_android.BuildConfig
+import com.mument_android.data.BuildConfig.KAKAO_NATIVE_KEY
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.HiltAndroidApp
@@ -11,7 +12,7 @@ import java.util.*
 
 @HiltAndroidApp
 class MumentApplication: Application() {
-    val historyBackStack = Stack<Pair<Int, Music>>()
+    val historyBackStack = Stack<Triple<String, Int, Music>>()
 
     override fun onCreate() {
         super.onCreate()
@@ -20,7 +21,7 @@ class MumentApplication: Application() {
     }
 
     private fun initKakaoLogin() {
-        val kakaoAppKey = "dcf1de7e11089f484ac873f0e833427d"
+        val kakaoAppKey = KAKAO_NATIVE_KEY
         KakaoSdk.init(this, kakaoAppKey)
 
     }

@@ -32,6 +32,7 @@ import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.POP_BACKSTACK_KEY
 import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
@@ -42,6 +43,7 @@ import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.detail.mument.fragment.MumentDetailFragment
+import com.mument_android.detail.mument.listener.StackProvider
 import com.mument_android.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
 import com.mument_android.domain.entity.detail.MumentDetailEntity
@@ -59,6 +61,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate), EditMumentNavigator {
     lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
+    @Inject lateinit var stackProvider: StackProvider
 
     @Inject
     lateinit var dataStoreManager: DataStoreManager
@@ -278,23 +281,39 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        intent?.getStringExtra(FROM_HISTORY)?.let {
-            if (it == FROM_HISTORY) {
-                val mumentId = intent.getStringExtra(MUMENT_ID) ?: ""
-                intent.getParcelableExtra(MUSIC_INFO_ENTITY, MusicInfoEntity::class.java)?.let { musicInfo ->
-                    updateMumentDetail(mumentId, musicInfo)
+        val fromHistory = intent?.getStringExtra(FROM_HISTORY) ?: ""
+        val popBackStack = intent?.getBooleanExtra(POP_BACKSTACK_KEY, false) ?: false
+        val mumentId = intent?.getStringExtra(MUMENT_ID) ?: ""
+
+        if (fromHistory == FROM_HISTORY && popBackStack) {
+            Log.e("from history8888", "$popBackStack")
+            Log.e("from history9999", "$fromHistory")
+
+            updateMumentDetail(null, null, true)
+        } else {
+            intent?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
+                if(mumentId.isNotEmpty()) {
+                    Log.e("dsafsa25235", "fdfsdfasfasfasf235352523523")
+                    Log.e("show mument detail", "${mumentId}")
+                    showMumentDetail(mumentId, music, popBackStack)
+                } else {
+                    Log.e("music detail", "${music}")
+                    moveToMusicDetail(music)
                 }
             }
         }
 
-        intent?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
-            intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
-                showMumentDetail(mumentId, music)
-            } ?: navController.navigate(
+        intent?.getBooleanExtra("FINISH", false)?.let { finish ->
+            if (finish) finish()
+        }
+    }
+    private fun moveToMusicDetail(music: MusicInfoEntity) {
+        if(navController.currentDestination?.id == R.id.homeFragment) {
+            navController.navigate(
                 R.id.action_homeFragment_to_musicDetailFragment,
                 Bundle().apply {
+                    putParcelable(MUSIC_INFO_ENTITY, music)
                     intent.getStringExtra(START_NAV_KEY)?.let {
-                        putParcelable(MUSIC_INFO_ENTITY, music)
                         when(it) {
                             FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
                                 putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
@@ -307,13 +326,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             )
         }
-
-        intent?.getBooleanExtra("FINISH", false)?.let { finish ->
-            if (finish) finish()
-        }
     }
 
-    private fun showMumentDetail(mumentId: String, music: MusicInfoEntity) {
+    private fun showMumentDetail(mumentId: String, music: MusicInfoEntity, popBackStack: Boolean) {
         val bundle = Bundle().also { bundle ->
             bundle.putString(MUMENT_ID, mumentId)
             bundle.putParcelable(MUSIC_INFO_ENTITY, music)
@@ -336,15 +351,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             R.id.musicDetailFragment -> {
                 navController.navigate(R.id.action_musicDetailFragment_to_mumentDetailFragment, bundle)
             }
-            else -> {}
+            else -> {
+                Log.e("dsafsa25235", "${navController.currentDestination?.id == R.id.musicDetailFragment}")
+                updateMumentDetail(mumentId, music, popBackStack)
+            }
         }
     }
 
-    private fun updateMumentDetail(mumentId: String, musicInfo: MusicInfoEntity) {
+    private fun updateMumentDetail(mumentId: String?, music: MusicInfoEntity?, popBackStack: Boolean) {
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
-        navHost.childFragmentManager.fragments.get(0)?.let {
-            if (it is MumentDetailFragment) {
-                it.updateMumentDetailInfo(mumentId, musicInfo)
+        navHost.childFragmentManager.fragments.get(0)?.let { mumentDetail ->
+            if (mumentDetail is MumentDetailFragment) {
+                stackProvider.getHistoryBackStack {
+                    if (!popBackStack) {
+                        Log.e("------1111111111", "${mumentId}")
+                        music?.let {
+                            mumentDetail.updateMumentDetailInfo(mumentId, it)
+                        }
+                    } else {
+                        Log.e("------222222222221", "${mumentId}")
+                        stackProvider.getHistoryBackStack {
+                            Log.e("------stack", "${it}")
+                            if (it.isNotEmpty()) {
+                                it.peek()?.let {
+                                    mumentDetail.updateMumentDetailInfo(it.first, it.third.toMusicInfoEntity())
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

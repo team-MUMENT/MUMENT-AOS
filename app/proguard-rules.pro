@@ -73,9 +73,36 @@
 -keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
 
 # Retain service method parameters when optimizing.
--keepclassmembers,allowshrinking,allowobfuscation interface * {
+-keepclasseswithmembers class * {
     @retrofit2.http.* <methods>;
 }
+-keepclassmembernames interface * {
+    @retrofit2.http.* <methods>;
+}
+
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squereup.okhttp.** { *; }
+-dontwarn com.squrareup.okhttp.**
+
+# GSON Annotations
+-keepclassmembers class * {
+  @com.google.gson.annotations.SerializedName <fields>;
+}
+
+-dontwarn java.nio.file.*
+-dontwarn okio.**
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
+
+
+ # Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
+ -dontwarn kotlin.Unit
+
+ # Top-level functions that can only be used by Kotlin.
+ -dontwarn retrofit2.KotlinExtensions
+
 
 -keep class * extends androidx.fragment.app.Fragment{}
 -keepnames class * extends android.os.Parcelable
@@ -86,7 +113,23 @@
 -keep class com.mument_android.data.local.converter.** { *; }
 -keep class com.mument_android.data.local.recentlist.** { *; }
 -keep class com.mument_android.data.local.todaymument.** { *; }
+-keep class com.mument_android.data.util.** { *; }
+-keep class com.mument_android.data.network.** { *; }
+
+
+-keep class com.mument_android.core_dependent.network.ResponseRefreshToken
+-keep class com.mument_android.core_dependent.network.RefreshTokenApiService
+-keep class com.mument_android.core_dependent.util.** { *; }
+
+-keep class com.mument_android.core.base.BaseMapper
+-keep class com.mument_android.core.model.** { *; }
+-keep class com.mument_android.core.network.** { *; }
+-keep class com.mument_android.core.util.** { *; }
+
+-keep class com.mument_android.app.Notification
 
 -keep class com.mument_android.domain.entity.detail.MumentDetailEntity
 -keep class com.mument_android.domain.entity.music.MusicInfoEntity
+-keep class com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+-keep class com.mument_android.domain.entity.musicdetail.musicdetaildata.MyMument
 
