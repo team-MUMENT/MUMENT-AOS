@@ -13,16 +13,7 @@ plugins {
 
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
-
 android {
-    signingConfigs {
-        create("release") {
-            storeFile = file("key_store_file/release.jks")
-            storePassword = "alsgh478"
-            keyAlias = "releaseKey"
-            keyPassword = "alsgh478"
-        }
-    }
     compileSdk = DefaultConfig.COMPILE_SDK
 
     defaultConfig {
@@ -32,11 +23,14 @@ android {
         versionCode = DefaultConfig.VERSION_CODE
         versionName = DefaultConfig.VERSION_NAME
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildToolsVersion = "30.0.3"
+
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+        buildConfigField("String", "KAKAO_NATIVE_KEY", properties.getProperty("KAKAO_NATIVE_KEY"))
 
         signingConfigs {
             register("release") {
-                storeFile = file("signKey")
+                storeFile = file("mumentkeystores")
                 storePassword = gradleLocalProperties(rootDir).getProperty("keystore_password")
                 keyAlias = gradleLocalProperties(rootDir).getProperty("key_alias")
                 keyPassword = gradleLocalProperties(rootDir).getProperty("key_alias_password")
@@ -47,14 +41,18 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             isMinifyEnabled = true
             isDebuggable = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
 
-        getByName("debug") {
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
+
         }
     }
     compileOptions {

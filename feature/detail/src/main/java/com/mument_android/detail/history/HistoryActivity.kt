@@ -1,17 +1,13 @@
 package com.mument_android.detail.history
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.paging.PagingData
 import com.angdroid.navigation.MoveFromHistoryToDetail
-import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.detail.databinding.ActivityHistoryBinding
 import com.mument_android.detail.mument.listener.StackProvider
-import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -47,9 +43,12 @@ class HistoryActivity :
     }
 
     private fun setListener() {
-        binding.clTouch.click { moveToMusicDetail() }
-        binding.ivAlbum.click { moveToMusicDetail() }
-        binding.ivBtnBack.click { moveToMusicDetail() }
+        binding.clTouch.click { moveToMusicDetail(false) }
+        binding.ivAlbum.click { moveToMusicDetail(false) }
+        binding.ivBtnBack.click {
+            stackProvider.popHistoryBackStack()
+            moveFromHistoryToDetail.popBackToMain()
+        }
         binding.tvLatestOrder.click {
             historyViewModel.changeSortType("Y")
         }
@@ -58,14 +57,14 @@ class HistoryActivity :
         }
     }
 
-    private fun moveToMumentDetail(mumentId: String) {
+    private fun moveToMumentDetail(mumentId: String, popBackStack: Boolean) {
         val music = historyViewModel.music.value.toMusicInfoEntity()
-        moveFromHistoryToDetail.moveMumentDetail(mumentId, music)
+        moveFromHistoryToDetail.moveMumentDetail(mumentId, music, popBackStack)
     }
 
-    private fun moveToMusicDetail() {
+    private fun moveToMusicDetail(popBackStack: Boolean) {
         val music = historyViewModel.music.value.toMusicInfoEntity()
-        moveFromHistoryToDetail.moveMusicDetail(music)
+        moveFromHistoryToDetail.moveMusicDetail(music, popBackStack)
     }
 
     private fun likeMument(mumentId: String) {
@@ -78,9 +77,10 @@ class HistoryActivity :
 
     private fun collectSortType() {
         collectFlowWhenStarted(historyViewModel.selectSortType) { sort ->
-            adapter = HistoryListAdapter(::moveToMumentDetail, {
-                likeMument(it)
-            }, { cancelLikeMument(it) })
+            adapter = HistoryListAdapter(
+                itemClickListener = { moveToMumentDetail(it, false) },
+                likeMument = { likeMument(it) },
+                cancelLikeMument = { cancelLikeMument(it) })
             binding.rcHistory.adapter = adapter
             binding.tvLatestOrder.isSelected = sort == "Y"
             binding.tvOldestOrder.isSelected = sort == "N"
@@ -90,6 +90,7 @@ class HistoryActivity :
 
     override fun onBackPressed() {
         stackProvider.popHistoryBackStack()
+        moveFromHistoryToDetail.popBackToMain()
         super.onBackPressed()
     }
 }

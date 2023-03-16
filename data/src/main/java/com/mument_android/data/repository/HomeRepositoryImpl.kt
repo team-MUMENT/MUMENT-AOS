@@ -40,14 +40,11 @@ class HomeRepositoryImpl @Inject constructor(
                     result.data?.data?.let { recentSearchDataMapper.map(it) }
                 }
                 is ResultWrapper.GenericError -> {
-                    Log.e(
-                        "GenericError",
-                        "GenericError -> code ${result.code}: message: ${result.message}"
-                    )
+                    Timber.e("GenericError -> code ${result.code}: message: ${result.message}")
                     null
                 }
                 is ResultWrapper.NetworkError -> {
-                    Log.e("NetworkError", "$result")
+                    Timber.e("NetworkError $result")
                     null
                 }
                 else -> {
@@ -135,59 +132,22 @@ class HomeRepositoryImpl @Inject constructor(
     override suspend fun fetchProfileExist(): Boolean? = homeDataSource.fetchProfileExist()
 
     override suspend fun getTodayMument(): Flow<TodayMument?> =
-        localTodayMumentDataSource.getTodayMument().run {
-            when (this) { //홈 먼저 검사.
-                is ResultWrapper.Success -> {  //제대로 넘어왔을 때 분기처리, null X, 오늘
-                    if (data.todayDate == LocalDate.now().toString()) {
-                        todayMumentMapper.map(data)
-                    } else {
-                        null
-                    }
-                }
-                is ResultWrapper.LocalError -> {
-                    Log.e("Local Error", message.toString())
-                    null
-                }
-                else -> {
-                    null
-                }//네트워크쪽 Result, 따라서 이거는 나중에 Local, Remote로 분리해야 할 듯
-            }
-        }.let { todayLocal ->
-            flow {
-                if (todayLocal == null) {
-                    homeDataSource.getTodayMument().let { collectRemote -> // Remote 받아옴
-                        Log.e("TODAY REMOTE", collectRemote.toString())
-                        when (collectRemote) {
-                            is ResultWrapper.Success -> {
-
-                                collectRemote.data?.data?.let { today ->
-                                    Log.e("TODAY REMOTE TODAY", today.toString())
-                                    todayMumentMapper.mapObject(today).let {
-                                        localTodayMumentDataSource.insertMument(
-                                            todayMumentMapper.mapReverse(
-                                                it
-                                            )
-                                        ) // 로컬에 업데이트
-                                        emit(it)  //방출
-                                    }
-                                }
-                            }
-                            is ResultWrapper.GenericError -> {
-                                Log.e(
-                                    "TodayMument",
-                                    "GenericError -> code ${collectRemote.code}: message: ${collectRemote.message}"
-                                )
-                            }
-                            is ResultWrapper.NetworkError -> {
-                                Log.e("TodayMument", "NetworkError")
-                            }
-                            else -> {
-                            }
+        flow {
+            homeDataSource.getTodayMument().let { collectRemote -> // Remote 받아옴
+                when (collectRemote) {
+                    is ResultWrapper.Success -> {
+                        collectRemote.data?.data?.let { today ->
+                            emit(todayMumentMapper.mapObject(today))
                         }
                     }
-                } else {
-                    Log.e("TODAY Local", todayLocal.toString())
-                    emit(todayLocal)
+                    is ResultWrapper.GenericError -> {
+                        Timber.e("Today Mument GenericError -> code ${collectRemote.code}: message: ${collectRemote.message}")
+                    }
+                    is ResultWrapper.NetworkError -> {
+                        Timber.e("TodayMument NetworkError")
+                    }
+                    else -> {
+                    }
                 }
             }
         }

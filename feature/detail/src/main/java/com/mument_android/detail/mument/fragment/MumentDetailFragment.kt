@@ -22,6 +22,7 @@ import com.google.gson.Gson
 import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.POP_BACKSTACK_KEY
 import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
@@ -187,7 +188,7 @@ class MumentDetailFragment : Fragment() {
                     stackProvider.getHistoryBackStack {
                         if (it.isNotEmpty()) {
                             it.peek()?.let { mument ->
-                                moveToMumentHistory(mument.second, mument.first)
+                                moveToMumentHistory(mument.third, mument.second)
                             }
                         } else {
                             val startNav = viewModel.viewState.value.navStart
@@ -232,12 +233,14 @@ class MumentDetailFragment : Fragment() {
                     arguments?.getString(START_NAV_KEY)
                 )
                 is MumentDetailSideEffect.NavToMumentHistory -> {
-                    viewModel.viewState.value.musicInfo?.toMusic()?.let { music ->
-                        viewModel.viewState.value.mument?.writerInfo?.userId?.toInt()
-                            ?.let { userId ->
-                                stackProvider.putHistoryBackStack(userId, music)
-                                moveToMumentHistory(music, userId)
-                            }
+                    viewModel.viewState.value.run {
+                        musicInfo?.toMusic()?.let { music ->
+                            mument?.writerInfo?.userId?.toInt()
+                                ?.let { userId ->
+                                    stackProvider.putHistoryBackStack(requestMumentId, userId, music)
+                                    moveToMumentHistory(music, userId)
+                                }
+                        }
                     }
                 }
                 is MumentDetailSideEffect.Toast -> requireContext().showToast(
@@ -297,13 +300,9 @@ class MumentDetailFragment : Fragment() {
         binding.laLike.click {
             if (binding.laLike.progress == 0F) {
                 binding.laLike.playAnimation()
-                viewModel.emitEvent(
-                    MumentDetailEvent.OnClickLikeMument
-                )
+                viewModel.emitEvent(MumentDetailEvent.OnClickLikeMument)
             } else {
-                viewModel.emitEvent(
-                    MumentDetailEvent.OnClickUnLikeMument
-                )
+                viewModel.emitEvent(MumentDetailEvent.OnClickUnLikeMument)
             }
         }
     }

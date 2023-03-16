@@ -4,7 +4,7 @@ import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import java.util.Stack
 
 interface StackProvider {
-    fun putHistoryBackStack(userId: Int, music: Music)
+    fun putHistoryBackStack(mumentId: String, userId: Int, music: Music)
     fun popHistoryBackStack()
-    fun getHistoryBackStack(callback: (Stack<Pair<Int, Music>>) -> Unit)
+    fun getHistoryBackStack(callback: (Stack<Triple<String, Int, Music>>) -> Unit)
 }
