@@ -24,13 +24,14 @@ android {
         versionName = DefaultConfig.VERSION_NAME
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildToolsVersion = "30.0.3"
+        multiDexEnabled = true
 
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
         buildConfigField("String", "KAKAO_NATIVE_KEY", properties.getProperty("KAKAO_NATIVE_KEY"))
 
         signingConfigs {
             register("release") {
-                storeFile = file("mumentkeystores")
+                storeFile = file("key_store_file/release.jks")
                 storePassword = gradleLocalProperties(rootDir).getProperty("keystore_password")
                 keyAlias = gradleLocalProperties(rootDir).getProperty("key_alias")
                 keyPassword = gradleLocalProperties(rootDir).getProperty("key_alias_password")
@@ -75,6 +76,7 @@ dependencies {
     addRoomDependencies()
     addDaggerHiltDependencies()
     implementation(AndroidXDependencies.lifecycleJava8)
+    implementation(AndroidXDependencies.multiIndex)
     addLifecycleDependencies()
     addTestDependencies()
     addNetworkDependencies()
