@@ -1,17 +1,16 @@
 package com.mument_android.app.application
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.kakao.sdk.common.KakaoSdk
 import com.mument_android.BuildConfig
 import com.mument_android.data.BuildConfig.KAKAO_NATIVE_KEY
-import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import java.util.*
 
 @HiltAndroidApp
-class MumentApplication: Application() {
+class MumentApplication: MultiDexApplication() {
     var historyBackStack = Stack<Triple<String, Int, Music>>()
 
     override fun onCreate() {
