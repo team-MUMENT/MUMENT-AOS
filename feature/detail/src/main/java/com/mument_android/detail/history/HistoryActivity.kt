@@ -121,6 +121,7 @@ class HistoryActivity :
     private fun moveToMusicDetail(popBackStack: Boolean) {
         val music = historyViewModel.music.value.toMusicInfoEntity()
         moveFromHistoryToDetail.moveMusicDetail(music, popBackStack)
+        finish()
     }
 
     private fun likeMument(mumentId: String) {
