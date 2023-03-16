@@ -2,11 +2,14 @@ package com.mument_android.core_dependent.util
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Build.VERSION.SDK_INT
+import android.os.Bundle
+import android.os.Parcelable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -167,6 +170,17 @@ inline fun <T : View> T.checkIsViewLoaded(crossinline callback: T.() -> Unit) {
         }
     })
 }
+
+inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
+    SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelableExtra<T>(key)
+}
+
+inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
+    SDK_INT >= 33 -> getParcelable(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getParcelable<T>(key)
+}
+
 
 fun Context.createSpannableString(
     originalText: String,
