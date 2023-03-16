@@ -3,6 +3,7 @@ package com.mument_android.detail.music
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,9 @@ class MusicDetailFragment : Fragment() {
     @Inject
     lateinit var historyNavigatorProvider: HistoryNavigatorProvider
 
+    @Inject
+    lateinit var stackProvider: StackProvider
+
     lateinit var musicDetailMumentHeaderAdapter: MusicDetailMumentHeaderAdapter
 
     lateinit var musicDetailListHeaderAdapter: MusicDetailListHeaderAdapter
@@ -89,7 +93,10 @@ class MusicDetailFragment : Fragment() {
         updateView()
         collectEffect()
         receiveMusicId()
+    }
 
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun clickBackButton() {
@@ -122,6 +129,7 @@ class MusicDetailFragment : Fragment() {
             when (effect) {
                 is MusicDetailEffect.ShowToast -> requireContext().showToast(effect.msg)
                 is MusicDetailEffect.PopBackStack -> {
+                    Log.e("start nav", "${effect.startNav}")
                     musicDetailNavigatorProvider.musicDetailPopBackStack(effect.startNav)
                 }
                 MusicDetailEffect.CompleteLikeMument -> {}

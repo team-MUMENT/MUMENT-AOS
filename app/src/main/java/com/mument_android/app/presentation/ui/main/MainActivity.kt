@@ -28,6 +28,7 @@ import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMument
 import com.mument_android.app.presentation.ui.detail.mument.navigator.checkCurrentFragment
 import com.mument_android.app.presentation.ui.main.viewmodel.MainViewModel
 import com.mument_android.core.util.Constants.FROM_HISTORY
+import com.mument_android.core.util.Constants.FROM_NOTIFICATION
 import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUMENT_ID
@@ -50,6 +51,8 @@ import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.home.main.HomeFragment
+import com.mument_android.home.notify.NotifyActivity
+import com.mument_android.home.search.SearchActivity
 import com.mument_android.locker.LockerFragment
 import com.mument_android.record.RecordActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -286,19 +289,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val mumentId = intent?.getStringExtra(MUMENT_ID) ?: ""
 
         if (fromHistory == FROM_HISTORY && popBackStack) {
-            Log.e("from history8888", "$popBackStack")
-            Log.e("from history9999", "$fromHistory")
-
             updateMumentDetail(null, null, true)
         } else {
             intent?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
                 if(mumentId.isNotEmpty()) {
-                    Log.e("dsafsa25235", "fdfsdfasfasfasf235352523523")
-                    Log.e("show mument detail", "${mumentId}")
-                    showMumentDetail(mumentId, music, popBackStack)
+                    showMumentDetail(mumentId, music, popBackStack, intent)
                 } else {
-                    Log.e("music detail", "${music}")
-                    moveToMusicDetail(music)
+                    moveToMusicDetail(music, intent)
+                }
+            } ?: run {
+                when(intent?.getStringExtra(START_NAV_KEY)) {
+                    FROM_SEARCH -> {
+                        startActivity(Intent(this, SearchActivity::class.java))
+                    }
+                    FROM_NOTIFICATION -> {
+                        startActivity(Intent(this, NotifyActivity::class.java))
+                    }
+                    else -> {}
                 }
             }
         }
@@ -307,28 +314,30 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             if (finish) finish()
         }
     }
-    private fun moveToMusicDetail(music: MusicInfoEntity) {
-        if(navController.currentDestination?.id == R.id.homeFragment) {
-            navController.navigate(
-                R.id.action_homeFragment_to_musicDetailFragment,
-                Bundle().apply {
-                    putParcelable(MUSIC_INFO_ENTITY, music)
-                    intent.getStringExtra(START_NAV_KEY)?.let {
-                        when(it) {
-                            FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
-                                putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
-                            }
-                            FROM_SEARCH -> {
-                                putString(START_NAV_KEY, FROM_SEARCH)
-                            }
-                        }
+    private fun moveToMusicDetail(music: MusicInfoEntity, intent: Intent) {
+        val bundle = Bundle().apply {
+            putParcelable(MUSIC_INFO_ENTITY, music)
+            intent.getStringExtra(START_NAV_KEY)?.let {
+                when(it) {
+                    FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
+                        putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
+                    }
+                    FROM_SEARCH -> {
+                        putString(START_NAV_KEY, FROM_SEARCH)
                     }
                 }
-            )
+            }
         }
+
+        when(navController.currentDestination?.id) {
+            R.id.homeFragment -> navController.navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)
+            R.id.mumentDetailFragment -> navController.navigate(R.id.action_mumentDetailFragment_to_musicDetailFragment, bundle)
+            else -> {}
+        }
+        stackProvider.clearBackStack()
     }
 
-    private fun showMumentDetail(mumentId: String, music: MusicInfoEntity, popBackStack: Boolean) {
+    private fun showMumentDetail(mumentId: String, music: MusicInfoEntity, popBackStack: Boolean, intent: Intent) {
         val bundle = Bundle().also { bundle ->
             bundle.putString(MUMENT_ID, mumentId)
             bundle.putParcelable(MUSIC_INFO_ENTITY, music)
@@ -352,7 +361,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 navController.navigate(R.id.action_musicDetailFragment_to_mumentDetailFragment, bundle)
             }
             else -> {
-                Log.e("dsafsa25235", "${navController.currentDestination?.id == R.id.musicDetailFragment}")
                 updateMumentDetail(mumentId, music, popBackStack)
             }
         }
@@ -364,16 +372,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             if (mumentDetail is MumentDetailFragment) {
                 stackProvider.getHistoryBackStack {
                     if (!popBackStack) {
-                        Log.e("------1111111111", "${mumentId}")
-                        music?.let {
-                            mumentDetail.updateMumentDetailInfo(mumentId, it)
-                        }
+                        music?.let { mumentDetail.updateMumentDetailInfo(mumentId, it) }
                     } else {
-                        Log.e("------222222222221", "${mumentId}")
                         stackProvider.getHistoryBackStack {
-                            Log.e("------stack", "${it}")
                             if (it.isNotEmpty()) {
-                                it.peek()?.let {
+                                it.pop()?.let {
                                     mumentDetail.updateMumentDetailInfo(it.first, it.third.toMusicInfoEntity())
                                 }
                             }
