@@ -22,6 +22,13 @@ class StackProviderImpl @Inject constructor(
         }
     }
 
+    override fun clearBackStack() {
+        (context as MumentApplication).historyBackStack.let {
+            it.clear()
+            Log.e("dsfads", "dsfadsf")
+        }
+    }
+
     override fun getHistoryBackStack(callback: (Stack<Triple<String, Int, Music>>) -> Unit) {
         (context as MumentApplication).historyBackStack.let {
             callback(it)

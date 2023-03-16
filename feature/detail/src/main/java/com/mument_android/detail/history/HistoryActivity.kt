@@ -43,10 +43,15 @@ class HistoryActivity :
     }
 
     private fun setListener() {
-        binding.clTouch.click { moveToMusicDetail(false) }
-        binding.ivAlbum.click { moveToMusicDetail(false) }
+        binding.clTouch.click {
+            stackProvider.clearBackStack()
+            moveToMusicDetail(false)
+        }
+        binding.ivAlbum.click {
+            stackProvider.clearBackStack()
+            moveToMusicDetail(false)
+        }
         binding.ivBtnBack.click {
-            stackProvider.popHistoryBackStack()
             moveFromHistoryToDetail.popBackToMain()
         }
         binding.tvLatestOrder.click {
@@ -89,7 +94,6 @@ class HistoryActivity :
     }
 
     override fun onBackPressed() {
-        stackProvider.popHistoryBackStack()
         moveFromHistoryToDetail.popBackToMain()
         super.onBackPressed()
     }

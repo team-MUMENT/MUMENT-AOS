@@ -12,7 +12,7 @@ import java.util.*
 
 @HiltAndroidApp
 class MumentApplication: Application() {
-    val historyBackStack = Stack<Triple<String, Int, Music>>()
+    var historyBackStack = Stack<Triple<String, Int, Music>>()
 
     override fun onCreate() {
         super.onCreate()

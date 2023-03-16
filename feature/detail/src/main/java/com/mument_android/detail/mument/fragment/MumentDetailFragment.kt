@@ -228,10 +228,10 @@ class MumentDetailFragment : Fragment() {
 
                 MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
 
-                is MumentDetailSideEffect.NavToMusicDetail -> musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(
-                    effect.music,
-                    arguments?.getString(START_NAV_KEY)
-                )
+                is MumentDetailSideEffect.NavToMusicDetail -> {
+                    musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.music, arguments?.getString(START_NAV_KEY))
+                    stackProvider.clearBackStack()
+                }
                 is MumentDetailSideEffect.NavToMumentHistory -> {
                     viewModel.viewState.value.run {
                         musicInfo?.toMusic()?.let { music ->

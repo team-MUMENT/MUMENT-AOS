@@ -24,7 +24,7 @@ class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity:
             navController.navigate(
                 R.id.musicDetailFragment,
                 bundle,
-                NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, false).build()
+                NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, true).build()
             )
         }
     }
@@ -35,10 +35,17 @@ class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity:
                 putString(START_NAV_KEY, startNav)
                 putParcelable(MUSIC_INFO_ENTITY, music)
             }
-            this.navController.navigate(
-                R.id.action_mumentDetailFragment_to_musicDetailFragment,
-                bundle
+
+            navController.navigate(
+                R.id.musicDetailFragment,
+                bundle,
+                NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, true).build()
             )
+
+//            this.navController.navigate(
+//                R.id.action_mumentDetailFragment_to_musicDetailFragment,
+//                bundle
+//            )
 //            if (navController.isFragmentInBackStack(R.id.musicDetailFragment)) {
 //
 //                navController.popBackStack(R.id.musicDetailFragment, false)
