@@ -1,10 +1,7 @@
 package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.angdroid.navigation.MoveFromHistoryToDetail
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.core.util.Constants.FROM_HISTORY

@@ -18,18 +18,17 @@ import com.angdroid.navigation.HistoryNavigatorProvider
 import com.angdroid.navigation.MoveRecordProvider
 import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.angdroid.navigation.MusicDetailNavigatorProvider
-import com.mument_android.core.util.Constants
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
 import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.ViewUtils.showToast
+import com.mument_android.core_dependent.util.parcelable
 import com.mument_android.detail.databinding.FragmentMusicDetailBinding
 import com.mument_android.detail.history.HistoryActivity
-import com.mument_android.detail.mument.contract.MumentDetailContract
 import com.mument_android.detail.mument.listener.MumentClickListener
-import com.mument_android.detail.mument.listener.StackProvider
+import com.angdroid.navigation.StackProvider
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEffect
 import com.mument_android.detail.music.MusicDetailContract.MusicDetailEvent
 import com.mument_android.domain.entity.music.MusicInfoEntity
@@ -106,7 +105,7 @@ class MusicDetailFragment : Fragment() {
     }
 
     private fun receiveMusicId() {
-        arguments?.getParcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
+        arguments?.parcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let {
             musicDetailViewModel.emitEvent(MusicDetailEvent.ReceiveRequestMusicInfo(it))
         }
         arguments?.getString(START_NAV_KEY)?.let {
@@ -205,7 +204,7 @@ class MusicDetailFragment : Fragment() {
     private val getResultText =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                it.data?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
+                it.data?.parcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
                     it.data?.getStringExtra(MUMENT_ID)?.let { mumentId ->
                         mumentDetailNavigatorProvider.musicDetailToMumentDetail(mumentId, music, arguments?.getString(START_NAV_KEY))
                     }

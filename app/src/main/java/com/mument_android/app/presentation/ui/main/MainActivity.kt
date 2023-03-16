@@ -10,14 +10,11 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -39,13 +36,12 @@ import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
+import com.mument_android.core_dependent.util.parcelable
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.detail.mument.fragment.MumentDetailFragment
-import com.mument_android.detail.mument.listener.StackProvider
-import com.mument_android.detail.music.MusicDetailFragment.Companion.MUSIC_ID
+import com.angdroid.navigation.StackProvider
 import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
@@ -61,10 +57,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate), EditMumentNavigator {
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate),
+    EditMumentNavigator {
     lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
-    @Inject lateinit var stackProvider: StackProvider
+    @Inject
+    lateinit var stackProvider: StackProvider
 
     @Inject
     lateinit var dataStoreManager: DataStoreManager
@@ -85,9 +83,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             requestNotificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
     }
-    private val requestNotificationLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
 
-    }
+    private val requestNotificationLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+
+        }
 
     //appbar 상단 모서리 radius값 추가
     private fun customAppBar() {
@@ -160,7 +160,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     )
                 }
             }
-            intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
+            intent.parcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
                 intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                     val bundle = Bundle().apply {
                         putParcelable(MUSIC_INFO_ENTITY, musicInfo)
@@ -174,7 +174,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
         } else if (intent.getStringExtra(TO_MUMENT_DETAIL) == TO_MUMENT_DETAIL) {
-            intent.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
+            intent.parcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
                 intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                     snackBar(
                         binding.clSnackBar,
@@ -291,14 +291,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         if (fromHistory == FROM_HISTORY && popBackStack) {
             updateMumentDetail(null, null, true)
         } else {
-            intent?.getParcelableExtra<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
-                if(mumentId.isNotEmpty()) {
+            intent?.parcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
+                if (mumentId.isNotEmpty()) {
                     showMumentDetail(mumentId, music, popBackStack, intent)
                 } else {
                     moveToMusicDetail(music, intent)
                 }
             } ?: run {
-                when(intent?.getStringExtra(START_NAV_KEY)) {
+                when (intent?.getStringExtra(START_NAV_KEY)) {
                     FROM_SEARCH -> {
                         startActivity(Intent(this, SearchActivity::class.java))
                     }
@@ -314,11 +314,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             if (finish) finish()
         }
     }
+
     private fun moveToMusicDetail(music: MusicInfoEntity, intent: Intent) {
         val bundle = Bundle().apply {
             putParcelable(MUSIC_INFO_ENTITY, music)
             intent.getStringExtra(START_NAV_KEY)?.let {
-                when(it) {
+                when (it) {
                     FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
                         putString(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
                     }
@@ -329,15 +330,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         }
 
-        when(navController.currentDestination?.id) {
-            R.id.homeFragment -> navController.navigate(R.id.action_homeFragment_to_musicDetailFragment, bundle)
-            R.id.mumentDetailFragment -> navController.navigate(R.id.action_mumentDetailFragment_to_musicDetailFragment, bundle)
+        when (navController.currentDestination?.id) {
+            R.id.homeFragment -> navController.navigate(
+                R.id.action_homeFragment_to_musicDetailFragment,
+                bundle
+            )
+            R.id.mumentDetailFragment -> navController.navigate(
+                R.id.action_mumentDetailFragment_to_musicDetailFragment,
+                bundle
+            )
             else -> {}
         }
         stackProvider.clearBackStack()
     }
 
-    private fun showMumentDetail(mumentId: String, music: MusicInfoEntity, popBackStack: Boolean, intent: Intent) {
+
+    private fun showMumentDetail(
+        mumentId: String,
+        music: MusicInfoEntity,
+        popBackStack: Boolean,
+        intent: Intent
+    ) {
         val bundle = Bundle().also { bundle ->
             bundle.putString(MUMENT_ID, mumentId)
             bundle.putParcelable(MUSIC_INFO_ENTITY, music)
@@ -358,7 +371,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 navController.navigate(R.id.action_homeFragment_to_mumentDetailFragment, bundle)
             }
             R.id.musicDetailFragment -> {
-                navController.navigate(R.id.action_musicDetailFragment_to_mumentDetailFragment, bundle)
+                navController.navigate(
+                    R.id.action_musicDetailFragment_to_mumentDetailFragment,
+                    bundle
+                )
             }
             else -> {
                 updateMumentDetail(mumentId, music, popBackStack)
@@ -366,7 +382,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun updateMumentDetail(mumentId: String?, music: MusicInfoEntity?, popBackStack: Boolean) {
+    private fun updateMumentDetail(
+        mumentId: String?,
+        music: MusicInfoEntity?,
+        popBackStack: Boolean
+    ) {
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navHost.childFragmentManager.fragments.get(0)?.let { mumentDetail ->
             if (mumentDetail is MumentDetailFragment) {
@@ -376,8 +396,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     } else {
                         stackProvider.getHistoryBackStack {
                             if (it.isNotEmpty()) {
-                                it.pop()?.let {
-                                    mumentDetail.updateMumentDetailInfo(it.first, it.third.toMusicInfoEntity())
+                                it.pop()?.let { triple ->
+                                    mumentDetail.updateMumentDetailInfo(triple.first, triple.third.toMusicInfoEntity())
                                 }
                             }
                         }

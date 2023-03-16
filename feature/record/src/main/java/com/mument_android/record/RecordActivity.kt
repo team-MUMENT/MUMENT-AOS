@@ -27,11 +27,8 @@ import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ext.setOnSingleClickListener
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
-import com.mument_android.core_dependent.util.EmotionalTag
-import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
+import com.mument_android.core_dependent.util.*
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil.writeProcessGA
-import com.mument_android.core_dependent.util.ImpressiveTag
-import com.mument_android.core_dependent.util.RecyclerviewItemDivider
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
@@ -60,8 +57,8 @@ class RecordActivity :
         super.onCreate(savedInstanceState)
         binding.recordViewModel = recordViewModel
 
-        val mumentModifyEntity = intent.getParcelableExtra<MumentModifyEntity>("MumentModifyEntity")
-        val recentSearchData = intent.getParcelableExtra<RecentSearchData>("RecentSearchData")
+        val mumentModifyEntity = intent.parcelable<MumentModifyEntity>("MumentModifyEntity")
+        val recentSearchData = intent.parcelable<RecentSearchData>("RecentSearchData")
         val mumentId = intent.getStringExtra("MumentID")
         mumentModifyEntity?.let { mument ->
             recentSearchData?.let { music ->

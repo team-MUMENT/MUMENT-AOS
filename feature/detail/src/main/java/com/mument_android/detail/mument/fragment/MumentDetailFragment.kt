@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -22,7 +21,6 @@ import com.google.gson.Gson
 import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
-import com.mument_android.core.util.Constants.POP_BACKSTACK_KEY
 import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
@@ -40,7 +38,7 @@ import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDeta
 import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDetailSideEffect
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUSIC
-import com.mument_android.detail.mument.listener.StackProvider
+import com.angdroid.navigation.StackProvider
 import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import com.mument_android.detail.report.SelectReportTypeDialogFragment
 import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion.SELECT_BLOCK_USER
@@ -133,7 +131,7 @@ class MumentDetailFragment : Fragment() {
         arguments?.getString(MUMENT_ID)?.let {
             viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(it))
         }
-        arguments?.getParcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
+        arguments?.parcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
             viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(musicInfo))
         }
         arguments?.getString(START_NAV_KEY)?.let {
@@ -186,6 +184,7 @@ class MumentDetailFragment : Fragment() {
                 }
                 MumentDetailSideEffect.PopBackStack -> {
                     stackProvider.getHistoryBackStack {
+                        Log.e("TRIPLE", it.toString())
                         if (it.isNotEmpty()) {
                             it.peek()?.let { mument ->
                                 moveToMumentHistory(mument.third, mument.second)
@@ -231,6 +230,9 @@ class MumentDetailFragment : Fragment() {
                 is MumentDetailSideEffect.NavToMusicDetail -> {
                     musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.music, arguments?.getString(START_NAV_KEY))
                     stackProvider.clearBackStack()
+                    requireActivity().sendBroadcast(Intent("KILL_HISTORY").apply {
+                        putExtra("KILL_HISTORY", true)
+                    })
                 }
                 is MumentDetailSideEffect.NavToMumentHistory -> {
                     viewModel.viewState.value.run {

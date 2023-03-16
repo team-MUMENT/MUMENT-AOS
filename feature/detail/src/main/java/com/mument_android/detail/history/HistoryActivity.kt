@@ -1,13 +1,21 @@
 package com.mument_android.detail.history
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import com.angdroid.navigation.MoveFromHistoryToDetail
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
+import com.mument_android.core_dependent.util.parcelable
 import com.mument_android.detail.databinding.ActivityHistoryBinding
-import com.mument_android.detail.mument.listener.StackProvider
+import com.angdroid.navigation.StackProvider
+import com.mument_android.detail.mument.contract.MumentDetailContract
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -24,11 +32,34 @@ class HistoryActivity :
     @Inject
     lateinit var stackProvider: StackProvider
 
+    private val historyKillBroadcastReceiver = HistoryKillBroadCastReceiver()
+
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
+
+    override fun onResume() {
+        super.onResume()
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                moveFromHistoryToDetail.popBackToMain()
+            }
+        }
+        if (::onBackPressedCallback.isInitialized) {
+            onBackPressedDispatcher.addCallback(onBackPressedCallback)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onBackPressedCallback.remove()
+        unregisterReceiver(historyKillBroadcastReceiver)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.historyviewmodel = historyViewModel
 
-        intent.getParcelableExtra<Music>("music")?.let {
+        intent.parcelable<Music>("music")?.let {
             historyViewModel.changeMusicId(it)
         }
         intent.getIntExtra("userId", 0).let {
@@ -40,6 +71,26 @@ class HistoryActivity :
         collectFlowWhenStarted(historyViewModel.fetchHistory) { paging ->
             adapter.submitList(paging)
         }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(historyKillBroadcastReceiver, IntentFilter("KILL_HISTORY"))
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        intent?.parcelable<Music>("music")?.let {
+            Log.e("GET", it.toString())
+            historyViewModel.changeMusicId(it)
+        }
+        intent?.getIntExtra("userId", 0)?.let {
+            Log.e("GET", it.toString())
+            historyViewModel.setUserId(it)
+        }
+
     }
 
     private fun setListener() {
@@ -92,9 +143,11 @@ class HistoryActivity :
             //이거 나중에 수정,,
         }
     }
-
-    override fun onBackPressed() {
-        moveFromHistoryToDetail.popBackToMain()
-        super.onBackPressed()
+    inner class HistoryKillBroadCastReceiver: BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            if (p1?.action == "KILL_HISTORY") {
+                finish()
+            }
+        }
     }
 }

@@ -70,6 +70,9 @@ class HomeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         requireContext().registerReceiver(notifyBroadcastReceiver, IntentFilter("NEW_INTENT"))
+        requireActivity().sendBroadcast(Intent("KILL_HISTORY").apply {
+            putExtra("KILL_HISTORY", true)
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
