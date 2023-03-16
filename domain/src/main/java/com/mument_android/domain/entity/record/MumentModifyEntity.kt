@@ -2,10 +2,10 @@ package com.mument_android.domain.entity.record
 
 import android.os.Parcelable
 import androidx.annotation.Keep
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
-@Parcelize
 @Keep
+@Parcelize
 data class MumentModifyEntity(
     val content: String,
     val feelingTag: List<Int>,
