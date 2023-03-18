@@ -1,8 +1,10 @@
 package com.mument_android.data.dto.home
 
+import androidx.annotation.Keep
 import com.mument_android.domain.entity.User
 import com.mument_android.domain.entity.history.MusicX
 
+@Keep
 data class TodayItem(
     val mumentId: Int,
     val music: MusicX,

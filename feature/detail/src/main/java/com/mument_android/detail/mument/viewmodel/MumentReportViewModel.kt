@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiStatus
 import com.mument_android.core.network.ErrorMessage
-import com.mument_android.detail.mument.contract.MumentDetailContract
 import com.mument_android.domain.entity.detail.ReportRequest
 import com.mument_android.domain.usecase.detail.BlockUserUseCase
 import com.mument_android.domain.usecase.detail.ReportMumentUseCase
@@ -32,7 +31,6 @@ class MumentReportViewModel @Inject constructor(
                     isReportMuemnt.value = true
                 }
                 .onFailure {
-                    it.printStackTrace()
                 }
         }
     }

@@ -60,7 +60,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                     if (exist == true) {
                         moveToMainActivity()
                         finish()
-                    } else if(exist == false){
+                    } else if (exist == false) {
                         val intent = Intent(this@SplashActivity, LogInActivity::class.java)
                         startActivity(intent)
                         finish()

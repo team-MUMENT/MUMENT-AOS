@@ -66,6 +66,7 @@ class MusicDetailViewModel @Inject constructor(
                 setEffect { MusicDetailEffect.PopBackStack(startNav) }
             }
             is MusicDetailEvent.ReceiveStartNav -> {
+                Log.e("start nav viewModel", "${event.startNav}")
                 setState { copy(startNav = event.startNav) }
             }
         }
