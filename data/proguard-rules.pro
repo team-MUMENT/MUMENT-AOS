@@ -126,6 +126,5 @@
 -keep class com.mument_android.core.network.** { *; }
 -keep class com.mument_android.core.util.** { *; }
 
--keep class com.mument_android.domain.entity.detail.MumentDetailEntity
--keep class com.mument_android.domain.entity.music.MusicInfoEntity
+-keep class com.mument_android.domain.entity.*
 

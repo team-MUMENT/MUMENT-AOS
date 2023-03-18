@@ -128,8 +128,6 @@
 
 -keep class com.mument_android.app.Notification
 
--keep class com.mument_android.domain.entity.detail.MumentDetailEntity
--keep class com.mument_android.domain.entity.music.MusicInfoEntity
--keep class com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
--keep class com.mument_android.domain.entity.musicdetail.musicdetaildata.MyMument
+-keep class com.mument_android.domain.entity.*
+
 
