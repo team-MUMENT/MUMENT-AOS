@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import com.angdroid.navigation.QuitMainNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding::inflate) {
     private val myPageViewModel: MyPageViewModel by viewModels()
 
+
     @Inject
     lateinit var quitMainNavigatorProvider: QuitMainNavigatorProvider
 
@@ -32,6 +34,10 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         myPageViewModel.userInfo()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getVersionInfo()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +53,11 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         }
 
         moveProfileSetting()
-
         transactionBtnEvent()
         clickListenerWebView()
         logoutBtnListener()
         moveUnregister()
         userInfoNetwork()
-        getVersionInfo()
         backBtnEvent()
     }
 
@@ -87,40 +91,41 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         }
     }
 
-    //각 웹뷰로 이동
-    private fun clickListenerWebView() {
+    private fun linkNetwork() {
         myPageViewModel.getWebView("mypage")
         myPageViewModel.getWebViewEntity.observe(this) {
-            val faq = it.faq.toString()
-            val appInfo = it.appInfo.toString()
-            val introduction = it.introduction.toString()
-            val license = it.license.toString()
+            /*
+            faq = it.faq.toString()
+            appInfo = it.appInfo.toString()
+            introduction = it.introduction.toString()
+            license = it.license.toString()
 
-            with(binding) {
-                //자주묻는질문
-                clFAQ.setOnClickListener {
-                    initIntent(faq)
-                }
+            Log.e("TEST1111111", "$appInfo")
+
+             */
+        }
+    }
+
+    //각 웹뷰로 이동
+    private fun clickListenerWebView() {
+        with(binding) {
+            //자주묻는질문
+            linkNetwork().also {
+                clFAQ.setOnClickListener { initIntent(myPageViewModel?.faq ?: "") }
+
                 //문의하기
-                clInquiry.setOnClickListener {
-                    sendEmail()
-                }
+                clInquiry.setOnClickListener { sendEmail() }
+
                 //앱정보
-                clAppInfo.setOnClickListener {
-                    initIntent(appInfo)
-                }
+                clAppInfo.setOnClickListener { initIntent(myPageViewModel?.appInfo ?: "") }
+
                 //뮤멘트 소개
-                clIntroduceMument.setOnClickListener {
-                    initIntent(introduction)
-                }
+                clIntroduceMument.setOnClickListener { initIntent(myPageViewModel?.introduction ?: "") }
 
                 //오픈라이선스
-                clOpenSource.setOnClickListener {
-                    initIntent(license)
-                }
+                clOpenSource.setOnClickListener { initIntent(myPageViewModel?.license ?: "") }
             }
         }
-
     }
 
     private fun userInfoNetwork() {
@@ -132,7 +137,8 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     private fun initIntent(url: String) {
         val intent = Intent(this, WebViewActivity::class.java)
         intent.putExtra("url", url)
-        startActivity(intent)
+        ContextCompat.startActivity(this, intent, null)
+        //startActivity(intent)
     }
 
     private fun logoutBtnListener() {
@@ -171,6 +177,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         val email = Intent(Intent.ACTION_SEND)
         email.type = "plain/text"
         val address = arrayOf("mument.mp3@gmail.com")
+        val presentVersionInfo = packageManager.getPackageInfo(packageName, 0)
         email.putExtra(Intent.EXTRA_EMAIL, address)
         email.putExtra(Intent.EXTRA_SUBJECT, "[MUMENT] 문의해요 🙋‍♀️")
         email.putExtra(
@@ -185,7 +192,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                     "\n" +
                     "—————————————————————————————-\n" +
                     "User: Optional(" + myPageViewModel.id.value + ")\n" +
-                    "App Version: " + Build.VERSION.RELEASE + "\n" +
+                    "App Version: " + presentVersionInfo.versionName + "\n" +
                     "OS : " + Build.MODEL + "\n"
         )
         startActivity(email)

@@ -1,11 +1,13 @@
 package com.mument_android.mypage
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.network.ApiResult
 import com.mument_android.core_dependent.ext.DataStoreManager
+import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.domain.entity.mypage.*
 import com.mument_android.domain.entity.sign.WebViewEntity
 import com.mument_android.domain.usecase.mypage.*
@@ -31,6 +33,11 @@ class MyPageViewModel @Inject constructor(
     private val postUnregisterReasonUseCase: PostUnregisterReasonUseCase,
     private val logOutUseCase: LogOutUseCase
 ) : ViewModel() {
+
+    var faq : String? = ""
+    var appInfo : String? = ""
+    var introduction: String? = ""
+    var license: String? = ""
 
     //myPage
     private val _isBtnClick = MutableLiveData(false)
@@ -221,6 +228,13 @@ class MyPageViewModel @Inject constructor(
             kotlin.runCatching {
                 getWebViewUseCase.getWebView(page).let {
                     _getWebViewEntity.value = it
+                    if(page == "mypage") {
+                        faq = it?.faq.toString()
+                        appInfo = it?.appInfo.toString()
+                        introduction = it?.appInfo.toString()
+                        license = it?.license.toString()
+
+                    }
                 }
             }
         }
