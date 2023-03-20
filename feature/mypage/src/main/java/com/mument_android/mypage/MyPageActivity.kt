@@ -34,6 +34,10 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         myPageViewModel.userInfo()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getVersionInfo()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +53,11 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         }
 
         moveProfileSetting()
-        getVersionInfo()
         transactionBtnEvent()
         clickListenerWebView()
         logoutBtnListener()
         moveUnregister()
         userInfoNetwork()
-
         backBtnEvent()
     }
 
@@ -108,34 +110,36 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     private fun clickListenerWebView() {
         with(binding) {
             //자주묻는질문
-            clFAQ.setOnClickListener {
-                linkNetwork().also {
+            linkNetwork().also {
+                clFAQ.setOnClickListener {
+
+                    //Log.e("test", "${myPageViewModel?.faq}")
                     initIntent(myPageViewModel?.faq ?: "")
                 }
-            }
 
-            //문의하기
-            clInquiry.setOnClickListener {
-                sendEmail()
-            }
-            //앱정보
-            clAppInfo.setOnClickListener {
-                linkNetwork().also {
-                    initIntent(myPageViewModel?.appInfo?: "")
+                //문의하기
+                clInquiry.setOnClickListener {
+                    sendEmail()
                 }
+                //앱정보
+                clAppInfo.setOnClickListener {
 
-            }
-            //뮤멘트 소개
-            clIntroduceMument.setOnClickListener {
-                linkNetwork().also {
+                    initIntent(myPageViewModel?.appInfo ?: "")
+
+
+                }
+                //뮤멘트 소개
+                clIntroduceMument.setOnClickListener {
+
                     initIntent(myPageViewModel?.introduction ?: "")
-                }
-            }
 
-            //오픈라이선스
-            clOpenSource.setOnClickListener {
-                linkNetwork().also {
+                }
+
+                //오픈라이선스
+                clOpenSource.setOnClickListener {
+
                     initIntent(myPageViewModel?.license ?: "")
+
                 }
             }
         }
