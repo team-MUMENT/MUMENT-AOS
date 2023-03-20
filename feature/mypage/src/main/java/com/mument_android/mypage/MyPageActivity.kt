@@ -177,6 +177,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         val email = Intent(Intent.ACTION_SEND)
         email.type = "plain/text"
         val address = arrayOf("mument.mp3@gmail.com")
+        val presentVersionInfo = packageManager.getPackageInfo(packageName, 0)
         email.putExtra(Intent.EXTRA_EMAIL, address)
         email.putExtra(Intent.EXTRA_SUBJECT, "[MUMENT] 문의해요 🙋‍♀️")
         email.putExtra(
@@ -191,7 +192,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                     "\n" +
                     "—————————————————————————————-\n" +
                     "User: Optional(" + myPageViewModel.id.value + ")\n" +
-                    "App Version: " + Build.VERSION.RELEASE + "\n" +
+                    "App Version: " + presentVersionInfo.versionName + "\n" +
                     "OS : " + Build.MODEL + "\n"
         )
         startActivity(email)
