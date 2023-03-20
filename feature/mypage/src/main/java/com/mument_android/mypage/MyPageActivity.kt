@@ -111,36 +111,19 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
         with(binding) {
             //자주묻는질문
             linkNetwork().also {
-                clFAQ.setOnClickListener {
-
-                    //Log.e("test", "${myPageViewModel?.faq}")
-                    initIntent(myPageViewModel?.faq ?: "")
-                }
+                clFAQ.setOnClickListener { initIntent(myPageViewModel?.faq ?: "") }
 
                 //문의하기
-                clInquiry.setOnClickListener {
-                    sendEmail()
-                }
+                clInquiry.setOnClickListener { sendEmail() }
+
                 //앱정보
-                clAppInfo.setOnClickListener {
+                clAppInfo.setOnClickListener { initIntent(myPageViewModel?.appInfo ?: "") }
 
-                    initIntent(myPageViewModel?.appInfo ?: "")
-
-
-                }
                 //뮤멘트 소개
-                clIntroduceMument.setOnClickListener {
-
-                    initIntent(myPageViewModel?.introduction ?: "")
-
-                }
+                clIntroduceMument.setOnClickListener { initIntent(myPageViewModel?.introduction ?: "") }
 
                 //오픈라이선스
-                clOpenSource.setOnClickListener {
-
-                    initIntent(myPageViewModel?.license ?: "")
-
-                }
+                clOpenSource.setOnClickListener { initIntent(myPageViewModel?.license ?: "") }
             }
         }
     }
