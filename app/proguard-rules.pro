@@ -115,6 +115,7 @@
 -keep class com.mument_android.data.local.todaymument.** { *; }
 -keep class com.mument_android.data.util.** { *; }
 -keep class com.mument_android.data.network.** { *; }
+-keep class com.mument_android.domain.entity.** { *; }
 
 
 -keep class com.mument_android.core_dependent.network.ResponseRefreshToken
@@ -127,7 +128,6 @@
 -keep class com.mument_android.core.util.** { *; }
 
 -keep class com.mument_android.app.Notification
-
 -keep class com.mument_android.domain.entity.*
 
 
