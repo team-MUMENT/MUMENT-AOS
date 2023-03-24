@@ -44,7 +44,7 @@ android {
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             isMinifyEnabled = true
-            isDebuggable = true
+            isDebuggable = false
             isShrinkResources = true
         }
 

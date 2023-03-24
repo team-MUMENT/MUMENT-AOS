@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import com.angdroid.navigation.MainHomeNavigatorProvider
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.login.LogInActivity
 import com.mument_android.login.LogInViewModel
 import com.mument_android.login.databinding.ActivitySplashBinding
