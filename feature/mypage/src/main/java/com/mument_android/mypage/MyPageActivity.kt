@@ -92,7 +92,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     }
 
     private fun linkNetwork() {
-        myPageViewModel.getWebView("mypage")
+        myPageViewModel.getWebView("mypage","")
         myPageViewModel.getWebViewEntity.observe(this) {
             /*
             faq = it.faq.toString()
@@ -200,7 +200,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
 
     private fun getVersionInfo() {
         val presentVersionInfo = packageManager.getPackageInfo(packageName, 0)
-        myPageViewModel.getWebView("version")
+        myPageViewModel.getWebView("version","AOS")
         myPageViewModel.getWebViewEntity.observe(this) {
             val recentVersionInfo = it.version.toString()
             binding.tvMyPageVersionInfo.text = String.format(

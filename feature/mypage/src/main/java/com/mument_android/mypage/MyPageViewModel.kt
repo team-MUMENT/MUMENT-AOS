@@ -223,10 +223,10 @@ class MyPageViewModel @Inject constructor(
     }
 
     //webview link
-    fun getWebView(page: String) {
+    fun getWebView(page: String,os:String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                getWebViewUseCase.getWebView(page).let {
+                getWebViewUseCase.getWebView(page,os).let {
                     _getWebViewEntity.value = it
                     if(page == "mypage") {
                         faq = it?.faq.toString()

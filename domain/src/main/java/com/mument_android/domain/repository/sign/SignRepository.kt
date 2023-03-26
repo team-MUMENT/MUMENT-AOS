@@ -6,21 +6,21 @@ import okhttp3.RequestBody
 
 
 interface SignRepository {
-    suspend fun signDupCheck(userName: String) : Int
+    suspend fun signDupCheck(userName: String): Int
 
     suspend fun signSetProfile(
         image: MultipartBody.Part?,
         body: HashMap<String, RequestBody>
-    ) : SetProfileEntity?
+    ): SetProfileEntity?
 
 
     suspend fun kakaoLogin(
         requestKakaoData: RequestKakaoData
-    ) : KakaoEntity?
+    ): KakaoEntity?
 
     suspend fun getViewView(
-        page: String
-    ) : WebViewEntity?
+        page: String, os: String
+    ): WebViewEntity?
 
-    suspend fun newToken() : NewTokenEntity?
+    suspend fun newToken(): NewTokenEntity?
 }

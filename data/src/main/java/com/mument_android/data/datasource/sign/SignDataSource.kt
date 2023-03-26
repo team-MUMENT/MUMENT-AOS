@@ -5,19 +5,21 @@ import com.mument_android.data.util.BaseResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.HashMap
 
 
 interface SignDataSource {
-    suspend fun signDupCheck(userName: String) : Response<Any?>
+    suspend fun signDupCheck(userName: String): Response<Any?>
 
     suspend fun signPutProfile(
-        image : MultipartBody.Part?,
+        image: MultipartBody.Part?,
         body: HashMap<String, RequestBody>
-    ) : BaseResponse<SetProfileDto>
+    ): BaseResponse<SetProfileDto>
 
-    suspend fun signKakao(requestKakaoDto: RequestKakaoDto) : BaseResponse<KakaoDto>
+    suspend fun signKakao(requestKakaoDto: RequestKakaoDto): BaseResponse<KakaoDto>
 
-    suspend fun getWebView(page: String) : BaseResponse<WebViewDto>
+    suspend fun getWebView(page: String, os: String): BaseResponse<WebViewDto>
 
     suspend fun newToken(): BaseResponse<NewTokenDto>
 }
