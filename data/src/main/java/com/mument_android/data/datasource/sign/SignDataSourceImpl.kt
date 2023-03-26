@@ -19,15 +19,15 @@ class SignDataSourceImpl @Inject constructor(
         image: MultipartBody.Part?,
         body: HashMap<String, RequestBody>
     ): BaseResponse<SetProfileDto> {
-        return signApiService.putProfile(image,body)
+        return signApiService.putProfile(image, body)
     }
 
     override suspend fun signKakao(requestKakaoDto: RequestKakaoDto): BaseResponse<KakaoDto> {
         return signApiService.postLogin(requestKakaoDto)
     }
 
-    override suspend fun getWebView(page: String): BaseResponse<WebViewDto> {
-        return signApiService.getWebLink(page)
+    override suspend fun getWebView(page: String, os: String): BaseResponse<WebViewDto> {
+        return signApiService.getWebLink(page, os)
     }
 
     override suspend fun newToken(): BaseResponse<NewTokenDto> {

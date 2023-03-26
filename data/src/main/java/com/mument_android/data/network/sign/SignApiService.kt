@@ -17,20 +17,21 @@ interface SignApiService {
     @Multipart
     @PUT("/user/profile")
     suspend fun putProfile(
-        @Part image : MultipartBody.Part?,
+        @Part image: MultipartBody.Part?,
         @PartMap body: HashMap<String, RequestBody>
-    ) : BaseResponse<SetProfileDto>
+    ): BaseResponse<SetProfileDto>
 
 
     @POST("/auth/login")
     suspend fun postLogin(
-        @Body requestKakaoDto : RequestKakaoDto
-    )  : BaseResponse<KakaoDto>
+        @Body requestKakaoDto: RequestKakaoDto
+    ): BaseResponse<KakaoDto>
 
     @GET("/user/webview-link")
     suspend fun getWebLink(
-        @Query("page") page: String
-    ) : BaseResponse<WebViewDto>
+        @Query("page") page: String,
+        @Query("os") os: String
+    ): BaseResponse<WebViewDto>
 
     @GET("/auth/token")
     suspend fun getNewToken(): BaseResponse<NewTokenDto>

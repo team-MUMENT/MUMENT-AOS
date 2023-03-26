@@ -101,7 +101,7 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
     }
 
     private fun webLinkNetwork() {
-        viewModel.getWebView("login")
+        viewModel.getWebView("login","")
         viewModel.getWebViewEntity.observe(this) {
             val tosLink = it.tos.toString()
             val privacyLink = it.privacy.toString()
