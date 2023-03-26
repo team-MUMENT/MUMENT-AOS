@@ -47,8 +47,8 @@ class SignRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getViewView(page: String): WebViewEntity? {
-        signDataSource.getWebView(page).let {
+    override suspend fun getViewView(page: String, os: String): WebViewEntity? {
+        signDataSource.getWebView(page, os).let {
             return getWebViewMapper.map(it.data)
         }
     }
