@@ -231,7 +231,7 @@ class MyPageViewModel @Inject constructor(
                     if(page == "mypage") {
                         faq = it?.faq.toString()
                         appInfo = it?.appInfo.toString()
-                        introduction = it?.appInfo.toString()
+                        introduction = it?.introduction.toString()
                         license = it?.license.toString()
 
                     }
