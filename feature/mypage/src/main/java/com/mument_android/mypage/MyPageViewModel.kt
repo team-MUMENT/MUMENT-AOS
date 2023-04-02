@@ -34,8 +34,8 @@ class MyPageViewModel @Inject constructor(
     private val logOutUseCase: LogOutUseCase
 ) : ViewModel() {
 
-    var faq : String? = ""
-    var appInfo : String? = ""
+    var faq: String? = ""
+    var appInfo: String? = ""
     var introduction: String? = ""
     var license: String? = ""
 
@@ -223,15 +223,15 @@ class MyPageViewModel @Inject constructor(
     }
 
     //webview link
-    fun getWebView(page: String,os:String) {
+    fun getWebView(page: String, os: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                getWebViewUseCase.getWebView(page,os).let {
+                getWebViewUseCase.getWebView(page, os).let {
                     _getWebViewEntity.value = it
-                    if(page == "mypage") {
+                    if (page == "mypage" && os == "") {
                         faq = it?.faq.toString()
                         appInfo = it?.appInfo.toString()
-                        introduction = it?.appInfo.toString()
+                        introduction = it?.introduction.toString()
                         license = it?.license.toString()
 
                     }
