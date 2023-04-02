@@ -202,9 +202,21 @@ class ProfileSettingActivity :
     //뒤로가기 클릭 리스너
     private fun backBtnListener() {
         binding.ivProfileBack.setOnClickListener {
-            finish()
+            backBtnEvent()
         }
     }
+
+    //뒤로가기
+    private fun backBtnEvent() {
+        val isCheckMypage = intent.getIntExtra("checkMyPage", 0)
+        if (isCheckMypage == 0) {
+            val intent = Intent(this, LogInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+        finish()
+    }
+
 
     private fun nickNameDupNetwork() {
         val nickname = binding.etNickname.text.toString().trim()
@@ -346,4 +358,8 @@ class ProfileSettingActivity :
         mainHomeNavigatorProvider.profileSettingToMain()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        backBtnEvent()
+    }
 }

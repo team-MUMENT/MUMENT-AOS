@@ -32,11 +32,11 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     override fun onStart() {
         super.onStart()
         myPageViewModel.userInfo()
+        getVersionInfo()
     }
 
     override fun onResume() {
         super.onResume()
-        getVersionInfo()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,18 +92,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
     }
 
     private fun linkNetwork() {
-        myPageViewModel.getWebView("mypage","")
-        myPageViewModel.getWebViewEntity.observe(this) {
-            /*
-            faq = it.faq.toString()
-            appInfo = it.appInfo.toString()
-            introduction = it.introduction.toString()
-            license = it.license.toString()
-
-            Log.e("TEST1111111", "$appInfo")
-
-             */
-        }
+        myPageViewModel.getWebView("mypage", "")
     }
 
     //각 웹뷰로 이동
@@ -120,7 +109,11 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                 clAppInfo.setOnClickListener { initIntent(myPageViewModel?.appInfo ?: "") }
 
                 //뮤멘트 소개
-                clIntroduceMument.setOnClickListener { initIntent(myPageViewModel?.introduction ?: "") }
+                clIntroduceMument.setOnClickListener {
+                    initIntent(
+                        myPageViewModel?.introduction ?: ""
+                    )
+                }
 
                 //오픈라이선스
                 clOpenSource.setOnClickListener { initIntent(myPageViewModel?.license ?: "") }
@@ -200,7 +193,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
 
     private fun getVersionInfo() {
         val presentVersionInfo = packageManager.getPackageInfo(packageName, 0)
-        myPageViewModel.getWebView("version","AOS")
+        myPageViewModel.getWebView("version", "AOS")
         myPageViewModel.getWebViewEntity.observe(this) {
             val recentVersionInfo = it.version.toString()
             binding.tvMyPageVersionInfo.text = String.format(
@@ -210,6 +203,7 @@ class MyPageActivity : BaseActivity<ActivityMyPageBinding>(ActivityMyPageBinding
                     recentVersionInfo
                 )
             )
+            Log.e("mypageRececntVersionInfo", recentVersionInfo)
         }
     }
 
