@@ -79,11 +79,18 @@ Mument
    ┣ 📂di
    ┣ 📂navigator
    ┗ 📂presentation
-    ┣ 📂base
-    ┗ 📂ui
  ┣ 📂buildSrc
  ┣ 📂core
+    ┣ 📂base
+    ┣ 📂model
+    ┣ 📂network
+    ┗ 📂util
  ┣ 📂core_dependent
+    ┣ 📂base
+    ┣ 📂ext
+    ┣ 📂network
+    ┣ 📂ui
+    ┗ 📂util
  ┣ 📂data
    ┣ 📂datasource
    ┣ 📂controller
