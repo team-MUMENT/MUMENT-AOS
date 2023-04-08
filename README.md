@@ -61,8 +61,13 @@
   - DaggerHilt 
   - Coroutine 
   - Retrofit 
+  - OkHttp
+  - Timber
+  - Firebase(FCM)
   - Lottie 
+  - FlexboxLayout
   - Coil
+  - Kakao
 ```
 
 
@@ -90,17 +95,17 @@ Mument
 
 🎼 혜빈
  ```
- 보관함
+ 보관함, 설정
  ```
 
 🎼 민호
  ```
- 홈, 검색, 곡 상세보기 페이지
+ 홈, 검색, 곡 상세보기 페이지, 히스토리, 멀티 모듈, 알림, DB
  ```
 
 🎼 진실
  ```
-기록하기
+기록하기, 설정
  ```
 
 🎼 평화
