@@ -52,7 +52,7 @@
 # Project Structure
 ```
   🎵 Structure 🎵
-  - MVVM
+  - MVVM + MVI
 
   🎵 Library 🎵
   - jetpack 
