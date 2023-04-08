@@ -74,21 +74,41 @@
 # Foldering
 ```
 Mument
- ┣ 📂application
+ ┣ 📂app
+   ┣ 📂application
+   ┣ 📂di
+   ┣ 📂navigator
+   ┗ 📂presentation
+    ┣ 📂base
+    ┗ 📂ui
+ ┣ 📂buildSrc
+ ┣ 📂core
+ ┣ 📂core_dependent
  ┣ 📂data
    ┣ 📂datasource
-   ┣ 📂enumtype
+   ┣ 📂controller
+   ┣ 📂dto
+   ┣ 📂local
    ┣ 📂mapper
-   ┗ 📂network
- ┣ 📂di
+   ┣ 📂network
+   ┣ 📂repository
+   ┗ 📂util
  ┣ 📂domain
    ┣ 📂entity
    ┣ 📂repository
-   ┗ 📂usecase
- ┣ 📂presentation
-   ┣ 📂base
-   ┗ 📂ui
- ┗📂utils
+   ┣ 📂usecase
+   ┗ 📂util
+ ┗ 📂feature
+   ┣ 📂detail
+   ┣ 📂home
+   ┣ 📂locker
+   ┣ 📂login
+   ┣ 📂mypage
+   ┗ 📂record
+ ┗ 📂navigation
+   
+ 
+
  ```
 
 # Role
