@@ -59,35 +59,37 @@ class HistoryListAdapter(
         holder.binding.setVariable(BR.mumentHistory, data)
         holder.binding.run {
             laLikeMumentHistory.click {
-                val likeCount = tvLikeCount.text.toString().toInt()
-                laLikeMumentHistory.isClickable = false
-                if (laLikeMumentHistory.progress == 0F) {
-                    laLikeMumentHistory.playAnimation()
-                    likeMumentListener.likeMument(data._id.toString()) { result ->
-                        if (result) {
-                            CoroutineScope(Dispatchers.Main).launch {
-                                delay(1000)
-                                data.isLiked = true
-                                tvLikeCount.text = (likeCount + 1).toString()
-                                laLikeMumentHistory.progress = 100F
+                if (tvLikeCount.text.myIsDigitsOnly()) {
+                    val likeCount = tvLikeCount.text.toString().toInt()
+                    laLikeMumentHistory.isClickable = false
+                    if (laLikeMumentHistory.progress == 0F) {
+                        laLikeMumentHistory.playAnimation()
+                        likeMumentListener.likeMument(data._id.toString()) { result ->
+                            if (result) {
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    delay(1000)
+                                    data.isLiked = true
+                                    tvLikeCount.text = (likeCount + 1).toString()
+                                    laLikeMumentHistory.progress = 100F
+                                    laLikeMumentHistory.isClickable = true
+                                }
+                            } else {
+                                laLikeMumentHistory.progress = 0F
+                                holder.binding.root.context.showToast("오류가 발생했습니다.")
                                 laLikeMumentHistory.isClickable = true
                             }
-                        } else {
-                            laLikeMumentHistory.progress = 0F
-                            holder.binding.root.context.showToast("오류가 발생했습니다.")
+                        }
+                    } else {
+                        likeMumentListener.cancelLikeMument(data._id.toString()) { result ->
+                            if (result) {
+                                laLikeMumentHistory.progress = 0F
+                                data.isLiked = false
+                                tvLikeCount.text = (likeCount - 1).toString()
+                            } else {
+                                holder.binding.root.context.showToast("오류가 발생했습니다.")
+                            }
                             laLikeMumentHistory.isClickable = true
                         }
-                    }
-                } else {
-                    likeMumentListener.cancelLikeMument(data._id.toString()) { result ->
-                        if (result) {
-                            laLikeMumentHistory.progress = 0F
-                            data.isLiked = false
-                            tvLikeCount.text = (likeCount - 1).toString()
-                        } else {
-                            holder.binding.root.context.showToast("오류가 발생했습니다.")
-                        }
-                        laLikeMumentHistory.isClickable = true
                     }
                 }
             }
