@@ -131,9 +131,7 @@ class MusicDetailFragment : Fragment() {
                     Log.e("start nav", effect.startNav)
                     musicDetailNavigatorProvider.musicDetailPopBackStack(effect.startNav)
                 }
-                MusicDetailEffect.CompleteLikeMument -> {
-
-                }
+                MusicDetailEffect.CompleteLikeMument -> {}
             }
         }
     }

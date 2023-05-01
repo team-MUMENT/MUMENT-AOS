@@ -82,8 +82,8 @@ class LockerMumentLinearAdapter (
         val mument = getItem(holder.absoluteAdapterPosition)
         holder.binding.run {
             llLikeTouchArea.setOnClickListener {
-                llLikeTouchArea.isClickable = false
                 if (tvLikeCount.text.myIsDigitsOnly()) {
+                    llLikeTouchArea.isClickable = false
                     val likeCount = tvLikeCount.text.toString().toInt()
                     if (laLikeLocker.progress == 0F) {
                         laLikeLocker.playAnimation()
