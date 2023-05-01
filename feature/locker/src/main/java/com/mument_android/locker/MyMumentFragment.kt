@@ -11,6 +11,7 @@ import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
+import com.mument_android.core_dependent.util.LikeMumentListener
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
 import com.mument_android.locker.adapters.LockerTimeAdapter
@@ -74,12 +75,12 @@ class MyMumentFragment : Fragment() {
                         showMumentDetail(mumentId, musicInfo)
                     },
                     likeMumentListener = object : LikeMumentListener {
-                        override fun likeMument(mumetId: String) {
-                            lockerViewModel.likeMument(mumetId)
+                        override fun likeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {
+                            lockerViewModel.likeMument(mumetId, resultCallback)
                         }
 
-                        override fun cancelLikeMument(mumetId: String) {
-                            lockerViewModel.cancelLikeMument(mumetId)
+                        override fun cancelLikeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {
+                            lockerViewModel.cancelLikeMument(mumetId, resultCallback)
                         }
                     }
                 ).apply {
@@ -99,12 +100,11 @@ class MyMumentFragment : Fragment() {
                     showMumentDetail(mumentId, musicInfo)
                 },
                 likeMumentListener = object : LikeMumentListener {
-                    override fun likeMument(mumetId: String) {
-                        lockerViewModel.likeMument(mumetId)
+                    override fun likeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {
+                        lockerViewModel.likeMument(mumetId, resultCallback)
                     }
-
-                    override fun cancelLikeMument(mumetId: String) {
-                        lockerViewModel.cancelLikeMument(mumetId)
+                    override fun cancelLikeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {
+                        lockerViewModel.cancelLikeMument(mumetId, resultCallback)
                     }
                 }
             ).apply {

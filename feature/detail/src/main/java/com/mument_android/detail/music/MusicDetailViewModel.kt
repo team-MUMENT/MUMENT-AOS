@@ -56,10 +56,10 @@ class MusicDetailViewModel @Inject constructor(
                 cancelLikeMument(event.mumentId)
             }
             is MusicDetailEvent.CheckLikeItemMument -> {
-                likeItemMument(event.mumentId)
+                likeItemMument(event.mumentId, event.resultCallback)
             }
             is MusicDetailEvent.UnCheckLikeItemMument -> {
-                cancelLikeItemMument(event.mumentId)
+                cancelLikeItemMument(event.mumentId, event.resultCallback)
             }
             is MusicDetailEvent.OnClickBackButton -> {
                 val startNav = viewState.value.startNav
@@ -121,15 +121,23 @@ class MusicDetailViewModel @Inject constructor(
         }
     }
 
-    private fun likeItemMument(mumentId: String) {
+    private fun likeItemMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            likeMumentUseCase(mumentId).catch {}.collect()
+            likeMumentUseCase(mumentId).catch {
+                resultCallback(false)
+            }.collect {
+                resultCallback(true)
+            }
         }
     }
 
-    private fun cancelLikeItemMument(mumentId: String) {
+    private fun cancelLikeItemMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            cancelLikeMumentUseCase(mumentId).catch { }.collect()
+            cancelLikeMumentUseCase(mumentId).catch {
+                resultCallback(false)
+            }.collect {
+                resultCallback(true)
+            }
         }
     }
 

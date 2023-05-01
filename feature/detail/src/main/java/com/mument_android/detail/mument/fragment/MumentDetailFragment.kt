@@ -299,7 +299,7 @@ class MumentDetailFragment : Fragment() {
     }
 
     private fun changeLikeStatus() {
-        binding.laLike.click {
+        binding.laLike.setOnSingleClickListener {
             if (binding.laLike.progress == 0F) {
                 binding.laLike.playAnimation()
                 viewModel.emitEvent(MumentDetailEvent.OnClickLikeMument)

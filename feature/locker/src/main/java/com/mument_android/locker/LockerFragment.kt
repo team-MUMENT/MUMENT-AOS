@@ -2,7 +2,6 @@ package com.mument_android.locker
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,6 @@ import com.mument_android.locker.databinding.FragmentLockerBinding
 import com.mument_android.locker.viewmodels.LockerViewModel
 import com.mument_android.mypage.MyPageActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class LockerFragment : Fragment() {
@@ -48,6 +46,13 @@ class LockerFragment : Fragment() {
         navToMyPage()
         initAdapter()
         initTab()
+        collectData()
+    }
+
+    private fun collectData() {
+        lockerViewModel.userInfo.observe(viewLifecycleOwner) {
+            binding.viewModel = it
+        }
     }
 
     override fun onResume() {
@@ -68,7 +73,6 @@ class LockerFragment : Fragment() {
                 binding.tlLocker.changeTabsFont(1)
             }
         }
-
         //Mument일 때
         else {
             viewModel.recentTab.value = 0
@@ -78,16 +82,11 @@ class LockerFragment : Fragment() {
     }
 
     private fun userInfoNetwork() {
-        lockerViewModel.userInfo()
-        lockerViewModel.userInfo.observe(viewLifecycleOwner) {
-            binding.viewModel = it
-        }
+        lockerViewModel.fetchUserInfo()
     }
 
     private fun initAdapter() {
-        val fragmentList = listOf(MyMumentFragment(), MyLikeFragment())
         lockerTabAdapter = LockerTabAdapter(this)
-        lockerTabAdapter.fragment.addAll(fragmentList)
         binding.vpLocker.adapter = lockerTabAdapter
     }
 
@@ -96,7 +95,6 @@ class LockerFragment : Fragment() {
         TabLayoutMediator(binding.tlLocker, binding.vpLocker) { tab, position ->
             tab.text = tabLabel[position]
         }.attach()
-
         binding.tlLocker.addOnTabSelectedListener(tabLayoutOnPageChangeListener)
 
     }
@@ -112,7 +110,7 @@ class LockerFragment : Fragment() {
                 if(tabItem.position == 0) {
                     viewModel.recentTab.value = 0
                 }
-                if(viewModel.recentTab.value == 0 && tabItem?.position ==1) {
+                if(viewModel.recentTab.value == 0 && tabItem.position ==1) {
                     FirebaseAnalyticsUtil.firebaseLog(
                         "use_storage_tap",
                         "journey",

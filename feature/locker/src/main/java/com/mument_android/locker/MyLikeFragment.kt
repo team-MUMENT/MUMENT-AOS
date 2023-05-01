@@ -11,6 +11,7 @@ import com.angdroid.navigation.MumentDetailNavigatorProvider
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
+import com.mument_android.core_dependent.util.LikeMumentListener
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.adapters.FilterBottomSheetSelectedAdapter
 import com.mument_android.locker.adapters.LockerTimeAdapter
@@ -71,14 +72,9 @@ class MyLikeFragment : Fragment() {
                     showDetailListener = { mumentId, musicInfo ->
                         showMumentDetail(mumentId, musicInfo)
                     },
-                    object : LikeMumentListener {
-                        override fun likeMument(mumetId: String) {
-                            lockerViewModel.likeMument(mumetId)
-                        }
-
-                        override fun cancelLikeMument(mumetId: String) {
-                            lockerViewModel.cancelLikeMument(mumetId)
-                        }
+                    object : LikeMumentListener {       // 내가 좋아요한 뮤멘트는 하트가 없슴 혹시 모르니 좋아요 작업을 하면 안 됨
+                        override fun likeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {}
+                        override fun cancelLikeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {}
                     }).apply {
                     submitList(lockerViewModel.myLikeMuments.value)
                 }
@@ -95,14 +91,9 @@ class MyLikeFragment : Fragment() {
                 LockerTimeAdapter(false,lockerViewModel.isLikeGridLayout.value,
                     showDetailListener = { mumentId, musicInfo ->
                         showMumentDetail(mumentId, musicInfo)
-                    }, object : LikeMumentListener {
-                        override fun likeMument(mumetId: String) {
-                            lockerViewModel.likeMument(mumetId)
-                        }
-
-                        override fun cancelLikeMument(mumetId: String) {
-                            lockerViewModel.cancelLikeMument(mumetId)
-                        }
+                    }, object : LikeMumentListener {       // 내가 좋아요한 뮤멘트는 하트가 없슴 혹시 모르니 좋아요 작업을 하면 안 됨
+                        override fun likeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {}
+                        override fun cancelLikeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {}
                     }).apply {
                     submitList(result)
                 }

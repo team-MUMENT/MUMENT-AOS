@@ -16,7 +16,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -134,24 +133,32 @@ class LockerViewModel @Inject constructor(
         checkedLikeTagList.value = tempList
     }
 
-    fun cancelLikeMument(mumentId: String) {
+    fun cancelLikeMument(mumentId: String, resultCallback: (Boolean)-> Unit) {
         viewModelScope.launch {
             cancelLikeMumentUseCase(
                 mumentId
-            ).collect()
+            ).catch {
+                resultCallback.invoke(false)
+            }.collect {
+                resultCallback.invoke(true)
+            }
         }
     }
 
-    fun likeMument(mumentId: String) {
+    fun likeMument(mumentId: String, resultCallback: (Boolean)-> Unit) {
         viewModelScope.launch {
             likeMumentUseCase(
                 mumentId
-            ).collect()
+            ).catch {
+                resultCallback.invoke(false)
+            }.collect {
+                resultCallback.invoke(true)
+            }
         }
     }
 
     //유저 정보
-    fun userInfo() {
+    fun fetchUserInfo() {
         viewModelScope.launch {
             kotlin.runCatching {
                 userInfoUseCase.invoke().let {
