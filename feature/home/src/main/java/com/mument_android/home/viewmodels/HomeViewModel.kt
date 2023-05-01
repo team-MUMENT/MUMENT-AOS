@@ -1,10 +1,12 @@
 package com.mument_android.home.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.core.util.Constants.FROM_NOTIFICATION
 import com.mument_android.core.util.Constants.FROM_NOTIFICATION_TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.FROM_SEARCH
+import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.util.collectEvent
 import com.mument_android.core_dependent.util.emitEffect
 import com.mument_android.core_dependent.util.emitEvent
@@ -22,7 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val useCase: WhenHomeEnterUseCase
+    private val useCase: WhenHomeEnterUseCase,
+    private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
     private val _homeViewState = MutableStateFlow(HomeViewState())
     val homeViewState get() = _homeViewState.asStateFlow()
@@ -94,6 +97,10 @@ class HomeViewModel @Inject constructor(
                     _homeViewState.setState { copy(emotionMumentEntity = random) }
                 }
             }
+            dataStoreManager.isNotifyExist.collect {
+                Log.e("LMH", "get NOTI $it")
+                _homeViewState.setState { copy(notificationStatus = it) }
+            }
         }
     }
 
@@ -135,7 +142,7 @@ class HomeViewModel @Inject constructor(
     fun checkNotifyExist() {
         viewModelScope.launch {
             useCase.checkNotifyExist().catch { }.collect { result ->
-                _homeViewState.setState { copy(notificationStatus = result ?: false) }
+                dataStoreManager.writeIsNotifyExist(result ?: false)
             }
         }
     }
