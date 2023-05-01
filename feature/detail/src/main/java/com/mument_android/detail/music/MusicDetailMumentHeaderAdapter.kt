@@ -61,7 +61,7 @@ class MusicDetailMumentHeaderAdapter(
                         laLikeMumentDetail.playAnimation()
                         mumentClickListener.likeMument(
                             myMumentInfo!!.mumentId
-                        ) {}
+                        ) {}  // 얘는 ViewModel 에서 알아서 해줌
                         CoroutineScope(Dispatchers.Main).launch {
                             delay(1000)
                             myMumentInfo!!.isLiked = true
@@ -70,7 +70,7 @@ class MusicDetailMumentHeaderAdapter(
                             llTouchArea.isClickable = true
                         }
                     } else {
-                        mumentClickListener.cancelLikeMument(myMumentInfo!!.mumentId) {}
+                        mumentClickListener.cancelLikeMument(myMumentInfo!!.mumentId) {} // 얘는 ViewModel 에서 알아서 해줌
                         myMumentInfo!!.isLiked = false
                         laLikeMumentDetail.progress = 0F
                         tvSecretLikecount.text = (likeCount - 1).toString()
