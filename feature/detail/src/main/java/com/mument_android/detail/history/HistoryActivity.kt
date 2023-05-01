@@ -58,7 +58,6 @@ class HistoryActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.historyviewmodel = historyViewModel
-
         intent.parcelable<Music>("music")?.let {
             historyViewModel.changeMusicId(it)
         }
@@ -71,13 +70,9 @@ class HistoryActivity :
         collectFlowWhenStarted(historyViewModel.fetchHistory) { paging ->
             adapter.submitList(paging)
         }
-    }
-
-
-    override fun onStart() {
-        super.onStart()
         registerReceiver(historyKillBroadcastReceiver, IntentFilter("KILL_HISTORY"))
     }
+
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)

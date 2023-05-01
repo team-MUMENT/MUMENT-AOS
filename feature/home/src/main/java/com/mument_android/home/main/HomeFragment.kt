@@ -1,9 +1,6 @@
 package com.mument_android.home.main
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,7 +45,6 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var heardAdapter: HeardMumentListAdapter
     private lateinit var impressiveAdapter: ImpressiveEmotionListAdapter
-    private val notifyBroadcastReceiver = NotifyBroadCastReceiver()
 
     @Inject
     lateinit var dataStoreManager: DataStoreManager
@@ -69,7 +65,6 @@ class HomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        requireContext().registerReceiver(notifyBroadcastReceiver, IntentFilter("NEW_INTENT"))
         requireActivity().sendBroadcast(Intent("KILL_HISTORY").apply {
             putExtra("KILL_HISTORY", true)
         })
@@ -290,12 +285,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-    override fun onStop() {
-        super.onStop()
-        requireContext().unregisterReceiver(notifyBroadcastReceiver)
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.checkNotifyExist()
@@ -303,11 +292,4 @@ class HomeFragment : Fragment() {
         binding.vpBanner.setCurrentItem(0, false)
     }
 
-    inner class NotifyBroadCastReceiver : BroadcastReceiver() {
-        override fun onReceive(p0: Context?, p1: Intent?) {
-            if (p1?.action == "NEW_INTENT") {
-                viewModel.checkNotifyExist()
-            }
-        }
-    }
 }

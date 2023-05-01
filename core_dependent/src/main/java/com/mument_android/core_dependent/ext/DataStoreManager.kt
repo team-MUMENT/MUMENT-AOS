@@ -33,6 +33,10 @@ class DataStoreManager(
         writeData(KAKAO_TOKEN_KEY, kakaoToken)
     }
 
+    suspend fun writeIsNotifyExist(isNotifyExist: Boolean) {
+        writeData(IS_NOTIFY_EXIST, isNotifyExist)
+    }
+
     suspend fun removeUserId() {
         deleteData(USER_ID)
     }
@@ -47,6 +51,9 @@ class DataStoreManager(
 
     suspend fun removeKaKaoToken() {
         deleteData(KAKAO_TOKEN_KEY)
+    }
+    suspend fun removeIsNotifyExist() {
+        deleteData(IS_NOTIFY_EXIST)
     }
 
     private suspend fun <T> writeData(key: Preferences.Key<T>, value: T) {
@@ -136,12 +143,25 @@ class DataStoreManager(
             it[ADMIN_USER_LIST_KEY]?.split(" ")
         }
 
+    val isNotifyExist: Flow<Boolean> = context.datastore.data
+        .catch { exception ->
+            // handle exception here
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map {
+            it[IS_NOTIFY_EXIST] ?: false
+        }
+
     companion object {
         val USER_ID = stringPreferencesKey("USER_ID")
         val ACCESS_TOKEN_KEY = stringPreferencesKey("ACCESS_TOKEN")
         val REFRESH_TOKEN_KEY = stringPreferencesKey("REFRESH_TOKEN")
         val ADMIN_USER_LIST_KEY = stringPreferencesKey("ADMIN_USER_LIST_KEY")
         val KAKAO_TOKEN_KEY = stringPreferencesKey("KAKAO_TOKEN")
+        val IS_NOTIFY_EXIST = booleanPreferencesKey("IS_NOTIFY_EXIST")
         val IS_FIRST = booleanPreferencesKey("IS_FIRST")
     }
 }
