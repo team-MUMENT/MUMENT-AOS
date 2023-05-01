@@ -49,31 +49,38 @@
             app:layout_constraintTop_toTopOf="@id/iv_profile"
             tools:text="이수지" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/la_like_mument_history"
+        <LinearLayout
+            android:id="@+id/ll_like_touch_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:progress="@{mumentHistory.liked?100F:0F}"
-            android:visibility="@{mumentHistory.private?View.GONE:View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
-            app:layout_constraintEnd_toStartOf="@id/tv_like_count"
-            app:layout_constraintTop_toTopOf="@id/iv_profile"
-            app:lottie_autoPlay="false"
-            app:lottie_loop="false"
-            app:lottie_rawRes="@raw/heart_icn_lottie" />
-
-        <TextView
-            android:id="@+id/tv_like_count"
-            style="@style/TextView.Mument_C1_R12.Style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="@{mumentHistory.private?@dimen/app_space_0:@dimen/app_space_4}"
-            android:text="@{mumentHistory.private?`비밀글`:String.valueOf(mumentHistory.likeCount)}"
-            android:textColor="@color/mument_color_gray1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_profile"
-            tools:text="15" />
+            app:layout_constraintTop_toTopOf="@id/iv_profile">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/la_like_mument_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:progress="@{mumentHistory.liked?100F:0F}"
+                android:visibility="@{mumentHistory.private?View.GONE:View.VISIBLE}"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/heart_icn_lottie" />
+
+            <TextView
+                android:id="@+id/tv_like_count"
+                style="@style/TextView.Mument_C1_R12.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:paddingEnd="@{mumentHistory.private?@dimen/app_space_0:@dimen/app_space_4}"
+                android:text="@{mumentHistory.private?`비밀글`:String.valueOf(mumentHistory.likeCount)}"
+                android:textColor="@color/mument_color_gray1"
+                tools:text="15" />
+        </LinearLayout>
 
         <View
             android:id="@+id/view_divider"

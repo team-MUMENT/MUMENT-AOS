@@ -128,28 +128,31 @@ class MusicDetailFragment : Fragment() {
             when (effect) {
                 is MusicDetailEffect.ShowToast -> requireContext().showToast(effect.msg)
                 is MusicDetailEffect.PopBackStack -> {
-                    Log.e("start nav", "${effect.startNav}")
+                    Log.e("start nav", effect.startNav)
                     musicDetailNavigatorProvider.musicDetailPopBackStack(effect.startNav)
                 }
-                MusicDetailEffect.CompleteLikeMument -> {}
+                MusicDetailEffect.CompleteLikeMument -> {
+
+                }
             }
         }
     }
 
     private fun setEntireMumentListAdapter() {
         musicDetailMumentHeaderAdapter = MusicDetailMumentHeaderAdapter(
-            { musicDetailViewModel.viewState.value.musicInfo?.let {
-                        musicDetailViewModel.viewState.value.myMumentInfo?.user?.userId?.let { userId ->
-                            getResultText.launch(
-                                Intent(
-                                    requireActivity(),
-                                    HistoryActivity::class.java
-                                ).apply {
-                                    putExtra("music", it.toMusic())
-                                    putExtra("userId", userId.toInt())
-                                })
-                        }
+            {
+                musicDetailViewModel.viewState.value.musicInfo?.let {
+                    musicDetailViewModel.viewState.value.myMumentInfo?.user?.userId?.let { userId ->
+                        getResultText.launch(
+                            Intent(
+                                requireActivity(),
+                                HistoryActivity::class.java
+                            ).apply {
+                                putExtra("music", it.toMusic())
+                                putExtra("userId", userId.toInt())
+                            })
                     }
+                }
             }, object : MumentClickListener {
                 override fun showMumentDetail(mumentId: String) {
                     musicDetailViewModel.viewState.value.musicInfo?.let { musicInfoEntity ->
@@ -161,13 +164,13 @@ class MusicDetailFragment : Fragment() {
                     }
                 }
 
-                override fun likeMument(mumentId: String) {
+                override fun likeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
                     musicDetailViewModel.emitEvent(
                         MusicDetailEvent.CheckLikeMument(mumentId)
                     )
                 }
 
-                override fun cancelLikeMument(mumentId: String) {
+                override fun cancelLikeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
                     musicDetailViewModel.emitEvent(
                         MusicDetailEvent.UnCheckLikeMument(
                             musicDetailViewModel.viewState.value.myMumentInfo!!.mumentId
@@ -182,12 +185,12 @@ class MusicDetailFragment : Fragment() {
                 }
             }
 
-            override fun likeMument(mumentId: String) {
-                musicDetailViewModel.emitEvent(MusicDetailEvent.CheckLikeItemMument(mumentId))
+            override fun likeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
+                musicDetailViewModel.emitEvent(MusicDetailEvent.CheckLikeItemMument(mumentId, resultCallback))
             }
 
-            override fun cancelLikeMument(mumentId: String) {
-                musicDetailViewModel.emitEvent(MusicDetailEvent.UnCheckLikeItemMument(mumentId))
+            override fun cancelLikeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
+                musicDetailViewModel.emitEvent(MusicDetailEvent.UnCheckLikeItemMument(mumentId, resultCallback))
             }
         })
         musicDetailListHeaderAdapter = MusicDetailListHeaderAdapter { event ->

@@ -2,8 +2,6 @@ package com.mument_android.detail.history
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.text.isDigitsOnly
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,9 +9,9 @@ import com.mument_android.core.model.TagEntity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.*
+import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.BR
 import com.mument_android.detail.databinding.ItemMumentLayoutBinding
-import com.mument_android.detail.music.MusicDetailMumentListAdapter
 import com.mument_android.domain.entity.history.MumentHistory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,8 +20,7 @@ import kotlinx.coroutines.launch
 
 class HistoryListAdapter(
     private val itemClickListener: (String) -> Unit,
-    private val likeMument: (String) -> Unit,
-    private val cancelLikeMument: (String) -> Unit
+    private val likeMumentListener: LikeMumentListener,
 ) : ListAdapter<MumentHistory, HistoryListAdapter.HistoryViewHolder>(object :
     DiffUtil.ItemCallback<MumentHistory>() {
     override fun areItemsTheSame(oldItem: MumentHistory, newItem: MumentHistory): Boolean =
@@ -63,43 +60,34 @@ class HistoryListAdapter(
         holder.binding.run {
             laLikeMumentHistory.click {
                 val likeCount = tvLikeCount.text.toString().toInt()
+                laLikeMumentHistory.isClickable = false
                 if (laLikeMumentHistory.progress == 0F) {
                     laLikeMumentHistory.playAnimation()
-                    CoroutineScope(Dispatchers.Main).launch {
-                        delay(1000)
-                        data.isLiked = true
-                        tvLikeCount.text = (likeCount + 1).toString()
-                        laLikeMumentHistory.progress = 100F
-                    }
-                    likeMument(data._id.toString())
-                } else {
-                    cancelLikeMument(
-                        data._id.toString()
-                    )
-                    laLikeMumentHistory.progress = 0F
-                    data.isLiked = false
-                    tvLikeCount.text = (likeCount - 1).toString()
-                }
-            }
-            tvLikeCount.click {
-                if (tvLikeCount.text.myIsDigitsOnly()) {
-                    val likeCount = tvLikeCount.text.toString().toInt()
-                    if (laLikeMumentHistory.progress == 0F) {
-                        laLikeMumentHistory.playAnimation()
-                        CoroutineScope(Dispatchers.Main).launch {
-                            delay(1000)
-                            data.isLiked = true
-                            tvLikeCount.text = (likeCount + 1).toString()
-                            laLikeMumentHistory.progress = 100F
+                    likeMumentListener.likeMument(data._id.toString()) { result ->
+                        if (result) {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                delay(1000)
+                                data.isLiked = true
+                                tvLikeCount.text = (likeCount + 1).toString()
+                                laLikeMumentHistory.progress = 100F
+                                laLikeMumentHistory.isClickable = true
+                            }
+                        } else {
+                            laLikeMumentHistory.progress = 0F
+                            holder.binding.root.context.showToast("오류가 발생했습니다.")
+                            laLikeMumentHistory.isClickable = true
                         }
-                        likeMument(data._id.toString())
-                    } else {
-                        cancelLikeMument(
-                            data._id.toString()
-                        )
-                        data.isLiked = false
-                        laLikeMumentHistory.progress = 0F
-                        tvLikeCount.text = (likeCount - 1).toString()
+                    }
+                } else {
+                    likeMumentListener.cancelLikeMument(data._id.toString()) { result ->
+                        if (result) {
+                            laLikeMumentHistory.progress = 0F
+                            data.isLiked = false
+                            tvLikeCount.text = (likeCount - 1).toString()
+                        } else {
+                            holder.binding.root.context.showToast("오류가 발생했습니다.")
+                        }
+                        laLikeMumentHistory.isClickable = true
                     }
                 }
             }

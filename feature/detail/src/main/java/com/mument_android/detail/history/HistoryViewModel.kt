@@ -2,7 +2,6 @@ package com.mument_android.detail.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import com.mument_android.domain.usecase.detail.GetMumentHistoryUseCase
 import com.mument_android.domain.usecase.main.CancelLikeMumentUseCase
@@ -37,15 +36,23 @@ class HistoryViewModel @Inject constructor(
         _music.value = music
     }
 
-    fun likeMument(mumentId: String) {
+    fun likeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            likeUseCase.invoke(mumentId).catch { }.collect {}
+            likeUseCase.invoke(mumentId).catch {
+                resultCallback.invoke(false)
+            }.collect {
+                resultCallback.invoke(true)
+            }
         }
     }
 
-    fun cancelLikeMument(mumentId: String) {
+    fun cancelLikeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            cancelLikeUseCase.invoke(mumentId).catch { }.collect {}
+            cancelLikeUseCase.invoke(mumentId).catch {
+                resultCallback.invoke(false)
+            }.collect {
+                resultCallback.invoke(true)
+            }
         }
     }
 

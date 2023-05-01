@@ -27,8 +27,8 @@ sealed class MusicDetailContract {
         data class ReceiveStartNav(val startNav: String): MusicDetailEvent()
         data class CheckLikeMument(val mumentId: String): MusicDetailEvent()
         data class UnCheckLikeMument(val mumentId: String): MusicDetailEvent()
-        data class CheckLikeItemMument(val mumentId: String): MusicDetailEvent()
-        data class UnCheckLikeItemMument(val mumentId: String): MusicDetailEvent()
+        data class CheckLikeItemMument(val mumentId: String, val resultCallback: (Boolean) -> Unit): MusicDetailEvent()
+        data class UnCheckLikeItemMument(val mumentId: String, val resultCallback : (Boolean) -> Unit): MusicDetailEvent()
     }
 
     sealed class MusicDetailEffect: SideEffect {

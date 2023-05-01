@@ -15,7 +15,7 @@ import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.util.parcelable
 import com.mument_android.detail.databinding.ActivityHistoryBinding
 import com.angdroid.navigation.StackProvider
-import com.mument_android.detail.mument.contract.MumentDetailContract
+import com.mument_android.core_dependent.util.LikeMumentListener
 import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -124,27 +124,40 @@ class HistoryActivity :
         finish()
     }
 
-    private fun likeMument(mumentId: String) {
-        historyViewModel.likeMument(mumentId)
+    private fun likeCallbackMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
+        historyViewModel.likeMument(mumentId) {
+            resultCallback.invoke(it)
+        }
     }
 
-    private fun cancelLikeMument(mumentId: String) {
-        historyViewModel.cancelLikeMument(mumentId)
+    private fun cancelLikeCallBackMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
+        historyViewModel.cancelLikeMument(mumentId) {
+            resultCallback.invoke(it)
+        }
     }
 
     private fun collectSortType() {
         collectFlowWhenStarted(historyViewModel.selectSortType) { sort ->
             adapter = HistoryListAdapter(
                 itemClickListener = { moveToMumentDetail(it, false) },
-                likeMument = { likeMument(it) },
-                cancelLikeMument = { cancelLikeMument(it) })
+                likeMumentListener = object : LikeMumentListener {
+                    override fun likeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {
+                        likeCallbackMument(mumetId, resultCallback)
+                    }
+
+                    override fun cancelLikeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {
+                        cancelLikeCallBackMument(mumetId, resultCallback)
+                    }
+                }
+            )
             binding.rcHistory.adapter = adapter
             binding.tvLatestOrder.isSelected = sort == "Y"
             binding.tvOldestOrder.isSelected = sort == "N"
             //이거 나중에 수정,,
         }
     }
-    inner class HistoryKillBroadCastReceiver: BroadcastReceiver() {
+
+    inner class HistoryKillBroadCastReceiver : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             if (p1?.action == "KILL_HISTORY") {
                 finish()
