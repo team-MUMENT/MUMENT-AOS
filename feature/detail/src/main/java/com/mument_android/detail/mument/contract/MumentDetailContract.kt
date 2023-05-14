@@ -93,6 +93,7 @@ class MumentDetailContract {
         data class ToastString(val message: String) : MumentDetailSideEffect()
         object SuccessMumentDeletion : MumentDetailSideEffect()
         object SuccessBlockUser : MumentDetailSideEffect()
+        object OnCompleteLikeOrUnLikeLogic : MumentDetailSideEffect()
 
         object OpenEditOrDeleteMumentDialog : MumentDetailSideEffect()
         object OpenBlockOrReportBottomSheet : MumentDetailSideEffect()

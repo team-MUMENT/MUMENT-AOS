@@ -14,10 +14,7 @@ import com.mument_android.detail.BR
 import com.mument_android.detail.databinding.ItemMusicDetailListBinding
 import com.mument_android.detail.mument.listener.MumentClickListener
 import com.mument_android.domain.entity.detail.MumentSummaryEntity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickListener) :
     ListAdapter<MumentSummaryEntity, MusicDetailMumentListAdapter.MusicDetailMumentListViewHolder>(
@@ -55,34 +52,36 @@ class MusicDetailMumentListAdapter(private val mumentClickListener: MumentClickL
                     llLikeTouchArea.isClickable = false
                     if (laLikeMusic.progress == 0F) {
                         laLikeMusic.playAnimation()
+                        val job = CoroutineScope(Dispatchers.Main).launch {
+                            delay(1000)
+                            tvLikeCount.text = (likeCount + 1).toString()
+                            mument.isLiked = true
+                            laLikeMusic.progress = 100F
+                            llLikeTouchArea.isClickable = true
+                        }
                         mumentClickListener.likeMument(mument.mumentId) { result ->
-                            if (result) {
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    delay(1000)
-                                    mument.isLiked = true
-                                    tvLikeCount.text = (likeCount + 1).toString()
-                                    laLikeMusic.progress = 100F
-                                    llLikeTouchArea.isClickable = true
-                                }
-                            } else {
+                            if (!result) {
+                                job.cancel()
                                 holder.binding.root.context.showToast("오류가 발생했습니다.")
-                                llLikeTouchArea.isClickable = true
                                 laLikeMusic.progress = 0F
+                                tvLikeCount.text = likeCount.toString()
+                                llLikeTouchArea.isClickable = true
                             }
                         }
                     } else {
+                        mument.isLiked = false
+                        laLikeMusic.progress = 0F
+                        tvLikeCount.text = (likeCount - 1).toString()
                         mumentClickListener.cancelLikeMument(mument.mumentId) { result ->
-                            if (result) {
-                                mument.isLiked = false
-                                laLikeMusic.progress = 0F
-                                tvLikeCount.text = (likeCount - 1).toString()
-                            } else {
+                            if (!result) {
                                 holder.binding.root.context.showToast("오류가 발생했습니다.")
+                                mument.isLiked = true
+                                laLikeMusic.progress = 100F
+                                tvLikeCount.text = likeCount.toString()
                             }
                             llLikeTouchArea.isClickable = true
                         }
                     }
-
                 }
             }
         }

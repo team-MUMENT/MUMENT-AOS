@@ -17,23 +17,23 @@ sealed class MusicDetailContract {
         val mumentList: List<MumentSummaryEntity> = emptyList(),
         val mumentSortType: SortTypeEnum = SortTypeEnum.SORT_LIKE_COUNT,
         val startNav: String = ""
-    ): ViewState
+    ) : ViewState
 
-    sealed class MusicDetailEvent: Event {
-        object ClickSortByLikeCount: MusicDetailEvent()
-        object ClickSortByLatest: MusicDetailEvent()
-        object OnClickBackButton: MusicDetailEvent()
-        data class ReceiveRequestMusicInfo(val music: MusicInfoEntity): MusicDetailEvent()
-        data class ReceiveStartNav(val startNav: String): MusicDetailEvent()
-        data class CheckLikeMument(val mumentId: String): MusicDetailEvent()
-        data class UnCheckLikeMument(val mumentId: String): MusicDetailEvent()
-        data class CheckLikeItemMument(val mumentId: String, val resultCallback: (Boolean) -> Unit): MusicDetailEvent()
-        data class UnCheckLikeItemMument(val mumentId: String, val resultCallback : (Boolean) -> Unit): MusicDetailEvent()
+    sealed class MusicDetailEvent : Event {
+        object ClickSortByLikeCount : MusicDetailEvent()
+        object ClickSortByLatest : MusicDetailEvent()
+        object OnClickBackButton : MusicDetailEvent()
+        data class ReceiveRequestMusicInfo(val music: MusicInfoEntity) : MusicDetailEvent()
+        data class ReceiveStartNav(val startNav: String) : MusicDetailEvent()
+        data class CheckLikeMument(val mumentId: String, val resultCallback: (Boolean) -> Unit) : MusicDetailEvent()
+        data class UnCheckLikeMument(val mumentId: String, val resultCallback: (Boolean) -> Unit) : MusicDetailEvent()
+        data class CheckLikeItemMument(val mumentId: String, val resultCallback: (Boolean) -> Unit) : MusicDetailEvent()
+        data class UnCheckLikeItemMument(val mumentId: String, val resultCallback: (Boolean) -> Unit) : MusicDetailEvent()
     }
 
-    sealed class MusicDetailEffect: SideEffect {
-        data class PopBackStack(val startNav: String): MusicDetailEffect()
-        data class ShowToast(val msg: String): MusicDetailEffect()
-        object CompleteLikeMument: MusicDetailEffect()
+    sealed class MusicDetailEffect : SideEffect {
+        data class PopBackStack(val startNav: String) : MusicDetailEffect()
+        data class ShowToast(val msg: String) : MusicDetailEffect()
+        object CompleteLikeMument : MusicDetailEffect()
     }
 }

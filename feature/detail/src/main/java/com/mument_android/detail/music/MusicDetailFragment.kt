@@ -164,14 +164,14 @@ class MusicDetailFragment : Fragment() {
 
                 override fun likeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
                     musicDetailViewModel.emitEvent(
-                        MusicDetailEvent.CheckLikeMument(mumentId)
+                        MusicDetailEvent.CheckLikeMument(mumentId, resultCallback)
                     )
                 }
 
                 override fun cancelLikeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
                     musicDetailViewModel.emitEvent(
                         MusicDetailEvent.UnCheckLikeMument(
-                            musicDetailViewModel.viewState.value.myMumentInfo!!.mumentId
+                            musicDetailViewModel.viewState.value.myMumentInfo!!.mumentId, resultCallback
                         )
                     )
                 }
