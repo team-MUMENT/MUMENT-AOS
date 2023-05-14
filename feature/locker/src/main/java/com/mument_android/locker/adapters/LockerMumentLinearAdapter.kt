@@ -17,13 +17,10 @@ import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.BR
 import com.mument_android.core_dependent.util.LikeMumentListener
 import com.mument_android.locker.databinding.ItemLockerCardBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 //자식어뎁터
-class LockerMumentLinearAdapter (
+class LockerMumentLinearAdapter(
     private val isMumentTab: Boolean,
     private val showDetailListener: (String, MusicInfoEntity) -> Unit,
     private val likeMumentListener: LikeMumentListener
@@ -59,7 +56,7 @@ class LockerMumentLinearAdapter (
         likeMument(holder)
         holder.binding.root.setOnClickListener {
             //뮤멘트 상세보기에 진입했을 때 GA
-            if(isMumentTab) {
+            if (isMumentTab) {
                 FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_storage_my_mument")
             } else {
                 FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_storage_like_mument")
@@ -87,27 +84,29 @@ class LockerMumentLinearAdapter (
                     val likeCount = tvLikeCount.text.toString().toInt()
                     if (laLikeLocker.progress == 0F) {
                         laLikeLocker.playAnimation()
+                        val job = CoroutineScope(Dispatchers.Main).launch {
+                            delay(1000)
+                            tvLikeCount.text = (likeCount + 1).toString()
+                            llLikeTouchArea.isClickable = true
+                        }
                         likeMumentListener.likeMument(
                             mument._id ?: ""
                         ) { result ->
-                            if (result) {
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    delay(1000)
-                                    tvLikeCount.text = (likeCount + 1).toString()
-                                    llLikeTouchArea.isClickable = true
-                                }
-                            } else {
+                            if (!result) {
+                                job.cancel()
                                 laLikeLocker.progress = 0F
-                                holder.binding.root.context.showToast("오류가 발생했습니다.")
                                 llLikeTouchArea.isClickable = true
+                                tvLikeCount.text = likeCount.toString()
+                                holder.binding.root.context.showToast("오류가 발생했습니다.")
                             }
                         }
                     } else {
+                        laLikeLocker.progress = 0F
+                        tvLikeCount.text = (likeCount - 1).toString()
                         likeMumentListener.cancelLikeMument(mument._id ?: "") { result ->
-                            if (result) {
-                                laLikeLocker.progress = 0F
-                                tvLikeCount.text = (likeCount - 1).toString()
-                            } else {
+                            if (!result) {
+                                laLikeLocker.progress = 100F
+                                tvLikeCount.text = likeCount.toString()
                                 holder.binding.root.context.showToast("오류가 발생했습니다.")
                             }
                             llLikeTouchArea.isClickable = true

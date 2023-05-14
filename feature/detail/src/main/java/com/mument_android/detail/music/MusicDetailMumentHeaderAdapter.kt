@@ -59,22 +59,38 @@ class MusicDetailMumentHeaderAdapter(
                     llTouchArea.isClickable = false
                     if (laLikeMumentDetail.progress == 0F) {
                         laLikeMumentDetail.playAnimation()
-                        mumentClickListener.likeMument(
-                            myMumentInfo!!.mumentId
-                        ) {}  // 얘는 ViewModel 에서 알아서 해줌
-                        CoroutineScope(Dispatchers.Main).launch {
+                        val job = CoroutineScope(Dispatchers.Main).launch {
                             delay(1000)
                             myMumentInfo!!.isLiked = true
                             tvSecretLikecount.text = (likeCount + 1).toString()
                             laLikeMumentDetail.progress = 100F
                             llTouchArea.isClickable = true
                         }
+                        mumentClickListener.likeMument(
+                            myMumentInfo!!.mumentId
+                        ) { result ->
+                            if (!result) {
+                                job.cancel()
+                                holder.binding.root.context.showToast("오류가 발생했습니다.")
+                                llTouchArea.isClickable = true
+                                myMumentInfo!!.isLiked = false
+                                laLikeMumentDetail.progress = 0F
+                                tvSecretLikecount.text = likeCount.toString()
+                            }
+                        }
                     } else {
-                        mumentClickListener.cancelLikeMument(myMumentInfo!!.mumentId) {} // 얘는 ViewModel 에서 알아서 해줌
                         myMumentInfo!!.isLiked = false
                         laLikeMumentDetail.progress = 0F
                         tvSecretLikecount.text = (likeCount - 1).toString()
-                        llTouchArea.isClickable = true
+                        mumentClickListener.cancelLikeMument(myMumentInfo!!.mumentId) { result ->
+                            if (!result) {
+                                myMumentInfo!!.isLiked = true
+                                laLikeMumentDetail.progress = 100F
+                                tvSecretLikecount.text = likeCount.toString()
+                                holder.binding.root.context.showToast("오류가 발생했습니다.")
+                            }
+                            llTouchArea.isClickable = true
+                        }
                     }
                 }
             }

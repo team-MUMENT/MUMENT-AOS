@@ -152,6 +152,7 @@ class MumentDetailViewModel @Inject constructor(
     }
 
     private fun changeLikeStatus(like: Boolean) {
+        setEffect { MumentDetailSideEffect.OnCompleteLikeOrUnLikeLogic }
         if (like) {
             setState { copy(likeCount = likeCount + 1) }
             setState { copy(isLikedMument = true) }

@@ -50,10 +50,10 @@ class MusicDetailViewModel @Inject constructor(
                 sortMumentList(SortTypeEnum.SORT_LIKE_COUNT)
             }
             is MusicDetailEvent.CheckLikeMument -> {
-                likeMument(event.mumentId)
+                likeMument(event.mumentId, event.resultCallback)
             }
             is MusicDetailEvent.UnCheckLikeMument -> {
-                cancelLikeMument(event.mumentId)
+                cancelLikeMument(event.mumentId, event.resultCallback)
             }
             is MusicDetailEvent.CheckLikeItemMument -> {
                 likeItemMument(event.mumentId, event.resultCallback)
@@ -141,28 +141,32 @@ class MusicDetailViewModel @Inject constructor(
         }
     }
 
-    private fun likeMument(mumentId: String) {
+    private fun likeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId)
                 .catch {
                     changeLikeStatus(false)
+                    resultCallback.invoke(false)
                 }
                 .collect {
                     delay(1000)
                     changeLikeStatus(true)
+                    resultCallback.invoke(true)
                     setEffect { MusicDetailEffect.CompleteLikeMument }
                 }
         }
     }
 
-    private fun cancelLikeMument(mumentId: String) {
+    private fun cancelLikeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
         changeLikeStatus(false)
         viewModelScope.launch {
             cancelLikeMumentUseCase(mumentId)
                 .catch {
                     changeLikeStatus(true)
+                    resultCallback.invoke(false)
                 }
                 .collect {
+                    resultCallback.invoke(true)
                     setEffect { MusicDetailEffect.CompleteLikeMument }
                 }
         }

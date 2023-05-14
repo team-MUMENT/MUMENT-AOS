@@ -13,10 +13,7 @@ import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.detail.BR
 import com.mument_android.detail.databinding.ItemMumentLayoutBinding
 import com.mument_android.domain.entity.history.MumentHistory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class HistoryListAdapter(
     private val itemClickListener: (String) -> Unit,
@@ -64,28 +61,31 @@ class HistoryListAdapter(
                     laLikeMumentHistory.isClickable = false
                     if (laLikeMumentHistory.progress == 0F) {
                         laLikeMumentHistory.playAnimation()
+                        val job = CoroutineScope(Dispatchers.Main).launch {
+                            delay(1000)
+                            data.isLiked = true
+                            tvLikeCount.text = (likeCount + 1).toString()
+                            laLikeMumentHistory.progress = 100F
+                            laLikeMumentHistory.isClickable = true
+                        }
                         likeMumentListener.likeMument(data._id.toString()) { result ->
-                            if (result) {
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    delay(1000)
-                                    data.isLiked = true
-                                    tvLikeCount.text = (likeCount + 1).toString()
-                                    laLikeMumentHistory.progress = 100F
-                                    laLikeMumentHistory.isClickable = true
-                                }
-                            } else {
+                            if (!result) {
+                                job.cancel()
                                 laLikeMumentHistory.progress = 0F
+                                tvLikeCount.text = likeCount.toString()
                                 holder.binding.root.context.showToast("오류가 발생했습니다.")
                                 laLikeMumentHistory.isClickable = true
                             }
                         }
                     } else {
+                        laLikeMumentHistory.progress = 0F
+                        data.isLiked = false
+                        tvLikeCount.text = (likeCount - 1).toString()
                         likeMumentListener.cancelLikeMument(data._id.toString()) { result ->
-                            if (result) {
-                                laLikeMumentHistory.progress = 0F
-                                data.isLiked = false
-                                tvLikeCount.text = (likeCount - 1).toString()
-                            } else {
+                            if (!result) {
+                                laLikeMumentHistory.progress = 100F
+                                data.isLiked = true
+                                tvLikeCount.text = likeCount.toString()
                                 holder.binding.root.context.showToast("오류가 발생했습니다.")
                             }
                             laLikeMumentHistory.isClickable = true
