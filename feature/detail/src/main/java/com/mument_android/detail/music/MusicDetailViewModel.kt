@@ -50,16 +50,16 @@ class MusicDetailViewModel @Inject constructor(
                 sortMumentList(SortTypeEnum.SORT_LIKE_COUNT)
             }
             is MusicDetailEvent.CheckLikeMument -> {
-                likeMument(event.mumentId)
+                likeMument(event.mumentId, event.resultCallback)
             }
             is MusicDetailEvent.UnCheckLikeMument -> {
-                cancelLikeMument(event.mumentId)
+                cancelLikeMument(event.mumentId, event.resultCallback)
             }
             is MusicDetailEvent.CheckLikeItemMument -> {
-                likeItemMument(event.mumentId)
+                likeItemMument(event.mumentId, event.resultCallback)
             }
             is MusicDetailEvent.UnCheckLikeItemMument -> {
-                cancelLikeItemMument(event.mumentId)
+                cancelLikeItemMument(event.mumentId, event.resultCallback)
             }
             is MusicDetailEvent.OnClickBackButton -> {
                 val startNav = viewState.value.startNav
@@ -121,40 +121,52 @@ class MusicDetailViewModel @Inject constructor(
         }
     }
 
-    private fun likeItemMument(mumentId: String) {
+    private fun likeItemMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            likeMumentUseCase(mumentId).catch {}.collect()
+            likeMumentUseCase(mumentId).catch {
+                resultCallback(false)
+            }.collect {
+                resultCallback(true)
+            }
         }
     }
 
-    private fun cancelLikeItemMument(mumentId: String) {
+    private fun cancelLikeItemMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            cancelLikeMumentUseCase(mumentId).catch { }.collect()
+            cancelLikeMumentUseCase(mumentId).catch {
+                resultCallback(false)
+            }.collect {
+                resultCallback(true)
+            }
         }
     }
 
-    private fun likeMument(mumentId: String) {
+    private fun likeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
             likeMumentUseCase(mumentId)
                 .catch {
                     changeLikeStatus(false)
+                    resultCallback.invoke(false)
                 }
                 .collect {
                     delay(1000)
                     changeLikeStatus(true)
+                    resultCallback.invoke(true)
                     setEffect { MusicDetailEffect.CompleteLikeMument }
                 }
         }
     }
 
-    private fun cancelLikeMument(mumentId: String) {
+    private fun cancelLikeMument(mumentId: String, resultCallback: (Boolean) -> Unit) {
         changeLikeStatus(false)
         viewModelScope.launch {
             cancelLikeMumentUseCase(mumentId)
                 .catch {
                     changeLikeStatus(true)
+                    resultCallback.invoke(false)
                 }
                 .collect {
+                    resultCallback.invoke(true)
                     setEffect { MusicDetailEffect.CompleteLikeMument }
                 }
         }

@@ -171,6 +171,8 @@ class MyPageViewModel @Inject constructor(
                         isUnregisterSuccess.value = it
                         if (it) {
                             dataStoreManager.removeKaKaoToken()
+                            dataStoreManager.removeIsNotifyExist()
+                            deleteInfo()
                         }
                     }
                 }
@@ -233,7 +235,6 @@ class MyPageViewModel @Inject constructor(
                         appInfo = it?.appInfo.toString()
                         introduction = it?.introduction.toString()
                         license = it?.license.toString()
-
                     }
                 }
             }

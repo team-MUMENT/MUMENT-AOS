@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
+import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.core_dependent.util.myIsDigitsOnly
 import com.mument_android.detail.BR
 import com.mument_android.detail.databinding.ItemMusicDetailMumentBinding
@@ -28,7 +29,7 @@ class MusicDetailMumentHeaderAdapter(
     override fun onBindViewHolder(holder: MusicDetailHeaderViewHolder, position: Int) {
 
         holder.binding.setVariable(BR.mument, myMumentInfo)
-        holder.binding.tvShowMyHistory.click{
+        holder.binding.tvShowMyHistory.click {
             onClickHistory()
             //뮤멘트 히스토리 페이지에 진입 경로
             FirebaseAnalyticsUtil.firebaseLog(
@@ -52,47 +53,44 @@ class MusicDetailMumentHeaderAdapter(
 
     private fun checkLikeMument(holder: MusicDetailHeaderViewHolder) {
         holder.binding.run {
-            laLikeMumentDetail.click {
-                if (myMumentInfo != null) {
-                    val likeCount = tvSecretLikecount.text.toString().toInt()
-                    if (laLikeMumentDetail.progress == 0F) {
-                        mumentClickListener.likeMument(
-                            myMumentInfo!!.mumentId
-                        )
-                        laLikeMumentDetail.playAnimation()
-                        CoroutineScope(Dispatchers.Main).launch {
-                            delay(1000)
-                            myMumentInfo!!.isLiked = true
-                            tvSecretLikecount.text = (likeCount + 1).toString()
-                            laLikeMumentDetail.progress = 100F
-                        }
-                    } else {
-                        mumentClickListener.cancelLikeMument(myMumentInfo!!.mumentId)
-                        myMumentInfo!!.isLiked = false
-                        laLikeMumentDetail.progress = 0F
-                        tvSecretLikecount.text = (likeCount - 1).toString()
-                    }
-                }
-            }
             llTouchArea.click {
                 if (tvSecretLikecount.text.myIsDigitsOnly() && myMumentInfo != null) {
                     val likeCount = tvSecretLikecount.text.toString().toInt()
+                    llTouchArea.isClickable = false
                     if (laLikeMumentDetail.progress == 0F) {
-                        mumentClickListener.likeMument(
-                            myMumentInfo!!.mumentId
-                        )
                         laLikeMumentDetail.playAnimation()
-                        CoroutineScope(Dispatchers.Main).launch {
+                        val job = CoroutineScope(Dispatchers.Main).launch {
                             delay(1000)
                             myMumentInfo!!.isLiked = true
                             tvSecretLikecount.text = (likeCount + 1).toString()
                             laLikeMumentDetail.progress = 100F
+                            llTouchArea.isClickable = true
+                        }
+                        mumentClickListener.likeMument(
+                            myMumentInfo!!.mumentId
+                        ) { result ->
+                            if (!result) {
+                                job.cancel()
+                                holder.binding.root.context.showToast("오류가 발생했습니다.")
+                                llTouchArea.isClickable = true
+                                myMumentInfo!!.isLiked = false
+                                laLikeMumentDetail.progress = 0F
+                                tvSecretLikecount.text = likeCount.toString()
+                            }
                         }
                     } else {
-                        mumentClickListener.cancelLikeMument(myMumentInfo!!.mumentId)
                         myMumentInfo!!.isLiked = false
                         laLikeMumentDetail.progress = 0F
                         tvSecretLikecount.text = (likeCount - 1).toString()
+                        mumentClickListener.cancelLikeMument(myMumentInfo!!.mumentId) { result ->
+                            if (!result) {
+                                myMumentInfo!!.isLiked = true
+                                laLikeMumentDetail.progress = 100F
+                                tvSecretLikecount.text = likeCount.toString()
+                                holder.binding.root.context.showToast("오류가 발생했습니다.")
+                            }
+                            llTouchArea.isClickable = true
+                        }
                     }
                 }
             }

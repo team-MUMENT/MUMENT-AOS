@@ -9,7 +9,7 @@ import com.mument_android.locker.BR
 import com.mument_android.domain.entity.locker.LockerMumentEntity
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.domain.entity.music.MusicInfoEntity
-import com.mument_android.locker.LikeMumentListener
+import com.mument_android.core_dependent.util.LikeMumentListener
 import com.mument_android.locker.databinding.ItemLockerDateBinding
 
 //부모 어뎁터
@@ -51,11 +51,12 @@ class LockerTimeAdapter(
                         showDetailListener(mumentId, musicInfo)
                     },
                     likeMumentListener = object : LikeMumentListener {
-                        override fun likeMument(mumetId: String) {
-                            likeMumentListener.likeMument(mumetId)
+                        override fun likeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {
+                            likeMumentListener.likeMument(mumetId, resultCallback)
                         }
-                        override fun cancelLikeMument(mumetId: String) {
-                            likeMumentListener.cancelLikeMument(mumetId)
+
+                        override fun cancelLikeMument(mumetId: String, resultCallback: (Boolean) -> Unit) {
+                            likeMumentListener.cancelLikeMument(mumetId, resultCallback)
                         }
                     }
                 ).apply {

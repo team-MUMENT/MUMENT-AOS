@@ -1,30 +1,26 @@
 package com.mument_android.locker.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.core.model.TagEntity
-import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ui.MumentTagListAdapter
 import com.mument_android.core_dependent.util.*
 import com.mument_android.core_dependent.util.EmotionalTag
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.core_dependent.util.ImpressiveTag
+import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.core_dependent.util.myIsDigitsOnly
 import com.mument_android.domain.entity.locker.LockerMumentEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.locker.BR
-import com.mument_android.locker.LikeMumentListener
+import com.mument_android.core_dependent.util.LikeMumentListener
 import com.mument_android.locker.databinding.ItemLockerCardBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 //자식어뎁터
-class LockerMumentLinearAdapter (
+class LockerMumentLinearAdapter(
     private val isMumentTab: Boolean,
     private val showDetailListener: (String, MusicInfoEntity) -> Unit,
     private val likeMumentListener: LikeMumentListener
@@ -60,7 +56,7 @@ class LockerMumentLinearAdapter (
         likeMument(holder)
         holder.binding.root.setOnClickListener {
             //뮤멘트 상세보기에 진입했을 때 GA
-            if(isMumentTab) {
+            if (isMumentTab) {
                 FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_storage_my_mument")
             } else {
                 FirebaseAnalyticsUtil.firebaseMumentDetailLog("from_storage_like_mument")
@@ -82,41 +78,39 @@ class LockerMumentLinearAdapter (
     private fun likeMument(holder: MumentViewHolder) {
         val mument = getItem(holder.absoluteAdapterPosition)
         holder.binding.run {
-            laLikeLocker.setOnClickListener {
+            llLikeTouchArea.setOnClickListener {
                 if (tvLikeCount.text.myIsDigitsOnly()) {
+                    llLikeTouchArea.isClickable = false
                     val likeCount = tvLikeCount.text.toString().toInt()
                     if (laLikeLocker.progress == 0F) {
                         laLikeLocker.playAnimation()
-                        CoroutineScope(Dispatchers.Main).launch {
+                        val job = CoroutineScope(Dispatchers.Main).launch {
                             delay(1000)
-                            likeMumentListener.likeMument(
-                                mument._id ?: ""
-                            )
                             tvLikeCount.text = (likeCount + 1).toString()
+                            llLikeTouchArea.isClickable = true
+                        }
+                        likeMumentListener.likeMument(
+                            mument._id ?: ""
+                        ) { result ->
+                            if (!result) {
+                                job.cancel()
+                                laLikeLocker.progress = 0F
+                                llLikeTouchArea.isClickable = true
+                                tvLikeCount.text = likeCount.toString()
+                                holder.binding.root.context.showToast("오류가 발생했습니다.")
+                            }
                         }
                     } else {
-                        likeMumentListener.cancelLikeMument(mument._id ?: "")
                         laLikeLocker.progress = 0F
                         tvLikeCount.text = (likeCount - 1).toString()
-                    }
-                }
-            }
-            tvLikeCount.click {
-                if (tvLikeCount.text.myIsDigitsOnly()) {
-                    val likeCount = tvLikeCount.text.toString().toInt()
-                    if (laLikeLocker.progress == 0F) {
-                        laLikeLocker.playAnimation()
-                        CoroutineScope(Dispatchers.Main).launch {
-                            delay(1000)
-                            likeMumentListener.likeMument(
-                                mument._id ?: ""
-                            )
-                            tvLikeCount.text = (likeCount + 1).toString()
+                        likeMumentListener.cancelLikeMument(mument._id ?: "") { result ->
+                            if (!result) {
+                                laLikeLocker.progress = 100F
+                                tvLikeCount.text = likeCount.toString()
+                                holder.binding.root.context.showToast("오류가 발생했습니다.")
+                            }
+                            llLikeTouchArea.isClickable = true
                         }
-                    } else {
-                        likeMumentListener.cancelLikeMument(mument._id ?: "")
-                        laLikeLocker.progress = 0F
-                        tvLikeCount.text = (likeCount - 1).toString()
                     }
                 }
             }

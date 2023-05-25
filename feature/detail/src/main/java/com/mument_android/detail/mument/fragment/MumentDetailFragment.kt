@@ -227,6 +227,8 @@ class MumentDetailFragment : Fragment() {
 
                 MumentDetailSideEffect.OpenBlockUserDialog -> showBlockUserDialog()
 
+                MumentDetailSideEffect.OnCompleteLikeOrUnLikeLogic -> likeClickBlockRelease()
+
                 is MumentDetailSideEffect.NavToMusicDetail -> {
                     musicDetailNavigatorProvider.fromMumentDetailToMusicDetail(effect.music, arguments?.getString(START_NAV_KEY))
                     stackProvider.clearBackStack()
@@ -298,8 +300,13 @@ class MumentDetailFragment : Fragment() {
         }
     }
 
+    private fun likeClickBlockRelease() {
+        binding.laLike.isClickable = true
+    }
+
     private fun changeLikeStatus() {
         binding.laLike.click {
+            binding.laLike.isClickable = false
             if (binding.laLike.progress == 0F) {
                 binding.laLike.playAnimation()
                 viewModel.emitEvent(MumentDetailEvent.OnClickLikeMument)
