@@ -1,11 +1,10 @@
 package com.mument_android.data.repository
 
 import com.mument_android.data.datasource.sign.SignDataSource
-import com.mument_android.data.mapper.sign.*
 import com.mument_android.data.mapper.sign.GetWebViewMapper
-import com.mument_android.data.mapper.sign.RequestSetProfileMapper
+import com.mument_android.data.mapper.sign.KakaoLoginMapper
+import com.mument_android.data.mapper.sign.NewTokenMapper
 import com.mument_android.data.mapper.sign.SetProfileMapper
-import com.mument_android.data.mapper.sign.SignMapper
 import com.mument_android.domain.entity.sign.*
 import com.mument_android.domain.repository.sign.SignRepository
 import okhttp3.MultipartBody
@@ -16,7 +15,6 @@ class SignRepositoryImpl @Inject constructor(
     private val signDataSource: SignDataSource,
     private val setProfileMapper: SetProfileMapper,
     private val kakaoLoginMapper: KakaoLoginMapper,
-    private val requestSetProfileMapper: RequestSetProfileMapper,
     private val getWebViewMapper: GetWebViewMapper,
     private val newTokenMapper: NewTokenMapper
 ) : SignRepository {
