@@ -42,10 +42,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataSourceModule {
-    @Singleton
-    @Provides
-    fun provideGson(): Gson = Gson()
+abstract class DataSourceModule {
 
     @Provides
     @Singleton
@@ -74,28 +71,9 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context, gson: Gson): MumentDatabase {
-        return Room.databaseBuilder(
-            context,
-            MumentDatabase::class.java,
-            "friend_data_database"
-        )
-            .addTypeConverter(IntListTypeConverter(gson))
-            .addTypeConverter(DateTypeConverter())
-            .build()
-    }
+    abstract fun bindRecentSearchListDataSource(localRecentSearchListDataSourceImpl: LocalRecentSearchListDataSourceImpl): LocalRecentSearchListDataSource
 
-    @Provides
-    fun provideTodayDao(database: MumentDatabase): TodayMumentDAO {
-        return database.todayMumentDAO()
-    }
-
-    @Provides
-    fun provideRecentDao(database: MumentDatabase): RecentSearchDAO {
-        return database.recentSearchDAO()
-    }
-
-    @Provides
+    @Binds
     @Singleton
     fun provideRecentSearchListDataSource(dao: RecentSearchDAO): LocalRecentSearchListDataSource =
         LocalRecentSearchListDataSourceImpl(dao)
