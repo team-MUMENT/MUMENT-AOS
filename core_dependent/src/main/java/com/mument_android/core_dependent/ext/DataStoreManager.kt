@@ -29,6 +29,7 @@ class DataStoreManager(
     suspend fun writeAdminList(adminList: String) {
         writeData(ADMIN_USER_LIST_KEY, adminList)
     }
+
     suspend fun writeKaKaoToken(kakaoToken: String) {
         writeData(KAKAO_TOKEN_KEY, kakaoToken)
     }
@@ -52,6 +53,7 @@ class DataStoreManager(
     suspend fun removeKaKaoToken() {
         deleteData(KAKAO_TOKEN_KEY)
     }
+
     suspend fun removeIsNotifyExist() {
         deleteData(IS_NOTIFY_EXIST)
     }
