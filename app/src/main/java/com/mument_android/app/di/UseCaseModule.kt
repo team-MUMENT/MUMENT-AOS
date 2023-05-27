@@ -1,14 +1,7 @@
 package com.mument_android.app.di
 
-import com.mument_android.domain.repository.app.LimitUserRepository
 import com.mument_android.domain.repository.detail.*
-import com.mument_android.domain.repository.home.HomeRepository
-import com.mument_android.domain.repository.locker.LockerRepository
-import com.mument_android.domain.repository.main.LikeMumentRepository
 import com.mument_android.domain.repository.mypage.*
-import com.mument_android.domain.repository.notify.NotifyRepository
-import com.mument_android.domain.repository.record.RecordRepository
-import com.mument_android.domain.repository.sign.SignRepository
 import com.mument_android.domain.usecase.app.LimitUserUseCase
 import com.mument_android.domain.usecase.app.LimitUserUseCaseImpl
 import com.mument_android.domain.usecase.detail.*
@@ -25,210 +18,162 @@ import com.mument_android.domain.usecase.mypage.*
 import com.mument_android.domain.usecase.notify.*
 import com.mument_android.domain.usecase.record.*
 import com.mument_android.domain.usecase.sign.*
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(SingletonComponent::class)
-object UseCaseModule {
-    @Provides
-    @Singleton
-    fun provideFetchMumentDetailContentUseCase(mumentDetailRepository: MumentDetailRepository): FetchMumentDetailContentUseCase =
-        FetchMumentDetailContentUseCaseImpl(mumentDetailRepository)
+@InstallIn(ViewModelComponent::class)
+abstract class UseCaseModule {
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchMumentDetailContentUseCase(fetchMumentDetailContentUseCaseImpl: FetchMumentDetailContentUseCaseImpl): FetchMumentDetailContentUseCase
 
-    @Provides
-    @Singleton
-    fun provideIsFirstRecordMumentUseCase(recordRepository: RecordRepository): IsFirstRecordMumentUseCase =
-        IsFirstRecordMumentUseCaseImpl(recordRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindIsFirstRecordMumentUseCase(isFirstRecordMumentUseCaseImpl: IsFirstRecordMumentUseCaseImpl): IsFirstRecordMumentUseCase
 
-    @Provides
-    @Singleton
-    fun provideLikeMumentUseCase(likeMumentRepository: LikeMumentRepository): LikeMumentUseCase =
-        LikeMumentUseCaseImpl(likeMumentRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindLikeMumentUseCase(likeMumentUseCaseImpl: LikeMumentUseCaseImpl): LikeMumentUseCase
 
-    @Provides
-    @Singleton
-    fun provideFetchMyMumentListUseCase(lockerRepository: LockerRepository): FetchMyMumentListUseCase =
-        FetchMyMumentListUseCaseImpl(lockerRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchMyMumentListUseCase(fetchMyMumentListUseCaseImpl: FetchMyMumentListUseCaseImpl): FetchMyMumentListUseCase
 
-    @Provides
-    @Singleton
-    fun proivdeFetchLockerLikeListUseCase(lockerRepository: LockerRepository): FetchMyLikeListUseCase =
-        FetchMyLikeListUseCaseImpl(lockerRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchLockerLikeListUseCase(fetchMyLikeListUseCaseImpl: FetchMyLikeListUseCaseImpl): FetchMyLikeListUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun bindCancelLikeMumentUseCase(cancelLikeMumentUseCaseImpl: CancelLikeMumentUseCaseImpl): CancelLikeMumentUseCase
 
-    @Provides
-    @Singleton
-    fun provideCancelLikeMumentUseCase(likeMumentRepository: LikeMumentRepository): CancelLikeMumentUseCase =
-        CancelLikeMumentUseCaseImpl(likeMumentRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindCRURecentSearchListUseCase(cruRecentSearchListUseCaseImpl: CRURecentSearchListUseCaseImpl): CRURecentSearchListUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun bindDeleteRecentSearchListUseCase(deleteRecentSearchListUseCaseImpl: DeleteRecentSearchListUseCaseImpl): DeleteRecentSearchListUseCase
 
-    @Provides
-    @Singleton
-    fun provideCRURecentSearchListUseCase(homeRepository: HomeRepository): CRURecentSearchListUseCase =
-        CRURecentSearchListUseCaseImpl(homeRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindSearchMusicUseCase(searchMusicUseCaseImpl: SearchMusicUseCaseImpl): SearchMusicUseCase
 
-    @Provides
-    @Singleton
-    fun provideDeleteRecentSearchListUseCase(homeRepository: HomeRepository): DeleteRecentSearchListUseCase =
-        DeleteRecentSearchListUseCaseImpl(homeRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindGetMumentHistoryUseCase(getMumentHistoryUseCaseImpl: GetMumentHistoryUseCaseImpl): GetMumentHistoryUseCase
 
-    @Provides
-    @Singleton
-    fun provideSearchMusicUseCase(homeRepository: HomeRepository): SearchMusicUseCase =
-        SearchMusicUseCaseImpl(homeRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchNotifyListDeleteUseCase(fetchNotifyListDeleteUseCaseImpl: FetchNotifyListDeleteUseCaseImpl): FetchNotifyListDeleteUseCase
 
-    @Provides
-    @Singleton
-    fun provideGetMumentHistoryUseCase(mumentDetailRepository: MumentDetailRepository): GetMumentHistoryUseCase =
-        GetMumentHistoryUseCaseImpl(mumentDetailRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchNotifyListsReadUseCase(fetchNotifyListsReadUseCaseImpl: FetchNotifyListsReadUseCaseImpl): FetchNotifyListsReadUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchNotifyListUseCase(fetchNotifyListUseCaseImpl: FetchNotifyListUseCaseImpl): FetchNotifyListUseCase
 
-    @Provides
-    @Singleton
-    fun provideFetchNotifyListDeleteUseCase(notifyRepository: NotifyRepository): FetchNotifyListDeleteUseCase =
-        FetchNotifyListDeleteUseCaseImpl(notifyRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindRecordMumentUseCase(recordMumentUseCaseImpl: RecordMumentUseCaseImpl): RecordMumentUseCase
 
-    @Provides
-    @Singleton
-    fun provideFetchNotifyListsReadUseCase(notifyRepository: NotifyRepository): FetchNotifyListsReadUseCase =
-        FetchNotifyListsReadUseCaseImpl(notifyRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindRecordModifyMumentUseCase(recordModifyMumentUseCaseImpl: RecordModifyMumentUseCaseImpl): RecordModifyMumentUseCase
 
-    @Provides
-    @Singleton
-    fun provideFetchNotifyListUseCase(notifyRepository: NotifyRepository): FetchNotifyListUseCase =
-        FetchNotifyListUseCaseImpl(notifyRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindWhenHomeEnterUseCase(whenHomeEnterUseCaseImpl: WhenHomeEnterUseCaseImpl): WhenHomeEnterUseCase
 
-    @Provides
-    @Singleton
-    fun provideRecordMumentUseCase(
-        recordRepository: RecordRepository
-    ): RecordMumentUseCase = RecordMumentUseCaseImpl(recordRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindBeforeWhenHomeEnterUseCase(beforeWhenHomeEnterUseCaseImpl: BeforeWhenHomeEnterUseCaseImpl): BeforeWhenHomeEnterUseCase
 
-    @Provides
-    @Singleton
-    fun provideRecordModifyMumentUseCase(
-        recordRepository: RecordRepository
-    ): RecordModifyMumentUseCase = RecordModifyMumentUseCaseImpl(recordRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchMumentListUseCase(fetchMumentListUseCaseImpl: FetchMumentListUseCaseImpl): FetchMumentListUseCase
 
-    @Provides
-    @Singleton
-    fun provideWhenHomeEnterUseCase(
-        homeRepository: HomeRepository
-    ): WhenHomeEnterUseCase = WhenHomeEnterUseCaseImpl(homeRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchMusicDetailUseCase(fetchMusicDetailUseCaseImpl: FetchMusicDetailUseCaseImpl): FetchMusicDetailUseCase
 
-    @Provides
-    @Singleton
-    fun provideBeforeWhenHomeEnterUseCase(
-        homeRepository: HomeRepository
-    ): BeforeWhenHomeEnterUseCase = BeforeWhenHomeEnterUseCaseImpl(homeRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindDeleteMumentUseCase(deleteMumentUseCaseImpl: DeleteMumentUseCaseImpl): DeleteMumentUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun bindSignDulCheck(signDulCheckUseCaseImpl: SignDulCheckUseCaseImpl): SignDulCheckUseCase
 
-    @Provides
-    @Singleton
-    fun provideFetchMumentListUseCase(mumentListRepository: MumentListRepository): FetchMumentListUseCase =
-        FetchMumentListUseCaseImpl(mumentListRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindBlockUserUseCase(blockUserUseCaseImpl: BlockUserUseCaseImpl): BlockUserUseCase
 
-    @Provides
-    @Singleton
-    fun provideFetchMusicDetailUseCase(musicDetailRepository: MusicDetailRepository): FetchMusicDetailUseCase =
-        FetchMusicDetailUseCaseImpl(musicDetailRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindSignPutProfileUseCase(signPutProfileUseCaseImpl: SignPutProfileUseCaseImpl): SignPutProfileUseCase
 
-    @Provides
-    @Singleton
-    fun proivdeDeleteMumentUseCase(mumentDetailRepository: MumentDetailRepository): DeleteMumentUseCase =
-        DeleteMumentUseCaseImpl(mumentDetailRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchBlockUserListUseCase(fetchBlockUserUseCaseImpl: FetchBlockUserUseCaseImpl): FetchBlockUserUseCase
 
-    @Provides
-    @Singleton
-    fun provideSignDulCheck(signRepository: SignRepository): SignDulCheckUseCase =
-        SignDulCheckUseCaseImpl(signRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindDeleteBlockUserUseCase(deleteBlockUserUseCaseImpl: DeleteBlockUserUseCaseImpl): DeleteBlockUserUseCase
 
-    @Provides
-    @Singleton
-    fun provideBlockUserUseCase(blockUserRepository: BlockUserRepository): BlockUserUseCase =
-        BlockUserUseCaseImpl(blockUserRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchNoticeListUseCase(fetchNoticeListUseCaseImpl: FetchNoticeListUseCaseImpl): FetchNoticeListUseCase
 
-    @Provides
-    @Singleton
-    fun provideSignPutProfileUseCase(signRepository: SignRepository): SignPutProfileUseCase =
-        SignPutProfileUseCaseImpl(signRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchNoticeDetailUseCase(fetchNoticeDetailUseCaseImpl: FetchNoticeDetailUseCaseImpl): FetchNoticeDetailUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindKaKaoLoginUseCase(signKaKaoUseCaseImpl: SignKaKaoUseCaseImpl): SignKaKaoUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindUserInfoUseCase(userInfoUseCaseImpl: UserInfoUseCaseImpl): UserInfoUseCase
 
 
-    @Provides
-    @Singleton
-    fun provideFetchBlockUserListUseCase(blockUserListRepository: BlockUserListRepository): FetchBlockUserUseCase =
-        FetchBlockUserUseCaseImpl(blockUserListRepository)
-
-    @Provides
-    @Singleton
-    fun provideDeleteBlockUserUseCase(blockUserListRepository: BlockUserListRepository): DeleteBlockUserUseCase =
-        DeleteBlockUserUseCaseImpl(blockUserListRepository)
-
-    @Provides
-    @Singleton
-    fun provideFetchNoticeListUseCase(noticeListRepository: NoticeListRepository): FetchNoticeListUseCase =
-        FetchNoticeListUseCaseImpl(noticeListRepository)
-
-    @Provides
-    @Singleton
-    fun provideFetchNoticeDetailUseCase(noticeListRepository: NoticeListRepository): FetchNoticeDetailUseCase =
-        FetchNoticeDetailUseCaseImpl(noticeListRepository)
-
-    @Provides
-    @Singleton
-    fun provideKaKaoLoginUseCase(signRepository: SignRepository): SignKaKaoUseCase =
-        SignKaKaoUseCaseImpl(signRepository)
-
-    @Provides
-    @Singleton
-    fun provideUserInfoUseCase(userInfoRepository: UserInfoRepository): UserInfoUseCase =
-        UserInfoUseCaseImpl(userInfoRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindGetWebViewUseCase(getWebViewUseCaseImpl: GetWebViewUseCaseImpl): GetWebViewUseCase
 
 
-    @Provides
-    @Singleton
-    fun provideGetWebViewUseCase(signRepository: SignRepository): GetWebViewUseCase =
-        GetWebViewUseCaseImpl(signRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindLimitUserUseCase(limitUserUseCaseImpl: LimitUserUseCaseImpl): LimitUserUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun bindNewTokenUseCase(newTokenUseCaseImpl: NewTokenUseCaseImpl): NewTokenUseCase
 
-    @Provides
-    @Singleton
-    fun provideLimitUserUseCase(limitUserRepository: LimitUserRepository): LimitUserUseCase =
-        LimitUserUseCaseImpl(limitUserRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchUsersLikeMumentUseCase(fetchUsersLikeMumentUseCaseImpl: FetchUsersLikeMumentUseCaseImpl): FetchUsersLikeMumentUseCase
 
-    @Provides
-    @Singleton
-    fun provideNewTokenUseCase(signRepository: SignRepository): NewTokenUseCase =
-        NewTokenUseCaseImpl(signRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFetchUnregisterInfoUseCase(fetchUnregisterInfoUseCaseImpl: FetchUnregisterInfoUseCaseImpl): FetchUnregisterInfoUseCase
 
+    @Binds
+    @ViewModelScoped
+    abstract fun bindPostUnregisterReasonUseCase(postUnregisterReasonUseCaseImpl: PostUnregisterReasonUseCaseImpl): PostUnregisterReasonUseCase
 
-    @Provides
-    @Singleton
-    fun provideFetchUsersLikeMumentUseCase(usersLikeMumentRepository: UsersRepository): FetchUsersLikeMumentUseCase =
-        FetchUsersLikeMumentUseCaseImpl(usersLikeMumentRepository)
+    @Binds
+    @ViewModelScoped
+    abstract fun bindReportMumentUseCase(reportMumentUseCaseImpl: ReportMumentUseCaseImpl): ReportMumentUseCase
 
-    @Provides
-    @Singleton
-    fun provideFetchUnregisterInfoUseCase(unregisterRepository: UnregisterRepository): FetchUnregisterInfoUseCase =
-        FetchUnregisterInfoUseCaseImpl(unregisterRepository)
-
-    @Provides
-    @Singleton
-    fun providePostUnregisterReasonUseCase(unregisterReasonRepository: UnregisterReasonRepository): PostUnregisterReasonUseCase =
-        PostUnregisterReasonUseCaseImpl(unregisterReasonRepository)
-
-    @Provides
-    @Singleton
-    fun provideReportMumentUseCase(mumentDetailRepository: MumentDetailRepository): ReportMumentUseCase =
-        ReportMumentUseCaseImpl(mumentDetailRepository)
-
-    @Provides
-    @Singleton
-    fun provideLogOutUseCase(logOutRepository: LogOutRepository) : LogOutUseCase =
-        LogOutUseCaseImpl(logOutRepository)
-
+    @Binds
+    @ViewModelScoped
+    abstract fun bindLogOutUseCase(logOutUseCaseImpl: LogOutUseCaseImpl): LogOutUseCase
 }
