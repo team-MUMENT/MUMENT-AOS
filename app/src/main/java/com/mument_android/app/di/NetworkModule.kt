@@ -1,13 +1,12 @@
 package com.mument_android.app.di
 
 import android.content.Context
-import com.angdroid.navigation.LogInNavigatorProvider
 import com.mument_android.BuildConfig
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.data.network.AuthInterceptor
-import com.mument_android.data.network.app.AppApiService
 import com.mument_android.core_dependent.network.RefreshTokenApiService
 import com.mument_android.core_dependent.network.TokenDataSource
+import com.mument_android.data.network.AuthInterceptor
+import com.mument_android.data.network.app.AppApiService
 import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.network.detail.HistoryService
 import com.mument_android.data.network.home.HomeService
@@ -148,7 +147,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideSignNetwork(@AuthRetrofit retrofit: Retrofit) : SignApiService =
+    fun provideSignNetwork(@AuthRetrofit retrofit: Retrofit): SignApiService =
         retrofit.create(SignApiService::class.java)
 
     @Provides
@@ -157,7 +156,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAppNetwork(@AuthRetrofit retrofit: Retrofit) : AppApiService = retrofit.create(AppApiService::class.java)
+    fun provideAppNetwork(@AuthRetrofit retrofit: Retrofit): AppApiService = retrofit.create(AppApiService::class.java)
 
     @Provides
     @Singleton
