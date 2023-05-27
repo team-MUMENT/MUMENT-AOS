@@ -1,10 +1,13 @@
 package com.mument_android.data.mapper.locker
 
+import com.mument_android.core.base.BaseMapper
 import com.mument_android.data.dto.locker.LockerMyMumentDto
 import com.mument_android.domain.entity.locker.LockerMumentEntity
-import com.mument_android.core.base.BaseMapper
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MumentLockerCardMapper:
+@Singleton
+class MumentLockerCardMapper @Inject constructor() :
     BaseMapper<LockerMyMumentDto.Mument, LockerMumentEntity.MumentLockerCard> {
     override fun map(from: LockerMyMumentDto.Mument): LockerMumentEntity.MumentLockerCard {
         return LockerMumentEntity.MumentLockerCard(

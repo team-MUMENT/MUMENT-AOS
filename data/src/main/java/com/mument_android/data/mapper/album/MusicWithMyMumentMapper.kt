@@ -5,7 +5,9 @@ import com.mument_android.data.dto.detail.MyMusicDetailDto
 import com.mument_android.data.mapper.detail.MyMumentSummaryMapper
 import com.mument_android.domain.entity.detail.MusicWithMyMumentEntity
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MusicWithMyMumentMapper @Inject constructor(
     private val musicInfoMapper: MusicInfoMapper,
     private val mumentSummaryMapper: MyMumentSummaryMapper

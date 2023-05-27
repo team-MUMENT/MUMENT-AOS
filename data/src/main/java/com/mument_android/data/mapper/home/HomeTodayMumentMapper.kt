@@ -7,8 +7,11 @@ import com.mument_android.core_dependent.util.ImpressiveTag
 import com.mument_android.data.dto.home.Today
 import com.mument_android.data.local.todaymument.TodayMumentEntity
 import com.mument_android.domain.entity.home.TodayMument
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class HomeTodayMumentMapper : BaseMapper<TodayMumentEntity, TodayMument> {
+@Singleton
+class HomeTodayMumentMapper @Inject constructor() : BaseMapper<TodayMumentEntity, TodayMument> {
     override fun map(from: TodayMumentEntity): TodayMument = TodayMument(
         cardTag = from.cardTag.map { tag ->
             if (tag < 200) TagEntity(

@@ -9,7 +9,9 @@ import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.detail.MumentEntity
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MumentDetailMapper @Inject constructor(
     private val userMapper: UserMapper,
     private val impressiveTagMapper: ImpressiveTagMapper,

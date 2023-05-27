@@ -2,10 +2,12 @@ package com.mument_android.data.mapper.notify
 
 import com.mument_android.core.base.BaseMapper
 import com.mument_android.data.dto.home.NotifyDto
-import com.mument_android.data.dto.home.NotifyItem
 import com.mument_android.domain.entity.home.NotifyEntity
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NotifyMapper : BaseMapper<NotifyDto, List<NotifyEntity>> {
+@Singleton
+class NotifyMapper @Inject constructor() : BaseMapper<NotifyDto, List<NotifyEntity>> {
     override fun map(from: NotifyDto): List<NotifyEntity> =
         from.data.map { element ->
             NotifyEntity(
