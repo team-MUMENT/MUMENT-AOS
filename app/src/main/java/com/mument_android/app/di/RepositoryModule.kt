@@ -1,31 +1,11 @@
 package com.mument_android.app.di
 
-import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.data.controller.*
-import com.mument_android.data.datasource.app.LimitUserDataSource
 import com.mument_android.data.datasource.detail.*
 import com.mument_android.data.datasource.home.*
-import com.mument_android.data.datasource.locker.LockerDataSource
 import com.mument_android.data.datasource.mypage.*
-import com.mument_android.data.datasource.notify.NotifyDataSource
-import com.mument_android.data.datasource.record.RecordDataSource
-import com.mument_android.data.datasource.sign.SignDataSource
-import com.mument_android.data.mapper.album.MusicWithMyMumentMapper
-import com.mument_android.data.mapper.app.LimitUserMapper
-import com.mument_android.data.mapper.detail.MumentDetailMapper
-import com.mument_android.data.mapper.detail.MumentSummaryMapper
-import com.mument_android.data.mapper.detail.ReportMumentMapper
-import com.mument_android.data.mapper.home.HomeTodayMumentMapper
-import com.mument_android.data.mapper.home.RandomMumentMapper
-import com.mument_android.data.mapper.home.RecentSearchDataMapper
-import com.mument_android.data.mapper.locker.LockerMapper
 import com.mument_android.data.mapper.mypage.*
-import com.mument_android.data.mapper.notify.NotifyMapper
-import com.mument_android.data.mapper.record.MumentModifyMapper
-import com.mument_android.data.mapper.record.MumentRecordMapper
-import com.mument_android.data.mapper.record.RecordMapper
 import com.mument_android.data.mapper.sign.*
-import com.mument_android.data.network.detail.DetailApiService
 import com.mument_android.data.repository.*
 import com.mument_android.data.repository.mypage.*
 import com.mument_android.domain.repository.app.LimitUserRepository
@@ -37,217 +17,87 @@ import com.mument_android.domain.repository.mypage.*
 import com.mument_android.domain.repository.notify.NotifyRepository
 import com.mument_android.domain.repository.record.RecordRepository
 import com.mument_android.domain.repository.sign.SignRepository
-import com.mument_android.domain.util.ErrorHandler
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+abstract class RepositoryModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideMumentMainUseCase(
-        likeMumentController: LikeMumentDataSource
-    ): LikeMumentRepository =
-        LikeMumentRepositoryImpl(
-            likeMumentController
-        )
+    abstract fun bindMumentMainUseCase(likeMumentRepositoryImpl: LikeMumentRepositoryImpl): LikeMumentRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideMumentDetailUseCase(
-        mumentDetailDataSource: MumentDetailDataSource,
-        mumentDetailMapper: MumentDetailMapper,
-        deleteMumentController: DeleteMumentController,
-        historyDataSource: HistoryDataSource,
-        errorHandler: ErrorHandler,
-        reportMumentDataSource: ReportMumentDataSource,
-        reportMumentMapper: ReportMumentMapper
-    ): MumentDetailRepository =
-        MumentDetailRepositoryImpl(
-            mumentDetailDataSource,
-            mumentDetailMapper,
-            deleteMumentController,
-            historyDataSource,
-            errorHandler,
-            reportMumentDataSource,
-            reportMumentMapper
-        )
+    abstract fun bindMumentDetailUseCase(mumentDetailRepositoryImpl: MumentDetailRepositoryImpl): MumentDetailRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideLockerRepository(
-        lockerMapper: LockerMapper,
-        lockerDataSource: LockerDataSource
-    ): LockerRepository = LockerRepositoryImpl(lockerMapper, lockerDataSource)
+    abstract fun bindLockerRepository(lockerRepositoryImpl: LockerRepositoryImpl): LockerRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideRecordRepository(
-        recordMapper: RecordMapper,
-        recordDataSource: RecordDataSource,
-        recordModifyController: RecordModifyController,
-        recordController: RecordController,
-        mumentRecordMapper: MumentRecordMapper,
-        mumentModifyMapper: MumentModifyMapper
-    ): RecordRepository = RecordRepositoryImpl(
-        recordDataSource,
-        recordMapper,
-        recordModifyController,
-        recordController,
-        mumentRecordMapper,
-        mumentModifyMapper
-    )
+    abstract fun bindRecordRepository(recordRepositoryImpl: RecordRepositoryImpl): RecordRepository
 
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideHomeRepository(
-        todayMumentDataSource: LocalTodayMumentDataSource,
-        recentSearchListDataSource: LocalRecentSearchListDataSource,
-        searchListDataSource: RemoteSearchListDataSource,
-        homeDataSource: HomeDataSource,
-        randomMumentMapper: RandomMumentMapper,
-        homeTodayMumentMapper: HomeTodayMumentMapper,
-        recentSearchDataMapper: RecentSearchDataMapper,
-        dataStoreManager: DataStoreManager
-    ): HomeRepository = HomeRepositoryImpl(
-        todayMumentDataSource,
-        recentSearchListDataSource,
-        searchListDataSource,
-        homeDataSource,
-        randomMumentMapper,
-        homeTodayMumentMapper,
-        recentSearchDataMapper,
-        dataStoreManager
-    )
+    abstract fun bindHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideNotifyRepository(
-        notifyDataSource: NotifyDataSource,
-        notifyMapper: NotifyMapper
-    ): NotifyRepository = NotifyRepositoryImpl(notifyDataSource, notifyMapper)
+    abstract fun bindNotifyRepository(notifyRepositoryImpl: NotifyRepositoryImpl): NotifyRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideMusicDetailRepository(
-        musicWithMyMumentMapper: MusicWithMyMumentMapper,
-        errorHandler: ErrorHandler,
-        musicDetailDataSource: MusicDetailDataSource
-    ): MusicDetailRepository =
-        MusicDetailRepositoryImpl(musicWithMyMumentMapper, errorHandler, musicDetailDataSource)
+    abstract fun bindMusicDetailRepository(musicDetailRepositoryImpl: MusicDetailRepositoryImpl): MusicDetailRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideMumentListRepository(
-        mumentSummaryMapper: MumentSummaryMapper,
-        mumentListDataSource: MumentListDataSource
-    ): MumentListRepository = MumentListRepositoryImpl(mumentSummaryMapper, mumentListDataSource)
+    abstract fun bindMumentListRepository(mumentListRepositoryImpl: MumentListRepositoryImpl): MumentListRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideSignRepository(
-        signMapper: SignMapper,
-        signDataSource: SignDataSource,
-        requestSetProfileMapper: RequestSetProfileMapper,
-        setProfileMapper: SetProfileMapper,
-        kakaoLoginMapper: KakaoLoginMapper,
-        getWebViewMapper: GetWebViewMapper,
-        newTokenMapper: NewTokenMapper
-    ): SignRepository = SignRepositoryImpl(
-        signDataSource,
-        setProfileMapper,
-        kakaoLoginMapper,
-        requestSetProfileMapper,
-        getWebViewMapper,
-        newTokenMapper
-    )
+    abstract fun bindSignRepository(signRepositoryImpl: SignRepositoryImpl): SignRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideBlockUserRepository(
-        errorHandler: ErrorHandler,
-        blockUserDataSource: BlockUserDataSource
-    ): BlockUserRepository = BlockUserRepositoryImpl(blockUserDataSource, errorHandler)
+    abstract fun bindBlockUserRepository(blockUserRepositoryImpl: BlockUserRepositoryImpl): BlockUserRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideBlockUserListRepository(
-        blockUserListDataSource: BlockUserListDataSource,
-        blockUserListMapper: BlockUserListMapper,
-        deleteBlockUserController: DeleteBlockUserController
-    ): BlockUserListRepository =
-        BlockUserListRepositoryImpl(
-            blockUserListDataSource,
-            blockUserListMapper,
-            deleteBlockUserController
-        )
+    abstract fun bindBlockUserListRepository(blockUserListRepositoryImpl: BlockUserListRepositoryImpl): BlockUserListRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideNoticeListRepository(
-        noticeDetailDataSource: NoticeDetailDataSource,
-        noticeListDataSource: NoticeListDataSource,
-        noticeListMapper: NoticeListMapper
-    ): NoticeListRepository =
-        NoticeListRepositoryImpl(noticeDetailDataSource, noticeListDataSource, noticeListMapper)
+    abstract fun bindNoticeListRepository(noticeListRepositoryImpl: NoticeListRepositoryImpl): NoticeListRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideUserInfoRepository(
-        userInfoDataSource: UserInfoDataSource,
-        userInfoMapper: UserInfoMapper
-    ): UserInfoRepository = UserInfoRepositoryImpl(userInfoDataSource, userInfoMapper)
+    abstract fun bindUserInfoRepository(userInfoRepositoryImpl: UserInfoRepositoryImpl): UserInfoRepository
 
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideLimitUserRepository(
-        limitUserDataSource: LimitUserDataSource,
-        limitUserMapper: LimitUserMapper
-    ): LimitUserRepository =
-        LimitUserRepositoryImpl(
-            limitUserDataSource,
-            limitUserMapper
-        )
+    abstract fun bindLimitUserRepository(limitUserRepositoryImpl: LimitUserRepositoryImpl): LimitUserRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideUsersLikeMumentRepository(
-        detailApiService: DetailApiService
-    ): UsersRepository = UsersRepositoryImpl(detailApiService)
+    abstract fun bindUsersLikeMumentRepository(usersRepositoryImpl: UsersRepositoryImpl): UsersRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideUnregisterRepository(
-        unregisterDataSource: UnregisterDataSource,
-        userLocalDataSource: UserLocalDataSource,
-        unregisterMapper: RequestUnregisterMapper
-    ): UnregisterRepository = UnregisterRepositoryImpl(
-        unregisterDataSource, userLocalDataSource, unregisterMapper
-    )
+    abstract fun bindUnregisterRepository(unregisterRepositoryImpl: UnregisterRepositoryImpl): UnregisterRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideUnregisterReasonRepository(
-        unregisterReasonDataSource: UnregisterReasonDataSource,
-        unregisterReasonMapper: UnregisterReasonMapper,
-        requestUnregisterReasonMapper: RequestUnregisterReasonMapper
-    ): UnregisterReasonRepository = UnregisterReasonRepositoryImpl(
-        unregisterReasonDataSource, unregisterReasonMapper, requestUnregisterReasonMapper
-    )
+    abstract fun bindUnregisterReasonRepository(unregisterReasonRepositoryImpl: UnregisterReasonRepositoryImpl): UnregisterReasonRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideLogOutRepository(
-        logOutDataSource: LogOutDataSource
-    ): LogOutRepository = LogOutRepositoryImpl(
-        logOutDataSource
-    )
+    abstract fun bindLogOutRepository(logOutRepositoryImpl: LogOutRepositoryImpl): LogOutRepository
 }
