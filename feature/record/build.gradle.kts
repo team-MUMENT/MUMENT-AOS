@@ -47,6 +47,7 @@ dependencies {
     addDaggerHiltDependencies()
     addLifecycleDependencies()
     implementation(ThirdPartyDependencies.fireBaseGA)
+    implementation(platform(ThirdPartyDependencies.fireBasePlatform))
     implementation(ThirdPartyDependencies.coil)
     implementation(AndroidXDependencies.coroutines)
     implementation(ThirdPartyDependencies.flexBox)

@@ -52,6 +52,7 @@ dependencies {
     implementation(AndroidXDependencies.coroutines)
     implementation(ThirdPartyDependencies.flexBox)
     implementation(ThirdPartyDependencies.fireBaseGA)
+    implementation(platform(ThirdPartyDependencies.fireBasePlatform))
     implementation(project(Modules.DOMAIN_MODULE))
     implementation(project(Modules.CORE_MODULE))
     implementation(project(Modules.CORE_DEPENDENT_MODULE))
