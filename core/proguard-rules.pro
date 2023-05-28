@@ -21,8 +21,9 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.kakao.sdk.**.model.* { <fields>; }
--keep class * extends com.google.gson.TypeAdapter
 
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
 -dontwarn org.bouncycastle.jsse.**
 -dontwarn org.conscrypt.*
 -dontwarn org.openjsse.**
@@ -31,8 +32,6 @@
 # kakao
 -keep class com.kakao.** { *; }
 
-# gson
--keep class * extends com.google.gson.TypeAdapter
 -keepclassmembers enum * { *; }
 
 # firebase
@@ -42,8 +41,6 @@
 
 # coroutines
 -dontwarn kotlinx.coroutines.**
--keepnames class kotlinx.coroutines.internal.MainDispatcherFactory { *; }
--keepnames class kotlinx.coroutines.CoroutineExceptionHandler { *; }
 
 -keepclassmembernames class kotlinx.** {
     volatile <fields>;
@@ -55,10 +52,6 @@
 -keepclassmembers class * extends android.app.Activity {
      public void *(android.view.View);
  }
-
--keep class * implements androidx.viewbinding.ViewBinding { public static *** bind(android.view.View); public static *** inflate(android.view.LayoutInflater); }
-
--keep public class * extends androidx.viewbinding.ViewBinding
 
 -keepclasseswithmembernames class * {
  native <methods>;
@@ -82,14 +75,6 @@
 
 -keepattributes Signature
 -keepattributes *Annotation*
--keep class com.squareup.okhttp.** { *; }
--keep interface com.squereup.okhttp.** { *; }
--dontwarn com.squrareup.okhttp.**
-
-# GSON Annotations
--keepclassmembers class * {
-  @com.google.gson.annotations.SerializedName <fields>;
-}
 
 -dontwarn java.nio.file.*
 -dontwarn okio.**

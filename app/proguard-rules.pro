@@ -27,6 +27,8 @@
 -dontwarn org.conscrypt.*
 -dontwarn org.openjsse.**
 
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
 
 # kakao
 -keep class com.kakao.** { *; }
