@@ -1,5 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.konan.properties.Properties
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 
 plugins {
     id("com.android.application")
@@ -47,6 +48,10 @@ android {
             isMinifyEnabled = true
             isDebuggable = false
             isShrinkResources = true
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = true
+            }
+            addManifestPlaceholders(mapOf("enableCrashReporting" to true))
         }
 
         debug {
@@ -54,7 +59,10 @@ android {
             isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
-
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = false       // to disable mapping file uploads (default=true if minifying)
+            }
+            addManifestPlaceholders(mapOf("enableCrashReporting" to false))
         }
     }
     compileOptions {
