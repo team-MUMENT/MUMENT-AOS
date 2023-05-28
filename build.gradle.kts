@@ -5,6 +5,7 @@ buildscript {
         classpath(Plugins.HILT_PLUGIN)
         classpath(Plugins.SAFE_ARGS_PLUGIN)
         classpath(Plugins.GOOGLE_SERVICE)
+        classpath(Plugins.FIREBASE_CRASHLYTICS)
     }
 }
 

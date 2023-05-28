@@ -9,6 +9,7 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 val properties = Properties()
@@ -80,6 +81,8 @@ dependencies {
     addLifecycleDependencies()
     addTestDependencies()
     addNetworkDependencies()
+    implementation(platform(ThirdPartyDependencies.fireBasePlatform))
+    implementation(ThirdPartyDependencies.fireCrashlytics)
     implementation(ThirdPartyDependencies.fireBaseGA)
     implementation(ThirdPartyDependencies.kakao)
     implementation(ThirdPartyDependencies.fireBaseCloudMessaging)

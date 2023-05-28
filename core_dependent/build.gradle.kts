@@ -45,6 +45,7 @@ dependencies {
     addDaggerHiltDependencies()
     addLifecycleDependencies()
     addNetworkDependencies()
+    implementation(platform(ThirdPartyDependencies.fireBasePlatform))
     implementation(ThirdPartyDependencies.fireBaseGA)
     implementation(AndroidXDependencies.dataStore)
     implementation(project(Modules.CORE_MODULE))
