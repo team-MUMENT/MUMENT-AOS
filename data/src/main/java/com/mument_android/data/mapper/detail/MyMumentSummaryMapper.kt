@@ -3,16 +3,17 @@ package com.mument_android.data.mapper.detail
 import com.mument_android.core.base.BaseMapper
 import com.mument_android.core.model.TagEntity
 import com.mument_android.data.R
-import com.mument_android.data.dto.MumentSummaryDto
 import com.mument_android.data.dto.MyMumentSummaryDto
 import com.mument_android.data.mapper.user.UserMapper
 import com.mument_android.domain.entity.detail.MumentSummaryEntity
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MyMumentSummaryMapper @Inject constructor(
     private val userMapper: UserMapper,
     private val integrationTagMapper: IntegrationTagMapper
-): BaseMapper<MyMumentSummaryDto, MumentSummaryEntity> {
+) : BaseMapper<MyMumentSummaryDto, MumentSummaryEntity> {
     override fun map(from: MyMumentSummaryDto): MumentSummaryEntity {
         return MumentSummaryEntity(
             from.id,

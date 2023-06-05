@@ -6,7 +6,6 @@ import com.angdroid.navigation.LogInNavigatorProvider
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.ext.collectFlow
 import com.mument_android.core_dependent.network.TokenDataSource
-import dagger.Provides
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
@@ -19,7 +18,6 @@ import okhttp3.Request
 import okhttp3.Response
 import java.net.HttpURLConnection
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class AuthInterceptor @Inject constructor(
     private val context: Context,

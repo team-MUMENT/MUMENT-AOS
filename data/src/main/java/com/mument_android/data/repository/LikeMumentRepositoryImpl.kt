@@ -6,8 +6,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
-class LikeMumentRepositoryImpl(private val likeMumentController: LikeMumentDataSource) : LikeMumentRepository {
+class LikeMumentRepositoryImpl @Inject constructor(private val likeMumentController: LikeMumentDataSource) : LikeMumentRepository {
     override suspend fun likeMument(mumentId: String): Flow<Int> = flow {
         likeMumentController.likeMument(mumentId).data?.likeCount?.let { emit(it) }
     }.flowOn(Dispatchers.IO)

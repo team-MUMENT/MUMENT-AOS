@@ -1,196 +1,125 @@
 package com.mument_android.app.di
 
-import android.content.Context
-import androidx.room.Room
-import com.google.gson.Gson
-import com.mument_android.data.datasource.app.LimitUserDataSource
-import com.mument_android.data.datasource.app.LimitUserDataSourceImpl
-import com.mument_android.core_dependent.network.RefreshTokenApiService
 import com.mument_android.core_dependent.network.TokenDataSource
 import com.mument_android.core_dependent.network.TokenDataSourceImpl
-import com.mument_android.data.datasource.locker.LockerDataSource
-import com.mument_android.data.datasource.locker.LockerDataSourceImpl
-import com.mument_android.data.datasource.record.RecordDataSource
-import com.mument_android.data.datasource.record.RecordDataSourceImpl
+import com.mument_android.data.datasource.app.LimitUserDataSource
+import com.mument_android.data.datasource.app.LimitUserDataSourceImpl
 import com.mument_android.data.datasource.detail.*
 import com.mument_android.data.datasource.home.*
+import com.mument_android.data.datasource.locker.LockerDataSource
+import com.mument_android.data.datasource.locker.LockerDataSourceImpl
+import com.mument_android.data.datasource.mypage.*
 import com.mument_android.data.datasource.notify.NotifyDataSource
 import com.mument_android.data.datasource.notify.NotifyDataSourceImpl
-import com.mument_android.data.local.MumentDatabase
+import com.mument_android.data.datasource.record.RecordDataSource
+import com.mument_android.data.datasource.record.RecordDataSourceImpl
 import com.mument_android.data.datasource.sign.SignDataSource
 import com.mument_android.data.datasource.sign.SignDataSourceImpl
-import com.mument_android.data.datasource.mypage.*
-import com.mument_android.data.local.converter.DateTypeConverter
-import com.mument_android.data.local.converter.IntListTypeConverter
-import com.mument_android.data.local.recentlist.RecentSearchDAO
-import com.mument_android.data.local.todaymument.TodayMumentDAO
-import com.mument_android.data.network.app.AppApiService
-import com.mument_android.data.network.detail.DetailApiService
-import com.mument_android.data.network.detail.HistoryService
-import com.mument_android.data.network.home.HomeService
-import com.mument_android.data.network.home.NotifyService
-import com.mument_android.data.network.locker.LockerApiService
-import com.mument_android.data.network.mypage.MyPageApiService
-import com.mument_android.data.network.record.RecordApiService
-import com.mument_android.data.network.sign.SignApiService
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataSourceModule {
+abstract class DataSourceModule {
+
+    @Binds
     @Singleton
-    @Provides
-    fun provideGson(): Gson = Gson()
+    abstract fun bindIsFirstDataSource(recordDataSourceImpl: RecordDataSourceImpl): RecordDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideIsFirstDataSource(recordApiService: RecordApiService): RecordDataSource =
-        RecordDataSourceImpl(recordApiService)
+    abstract fun bindMumentDetailDataSource(mumentDetailDataSourceImpl: MumentDetailDataSourceImpl): MumentDetailDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideMumentDetailDataSource(detailApiService: DetailApiService): MumentDetailDataSource =
-        MumentDetailDataSourceImpl(detailApiService)
+    abstract fun bindLockerDataSource(lockerDataSourceImpl: LockerDataSourceImpl): LockerDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideLockerDataSource(lockerNetwork: LockerApiService): LockerDataSource =
-        LockerDataSourceImpl(lockerNetwork)
+    abstract fun bindSignDataSource(signDataSourceImpl: SignDataSourceImpl): SignDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideSignDataSource(signApiService: SignApiService): SignDataSource =
-        SignDataSourceImpl(signApiService)
+    abstract fun bindHistoryDataSource(historyDataSourceImpl: HistoryDataSourceImpl): HistoryDataSource
 
-    @Provides
+
+    @Binds
     @Singleton
-    fun provideHistoryDataSource(historyService: HistoryService): HistoryDataSource =
-        HistoryDataSourceImpl(historyService)
+    abstract fun bindRecentSearchListDataSource(localRecentSearchListDataSourceImpl: LocalRecentSearchListDataSourceImpl): LocalRecentSearchListDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context, gson: Gson): MumentDatabase {
-        return Room.databaseBuilder(
-            context,
-            MumentDatabase::class.java,
-            "friend_data_database"
-        )
-            .addTypeConverter(IntListTypeConverter(gson))
-            .addTypeConverter(DateTypeConverter())
-            .build()
-    }
+    abstract fun bindTodayMumentDataSource(localTodayMumentDataSourceImpl: LocalTodayMumentDataSourceImpl): LocalTodayMumentDataSource
 
-    @Provides
-    fun provideTodayDao(database: MumentDatabase): TodayMumentDAO {
-        return database.todayMumentDAO()
-    }
-
-    @Provides
-    fun provideRecentDao(database: MumentDatabase): RecentSearchDAO {
-        return database.recentSearchDAO()
-    }
-
-    @Provides
+    @Binds
     @Singleton
-    fun provideRecentSearchListDataSource(dao: RecentSearchDAO): LocalRecentSearchListDataSource =
-        LocalRecentSearchListDataSourceImpl(dao)
+    abstract fun bindUserLocalDataSource(userLocalDataSourceImpl: UserLocalDataSourceImpl): UserLocalDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideTodayMumentDataSource(dao: TodayMumentDAO): LocalTodayMumentDataSource =
-        LocalTodayMumentDataSourceImpl(dao)
+    abstract fun bindSearchListDataSource(remoteSearchListDataSourceImpl: RemoteSearchListDataSourceImpl): RemoteSearchListDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideUserLocalDataSource(
-        todayMumentDAO: TodayMumentDAO,
-        recentSearchDAO: RecentSearchDAO
-    ): UserLocalDataSource =
-        UserLocalDataSourceImpl(todayDao = todayMumentDAO, recentSearchDAO = recentSearchDAO)
+    abstract fun bindNotifyDataSource(notifyDataSourceImpl: NotifyDataSourceImpl): NotifyDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideSearchListDataSource(service: HomeService): RemoteSearchListDataSource =
-        RemoteSearchListDataSourceImpl(service)
+    abstract fun bindHomeDataSource(homeDataSourceImpl: HomeDataSourceImpl): HomeDataSource
 
-    @Provides
+
+    @Binds
     @Singleton
-    fun provideNotifyDataSource(service: NotifyService): NotifyDataSource =
-        NotifyDataSourceImpl(service)
+    abstract fun bindMusicDetailDataSource(musicDetailDataSourceImpl: MusicDetailDataSourceImpl): MusicDetailDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideHomeDataSource(service: HomeService): HomeDataSource =
-        HomeDataSourceImpl(service)
+    abstract fun bindMumentListDataSource(mumentListDataSourceImpl: MumentListDataSourceImpl): MumentListDataSource
 
-
-    @Provides
+    @Binds
     @Singleton
-    fun provideMusicDetailDataSource(detailApiService: DetailApiService): MusicDetailDataSource =
-        MusicDetailDataSourceImpl(detailApiService)
+    abstract fun bindBlockUserListDataSource(blockUserListDataSourceImpl: BlockUserListDataSourceImpl): BlockUserListDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideMumentListDataSource(detailApiService: DetailApiService): MumentListDataSource =
-        MumentListDataSourceImpl(detailApiService)
+    abstract fun bindBlockUserDataSource(blockUserDataSourceImpl: BlockUserDataSourceImpl): BlockUserDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideBlockUserDataSource(detailApiService: DetailApiService): BlockUserDataSource =
-        BlockUserDataSourceImpl(detailApiService)
+    abstract fun bindNoticeListDataSource(noticeListDataSourceImpl: NoticeListDataSourceImpl): NoticeListDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideBlockUserListDataSource(myPageApiService: MyPageApiService): BlockUserListDataSource =
-        BlockUserListDataSourceImpl(myPageApiService)
+    abstract fun bindNoticeDetailDataSource(noticeDetailDataSourceImpl: NoticeDetailDataSourceImpl): NoticeDetailDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideNoticeListDataSource(myPageApiService: MyPageApiService): NoticeListDataSource =
-        NoticeListDataSourceImpl(myPageApiService)
+    abstract fun bindUserInfoDataSource(userInfoDataSourceImpl: UserInfoDataSourceImpl): UserInfoDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideNoticeDetailDataSource(myPageApiService: MyPageApiService): NoticeDetailDataSource =
-        NoticeDetailDataSourceImpl(myPageApiService)
+    abstract fun bindLimitUserDataSource(limitUserDataSourceImpl: LimitUserDataSourceImpl): LimitUserDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideUserInfoDataSource(myPageApiService: MyPageApiService): UserInfoDataSource =
-        UserInfoDataSourceImpl(myPageApiService)
+    abstract fun bindTokenDataSource(tokenDataSourceImpl: TokenDataSourceImpl): TokenDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideLimitUserDataSource(appApiService: AppApiService): LimitUserDataSource =
-        LimitUserDataSourceImpl(appApiService)
+    abstract fun bindUnregisterDataSource(unregisterDataSourceImpl: UnregisterDataSourceImpl): UnregisterDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideTokenDataSource(refreshTokenApiService: RefreshTokenApiService): TokenDataSource =
-        TokenDataSourceImpl(refreshTokenApiService)
+    abstract fun bindUnregisterReasonDataSource(unregisterReasonDataSourceImpl: UnregisterReasonDataSourceImpl): UnregisterReasonDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideUnregisterDataSource(myPageApiService: MyPageApiService): UnregisterDataSource =
-        UnregisterDataSourceImpl(myPageApiService)
+    abstract fun bindReportMumentDataSource(reportMumentDataSourceImpl: ReportMumentDataSourceImpl): ReportMumentDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideUnregisterReasonDataSource(myPageApiService: MyPageApiService): UnregisterReasonDataSource =
-        UnregisterReasonDataSourceImpl(myPageApiService)
-
-    @Provides
-    @Singleton
-    fun provideReportMumentDataSource(detailApiService: DetailApiService): ReportMumentDataSource =
-        ReportMumentDataSourceImpl(detailApiService)
-
-    @Provides
-    @Singleton
-    fun provideLogOutDataSource(myPageApiService: MyPageApiService): LogOutDataSource =
-        LogOutDataSourceImpl(myPageApiService)
+    abstract fun bindLogOutDataSource(logOutDataSourceImpl: LogOutDataSourceImpl): LogOutDataSource
 }

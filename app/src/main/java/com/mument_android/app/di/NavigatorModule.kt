@@ -6,57 +6,74 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
 @InstallIn(ActivityComponent::class)
 abstract class NavigatorModule {
 
     @Binds
-    abstract fun provideEditMumentNavigatorProvider(editMumentNavigatorProviderImpl: EditMumentNavigatorProviderImpl): EditMumentNavigatorProvider
+    @ActivityScoped
+    abstract fun bindEditMumentNavigatorProvider(editMumentNavigatorProviderImpl: EditMumentNavigatorProviderImpl): EditMumentNavigatorProvider
 
     @Binds
-    abstract fun provideMusicNavigatorProvider(moveMusicDetailNavigatorProviderImpl: MoveMusicDetailNavigatorProviderImpl): MoveMusicDetailNavigatorProvider
+    @ActivityScoped
+    abstract fun bindMusicNavigatorProvider(moveMusicDetailNavigatorProviderImpl: MoveMusicDetailNavigatorProviderImpl): MoveMusicDetailNavigatorProvider
 
     @Binds
-    abstract fun provideMusicRecodeProvider(moveRecordProviderImpl: MoveRecordProviderImpl): MoveRecordProvider
+    @ActivityScoped
+    abstract fun bindMusicRecodeProvider(moveRecordProviderImpl: MoveRecordProviderImpl): MoveRecordProvider
 
     @Binds
-    abstract fun provideMusicDetailProvider(musicDetailNavigatorProviderImpl: MusicDetailNavigatorProviderImpl): MusicDetailNavigatorProvider
+    @ActivityScoped
+    abstract fun bindMusicDetailProvider(musicDetailNavigatorProviderImpl: MusicDetailNavigatorProviderImpl): MusicDetailNavigatorProvider
 
     @Binds
-    abstract fun provideMumentDetailProvider(mumentDetailNavigatorProviderImpl: MumentDetailNavigatorProviderImpl): MumentDetailNavigatorProvider
+    @ActivityScoped
+    abstract fun bindMumentDetailProvider(mumentDetailNavigatorProviderImpl: MumentDetailNavigatorProviderImpl): MumentDetailNavigatorProvider
 
     @Binds
-    abstract fun provideHistoryProvider(historyNavigatorProviderImpl: HistoryNavigatorProviderImpl): HistoryNavigatorProvider
+    @ActivityScoped
+    abstract fun bindHistoryProvider(historyNavigatorProviderImpl: HistoryNavigatorProviderImpl): HistoryNavigatorProvider
 
     @Binds
+    @ActivityScoped
     abstract fun bindLikeUsersNavigatorProvider(likeUsersNavigatorProviderImpl: LikeUsersNavigatorProviderImpl): LikeUsersNavigatorProvider
 
     @Binds
+    @ActivityScoped
     abstract fun bindHomeProvider(mainHomeNavigatorProviderImpl: MainHomeNavigatorProviderImpl): MainHomeNavigatorProvider
 
     @Binds
+    @ActivityScoped
     abstract fun bindMumentHistoryProvider(mumentHistoryNavigatorProviderImpl: MumentHistoryNavigatorProviderImpl): MumentHistoryNavigatorProvider
 
     @Binds
-    abstract fun bindMypageProvider(mypageNavigatorProviderImpl: MypageNavigatorProviderImpl): MypageNavigatorProvider
+    @ActivityScoped
+    abstract fun bindMyPageProvider(myPageNavigatorProviderImpl: MypageNavigatorProviderImpl): MypageNavigatorProvider
 
     @Binds
+    @ActivityScoped
     abstract fun bindMoveNotifyNavigatorProvider(moveNotifyNavigatorProviderImpl: MoveNotifyNavigatorProviderImpl): MoveNotifyNavigatorProvider
 
     @Binds
+    @ActivityScoped
     abstract fun bindMoveFromHistoryToDetailProvider(moveFromHistoryToDetail: MoveFromHistoryToDetailImpl): MoveFromHistoryToDetail
 
     @Binds
-    abstract fun provideDeclareProvider(declareNavigatorProviderImpl: DeclareNavigatorProviderImpl) : DeclareNavigatorProvider
+    @ActivityScoped
+    abstract fun bindDeclareProvider(declareNavigatorProviderImpl: DeclareNavigatorProviderImpl): DeclareNavigatorProvider
 
     @Binds
-    abstract fun provideReportMumentNavigatorProvider(reportMumentNavigatorProviderImpl: ReportMumentNavigatorProviderImpl): ReportMumentNavigatorProvider
+    @ActivityScoped
+    abstract fun bindReportMumentNavigatorProvider(reportMumentNavigatorProviderImpl: ReportMumentNavigatorProviderImpl): ReportMumentNavigatorProvider
 
     @Binds
+    @ActivityScoped
     abstract fun bindMoveToAlarmFragmentProvider(moveToAlarmFragmentProvider: MoveToAlarmFragmentProviderImpl): MoveToAlarmFragmentProvider
 
     @Binds
-    abstract fun quitMainNavigatorProvider(quitMainNavigatorProvider: QuitMainNavigatorProviderImpl) : QuitMainNavigatorProvider
+    @ActivityScoped
+    abstract fun bindQuitMainNavigatorProvider(quitMainNavigatorProvider: QuitMainNavigatorProviderImpl): QuitMainNavigatorProvider
 
 }

@@ -1,49 +1,33 @@
 package com.mument_android.app.di
 
 import com.mument_android.data.controller.*
-import com.mument_android.data.network.detail.DetailApiService
-import com.mument_android.data.network.main.MainApiService
-import com.mument_android.data.network.mypage.MyPageApiService
-import com.mument_android.data.network.record.RecordApiService
-import com.mument_android.data.network.sign.SignApiService
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ControllerModule {
+abstract class ControllerModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideLikeMumentController(mainApiService: MainApiService): LikeMumentDataSource =
-        LikeMumentDataSourceImpl(mainApiService)
+    abstract fun bindLikeMumentController(likeMumentDataSourceImpl: LikeMumentDataSourceImpl): LikeMumentDataSource
 
-    @Provides
+    @Binds
     @Singleton
-    fun providesRecordController(
-        recordApiService: RecordApiService
-    ): RecordController = RecordControllerImpl(recordApiService)
+    abstract fun bindRecordController(recordControllerImpl: RecordControllerImpl): RecordController
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideRecordModifyController(
-        recordApiService: RecordApiService
-    ): RecordModifyController = RecordModifyControllerImpl(recordApiService)
+    abstract fun bindRecordModifyController(recordModifyControllerImpl: RecordModifyControllerImpl): RecordModifyController
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideDeleteMumentController(
-        detailApiService: DetailApiService
-    ): DeleteMumentController = DeleteMumentControllerImpl(detailApiService)
+    abstract fun bindDeleteMumentController(deleteMumentControllerImpl: DeleteMumentControllerImpl): DeleteMumentController
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideDeleteBlockUserController(
-        myPageApiService: MyPageApiService
-    ): DeleteBlockUserController = DeleteBlockUserControllerImpl(myPageApiService)
-
-
+    abstract fun bindDeleteBlockUserController(deleteBlockUserControllerImpl: DeleteBlockUserControllerImpl): DeleteBlockUserController
 }

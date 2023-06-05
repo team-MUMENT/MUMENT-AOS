@@ -4,12 +4,17 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class DataStoreManager(
+@Singleton
+class DataStoreManager @Inject constructor(
+    @ApplicationContext
     val context: Context
 ) {
     private val Context.datastore: DataStore<Preferences> by preferencesDataStore("mument_datastore")
@@ -29,6 +34,7 @@ class DataStoreManager(
     suspend fun writeAdminList(adminList: String) {
         writeData(ADMIN_USER_LIST_KEY, adminList)
     }
+
     suspend fun writeKaKaoToken(kakaoToken: String) {
         writeData(KAKAO_TOKEN_KEY, kakaoToken)
     }
@@ -52,6 +58,7 @@ class DataStoreManager(
     suspend fun removeKaKaoToken() {
         deleteData(KAKAO_TOKEN_KEY)
     }
+
     suspend fun removeIsNotifyExist() {
         deleteData(IS_NOTIFY_EXIST)
     }
