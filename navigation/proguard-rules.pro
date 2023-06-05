@@ -19,3 +19,48 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.kakao.sdk.**.model.* { <fields>; }
+-dontwarn org.bouncycastle.jsse.**
+-dontwarn org.conscrypt.*
+-dontwarn org.openjsse.**
+
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+
+-keepclassmembers enum * { *; }
+
+# firebase
+-keep class com.firebase.** { *; }
+
+-keep class androidx.viewpager2.widget.ViewPager2.** { *; }
+
+# coroutines
+-dontwarn kotlinx.coroutines.**
+
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
+
+-keep class com.airbnb.lottie.** {*;}
+
+-keepclassmembers class * extends android.app.Activity {
+     public void *(android.view.View);
+ }
+
+-keepclasseswithmembernames class * {
+ native <methods>;
+ }
+
+-keepattributes Signature
+-keepattributes *Annotation*
+
+-dontwarn java.nio.file.*
+-dontwarn okio.**
+
+ # Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
+ -dontwarn kotlin.Unit
+
+
+-keepnames class * extends android.os.Parcelable
+-keepnames class * extends java.io.Serializable

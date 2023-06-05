@@ -23,6 +23,8 @@
 -keep class com.kakao.sdk.**.model.* { <fields>; }
 -keep class * extends com.google.gson.TypeAdapter
 
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
 -dontwarn org.bouncycastle.jsse.**
 -dontwarn org.conscrypt.*
 -dontwarn org.openjsse.**

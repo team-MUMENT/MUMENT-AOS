@@ -60,7 +60,6 @@ object MaterialDesignDependencies {
 }
 
 object KaptDependencies {
-    const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glideVersion}"
     const val hiltAndroidCompiler =
         "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
 }
@@ -80,10 +79,11 @@ object ThirdPartyDependencies {
     const val gsonConverter =
         "com.squareup.retrofit2:converter-gson:${Versions.gsonConverterVersion}"
     const val flexBox = "com.google.android.flexbox:flexbox:${Versions.flexBoxVersion}"
-    const val fireBaseCloudMessaging =
-        "com.google.firebase:firebase-messaging-ktx:${Versions.fcmVersion}"
-    const val fireBaseGA = "com.google.firebase:firebase-analytics-ktx:${Versions.firebaseAnalyticsVersion}"
+    const val fireBaseCloudMessaging = "com.google.firebase:firebase-messaging-ktx"
     const val fireBasePlatform = "com.google.firebase:firebase-bom:${Versions.firebasePlatformVersion}"
+    const val fireCrashlytics = "com.google.firebase:firebase-crashlytics-ktx"
+    const val fireBaseGA = "com.google.firebase:firebase-analytics-ktx"
+
     const val kakao = "com.kakao.sdk:v2-user:${Versions.kakaoVersion}"
     const val indicator = "com.tbuonomo:dotsindicator:${Versions.dotsIndicator}"
 }
@@ -94,5 +94,5 @@ object Plugins {
     const val SAFE_ARGS_PLUGIN =
         "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navVersion}"
     const val GOOGLE_SERVICE = "com.google.gms:google-services:${Versions.googleServiceVersion}"
-    const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-gradle:${Versions.firebaseCrashlyticsVersion}"
+    const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-gradle:${Versions.firebaseCrashlyticsGradleVersion}"
 }

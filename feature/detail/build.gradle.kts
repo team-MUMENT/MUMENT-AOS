@@ -47,6 +47,7 @@ dependencies {
     addDaggerHiltDependencies()
     addLifecycleDependencies()
     implementation(ThirdPartyDependencies.fireBaseGA)
+    implementation(platform(ThirdPartyDependencies.fireBasePlatform))
     implementation(ThirdPartyDependencies.lottie)
     implementation(ThirdPartyDependencies.gson)
     implementation(ThirdPartyDependencies.coil)
