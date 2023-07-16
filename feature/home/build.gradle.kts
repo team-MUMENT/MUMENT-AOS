@@ -6,13 +6,13 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
+
 android {
+    namespace = "com.mument_android.home"
     compileSdk = DefaultConfig.COMPILE_SDK
 
     defaultConfig {
         minSdk = DefaultConfig.MIN_SDK
-        targetSdk = DefaultConfig.TARGET_SDK
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -27,8 +27,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
         jvmTarget = DefaultConfig.JVM_TARGET

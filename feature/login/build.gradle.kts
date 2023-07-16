@@ -14,12 +14,11 @@ val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
+    namespace = "com.mument_android.login"
     compileSdk = DefaultConfig.COMPILE_SDK
 
     defaultConfig {
         minSdk = DefaultConfig.MIN_SDK
-        targetSdk = DefaultConfig.TARGET_SDK
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String","KAKAO_NATIVE_KEY", properties["KAKAO_NATIVE_KEY"] as String)
@@ -39,8 +38,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
         jvmTarget = DefaultConfig.JVM_TARGET
@@ -49,6 +48,7 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        buildConfig = true
     }
 
 }
