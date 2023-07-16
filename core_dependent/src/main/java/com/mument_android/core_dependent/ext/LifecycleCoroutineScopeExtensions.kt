@@ -2,21 +2,12 @@ package com.mument_android.core_dependent.ext
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
-inline fun <T> StateFlow<T>.launchWhenCreated(
-    lifecycleScope: LifecycleCoroutineScope,
-    crossinline callback: (T) -> Unit
-) {
-    lifecycleScope.launch { collect { callback(it) } }
-}
-
-inline fun <T, R> R.collectFlow(
+inline fun <T, R : LifecycleOwner> R.collectFlow(
     flow: Flow<T>, crossinline block: suspend (T) -> Unit
 ) {
     when (this) {
@@ -33,7 +24,3 @@ inline fun <T, R> R.collectFlow(
 inline fun <T, R : LifecycleOwner> R.collectFlowWhenStarted(
     flow: Flow<T>, crossinline block: suspend (T) -> Unit
 ) = collectFlow(flow, block) // Lifecycle.State.STARTED는 Default로 들어감
-
-inline fun <T, R : LifecycleOwner> R.collectFlowWhenCreated(
-    flow: Flow<T>, crossinline block: suspend (T) -> Unit
-) = collectFlow(flow, block)
