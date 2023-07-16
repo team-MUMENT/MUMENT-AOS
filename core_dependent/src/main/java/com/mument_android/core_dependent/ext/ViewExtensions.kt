@@ -1,7 +1,8 @@
 package com.mument_android.core_dependent.ext
 
-import android.app.Activity
 import android.app.Activity.RESULT_OK
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
 import android.view.View
@@ -9,16 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
 import com.mument_android.core.model.TagEntity.Companion.TAG_IS_FIRST
-import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 import com.mument_android.core_dependent.R
 import com.mument_android.core_dependent.util.OnSingleClickListener
+import com.mument_android.core_dependent.util.ViewUtils.dpToPx
 
 inline fun View.click(crossinline block: () -> Unit) {
     setOnClickListener { block() }
@@ -47,6 +47,21 @@ inline fun FragmentActivity.getActivityResult(crossinline resultSuccess: (Intent
     }
 }
 
+fun Context.getTopActivity(): String {
+    return try {
+        val activityManager = getSystemService(ActivityManager::class.java)
+        val list = activityManager.appTasks
+        if (list.isEmpty() || list[0].taskInfo.topActivity == null) {
+            ""
+        } else {
+            val topClassName = list[0].taskInfo.topActivity?.className ?: ""
+            val lastIndex = topClassName.lastIndexOf(".") + 1
+            topClassName.substring(lastIndex)
+        }
+    } catch (e: Exception) {
+        ""
+    }
+}
 
 object BindingExtension{
 

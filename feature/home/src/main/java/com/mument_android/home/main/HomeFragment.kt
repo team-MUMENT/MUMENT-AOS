@@ -97,7 +97,6 @@ class HomeFragment : Fragment() {
         receiveEffect()
         binding.tvSearch.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickSearch)
-
         }
         binding.ivNotify.setOnClickListener {
             viewModel.emitEvent(HomeEvent.OnClickNotification)

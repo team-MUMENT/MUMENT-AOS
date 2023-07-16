@@ -40,7 +40,6 @@ object NetworkModule {
     @Singleton
     fun provideErrorHandler(): ErrorHandler = ErrorHandlerImpl()
 
-
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
@@ -162,9 +161,4 @@ object NetworkModule {
     @Singleton
     fun provideRefreshTokenApiService(@UnAuthRetrofit retrofit: Retrofit): RefreshTokenApiService =
         retrofit.create()
-
-    private fun Request.Builder.addHeaders(token: String) =
-        this.apply { header("Authorization", "Bearer $token") }
-
-    private const val BEARER = "Bearer"
 }
