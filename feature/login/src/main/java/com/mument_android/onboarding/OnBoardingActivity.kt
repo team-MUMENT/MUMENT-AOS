@@ -1,18 +1,12 @@
 package com.mument_android.onboarding
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mument_android.core_dependent.base.BaseActivity
-import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.core_dependent.ext.collectFlow
-import com.mument_android.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.login.LogInViewModel
 import com.mument_android.login.databinding.ActivityOnBoardingBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class OnBoardingActivity :
