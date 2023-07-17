@@ -5,8 +5,6 @@ object Constants {
     const val TO_MUSIC_DETAIL = "TO_MUSIC_DETAIL"
     const val MUMENT_ID = "MUMENT_ID"
     const val MUSIC_INFO_ENTITY = "MUSIC_INFO_ENTITY"
-
-
     const val START_NAV_KEY = "NAV_FROM_KEY"
     const val FROM_SEARCH = "FROM_SEARCH"
     const val FROM_HISTORY = "FROM_HISTORY"

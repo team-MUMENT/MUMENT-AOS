@@ -89,5 +89,11 @@ fun DependencyHandler.addTestDependencies() {
     testImplementation(TestDependencies.coroutinesTest)
     androidTestImplementation(TestDependencies.coreTesting)
     testImplementation(TestDependencies.coreTesting)
+}
 
+fun DependencyHandler.addOnlyTestDependencies() {
+    testImplementation(TestDependencies.jUnit)
+    implementation(TestDependencies.mockito)
+    testImplementation(TestDependencies.coroutinesTest)
+    testImplementation(TestDependencies.coreTesting)
 }
