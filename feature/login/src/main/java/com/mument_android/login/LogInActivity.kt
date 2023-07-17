@@ -51,41 +51,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         //keyClipBoard()
     }
 
-    /*
-    private fun keyClipBoard() {
-        var keyHash = Utility.getKeyHash(this)
-        Log.e("kkkkkkkkkk:", "$keyHash")
-        binding.key.setText("$keyHash")
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-        // 새로운 ClipData 객체로 데이터 복사하기
-        val clip: ClipData =
-            ClipData.newPlainText("simple text", binding.key.text.toString())
-
-        // 새로운 클립 객체를 클립보드에 배치합니다.
-        clipboard.setPrimaryClip(clip)
-
-        Toast.makeText(this, "복사 완료.", Toast.LENGTH_SHORT).show()
-        false
-
-        binding.key.setOnClickListener {
-            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-            // 새로운 ClipData 객체로 데이터 복사하기
-            val clip: ClipData =
-                ClipData.newPlainText("simple text", binding.key.text.toString())
-
-            // 새로운 클립 객체를 클립보드에 배치합니다.
-            clipboard.setPrimaryClip(clip)
-
-            Toast.makeText(this, "복사 완료.", Toast.LENGTH_SHORT).show()
-            false
-        }
-    }
-
-     */
-
-
     private fun getFcmToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {  //기기 토큰 얻어오는 코드

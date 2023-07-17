@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.Toast
 import com.angdroid.navigation.LogInNavigatorProvider
 import com.mument_android.core_dependent.ext.DataStoreManager
-import com.mument_android.core_dependent.ext.collectFlow
 import com.mument_android.core_dependent.network.TokenDataSource
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
@@ -37,23 +36,13 @@ class AuthInterceptor @Inject constructor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = runBlocking {
-            collectFlow(dataStoreManager.accessTokenFlow) {
-                dataStoreManager.writeAccessToken(it ?: "")
-                if (it == null) {
-                    dataStoreManager.writeRefreshToken(it ?: "")
-                    dataStoreManager.refreshTokenFlow.first()
-                }
-            }
-            dataStoreManager.accessTokenFlow.first()
+            dataStoreManager.accessTokenFlow.first() ?: ""
         }
-
         val request = chain.request()
             .newBuilder()
             .addHeaders(accessToken)
             .build()
-
         val response = chain.proceed(request)
-
         return if (response.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
             retryConnection(chain, context, response)
         } else {
@@ -71,7 +60,7 @@ class AuthInterceptor @Inject constructor(
         do {
             response.close()
             refreshAccessToken()
-            val token = runBlocking { dataStoreManager.refreshTokenFlow.first() }
+            val token = runBlocking { dataStoreManager.accessTokenFlow.first() }
             val newRequest = chain.request().newBuilder()
                 .addHeaders(token)
                 .build()
@@ -85,6 +74,7 @@ class AuthInterceptor @Inject constructor(
                 runBlocking(Dispatchers.Main) {
                     Toast.makeText(context, "세션이 만료되었습니다. 다시 로그인해주세요:)", Toast.LENGTH_SHORT).show()
                 }
+                loginNavigatorProvider.navToLogin()
             }
             runBlocking {
                 dataStoreManager.writeAccessToken("")
@@ -112,7 +102,6 @@ class AuthInterceptor @Inject constructor(
         private const val MAX_RETRY_COUNT = 2
         private fun Request.Builder.addHeaders(token: String?) =
             this.apply { header("Authorization", BEARER + token.toString()) }
-
         private const val BEARER = "Bearer "
     }
 }
