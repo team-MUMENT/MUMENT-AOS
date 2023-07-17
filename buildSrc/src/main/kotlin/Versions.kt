@@ -39,13 +39,12 @@ object Versions {
     const val protoBuf = "3.18.0"
     const val roomVersion = "2.4.2"
     const val paging = "3.1.1"
-
     val javaVersion = JavaVersion.VERSION_17
 
     const val mockitoCoreVersion = "2.28.2"
     const val mockitoAndroidVersion = "2.24.5"
     const val googleServiceVersion = "4.3.15"
-    const val firebasePlatformVersion = "32.1.1"
+    const val firebasePlatformVersion = "32.2.0"
     const val firebaseCrashlyticsGradleVersion = "2.9.5"
     const val kakaoVersion = "2.12.1"
     const val dotsIndicator = "4.3"

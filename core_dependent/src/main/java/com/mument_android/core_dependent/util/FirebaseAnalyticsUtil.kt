@@ -8,30 +8,30 @@ import com.google.firebase.ktx.Firebase
 
 object FirebaseAnalyticsUtil {
 
-    private val firebaseAnalytics: FirebaseAnalytics?
+    private val firebaseAnalytics: FirebaseAnalytics
         get() = Firebase.analytics
     fun firebaseLog(event: String, paramKey: String, paramVal: String) {
-        firebaseAnalytics?.logEvent(event) {
+        firebaseAnalytics.logEvent(event) {
             param(paramKey, paramVal)
         }
     }
 
     fun firebaseMumentDetailLog(paramVal : String) {
-        firebaseAnalytics?.logEvent("mument_detail_page") {
+        firebaseAnalytics.logEvent("mument_detail_page") {
             param("type", paramVal)
         }
     }
 
     //글쓰기 플로팅 버튼 클릭 시 있는 뷰
     fun firebaseWritePathLog(paramVal: String) {
-        firebaseAnalytics?.logEvent("write_path") {
+        firebaseAnalytics.logEvent("write_path") {
             param("type", paramVal)
         }
     }
 
     //뮤멘트 앱에 진입하자마자 나타는 뷰 GA
     fun firebaseFirstVisitLog(paramVal : String) {
-        firebaseAnalytics?.logEvent("first_visit_page") {
+        firebaseAnalytics.logEvent("first_visit_page") {
             param("choice", paramVal)
         }
     }
@@ -42,12 +42,12 @@ object FirebaseAnalyticsUtil {
         for(i in paramVal){
             bundle.putString(paramKey, i)
         }
-        firebaseAnalytics?.logEvent(event,bundle)
+        firebaseAnalytics.logEvent(event,bundle)
     }
 
     //글쓰기 취소
     fun writeProcessGA(paramVal : String) {
-        firebaseAnalytics?.logEvent("write_process") {
+        firebaseAnalytics.logEvent("write_process") {
             param("journey", paramVal)
         }
     }

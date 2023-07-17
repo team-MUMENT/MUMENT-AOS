@@ -1,5 +1,8 @@
 package com.mument_android.core_dependent.network
 
+import androidx.annotation.Keep
+
+@Keep
 data class ResponseRefreshToken(
     val status: Int,
     val message: String,

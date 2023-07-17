@@ -2,10 +2,11 @@ package com.mument_android.core.util
 
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class DateFormatter {
     fun parseDate(date: String): Date? {
-        return SimpleDateFormat(DATE_FORMAT).parse(date)
+        return SimpleDateFormat(DATE_FORMAT, Locale.KOREA).parse(date)
     }
 
     companion object {
