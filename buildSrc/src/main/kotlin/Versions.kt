@@ -1,7 +1,7 @@
 import org.gradle.api.JavaVersion
 
 object Versions {
-    const val kotlinVersion = "1.6.20"
+    const val kotlinVersion = "1.8.0"
     const val kotlinCoroutinesVersion = "1.5.0"
     const val coreKtxVersion = "1.7.0"
     const val appCompatVersion = "1.4.2"
@@ -9,7 +9,7 @@ object Versions {
     const val constraintLayoutVersion = "2.1.3"
     const val legacySupportVersion = "1.0.0"
     const val hiltVersion = "2.42"
-    const val navVersion = "2.4.1"
+    const val navVersion = "2.5.0"
     const val lifecycleVersion = "2.4.1"
     const val fragmentKtxVersion = "1.4.1"
     const val securityVersion = "1.0.0"
@@ -40,12 +40,12 @@ object Versions {
     const val roomVersion = "2.4.2"
     const val paging = "3.1.1"
 
-    val javaVersion = JavaVersion.VERSION_11
+    val javaVersion = JavaVersion.VERSION_17
 
     const val mockitoCoreVersion = "2.28.2"
     const val mockitoAndroidVersion = "2.24.5"
-    const val googleServiceVersion = "4.3.13"
-    const val firebasePlatformVersion = "32.0.0"
+    const val googleServiceVersion = "4.3.15"
+    const val firebasePlatformVersion = "32.1.1"
     const val firebaseCrashlyticsGradleVersion = "2.9.5"
     const val kakaoVersion = "2.12.1"
     const val dotsIndicator = "4.3"

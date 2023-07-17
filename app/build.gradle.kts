@@ -16,6 +16,7 @@ plugins {
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 android {
+    namespace = DefaultConfig.APPLICATION_ID
     compileSdk = DefaultConfig.COMPILE_SDK
 
     defaultConfig {
@@ -66,8 +67,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Versions.javaVersion
+        targetCompatibility = Versions.javaVersion
     }
     kotlinOptions {
         jvmTarget = DefaultConfig.JVM_TARGET
@@ -76,6 +77,7 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        buildConfig = true
     }
 }
 
