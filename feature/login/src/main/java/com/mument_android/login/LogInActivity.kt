@@ -48,8 +48,60 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
         btnKakaoListener()
         getFcmToken()
         webLinkNetwork()
+        collectData()
         //keyClipBoard()
     }
+
+    private fun collectData() {
+        collectFlowWhenStarted(viewModel.isExist){
+            if (it==true) {
+                moveToMainActivity()
+            } else if (it==false) {
+                //카카오 회원가입 누를 때 GA
+                FirebaseAnalyticsUtil.firebaseLog(
+                    "signup_process",
+                    "journey",
+                    "signup_sns_login_kakao"
+                )
+                startActivity(Intent(this, ProfileSettingActivity::class.java))
+            }
+        }
+    }
+
+    /*
+    private fun keyClipBoard() {
+        var keyHash = Utility.getKeyHash(this)
+        Log.e("kkkkkkkkkk:", "$keyHash")
+        binding.key.setText("$keyHash")
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        // 새로운 ClipData 객체로 데이터 복사하기
+        val clip: ClipData =
+            ClipData.newPlainText("simple text", binding.key.text.toString())
+
+        // 새로운 클립 객체를 클립보드에 배치합니다.
+        clipboard.setPrimaryClip(clip)
+
+        Toast.makeText(this, "복사 완료.", Toast.LENGTH_SHORT).show()
+        false
+
+        binding.key.setOnClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+            // 새로운 ClipData 객체로 데이터 복사하기
+            val clip: ClipData =
+                ClipData.newPlainText("simple text", binding.key.text.toString())
+
+            // 새로운 클립 객체를 클립보드에 배치합니다.
+            clipboard.setPrimaryClip(clip)
+
+            Toast.makeText(this, "복사 완료.", Toast.LENGTH_SHORT).show()
+            false
+        }
+    }
+
+     */
+
 
     private fun getFcmToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -105,22 +157,6 @@ class LogInActivity : BaseActivity<ActivityLogInBinding>(ActivityLogInBinding::i
                         viewModel.fcmToken.value!!
                     )
                     viewModel.kakaoLogin(requestKakaoData)
-                    collectFlowWhenStarted(viewModel.isExist){
-                        Log.e("isExist", it.toString())
-                        if (it==true) {
-                            Log.e("isExist True", it.toString())
-                            moveToMainActivity()
-                        } else if (it==false) {
-                            //카카오 회원가입 누를 때 GA
-                            FirebaseAnalyticsUtil.firebaseLog(
-                                "signup_process",
-                                "journey",
-                                "signup_sns_login_kakao"
-                            )
-                            Log.e("isExist False", it.toString())
-                            startActivity(Intent(this, ProfileSettingActivity::class.java))
-                        }
-                    }
                 }
             } else {
                 shortToast("else")

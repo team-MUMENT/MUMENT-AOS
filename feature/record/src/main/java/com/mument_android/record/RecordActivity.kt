@@ -336,52 +336,52 @@ class RecordActivity :
 
     //완료버튼 눌렀을 때
     private fun getAllData() {
+        collectFlowWhenStarted(recordViewModel.isCreateSuccessful) { isSuccessful ->
+            if (isSuccessful) {
+                val mumentId = recordViewModel.createdMumentId.value ?: ""
+                recordViewModel.selectedMusic.value?.let { music ->
+                    Intent().run {
+                        putExtra(TO_MUSIC_DETAIL, TO_MUSIC_DETAIL)
+                        putExtra(MUMENT_ID, mumentId)
+                        putExtra(MUSIC_INFO_ENTITY, music.toMusicInfo())
+                        when (recordViewModel.recordCount) {
+                            1, 10, 20 -> {
+                                putExtra("COUNT", true)
+                            }
+                        }
+                        putExtra("RECORD", recordViewModel.mumentId.value == "")
+                        setResult(RESULT_OK, this)
+                        delay(500)
+                        finish()
+                    }
+                }
+            } else {
+                showToast("뮤멘트 기록하기 실패")
+            }
+        }
+
+        collectFlowWhenStarted(recordViewModel.isModifySuccessful) { isSuccessful ->
+            if (isSuccessful) {
+                val mumentId = recordViewModel.modifyMumentId.value ?: ""
+                recordViewModel.selectedMusic.value?.toMusicInfo()?.let { music ->
+                    Intent().run {
+                        putExtra(TO_MUMENT_DETAIL, TO_MUMENT_DETAIL)
+                        putExtra(MUMENT_ID, mumentId)
+                        putExtra(MUSIC_INFO_ENTITY, music)
+                        setResult(RESULT_OK, this)
+                        finish()
+                    }
+                }
+            } else {
+                showToast("뮤멘트 수정하기 실패")
+            }
+        }
+
         binding.tvRecordFinish.setOnSingleClickListener {
             if (recordViewModel.mumentId.value == "") {
                 recordViewModel.postMument()
             } else {
                 recordViewModel.modifyMument()
-            }
-
-            collectFlowWhenStarted(recordViewModel.isCreateSuccessful) { isSuccessful ->
-                if (isSuccessful) {
-                    val mumentId = recordViewModel.createdMumentId.value ?: ""
-                    recordViewModel.selectedMusic.value?.let { music ->
-                        Intent().run {
-                            putExtra(TO_MUSIC_DETAIL, TO_MUSIC_DETAIL)
-                            putExtra(MUMENT_ID, mumentId)
-                            putExtra(MUSIC_INFO_ENTITY, music.toMusicInfo())
-                            when (recordViewModel.recordCount) {
-                                1, 10, 20 -> {
-                                    putExtra("COUNT", true)
-                                }
-                            }
-                            putExtra("RECORD", recordViewModel.mumentId.value == "")
-                            setResult(RESULT_OK, this)
-                            delay(500)
-                            finish()
-                        }
-                    }
-                } else {
-                    showToast("뮤멘트 기록하기 실패")
-                }
-            }
-
-            collectFlowWhenStarted(recordViewModel.isModifySuccessful) { isSuccessful ->
-                if (isSuccessful) {
-                    val mumentId = recordViewModel.modifyMumentId.value ?: ""
-                    recordViewModel.selectedMusic.value?.toMusicInfo()?.let { music ->
-                        Intent().run {
-                            putExtra(TO_MUMENT_DETAIL, TO_MUMENT_DETAIL)
-                            putExtra(MUMENT_ID, mumentId)
-                            putExtra(MUSIC_INFO_ENTITY, music)
-                            setResult(RESULT_OK, this)
-                            finish()
-                        }
-                    }
-                } else {
-                    showToast("뮤멘트 수정하기 실패")
-                }
             }
         }
     }
