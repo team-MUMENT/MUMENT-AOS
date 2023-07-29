@@ -18,7 +18,7 @@ class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity:
     override fun fromHomeToMusicDetail(music: MusicInfoEntity, startNav: String) {
         with(activity as MainActivity) {
             val bundle = Bundle().also {
-                it.putParcelable(MUSIC_INFO_ENTITY, music)
+                it.putSerializable(MUSIC_INFO_ENTITY, music)
                 it.putString(START_NAV_KEY, startNav)
             }
             navController.navigate(
@@ -33,7 +33,7 @@ class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity:
         with(activity as MainActivity) {
             val bundle = Bundle().apply {
                 putString(START_NAV_KEY, startNav)
-                putParcelable(MUSIC_INFO_ENTITY, music)
+                putSerializable(MUSIC_INFO_ENTITY, music)
             }
 
             navController.navigate(
@@ -41,37 +41,16 @@ class MusicDetailNavigatorProviderImpl @Inject constructor(private val activity:
                 bundle,
                 NavOptions.Builder().setPopUpTo(R.id.musicDetailFragment, true).build()
             )
-
-//            this.navController.navigate(
-//                R.id.action_mumentDetailFragment_to_musicDetailFragment,
-//                bundle
-//            )
-//            if (navController.isFragmentInBackStack(R.id.musicDetailFragment)) {
-//
-//                navController.popBackStack(R.id.musicDetailFragment, false)
-//
-//            } else {
-//                val bundle = Bundle().apply {
-//                    putString(START_NAV_KEY, startNav)
-//                    putParcelable(MUSIC_INFO_ENTITY, music)
-//                }
-//                this.navController.navigate(
-//                    R.id.action_mumentDetailFragment_to_musicDetailFragment,
-//                    bundle
-//                )
-//            }
         }
     }
 
     override fun musicDetailPopBackStack(startNav: String) {
         with(activity as MainActivity) {
-            activity.navController.previousBackStackEntry?.savedStateHandle?.set(
+            navController.previousBackStackEntry?.savedStateHandle?.set(
                 START_NAV_KEY,
                 startNav
             )
-            activity.navController.popBackStack()
-//            if (startNav == FROM_SEARCH) startActivity(Intent(activity, SearchActivity::class.java))
-//            navController.popBackStack()
+            navController.popBackStack()
         }
     }
 }

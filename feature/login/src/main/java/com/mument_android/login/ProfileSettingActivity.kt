@@ -28,8 +28,8 @@ import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.login.databinding.ActivityProfileSettingBinding
 import com.mument_android.login.util.CustomSnackBar
 import com.mument_android.login.util.GalleryUtil
-import com.mument_android.login.util.MultipartResolver
 import com.mument_android.login.util.shortToast
+import com.mument_android.login.util.toByteArray
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -47,7 +47,6 @@ class ProfileSettingActivity :
     BaseActivity<ActivityProfileSettingBinding>(inflate = ActivityProfileSettingBinding::inflate) {
     private lateinit var intentLauncher: ActivityResultLauncher<Intent>
     private lateinit var inputMethodManager: InputMethodManager
-    private val multiPartResolver = MultipartResolver(this)
 
     @Inject
     lateinit var mainHomeNavigatorProvider: MainHomeNavigatorProvider
@@ -225,42 +224,23 @@ class ProfileSettingActivity :
 
     private fun putProfileNetwork() {
         val nickname = binding.etNickname.text.trim().toString()
-        val requestBodyMap = HashMap<String, RequestBody>()
-        requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
-        val rnds = (0..2).random()
-        if (viewModel.imageUri.value == null) {
-            if (rnds == 0) {
-                changeImageUri(R.drawable.mument_profile_love_45)
-            } else if (rnds == 1) {
-                changeImageUri(R.drawable.mument_profile_smile_45)
-            } else {
-                changeImageUri(R.drawable.mument_profile_sleep_45)
+        viewModel.imageUri.value?.let {
+            binding.ivProfile.drawable.toBitmapOrNull(720, 720, Bitmap.Config.ARGB_8888)?.let { bitmap ->
+                Log.e("BITMAP", it.toString())
+                viewModel.putProfile(bitmap.toByteArray(Bitmap.CompressFormat.PNG, 100), "userName", nickname)
             }
-        } else {
-            viewModel.imageUri.value?.let {
-                binding.ivProfile.drawable.toBitmapOrNull(720, 720, Bitmap.Config.ARGB_8888)?.let {
-                    Log.e("BITMAP", it.toString())
-                    multiPartResolver.createImageMultiPart(it)
-                }
-            }?.let { multi ->
-                viewModel.putProfile(multi, requestBodyMap)
-            }
-        }
-        /*val multipart = viewModel.imageUri.value?.let { multiPartResolver.createImageMultiPart(it) }
-        viewModel.putProfile(multipart, requestBodyMap)*/
+        } ?: changeImageUri(
+            when ((0..2).random()) {
+                0 -> R.drawable.mument_profile_love_45
+                1 -> R.drawable.mument_profile_smile_45
+                else -> R.drawable.mument_profile_sleep_45
+            }, nickname
+        )
     }
 
-    private fun changeImageUri(img: Int) {
-        val requestBodyMap = HashMap<String, RequestBody>()
-        val nickname = binding.etNickname.text.toString()
-        requestBodyMap["userName"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
+    private fun changeImageUri(img: Int, nickName: String) {
         val bitmap = BitmapFactory.decodeResource(resources, img)
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos)
-        val data = bos.toByteArray()
-        val requestFile = RequestBody.create("image/png".toMediaTypeOrNull(), data)
-        val image = MultipartBody.Part.createFormData("image", "image.png", requestFile)
-        viewModel.putProfile(image, requestBodyMap)
+        viewModel.putProfile(bitmap.toByteArray(Bitmap.CompressFormat.PNG, 100), "userName", nickName)
     }
 
     private suspend fun nickNameDupCheck() {

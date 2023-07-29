@@ -1,7 +1,6 @@
 package com.mument_android.domain.entity.detail
 
 import com.mument_android.core.model.TagEntity
-import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.user.UserEntity
 
 data class MumentEntity(

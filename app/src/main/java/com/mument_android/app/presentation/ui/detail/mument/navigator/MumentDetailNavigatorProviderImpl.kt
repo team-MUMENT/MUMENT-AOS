@@ -2,9 +2,7 @@ package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import com.angdroid.navigation.MumentDetailNavigatorProvider
-import com.google.gson.Gson
 import com.mument_android.R
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.core.util.Constants.MUMENT_ID
@@ -56,7 +54,7 @@ class MumentDetailNavigatorProviderImpl @Inject constructor(
         if (activity is MainActivity) {
             val bundle = Bundle().apply {
                 putString(MUMENT_ID, mumentId)
-                putParcelable(MUSIC_INFO_ENTITY, musicInfo)
+                putSerializable(MUSIC_INFO_ENTITY, musicInfo)
                 putString(START_NAV_KEY, startNav)
             }
             activity.navController.navigate(actionId, bundle)

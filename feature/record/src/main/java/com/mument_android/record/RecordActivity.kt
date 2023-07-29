@@ -20,7 +20,9 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.mument_android.core.model.TagEntity
 import com.mument_android.core.util.Constants.MUMENT_ID
+import com.mument_android.core.util.Constants.MUMENT_MODIFY_ENTITY
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
+import com.mument_android.core.util.Constants.RECENT_SEARCH_DATA
 import com.mument_android.core.util.Constants.TO_MUMENT_DETAIL
 import com.mument_android.core.util.Constants.TO_MUSIC_DETAIL
 import com.mument_android.core_dependent.base.BaseActivity
@@ -57,9 +59,9 @@ class RecordActivity :
         super.onCreate(savedInstanceState)
         binding.recordViewModel = recordViewModel
 
-        val mumentModifyEntity = intent.parcelable<MumentModifyEntity>("MumentModifyEntity")
-        val recentSearchData = intent.parcelable<RecentSearchData>("RecentSearchData")
-        val mumentId = intent.getStringExtra("MumentID")
+        val mumentModifyEntity = intent.serializable<MumentModifyEntity>(MUMENT_MODIFY_ENTITY)
+        val recentSearchData = intent.serializable<RecentSearchData>(RECENT_SEARCH_DATA)
+        val mumentId = intent.getStringExtra(MUMENT_ID)
         mumentModifyEntity?.let { mument ->
             recentSearchData?.let { music ->
                 mumentId?.let { mumentId ->

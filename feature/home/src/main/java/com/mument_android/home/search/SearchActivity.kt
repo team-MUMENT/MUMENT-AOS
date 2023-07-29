@@ -1,15 +1,11 @@
 package com.mument_android.home.search
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import com.angdroid.navigation.MainHomeNavigatorProvider
-import com.mument_android.core.util.Constants.FROM_SEARCH
-import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
-import com.mument_android.core.util.Constants.START_NAV_KEY
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
 import com.mument_android.core_dependent.ui.MumentDialogBuilder

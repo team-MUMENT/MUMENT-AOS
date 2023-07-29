@@ -1,5 +1,6 @@
 package com.mument_android.login
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -88,10 +89,10 @@ class LogInViewModel @Inject constructor(
         }
     }
 
-    fun putProfile(image: MultipartBody.Part?, body: HashMap<String, RequestBody>) {
+    fun putProfile(imageArray: ByteArray, imageType: String, nickname: String) {
         viewModelScope.launch {
             kotlin.runCatching {
-                putProfileUseCase(image, body).let {
+                putProfileUseCase(imageArray, imageType, nickname).let {
                     if (it != null) {
                         _putProfile.value = it
                         Log.e("viewmodel 프로필", "${_putProfile.value}")

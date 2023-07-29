@@ -1,6 +1,5 @@
 package com.mument_android.record.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,13 +7,12 @@ import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.usecase.home.CRURecentSearchListUseCase
 import com.mument_android.domain.usecase.home.DeleteRecentSearchListUseCase
 import com.mument_android.domain.usecase.home.SearchMusicUseCase
-import com.mument_android.core.network.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel

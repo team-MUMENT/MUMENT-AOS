@@ -7,7 +7,6 @@ import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.core.util.Constants
 import com.mument_android.core.util.Constants.FROM_SEARCH
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY
-import com.mument_android.detail.music.MusicDetailFragment.Companion.MUSIC_ID
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import javax.inject.Inject
 

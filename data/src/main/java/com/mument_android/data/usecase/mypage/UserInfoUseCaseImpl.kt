@@ -1,0 +1,15 @@
+package com.mument_android.data.usecase.mypage
+
+import com.mument_android.domain.entity.mypage.UserInfoEntity
+import com.mument_android.domain.repository.mypage.UserInfoRepository
+import com.mument_android.domain.usecase.mypage.UserInfoUseCase
+import javax.inject.Inject
+
+class UserInfoUseCaseImpl @Inject constructor(
+    private val userInfoRepository: UserInfoRepository
+) : UserInfoUseCase {
+    override suspend operator fun invoke(): UserInfoEntity {
+        return userInfoRepository.userInfo()
+    }
+}
+

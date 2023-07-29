@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import com.angdroid.navigation.EditMumentNavigatorProvider
 import com.mument_android.app.presentation.ui.main.MainActivity
+import com.mument_android.core.util.Constants.MUMENT_ID
+import com.mument_android.core.util.Constants.MUMENT_MODIFY_ENTITY
+import com.mument_android.core.util.Constants.RECENT_SEARCH_DATA
 import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.entity.record.MumentModifyEntity
 import com.mument_android.record.RecordActivity
@@ -19,9 +22,9 @@ class EditMumentNavigatorProviderImpl @Inject constructor(
     ) {
         if (activity is MainActivity) {
             val intent = Intent(activity, RecordActivity::class.java).apply {
-                putExtra("MumentModifyEntity", mumentModifyEntity)
-                putExtra("RecentSearchData", music)
-                putExtra("MumentID", mumentId)
+                putExtra(MUMENT_MODIFY_ENTITY, mumentModifyEntity)
+                putExtra(RECENT_SEARCH_DATA, music)
+                putExtra(MUMENT_ID, mumentId)
             }
             activity.recordMumentLauncher.launch(intent)
         }

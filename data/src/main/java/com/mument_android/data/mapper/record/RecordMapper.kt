@@ -9,5 +9,5 @@ import javax.inject.Singleton
 @Singleton
 class RecordMapper @Inject constructor() : BaseMapper<MumentIsFirstDto, RecordIsFirstEntity> {
     override fun map(from: MumentIsFirstDto): RecordIsFirstEntity =
-        RecordIsFirstEntity(from.isFirst, from.FirstAvaliable)
+        RecordIsFirstEntity(from.isFirst, from.firstAvailable)
 }

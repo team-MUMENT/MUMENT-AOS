@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.domain.entity.home.BannerEntity
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.domain.entity.musicdetail.Music
 import com.mument_android.home.databinding.ItemBannerLayoutBinding
 
 class BannerListAdapter(var data: List<BannerEntity>, private val clickBanner: (Music) -> Unit) :

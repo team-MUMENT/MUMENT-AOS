@@ -1,6 +1,7 @@
 package com.mument_android.domain.entity.mypage
 
-import java.util.*
+import java.util.Date
+
 
 data class UnregisterReasonEntity(
     val id: Int,

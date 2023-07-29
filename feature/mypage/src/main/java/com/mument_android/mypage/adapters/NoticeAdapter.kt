@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mument_android.core_dependent.util.GlobalDiffCallBack
 import com.mument_android.domain.entity.mypage.NoticeListEntity
 import com.mument_android.mypage.BR
-import com.mument_android.mypage.data.NoticeData
 import com.mument_android.mypage.databinding.ItemNoticeBinding
 
 class NoticeAdapter(val clickListener:(NoticeListEntity)->Unit) :

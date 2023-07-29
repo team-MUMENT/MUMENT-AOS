@@ -1,10 +1,8 @@
 package com.mument_android.app.presentation.ui.detail.mument.navigator
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import com.angdroid.navigation.MoveNotifyNavigatorProvider
-import com.google.gson.Gson
 import com.mument_android.app.presentation.ui.main.MainActivity
 import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core.util.Constants.MUSIC_INFO_ENTITY

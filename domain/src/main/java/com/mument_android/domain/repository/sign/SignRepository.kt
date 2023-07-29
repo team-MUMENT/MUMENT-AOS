@@ -1,16 +1,17 @@
 package com.mument_android.domain.repository.sign
 
-import com.mument_android.domain.entity.sign.*
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import com.mument_android.domain.entity.sign.KakaoEntity
+import com.mument_android.domain.entity.sign.NewTokenEntity
+import com.mument_android.domain.entity.sign.RequestKakaoData
+import com.mument_android.domain.entity.sign.SetProfileEntity
+import com.mument_android.domain.entity.sign.WebViewEntity
 
 
 interface SignRepository {
     suspend fun signDupCheck(userName: String): Int
 
     suspend fun signSetProfile(
-        image: MultipartBody.Part?,
-        body: HashMap<String, RequestBody>
+        imageArray: ByteArray, imageType: String, nickName: String
     ): SetProfileEntity?
 
 
