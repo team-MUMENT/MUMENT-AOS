@@ -3,7 +3,9 @@ package com.mument_android.core_dependent.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.TIRAMISU
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.Spannable
@@ -25,6 +27,7 @@ import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import com.mument_android.core_dependent.R
 import com.mument_android.core_dependent.util.ViewUtils.dpToPx
+import java.io.Serializable
 
 
 object ViewUtils {
@@ -181,6 +184,20 @@ inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
     else -> @Suppress("DEPRECATION") getParcelable<T>(key)
 }
 
+inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {
+    SDK_INT >= TIRAMISU -> getSerializableExtra(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getSerializableExtra(key) as T?
+}
+
+inline fun <reified T : Serializable> Intent.getSerializable(key: String): T? = when {
+    SDK_INT >= TIRAMISU -> getSerializableExtra(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getSerializableExtra(key) as T
+}
+
+inline fun <reified T : Serializable> Bundle.getBundleSerializable(key: String): T? = when {
+    SDK_INT >= TIRAMISU -> getSerializable(key, T::class.java)
+    else -> @Suppress("DEPRECATION") getSerializable(key) as? T
+}
 
 fun Context.createSpannableString(
     originalText: String,

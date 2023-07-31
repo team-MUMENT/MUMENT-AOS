@@ -18,7 +18,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.gson.Gson
 import com.mument_android.R
 import com.mument_android.app.presentation.RestrictUserDialog
 import com.mument_android.app.presentation.ui.detail.mument.navigator.EditMumentNavigator
@@ -38,14 +37,14 @@ import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.DataStoreManager
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.snackBar
-import com.mument_android.core_dependent.util.parcelable
 import com.mument_android.databinding.ActivityMainBinding
 import com.mument_android.detail.mument.fragment.MumentDetailFragment
 import com.angdroid.navigation.StackProvider
+import com.mument_android.core_dependent.util.serializable
 import com.mument_android.detail.util.SuggestionNotifyAccessDialogFragment
 import com.mument_android.domain.entity.detail.MumentDetailEntity
 import com.mument_android.domain.entity.music.MusicInfoEntity
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.domain.entity.musicdetail.Music
 import com.mument_android.home.main.HomeFragment
 import com.mument_android.home.notify.NotifyActivity
 import com.mument_android.home.search.SearchActivity
@@ -160,10 +159,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     )
                 }
             }
-            intent.parcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
+            intent.serializable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
                 intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                     val bundle = Bundle().apply {
-                        putParcelable(MUSIC_INFO_ENTITY, musicInfo)
+                        putSerializable(MUSIC_INFO_ENTITY, musicInfo)
                         putString(MUMENT_ID, mumentId)
                     }
                     navController.navigate(
@@ -174,14 +173,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
         } else if (intent.getStringExtra(TO_MUMENT_DETAIL) == TO_MUMENT_DETAIL) {
-            intent.parcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
+            intent.serializable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
                 intent.getStringExtra(MUMENT_ID)?.let { mumentId ->
                     snackBar(
                         binding.clSnackBar,
                         getString(com.mument_android.detail.R.string.modify_record)
                     )
                     val bundle = Bundle().apply {
-                        putString(MUSIC_INFO_ENTITY, Gson().toJson(musicInfo))
+                        putSerializable(MUSIC_INFO_ENTITY, musicInfo)
                         putString(MUMENT_ID, mumentId)
                     }
                     navController.navigate(
@@ -291,7 +290,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         if (fromHistory == FROM_HISTORY && popBackStack) {
             updateMumentDetail(null, null, true)
         } else {
-            intent?.parcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
+            intent?.serializable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { music ->
                 if (mumentId.isNotEmpty()) {
                     showMumentDetail(mumentId, music, popBackStack, intent)
                 } else {
@@ -317,7 +316,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private fun moveToMusicDetail(music: MusicInfoEntity, intent: Intent) {
         val bundle = Bundle().apply {
-            putParcelable(MUSIC_INFO_ENTITY, music)
+            putSerializable(MUSIC_INFO_ENTITY, music)
             intent.getStringExtra(START_NAV_KEY)?.let {
                 when (it) {
                     FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {
@@ -353,7 +352,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     ) {
         val bundle = Bundle().also { bundle ->
             bundle.putString(MUMENT_ID, mumentId)
-            bundle.putParcelable(MUSIC_INFO_ENTITY, music)
+            bundle.putSerializable(MUSIC_INFO_ENTITY, music)
             intent.getStringExtra(START_NAV_KEY)?.let {
                 when (it) {
                     FROM_NOTIFICATION_TO_MUMENT_DETAIL -> {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.mument_android.core.util.Constants.MUMENT_ID
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ui.MumentDialogBuilder
 import com.mument_android.core_dependent.util.ViewUtils.hideKeyboard
@@ -20,7 +21,7 @@ class DeclarMumentActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        intent.getStringExtra("MUMENT_ID")?.let {
+        intent.getStringExtra(MUMENT_ID)?.let {
             Log.e("MUMENT_ID", it)
             reportViewModel.mumentId.value = it
         }

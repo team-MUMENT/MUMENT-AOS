@@ -4,11 +4,8 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mument_android.data.network.detail.DetailApiService
-import com.mument_android.data.network.detail.HistoryService
 import com.mument_android.data.util.ResultWrapper
 import com.mument_android.data.util.catchingApiCall
-import com.mument_android.domain.entity.history.HistoryRequestParams
-import com.mument_android.domain.entity.history.MumentHistory
 import com.mument_android.domain.entity.user.UserEntity
 
 class LikeMumentPagingSourceFactory(

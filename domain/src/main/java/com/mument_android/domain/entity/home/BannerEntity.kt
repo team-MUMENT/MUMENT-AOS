@@ -1,7 +1,7 @@
 package com.mument_android.domain.entity.home
 
 import androidx.annotation.Keep
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.domain.entity.musicdetail.Music
 
 @Keep
 data class BannerEntity(

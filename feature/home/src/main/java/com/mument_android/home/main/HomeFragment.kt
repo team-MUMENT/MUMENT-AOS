@@ -24,7 +24,7 @@ import com.mument_android.core_dependent.util.AutoClearedValue
 import com.mument_android.core_dependent.util.FirebaseAnalyticsUtil
 import com.mument_android.core_dependent.util.ViewUtils.showToast
 import com.mument_android.domain.entity.home.BannerEntity
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.domain.entity.musicdetail.Music
 import com.mument_android.home.adapters.BannerListAdapter
 import com.mument_android.home.adapters.HeardMumentListAdapter
 import com.mument_android.home.adapters.ImpressiveEmotionListAdapter

@@ -15,7 +15,6 @@ import com.mument_android.domain.usecase.record.IsFirstRecordMumentUseCase
 import com.mument_android.domain.usecase.record.RecordModifyMumentUseCase
 import com.mument_android.domain.usecase.record.RecordMumentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject

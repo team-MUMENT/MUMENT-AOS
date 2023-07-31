@@ -2,14 +2,13 @@ package com.mument_android.detail.mument.contract
 
 import android.net.Uri
 import androidx.annotation.StringRes
-import com.mument_android.core.util.SideEffect
 import com.mument_android.core.util.Event
+import com.mument_android.core.util.SideEffect
 import com.mument_android.core.util.ViewState
 import com.mument_android.domain.entity.detail.MumentEntity
 import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.entity.music.MusicInfoEntity
 import com.mument_android.domain.entity.record.MumentModifyEntity
-import com.mument_android.domain.entity.user.UserEntity
 import java.io.File
 
 class MumentDetailContract {

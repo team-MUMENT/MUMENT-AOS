@@ -39,6 +39,8 @@ import com.mument_android.detail.mument.contract.MumentDetailContract.MumentDeta
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUMENT
 import com.mument_android.detail.mument.fragment.MumentToShareDialogFragment.Companion.KEY_PASS_MUSIC
 import com.angdroid.navigation.StackProvider
+import com.mument_android.core.util.Constants.MUSIC
+import com.mument_android.core.util.Constants.USER_ID
 import com.mument_android.detail.mument.viewmodel.MumentDetailViewModel
 import com.mument_android.detail.report.SelectReportTypeDialogFragment
 import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion.SELECT_BLOCK_USER
@@ -46,7 +48,7 @@ import com.mument_android.detail.report.SelectReportTypeDialogFragment.Companion
 import com.mument_android.domain.entity.detail.MumentEntity
 import com.mument_android.domain.entity.home.RecentSearchData
 import com.mument_android.domain.entity.music.MusicInfoEntity
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.domain.entity.musicdetail.Music
 import com.mument_android.domain.entity.record.MumentModifyEntity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -131,7 +133,7 @@ class MumentDetailFragment : Fragment() {
         arguments?.getString(MUMENT_ID)?.let {
             viewModel.emitEvent(MumentDetailEvent.ReceiveMumentId(it))
         }
-        arguments?.parcelable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
+        arguments?.getBundleSerializable<MusicInfoEntity>(MUSIC_INFO_ENTITY)?.let { musicInfo ->
             viewModel.emitEvent(MumentDetailEvent.ReceiveMusicInfo(musicInfo))
         }
         arguments?.getString(START_NAV_KEY)?.let {
@@ -267,8 +269,8 @@ class MumentDetailFragment : Fragment() {
 
     private fun moveToMumentHistory(music: Music, userId: Int) {
         Intent(requireActivity(), HistoryActivity::class.java).apply {
-            putExtra("music", music)
-            putExtra("userId", userId)
+            putExtra(MUSIC, music)
+            putExtra(USER_ID, userId)
             if (viewModel.viewState.value.navStart == FROM_NOTIFICATION_TO_MUMENT_DETAIL) {
                 putExtra(START_NAV_KEY, FROM_NOTIFICATION_TO_MUMENT_DETAIL)
             }

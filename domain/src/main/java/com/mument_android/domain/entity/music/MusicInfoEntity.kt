@@ -1,19 +1,17 @@
 package com.mument_android.domain.entity.music
 
-import android.os.Parcelable
 import androidx.annotation.Keep
 import com.mument_android.domain.entity.detail.MusicReqeust
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
-import kotlinx.parcelize.Parcelize
+import com.mument_android.domain.entity.musicdetail.Music
+import java.io.Serializable
 
-@Parcelize
 @Keep
 data class MusicInfoEntity(
     val id: String,
     val name: String,
     val thumbnail: String,
     val artist: String,
-): Parcelable {
+): Serializable {
     fun toMusic(): Music {
         return Music(
             _id = id,

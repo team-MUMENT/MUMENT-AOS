@@ -4,6 +4,7 @@ object KotlinDependencies {
         "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinxSerializationJsonVersion}"
     const val coroutines =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutinesVersion}"
+    const val annotation = "androidx.annotation:annotation:1.2.0"
 }
 
 object AndroidXDependencies {

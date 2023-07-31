@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mument_android.domain.entity.LimitUserEntity
 import com.mument_android.domain.entity.detail.MumentDetailEntity
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.domain.entity.musicdetail.Music
 import com.mument_android.domain.usecase.app.LimitUserUseCase
 import com.mument_android.domain.usecase.home.BeforeWhenHomeEnterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

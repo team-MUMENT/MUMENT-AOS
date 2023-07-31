@@ -5,7 +5,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.kakao.sdk.common.KakaoSdk
 import com.mument_android.BuildConfig
 import com.mument_android.data.BuildConfig.KAKAO_NATIVE_KEY
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.domain.entity.musicdetail.Music
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import java.util.*

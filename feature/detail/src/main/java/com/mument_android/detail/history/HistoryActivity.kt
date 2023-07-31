@@ -5,18 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import com.angdroid.navigation.MoveFromHistoryToDetail
 import com.mument_android.core_dependent.base.BaseActivity
 import com.mument_android.core_dependent.ext.click
 import com.mument_android.core_dependent.ext.collectFlowWhenStarted
-import com.mument_android.core_dependent.util.parcelable
 import com.mument_android.detail.databinding.ActivityHistoryBinding
 import com.angdroid.navigation.StackProvider
+import com.mument_android.core.util.Constants.MUSIC
+import com.mument_android.core.util.Constants.USER_ID
 import com.mument_android.core_dependent.util.LikeMumentListener
-import com.mument_android.domain.entity.musicdetail.musicdetaildata.Music
+import com.mument_android.core_dependent.util.serializable
+import com.mument_android.domain.entity.musicdetail.Music
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -58,10 +59,10 @@ class HistoryActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.historyviewmodel = historyViewModel
-        intent.parcelable<Music>("music")?.let {
+        intent.serializable<Music>(MUSIC)?.let {
             historyViewModel.changeMusicId(it)
         }
-        intent.getIntExtra("userId", 0).let {
+        intent.getIntExtra(USER_ID, 0).let {
             historyViewModel.setUserId(it)
         }
 
@@ -77,12 +78,10 @@ class HistoryActivity :
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        intent?.parcelable<Music>("music")?.let {
-            Log.e("GET", it.toString())
+        intent?.serializable<Music>(MUSIC)?.let {
             historyViewModel.changeMusicId(it)
         }
-        intent?.getIntExtra("userId", 0)?.let {
-            Log.e("GET", it.toString())
+        intent?.getIntExtra(USER_ID, 0)?.let {
             historyViewModel.setUserId(it)
         }
 

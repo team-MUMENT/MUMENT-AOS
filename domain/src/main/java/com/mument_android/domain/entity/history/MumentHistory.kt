@@ -1,7 +1,6 @@
 package com.mument_android.domain.entity.history
 
 import com.mument_android.domain.entity.User
-
 data class MumentHistory(
     val _id: Int,
     val musicId: String,
